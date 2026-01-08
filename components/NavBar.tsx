@@ -42,6 +42,7 @@ const navItems = [
       { text: "About TransRussia", href: "/about-transrussia" },
       { text: "About SkladTech", href: "/about-skladtech" },
       { text: "About ITE Group", href: "/about-ite" },
+      { text: "Partners & Sponsors", href: "/partners-and-sponsors"}
     ],
   },
   { title: "Contact us", href: "/contact-us", dropdown: false },
