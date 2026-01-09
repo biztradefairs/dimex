@@ -100,12 +100,13 @@ export default function NavBar() {
           {/* NAVBAR CONTAINER */}
           <div
             className={`
-                mx-auto
+              mx-auto
     w-full
     max-w-[1240px]
     lg:max-w-[1320px]
     xl:max-w-[1440px]
     2xl:max-w-[1600px]
+              rounded-3xl
               bg-linear-to-r from-[#06162f] to-[#0a2b57]
               text-white
               shadow-[0_10px_30px_rgba(0,0,0,0.35)]
