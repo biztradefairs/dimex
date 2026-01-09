@@ -1,7 +1,8 @@
 // components/TransRussiaPage.tsx
 "use client"
 import React, { useState, useEffect } from 'react';
-import Image from 'next/image';
+import SectionContainer from './UI/SectionContainer';
+import PartnersSection from './PartnersSection';
 
 // Types
 interface TextLink {
@@ -105,6 +106,8 @@ const TransRussiaPage: React.FC<Props> = ({ navbarData, pageData, footerData }) 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Handle back to top button visibility
   useEffect(() => {
@@ -124,114 +127,16 @@ const TransRussiaPage: React.FC<Props> = ({ navbarData, pageData, footerData }) 
   const toggleDropdown = (id: string) => {
     setActiveDropdown(activeDropdown === id ? null : id);
   };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
 
-  // Render navigation links
-  const renderNavLinks = () => {
-    return navbarData.Data.map((item) => {
-      if (!item.MenuAttached) {
-        return (
-          <a
-            key={item.id}
-            href={item.LinkTo || '#'}
-            className="hover-underlined relative"
-            target={item.LinkTo?.startsWith('http') ? '_blank' : '_self'}
-            rel={item.LinkTo?.startsWith('http') ? 'noopener noreferrer' : undefined}
-          >
-            {item.Title}
-          </a>
-        );
-      }
-
-      return (
-        <nav key={item.id} className="relative z-10 flex max-w-max flex-1 items-center justify-center group p-0">
-          <div style={{ position: 'relative' }}>
-            <ul className="group flex flex-1 list-none items-center justify-center space-x-1">
-              <li>
-                <button
-                  onClick={() => toggleDropdown(item.id)}
-                  className="bg-background hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground data-[active]:bg-accent/50 data-[state=open]:bg-accent/50 group inline-flex h-9 w-max items-center justify-center rounded-md font-medium transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50 group p-0"
-                  data-radix-collection-item=""
-                >
-                  {item.Title}
-                  <svg
-                    width="15"
-                    height="15"
-                    viewBox="0 0 15 15"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="relative top-px ml-1 size-3 transition duration-300 group-data-[state=open]:rotate-180"
-                    aria-hidden="true"
-                  >
-                    <path
-                      d="M3.13523 6.15803C3.3241 5.95657 3.64052 5.94637 3.84197 6.13523L7.5 9.56464L11.158 6.13523C11.3595 5.94637 11.6759 5.95657 11.8648 6.15803C12.0536 6.35949 12.0434 6.67591 11.842 6.86477L7.84197 10.6148C7.64964 10.7951 7.35036 10.7951 7.15803 10.6148L3.15803 6.86477C2.95657 6.67591 2.94637 6.35949 3.13523 6.15803Z"
-                      fill="currentColor"
-                      fillRule="evenodd"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                </button>
-              </li>
-            </ul>
-          </div>
-          {activeDropdown === item.id && (
-            <div className="absolute left-0 top-full flex justify-center">
-              <div className="mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5">
-                <div className="py-1">
-                  {item.Links.map((link) => (
-                    <a
-                      key={link.id}
-                      href={link.LinkTo}
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      target={link.NewTab ? '_blank' : '_self'}
-                      rel={link.NewTab ? 'noopener noreferrer' : undefined}
-                    >
-                      {link.Text}
-                    </a>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
-        </nav>
-      );
-    });
-  };
-
-  // Render partners carousel
-  const renderPartners = () => {
-    if (!pageData.Sections[1]?.Partners?.data) return null;
-
-    return (
-      <div className="overflow-hidden">
-        <div className="flex -ml-4 items-stretch">
-          {pageData.Sections[1].Partners.data.map((partner) => (
-            <div
-              key={partner.id}
-              role="group"
-              aria-roledescription="slide"
-              className="min-w-0 shrink-0 grow-0 basis-full pl-4 h-auto md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
-            >
-              <a
-                href={`/partner/${partner.attributes.Slug}`}
-                className="flex w-full flex-col items-center gap-5 text-center"
-              >
-                <div className="h-40 w-full overflow-hidden rounded-lg px-10 py-5 shadow-lg">
-                  <div className="size-full object-contain relative">
-                    {/* Replace with actual Image component if using Next.js Image */}
-                    <img
-                      src={partner.attributes.Logo.data.attributes.url}
-                      alt={partner.attributes.Name}
-                      className="size-full object-contain"
-                    />
-                  </div>
-                </div>
-                <small className="text-sm">{partner.attributes.Name}</small>
-              </a>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
+    // 🔗 API integration later
+    setTimeout(() => {
+      alert("Registration submitted successfully!");
+      setLoading(false);
+      setEmail("");
+    }, 1000);
   };
 
   return (
@@ -257,8 +162,6 @@ const TransRussiaPage: React.FC<Props> = ({ navbarData, pageData, footerData }) 
           <div className="loader"></div>
         </div>
 
-
-
         {/* Back to Top Button */}
         <div
           className={`fixed bottom-3 right-3 lg:bottom-10 lg:right-2 z-50 transition-all duration-300 ${
@@ -280,37 +183,252 @@ const TransRussiaPage: React.FC<Props> = ({ navbarData, pageData, footerData }) 
         <div>
           <div className="page-spacing-wrapper">
             {/* Page Header */}
-            <div className="relative z-[1] flex flex-col justify-end bg-mainColor5 !pt-48">
-              <div className="container flex flex-col justify-end !pt-0 !pb-10">
-                <h2 className="title-72 text-black">{pageData.Header.Title}</h2>
-                <p className="max-w-6xl whitespace-pre-line py-5">{pageData.Header.Content}</p>
-              </div>
-            </div>
-
-            {/* Registration Form */}
-            <div className="animated-block">
-              <div className="animated-block-target">
-                <div className="container form-style !py-0">
-                  <div dangerouslySetInnerHTML={{ __html: pageData.Sections[0]?.Data || '' }} />
+            <div className="relative z-[1] flex flex-col justify-end bg-gradient-to-b from-blue-50 to-white !pt-48">
+              <SectionContainer>
+                <div className="flex flex-col justify-end !pt-0 !pb-16">
+                  <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
+                    {pageData.Header.Title}
+                  </h1>
+                  <p className="text-lg text-gray-600 max-w-3xl">
+                    Register now to access Eurasia's premier transport and logistics exhibition. Connect with industry leaders, discover innovations, and expand your network.
+                  </p>
                 </div>
-              </div>
+              </SectionContainer>
             </div>
 
-            {/* Partners Section */}
-            <div className="animated-block">
-              <div className="animated-block-target">
-                <div>
-                  <div className="relative container" role="region" aria-roledescription="carousel">
-                    <div className="mb-10 flex flex-col items-center">
-                      <h2 className="title-72 text-black mt-5">
-                        {pageData.Sections[1]?.PartnersSectionTitle || 'Partners & Sponsors'}
-                      </h2>
+            {/* Registration Section */}
+            <section className="py-16 lg:py-24 bg-blue-50/30">
+              <SectionContainer>
+                <div className="max-w-4xl mx-auto">
+                  <div className="mb-12 text-center">
+                    <span className="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full mb-4">
+                      Get Your Visitor Pass
+                    </span>
+                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                      Register for TransRussia 2026
+                    </h2>
+                    <p className="text-gray-600 text-lg">
+                      Join 30,500+ industry professionals and 600+ exhibitors at the heart of Eurasia's logistics innovation.
+                    </p>
+                  </div>
+
+                  {/* Pricing Info */}
+                  <div className="bg-white rounded-xl p-6 lg:p-8 mb-8 border border-gray-200 shadow-sm">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4">Registration Pricing</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="bg-blue-50 p-4 rounded-lg">
+                        <div className="text-blue-700 font-bold text-lg mb-2">Free</div>
+                        <p className="text-sm text-gray-700">Online with promo code</p>
+                      </div>
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <div className="text-gray-800 font-bold text-lg mb-2">1,000 RUB</div>
+                        <p className="text-sm text-gray-700">Online without promo code</p>
+                      </div>
+                      <div className="bg-amber-50 p-4 rounded-lg">
+                        <div className="text-amber-800 font-bold text-lg mb-2">1,500 RUB</div>
+                        <p className="text-sm text-gray-700">At the ticket office during exhibition</p>
+                      </div>
                     </div>
-                    {renderPartners()}
+                    <p className="text-sm text-gray-500 mt-4">
+                      *Only one personal ticket can be requested per email address.
+                    </p>
+                  </div>
+
+                  {/* Registration Form */}
+                  <div className="bg-white rounded-xl p-6 lg:p-8 border border-gray-200 shadow-sm">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-6">Registration Form</h3>
+                    
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Email Address <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="email"
+                          required
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="Enter your email address"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                        />
+                        <p className="mt-2 text-xs text-gray-500">
+                          We'll send your registration confirmation and updates to this email.
+                        </p>
+                      </div>
+
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Do you have a promo code? (Optional)
+                        </label>
+                        <input
+                          type="text"
+                          placeholder="Enter promo code if available"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                        />
+                      </div>
+
+                      <div className="flex items-start">
+                        <input
+                          type="checkbox"
+                          id="terms"
+                          required
+                          className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
+                        />
+                        <label htmlFor="terms" className="ml-3 text-sm text-gray-600">
+                          I agree to receive marketing communications, updates, and promotional materials from TransRussia. 
+                          I can unsubscribe anytime by clicking the "unsubscribe" link in emails. 
+                          For more information on how we handle your data, please refer to our{' '}
+                          <a 
+                            href="https://ite.group/en/privacy/" 
+                            target="_blank" 
+                            className="text-blue-600 hover:underline"
+                          >
+                            Privacy Policy
+                          </a>.
+                        </label>
+                      </div>
+
+                      <div className="pt-4">
+                        <button
+                          type="submit"
+                          disabled={loading}
+                          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                        >
+                          {loading ? (
+                            <span className="flex items-center justify-center">
+                              <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                              </svg>
+                              Processing...
+                            </span>
+                          ) : (
+                            'Complete Registration'
+                          )}
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+
+                  {/* Additional Info */}
+                  <div className="mt-8 text-center text-gray-600">
+                    <p className="text-sm">
+                      Need assistance with registration? Contact us at{' '}
+                      <a href="mailto:info@transrussia.ru" className="text-blue-600 hover:underline">
+                        info@transrussia.ru
+                      </a>
+                    </p>
                   </div>
                 </div>
-              </div>
-            </div>
+              </SectionContainer>
+            </section>
+
+            {/* Why Register Section */}
+            <section className="py-16 lg:py-24 bg-white">
+              <SectionContainer>
+                <div className="max-w-4xl mx-auto">
+                  <h2 className="text-3xl lg:text-4xl font-bold text-center text-gray-900 mb-12">
+                    Why Register for TransRussia?
+                  </h2>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="text-center">
+                      <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span className="text-2xl">👥</span>
+                      </div>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-3">Network with Leaders</h3>
+                      <p className="text-gray-600">
+                        Connect with 30,500+ logistics professionals, freight forwarders, and industry decision-makers.
+                      </p>
+                    </div>
+
+                    <div className="text-center">
+                      <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span className="text-2xl">💡</span>
+                      </div>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-3">Discover Innovations</h3>
+                      <p className="text-gray-600">
+                        Explore cutting-edge solutions from 600+ exhibitors across 13 specialized sectors.
+                      </p>
+                    </div>
+
+                    <div className="text-center">
+                      <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+                        <span className="text-2xl">🌍</span>
+                      </div>
+                      <h3 className="text-xl font-semibold text-gray-900 mb-3">Global Connections</h3>
+                      <p className="text-gray-600">
+                        Access international markets with representatives from 50+ countries worldwide.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </SectionContainer>
+            </section>
+
+            {/* Partners Section */}
+            <section className="py-16 lg:py-24 bg-gray-50">
+              <SectionContainer>
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+                    Our Partners & Sponsors
+                  </h2>
+                  <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+                    Join industry leaders who trust and partner with TransRussia to drive logistics innovation.
+                  </p>
+                </div>
+                <PartnersSection />
+              </SectionContainer>
+            </section>
+
+            {/* Quick Info */}
+            <section className="py-16 lg:py-24 bg-white">
+              <SectionContainer>
+                <div className="max-w-4xl mx-auto">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div className="bg-gray-50 p-6 lg:p-8 rounded-xl">
+                      <h3 className="text-xl font-semibold text-gray-900 mb-4">Event Details</h3>
+                      <div className="space-y-4">
+                        <div>
+                          <h4 className="font-medium text-gray-700">Dates</h4>
+                          <p className="text-gray-600">17-19 March 2026</p>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-gray-700">Venue</h4>
+                          <p className="text-gray-600">Crocus Expo IEC, Pavilion 3<br />Moscow, Russia</p>
+                        </div>
+                        <div>
+                          <h4 className="font-medium text-gray-700">Opening Hours</h4>
+                          <p className="text-gray-600">
+                            17-18 March: 10:00 – 18:00<br />
+                            19 March: 10:00 – 16:00
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-50 p-6 lg:p-8 rounded-xl">
+                      <h3 className="text-xl font-semibold text-gray-900 mb-4">Need Help?</h3>
+                      <div className="space-y-4">
+                        <p className="text-gray-600">
+                          Our team is here to assist you with registration, travel planning, or any questions about the event.
+                        </p>
+                        <div>
+                          <h4 className="font-medium text-gray-700">Contact Information</h4>
+                          <p className="text-gray-600">
+                            Email: <a href="mailto:info@transrussia.ru" className="text-blue-600 hover:underline">info@transrussia.ru</a><br />
+                            Phone: +7 (495) 799-55-85
+                          </p>
+                        </div>
+                        <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition">
+                          Contact Support
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </SectionContainer>
+            </section>
           </div>
         </div>
       </div>

@@ -1,3 +1,4 @@
+// components/AboutSection.tsx - UPDATED
 'use client';
 
 import { useEffect, useRef } from 'react';
@@ -127,9 +128,15 @@ export default function AboutSection() {
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden py-32">
-      {/* SAME WIDTH SYSTEM AS HERO */}
-      <div className="w-full px-6 xl:px-10">
-        <div className="mx-auto max-w-[1600px]">
+      {/* Navbar-aligned container */}
+      <div className="w-full px-4 sm:px-6 xl:px-10">
+        <div className={`
+          mx-auto
+          w-full
+          max-w-[1180px]
+          2xl:max-w-[1400px]
+          3xl:max-w-[1800px]
+        `}>
           <div className="flex flex-col gap-6">
             <h2
               ref={titleRef}
@@ -186,10 +193,20 @@ export default function AboutSection() {
         </div>
       </div>
 
-      {/* STATS SECTION */}
+      {/* STATS SECTION - Full width */}
       <div className="mt-32 bg-[#F4F4F4] py-20">
-        <div className="w-full px-6 xl:px-10">
-          <div className="mx-auto grid max-w-[1600px] gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="w-full px-4 sm:px-6 xl:px-10">
+          <div className={`
+            mx-auto
+            grid
+            w-full
+            max-w-[1180px]
+            2xl:max-w-[1400px]
+            3xl:max-w-[1800px]
+            gap-10
+            sm:grid-cols-2
+            lg:grid-cols-4
+          `}>
             {stats.map((stat, index) => (
               <div
                 key={index}

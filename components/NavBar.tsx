@@ -25,7 +25,6 @@ const navItems = [
       { text: "Download Event Brochure", href: "/event-brochure" },
     ],
   },
-  // { title: "Connect", href: "/connect", dropdown: false },
   {
     title: "Insights",
     dropdown: true,
@@ -51,11 +50,39 @@ const navItems = [
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  })
 
+  // Calculate time until March 17, 2026 (event start date)
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 80)
+    const calculateTimeLeft = () => {
+      const eventDate = new Date('March 17, 2026 10:00:00').getTime()
+      const now = new Date().getTime()
+      const difference = eventDate - now
+
+      if (difference > 0) {
+        const days = Math.floor(difference / (1000 * 60 * 60 * 24))
+        const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+        const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60))
+        const seconds = Math.floor((difference % (1000 * 60)) / 1000)
+
+        setTimeLeft({ days, hours, minutes, seconds })
+      }
     }
+
+    calculateTimeLeft()
+    const timer = setInterval(calculateTimeLeft, 1000)
+
+    return () => clearInterval(timer)
+  }, [])
+
+  // Handle scroll effect
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 80)
     window.addEventListener("scroll", onScroll)
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
@@ -65,18 +92,28 @@ export default function NavBar() {
       {/* ================= DESKTOP NAVBAR ================= */}
       <header
         className={`hidden xl:block fixed top-0 left-0 z-50 w-full transition-all duration-300 ${
-          scrolled ? "pt-2" : "pt-5"
+          scrolled ? "pt-2" : "pt-4"
         }`}
       >
-        <div className="px-6">
+        {/* OUTER GUTTER */}
+        <div className="px-4 sm:px-6 xl:px-10">
+          {/* NAVBAR CONTAINER */}
           <div
-            className={`mx-auto w-full rounded-4xl bg-linear-to-r from-[#06162f] to-[#0a2b57]
-              text-white shadow-[0_10px_30px_rgba(0,0,0,0.35)]
+            className={`
+              mx-auto
+              w-full
+              max-w-[1180px]
+              2xl:max-w-[1400px]
+              3xl:max-w-[1800px]
+              rounded-3xl
+              bg-linear-to-r from-[#06162f] to-[#0a2b57]
+              text-white
+              shadow-[0_10px_30px_rgba(0,0,0,0.35)]
               transition-all duration-300
-              ${scrolled ? "py-3" : "py-5"}
+              ${scrolled ? "py-1.5" : "py-2"}
             `}
           >
-            <div className="flex items-center justify-between gap-8 px-8">
+            <div className="flex items-center justify-between gap-6 px-6 xl:px-8">
               {/* LOGOS + DATE */}
               <div className="flex items-center gap-6">
                 <Link href="/" className="flex items-center gap-4">
@@ -102,7 +139,7 @@ export default function NavBar() {
               </div>
 
               {/* NAV LINKS */}
-              <nav className="flex items-center gap-7">
+              <nav className="flex items-center gap-6">
                 {navItems.map((item, i) =>
                   item.dropdown ? (
                     <div key={i} className="relative group">
@@ -138,34 +175,63 @@ export default function NavBar() {
               </nav>
 
               {/* CTA BUTTONS */}
-             <div className="flex items-center gap-4">
-  <Button
-    href="/exhibiting-enquiry"
-    className="rounded-full border-2 border-[#004D9F] bg-[#004D9F] px-6 py-3 text-white hover:bg-[#0a53be]"
-  >
-    Become an Exhibitor
-  </Button>
+              <div className="flex items-center gap-3">
+                <Button
+                  href="/exhibiting-enquiry"
+                  className="rounded-full border-2 border-[#004D9F] bg-[#004D9F] px-5 py-2.5 text-white hover:bg-[#0a53be]"
+                >
+                  Become an Exhibitor
+                </Button>
 
-  <Button
-    href="/visitor-registration"
-    className="rounded-full bg-[#003a8f] px-6 py-3 text-white hover:bg-[#002f73]"
-  >
-    Register Now
-  </Button>
-</div>
-
+                <Button
+                  href="/visitor-registration"
+                  className="rounded-full bg-[#003a8f] px-5 py-2.5 text-white hover:bg-[#002f73]"
+                >
+                  Register Now
+                </Button>
+              </div>
             </div>
           </div>
 
-          {/* TIMER BAR */}
+          {/* TIMER BAR - Added based on your image */}
           {!scrolled && (
-            <div className="mx-auto mt-3 flex w-full max-w-[1400px] justify-end gap-6 text-sm text-white">
-              <span>67 Days</span>
-              <span>1 Hours</span>
-              <span>10 Mins</span>
-              <span className="flex items-center gap-1">
-                RU 🇷🇺
-              </span>
+            <div className="mx-auto flex w-full max-w-[1180px] 2xl:max-w-[1400px] 3xl:max-w-[1800px] justify-end">
+              <div className="flex items-center gap-6 rounded-xl bg-[#0d1e3c] px-6 py-2 text-sm text-white mr-15">
+                {/* Countdown Timer */}
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-lg font-bold tabular-nums">
+                    {timeLeft.days.toString().padStart(2, '0')}
+                  </span>
+                  <span className="text-xs opacity-70">Days</span>
+                </div>
+                
+                <div className="h-4 w-px bg-white/30" />
+                
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-lg font-bold tabular-nums">
+                    {timeLeft.hours.toString().padStart(2, '0')}
+                  </span>
+                  <span className="text-xs opacity-70">Hours</span>
+                </div>
+                
+                <div className="h-4 w-px bg-white/30" />
+                
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-lg font-bold tabular-nums">
+                    {timeLeft.minutes.toString().padStart(2, '0')}
+                  </span>
+                  <span className="text-xs opacity-70">Mins</span>
+                </div>
+                
+                <div className="h-4 w-px bg-white/30" />
+                
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-lg font-bold tabular-nums">
+                    {timeLeft.seconds.toString().padStart(2, '0')}
+                  </span>
+                  <span className="text-xs opacity-70">Secs</span>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -174,9 +240,19 @@ export default function NavBar() {
       {/* ================= MOBILE NAVBAR ================= */}
       <header className="xl:hidden fixed top-0 left-0 right-0 z-50 bg-linear-to-r from-[#06162f] to-[#0a2b57] px-4 py-3 text-white shadow-lg">
         <div className="flex items-center justify-between">
-          <Link href="/" className="font-bold text-lg">
-            TransRussia · SkladTech
-          </Link>
+          <div className="flex items-center gap-3">
+            <Link href="/" className="font-bold text-lg">
+              TransRussia · SkladTech
+            </Link>
+            
+            {/* Mobile Timer */}
+            <div className="flex items-center gap-2 rounded-full bg-[#0d1e3c] px-3 py-1 text-xs">
+              <span className="font-mono font-bold">
+                {timeLeft.days}d {timeLeft.hours}h
+              </span>
+              <span className="opacity-70">RU 🇷🇺</span>
+            </div>
+          </div>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -188,6 +264,34 @@ export default function NavBar() {
 
         {mobileMenuOpen && (
           <div className="mt-4 rounded-xl bg-[#06162f] p-4">
+            {/* Mobile Timer Expanded */}
+            <div className="mb-4 rounded-lg bg-[#0d1e3c] p-4">
+              <div className="text-center text-sm opacity-80 mb-2">Time until TransRussia 2026</div>
+              <div className="grid grid-cols-4 gap-2 text-center">
+                <div>
+                  <div className="font-mono text-xl font-bold">{timeLeft.days}</div>
+                  <div className="text-xs opacity-70">Days</div>
+                </div>
+                <div>
+                  <div className="font-mono text-xl font-bold">{timeLeft.hours}</div>
+                  <div className="text-xs opacity-70">Hours</div>
+                </div>
+                <div>
+                  <div className="font-mono text-xl font-bold">{timeLeft.minutes}</div>
+                  <div className="text-xs opacity-70">Mins</div>
+                </div>
+                <div>
+                  <div className="font-mono text-xl font-bold">{timeLeft.seconds}</div>
+                  <div className="text-xs opacity-70">Secs</div>
+                </div>
+              </div>
+              <div className="mt-3 text-center text-sm">
+                <span>17–19 March 2026</span>
+                <span className="mx-2">•</span>
+                <span>Crocus Expo, Pavilion 3</span>
+              </div>
+            </div>
+
             <div className="flex flex-col gap-4">
               {navItems.map((item, i) =>
                 item.dropdown ? (

@@ -1,8 +1,10 @@
+// components/WhyChooseSection.tsx - FIXED
 'use client';
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import SectionContainer from './UI/SectionContainer';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -79,45 +81,51 @@ export default function WhyChooseSection() {
 
   return (
     <section ref={sectionRef} className="bg-[#F4F4F4] overflow-hidden">
+      {/* Blue Header Section - Full width background */}
       <div className="bg-[#0E1C35] py-24">
-        <div className="w-full px-6 xl:px-10">
-        <div className="mx-auto max-w-[1600px]">
-  <h2
-    ref={titleRef}
-    className="text-6xl md:text-5xl lg:text-7xl font-bold text-white 
-               leading-[0.85] tracking-tight opacity-0 whitespace-nowrap"
-  >
-    Why choose{" "}
-    <span className="text-[#82c6eb]">TransRussia 2026</span>
-  </h2>
-</div>
-
-        </div>
+        <SectionContainer>
+          <h2
+            ref={titleRef}
+            className="text-5xl lg:text-6xl xl:text-7xl font-bold text-white 
+                       leading-[0.85] tracking-tight opacity-0"
+          >
+            Why choose{" "}
+            <span className="text-[#82c6eb]">TransRussia 2026</span>
+          </h2>
+        </SectionContainer>
       </div>
 
-      <div className="-mt-16">
-        <div className="w-full px-6 xl:px-10">
-          <div className="mx-auto max-w-[1600px]">
+      {/* White Cards Section - Using the same container */}
+      <div className="relative">
+        <SectionContainer>
+          {/* Cards container with negative margin to overlap */}
+          <div className="relative -mt-16">
             <div className="grid lg:grid-cols-3 bg-white rounded-2xl shadow-xl overflow-hidden">
               {reasons.map((reason, index) => (
                 <div
                   key={index}
                   ref={addToCardsRef}
-                  className="p-10 border-r last:border-r-0 opacity-0"
+                  className={`p-8 lg:p-10 ${
+                    index < reasons.length - 1 ? 'border-r border-gray-100' : ''
+                  } opacity-0`}
                 >
                   <div className="flex items-center gap-4 mb-6">
-                    <span className="text-4xl">{reason.icon}</span>
-                    <h3 className="text-4xl font-bold text-[#0092D7]">
+                    <span className="text-3xl lg:text-4xl">{reason.icon}</span>
+                    <h3 className="text-3xl lg:text-4xl font-bold text-[#0092D7]">
                       {reason.number}
                     </h3>
                   </div>
-                  <h4 className="text-2xl font-bold mb-4">{reason.title}</h4>
-                  <p className="text-lg text-gray-600">{reason.description}</p>
+                  <h4 className="text-xl lg:text-2xl font-bold mb-4 text-gray-800">
+                    {reason.title}
+                  </h4>
+                  <p className="text-base lg:text-lg text-gray-600 leading-relaxed">
+                    {reason.description}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
-        </div>
+        </SectionContainer>
       </div>
     </section>
   );

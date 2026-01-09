@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,6 +7,66 @@ import Link from 'next/link';
 const TransRussiaExhibitPage: React.FC = () => {
   const introRef = useRef<HTMLDivElement>(null);
   const backToTopRef = useRef<HTMLButtonElement>(null);
+  const [formData, setFormData] = useState({
+    interestLevel: '',
+    firstName: '',
+    lastName: '',
+    companyName: '',
+    companyWebsite: '',
+    jobTitle: '',
+    country: '',
+    phone: '',
+    email: '',
+    standSize: '',
+    hearAboutUs: '',
+    productSector: [] as string[],
+    notRobot: false
+  });
+
+  const countries = [
+    'Russia', 'USA', 'China', 'Germany', 'France', 'UK', 'Japan', 'South Korea',
+    'India', 'Brazil', 'Italy', 'Spain', 'Canada', 'Australia', 'Netherlands',
+    'Switzerland', 'UAE', 'Singapore', 'Turkey', 'Poland', 'Other'
+  ];
+
+  const standSizes = [
+    '9 sqm (3x3)',
+    '12 sqm (3x4)',
+    '15 sqm (3x5)',
+    '18 sqm (3x6)',
+    '20 sqm (4x5)',
+    '24 sqm (4x6)',
+    '30 sqm (5x6)',
+    '36 sqm (6x6)',
+    'Custom Size'
+  ];
+
+  const hearAboutOptions = [
+    'Search Engine (Google, Yandex, etc.)',
+    'Social Media',
+    'Email Newsletter',
+    'Industry Publication',
+    'Colleague/Partner Recommendation',
+    'Previous Exhibition',
+    'Other'
+  ];
+
+  const productSectors = [
+    'Air Freight',
+    'Complex Logistics Services & Freight Forwarding',
+    'Equipment Supplies',
+    'Logistics, Distribution Centers & Terminals',
+    'Outside & Heavy Lift Carriage (Break Bulk)',
+    'Rail Freight',
+    'Warehouse Equipment & Technology SkladTech',
+    'Associated Services',
+    'E-commerce Logistics',
+    'IT Solutions',
+    'Maritime & Inland Waterway Transport',
+    'Ports & Terminals, Freight Handling Services in Ports',
+    'Road Freight Transportation',
+    'Industrial Unions & Media'
+  ];
 
   useEffect(() => {
     // Simulate intro loader removal
@@ -49,6 +109,44 @@ const TransRussiaExhibitPage: React.FC = () => {
       }
     };
   }, []);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    
+    if (type === 'checkbox') {
+      const checkbox = e.target as HTMLInputElement;
+      if (name === 'notRobot') {
+        setFormData(prev => ({ ...prev, [name]: checkbox.checked }));
+      } else {
+        // For product sector checkboxes
+        const sectorName = checkbox.name;
+        if (checkbox.checked) {
+          setFormData(prev => ({
+            ...prev,
+            productSector: [...prev.productSector, sectorName]
+          }));
+        } else {
+          setFormData(prev => ({
+            ...prev,
+            productSector: prev.productSector.filter(sector => sector !== sectorName)
+          }));
+        }
+      }
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
+  };
+
+  const handleRadioChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData(prev => ({ ...prev, interestLevel: e.target.value }));
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Here you would typically send the form data to your backend
+    console.log('Form submitted:', formData);
+    alert('Thank you for your enquiry! We will contact you soon.');
+  };
 
   const partners = [
     { name: 'Apace Digital Cargo', logo: '/APACE_Digital_Cargo_523bc2c2a2.webp', slug: 'apace-digital-cargo' },
@@ -163,9 +261,6 @@ const TransRussiaExhibitPage: React.FC = () => {
                             </h3>
                           </div>
                           <div>
-                            <div className="rte-style [&amp;_h1]:lg:text-4xl [&amp;_h2]:lg:text-3xl [&amp;_h3]:lg:text-2xl [&amp;_ul]:list-disc [&amp;_ul]:pl-5 [&amp;_ol]:list-decimal [&amp;_ol]:pl-5 [&amp;_a]:underline [&amp;_blockquote]:relative [&amp;_blockquote]:italic [&amp;_blockquote]:bg-[#f9f9f9] [&amp;_blockquote]:text-xl [&amp;_blockquote]:w-fit [&amp;_blockquote]:border-l-4 [&amp;_blockquote]:border-black [&amp;_blockquote]:p-5 [&amp;_blockquote]:ml-5 my-5"></div>
-                          </div>
-                          <div>
                             <div className="rte-style [&amp;_h1]:lg:text-4xl [&amp;_h2]:lg:text-3xl [&amp;_h3]:lg:text-2xl [&amp;_ul]:list-disc [&amp;_ul]:pl-5 [&amp;_ol]:list-decimal [&amp;_ol]:pl-5 [&amp;_a]:underline [&amp;_blockquote]:relative [&amp;_blockquote]:italic [&amp;_blockquote]:bg-[#f9f9f9] [&amp;_blockquote]:text-xl [&amp;_blockquote]:w-fit [&amp;_blockquote]:border-l-4 [&amp;_blockquote]:border-black [&amp;_blockquote]:p-5 [&amp;_blockquote]:ml-5 my-5">
                               <p>Showcase your freight, logistics, transport, and supply chain solutions to the companies driving Eurasia's <strong>$110B+</strong> logistics market.</p>
                               <p>&nbsp;</p>
@@ -220,22 +315,258 @@ const TransRussiaExhibitPage: React.FC = () => {
                         {/* Right Column - Form */}
                         <div className="flex flex-col">
                           <div className="container form-style !py-0">
-                            <div dangerouslySetInnerHTML={{
-                              __html: `
-                                <div class="_form_196"></div>
-                                <script src="https://ite681.activehosted.com/f/embed.php?id=196" charset="utf-8"></script>
-                                <p>
-                                  <span style="background-color:rgb(255,255,255);color:rgb(13,13,13);font-family:ui-sans-serif, -apple-system, system-ui, 'Segoe UI', Roboto, Ubuntu, Cantarell, 'Noto Sans', sans-serif, Helvetica, 'Apple Color Emoji', Arial, 'Segoe UI Emoji', 'Segoe UI Symbol';font-size:11px;">
-                                    T&amp;Cs: By submitting the TransRussia form, you agree to receive marketing communications, updates, and promotional materials from us. You can unsubscribe anytime by clicking the "unsubscribe" link in our emails. For more information on how we handle your data, please refer to our
-                                  </span>
-                                  <a href="https://ite.group/en/privacy/">
-                                    <span style="background-color:rgb(255,255,255);color:rgb(13,13,13);font-family:ui-sans-serif, -apple-system, system-ui, 'Segoe UI', Roboto, Ubuntu, Cantarell, 'Noto Sans', sans-serif, Helvetica, 'Apple Color Emoji', Arial, 'Segoe UI Emoji', 'Segoe UI Symbol';font-size:11px;">
-                                      Privacy Policy
-                                    </span>
-                                  </a>.
+                            <form onSubmit={handleSubmit} className="space-y-6">
+                              {/* Your level of interest */}
+                              <div>
+                                <label className="block text-lg font-semibold mb-3 text-gray-900">
+                                  Your level of interest *
+                                </label>
+                                <div className="space-y-2">
+                                  {['Ready to book my stand', 'Looking for more information', 'Looking for sponsorship opportunities'].map((option) => (
+                                    <div key={option} className="flex items-center">
+                                      <input
+                                        type="radio"
+                                        id={option.replace(/\s+/g, '-').toLowerCase()}
+                                        name="interestLevel"
+                                        value={option}
+                                        checked={formData.interestLevel === option}
+                                        onChange={handleRadioChange}
+                                        className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
+                                        required
+                                      />
+                                      <label htmlFor={option.replace(/\s+/g, '-').toLowerCase()} className="ml-3 block text-gray-700">
+                                        {option}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+
+                              {/* First Name */}
+                              <div>
+                                <label className="block text-lg font-semibold mb-2 text-gray-900">
+                                  First Name *
+                                </label>
+                                <input
+                                  type="text"
+                                  name="firstName"
+                                  value={formData.firstName}
+                                  onChange={handleInputChange}
+                                  placeholder="Type your first name"
+                                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                  required
+                                />
+                              </div>
+
+                              {/* Last Name */}
+                              <div>
+                                <label className="block text-lg font-semibold mb-2 text-gray-900">
+                                  Last Name *
+                                </label>
+                                <input
+                                  type="text"
+                                  name="lastName"
+                                  value={formData.lastName}
+                                  onChange={handleInputChange}
+                                  placeholder="Type your last name"
+                                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                  required
+                                />
+                              </div>
+
+                              {/* Company Name */}
+                              <div>
+                                <label className="block text-lg font-semibold mb-2 text-gray-900">
+                                  Company Name *
+                                </label>
+                                <input
+                                  type="text"
+                                  name="companyName"
+                                  value={formData.companyName}
+                                  onChange={handleInputChange}
+                                  placeholder="Type your Company Name"
+                                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                  required
+                                />
+                              </div>
+
+                              {/* Company Website */}
+                              <div>
+                                <label className="block text-lg font-semibold mb-2 text-gray-900">
+                                  Company Website *
+                                </label>
+                                <input
+                                  type="url"
+                                  name="companyWebsite"
+                                  value={formData.companyWebsite}
+                                  onChange={handleInputChange}
+                                  placeholder="Company Website"
+                                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                  required
+                                />
+                              </div>
+
+                              {/* Job Title */}
+                              <div>
+                                <label className="block text-lg font-semibold mb-2 text-gray-900">
+                                  Job Title *
+                                </label>
+                                <input
+                                  type="text"
+                                  name="jobTitle"
+                                  value={formData.jobTitle}
+                                  onChange={handleInputChange}
+                                  placeholder="Type your Job Title"
+                                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                  required
+                                />
+                              </div>
+
+                              {/* Country */}
+                              <div>
+                                <label className="block text-lg font-semibold mb-2 text-gray-900">
+                                  Country *
+                                </label>
+                                <select
+                                  name="country"
+                                  value={formData.country}
+                                  onChange={handleInputChange}
+                                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white"
+                                  required
+                                >
+                                  <option value="">Select Country</option>
+                                  {countries.map(country => (
+                                    <option key={country} value={country}>{country}</option>
+                                  ))}
+                                </select>
+                              </div>
+
+                              {/* Phone */}
+                              <div>
+                                <label className="block text-lg font-semibold mb-2 text-gray-900">
+                                  Phone *
+                                </label>
+                                <input
+                                  type="tel"
+                                  name="phone"
+                                  value={formData.phone}
+                                  onChange={handleInputChange}
+                                  placeholder="Type your phone number"
+                                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                  required
+                                />
+                              </div>
+
+                              {/* Work Email */}
+                              <div>
+                                <label className="block text-lg font-semibold mb-2 text-gray-900">
+                                  Work Email *
+                                </label>
+                                <input
+                                  type="email"
+                                  name="email"
+                                  value={formData.email}
+                                  onChange={handleInputChange}
+                                  placeholder="Type your email"
+                                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none"
+                                  required
+                                />
+                              </div>
+
+                              {/* Preferred Stand Size */}
+                              <div>
+                                <label className="block text-lg font-semibold mb-2 text-gray-900">
+                                  Preferred Stand Size *
+                                </label>
+                                <select
+                                  name="standSize"
+                                  value={formData.standSize}
+                                  onChange={handleInputChange}
+                                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white"
+                                  required
+                                >
+                                  <option value="">Select Stand Size</option>
+                                  {standSizes.map(size => (
+                                    <option key={size} value={size}>{size}</option>
+                                  ))}
+                                </select>
+                              </div>
+
+                              {/* How Did You Hear About Us? */}
+                              <div>
+                                <label className="block text-lg font-semibold mb-2 text-gray-900">
+                                  How Did You Hear About Us? *
+                                </label>
+                                <select
+                                  name="hearAboutUs"
+                                  value={formData.hearAboutUs}
+                                  onChange={handleInputChange}
+                                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none bg-white"
+                                  required
+                                >
+                                  <option value="">Select Option</option>
+                                  {hearAboutOptions.map(option => (
+                                    <option key={option} value={option}>{option}</option>
+                                  ))}
+                                </select>
+                              </div>
+
+                              {/* Product Sector */}
+                              <div>
+                                <label className="block text-lg font-semibold mb-2 text-gray-900">
+                                  Product Sector *
+                                </label>
+                                <div className="max-h-60 overflow-y-auto border border-gray-300 rounded-lg p-4 space-y-2">
+                                  {productSectors.map((sector, index) => (
+                                    <div key={index} className="flex items-center">
+                                      <input
+                                        type="checkbox"
+                                        id={`sector-${index}`}
+                                        name={sector}
+                                        checked={formData.productSector.includes(sector)}
+                                        onChange={handleInputChange}
+                                        className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
+                                      />
+                                      <label htmlFor={`sector-${index}`} className="ml-3 block text-gray-700">
+                                        {sector}
+                                      </label>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+
+                              {/* Verification */}
+                              <div className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                                <label className="block text-lg font-semibold mb-2 text-gray-900">
+                                  Please verify your request.
+                                </label>
+                                <div className="flex items-center mb-3">
+                                  <input
+                                    type="checkbox"
+                                    id="notRobot"
+                                    name="notRobot"
+                                    checked={formData.notRobot}
+                                    onChange={handleInputChange}
+                                    className="h-5 w-5 border-gray-300 text-blue-600 focus:ring-blue-500"
+                                    required
+                                  />
+                                  <label htmlFor="notRobot" className="ml-3 block text-gray-700">
+                                    I'm not a robot
+                                  </label>
+                                </div>
+                                <p className="text-sm text-gray-600">
+                                  By submitting this form, you agree to our Terms & Conditions and Privacy Policy.
                                 </p>
-                              `
-                            }} />
+                              </div>
+
+                              {/* Submit Button */}
+                              <button
+                                type="submit"
+                                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300"
+                              >
+                                Submit Enquiry
+                              </button>
+                            </form>
                           </div>
                         </div>
                       </div>
@@ -287,7 +618,6 @@ const TransRussiaExhibitPage: React.FC = () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </>

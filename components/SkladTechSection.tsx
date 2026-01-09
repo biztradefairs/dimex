@@ -1,10 +1,11 @@
+// components/SkladTechSection.tsx
+import SectionContainer from './UI/SectionContainer'
+
 export default function SkladTechSection() {
   return (
     <section className="relative py-32">
-      {/* FULL WIDTH WRAPPER (same as Hero / About) */}
-      <div className="w-full px-6 xl:px-10">
-        {/* CONTENT WIDTH */}
-        <div className="mx-auto grid max-w-[1600px] items-center gap-16 lg:grid-cols-3">
+      <SectionContainer>
+        <div className="grid items-center gap-16 lg:grid-cols-3">
           
           {/* LEFT ICON */}
           <div className="grid place-content-center">
@@ -38,12 +39,12 @@ export default function SkladTechSection() {
               </span>
             </div>
 
-            <h2 className="text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.85] tracking-tight text-black">
+            <h2 className="text-5xl lg:text-7xl xl:text-8xl font-bold leading-[0.85] tracking-tight text-black">
               SkladTech
             </h2>
 
             <div className="max-w-3xl space-y-6">
-              <p className="text-lg md:text-xl leading-relaxed">
+              <p className="text-lg lg:text-xl leading-relaxed">
                 Discover SkladTech, the premier showcase of cutting-edge warehouse
                 equipment designed for maximum commercial impact. Held collocated
                 with TransRussia, SkladTech offers unparalleled exposure to
@@ -53,14 +54,14 @@ export default function SkladTechSection() {
             </div>
 
             <a href="/about-skladtech" className="w-fit">
-              <button className="group flex items-center justify-center gap-2 rounded-full bg-[#0092D7] px-10 py-4 text-[16px] font-semibold text-white transition-all duration-300 hover:bg-[#33A8DF]">
+              <button className="group flex items-center justify-center gap-2 rounded-full bg-[#0092D7] px-8 lg:px-10 py-3 lg:py-4 text-[16px] font-semibold text-white transition-all duration-300 hover:bg-[#33A8DF]">
                 Discover SkladTech
               </button>
             </a>
           </div>
 
         </div>
-      </div>
+      </SectionContainer>
     </section>
   )
 }

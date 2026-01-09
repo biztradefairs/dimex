@@ -1,5 +1,6 @@
-import Button from './UI/Button'
-import Card from './UI/Card'
+// components/QuickNavigation.tsx - FIXED
+import Link from "next/link"
+import SectionContainer from './UI/SectionContainer'
 
 const quickNavItems = [
   {
@@ -39,39 +40,40 @@ const quickNavItems = [
 
 export default function QuickNavigation() {
   return (
-    <div className="container overflow-hidden">
-      <div className="mb-14 flex flex-wrap justify-between gap-10 lg:items-end">
-        <div className="lg:basis-2/3">
-          <h2 className="title-72 text-black my-3">Quick Navigation</h2>
-          <p className="whitespace-pre-line text-lg text-gray-600">
+    <section className="py-32">
+      <SectionContainer>
+        <div className="mb-12 lg:mb-14">
+          <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-3">Quick Navigation</h2>
+          <p className="text-lg text-gray-600">
             Simplifying Your Participation Journey
           </p>
         </div>
-      </div>
-      
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {quickNavItems.map((item) => (
-          <Card key={item.id}>
-            <div className="flex-between">
-              <div className="w-16 h-16 rounded-full bg-linear-to-br from-blue-400 to-blue-600 mb-5"></div>
-              <h4 className="title-32">{item.number}</h4>
+        
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {quickNavItems.map((item) => (
+            <div key={item.id} className="bg-white rounded-2xl p-6 lg:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100">
+              <div className="flex justify-between items-start mb-6">
+                <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                  <span className="text-white text-xl lg:text-2xl font-bold">{item.number}</span>
+                </div>
+                <span className="text-2xl font-bold text-gray-300">{item.number}</span>
+              </div>
+              
+              <h4 className="text-xl lg:text-2xl font-bold text-black mb-4">{item.title}</h4>
+              <p className="mb-8 lg:mb-10 text-gray-600 text-base lg:text-lg">{item.description}</p>
+              
+              <div className="mt-auto">
+                <Link 
+                  href={item.cta.href}
+                  className="block w-full rounded-full bg-[#0092D7] text-white text-center font-semibold py-3 px-6 hover:bg-[#0074D9] transition-colors text-sm lg:text-base"
+                >
+                  {item.cta.text}
+                </Link>
+              </div>
             </div>
-            
-            <h4 className="title-32 font-semibold text-black mb-4">{item.title}</h4>
-            <p className="mb-10 whitespace-pre-line text-gray-600">{item.description}</p>
-            
-            <div className="mt-auto">
-              <Button href={item.cta.href} fullWidth>
-                {item.cta.text}
-              </Button>
-            </div>
-          </Card>
-        ))}
-      </div>
-      
-      <div className="absolute right-0 top-0 z-[-1] h-225 w-225 opacity-10">
-        <div className="h-full w-full bg-linear-to-br from-blue-100 to-transparent rounded-full"></div>
-      </div>
-    </div>
+          ))}
+        </div>
+      </SectionContainer>
+    </section>
   )
 }

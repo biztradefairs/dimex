@@ -1,3 +1,4 @@
+// components/StaggerChildren.tsx
 'use client'
 
 import { ReactNode } from 'react'
@@ -27,7 +28,7 @@ const childVariants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: "easeOut" as const // Explicitly cast to 'const' to satisfy type requirements
+      ease: "easeOut" as const
     }
   }
 }
