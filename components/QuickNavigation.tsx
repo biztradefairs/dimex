@@ -61,7 +61,7 @@ export default function QuickNavigation() {
             <p className="mb-10 whitespace-pre-line text-gray-600">{item.description}</p>
             
             <div className="mt-auto">
-              <Button variant="primary" href={item.cta.href} fullWidth>
+              <Button href={item.cta.href} fullWidth>
                 {item.cta.text}
               </Button>
             </div>
