@@ -12,7 +12,7 @@ export default function Footer() {
                 <div className="h-8 w-8 rounded-full bg-blue-500" />
                 <div>
                   <div className="text-xl font-bold">DIEMEX</div>
-                  <div className="text-sm">©2026</div>
+                  <div className="text-sm">2026</div>
                 </div>
               </div>
 
@@ -20,7 +20,7 @@ export default function Footer() {
 
               <div className="flex items-center gap-2">
                 <div className="h-8 w-8 rounded-full bg-blue-300" />
-                <div className="text-xl font-bold">SkladTech</div>
+                <div className="text-xl font-bold"></div>
               </div>
             </Link>
           </div>
@@ -121,18 +121,7 @@ export default function Footer() {
       </div>
 
       {/* BOTTOM BAR */}
-      <div className="mx-auto max-w-375 px-5">
-        <div className="flex justify-end text-sm mb-3">
-          Powered by{" "}
-          <a
-            href="https://prismetic.com/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ml-1 font-semibold uppercase hover:underline"
-          >
-            Prismetic
-          </a>
-        </div>
+   
 
         <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/20 py-5 text-sm">
           <div className="flex items-center gap-2">
