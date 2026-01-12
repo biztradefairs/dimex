@@ -97,164 +97,171 @@ export default function NavBar() {
     <>
       {/* ================= DESKTOP NAVBAR ================= */}
       <header className="hidden lg:block fixed top-0 left-0 z-50 w-full">
-        <div className={`px-6 ${scrolled ? "pt-2" : "pt-4"}`}>
-          <div className="mx-auto max-w-[1440px] rounded-3xl bg-linear-to-r from-[#06162f] to-[#0a2b57] text-white shadow-xl">
-            <div className={`flex items-center justify-between px-8 transition-all ${scrolled ? "py-2" : "py-3"}`}>
-              
-              {/* LOGOS */}
-              <Link href="/" className="flex items-center gap-4 font-semibold">
-                <span>TransRussia</span>
-                <span className="opacity-40">|</span>
-                <span>SkladTech</span>
-              </Link>
+        <div className={`w-full ${scrolled ? "pt-2" : "pt-4"} px-4 sm:px-6 lg:px-8`}>
+          {/* Container with consistent width */}
+          <div className="mx-auto max-w-[1240px] lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1600px]">
+            {/* Original navbar design */}
+            <div className={`rounded-3xl bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white shadow-xl transition-all ${scrolled ? "py-2" : "py-3"}`}>
+              <div className="flex items-center justify-between px-8">
+                
+                {/* LOGOS - Original design */}
+                <Link href="/" className="flex items-center gap-4 font-semibold">
+                  <span>TransRussia</span>
+                  <span className="opacity-40">|</span>
+                  <span>SkladTech</span>
+                </Link>
 
-              {/* NAV LINKS */}
-              <nav className="flex items-center gap-6">
-                {navItems.map((item, i) =>
-                  item.dropdown ? (
-                    <div
-                      key={i}
-                      className="relative"
-                      onMouseEnter={() => setActiveDropdown(i)}
-                      onMouseLeave={() => setActiveDropdown(null)}
-                    >
-                      <button className="flex items-center gap-1 hover:text-gray-200">
-                        {item.title}
-                        <ChevronDown className="h-4 w-4" />
-                      </button>
+                {/* NAV LINKS - Original design */}
+                <nav className="flex items-center gap-6">
+                  {navItems.map((item, i) =>
+                    item.dropdown ? (
+                      <div
+                        key={i}
+                        className="relative"
+                        onMouseEnter={() => setActiveDropdown(i)}
+                        onMouseLeave={() => setActiveDropdown(null)}
+                      >
+                        <button className="flex items-center gap-1 hover:text-gray-200">
+                          {item.title}
+                          <ChevronDown className="h-4 w-4" />
+                        </button>
 
-                      {activeDropdown === i && item.links && (
-                        <div className="absolute left-0 top-full pt-3 z-50">
-                          <div className="min-w-52 rounded-lg bg-white py-2 shadow-xl">
-                            {item.links.map((link, j) => (
-                              <Link
-                                key={j}
-                                href={link.href}
-                                className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
-                              >
-                                {link.text}
-                              </Link>
-                            ))}
+                        {activeDropdown === i && item.links && (
+                          <div className="absolute left-0 top-full pt-3 z-50">
+                            <div className="min-w-52 rounded-lg bg-white py-2 shadow-xl">
+                              {item.links.map((link, j) => (
+                                <Link
+                                  key={j}
+                                  href={link.href}
+                                  className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
+                                >
+                                  {link.text}
+                                </Link>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      )}
+                        )}
+                      </div>
+                    ) : (
+                      <Link key={i} href={item.href!} className="hover:text-gray-200">
+                        {item.title}
+                      </Link>
+                    )
+                  )}
+                </nav>
+
+                {/* CTA - Original design */}
+                <div className="flex items-center gap-3">
+                  <Button href="/exhibiting-enquiry" className="rounded-full px-5 py-2.5">
+                    Become an Exhibitor
+                  </Button>
+                  <Button href="/visitor-registration" className="rounded-full px-5 py-2.5">
+                    Register Now
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            {/* ================= TIMER BAR (SAME PLACE AS BEFORE) ================= */}
+            {!scrolled && (
+              <div className="flex justify-end mr-8">
+                <div className="flex items-center gap-4 rounded-b-xl bg-[#0d1e3c] px-4 py-1.5 text-sm text-white">
+                  <div className="flex items-center gap-1">
+                    <span className="font-mono font-bold">
+                      {String(timeLeft.days).padStart(2, "0")}
+                    </span>
+                    <span className="text-xs opacity-70">Days</span>
+                  </div>
+
+                  <div className="h-3 w-px bg-white/30" />
+
+                  <div className="flex items-center gap-1">
+                    <span className="font-mono font-bold">
+                      {String(timeLeft.hours).padStart(2, "0")}
+                    </span>
+                    <span className="text-xs opacity-70">Hours</span>
+                  </div>
+
+                  <div className="h-3 w-px bg-white/30" />
+
+                  <div className="flex items-center gap-1">
+                    <span className="font-mono font-bold">
+                      {String(timeLeft.minutes).padStart(2, "0")}
+                    </span>
+                    <span className="text-xs opacity-70">Mins</span>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </header>
+
+      {/* ================= MOBILE NAVBAR ================= */}
+      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-[#06162f] text-white">
+        {/* Mobile navbar container */}
+        <div className="px-4 sm:px-6 py-3">
+          <div className="flex items-center justify-between">
+            <Link href="/" className="font-bold">
+              TransRussia · SkladTech
+            </Link>
+
+            <button
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="rounded-full bg-white/10 p-2"
+            >
+              {mobileMenuOpen ? <X /> : <Menu />}
+            </button>
+          </div>
+
+          {mobileMenuOpen && (
+            <div className="mt-4 rounded-xl bg-[#0d1e3c] p-4">
+              <div className="mb-4 text-center font-mono font-bold">
+                {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m
+              </div>
+
+              <div className="flex flex-col gap-4">
+                {navItems.map((item, i) =>
+                  item.dropdown && item.links ? (
+                    <div key={i}>
+                      <div className="font-semibold">{item.title}</div>
+                      <div className="ml-4 mt-2 flex flex-col gap-2">
+                        {item.links.map((link, j) => (
+                          <Link
+                            key={j}
+                            href={link.href}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="text-sm opacity-80"
+                          >
+                            {link.text}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
                   ) : (
-                    <Link key={i} href={item.href!} className="hover:text-gray-200">
+                    <Link
+                      key={i}
+                      href={item.href!}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="font-semibold"
+                    >
                       {item.title}
                     </Link>
                   )
                 )}
-              </nav>
 
-              {/* CTA */}
-              <div className="flex items-center gap-3">
-                <Button href="/exhibiting-enquiry" className="rounded-full px-5 py-2.5">
-                  Become an Exhibitor
-                </Button>
-                <Button href="/visitor-registration" className="rounded-full px-5 py-2.5">
-                  Register Now
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          {/* ================= TIMER BAR (SAME PLACE AS BEFORE) ================= */}
-          {!scrolled && (
-            <div className="mx-auto flex max-w-[1180px] justify-end">
-              <div className="flex items-center gap-4 rounded-xl bg-[#0d1e3c] px-4 py-1.5 text-sm text-white">
-                <div className="flex items-center gap-1">
-                  <span className="font-mono font-bold">
-                    {String(timeLeft.days).padStart(2, "0")}
-                  </span>
-                  <span className="text-xs opacity-70">Days</span>
-                </div>
-
-                <div className="h-3 w-px bg-white/30" />
-
-                <div className="flex items-center gap-1">
-                  <span className="font-mono font-bold">
-                    {String(timeLeft.hours).padStart(2, "0")}
-                  </span>
-                  <span className="text-xs opacity-70">Hours</span>
-                </div>
-
-                <div className="h-3 w-px bg-white/30" />
-
-                <div className="flex items-center gap-1">
-                  <span className="font-mono font-bold">
-                    {String(timeLeft.minutes).padStart(2, "0")}
-                  </span>
-                  <span className="text-xs opacity-70">Mins</span>
+                <div className="mt-4 flex flex-col gap-3 border-t border-white/20 pt-4">
+                  <Button href="/exhibiting-enquiry" fullWidth>
+                    Become an Exhibitor
+                  </Button>
+                  <Button href="/visitor-registration" fullWidth>
+                    Register Now
+                  </Button>
                 </div>
               </div>
             </div>
           )}
         </div>
-      </header>
-
-      {/* ================= MOBILE NAVBAR ================= */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-[#06162f] px-4 py-3 text-white">
-        <div className="flex items-center justify-between">
-          <Link href="/" className="font-bold">
-            TransRussia · SkladTech
-          </Link>
-
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="rounded-full bg-white/10 p-2"
-          >
-            {mobileMenuOpen ? <X /> : <Menu />}
-          </button>
-        </div>
-
-        {mobileMenuOpen && (
-          <div className="mt-4 rounded-xl bg-[#0d1e3c] p-4">
-            <div className="mb-4 text-center font-mono font-bold">
-              {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m
-            </div>
-
-            <div className="flex flex-col gap-4">
-              {navItems.map((item, i) =>
-                item.dropdown && item.links ? (
-                  <div key={i}>
-                    <div className="font-semibold">{item.title}</div>
-                    <div className="ml-4 mt-2 flex flex-col gap-2">
-                      {item.links.map((link, j) => (
-                        <Link
-                          key={j}
-                          href={link.href}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className="text-sm opacity-80"
-                        >
-                          {link.text}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <Link
-                    key={i}
-                    href={item.href!}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="font-semibold"
-                  >
-                    {item.title}
-                  </Link>
-                )
-              )}
-
-              <div className="mt-4 flex flex-col gap-3 border-t border-white/20 pt-4">
-                <Button href="/exhibiting-enquiry" fullWidth>
-                  Become an Exhibitor
-                </Button>
-                <Button href="/visitor-registration" fullWidth>
-                  Register Now
-                </Button>
-              </div>
-            </div>
-          </div>
-        )}
       </header>
     </>
   )
