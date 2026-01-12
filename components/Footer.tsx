@@ -121,9 +121,8 @@ export default function Footer() {
       </div>
 
       {/* BOTTOM BAR */}
-   
-
-        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/20 py-5 text-sm">
+        <div className="mx-auto max-w-375 px-5">
+           <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/20 py-5 text-sm">
           <div className="flex items-center gap-2">
             <span>Organised By </span>
             <div className="h-6 w-16 rounded bg-white/20" />
@@ -157,7 +156,7 @@ export default function Footer() {
             </a>
           </div>
         </div>
-      </div>
+    </div>
     </footer>
     )
 }
