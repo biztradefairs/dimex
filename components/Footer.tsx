@@ -142,7 +142,7 @@ export default function Footer() {
               href="https://maxxmedia.in/privacy"
               target="_blank"
               className="hover:underline"
-            /a>
+            </a>
               Privacy
             </a>
             <a
