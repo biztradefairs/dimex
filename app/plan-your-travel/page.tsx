@@ -1,5 +1,6 @@
 'use client';
 
+import PartnersSection from '@/components/section/PartnersSection';
 import React, { ReactNode, useState } from 'react';
 
 interface ButtonProps {
@@ -114,7 +115,7 @@ const HeroSection: React.FC = () => {
         <div className="absolute inset-0 z-[-1] size-full !py-0">
           <div className="absolute inset-0 bg-gradient-to-t from-black"></div>
           <Image
-            src="/Untitled_design_14_8a27b98e95.jpg"
+            src="/images/image.png"
             alt="TransRussia©24"
             className="size-full object-cover"
           />
@@ -151,11 +152,6 @@ const IntroductionSection: React.FC = () => {
               </p>
             </div>
           </div>
-          <Image
-            src="/imgs/shape.png"
-            alt="TransRussia©24"
-            className="absolute right-0 top-0 z-[-1] size-[900px] object-contain"
-          />
         </div>
       </div>
     </div>
@@ -204,19 +200,19 @@ const GuideSection: React.FC = () => {
     {
       title: "Visa",
       content: "A regular business visa is suitable for business visits to Russia aimed at negotiating, concluding contracts, participating in exhibitions, conferences, or other business meetings and events.",
-      imageSrc: "/Visa_support_87be81d866.webp",
+      imageSrc: "/images/image.png",
       link: "/visa"
     },
     {
       title: "Freight, Handling & Customs",
       content: "We recommend DMW EXPO for shipping your products, equipment, materials, or displays. Their reliable service ensures timely and safe delivery for your stand allowing you to focus on your stand.",
-      imageSrc: "/Freight_Handling_and_Customs_f1ff7e4873.webp",
+      imageSrc: "/images/image.png",
       link: "/exhibitor-resource-center"
     },
     {
       title: "Preparation Checklist",
       content: "To make your experience as seamless as possible, we have put together a checklist for you, to keep track of all the necessary requirements you will need to keep note of leading up to the event.",
-      imageSrc: "/Preperation_Checklist_e2dbffca54.webp",
+      imageSrc: "/images/image.png",
       link: "/exhibitor-resource-center",
       linkText: "Checklist"
     }
@@ -343,21 +339,21 @@ const HotelsSection: React.FC = () => {
       description: `The modern Hotel Art Moscow Voykovskaya 4* is a 25-minute drive from Crocus Expo, Sheremetyevo Airport, and the city center. The Voykovskaya metro station, Baltiyskaya MCC, Krasny Baltiets MCC are a 10-minute walk away.
 
 The hotel has a stylish interior and an elaborate infrastructure, including a restaurant, a bar and conference rooms. Buffet breakfast, free Wi-Fi and parking are at guests' disposal. All rooms are equipped with all the amenities you need for maximum comfort, including a mini-fridge and LCD TV, a tea station and toiletries. Book a room at Art Moscow and experience an atmosphere of coziness and inspiration.`,
-      imageSrc: "/Art_Moscow_948d2ab974.webp",
+      imageSrc: "/images/image.png",
       bookingLink: "https://artmoscowhotel.ru/en/",
       locationLink: "https://yandex.ru/maps/org/art_moskva/88116514898/?ll=37.511617%2C55.815313&source=wizbiz_new_map_single&z=14"
     },
     {
       name: "Penta Hotel",
       description: `The hotel is located in the famous building "The Book", 2 km from the Red Square, 500 m from Arbatskaya metro station, direct metro line to Crocus Expo. In the hotel: 228 designer rooms with panoramic views of the Old and New Arbat Streets; buffet breakfast at Pentaloft Art Restaurant (24/7 room service); Pentalounge with bar, a la carte restaurant and billiards; a full range of conference services in contemporary spaces; free Wi-Fi throughout the hotel; free gym for hotel guests and a cozy library for business talks. Pentahotel Arbat is your home away from home.`,
-      imageSrc: "/Penta_Hotel_417b45162b.webp",
+      imageSrc: "/images/image.png",
       bookingLink: "https://reservations.pentahotels.com/108144?identifier=EXPO#/guestsandrooms",
       locationLink: "https://yandex.ru/maps/org/pentahotel_moscow_arbat/17323657526/?ll=37.592512%2C55.752185&source=wizbiz_new_map_single&z=16"
     },
     {
       name: "Hotel Peter I - 5*",
       description: `Hotel Peter I is located in the historical center of Moscow, within walking distance of Red Square, Bolshoi, and Maly Theaters, as well as stores - TSUM and GUM. The hotel offers room service, wi-fi, a club floor, a Romanov restaurant with Russian and European cuisine, conference halls, a fitness center with a swimming pool, a Jacuzzi, and a Turkish bath. Several metro stations are within walking distance from the hotel: Kuznetsky Most, Okhotny Ryad, Teatralnaya, Ploshchad Revolutsii, and Trubnaya.`,
-      imageSrc: "/Hotel_Peter_6447413b87.webp",
+      imageSrc: "/images/image.png",
       bookingLink: "https://www.hotel-peter1.ru/",
       locationLink: "https://yandex.ru/maps/org/petr_i/1014459869/?ll=37.619774%2C55.763544&source=wizbiz_new_map_single&z=14"
     },
@@ -404,55 +400,7 @@ const CityGuideSection: React.FC = () => {
   );
 };
 
-// Partners Section (Server Component)
-const PartnersSection: React.FC = () => {
-  const partners = [
-    { name: "Apace Digital Cargo", imageSrc: "/APACE_Digital_Cargo_523bc2c2a2.webp", link: "/partner/apace-digital-cargo" },
-    { name: "Cargo Insights", imageSrc: "/Cargo_Insights_e965193be1.webp", link: "/partner/cargo-insights" },
-    // Add more partners as needed
-  ];
 
-  return (
-    <div className="animated-block">
-      <div className="animated-block-target">
-        <div>
-          <div className="relative container" role="region" aria-roledescription="carousel">
-            <div className="mb-10 flex flex-col items-center">
-              <h2 className="title-72 text-black mt-5">Partners & Sponsors</h2>
-            </div>
-            
-            <div className="overflow-hidden">
-              <div className="flex -ml-4 items-stretch">
-                {partners.map((partner, index) => (
-                  <div 
-                    key={index} 
-                    className="min-w-0 shrink-0 grow-0 basis-full pl-4 h-auto md:basis-1/3 lg:basis-1/4 xl:basis-1/5"
-                    role="group" 
-                    aria-roledescription="slide"
-                  >
-                    <a 
-                      href={partner.link} 
-                      className="flex w-full flex-col items-center gap-5 text-center"
-                    >
-                      <div className="h-40 w-full overflow-hidden rounded-lg px-10 py-5 shadow-lg">
-                        <Image
-                          src={partner.imageSrc}
-                          alt={partner.name}
-                          className="size-full object-contain"
-                        />
-                      </div>
-                      <small className="text-sm">{partner.name}</small>
-                    </a>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-};
 
 // Main Page Component - Marked as Client Component
 const PlanYourTravelPage: React.FC = () => {

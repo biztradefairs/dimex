@@ -1,39 +1,80 @@
 // app/contact/page.tsx
-import { Metadata } from 'next';
-import ContactForm from '@/components/contactSection/ContactForm';
-import PartnersSlider from '@/components/contactSection/PartnersSlider';
+import { Metadata } from "next"
+import ContactForm from "@/components/contactSection/ContactForm"
+import PartnersSlider from "@/components/section/PartnersSection"
+import SectionContainer from "@/components/UI/SectionContainer"
 
 export const metadata: Metadata = {
-  title: 'Get in Touch with TransRussia & SkladTech Expo',
-  description: 'Reach out to TransRussia & SkladTech Expo for inquiries, support, or information. Find contact details and connect with our team to learn more about the event.',
-};
+  title: "Contact Us | TransRussia & SkladTech",
+  description:
+    "Get in touch with TransRussia & SkladTech Expo. Contact our team for sales, marketing, technical, or general exhibition enquiries.",
+}
 
 export default function ContactPage() {
   return (
-    <div>
-      {/* Hero Section */}
-      <div className="relative z-[1] flex flex-col justify-end bg-mainColor5 pt-48">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-end pt-0 pb-10">
-          <h1 className="title-72 text-black">Contact Us</h1>
-          <p className="max-w-6xl whitespace-pre-line py-5"></p>
-        </div>
-      </div>
+    <main className="bg-white">
 
-      {/* Contact Form Section */}
-      <div className="animated-block">
-        <div className="animated-block-target">
-          <div className="container mx-auto px-4 sm:px-6 lg:px-8 form-style py-0">
-            <ContactForm />
-          </div>
-        </div>
-      </div>
+      {/* ================= HERO SECTION ================= */}
+      <section className="bg-[#F4FAFF] pt-40 pb-20">
+        <SectionContainer>
+          <h1 className="text-5xl sm:text-6xl font-bold text-black">
+            Contact Us
+          </h1>
+        </SectionContainer>
+      </section>
 
-      {/* Partners Section */}
-      <div className="animated-block">
-        <div className="animated-block-target">
+      {/* ================= FORM SECTION WITH MAP ================= */}
+      <section className="relative py-24">
+
+        {/* Map Background */}
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage: "url(/images/world-map-light.png)",
+          }}
+        />
+
+        {/* Soft overlay */}
+        <div className="absolute inset-0 bg-white/75" />
+
+        <div className="relative z-10">
+          <SectionContainer>
+
+            {/* Intro text */}
+            <div className="mb-12 text-center">
+              <p className="mx-auto max-w-2xl text-lg text-gray-700">
+                Have questions or need help? Contact us below, and our team will
+                respond promptly.
+              </p>
+            </div>
+
+            {/* Form Card */}
+            <div className="mx-auto max-w-3xl rounded-md border border-gray-200 bg-white p-8 shadow-2xl sm:p-10">
+
+              <h2 className="mb-2 text-3xl font-bold text-blue-700">
+                Contact Us
+              </h2>
+
+              <p className="mb-6 text-gray-700">
+                For any enquiries, feel free to reach out to us.
+              </p>
+
+              {/* Existing Form */}
+              <ContactForm />
+
+            </div>
+
+          </SectionContainer>
+        </div>
+      </section>
+
+      {/* ================= PARTNERS SECTION ================= */}
+      <section className="py-20">
+        <SectionContainer>
           <PartnersSlider />
-        </div>
-      </div>
-    </div>
-  );
+        </SectionContainer>
+      </section>
+
+    </main>
+  )
 }
