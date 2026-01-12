@@ -64,7 +64,7 @@ export default function Footer() {
 
             <div>
               <h5 className="mb-2 font-semibold">Venue</h5>
-              <p className="text-white/70">
+              <p className="text-white/80">
                 Auto Cluster Exhibition Centre, Pune, India
               </p>
             </div>
