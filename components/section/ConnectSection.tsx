@@ -3,12 +3,12 @@ import Image from 'next/image';
 
 const ConnectSection = () => {
   return (
-    <div className="relative z-[1] overflow-hidden bg-mainColor1 text-white">
-      <div className="container-lg">
+    <div className="relative z-[1] overflow-hidden bg-mainColor1 text-white py-16 lg:py-24">
+      <div className="mx-auto max-w-[1440px] px-4">
         <div className="grid gap-0 lg:grid-cols-3 lg:gap-20">
           <div className="flex flex-col gap-5 py-10 lg:col-span-2 lg:py-32">
-            <h2 className="title-72 text-white">TransRussia Connect</h2>
-            <p className="whitespace-pre-line">
+            <h2 className="text-4xl lg:text-6xl font-bold text-white">TransRussia Connect</h2>
+            <p className="whitespace-pre-line text-lg">
               TransRussia Connect is a community platform designed for business networking between exhibitors, visitors from Eurasia and abroad, media, professional associations, and industry experts.
 
               Easily scan badges to exchange contact info—no business cards needed. All data is stored in one place for seamless access.

@@ -1,5 +1,5 @@
+// AboutTransRussia.js - Update with consistent SectionContainer
 import React from 'react';
-
 import HeroSection from '@/components/section/HeroSection';
 import StatsSection from '@/components/section/StatsSection';
 import EcosystemSection from '@/components/section/EcosystemSection';
@@ -10,8 +10,9 @@ import ConferenceSection from '@/components/section/ConferenceSection';
 import ConnectSection from '@/components/ConnectSection';
 import TravelSection from '@/components/section/TravelSection';
 import QuickNavigationSection from '@/components/section/QuickNavigationSection';
-import PartnersSection from '@/components/PartnersSection';
+import PartnersSection from '@/components/section/PartnersSection';
 import MapSection from '@/components/section/MapSection';
+import SectionContainer from '@/components/UI/SectionContainer';
 
 export default function AboutTransRussia() {
   return (
@@ -20,8 +21,6 @@ export default function AboutTransRussia() {
       <div id="intro" className="fixed inset-0 z-[100] grid place-content-center bg-mainColor1">
         <div className="loader"></div>
       </div>
-
-
 
       {/* Back to Top Button */}
       <div className="fixed bottom-3 right-3 lg:bottom-10 lg:right-2 z-50 transition-all duration-300 opacity-0 translate-y-10 pointer-events-none">
@@ -33,77 +32,99 @@ export default function AboutTransRussia() {
       </div>
 
       <main>
+        <HeroSection />
+        
         <div className="page-spacing-wrapper">
-          <HeroSection />
-          
+          {/* Stats Section with SectionContainer */}
           <div className="animated-block">
             <div className="animated-block-target">
-              <StatsSection />
+              <SectionContainer>
+                <StatsSection />
+              </SectionContainer>
             </div>
           </div>
 
+          {/* Ecosystem Section with SectionContainer */}
           <div className="animated-block">
             <div className="animated-block-target">
-              <EcosystemSection />
+              <SectionContainer>
+                <EcosystemSection />
+              </SectionContainer>
             </div>
           </div>
 
+          {/* Sectors Section with SectionContainer */}
           <div className="animated-block">
             <div className="animated-block-target">
-              <SectorsSection />
+              <SectionContainer>
+                <SectorsSection />
+              </SectionContainer>
             </div>
           </div>
 
+          {/* Brochure Section - Already has SectionContainer */}
           <div className="animated-block">
             <div className="animated-block-target">
               <BrochureSection />
             </div>
           </div>
 
+          {/* Exhibitors Section with SectionContainer */}
           <div className="animated-block">
             <div className="animated-block-target">
-              <ExhibitorsSection />
+              <SectionContainer>
+                <ExhibitorsSection />
+              </SectionContainer>
             </div>
           </div>
 
+          {/* Map Section - Already has SectionContainer */}
           <div className="animated-block">
             <div className="animated-block-target">
               <MapSection />
             </div>
           </div>
 
+          {/* Conference Section - Fix the container */}
           <div className="animated-block">
             <div className="animated-block-target">
               <ConferenceSection />
             </div>
           </div>
 
+          {/* Connect Section - Update to use SectionContainer */}
           <div className="animated-block">
             <div className="animated-block-target">
               <ConnectSection />
             </div>
           </div>
 
+          {/* Travel Section - Fix the container */}
           <div className="animated-block">
             <div className="animated-block-target">
-              <TravelSection />
+              <SectionContainer>
+                <TravelSection />
+              </SectionContainer>
             </div>
           </div>
 
+          {/* Quick Navigation - Already has SectionContainer */}
           <div className="animated-block">
             <div className="animated-block-target">
               <QuickNavigationSection />
             </div>
           </div>
 
+          {/* Partners Section with SectionContainer */}
           <div className="animated-block">
             <div className="animated-block-target">
-              <PartnersSection />
+              <SectionContainer>
+                <PartnersSection />
+              </SectionContainer>
             </div>
           </div>
         </div>
       </main>
-
     </>
   );
 }

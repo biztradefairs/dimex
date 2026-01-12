@@ -31,44 +31,65 @@ const QuickNavigationSection = () => {
   ];
 
   return (
-    <div className="container overflow-hidden">
-      <div className="mb-14 flex flex-wrap justify-between gap-10 lg:items-end">
-        <div className="lg:basis-2/3">
-          <h2 className="title-72 text-black my-3">Quick Navigation</h2>
-          <p className="whitespace-pre-line">Simplifying Your Participation Journey</p>
+    <section className="py-16 lg:py-24">
+      <div className="mx-auto max-w-7xl px-4">
+        <h3 className="text-sm text-blue-600 font-semibold mb-2">Simplifying Your Participation Journey</h3>
+        <h2 className="text-3xl lg:text-4xl font-bold mb-12">Quick Navigation</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Card 1 */}
+          <div className="border border-gray-200 rounded-lg p-8">
+            <div className="flex items-center justify-between mb-6">
+              <div className="w-12 h-12 bg-gray-400 rounded-full flex items-center justify-center">
+                <span className="text-2xl">📦</span>
+              </div>
+              <span className="text-3xl font-bold text-gray-300">01</span>
+            </div>
+            <h3 className="text-xl lg:text-2xl font-bold mb-3">Become an Exhibitor</h3>
+            <p className="text-gray-600 text-base mb-6">
+              Join 600+ exhibitors in presenting your solutions for 3 days for unmatched networking opportunities.
+            </p>
+            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full font-medium">
+              Become an Exhibitor
+            </button>
+          </div>
+
+          {/* Card 2 */}
+          <div className="border border-gray-200 rounded-lg p-8">
+            <div className="flex items-center justify-between mb-6">
+              <div className="w-12 h-12 bg-gray-400 rounded-full flex items-center justify-center">
+                <span className="text-2xl">📘</span>
+              </div>
+              <span className="text-3xl font-bold text-gray-300">02</span>
+            </div>
+            <h3 className="text-xl lg:text-2xl font-bold mb-3">Download Event Brochure</h3>
+            <p className="text-gray-600 text-base mb-6">
+              Find out what we and how our brochure has the key information to prepare up to date brochure.
+            </p>
+            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full font-medium">
+              Download Now
+            </button>
+          </div>
+
+          {/* Card 3 */}
+          <div className="border border-gray-200 rounded-lg p-8">
+            <div className="flex items-center justify-between mb-6">
+              <div className="w-12 h-12 bg-gray-400 rounded-full flex items-center justify-center">
+                <span className="text-2xl">👥</span>
+              </div>
+              <span className="text-3xl font-bold text-gray-300">03</span>
+            </div>
+            <h3 className="text-xl lg:text-2xl font-bold mb-3">Become a Visitor</h3>
+            <p className="text-gray-600 text-base mb-6">
+              Why not visit the market? Why not visit the show and what to expect for the following edition.
+            </p>
+            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full font-medium">
+              Visitor Registration
+            </button>
+          </div>
         </div>
       </div>
-      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {navigationItems.map((item, index) => (
-          <div key={index} className="group flex flex-col gap-5 rounded-2xl border border-black/10 bg-white p-5 xl:p-7">
-            <div className="flex-between">
-              <Image 
-                src={item.image} 
-                alt={item.title} 
-                width={64}
-                height={64}
-                className="mb-5 size-16 rounded-full object-cover"
-              />
-              <h4 className="title-32">{item.number}</h4>
-            </div>
-            <h4 className="title-32 font-semibold text-black">{item.title}</h4>
-            <p className="mb-10 whitespace-pre-line">{item.description}</p>
-            <Link href={item.link} className="mt-auto block w-full">
-              <button className="flex-center group gap-2 overflow-hidden rounded-full px-10 py-3 font-jakarta text-[16px] font-semibold global-transition bg-mainColor2 text-white hover:bg-mainColor4 w-full">
-                {item.buttonText}
-              </button>
-            </Link>
-          </div>
-        ))}
-      </div>
-      <Image 
-        src="/imgs/shape.png" 
-        alt="Shape" 
-        width={900}
-        height={900}
-        className="absolute right-0 top-0 z-[-1] size-[900px] object-contain hidden lg:block"
-      />
-    </div>
+    </section>
   );
 };
 

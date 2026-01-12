@@ -7,19 +7,19 @@ const SectorsSection = () => {
     {
       title: "Air Freight",
       description: "Air transportation is crucial for fast delivery of time-sensitive cargo like perishables, medicines, and e-commerce, overcoming topographical limitations that affect road or rail.",
-      image: "/TRU_Sectors_Images_3_9089d75ec1.png",
+      image: "/images/image.png",
       link: "/sectors/air-freight"
     },
     {
       title: "Maritime & Inland Waterway Transport",
       description: "Maritime cargo transportation offers cost-effective, high-capacity solutions for intercontinental shipments of diverse cargo types.",
-      image: "/TRU_Sectors_Images_7_c75137da32.png",
+      image: "/images/image.png",
       link: "/sectors/maritime-and-inland-waterway-transport"
     },
     {
       title: "Ports & Terminals, Freight Handling Services In Ports",
       description: "Discover expert stevedoring, logistics, and storage solutions for seamless port operations at TransRussia.",
-      image: "/httpstransrussia_preview_prismetic_comterms_of_visiting_1200_x_490_px_a78a81f1aa.png",
+      image: "/images/image.png",
       link: "/sectors/ports-and-terminals-freight-handling-services-in-ports"
     }
   ];

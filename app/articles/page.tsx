@@ -175,11 +175,11 @@ export default async function ArticlesPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <main className='mt-40'>
+      <main className=''>
         {/* Hero Section */}
         <section className="bg-gradient-to-r from-blue-50 to-gray-50 py-12 md:py-20">
           <div className="container mx-auto px-4">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 mt-10">
               {pageData.Header?.Title || "Industry Insights"}
             </h1>
             <p className="text-lg md:text-xl text-gray-700 max-w-3xl">

@@ -3,7 +3,7 @@ import NavBar from "@/components/NavBar"
 import Footer from "@/components/Footer"
 import SectionContainer from "@/components/UI/SectionContainer"
 import QuickNavigation from "@/components/QuickNavigation"
-import PartnersSection from "@/components/PartnersSection"
+import PartnersSection from "@/components/section/PartnersSection"
 
 // Mock data - replace with actual data
 const transRussiaSectors = [
@@ -30,23 +30,32 @@ const skladTechSectors = [
 export default function SectorsPage() {
   return (
     <>
-      <div className="min-h-screen pt-20">
+      <div className="min-h-screen">
         {/* Hero Section - COMPACT */}
-        <section className="relative min-h-[40vh] md:min-h-[50vh] flex items-end">
-          <div className="absolute inset-0 z-0">
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-transparent z-10" />
-            <div className="h-full w-full bg-gradient-to-r from-blue-900 to-blue-700" />
-          </div>
-          
-          <SectionContainer>
-            <div className="relative z-20 text-white pb-6 md:pb-10 pt-20">
-              <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-3">Event Sectors</h1>
-              <p className="text-lg lg:text-xl max-w-full">
-                TransRussia and SkladTech showcase the full spectrum of logistics and warehouse innovation.
-              </p>
-            </div>
-          </SectionContainer>
-        </section>
+      <section className="relative min-h-[40vh] md:min-h-[50vh] flex items-end">
+  
+  {/* Background Image */}
+  <div
+    className="absolute inset-0 z-0 bg-cover bg-center"
+    style={{ backgroundImage: "url(/images/image.png)" }}
+  />
+
+  {/* Gradient Overlay */}
+  <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+
+  <SectionContainer>
+    <div className="relative z-20 text-white pb-6 md:pb-10 pt-20">
+      <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-3">
+        Event Sectors
+      </h1>
+      <p className="text-lg lg:text-xl max-w-full text-white/90">
+        TransRussia and SkladTech showcase the full spectrum of logistics and warehouse innovation.
+      </p>
+    </div>
+  </SectionContainer>
+
+</section>
+
 
         {/* TransRussia Sectors - COMPACT */}
         <section className="py-16 lg:py-24">

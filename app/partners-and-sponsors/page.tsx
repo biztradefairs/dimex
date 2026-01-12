@@ -2,8 +2,7 @@
 'use client';
 
 import React from 'react';
-import NavBar from "@/components/NavBar"
-import Footer from "@/components/Footer"
+
 import SectionContainer from "@/components/UI/SectionContainer"
 
 /* ===================== TYPES ===================== */
@@ -193,12 +192,12 @@ const PartnersSponsorsPage: React.FC = () => {
 
   return (
     <>
-      <NavBar />
-      <div className="pt-20">
+
+      <div className="">
         {/* HERO */}
         <section className="bg-gray-50 py-16 lg:py-24 mb-12">
           <SectionContainer>
-            <h1 className="mb-4 text-4xl lg:text-5xl xl:text-6xl font-[600]">
+            <h1 className="mb-4 mt-20 text-4xl lg:text-4xl xl:text-5xl font-[600]">
               The legendary organisations that help bring TransRussia to life
             </h1>
             <p className="max-w-4xl text-lg lg:text-xl text-gray-500">
@@ -249,7 +248,7 @@ const PartnersSponsorsPage: React.FC = () => {
           sectionKey="media-partners"
         />
       </div>
-      <Footer />
+
     </>
   );
 };

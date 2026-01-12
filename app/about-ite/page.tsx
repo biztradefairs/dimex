@@ -1,18 +1,16 @@
 // app/about-ite/page.tsx
 import React from 'react';
-import NavBar from "@/components/NavBar"
-import Footer from "@/components/Footer"
 import SectionContainer from "@/components/UI/SectionContainer"
 
 const AboutITEPage: React.FC = () => {
   return (
     <>
-      <NavBar />
-      <div className="min-h-screen bg-white pt-20">
+
+      <div className="min-h-screen bg-white">
         {/* Hero Section */}
         <section className="relative flex flex-col justify-end bg-gray-100 ">
           <SectionContainer>
-            <div className="flex flex-col justify-end pt-0 pb-10">
+            <div className="flex flex-col justify-end pt-0 pb-10 mt-40">
               <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold text-black mb-4">
                 About ITE Group
               </h1>
@@ -23,63 +21,116 @@ const AboutITEPage: React.FC = () => {
           </SectionContainer>
         </section>
 
-        {/* About Us Section */}
-        <section className="relative py-16 lg:py-24">
-          <div className="absolute inset-0 z-[-1] h-full w-full">
-            <div 
-              className="h-full w-full bg-cover bg-center"
-              style={{ backgroundImage: "url(/images/image.png)" }}
-            />
-          </div>
-          <SectionContainer>
-            <div className="ml-auto flex max-w-6xl flex-col gap-5 rounded-3xl bg-white p-8 lg:p-10">
-              <h2 className="text-5xl lg:text-6xl xl:text-7xl font-bold text-black mb-4">
-                About Us
-              </h2>
-              <div className="whitespace-pre-line text-gray-700 text-base lg:text-lg leading-relaxed">
-                {`ITE Group is a business events organiser that has been operating in the Eurasian market since 1991. Every year, we host more than 30 of the largest industry events, including exhibitions, summits, and conferences. Powered by the Connect digital platform, the ITE ecosystem offers unique hybrid solutions for industry communities in Eurasia, the CIS countries, and beyond.
+{/* About Us Section */}
+<section className="relative min-h-screen flex items-center py-16 lg:py-24">
+  
+  {/* Background Image */}
+  <div className="absolute inset-0 z-0">
+    <div
+      className="h-full w-full bg-cover bg-center grayscale"
+      style={{ backgroundImage: "url(/images/image.png)" }}
+    />
+  </div>
 
-With over 100 agents and hundreds of associations and partners spanning 150 countries and 5 continents, our global network seamlessly connects clients to opportunities around the world.
+  <SectionContainer>
+    <div className="relative z-10 ml-auto w-full max-w-5xl rounded-3xl bg-white px-10 py-12 lg:px-14 lg:py-14 shadow-2xl">
+      
+      {/* Heading */}
+      <h2 className="mb-6 text-5xl lg:text-6xl font-bold text-black">
+        About Us
+      </h2>
 
-ITE events contribute to business success and development, unlock the export potential of countries and regions, provide access to a broad target audience, and offer effective, innovative solutions for networking, growth, and professional development. They ensure dialogue between the business community and government.
+      {/* Description */}
+      <div className="space-y-6 text-gray-700 text-base lg:text-lg leading-relaxed">
+        <p>
+          ITE Group is a business events organiser that has been operating in the
+          Eurasian market since 1991. Every year, we host more than 30 of the
+          largest industry events, including exhibitions, summits, and
+          conferences. Powered by the Connect digital platform, the ITE ecosystem
+          offers unique hybrid solutions for industry communities in Eurasia, the
+          CIS countries, and beyond.
+        </p>
 
-ITE offices are located in Moscow, Dubai, Beijing, and New Delhi.`}
-              </div>
-              
-              <a 
-                href="https://ite.group/en/calendar/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="block w-fit mt-6"
-              >
-                <button className="group flex items-center gap-2 overflow-hidden rounded-full bg-blue-600 px-8 lg:px-10 py-3 lg:py-4 text-white font-semibold text-base lg:text-lg hover:bg-blue-700 transition-all duration-300 w-fit">
-                  Explore Our Event Calendar
-                </button>
-              </a>
+        <p>
+          With over 100 agents and hundreds of associations and partners spanning
+          150 countries and 5 continents, our global network seamlessly connects
+          clients to opportunities around the world.
+        </p>
 
-              {/* Stats Grid */}
-              <div className="mt-8 grid w-full gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
-                {[
-                  { value: "2 Mil+", label: "Database" },
-                  { value: "500,000+", label: "Visitors Per Year" },
-                  { value: "10,000+", label: "Exhibitors Per Year" },
-                  { value: "1,700+", label: "Media in Attendance" },
-                  { value: "30", label: "Events" },
-                  { value: "20+", label: "Industry Sectors" }
-                ].map((stat, index) => (
-                  <div key={index} className="flex flex-col items-center text-center">
-                    <h3 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-                      {stat.value}
-                    </h3>
-                    <h4 className="text-gray-600 text-sm lg:text-base">
-                      {stat.label}
-                    </h4>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </SectionContainer>
-        </section>
+        <p>
+          ITE events contribute to business success and development, unlock the
+          export potential of countries and regions, provide access to a broad
+          target audience, and offer effective, innovative solutions for
+          networking, growth, and professional development. They ensure dialogue
+          between the business community and government.
+        </p>
+
+        <p>
+          ITE offices are located in Moscow, Dubai, Beijing, and New Delhi.
+        </p>
+      </div>
+
+      {/* Button */}
+      <a
+        href="https://ite.group/en/calendar/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="inline-block mt-8"
+      >
+        <button className="rounded-full bg-blue-600 px-8 py-4 text-white font-semibold hover:bg-blue-700 transition">
+          Explore Our Event Calendar
+        </button>
+      </a>
+
+{/* Stats Section – HARD FIX */}
+<div className="mt-12 flex gap-x-32">
+
+  {/* LEFT COLUMN */}
+  <div className="flex w-1/2 flex-col gap-10">
+    <div>
+      <h3 className="text-4xl font-bold text-black">2 Mil+</h3>
+      <p className="text-gray-600">Database</p>
+    </div>
+
+    <div>
+      <h3 className="text-4xl font-bold text-black">500,000+</h3>
+      <p className="text-gray-600">Visitors Per Year</p>
+    </div>
+
+    <div>
+      <h3 className="text-4xl font-bold text-black">10,000+</h3>
+      <p className="text-gray-600">Exhibitors Per Year</p>
+    </div>
+  </div>
+
+  {/* RIGHT COLUMN */}
+  <div className="flex w-1/2 flex-col gap-10">
+    <div>
+      <h3 className="text-4xl font-bold text-black">1,700+</h3>
+      <p className="text-gray-600">Media in Attendance</p>
+    </div>
+
+    <div>
+      <h3 className="text-4xl font-bold text-black">30</h3>
+      <p className="text-gray-600">Events</p>
+    </div>
+
+    <div>
+      <h3 className="text-4xl font-bold text-black">20+</h3>
+      <p className="text-gray-600">Industry Sectors</p>
+    </div>
+  </div>
+
+</div>
+
+
+
+
+
+    </div>
+  </SectionContainer>
+</section>
+
 
         {/* Mission, Vision, Values Carousel */}
         <section className="py-16 lg:py-24">
@@ -208,7 +259,6 @@ ITE offices are located in Moscow, Dubai, Beijing, and New Delhi.`}
           </SectionContainer>
         </section>
       </div>
-      <Footer />
     </>
   );
 };

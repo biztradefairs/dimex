@@ -1,8 +1,9 @@
 import React from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 const ConferenceSection = () => {
-  const features = [
+  const stats = [
     "2,800+ Delegates",
     "160+ Speakers",
     "6 Conferences",
@@ -10,29 +11,81 @@ const ConferenceSection = () => {
   ];
 
   return (
-    <div className="container">
-      <div className="grid min-h-[600px] overflow-hidden rounded-2xl lg:grid-cols-2">
-        <div className="relative flex flex-col gap-5 overflow-hidden bg-mainColor1 p-10 text-white">
-          <h2 className="title-72 text-white">Conference Programme</h2>
-          <p className="whitespace-pre-line">
-            Each year, TransRussia Moscow presents a comprehensive three-day conference program filled with forums, analytical and practical sessions, plenary discussions, lectures, and more—delivering the latest insights and trends in the industry.
-          </p>
-          {features.map((feature, index) => (
-            <div key={index} className="flex items-center gap-1">
-              <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" className="size-4 shrink-0 fill-mainColor3" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                <path d="M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm106.5 150.5L228.8 332.8h-.1c-1.7 1.7-6.3 5.5-11.6 5.5-3.8 0-8.1-2.1-11.7-5.7l-56-56c-1.6-1.6-1.6-4.1 0-5.7l17.8-17.8c.8-.8 1.8-1.2 2.8-1.2 1 0 2 .4 2.8 1.2l44.4 44.4 122-122.9c.8-.8 1.8-1.2 2.8-1.2 1.1 0 2.1.4 2.8 1.2l17.5 18.1c1.8 1.7 1.8 4.2.2 5.8z"></path>
-              </svg>
-              <p>{feature}</p>
+    <div className="py-16 lg:py-24">
+      <div className="mx-auto max-w-[1440px] px-4">
+        <div className="grid min-h-[600px] overflow-hidden rounded-2xl lg:grid-cols-2 shadow-xl">
+          {/* Left Content Section */}
+          <div className="relative bg-gradient-to-br from-blue-900 to-blue-950 p-8 lg:p-12 flex flex-col justify-center">
+            <div className="space-y-6 lg:space-y-8">
+              <div>
+                <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 lg:mb-6">
+                  Conference Programme
+                </h2>
+                <p className="text-white/90 text-lg lg:text-xl leading-relaxed">
+                  Each year, TransRussia Moscow presents a comprehensive three-day conference program filled with forums, analytical and practical sessions, plenary discussions, lectures, and more—delivering the latest insights and trends in the industry.
+                </p>
+              </div>
+
+              {/* Stats Grid */}
+              <div className="grid grid-cols-2 gap-4 lg:gap-6 pt-4">
+                {stats.map((stat, index) => (
+                  <div key={index} className="flex items-start space-x-3">
+                    <div className="flex-shrink-0 mt-1">
+                      <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        className="h-5 w-5 text-blue-400" 
+                        viewBox="0 0 20 20" 
+                        fill="currentColor"
+                      >
+                        <path 
+                          fillRule="evenodd" 
+                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" 
+                          clipRule="evenodd" 
+                        />
+                      </svg>
+                    </div>
+                    <span className="text-white text-lg lg:text-xl font-semibold">
+                      {stat}
+                    </span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Button */}
+              <div className="pt-4 lg:pt-6">
+                <Link href="/conference-details">
+                  <button className="inline-flex items-center justify-center bg-white text-blue-900 font-bold text-lg px-8 py-4 rounded-full hover:bg-gray-100 transition-all duration-300 hover:shadow-lg transform hover:-translate-y-1 active:translate-y-0">
+                    View Conference Details
+                    <svg 
+                      xmlns="http://www.w3.org/2000/svg" 
+                      className="h-5 w-5 ml-2" 
+                      viewBox="0 0 20 20" 
+                      fill="currentColor"
+                    >
+                      <path 
+                        fillRule="evenodd" 
+                        d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" 
+                        clipRule="evenodd" 
+                      />
+                    </svg>
+                  </button>
+                </Link>
+              </div>
             </div>
-          ))}
-        </div>
-        <div className="relative min-h-[400px]">
-          <Image 
-            src="/tr24_03_ae1805dc94.jpg" 
-            alt="Conference" 
-            fill
-            className="absolute inset-0 z-[-1] size-full object-cover"
-          />
+          </div>
+
+          {/* Right Image Section */}
+          <div className="relative min-h-[400px] lg:min-h-auto">
+            <Image
+              src="/tr24_03_ae1805dc94.jpg"
+              alt="Conference attendees networking and participating in sessions"
+              fill
+              className="object-cover"
+              priority
+              sizes="(max-width: 768px) 100vw, 50vw"
+            />
+            <div className="absolute inset-0 bg-gradient-to-l from-black/10 to-transparent lg:hidden"></div>
+          </div>
         </div>
       </div>
     </div>

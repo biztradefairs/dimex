@@ -1,41 +1,59 @@
-import React from 'react';
+import React from "react";
 
 const StatsSection = () => {
   const stats = [
     { value: "30,500", label: "Visitors" },
     { value: "600+", label: "Exhibitors" },
     { value: "50+", label: "Countries Represented" },
-    { value: "13", label: "Event Sectors" }
+    { value: "13", label: "Event Sectors" },
   ];
 
   return (
-    <div className="relative z-[1] overflow-hidden">
-      <div className="container">
-        <div className="flex flex-col gap-5">
-          <h2 className="title-72 text-black">Shaping the Future of Transport and Logistics</h2>
-          <p className="whitespace-pre-line">
-            TransRussia is Eurasia's largest transport and logistics exhibition, featuring top companies across rail, road, sea, air, warehousing, and IT. This year, the 30th edition, held alongside SkladTech - a special warehouse equipment showcase will run from March 17-19, 2026, at Crocus Expo IEC, Pavilion 3 in Moscow.
+    <section className="relative z-[1] bg-white">
+      {/* CONTENT */}
+      <div className="container mx-auto px-4 pt-24 pb-16">
+        <div className="max-w-5xl">
+          <h2 className="text-[56px] leading-[1.1] font-extrabold text-black mb-6">
+            Shaping the Future of Transport and Logistics
+          </h2>
+
+          <p className="text-lg leading-relaxed text-black/80 max-w-4xl mb-10">
+            TransRussia is Eurasia's largest transport and logistics exhibition,
+            featuring top companies across rail, road, sea, air, warehousing, and
+            IT. This year, the 30th edition, held alongside SkladTech - a special
+            warehouse equipment showcase will run from March 17-19, 2026, at
+            Crocus Expo IEC, Pavilion 3 in Moscow.
           </p>
-          <a href="/why-exhibit" className="block">
-            <button className="flex-center group w-fit gap-2 overflow-hidden rounded-full px-10 py-3 font-jakarta text-[16px] font-semibold global-transition bg-mainColor2 text-white hover:bg-mainColor4">
+
+          <a href="/why-exhibit">
+            <button className="rounded-full bg-[#0B4EA2] px-10 py-4 text-white font-semibold text-base transition hover:bg-[#083E82]">
               Why Exhibit
             </button>
           </a>
         </div>
       </div>
-      <div className="mt-10 bg-mainColor5 py-10">
-        <div className="container grid sm:grid-cols-2 gap-10 lg:grid-cols-4">
-          {stats.map((stat, index) => (
-            <div key={index} className="grid items-stretch lg:justify-center">
-              <div className="flex flex-col border-b border-black/10 pb-5 max-lg:pb-5 sm:w-fit">
-                <h3 className="title-60 mb-1 font-bold text-mainColor2">{stat.value}</h3>
-                <p>{stat.label}</p>
+
+      {/* STATS BAR */}
+      <div className="bg-[#F3F8FC] py-14">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-14">
+            {stats.map((stat, index) => (
+              <div key={index}>
+                <h3 className="text-[52px] font-extrabold text-[#0B4EA2] mb-2">
+                  {stat.value}
+                </h3>
+
+                <p className="text-base text-black/80 mb-4">
+                  {stat.label}
+                </p>
+
+                <div className="h-px w-36 bg-black/10" />
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
