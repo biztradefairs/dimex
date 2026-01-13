@@ -169,9 +169,9 @@ export default function NavBar() {
             {!scrolled && (
               <div className="hidden lg:flex justify-end mr-25 pr-8">
                 <div className="flex items-center gap-4 rounded-b-xl bg-[#0d1e3c] px-4 py-1.5 text-sm text-white">
-                  <span>{timeLeft.days}d</span>
-                  <span>{timeLeft.hours}h</span>
-                  <span>{timeLeft.minutes}m</span>
+                  <span>{timeLeft.days}Days</span>
+                  <span>{timeLeft.hours}Hours</span>
+                  <span>{timeLeft.minutes}Mins</span>
                 </div>
               </div>
             )}
