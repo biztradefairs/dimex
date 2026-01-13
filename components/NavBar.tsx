@@ -105,7 +105,7 @@ export default function NavBar() {
                 {/* LOGO */}
                 <Link href="/" className="flex items-center gap-3 font-semibold">
                   <span>TransRussia</span>
-                  <span className="opacity-40">|</span>
+                  <span className="opacity-0">|</span>
                   <span>SkladTech</span>
                   <div className="flex flex-col"> <span className="text-xs text-white/70 leading-tight"> 08–10 October 2026 </span> <span className="text-xs text-white/60 leading-tight"> Auto Cluster Exhibition Centre, Pune, India </span> </div>
                 </Link>
