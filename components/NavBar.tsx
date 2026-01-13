@@ -56,8 +56,8 @@ const navItems: NavItem[] = [
 
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null)
+  const [scrolled, setScrolled] = useState(false)
 
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -95,36 +95,23 @@ export default function NavBar() {
 
   return (
     <>
-      {/* ================= DESKTOP NAVBAR ================= */}
-      <header className="pointer-events-auto fixed top-0 left-0 w-full z-[999]">
+      {/* ================= NAVBAR ================= */}
+      <header className="fixed top-0 left-0 right-0 z-[999]">
+        <div className={`px-4 sm:px-6 lg:px-8 ${scrolled ? "pt-2" : "pt-4"}`}>
+          <div className="mx-auto max-w-[1600px]">
+            <div className="rounded-3xl bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white shadow-xl">
+              <div className="flex items-center justify-between px-6 py-3">
 
-
-        <div className={`w-full ${scrolled ? "pt-2" : "pt-4"} px-4 sm:px-6 lg:px-8`}>
-          {/* Container with consistent width */}
-          <div className="mx-auto max-w-[1240px] lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1600px]">
-            {/* Original navbar design */}
-            <div className={`rounded-3xl bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white shadow-xl transition-all ${scrolled ? "py-2" : "py-3"}`}>
-              <div className="flex items-center justify-between px-8">
-                
-                {/* LOGOS - Original design */}
-                <Link href="/" className="flex items-center gap-4 font-semibold">
+                {/* LOGO */}
+                <Link href="/" className="flex items-center gap-3 font-semibold">
                   <span>TransRussia</span>
-    
                   <span className="opacity-40">|</span>
                   <span>SkladTech</span>
-<div className="flex flex-col">
-  <span className="text-xs text-white/70 leading-tight">
-    17–19 March 2026
-  </span>
-  <span className="text-xs text-white/60 leading-tight">
-    Crocus Expo, Pavilion 3
-  </span>
-</div>
-
+                  <div className="flex flex-col"> <span className="text-xs text-white/70 leading-tight"> 17–19 March 2026 </span> <span className="text-xs text-white/60 leading-tight"> Crocus Expo, Pavilion 3 </span> </div>
                 </Link>
 
-                {/* NAV LINKS - Original design */}
-                <nav className="flex items-center gap-6">
+                {/* DESKTOP NAV */}
+                <nav className="hidden lg:flex items-center gap-6">
                   {navItems.map((item, i) =>
                     item.dropdown ? (
                       <div
@@ -139,13 +126,13 @@ export default function NavBar() {
                         </button>
 
                         {activeDropdown === i && item.links && (
-                          <div className="absolute left-0 top-full pt-3 z-50">
-                            <div className="min-w-52 rounded-lg bg-white py-2 shadow-xl">
+                          <div className="absolute left-0 top-full pt-3">
+                            <div className="min-w-52 rounded-lg bg-white py-2 shadow-xl text-gray-800">
                               {item.links.map((link, j) => (
                                 <Link
                                   key={j}
                                   href={link.href}
-                                  className="block px-4 py-2 text-sm text-gray-800 hover:bg-gray-100"
+                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
                                 >
                                   {link.text}
                                 </Link>
@@ -162,46 +149,30 @@ export default function NavBar() {
                   )}
                 </nav>
 
-                {/* CTA - Original design */}
-                <div className="flex items-center gap-3">
-                  <Button href="/exhibiting-enquiry" className="rounded-full px-5 py-2.5">
-                    Become an Exhibitor
-                  </Button>
-                  <Button href="/visitor-registration" className="rounded-full px-5 py-2.5">
-                    Register Now
-                  </Button>
+                {/* DESKTOP CTA */}
+                <div className="hidden lg:flex items-center gap-3">
+                  <Button href="/exhibiting-enquiry">Become an Exhibitor</Button>
+                  <Button href="/visitor-registration">Register Now</Button>
                 </div>
+
+                {/* MOBILE MENU BUTTON */}
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="lg:hidden rounded-full bg-white/10 p-2"
+                  aria-label="Toggle menu"
+                >
+                  {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+                </button>
               </div>
             </div>
 
-            {/* ================= TIMER BAR (SAME PLACE AS BEFORE) ================= */}
+            {/* TIMER BAR (DESKTOP ONLY) */}
             {!scrolled && (
-              <div className="flex justify-end mr-8">
+              <div className="hidden lg:flex justify-end mr-25 pr-8">
                 <div className="flex items-center gap-4 rounded-b-xl bg-[#0d1e3c] px-4 py-1.5 text-sm text-white">
-                  <div className="flex items-center gap-1">
-                    <span className="font-mono font-bold">
-                      {String(timeLeft.days).padStart(2, "0")}
-                    </span>
-                    <span className="text-xs opacity-70">Days</span>
-                  </div>
-
-                  <div className="h-3 w-px bg-white/30" />
-
-                  <div className="flex items-center gap-1">
-                    <span className="font-mono font-bold">
-                      {String(timeLeft.hours).padStart(2, "0")}
-                    </span>
-                    <span className="text-xs opacity-70">Hours</span>
-                  </div>
-
-                  <div className="h-3 w-px bg-white/30" />
-
-                  <div className="flex items-center gap-1">
-                    <span className="font-mono font-bold">
-                      {String(timeLeft.minutes).padStart(2, "0")}
-                    </span>
-                    <span className="text-xs opacity-70">Mins</span>
-                  </div>
+                  <span>{timeLeft.days}d</span>
+                  <span>{timeLeft.hours}h</span>
+                  <span>{timeLeft.minutes}m</span>
                 </div>
               </div>
             )}
@@ -209,72 +180,61 @@ export default function NavBar() {
         </div>
       </header>
 
-      {/* ================= MOBILE NAVBAR ================= */}
-      <header className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-[#06162f] text-white">
-        {/* Mobile navbar container */}
-        <div className="px-4 sm:px-6 py-3">
-          <div className="flex items-center justify-between">
-            <Link href="/" className="font-bold">
-              TransRussia · SkladTech
-            </Link>
+{mobileMenuOpen && (
+  <div
+    className="lg:hidden fixed top-[72px] left-0 right-0 z-[998]
+               max-h-[calc(100vh-80px)] overflow-y-auto
+               bg-[#0d1e3c] text-white shadow-xl"
+  >
+    <div className="px-5 py-4">
+      <div className="mb-3 text-center font-mono text-xs opacity-80">
+        {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m
+      </div>
 
-            <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="rounded-full bg-white/10 p-2"
-            >
-              {mobileMenuOpen ? <X /> : <Menu />}
-            </button>
-          </div>
-
-          {mobileMenuOpen && (
-            <div className="mt-4 rounded-xl bg-[#0d1e3c] p-4">
-              <div className="mb-4 text-center font-mono font-bold">
-                {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m
-              </div>
-
-              <div className="flex flex-col gap-4">
-                {navItems.map((item, i) =>
-                  item.dropdown && item.links ? (
-                    <div key={i}>
-                      <div className="font-semibold">{item.title}</div>
-                      <div className="ml-4 mt-2 flex flex-col gap-2">
-                        {item.links.map((link, j) => (
-                          <Link
-                            key={j}
-                            href={link.href}
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="text-sm opacity-80"
-                          >
-                            {link.text}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <Link
-                      key={i}
-                      href={item.href!}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="font-semibold"
-                    >
-                      {item.title}
-                    </Link>
-                  )
-                )}
-
-                <div className="mt-4 flex flex-col gap-3 border-t border-white/20 pt-4">
-                  <Button href="/exhibiting-enquiry" fullWidth>
-                    Become an Exhibitor
-                  </Button>
-                  <Button href="/visitor-registration" fullWidth>
-                    Register Now
-                  </Button>
-                </div>
+      <div className="flex flex-col gap-4">
+        {navItems.map((item, i) =>
+          item.dropdown && item.links ? (
+            <div key={i}>
+              <div className="text-sm font-semibold">{item.title}</div>
+              <div className="mt-1 ml-3 flex flex-col gap-1.5">
+                {item.links.map((link, j) => (
+                  <Link
+                    key={j}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="text-sm opacity-80 hover:opacity-100"
+                  >
+                    {link.text}
+                  </Link>
+                ))}
               </div>
             </div>
-          )}
+          ) : (
+            <Link
+              key={i}
+              href={item.href!}
+              onClick={() => setMobileMenuOpen(false)}
+              className="text-sm font-semibold"
+            >
+              {item.title}
+            </Link>
+          )
+        )}
+
+        <div className="mt-4 flex flex-col gap-2 border-t border-white/20 pt-4">
+          <Button href="/exhibiting-enquiry" fullWidth>
+            Become an Exhibitor
+          </Button>
+          <Button href="/visitor-registration" fullWidth>
+            Register Now
+          </Button>
         </div>
-      </header>
+      </div>
+    </div>
+  </div>
+)}
+
+
     </>
   )
 }
