@@ -23,7 +23,7 @@ export default function HeroSection() {
           <div className="flex flex-col justify-end gap-5 pb-16 min-h-screen">
             {/* MAIN HEADING - Adjusted for mobile */}
             <h1 className="text-[70px] sm:text-[100px] md:text-[120px] lg:text-[150px] xl:text-[170px] leading-[0.85] font-bold tracking-tight mt-32 lg:mt-0">
-              TransRussia <span className="text-[#33A8DF]">2026</span>
+              DIEMEX <span className="text-[#33A8DF]">2026</span>
             </h1>
             
             {/* CONTENT - Adjusted for mobile */}
@@ -32,21 +32,18 @@ export default function HeroSection() {
   {/* LEFT TEXT */}
   <div className="lg:max-w-5xl">
     <h2 className="mb-3 text-2xl sm:text-3xl font-bold leading-snug">
-      Where global logistics companies connect with CIS market leaders
-    </h2>
+Where global die & mould leaders connect with India’s manufacturing ecosystem.    </h2>
 
     <ul className="space-y-2 text-base sm:text-lg leading-snug">
       <li className="flex gap-2 items-start">
         <span className="text-[#33A8DF] mt-[2px]">•</span>
         <span>
-          30th Edition of the International Exhibition for Transport & Logistics Services, Warehouse Equipment, and Technologies
-        </span>
+3rd Edition of the International Exhibition for Die & Mould, Tooling, and Precision Manufacturing Technologies</span>
       </li>
 
       <li className="flex gap-2 items-start">
         <span className="text-[#33A8DF] mt-[2px]">•</span>
         <span>
-          5th Edition of SkladTech Leading B2B Exhibition for Warehouse Equipment
         </span>
       </li>
     </ul>
