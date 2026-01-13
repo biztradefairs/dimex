@@ -26,10 +26,10 @@ export default function Footer() {
               </div>
 
               <div className="h-10 w-px bg-white/40" />
-{/* 
+ {false && (
               <div className="flex items-center gap-2">
                 <div className="h-8 w-8 rounded-full bg-blue-300" />
-                <div className="text-xl font-bold"></div>*/}
+                <div className="text-xl font-bold"></div>)}
               </div>
             </Link>
           </div>
