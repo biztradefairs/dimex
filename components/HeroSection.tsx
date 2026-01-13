@@ -32,7 +32,7 @@ export default function HeroSection() {
   {/* LEFT TEXT */}
   <div className="lg:max-w-5xl">
     <h2 className="mb-3 text-2xl sm:text-3xl font-bold leading-snug">
-Where global die & mould leaders connect with India’s manufacturing ecosystem.    </h2>
+Where global die & mould leaders meet India’s manufacturers.    </h2>
 
     <ul className="space-y-2 text-base sm:text-lg leading-snug">
       <li className="flex gap-2 items-start">
