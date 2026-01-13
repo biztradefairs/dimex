@@ -41,11 +41,7 @@ Where global die & mould leaders meet India’s manufacturers.    </h2>
 3rd Edition of the International Exhibition for Die & Mould, Tooling, and Precision Manufacturing Technologies</span>
       </li>
 
-      <li className="flex gap-2 items-start">
-        <span className="text-[#33A8DF] mt-[2px]">•</span>
-        <span>
-        </span>
-      </li>
+      
     </ul>
   </div>
 
