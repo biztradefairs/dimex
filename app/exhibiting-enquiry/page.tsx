@@ -133,7 +133,7 @@ const TransRussiaExhibitPage: React.FC = () => {
         {/* ================= HERO ================= */}
         <div className="relative z-[1] bg-[#F4FAFF] pt-48">
           <SectionContainer className="!pb-10">
-            <h1 className="title-72 bg-[] text-black">Enquiry to Exhibit</h1>
+            <h1 className="title-72 bg-[] text-black mt-15">Enquiry to Exhibit</h1>
             <p className="max-w-6xl py-5">
               If you'd like to exhibit at TransRussia 2026 or would like more
               information about exhibiting opportunities, please complete the

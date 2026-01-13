@@ -186,7 +186,7 @@ const TransRussiaPage: React.FC<Props> = ({ navbarData, pageData, footerData }) 
             <div className="relative z-[1] flex flex-col justify-end bg-gradient-to-b from-blue-50 to-white !pt-48">
               <SectionContainer>
                 <div className="flex flex-col justify-end !pt-0 !pb-16">
-                  <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6">
+                  <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 mt-15">
                     {pageData.Header.Title}
                   </h1>
                   <p className="text-lg text-gray-600 max-w-3xl">
