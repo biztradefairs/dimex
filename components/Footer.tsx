@@ -186,7 +186,7 @@ export default function Footer() {
             <span className="text-white/70">Organised By</span>
             <div className="h-8 w-52 rounded bg-white/40 flex items-center justify-center">
               <span className="font-bold text-white">MAXX</span>
-              <span className="font-bold text-yellow-400">BUSINESS</span>
+              <span className="font-bold text-white-400">BUSINESS</span>
               <span className="font-bold text-white">MEDIA</span>
             </div>
           </div>
