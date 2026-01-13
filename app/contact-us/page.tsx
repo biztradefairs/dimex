@@ -18,7 +18,6 @@ export default function ContactPage() {
             Contact Us
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-gray-600">
-            Reach out to our team for any enquiries about DIEMEX Expo 2026
           </p>
         </SectionContainer>
       </section>
