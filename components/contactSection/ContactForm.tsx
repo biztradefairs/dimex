@@ -208,7 +208,6 @@ export default function ContactForm() {
             <option value="general">General Enquiry</option>
             <option value="sales">Sales</option>
             <option value="marketing">Marketing</option>
-            <option value="technical">Technical Support</option>
             <option value="partnership">Partnership</option>
             <option value="media">Media Enquiry</option>
           </select>
