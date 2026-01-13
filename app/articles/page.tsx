@@ -61,11 +61,9 @@ const SafeImage = ({ src, alt, ...props }: any) => {
     );
   }
   
-  // Check if it's a remote image from configured domains
   const isRemoteImage = src.startsWith('http');
   
   if (isRemoteImage) {
-    // Use regular img tag for now, or configure next.config.js
     return (
       <img
         src={src}
@@ -75,7 +73,6 @@ const SafeImage = ({ src, alt, ...props }: any) => {
     );
   }
   
-  // Use Next.js Image for local images
   return <Image src={src} alt={alt} {...props} />;
 };
 
@@ -174,11 +171,10 @@ export default async function ArticlesPage() {
   const partnersSection = pageData.Sections?.find(section => section.__typename === 'ComponentTransRussiaPartnersSection');
 
   return (
-    <div className="min-h-screen bg-white pt-20"> {/* Added pt-20 for fixed navbar */}
+    <div className="min-h-screen bg-white pt-20">
       <main className=''>
         {/* Hero Section */}
         <section className="bg-gradient-to-r from-blue-50 to-gray-50 py-12 md:py-20">
-          {/* Use the same container classes as navbar */}
           <div className="mx-auto max-w-[1240px] lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1600px] px-4 sm:px-6 lg:px-8">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6">
               {pageData.Header?.Title || "Industry Insights"}
@@ -191,7 +187,6 @@ export default async function ArticlesPage() {
 
         {/* Articles Grid */}
         <section className="py-12 md:py-16">
-          {/* Use the same container classes as navbar */}
           <div className="mx-auto max-w-[1240px] lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1600px] px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {articles.map((article) => (
@@ -257,7 +252,6 @@ export default async function ArticlesPage() {
         {/* Partners Section */}
         {partnersSection && partnersSection.Partners && (
           <section className="py-12 md:py-16 bg-gray-50">
-            {/* Use the same container classes as navbar */}
             <div className="mx-auto max-w-[1240px] lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1600px] px-4 sm:px-6 lg:px-8">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-12">
                 {partnersSection.PartnersSectionTitle || "Our Partners"}

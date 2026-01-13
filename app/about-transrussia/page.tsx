@@ -17,9 +17,13 @@ export default function AboutTransRussia() {
   return (
     <>
       {/* Intro Loader */}
-      <div id="intro" className="fixed inset-0 z-[100] grid place-content-center bg-mainColor1">
-        <div className="loader"></div>
-      </div>
+  <div
+  id="intro"
+  className="fixed inset-0 z-[100] grid place-content-center bg-mainColor1 pointer-events-none"
+>
+  <div className="loader"></div>
+</div>
+
 
       {/* Back to Top Button */}
       <div className="fixed bottom-3 right-3 lg:bottom-10 lg:right-2 z-50 transition-all duration-300 opacity-0 translate-y-10 pointer-events-none">

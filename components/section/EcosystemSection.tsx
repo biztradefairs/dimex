@@ -44,82 +44,86 @@ const EcosystemSection = () => {
   ]
 
   return (
-    <section className="relative overflow-hidden py-24">
-      <SectionContainer>
-        {/* HEADER */}
-        <div className="mb-14 flex flex-col gap-6 max-w-4xl">
-          <h2 className="title-72 text-black">
-            TransRussia Moscow: A Year-Round Logistics Ecosystem
-          </h2>
+    <section className="relative py-24 overflow-hidden">
+      {/* CONTENT LAYER */}
+      <div className="relative z-10">
+        <SectionContainer>
+          {/* HEADER */}
+          <div className="mb-14 flex max-w-4xl flex-col gap-6">
+            <h2 className="title-72 text-black">
+              TransRussia Moscow: A Year-Round Logistics Ecosystem
+            </h2>
 
-          <p className="text-lg text-black/70">
-            TransRussia is Eurasia's leading international exhibition for
-            transport and logistics services. With a strong track record and
-            industry trust, it plays a key role in connecting logistics
-            providers, freight forwarders, cargo owners, and infrastructure
-            operators from across Eurasia.
-          </p>
+            <p className="text-lg text-black/70">
+              TransRussia is Eurasia&apos;s leading international exhibition for
+              transport and logistics services. With a strong track record and
+              industry trust, it plays a key role in connecting logistics
+              providers, freight forwarders, cargo owners, and infrastructure
+              operators from across Eurasia.
+            </p>
 
-          <Link href="/why-exhibit" className="w-fit">
-            <button className="rounded-full bg-mainColor2 px-10 py-4 text-white font-semibold transition hover:bg-mainColor4">
-              Why Exhibit
-            </button>
-          </Link>
-        </div>
-
-        {/* CARDS */}
-        <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
-          {ecosystemItems.map((item, index) => (
-            <div
-              key={index}
-              className="flex h-full flex-col overflow-hidden rounded-2xl border border-black/10 bg-white shadow-lg"
+            {/* LINK AS BUTTON – NO <button> */}
+            <Link
+              href="/why-exhibit"
+              className="inline-block w-fit rounded-full bg-blue-600 px-10 py-4 font-semibold text-white transition hover:bg-mainColor4"
             >
-              {/* IMAGE + NUMBER */}
-              <div className="p-6 xl:p-8 pb-0">
-                <div className="mb-6 flex items-center justify-between">
-                  <div className="relative size-16 overflow-hidden rounded-full">
-                    <Image
-                      src={item.image}
-                      alt={item.title}
-                      fill
-                      className="object-cover"
-                    />
+              Why Exhibit
+            </Link>
+          </div>
+
+          {/* CARDS */}
+          <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+            {ecosystemItems.map((item, index) => (
+              <div
+                key={index}
+                className="flex h-full flex-col overflow-hidden rounded-2xl border border-black/10 bg-white shadow-lg"
+              >
+                {/* IMAGE + NUMBER */}
+                <div className="p-6 pb-0 xl:p-8">
+                  <div className="mb-6 flex items-center justify-between">
+                    <div className="relative size-16 overflow-hidden rounded-full">
+                      <Image
+                        src={item.image}
+                        alt={item.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+
+                    <span className="text-2xl font-semibold text-black/60">
+                      {item.number}
+                    </span>
                   </div>
 
-                  <span className="text-2xl font-semibold text-black/60">
-                    {item.number}
-                  </span>
+                  <h4 className="title-32 mb-4 font-semibold text-black">
+                    {item.title}
+                  </h4>
                 </div>
 
-                <h4 className="title-32 font-semibold text-black mb-4">
-                  {item.title}
-                </h4>
-              </div>
-
-              {/* DESCRIPTION */}
-              <div className="flex-1 px-6 xl:px-8">
-                <div className="h-full overflow-y-auto pr-2">
-                  <p className="whitespace-pre-line text-black/80 leading-relaxed">
+                {/* DESCRIPTION */}
+                <div className="flex-1 px-6 xl:px-8">
+                  <p className="whitespace-pre-line leading-relaxed text-black/80">
                     {item.description}
                   </p>
                 </div>
-              </div>
 
-              {/* CTA */}
-              <div className="mt-auto p-6 xl:p-8 pt-4">
-                <Link href={item.link}>
-                  <button className="w-full rounded-full bg-blue-800 px-8 py-4 text-lg font-semibold text-white transition-all duration-300 hover:bg-mainColor4 hover:shadow-lg hover:-translate-y-0.5">
+                {/* CTA */}
+                <div className="mt-auto p-6 pt-4 xl:p-8">
+                  <Link
+                    href={item.link}
+                    className="block w-full rounded-full bg-blue-800 px-8 py-4 text-center text-lg font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-mainColor4 hover:shadow-lg"
+                  >
                     {item.buttonText}
-                  </button>
-                </Link>
+                  </Link>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      </SectionContainer>
+            ))}
+          </div>
+        </SectionContainer>
+      </div>
 
-      {/* BACKGROUND SHAPE */}
-      <div className="absolute right-0 top-0 z-[-1] hidden lg:block">
+      {/* BACKGROUND SHAPE (CAN'T BLOCK CLICKS) */}
+      <div className="pointer-events-none absolute right-0 top-0 z-0 hidden lg:block">
         <Image
           src="/imgs/shape.png"
           alt="Decorative Shape"
