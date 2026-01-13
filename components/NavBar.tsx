@@ -68,7 +68,7 @@ export default function NavBar() {
   /* ================= TIMER ================= */
   useEffect(() => {
     const calculateTimeLeft = () => {
-      const eventDate = new Date("March 17, 2026 10:00:00").getTime()
+      const eventDate = new Date("October 08, 2026 10:00:00").getTime()
       const now = new Date().getTime()
       const diff = eventDate - now
 
