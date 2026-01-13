@@ -18,7 +18,7 @@ export default function ContactPage() {
             Contact Us
           </h1>
           <p className="mt-4 max-w-2xl text-lg text-gray-600">
-            Reach out to our team for any enquiries about TransRussia & SkladTech Expo 2026
+            Reach out to our team for any enquiries about DIEMEX Expo 2026
           </p>
         </SectionContainer>
       </section>
@@ -65,15 +65,15 @@ export default function ContactPage() {
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                   <div className="rounded-lg bg-gray-50 p-4">
                     <h4 className="font-semibold text-gray-900">Phone</h4>
-                    <p className="mt-1 text-gray-600">+7-(495)-799-55-85</p>
+                    <p className="mt-1 text-gray-600">+91 91483 19993</p>
                   </div>
                   <div className="rounded-lg bg-gray-50 p-4">
                     <h4 className="font-semibold text-gray-900">Email</h4>
-                    <p className="mt-1 text-gray-600">transport@ite.group</p>
+                    <p className="mt-1 text-gray-600">pad@maxxmedia.in</p>
                   </div>
                   <div className="rounded-lg bg-gray-50 p-4">
                     <h4 className="font-semibold text-gray-900">Hours</h4>
-                    <p className="mt-1 text-gray-600">Mon-Fri, 9AM-6PM IST</p>
+                    <p className="mt-1 text-gray-600">Mon-Sat, 10AM-6PM IST</p>
                   </div>
                 </div>
               </div>
