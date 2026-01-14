@@ -53,38 +53,47 @@ const navItems: NavItem[] = [
   },
   { title: "Contact us", dropdown: false, href: "/contact-us" },
 ]
+const EVENT_DATE = new Date("2026-10-08T10:00:00").getTime()
+
 
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null)
   const [scrolled, setScrolled] = useState(false)
 
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-  })
+const [timeLeft, setTimeLeft] = useState({
+  days: 0,
+  hours: 0,
+  minutes: 0,
+  // seconds: 0,
+})
+
 
   /* ================= TIMER ================= */
-  useEffect(() => {
-    const calculateTimeLeft = () => {
-      const eventDate = new Date("October 08, 2026 10:00:00").getTime()
-      const now = new Date().getTime()
-      const diff = eventDate - now
+useEffect(() => {
+  const calculateTimeLeft = () => {
+    const now = Date.now()
+    const diff = EVENT_DATE - now
 
-      if (diff > 0) {
-        setTimeLeft({
-          days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((diff / (1000 * 60)) % 60),
-        })
-      }
+    if (diff <= 0) {
+      setTimeLeft({ days: 0, hours: 0, minutes: 0 })
+      return
     }
 
-    calculateTimeLeft()
-    const timer = setInterval(calculateTimeLeft, 60000)
-    return () => clearInterval(timer)
-  }, [])
+    setTimeLeft({
+      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+      hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+      minutes: Math.floor((diff / (1000 * 60)) % 60),
+      // seconds: Math.floor((diff / 1000) % 60),
+    })
+  }
+
+  calculateTimeLeft()
+  const timer = setInterval(calculateTimeLeft, 1000)
+
+  return () => clearInterval(timer)
+}, [])
+
 
   /* ================= SCROLL ================= */
   useEffect(() => {
@@ -115,25 +124,37 @@ export default function NavBar() {
                     item.dropdown ? (
                       <div
                         key={i}
-                        className="relative"
+                        className="relative group"
                         onMouseEnter={() => setActiveDropdown(i)}
                         onMouseLeave={() => setActiveDropdown(null)}
                       >
-                        <button className="flex items-center gap-1 hover:text-gray-200">
-                          {item.title}
-                          <ChevronDown className="h-4 w-4" />
+                        <button className="flex items-center gap-1 hover:text-gray-200 relative">
+                          <span className="relative">
+                            {item.title}
+                            {/* Hover underline effect */}
+                            <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-white group-hover:w-full transition-all duration-300"></span>
+                          </span>
+                          <ChevronDown 
+                            className={`h-4 w-4 transition-transform duration-300 ${
+                              activeDropdown === i ? "rotate-180" : ""
+                            }`} 
+                          />
                         </button>
 
                         {activeDropdown === i && item.links && (
                           <div className="absolute left-0 top-full pt-3">
-                            <div className="min-w-52 rounded-lg bg-white py-2 shadow-xl text-gray-800">
+                            <div className="min-w-52 rounded-lg bg-white py-2 shadow-xl text-gray-800 border border-gray-100">
                               {item.links.map((link, j) => (
                                 <Link
                                   key={j}
                                   href={link.href}
-                                  className="block px-4 py-2 text-sm hover:bg-gray-100"
+                                  className="block px-4 py-2 text-sm hover:bg-gray-100 relative group/item"
                                 >
-                                  {link.text}
+                                  <span className="relative">
+                                    {link.text}
+                                    {/* Hover underline effect for dropdown items */}
+                                    <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-blue-600 group-hover/item:w-full transition-all duration-300"></span>
+                                  </span>
                                 </Link>
                               ))}
                             </div>
@@ -141,8 +162,16 @@ export default function NavBar() {
                         )}
                       </div>
                     ) : (
-                      <Link key={i} href={item.href!} className="hover:text-gray-200">
-                        {item.title}
+                      <Link 
+                        key={i} 
+                        href={item.href!} 
+                        className="hover:text-gray-200 relative group"
+                      >
+                        <span className="relative">
+                          {item.title}
+                          {/* Hover underline effect for non-dropdown items */}
+                          <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-white group-hover:w-full transition-all duration-300"></span>
+                        </span>
                       </Link>
                     )
                   )}
@@ -169,9 +198,9 @@ export default function NavBar() {
             {!scrolled && (
               <div className="hidden lg:flex justify-end mr-25 pr-8">
                 <div className="flex items-center gap-4 rounded-b-xl bg-[#0d1e3c] px-4 py-1.5 text-sm text-white">
-                  <span>{timeLeft.days}Days</span>
-                  <span>{timeLeft.hours}Hours</span>
-                  <span>{timeLeft.minutes}Mins</span>
+                 <span>{timeLeft.days} Days</span>
+<span>{timeLeft.hours} Hours</span>
+<span>{timeLeft.minutes} Mins</span>
                 </div>
               </div>
             )}
@@ -193,17 +222,23 @@ export default function NavBar() {
       <div className="flex flex-col gap-4">
         {navItems.map((item, i) =>
           item.dropdown && item.links ? (
-            <div key={i}>
-              <div className="text-sm font-semibold">{item.title}</div>
+            <div key={i} className="group/mobile">
+              <div className="text-sm font-semibold pb-2 border-b border-white/20 group-hover/mobile:border-blue-500 transition-colors duration-300">
+                {item.title}
+              </div>
               <div className="mt-1 ml-3 flex flex-col gap-1.5">
                 {item.links.map((link, j) => (
                   <Link
                     key={j}
                     href={link.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="text-sm opacity-80 hover:opacity-100"
+                    className="text-sm opacity-80 hover:opacity-100 hover:text-blue-300 transition-colors duration-300 py-2 relative group/item"
                   >
-                    {link.text}
+                    <span className="relative">
+                      {link.text}
+                      {/* Mobile hover underline effect */}
+                      <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-blue-300 group-hover/item:w-full transition-all duration-300"></span>
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -213,7 +248,7 @@ export default function NavBar() {
               key={i}
               href={item.href!}
               onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-semibold"
+              className="text-sm font-semibold pb-2 border-b border-white/20 hover:border-blue-500 hover:text-blue-300 transition-all duration-300"
             >
               {item.title}
             </Link>
@@ -232,8 +267,6 @@ export default function NavBar() {
     </div>
   </div>
 )}
-
-
     </>
   )
 }

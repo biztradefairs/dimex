@@ -2,7 +2,8 @@
 
 import PartnersSection from '@/components/section/PartnersSection';
 import React, { ReactNode, useState } from 'react';
-import SectionContainer from '@/components/UI/SectionContainer'; // Make sure to import this
+import SectionContainer from '@/components/UI/SectionContainer';
+import { motion } from 'framer-motion';
 
 interface ButtonProps {
   children: ReactNode;
@@ -38,6 +39,36 @@ interface HotelItem {
   locationLink: string;
 }
 
+// Animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 0.6 }
+  }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: { 
+    opacity: 1, 
+    scale: 1,
+    transition: { duration: 0.5 }
+  }
+};
+
 // Button Component
 const Button: React.FC<ButtonProps> = ({
   children,
@@ -58,6 +89,24 @@ const Button: React.FC<ButtonProps> = ({
   
   const buttonClass = `${baseClasses} ${variantClasses[variant]} ${className}`;
   
+  const buttonContent = (
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      className="relative"
+    >
+      {children}
+      {variant === 'primary' && (
+        <motion.div
+          className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100"
+          initial={{ scale: 0 }}
+          whileHover={{ scale: 1 }}
+          transition={{ duration: 0.3 }}
+        />
+      )}
+    </motion.div>
+  );
+  
   if (href) {
     return (
       <a
@@ -67,14 +116,14 @@ const Button: React.FC<ButtonProps> = ({
         className={buttonClass}
         onClick={onClick}
       >
-        {children}
+        {buttonContent}
       </a>
     );
   }
   
   return (
     <button onClick={onClick} className={buttonClass}>
-      {children}
+      {buttonContent}
     </button>
   );
 };
@@ -88,77 +137,111 @@ const Image: React.FC<ImageProps> = ({
   height = 500
 }) => {
   return (
-    <img
-      src={src}
-      alt={alt}
-      width={width}
-      height={height}
-      loading="lazy"
-      decoding="async"
-      className={`size-auto object-contain ${className}`}
-      style={{ color: 'transparent' }}
-    />
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      transition={{ duration: 0.3 }}
+      className="overflow-hidden rounded-lg"
+    >
+      <img
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        loading="lazy"
+        decoding="async"
+        className={`size-auto object-contain ${className}`}
+        style={{ color: 'transparent' }}
+      />
+    </motion.div>
   );
 };
 
 // Hero Section
 const HeroSection: React.FC = () => {
   return (
-    <div className="relative z-[1] flex flex-col justify-end bg-mainColor5 !pt-96 w-full">
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="relative flex justify-end bg-mainColor5 !pt-96 w-full"
+    >
       <div className="w-full">
-        <div className="absolute inset-0 z-[-1] size-full !py-0">
+        <motion.div
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="absolute inset-0 z-[-1] size-full !py-0"
+        >
           <div className="absolute inset-0 bg-gradient-to-t from-black"></div>
-          <Image
+          <img
             src="/images/image.png"
             alt="TransRussia©24"
             className="size-full object-cover"
           />
-        </div>
+        </motion.div>
         
         <SectionContainer>
           <div className="flex flex-col justify-end !pt-0 !pb-10 text-white">
-            <h2 className="title-72 text-white">Plan Your Travel</h2>
-            <p className="max-w-6xl whitespace-pre-line py-5">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="title-72 text-white"
+            >
+              Plan Your Travel
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="max-w-6xl whitespace-pre-line py-5"
+            >
               Plan your journey with ease with our comprehensive guide to visas, hotels, and bookings, 
               designed to ensure a seamless exhibition experience, all in one place.
-            </p>
+            </motion.p>
           </div>
         </SectionContainer>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
 // Introduction Section
 const IntroductionSection: React.FC = () => {
   return (
-    <div className="animated-block py-16">
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={fadeInUp}
+      className="py-16"
+    >
       <SectionContainer>
-        <div className="animated-block-target">
-          <div className="mb-14 flex flex-wrap justify-between gap-10 lg:items-end">
-            <div className="lg:basis-2/3">
-              <div className="flex-center w-fit gap-2 py-2 pe-5 pl-1 capitalize">
-                <Image
-                  src="/imgs/logo-icon-3.png"
-                  alt="TransRussia©24"
-                  className="size-auto w-5"
-                />
-                <span>TransRussia</span>
-              </div>
-              <h2 className="title-72 text-black my-3">
-                Combine Business with Moscow's Rich Culture at TransRussia
-              </h2>
-              <p className="whitespace-pre-line">
-                Join thousands of warehousing and logistics industry leaders and peers to forge 
-                valuable connections, discover cutting-edge trends in the industry, and immerse 
-                yourself in the rich history and vibrant culture of Moscow—a city that blends 
-                innovation with timeless charm.
-              </p>
-            </div>
+        <div className="mb-14 flex flex-wrap justify-between gap-10 lg:items-end">
+          <div className="lg:basis-2/3">
+            <motion.div
+              whileHover={{ x: 5 }}
+              className="flex-center w-fit gap-2 py-2 pe-5 pl-1 capitalize"
+            >
+              <Image
+                src="/imgs/logo-icon-3.png"
+                alt="TransRussia©24"
+                className="size-auto w-5"
+              />
+              <span>TransRussia</span>
+            </motion.div>
+            <h2 className="title-72 text-black my-3">
+              Combine Business with Moscow's Rich Culture at TransRussia
+            </h2>
+            <p className="whitespace-pre-line">
+              Join thousands of warehousing and logistics industry leaders and peers to forge 
+              valuable connections, discover cutting-edge trends in the industry, and immerse 
+              yourself in the rich history and vibrant culture of Moscow—a city that blends 
+              innovation with timeless charm.
+            </p>
           </div>
         </div>
       </SectionContainer>
-    </div>
+    </motion.div>
   );
 };
 
@@ -172,7 +255,16 @@ const GuideItemComponent: React.FC<GuideItem & { index: number }> = ({
   index
 }) => {
   return (
-    <div className="grid grid-cols-1 items-center gap-5 xl:grid-cols-7">
+    <motion.div
+      variants={scaleIn}
+      whileHover={{ 
+        y: -5,
+        backgroundColor: "#f8fafc",
+        boxShadow: "0 15px 30px rgba(0,0,0,0.1)"
+      }}
+      transition={{ duration: 0.3 }}
+      className="grid grid-cols-1 items-center gap-5 rounded-xl p-6 xl:grid-cols-7 hover:scale-[1.01]"
+    >
       <div className="flex-center size-[250px] xl:col-span-2">
         <Image
           src={imageSrc}
@@ -180,19 +272,31 @@ const GuideItemComponent: React.FC<GuideItem & { index: number }> = ({
           className="size-full object-contain"
         />
       </div>
-      <h5 className="title-24 text-black xl:col-span-2">{title}</h5>
+      <h5 className="title-24 text-black xl:col-span-2 hover:text-blue-600 transition-colors duration-300">
+        {title}
+      </h5>
       <p className="whitespace-pre-line xl:col-span-2">{content}</p>
       <div className="grid xl:place-content-center">
         <a href={link} target="_blank" rel="noopener noreferrer">
           <Button variant="icon">
-            <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512" 
-              className="size-4 lg:size-5" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+            <motion.svg
+              animate={{ x: [0, 5, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+              stroke="currentColor" 
+              fill="currentColor" 
+              strokeWidth="0" 
+              viewBox="0 0 448 512" 
+              className="size-4 lg:size-5" 
+              height="1em" 
+              width="1em" 
+              xmlns="http://www.w3.org/2000/svg"
+            >
               <path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path>
-            </svg>
+            </motion.svg>
           </Button>
         </a>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -222,93 +326,101 @@ const GuideSection: React.FC = () => {
     }
   ];
 
-  const visitorItems: GuideItem[] = [
-    // Add visitor items here if needed
-  ];
-
   return (
-    <div className="animated-block py-16">
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={fadeInUp}
+      className="py-16"
+    >
       <SectionContainer>
-        <div className="animated-block-target">
-          <div className="mb-10 flex flex-col gap-6 border-b border-mainColor1 pb-10 lg:flex-row lg:items-end lg:justify-between">
-  
-  {/* LEFT: TITLE */}
-  <div className="max-w-6xl">
-    <div className="flex-center w-fit gap-2 py-2 pe-5 pl-1 capitalize">
-      <Image
-        src="/imgs/logo-icon-3.png"
-        alt="TransRussia©24"
-        className="w-5"
-      />
-      <span>Plan Your Travel</span>
-    </div>
+        <div className="mb-10 flex flex-col gap-6 border-b border-mainColor1 pb-10 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-6xl">
+            <motion.div
+              whileHover={{ x: 5 }}
+              className="flex-center w-fit gap-2 py-2 pe-5 pl-1 capitalize"
+            >
+              <Image
+                src="/imgs/logo-icon-3.png"
+                alt="TransRussia©24"
+                className="w-5"
+              />
+              <span>Plan Your Travel</span>
+            </motion.div>
 
-    <h2 className="title-72 text-black mt-4">
-      The Information You Need Before Traveling
-    </h2>
-  </div>
+            <h2 className="title-72 text-black mt-4">
+              The Information You Need Before Traveling
+            </h2>
+          </div>
 
-  {/* RIGHT: TABS */}
-  <div className="relative z-10 inline-flex shrink-0 rounded-full bg-white p-1 shadow-md ring-1 ring-black/10">
-    <button
-      onClick={() => setActiveTab("exhibitors")}
-      className={`rounded-full px-6 py-3 text-sm font-bold transition ${
-        activeTab === "exhibitors"
-          ? "bg-black text-white shadow"
-          : "text-gray-700 hover:bg-gray-100"
-      }`}
-    >
-      Exhibitors
-    </button>
+          <div className="relative z-10 inline-flex shrink-0 rounded-full bg-white p-1 shadow-md ring-1 ring-black/10">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setActiveTab("exhibitors")}
+              className={`rounded-full px-6 py-3 text-sm font-bold transition ${
+                activeTab === "exhibitors"
+                  ? "bg-black text-white shadow"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              Exhibitors
+            </motion.button>
 
-    <button
-      onClick={() => setActiveTab("visitors")}
-      className={`rounded-full px-6 py-3 text-sm font-bold transition ${
-        activeTab === "visitors"
-          ? "bg-black text-white shadow"
-          : "text-gray-700 hover:bg-gray-100"
-      }`}
-    >
-      Visitors
-    </button>
-  </div>
-</div>
-
-
-          <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-1">
-            {activeTab === 'exhibitors' && (
-              exhibitorItems.map((item, index) => (
-                <GuideItemComponent key={index} {...item} index={index} />
-              ))
-            )}
-            {activeTab === 'visitors' && (
-              visitorItems.length > 0 ? (
-                visitorItems.map((item, index) => (
-                  <GuideItemComponent key={index} {...item} index={index} />
-                ))
-              ) : (
-                <div className="text-center py-10">
-                  <p className="text-gray-500">No visitor information available at this time.</p>
-                </div>
-              )
-            )}
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setActiveTab("visitors")}
+              className={`rounded-full px-6 py-3 text-sm font-bold transition ${
+                activeTab === "visitors"
+                  ? "bg-black text-white shadow"
+                  : "text-gray-700 hover:bg-gray-100"
+              }`}
+            >
+              Visitors
+            </motion.button>
           </div>
         </div>
+
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid gap-10 md:grid-cols-2 xl:grid-cols-1"
+        >
+          {activeTab === 'exhibitors' && (
+            exhibitorItems.map((item, index) => (
+              <GuideItemComponent key={index} {...item} index={index} />
+            ))
+          )}
+        </motion.div>
       </SectionContainer>
-    </div>
+    </motion.div>
   );
 };
 
 // Hotel Component
-const HotelComponent: React.FC<HotelItem> = ({
+const HotelComponent: React.FC<HotelItem & { index: number }> = ({
   name,
   description,
   imageSrc,
   bookingLink,
-  locationLink
+  locationLink,
+  index
 }) => {
   return (
-    <div className="flex flex-col gap-10 rounded-xl px-5 lg:flex-row lg:gap-20 lg:px-10">
+    <motion.div
+      variants={scaleIn}
+      whileHover={{ 
+        y: -8,
+        boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
+        backgroundColor: "#f8fafc"
+      }}
+      transition={{ duration: 0.3 }}
+      className="flex flex-col gap-10 rounded-xl border border-gray-200 px-5 py-8 lg:flex-row lg:gap-20 lg:px-10 hover:scale-[1.01]"
+    >
       <div className="size-[240px] shrink-0">
         <Image
           src={imageSrc}
@@ -317,8 +429,10 @@ const HotelComponent: React.FC<HotelItem> = ({
         />
       </div>
       <div>
-        <h3 className="font-semibold">{name}</h3>
-        <p className="mt-5 whitespace-pre-line">{description}</p>
+        <h3 className="font-semibold text-xl hover:text-blue-600 transition-colors duration-300">
+          {name}
+        </h3>
+        <p className="mt-5 whitespace-pre-line text-gray-700">{description}</p>
         <div className="mt-5 flex w-full flex-wrap gap-5">
           <Button 
             href={bookingLink} 
@@ -339,7 +453,7 @@ const HotelComponent: React.FC<HotelItem> = ({
           </Button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
@@ -372,52 +486,51 @@ The hotel has a stylish interior and an elaborate infrastructure, including a re
   ];
 
   return (
-    <div className="animated-block py-16">
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={fadeInUp}
+      className="py-16"
+    >
       <SectionContainer>
-        <div className="animated-block-target">
+        <div>
           <h2 className="title-72 text-black">
             20% Off When You Book at the Hotel Website Using the Promo Code "EXPO"
           </h2>
-          <div className="shrink-0 mt-5 h-px w-full bg-mainColor1"></div>
+          <motion.div
+            initial={{ width: 0 }}
+            whileInView={{ width: "100%" }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="shrink-0 mt-5 h-px w-full bg-gradient-to-r from-blue-500 via-blue-600 to-blue-500"
+          />
           
-          <div className="mt-10 flex flex-col gap-10">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="mt-10 flex flex-col gap-10"
+          >
             {hotels.map((hotel, index) => (
-              <HotelComponent key={index} {...hotel} />
+              <HotelComponent key={index} {...hotel} index={index} />
             ))}
-          </div>
+          </motion.div>
         </div>
       </SectionContainer>
-    </div>
+    </motion.div>
   );
 };
-
-// // City Guide Section
-// const CityGuideSection: React.FC = () => {
-//   return (
-//     <div className="animated-block py-16">
-//       <SectionContainer fullWidth className="relative z-[1] overflow-hidden">
-//         <div className="relative">
-//           <div className="flex flex-col gap-5">
-//             <h2 className="title-72 text-black">Explore Moscow Beyond the Exhibition</h2>
-//             <a href="/explore-moscow" className="block">
-//               <Button>City Guide</Button>
-//             </a>
-//           </div>
-//         </div>
-//       </SectionContainer>
-//     </div>
-//   );
-// };
 
 // Main Page Component
 const PlanYourTravelPage: React.FC = () => {
   return (
-    <div className="pt-20"> {/* Add padding-top to account for fixed navbar */}
+    <div className="">
       <HeroSection />
       <IntroductionSection />
       <GuideSection />
       <HotelsSection />
-      {/* <CityGuideSection /> */}
       <PartnersSection />
     </div>
   );
