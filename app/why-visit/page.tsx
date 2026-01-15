@@ -349,13 +349,11 @@ export default function WhyVisit() {
             >
               <SectionContainer>
                 <h2 className="text-5xl lg:text-6xl font-bold mb-6 max-w-12xl leading-tight">
-                  Proven Success: What Visitors Say About TransRussia
+                  Proven Success: What Visitors Say About DIEMEX
                 </h2>
 
                 <p className="text-gray-700 text-[10] max-w-8xl mb-10 leading-relaxed">
-                  At TransRussia, we prioritise delivering value and creating impactful
-                  experiences for our visitors. Our commitment to excellence is reflected
-                  in the numbers.
+                  Here are DIEMEX 2026–aligned rewrites, keeping the same tone and intent but suited to a growing, credibility-focused exhibition. The first option is recommended.
                 </p>
                 <Link href='/post-show-report'>
                   <motion.button
