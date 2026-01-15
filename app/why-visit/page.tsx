@@ -419,7 +419,7 @@ export default function WhyVisit() {
                 viewport={{ once: true }}
                 className="text-4xl lg:text-5xl font-bold mb-12"
               >
-                Who is TransRussia for?
+                Who is DIEMEX for?
               </motion.h2>
 
               <motion.div
@@ -431,31 +431,31 @@ export default function WhyVisit() {
               >
                 {[
                   [
-                    "Supply Chain Directors",
-                    "Logistics Strategy Managers",
-                    "Freight Forwarders",
-                    "Cargo Shipping Managers",
-                    "Trucking Company Owners",
-                    "Fleet Management Professionals",
-                    "Port Authority Representatives"
+                    "Die & Mould Manufacturers",
+                    "Tooling & Tool Room Owners",
+                    "Automotive OEMs & Tier-1 / Tier-2 Suppliers",
+                    "Production & Manufacturing Heads",
+                    "Design, CAD / CAM & R&D Engineers",
+                    "Injection Moulding & Casting Professionals",
+                    "Press Tool & Sheet Metal Component Manufacturers"
                   ],
                   [
-                    "Shipping Line Executives",
-                    "Railway Logistics Managers",
-                    "Cargo Train Operators",
-                    "Airline Cargo Management Teams",
-                    "Manufacturing Supply Chain Managers",
-                    "Logistics Technology Managers",
-                    "Transportation Policy Makers"
+                    "CNC Machining & Precision Engineering Companies",
+                    "Industrial Automation & Robotics Professionals",
+                    "Materials, Steel & Special Alloy Suppliers",
+                    "Quality, Testing & Metrology Professionals",
+                    "Maintenance, Tooling & Plant Managers",
+                    "Procurement & Strategic Sourcing Heads",
+                    "New Product Development (NPD) Teams"
                   ],
                   [
-                    "Customs and Border Control Officials",
-                    "E-commerce Logistics Managers",
-                    "Last-Mile Delivery Strategists",
-                    "Distribution Center Managers",
-                    "Import / Export Logistics Specialists",
+                    "MSME & Large Manufacturing Enterprise Owners",
+                    "Industry Consultants & Technology Advisors",
+                    "Academic Institutions & Skill Development Bodies",
+                    "Industry Associations & Government Bodies",
+                    "Export-Oriented Manufacturing Professionals",
                     "Transportation Infrastructure Planners",
-                    "Financial and Other Service Providers"
+                    "Finance, Leasing & Industrial Service Providers"
                   ]
                 ].map((list, index) => (
                   <motion.div
