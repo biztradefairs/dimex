@@ -60,7 +60,7 @@ export default function BrochurePage() {
                 <hr className="my-12 border-gray-300" />
 
                 <h3 className="mb-8 text-3xl font-semibold text-gray-900">
-                  Success In Numbers
+                  DIEMEX at a Glance
                 </h3>
 
                 <div className="grid grid-cols-2 gap-x-10 gap-y-12">
