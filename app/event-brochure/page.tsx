@@ -49,11 +49,11 @@ export default function BrochurePage() {
                 </h3>
 
                 <ul className="mt-6 space-y-4 pl-6 text-lg text-gray-700">
-                  <li className="list-disc">Explore exhibitor opportunities and participation packages.</li>
-                  <li className="list-disc">Understand visitor demographics, cargo volumes, and purchasing trends.</li>
+                  <li className="list-disc">Explore exhibitor opportunities and tailored participation packages.</li>
+                  <li className="list-disc">UUnderstand visitor demographics, cargo volumes, and purchasing trends.
+</li>
                   <li className="list-disc">
-                    Discover how TransRussia delivers measurable ROI and long-term
-                    business growth.
+                    Discover how DIEMEX delivers measurable ROI, qualified leads, and long-term business growth.
                   </li>
                 </ul>
 
