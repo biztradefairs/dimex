@@ -158,9 +158,9 @@ Our events drive industrial development, support export growth, and provide unma
                 {/* LEFT COLUMN */}
                 <div className="flex w-1/2 flex-col gap-10">
                   {[
-                    { number: "2 Mil+", label: "Database" },
-                    { number: "500,000+", label: "Visitors Per Year" },
-                    { number: "10,000+", label: "Exhibitors Per Year" }
+                    { number: "1 Mil+", label: "Database" },
+                    { number: "10,000+", label: "Visitors Per Year" },
+                    { number: "500+", label: "Exhibitors Per Year" }
                   ].map((stat, index) => (
                     <motion.div
                       key={index}
