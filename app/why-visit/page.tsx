@@ -239,23 +239,23 @@ export default function WhyVisit() {
                 {[
                   {
                     image: "/images/attend-1.jpg",
-                    title: "Connect With Key Players",
-                    text: "TransRussia is an exhibition for you to meet suppliers from within the region and beyond, allowing you to connect with the right people for your organisation."
+                    title: "Connect with Key Industry Players",
+                    text: "DIEMEX offers a focused platform to meet die & mould manufacturers, tooling suppliers, and precision manufacturing solution providers from India and international markets—helping you connect with the right partners for your business."
                   },
                   {
                     image: "/images/attend-2.jpg",
                     title: "Discover The Latest Innovations",
-                    text: "Visit TransRussia to see the latest innovations in the warehouse and logistics industry and understand how they can benefit you."
+                    text: "Visit DIEMEX to explore the newest developments in die & mould, tooling, and precision manufacturing technologies—and understand how they can enhance productivity, quality, and competitiveness."
                   },
                   {
                     image: "/images/attend-3.jpg",
-                    title: "Get The Best Deals",
-                    text: "Talk directly to negotiate the best prices and sign contracts on the spot with manufacturers and suppliers useful for years to come."
+                    title: "Build the Right Business Deals",
+                    text: "Engage directly with manufacturers and technology suppliers to discuss requirements, evaluate solutions, and establish long-term business partnerships."
                   },
                   {
                     image: "/images/attend-4.jpg",
-                    title: "Stay Ahead Of Trends",
-                    text: "Learn about the latest trends and insights through the event's conference programme led by industry experts."
+                    title: "Stay Ahead of Industry Trends",
+                    text: "Gain insights into emerging technologies, market developments, and best practices through DIEMEX’s conference sessions led by industry experts."
                   }
                 ].map((card, index) => (
                   <motion.div
