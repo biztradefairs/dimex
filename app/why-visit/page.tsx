@@ -591,8 +591,9 @@ export default function WhyVisit() {
           image: "/images/image.png" 
         },
         { 
-          title: "Road Freight Transportation", 
-          slug: "road-freight-transportation", 
+          title: "Automation, Robotics & Smart Manufacturing - Industrial automation, robotics, Industry 4.0 solutions
+", 
+          slug: "automation-robotics", 
           image: "/images/image.png" 
         },
         { 
@@ -601,8 +602,9 @@ export default function WhyVisit() {
           image: "/images/image.png" 
         },
         { 
-          title: "IT-Solutions", 
-          slug: "it-solutions", 
+          title: "Surface Treatment & Heat Treatment-Coatings, finishing, hardening, thermal processes
+", 
+          slug: "surface-treatment", 
           image: "/images/image.png" 
         },
         { 
