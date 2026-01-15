@@ -47,11 +47,10 @@ export default function PostShowReportPage() {
               </h3>
 
               <ul className="mb-10 list-disc space-y-4 pl-5 text-lg text-gray-700">
-                <li>Explore exhibitor opportunities and participation packages.</li>
-                <li>Understand visitor demographics, cargo volumes, and purchasing trends.</li>
+                <li>Review exhibitor participation highlights and market response</li>
+                <li>Understand visitor profiles, industry representation, and sourcing interests</li>
                 <li>
-                  Discover how TransRussia delivers measurable ROI and long-term
-                  business growth.
+                  Learn how DIEMEX supports lead generation, brand visibility, and long-term business growth
                 </li>
               </ul>
 
