@@ -177,15 +177,13 @@ export default function WhyVisit() {
                 className="relative z-10 text-center max-w-4xl mx-auto"
               >
                 <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-6 leading-tight">
-                  Connect with a Global Logistics
+                  Connect with the Die & Mould Manufacturing
                   <br />
-                  Network at TransRussia
+                  Community at DIEMEX
                 </h2>
 
                 <p className="text-gray-600 text-lg lg:text-xl mb-10 leading-relaxed">
-                  TransRussia unites leading solution providers from the logistics and
-                  warehousing sectors worldwide, creating a dynamic platform for
-                  networking and business over three action-packed days.
+                 DIEMEX brings together die & mould manufacturers, tooling suppliers, and precision manufacturing solution providers from India and abroad, creating a focused platform for networking, collaboration, and business over three action-packed days.
                 </p>
 
                 <motion.button
