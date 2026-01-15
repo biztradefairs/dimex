@@ -30,15 +30,14 @@ export default function PostShowReportPage() {
             {/* LEFT CONTENT */}
             <div>
               <h2 className="mb-6 text-4xl font-semibold text-gray-800 lg:text-5xl">
-                Your Roadmap to TransRussia 2026
+                Your Roadmap to DIEMEX 2026
               </h2>
 
               <p className="mb-8 text-lg leading-relaxed text-gray-700">
-                Position your brand at the heart of Russia and Eurasia&apos;s logistics
-                market. As the region&apos;s leading B2B exhibition for transport and
-                logistics services, <strong className="text-blue-700">TransRussia</strong> connects international
-                freight forwarders, carriers, and logistics technology providers with
-                thousands of qualified buyers from across 50+ countries.
+                Position your brand within India’s growing die, mould, and precision manufacturing 
+                ecosystem. <strong className="text-blue-700">DIEMEX </strong> is a focused B2B platform that brings together die & mould manufacturers, 
+                tooling suppliers, technology providers, and serious buyers from automotive, engineering, 
+                and industrial manufacturing sectors. 
               </p>
 
               <hr className="my-8 border-gray-300" />
