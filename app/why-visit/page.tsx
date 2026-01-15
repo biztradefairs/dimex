@@ -579,10 +579,10 @@ export default function WhyVisit() {
     >
       {[
         { 
-          title: "Die & Mould Manufacturing
+          title: "Die & Mould Manufacturing Injection moulds, die casting dies, press tools, blow moulds, extrusion dies"
 ", 
-          slug: "Die & Mould Manufacturing
-Injection moulds, die casting dies, press tools, blow moulds, extrusion dies",
+          slug: "Die & Mould Manufacturing"
+",
           image: "/images/image.png" 
         },
         { 
