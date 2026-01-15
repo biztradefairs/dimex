@@ -578,13 +578,12 @@ export default function WhyVisit() {
       className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-16"
     >
       {[
-        { 
-          title: "Die & Mould Manufacturing Injection moulds, die casting dies, press tools, blow moulds, extrusion dies"
-", 
-          slug: "Die & Mould Manufacturing"
-",
-          image: "/images/image.png" 
-        },
+ {
+  title: "Die & Mould Manufacturing – Injection moulds, die casting dies, press tools, blow moulds, extrusion dies",
+  slug: "die-mould-manufacturing",
+  image: "/images/image.png"
+}
+
         { 
           title: "Ports & Terminals, Freight Handling Services In Ports", 
           slug: "ports-and-terminals-freight-handling-services-in-ports", 
