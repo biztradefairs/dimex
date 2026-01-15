@@ -61,24 +61,24 @@ export default function PostShowReportPage() {
                 Success In Numbers
               </h3>
 
-              <div className="grid grid-cols-2 gap-x-12 gap-y-10">
-                <div>
-                  <p className="text-5xl font-bold text-blue-600">30,500</p>
-                  <p className="text-lg text-gray-700">Visitors</p>
+                <div className="grid grid-cols-2 gap-x-10 gap-y-12">
+                  <div>
+                    <p className="text-5xl font-bold text-blue-600">3rd Edition</p>
+                    <p className="mt-2 text-xl text-gray-700">2 Successful Editions Completed</p>
+                  </div>
+                  <div>
+                    <p className="text-5xl font-bold text-blue-600">Growing</p>
+                    <p className="mt-2 text-xl text-gray-700">Exhibitor Participation</p>
+                  </div>
+                  <div>
+                    <p className="text-5xl font-bold text-blue-600">Strong</p>
+                    <p className="mt-2 text-xl text-gray-700">Buyer & OEM Engagement</p>
+                  </div>
+                  <div>
+                    <p className="text-5xl font-bold text-blue-600">3+</p>
+                    <p className="mt-2 text-xl text-gray-700">Countries Represented</p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-5xl font-bold text-blue-600">600+</p>
-                  <p className="text-lg text-gray-700">Exhibitors</p>
-                </div>
-                <div>
-                  <p className="text-5xl font-bold text-blue-600">160+</p>
-                  <p className="text-lg text-gray-700">Speakers</p>
-                </div>
-                <div>
-                  <p className="text-5xl font-bold text-blue-600">50+</p>
-                  <p className="text-lg text-gray-700">Countries Represented</p>
-                </div>
-              </div>
 
               {/* Image */}
               <div className="mt-14 flex justify-center">
