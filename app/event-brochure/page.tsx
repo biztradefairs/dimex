@@ -39,7 +39,7 @@ export default function BrochurePage() {
                   Position your brand at the centre of India’s fast-growing die, mould, and precision 
                   manufacturing market. As a leading B2B exhibition for die & mould, tooling, and advanced 
                   manufacturing technologies, <strong className="text-blue-700">DIEMEX</strong> connects global solution providers with qualified buyers, 
-                  OEMs, and decision-makers from across India and international markets. c
+                  OEMs, and decision-makers from across India and international markets. 
                 </p>
 
                 <hr className="my-10 border-gray-300" />
