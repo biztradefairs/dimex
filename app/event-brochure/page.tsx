@@ -69,15 +69,15 @@ export default function BrochurePage() {
                     <p className="mt-2 text-xl text-gray-700">2 Successful Editions Completed</p>
                   </div>
                   <div>
-                    <p className="text-5xl font-bold text-blue-600">600+</p>
-                    <p className="mt-2 text-xl text-gray-700">Exhibitors</p>
+                    <p className="text-5xl font-bold text-blue-600">Growing</p>
+                    <p className="mt-2 text-xl text-gray-700">Exhibitor Participation</p>
                   </div>
                   <div>
-                    <p className="text-5xl font-bold text-blue-600">160+</p>
-                    <p className="mt-2 text-xl text-gray-700">Speakers</p>
+                    <p className="text-5xl font-bold text-blue-600">Strong</p>
+                    <p className="mt-2 text-xl text-gray-700">Buyer & OEM Engagement</p>
                   </div>
                   <div>
-                    <p className="text-5xl font-bold text-blue-600">50+</p>
+                    <p className="text-5xl font-bold text-blue-600">3+</p>
                     <p className="mt-2 text-xl text-gray-700">Countries Represented</p>
                   </div>
                 </div>
