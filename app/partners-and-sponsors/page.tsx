@@ -278,7 +278,8 @@ const PartnersSponsorsPage: React.FC = () => {
             transition={{ delay: 0.2 }}
             className="mb-4 mt-20 text-4xl lg:text-4xl xl:text-5xl font-[600]"
           >
-            The legendary organisations that help bring TransRussia to life
+            The organisations that power DIEMEX
+
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
@@ -286,8 +287,7 @@ const PartnersSponsorsPage: React.FC = () => {
             transition={{ delay: 0.3 }}
             className="max-w-4xl text-lg lg:text-xl text-gray-500"
           >
-            You find all our sponsors and partners on this page
-          </motion.p>
+Discover our valued sponsors and partners who help make DIEMEX a success.          </motion.p>
         </SectionContainer>
       </motion.section>
 
