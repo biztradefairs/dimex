@@ -57,7 +57,7 @@ export default function WhyVisit() {
                 transition={{ duration: 0.8, delay: 0.1 }}
                 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-white mb-6 max-w-4xl"
               >
-                Why Visit TransRussia
+                Why Visit DIEMEX 2026
               </motion.h1>
 
               <motion.p
@@ -66,8 +66,7 @@ export default function WhyVisit() {
                 transition={{ delay: 0.3 }}
                 className="text-lg lg:text-xl text-white/90 mb-8 max-w-3xl"
               >
-                Join over 30,500 visitors coming together to explore over 580 leading
-                companies showcasing the full spectrum of logistics and warehouse innovation.
+               Discover a focused B2B platform bringing together die & mould manufacturers, tooling suppliers, and precision manufacturing technology providers. DIEMEX offers visitors the opportunity to explore new solutions, connect directly with exhibitors, and gain insights into trends shaping India’s manufacturing and automotive sectors.
               </motion.p>
 
               <motion.div
@@ -78,12 +77,12 @@ export default function WhyVisit() {
               >
                 <div className="flex items-center gap-2">
                   <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
-                  <span className="text-lg font-medium">17 – 19 March 2026</span>
+                  <span className="text-lg font-medium">08 – 10 October 2026</span>
                 </div>
 
                 <div className="flex items-center gap-2">
                   <span className="w-3 h-3 bg-blue-500 rounded-full"></span>
-                  <span className="text-lg font-medium">Crocus Expo, Moscow</span>
+                  <span className="text-lg font-medium">Auto Cluster Exhibition Centre,Pune, India/span>
                 </div>
               </motion.div>
             </div>
