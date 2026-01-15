@@ -130,10 +130,10 @@ export default function WhyVisit() {
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-16"
               >
                 {[
-                  { value: "30,500", label: "Visitors" },
-                  { value: "600+", label: "Exhibitors" },
-                  { value: "50+", label: "Countries Represented" },
-                  { value: "13", label: "Event Sectors" }
+                  { value: "10,000", label: "Visitors" },
+                  { value: "200+", label: "Exhibitors" },
+                  { value: "5+", label: "Countries Represented" },
+                  { value: "10", label: "Event Sectors" }
                 ].map((stat, index) => (
                   <motion.div
                     key={index}
