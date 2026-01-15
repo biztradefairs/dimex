@@ -591,8 +591,7 @@ export default function WhyVisit() {
           image: "/images/image.png" 
         },
         { 
-          title: "Automation, Robotics & Smart Manufacturing - Industrial automation, robotics, Industry 4.0 solutions
-", 
+          title: "Automation, Robotics & Smart Manufacturing - Industrial automation, robotics, Industry 4.0 solutions", 
           slug: "automation-robotics", 
           image: "/images/image.png" 
         },
@@ -602,14 +601,12 @@ export default function WhyVisit() {
           image: "/images/image.png" 
         },
         { 
-          title: "Surface Treatment & Heat Treatment-Coatings, finishing, hardening, thermal processes
-", 
+          title: "Surface Treatment & Heat Treatment-Coatings, finishing, hardening, thermal processes", 
           slug: "surface-treatment", 
           image: "/images/image.png" 
         },
         { 
           title: "Materials, Steels & Alloys - Tool steels, special alloys, polymers, consumables",
- 
           slug: "materials-steels-alloys", // Changed to unique slug
           image: "/images/image.png" 
         },
