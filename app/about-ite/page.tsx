@@ -310,8 +310,8 @@ At Maxx Business Media, our mission is to create powerful B2B platforms that acc
                 </h2>
                 <div className="mt-10 flex flex-col justify-between lg:flex-row lg:items-end gap-10 lg:gap-32">
                   <div className="text-gray-700 text-base lg:text-lg leading-relaxed">
-                    <p className="mb-4">ganize and host over 30 leading industry events across key sectors, including exhibitions, summits, and conferences.</p>
-                    <p>Supported by the Connect digital platform, the ITE ecosystem offers innovative hybrid solutions for industry communities in Russia, the CIS, and beyond.</p>
+                    <p className="mb-4"><p>We organize and host a portfolio of leading B2B trade exhibitions, summits, and conferences across high-growth industry sectors. Each event is designed to deliver targeted business opportunities, strong buyer–seller engagement, and measurable outcomes for participants.</p>
+                    <p>Backed by our integrated media, digital, and on-ground platforms, Maxx Business Media enables year-round visibility and meaningful connections for industry communities in India and international markets.</p>
                   </div>
                 </div>
               </div>
