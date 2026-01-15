@@ -226,7 +226,7 @@ export default function WhyVisit() {
                 viewport={{ once: true }}
                 className="text-4xl lg:text-5xl font-bold mb-12"
               >
-                Why Attend TransRussia
+                Why Attend DIEMEX 2026
               </motion.h2>
 
               <motion.div
