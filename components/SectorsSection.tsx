@@ -9,24 +9,28 @@ export default function SectorsSection() {
   const sectors = [
     { 
       title: 'Precision Die & Mould Solutions',
+
       slug: 'precision-moulds', 
       image: '/images/image.png',
       description: 'Comprehensive die & mould manufacturing, tooling systems, design engineering, and end-to-end production solutions supporting high-precision industrial applications.'
     },
     { 
       title: 'Tooling, Mould Bases & Standard Components',
+
       slug: 'tooling-mould-base', 
       image: '/images/image.png',
       description: 'High-quality mould bases, precision components, hot runner systems, and standard tooling elements supporting efficient and reliable die & mould production.'
     },
     { 
       title: 'Machining & Finishing Technologies',
+
       slug: 'machining-finishing', 
       image: '/images/image.png',
       description: 'High-precision CNC machining, EDM, wire-cut, surface finishing, and polishing solutions for toolroom operations.'
     },
     { 
       title: 'Automation & Industry 4.0 Solutions',
+
       slug: 'automation-industry', 
       image: '/images/image.png',
       description: 'Smart automation, robotics, digital manufacturing, and smart factory technologies for modern die & mould production.'
@@ -44,20 +48,6 @@ export default function SectorsSection() {
       description: 'Port operations, cargo handling, stevedoring, and maritime terminal management services.'
     },
   ];
-
-  return (
-    <section className="grid grid-cols-1 md:grid-cols-3 gap-6">
-      {sectors.map((sector) => (
-        <div key={sector.slug} className="border p-4 rounded">
-          <img src={sector.image} alt={sector.title} />
-          <h3 className="font-bold mt-3">{sector.title}</h3>
-          <p className="text-sm text-gray-600">{sector.description}</p>
-        </div>
-      ))}
-    </section>
-  );
-}
-
 
   return (
     <section className="bg-white py-32">
