@@ -8,13 +8,12 @@ export default function DiscoverSection() {
         <div className="grid lg:grid-cols-12 gap-16">
           <div className="lg:col-span-7 lg:border-l lg:border-white/20 lg:pl-14">
             <h2 className="text-5xl lg:text-6xl xl:text-7xl font-bold leading-[0.85] tracking-tight">
-              Discover <span className="text-[#82c6eb]">TransRussia</span>
+              Discover <span className="text-[#82c6eb]">DIEMEX 2026 Expo</span>
             </h2>
 
             <div className="space-y-6 mt-8 max-w-3xl">
               <p className="text-lg lg:text-xl leading-relaxed">
-                Download our comprehensive post-show report to unlock the
-                details of CIS's premier transport and logistics exhibition.
+               Download our comprehensive post-show report to gain key insights into India’s premier die & mould and tooling exhibition, including visitor profiles, exhibitor highlights, and market trends.
               </p>
               <p className="text-lg lg:text-xl leading-relaxed">
                 Download now and start planning your success!

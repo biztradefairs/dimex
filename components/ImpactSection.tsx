@@ -7,23 +7,24 @@ import SectionContainer from './UI/SectionContainer'
 export default function ImpactSection() {
   const impacts = [
     {
-      title: 'Find the right platform to propel your business forward',
+      title: 'Find the Right Platform to Accelerate Your Business Growth',
+
       content:
-        'TransRussia offers an unmatched opportunity for visitors to discover new suppliers and innovative logistics solutions under one roof.',
+        'DIEMEX offers a powerful opportunity for visitors to discover new die & mould suppliers, tooling partners, and advanced manufacturing solutions—all under one roof.',
       image: '/images/image.png',
       stat: {
         value: '76%',
-        label: 'Of visitors attend the exhibition to find new suppliers',
+        label: 'of visitors attend DIEMEX to identify new suppliers and sourcing partners',
       },
     },
     {
       title: 'Expand your business with the right partners',
       content:
-        'Visitors to TransRussia leave with actionable insights and connections to trusted suppliers.',
+        'Visitors to DIEMEX gain actionable insights, qualified leads, and direct connections with trusted die & mould manufacturers, tooling specialists, and precision engineering solution providers.',
       image: '/images/image.png',
       stat: {
         value: '72%',
-        label: 'Of visitors plan to purchase products and services post event',
+        label: 'of visitors plan to purchase products or services after visiting DIEMEX',
       },
     },
     {
@@ -75,13 +76,13 @@ export default function ImpactSection() {
             </div>
 
             <h2 className="text-5xl lg:text-6xl xl:text-7xl font-semibold mb-6">
-              TransRussia Impact
+              DIEMEX Impact
             </h2>
 
             <p className="text-lg text-gray-700">
-              Discover the scale and reach of TransRussia and SkladTech. From
-              global exhibitors to thousands of visitors, explore the numbers
-              behind the event's success.
+              Discover the scale, influence, and industry reach of DIEMEX. From leading die & mould manufacturers 
+              and technology providers to thousands of qualified industry visitors, explore the key numbers that 
+              define the success of India’s premier die & mould and tooling exhibition.
             </p>
           </div>
 
