@@ -138,8 +138,8 @@ const PartnersSection = () => {
         {/* Slider Container */}
         <div className="relative">
           {/* Gradient overlay for smooth edges */}
-          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-12 bg-gradient-to-r from-white to-transparent" />
-          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-12 bg-gradient-to-l from-white to-transparent" />
+          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-12 bg-linear-to-r from-white to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-12 bg-linear-to-l from-white to-transparent" />
 
           {/* Scrollable Container */}
           <div
@@ -161,7 +161,7 @@ const PartnersSection = () => {
               {duplicatedPartners.map((partner, index) => (
                 <div
                   key={`${partner.name}-${index}`}
-                  className="min-w-[320px] max-w-[320px] px-4 flex-shrink-0" // Fixed width for all cards
+                  className="min-w-[320px] max-w-[320px] px-4 shrink-0" // Fixed width for all cards
                 >
                   <Link
                     href={partner.link}
@@ -189,7 +189,7 @@ const PartnersSection = () => {
                       </div>
                       
                       {/* Text Container - Fixed Height */}
-                      <div className="p-4 min-h-[80px] flex items-center justify-center border-t border-gray-100">
+                      <div className="p-4 min-h-20 flex items-center justify-center border-t border-gray-100">
                         <div className="w-full">
                           <small className="text-sm font-medium text-gray-700 line-clamp-2 leading-tight">
                             {truncateText(partner.name, 6)}

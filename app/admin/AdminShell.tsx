@@ -37,7 +37,7 @@ const navigation = [
     subItems: [
     //   { name: "Sectors", href: "/admin/exhibition/sectors" },
       { name: "Exhibitors", href: "/admin/exhibition/exhibitors" },
-      { name: "Layout Plans", href: "/admin/exhibition/layout" },
+    //   { name: "Layout Plans", href: "/admin/exhibition/layout" },
       { name: "Floor Plans", href: "/admin/exhibition/floor-plans" },
       { name: "Exhibitor Manuals", href: "/admin/exhibition/manuals" },
     ],

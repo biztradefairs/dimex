@@ -463,7 +463,6 @@ const HotelsSection: React.FC = () => {
     {
       name: "Art Moscow 4*",
       description: `The modern Hotel Art Moscow Voykovskaya 4* is a 25-minute drive from Crocus Expo, Sheremetyevo Airport, and the city center. The Voykovskaya metro station, Baltiyskaya MCC, Krasny Baltiets MCC are a 10-minute walk away.
-
 The hotel has a stylish interior and an elaborate infrastructure, including a restaurant, a bar and conference rooms. Buffet breakfast, free Wi-Fi and parking are at guests' disposal. All rooms are equipped with all the amenities you need for maximum comfort, including a mini-fridge and LCD TV, a tea station and toiletries. Book a room at Art Moscow and experience an atmosphere of coziness and inspiration.`,
       imageSrc: "/images/image.png",
       bookingLink: "https://artmoscowhotel.ru/en/",
