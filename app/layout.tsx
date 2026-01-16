@@ -1,25 +1,31 @@
+"use client";
+
 import type { Metadata } from "next";
-import { parabolica } from '@/lib/fonts';
+import { parabolica } from "@/lib/fonts";
 import "./globals.css";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
+import { usePathname } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "TransRussia & SkladTech 2026",
-  description: "Eurasia's leading logistics exhibition",
-};
+// ❌ Metadata cannot be exported from client components
+// Remove metadata export from here
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
+  const pathname = usePathname();
+
+  // 👇 Disable Nav & Footer for admin routes
+  const hideLayout = pathname.startsWith("/admin");
+
   return (
-    <html lang="en" className={`${parabolica.variable}`}>
+    <html lang="en" className={parabolica.variable}>
       <body className="min-h-screen flex flex-col font-parabolica">
-        <NavBar />
+        {!hideLayout && <NavBar />}
         <main className="flex-grow w-full">{children}</main>
-        <Footer />
+        {!hideLayout && <Footer />}
       </body>
     </html>
   );
