@@ -11,8 +11,7 @@ export default function ConnectSection() {
             
             <div className="space-y-6 max-w-3xl">
               <p className="text-lg md:text-xl leading-relaxed">
-                Experience year-round networking and collaboration with TransRussia Connect, our exclusive app designed for logistics professionals. Connect and collaborate seamlessly, 365 days a year, using this dedicated platform.
-              </p>
+Experience continuous networking and collaboration with MOLDING TRENDS, our exclusive platform designed for die & mould, tooling, and precision manufacturing professionals. Connect with industry peers, buyers, and solution providers before, during, and after the exhibition—365 days a year.              </p>
             </div>
             
             {/* <a href="https://app.transrussia-connect.com/public/post?id=3f91096c0eb34ab0bf2a55762da78caa&vendorId=edce6a84-ed2f-455a-afd7-d7fbb0d16c00" className="block mt-8">

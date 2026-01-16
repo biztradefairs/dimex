@@ -5,31 +5,31 @@ export default function ArticlesSection() {
   const articles = [
     {
       title:
-        'Why Is Rail Freight Becoming a Stronger Alternative for Long-Haul Cargo in 2026?',
+        'Why Is India’s Die & Mould Industry Accelerating in 2026?',
       slug:
-        'why-is-rail-freight-becoming-a-stronger-alternative-for-long-haul-cargo-in-2026',
+        'why-is-india-die-mould-industry-accelerating-in-2026',
       excerpt:
-        'Rail freight for long-haul cargo offers reliable schedules, lower emissions, and optimized corridor operations. Digital planning, terminal upgrades, and sea–land integration help shippers move goods efficiently across Eurasia in 2026.',
+        'India’s die & mould sector is witnessing rapid growth driven by automotive expansion, EV manufacturing, localisation initiatives, and demand for high-precision tooling. Advances in CAD/CAM, automation, advanced materials, and Industry 4.0 integration are enabling manufacturers to improve accuracy, reduce lead times, and remain globally competitive in 2026.',
       image: '/images/image.png',
       date: 'November 20, 2025',
     },
     {
       title:
-        'How Are Ports Preparing for Increased Freight Handling Demands in 2026?',
+        'How Is India’s Die & Mould Industry Preparing for Increased Manufacturing Demand in 2026?',
       slug:
-        'how-are-ports-preparing-for-increased-freight-handling-demands-in-2026',
+        'how-is-die-mould-industry-preparing-in-2026',
       excerpt:
-        'Freight handling in ports is evolving with infrastructure upgrades, digital operations, and sea–land integration. Ports in Eurasia enhance berth productivity, reduce dwell, and ensure reliable inland handoffs to meet growing 2026 cargo demands.',
+        'India’s die & mould ecosystem is scaling up through capacity expansion, advanced machining, automation, and digital design workflows. Toolrooms are investing in high-speed CNC, EDM technologies, simulation software, and skilled manpower to reduce lead times, improve accuracy, and meet the rising demand from automotive, EV, electronics, and industrial manufacturing sectors in 2026.',
       image: '/images/image.png',
       date: 'November 05, 2025',
     },
     {
       title:
-        'What\'s Next for Oversized Cargo Handling in the Global Logistics Industry?',
+        'What’s Next for Large & Complex Tooling in Die & Mould Manufacturing?',
       slug:
-        'what-s-next-for-oversized-cargo-handling-in-the-global-logistics-industry',
+        'what-s-next-for-large-complex-tooling-mould-manufacturing',
       excerpt:
-        'Oversized cargo handling is evolving with digital planning, IoT monitoring, and coordinated sea–land operations. Operators reduce risk, improve speed, and ensure predictable delivery for turbines, bridge spans, and other large project freight across Eurasia.',
+        'The production and handling of large, complex dies and moulds is advancing through high-precision machining, digital design validation, modular tooling concepts, and smart material selection. Manufacturers are adopting simulation-driven planning, automated handling systems, and quality monitoring to reduce risk, improve accuracy, and ensure reliable delivery of large automotive panels, structural components, and industrial tooling in 2026.',
       image: '/images/image.png',
       date: 'October 23, 2025',
     },
