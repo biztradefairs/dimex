@@ -17,10 +17,10 @@ export default function AboutSection() {
   const buttonRef = useRef<HTMLButtonElement>(null);
 
   const stats = [
-    { value: '30,500', label: 'Visitors' },
-    { value: '600+', label: 'Exhibitors' },
-    { value: '50+', label: 'Countries Represented' },
-    { value: '13', label: 'Event Sectors' },
+    { value: '10,000', label: 'Visitors' },
+    { value: '200+', label: 'Exhibitors' },
+    { value: '5+', label: 'Countries Represented' },
+    { value: '10', label: 'Event Sectors' },
   ];
 
   useEffect(() => {
@@ -142,7 +142,7 @@ export default function AboutSection() {
               ref={titleRef}
               className="max-w-[1400px] text-5xl lg:text-6xl font-[500] leading-[0.9] tracking-tight text-black opacity-0"
             >
-              Russia&apos;s Leading Transport and Logistics Event
+              India &apos;s Leading Die & Mould Manufacturing ExhibitionRussia
             </h2>
 
             <div className="max-w-[1050px] space-y-4">
@@ -150,20 +150,19 @@ export default function AboutSection() {
                 ref={addToTextRefs}
                 className="text-lg md:text-xl leading-relaxed text-black/80 opacity-0"
               >
-                TransRussia 2026 is the premier international exhibition for
-                transport and logistics services, warehouse equipment, and
-                advanced technologies. Taking place from 17–19 March 2026 at
-                Crocus Expo, it brings together industry leaders,
-                decision-makers, and innovators from across 50 countries.
+                DIEMEX 2026 is India’s premier international exhibition for die & mould manufacturing, tooling solutions, 
+                precision engineering, and advanced manufacturing technologies. Scheduled from 8–10 October 2026 at the 
+                Auto Cluster Exhibition Centre, Pune, India, the exhibition brings together industry leaders, OEMs, 
+                toolmakers, and technology innovators from India and overseas.
               </p>
 
               <p
                 ref={addToTextRefs}
                 className="text-lg md:text-xl leading-relaxed text-black/80 opacity-0"
               >
-                Whether you&apos;re looking to meet new clients, strengthen
-                existing relationships, or explore cutting-edge industry
-                advancements, TransRussia is the place to be.
+              Whether you are looking to connect with new buyers, strengthen existing business partnerships, 
+              or discover next-generation die & mould technologies, DIEMEX 2026 is the definitive platform 
+              where precision manufacturing meets opportunity.
               </p>
             </div>
 
