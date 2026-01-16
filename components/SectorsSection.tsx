@@ -36,16 +36,16 @@ export default function SectorsSection() {
       description: 'Smart automation, robotics, digital manufacturing, and smart factory technologies for modern die & mould production.'
     },
     { 
-      title: 'Road Freight', 
-      slug: 'road-freight-transportation', 
+      title: 'Design, CAD/CAM & Engineering Software', 
+      slug: 'cad-cam', 
       image: '/images/image.png',
-      description: 'Trucking services, LTL/FTL transport, and last-mile delivery solutions across Eurasia.'
+      description: 'Advanced design, simulation, and manufacturing software enabling accurate tooling development and reduced time-to-market.'
     },
     { 
-      title: 'Ports & Terminals', 
-      slug: 'ports-and-terminals-freight-handling-services-in-ports', 
+      title: 'Tool Steel & Advanced Materials', 
+      slug: 'tool-steel', 
       image: '/images/image.png',
-      description: 'Port operations, cargo handling, stevedoring, and maritime terminal management services.'
+      description: 'High-performance tool steels, alloy steels, special metals, and advanced materials engineered for durability, precision, and long tool life in die & mould applications.'
     },
   ];
 
