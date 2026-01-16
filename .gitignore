@@ -8,8 +8,7 @@
 !.yarn/releases
 !.yarn/versions
 
-# Ignore admin routes
-app/admin/
+
 
 # testing
 /coverage
