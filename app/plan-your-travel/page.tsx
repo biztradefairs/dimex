@@ -223,7 +223,7 @@ const IntroductionSection: React.FC = () => {
               className="flex-center w-fit gap-2 py-2 pe-5 pl-1 capitalize"
             >
               <Image
-                src="/imgs/logo-icon-3.png"
+                src="/images/logo-icon-3.png"
                 alt="TransRussia©24"
                 className="size-auto w-5"
               />
@@ -342,7 +342,7 @@ const GuideSection: React.FC = () => {
               className="flex-center w-fit gap-2 py-2 pe-5 pl-1 capitalize"
             >
               <Image
-                src="/imgs/logo-icon-3.png"
+                src="/images/logo-icon-3.png"
                 alt="TransRussia©24"
                 className="w-5"
               />

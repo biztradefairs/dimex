@@ -236,10 +236,6 @@ const options: Partial<Html2CanvasOptions> = {
 };
 
 const canvas = await html2canvas(containerRef.current!, options);
-
-
-
-      
       const link = document.createElement("a");
       link.download = `exhibition-floor-plan-${Date.now()}.png`;
       link.href = canvas.toDataURL("image/png");

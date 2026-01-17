@@ -19,7 +19,7 @@ const StatsSection = () => {
             Shaping the Future of Transport and Logistics
           </h2>
 
-          <p className="text-lg leading-relaxed text-black/80 max-w-4xl mb-10">
+          <p className="text-lg leading-relaxed text-black/80 max-w-8xl mb-10">
             TransRussia is Eurasia&apos;s largest transport and logistics
             exhibition, featuring top companies across rail, road, sea, air,
             warehousing, and IT. This year, the 30th edition, held alongside

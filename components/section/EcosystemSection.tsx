@@ -49,7 +49,7 @@ const EcosystemSection = () => {
       <div className="relative z-10">
         <SectionContainer>
           {/* HEADER */}
-          <div className="mb-14 flex max-w-4xl flex-col gap-6">
+          <div className="mb-14 flex max-w-8xl flex-col gap-6">
             <h2 className="title-72 text-black">
               TransRussia Moscow: A Year-Round Logistics Ecosystem
             </h2>

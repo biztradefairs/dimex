@@ -19,7 +19,7 @@ export default function AboutTransRussia() {
       {/* Intro Loader */}
   <div
   id="intro"
-  className="fixed inset-0 z-[100] grid place-content-center bg-mainColor1 pointer-events-none"
+  className="fixed inset-0 z-100 grid place-content-center bg-mainColor1 pointer-events-none"
 >
   <div className="loader"></div>
 </div>

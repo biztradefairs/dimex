@@ -4,6 +4,7 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { ChevronDown, Menu, X } from "lucide-react"
 import Button from "./UI/Button"
+import Image from "next/image";
 
 type NavItem = {
   title: string
@@ -113,10 +114,30 @@ useEffect(() => {
 
                 {/* LOGO */}
                 <Link href="/" className="flex items-center gap-3 font-bold">
-                  <span>DIEMEX 2026</span>
-                  <span className="opacity-0">|</span>
-                  <div className="flex flex-col"> <span className="text-xs text-white leading-tight"> 08–10 October 2026 </span> <span className="text-xs text-white leading-tight"> Auto Cluster Exhibition Centre, Pune, India </span> </div>
-                </Link>
+  {/* Logo */}
+  <Image
+    src="/images/logo-diemex 1.png"          // put logo inside /public
+    alt="DIEMEX 2026 Logo"
+    width={120}
+    height={80}
+    className="object-contain"
+    priority
+  />
+
+  {/* Text */}
+  {/* <span>DIEMEX 2026</span> */}
+  <span className="opacity-40">|</span>
+
+  <div className="flex flex-col">
+    <span className="text-xs text-white leading-tight">
+      08–10 October 2026
+    </span>
+    <span className="text-xs text-white leading-tight">
+      Auto Cluster Exhibition Centre, Pune, India
+    </span>
+  </div>
+</Link>
+
 
                 {/* DESKTOP NAV */}
                 <nav className="hidden lg:flex items-center gap-6">
