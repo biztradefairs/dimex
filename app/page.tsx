@@ -20,7 +20,7 @@ export default function Home() {
     <main className="font-parabolica antialiased overflow-hidden">
       <HeroSection />
       <AboutSection />
-      <SkladTechSection />
+      {/* <SkladTechSection /> */}
       <WhyChooseSection />
       <DiscoverSection />
       <ImpactSection />

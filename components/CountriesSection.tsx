@@ -26,12 +26,12 @@ export default function CountriesSection() {
           </div>
           
           <h2 className="text-5xl lg:text-7xl font-bold text-black mb-8 leading-[0.85] tracking-tight text-center">
-            Discover the Global Reach of TransRussia
+            Discover the Global Reach of DIEMEX
           </h2>
           
           <div className="space-y-6 max-w-3xl mx-auto">
             <p className="text-lg lg:text-xl leading-relaxed text-center">
-              TransRussia brings together solution providers in the logistics and warehousing sector from all corners of the world to assemble and do business across 3 days of the exhibition.
+              DIEMEX brings together die & mould manufacturers, tooling suppliers, material specialists, and advanced manufacturing solution providers from across the globe to connect, collaborate, and conduct business over three focused days of the exhibition.
             </p>
           </div>
           

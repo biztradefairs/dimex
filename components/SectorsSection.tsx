@@ -8,40 +8,44 @@ import Link from 'next/link';
 export default function SectorsSection() {
   const sectors = [
     { 
-      title: 'Complex Logistics', 
-      slug: 'complex-logistics', 
+      title: 'Precision Die & Mould Solutions',
+
+      slug: 'precision-moulds', 
       image: '/images/image.png',
-      description: 'Freight forwarding, customs clearance, and comprehensive supply chain management solutions for global trade.'
+      description: 'Comprehensive die & mould manufacturing, tooling systems, design engineering, and end-to-end production solutions supporting high-precision industrial applications.'
     },
     { 
-      title: 'Maritime Transport', 
-      slug: 'maritime-and-inland-waterway-transport', 
+      title: 'Tooling, Mould Bases & Standard Components',
+
+      slug: 'tooling-mould-base', 
       image: '/images/image.png',
-      description: 'Ocean shipping, river transport, and port-to-port logistics services across Eurasian trade corridors.'
+      description: 'High-quality mould bases, precision components, hot runner systems, and standard tooling elements supporting efficient and reliable die & mould production.'
     },
     { 
-      title: 'Air Freight', 
-      slug: 'air-freight', 
+      title: 'Machining & Finishing Technologies',
+
+      slug: 'machining-finishing', 
       image: '/images/image.png',
-      description: 'Express cargo, temperature-controlled transport, and time-sensitive logistics solutions.'
+      description: 'High-precision CNC machining, EDM, wire-cut, surface finishing, and polishing solutions for toolroom operations.'
     },
     { 
-      title: 'Rail Freight', 
-      slug: 'rail-freight', 
+      title: 'Automation & Industry 4.0 Solutions',
+
+      slug: 'automation-industry', 
       image: '/images/image.png',
-      description: 'Rail transportation, intermodal solutions, and cross-border rail logistics infrastructure.'
+      description: 'Smart automation, robotics, digital manufacturing, and smart factory technologies for modern die & mould production.'
     },
     { 
-      title: 'Road Freight', 
-      slug: 'road-freight-transportation', 
+      title: 'Design, CAD/CAM & Engineering Software', 
+      slug: 'cad-cam', 
       image: '/images/image.png',
-      description: 'Trucking services, LTL/FTL transport, and last-mile delivery solutions across Eurasia.'
+      description: 'Advanced design, simulation, and manufacturing software enabling accurate tooling development and reduced time-to-market.'
     },
     { 
-      title: 'Ports & Terminals', 
-      slug: 'ports-and-terminals-freight-handling-services-in-ports', 
+      title: 'Tool Steel & Advanced Materials', 
+      slug: 'tool-steel', 
       image: '/images/image.png',
-      description: 'Port operations, cargo handling, stevedoring, and maritime terminal management services.'
+      description: 'High-performance tool steels, alloy steels, special metals, and advanced materials engineered for durability, precision, and long tool life in die & mould applications.'
     },
   ];
 
@@ -73,7 +77,7 @@ export default function SectorsSection() {
               leading-[0.95]
               tracking-tight
             ">
-              Discover 13 Product Sectors In-Demand
+              Discover In-Demand Product Sectors at DIEMEX
             </h2>
           </div>
 
