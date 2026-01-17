@@ -1,11 +1,12 @@
 import Link from "next/link"
-import { 
-  FaLinkedinIn, 
-  FaInstagram, 
-  FaFacebookF, 
-  FaYoutube, 
-  FaTwitter 
+import {
+  FaLinkedinIn,
+  FaInstagram,
+  FaFacebookF,
+  FaYoutube,
+  FaTwitter
 } from "react-icons/fa"
+import Image from "next/image"
 
 export default function Footer() {
   return (
@@ -16,22 +17,34 @@ export default function Footer() {
           <div className="flex items-center gap-5">
             <Link href="/" className="flex items-center gap-3">
               <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center">
-                  <span className="text-lg font-bold text-white">D</span>
-                </div>
-                <div>
-                  <div className="text-xl font-bold">DIEMEX</div>
-                  <div className="text-sm">2026</div>
-                </div>
-              </div>
 
-              <div className="h-10 w-px bg-white/40" />
- {false && (
-              <div className="flex items-center gap-2">
-                <div className="h-8 w-8 rounded-full bg-blue-300" />
-                <div className="text-xl font-bold"></div>
+                <Image
+                  src="/images/logo-diemex2.png"          // put logo inside /public
+                  alt="DIEMEX 2026 Logo"
+                  width={120}
+                  height={80}
+                  className="object-contain"
+                  priority
+                />
+
+                {/* Text */}
+                {/* <span>DIEMEX 2026</span> */}
+                <span className="h-8 w-px bg-white/70 mx-2"></span>
+                <Image
+                  src="/images/3rd-edition.png"          // put logo inside /public
+                  alt="DIEMEX 2026 Logo"
+                  width={150}
+                  height={80}
+                  className="object-contain mb-3"
+                  priority
+                />
               </div>
-      )}
+              {false && (
+                <div className="flex items-center gap-2">
+                  <div className="h-8 w-8 rounded-full bg-blue-300" />
+                  <div className="text-xl font-bold"></div>
+                </div>
+              )}
             </Link>
           </div>
         </div>
@@ -97,26 +110,26 @@ export default function Footer() {
             <div>
               <h5 className="mb-2 font-semibold">Quick Links</h5>
               <div className="flex flex-col gap-2 text-white/70">
-                <Link 
-                  href="/exhibiting-enquiry" 
+                <Link
+                  href="/exhibiting-enquiry"
                   className="hover:underline hover:text-white transition-colors"
                 >
                   Become an Exhibitor
                 </Link>
-                <Link 
-                  href="/post-show-report" 
+                <Link
+                  href="/post-show-report"
                   className="hover:underline hover:text-white transition-colors"
                 >
                   Download post-show report
                 </Link>
-                <Link 
-                  href="/event-brochure" 
+                <Link
+                  href="/event-brochure"
                   className="hover:underline hover:text-white transition-colors"
                 >
                   Download event brochure
                 </Link>
-                <Link 
-                  href="/contact-us" 
+                <Link
+                  href="/contact-us"
                   className="hover:underline hover:text-white transition-colors"
                 >
                   Contact Us
@@ -171,7 +184,7 @@ export default function Footer() {
                   <FaTwitter className="h-5 w-5 text-white" />
                 </a> */}
               </div>
-              
+
               <p className="mt-3 text-sm text-white/60">
                 Follow us for latest updates and news
               </p>
@@ -187,8 +200,8 @@ export default function Footer() {
             <span className="text-white/70">Organised By</span>
             <div className="h-8 w-52 rounded bg-white/40 flex items-center justify-center">
               <span className="font-bold text-white">MAXX</span>
-<span className="mx-2 font-bold text-white-400">BUSINESS</span>
-<span className="font-bold text-white">MEDIA</span>
+              <span className="mx-2 font-bold text-white-400">BUSINESS</span>
+              <span className="font-bold text-white">MEDIA</span>
             </div>
           </div>
 
@@ -219,8 +232,8 @@ export default function Footer() {
               >
                 Cookie Policy
               </a>
-              <a 
-                href="/sitemap.xml" 
+              <a
+                href="/sitemap.xml"
                 className="hover:text-white hover:underline transition-colors"
               >
                 Sitemap
