@@ -3,6 +3,7 @@
 
 import HeroSection from '@/components/HeroSection'
 import AboutSection from '@/components/AboutSection'
+import SkladTechSection from '@/components/SkladTechSection'
 import WhyChooseSection from '@/components/WhyChooseSection'
 import DiscoverSection from '@/components/DiscoverSection'
 import ImpactSection from '@/components/ImpactSection'
@@ -19,7 +20,7 @@ export default function Home() {
     <main className="font-parabolica antialiased overflow-hidden">
       <HeroSection />
       <AboutSection />
-      <SkladTechSection />
+      {/* <SkladTechSection /> */}
       <WhyChooseSection />
       <DiscoverSection />
       <ImpactSection />

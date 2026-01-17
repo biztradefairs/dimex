@@ -15,7 +15,7 @@ export default function ExplorePuneSection() {
           {/* DESCRIPTION */}
           <div className="max-w-3xl space-y-6">
             <p className="text-lg lg:text-xl leading-relaxed text-black">
-              Make the most of your visit to DIEMEX 2026 by experiencing the dynamic city of Pune—a major hub for automotive, engineering, and manufacturing excellence. Explore key industrial corridors, business districts, cultural landmarks, and dining destinations that perfectly complement your exhibition and networking experience.
+              Make the most of your visit to DIEMEX 2026 by experiencing the dynamic city of Pune—a major hub for automotive, engineering, and manufacturing excellence. Explore key industrial corridors, business districts, cultural landmarks, and dining destinations that perfectly complement your exhibition and networking experience.git
             </p>
           </div>
 
