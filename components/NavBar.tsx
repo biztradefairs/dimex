@@ -137,11 +137,11 @@ export default function NavBar() {
                   />
 
                   <div className="flex flex-col font-parabolica">
-                    <span className="text-[16px] text-white leading-tight font-light">
-                      08–10 October 2026, Auto Cluster Exhibition Centre,
+                    <span className="text-[14px] text-white leading-tight font-light">
+                      08–10 October 2026, 
                     </span>
-                    <span className="text-[16px] text-white leading-tight font-light">
-                       Pune, India
+                    <span className="text-[14px] text-white leading-tight font-light">
+                       Auto Cluster Exhibition Centre, Pune
                     </span>
                   </div>
 
