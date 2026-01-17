@@ -62,38 +62,38 @@ export default function NavBar() {
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null)
   const [scrolled, setScrolled] = useState(false)
 
-const [timeLeft, setTimeLeft] = useState({
-  days: 0,
-  hours: 0,
-  minutes: 0,
-  // seconds: 0,
-})
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    // seconds: 0,
+  })
 
 
   /* ================= TIMER ================= */
-useEffect(() => {
-  const calculateTimeLeft = () => {
-    const now = Date.now()
-    const diff = EVENT_DATE - now
+  useEffect(() => {
+    const calculateTimeLeft = () => {
+      const now = Date.now()
+      const diff = EVENT_DATE - now
 
-    if (diff <= 0) {
-      setTimeLeft({ days: 0, hours: 0, minutes: 0 })
-      return
+      if (diff <= 0) {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0 })
+        return
+      }
+
+      setTimeLeft({
+        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((diff / (1000 * 60)) % 60),
+        // seconds: Math.floor((diff / 1000) % 60),
+      })
     }
 
-    setTimeLeft({
-      days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-      hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-      minutes: Math.floor((diff / (1000 * 60)) % 60),
-      // seconds: Math.floor((diff / 1000) % 60),
-    })
-  }
+    calculateTimeLeft()
+    const timer = setInterval(calculateTimeLeft, 1000)
 
-  calculateTimeLeft()
-  const timer = setInterval(calculateTimeLeft, 1000)
-
-  return () => clearInterval(timer)
-}, [])
+    return () => clearInterval(timer)
+  }, [])
 
 
   /* ================= SCROLL ================= */
@@ -114,29 +114,38 @@ useEffect(() => {
 
                 {/* LOGO */}
                 <Link href="/" className="flex items-center gap-3 font-bold">
-  {/* Logo */}
-  <Image
-    src="/images/logo-diemex 1.png"          // put logo inside /public
-    alt="DIEMEX 2026 Logo"
-    width={120}
-    height={80}
-    className="object-contain"
-    priority
-  />
+                  {/* Logo */}
+                  <Image
+                    src="/images/logo-diemex2.png"          // put logo inside /public
+                    alt="DIEMEX 2026 Logo"
+                    width={120}
+                    height={80}
+                    className="object-contain"
+                    priority
+                  />
 
-  {/* Text */}
-  {/* <span>DIEMEX 2026</span> */}
-  <span className="opacity-40">|</span>
+                  {/* Text */}
+                  {/* <span>DIEMEX 2026</span> */}
+                  <span className="h-8 w-px bg-white/70 mx-2"></span>
+                  <Image
+                    src="/images/3rd-edition.png"          // put logo inside /public
+                    alt="DIEMEX 2026 Logo"
+                    width={150}
+                    height={80}
+                    className="object-contain mb-3"
+                    priority
+                  />
 
-  <div className="flex flex-col">
-    <span className="text-xs text-white leading-tight">
-      08–10 October 2026
-    </span>
-    <span className="text-xs text-white leading-tight">
-      Auto Cluster Exhibition Centre, Pune, India
-    </span>
-  </div>
-</Link>
+                  <div className="flex flex-col font-parabolica">
+                    <span className="text-[16px] text-white leading-tight font-light">
+                      08–10 October 2026
+                    </span>
+                    <span className="text-[16px] text-white leading-tight font-light">
+                      Auto Cluster Exhibition Centre, Pune, India
+                    </span>
+                  </div>
+
+                </Link>
 
 
                 {/* DESKTOP NAV */}
@@ -155,10 +164,9 @@ useEffect(() => {
                             {/* Hover underline effect */}
                             <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-white group-hover:w-full transition-all duration-300"></span>
                           </span>
-                          <ChevronDown 
-                            className={`h-4 w-4 transition-transform duration-300 ${
-                              activeDropdown === i ? "rotate-180" : ""
-                            }`} 
+                          <ChevronDown
+                            className={`h-4 w-4 transition-transform duration-300 ${activeDropdown === i ? "rotate-180" : ""
+                              }`}
                           />
                         </button>
 
@@ -183,9 +191,9 @@ useEffect(() => {
                         )}
                       </div>
                     ) : (
-                      <Link 
-                        key={i} 
-                        href={item.href!} 
+                      <Link
+                        key={i}
+                        href={item.href!}
                         className="hover:text-gray-200 relative group"
                       >
                         <span className="relative">
@@ -219,9 +227,9 @@ useEffect(() => {
             {!scrolled && (
               <div className="hidden lg:flex justify-end mr-25 pr-8">
                 <div className="flex items-center gap-4 rounded-b-xl bg-[#0d1e3c] px-4 py-1.5 text-sm text-white">
-                 <span>{timeLeft.days} Days</span>
-<span>{timeLeft.hours} Hours</span>
-<span>{timeLeft.minutes} Mins</span>
+                  <span>{timeLeft.days} Days</span>
+                  <span>{timeLeft.hours} Hours</span>
+                  <span>{timeLeft.minutes} Mins</span>
                 </div>
               </div>
             )}
@@ -229,65 +237,65 @@ useEffect(() => {
         </div>
       </header>
 
-{mobileMenuOpen && (
-  <div
-    className="lg:hidden fixed top-[72px] left-0 right-0 z-[998]
+      {mobileMenuOpen && (
+        <div
+          className="lg:hidden fixed top-[72px] left-0 right-0 z-[998]
                max-h-[calc(100vh-80px)] overflow-y-auto
                bg-[#0d1e3c] text-white shadow-xl"
-  >
-    <div className="px-5 py-4">
-      <div className="mb-3 text-center font-mono text-xs opacity-80">
-        {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m
-      </div>
+        >
+          <div className="px-5 py-4">
+            <div className="mb-3 text-center font-mono text-xs opacity-80">
+              {timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m
+            </div>
 
-      <div className="flex flex-col gap-4">
-        {navItems.map((item, i) =>
-          item.dropdown && item.links ? (
-            <div key={i} className="group/mobile">
-              <div className="text-sm font-semibold pb-2 border-b border-white/20 group-hover/mobile:border-blue-500 transition-colors duration-300">
-                {item.title}
-              </div>
-              <div className="mt-1 ml-3 flex flex-col gap-1.5">
-                {item.links.map((link, j) => (
+            <div className="flex flex-col gap-4">
+              {navItems.map((item, i) =>
+                item.dropdown && item.links ? (
+                  <div key={i} className="group/mobile">
+                    <div className="text-sm font-semibold pb-2 border-b border-white/20 group-hover/mobile:border-blue-500 transition-colors duration-300">
+                      {item.title}
+                    </div>
+                    <div className="mt-1 ml-3 flex flex-col gap-1.5">
+                      {item.links.map((link, j) => (
+                        <Link
+                          key={j}
+                          href={link.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="text-sm opacity-80 hover:opacity-100 hover:text-blue-300 transition-colors duration-300 py-2 relative group/item"
+                        >
+                          <span className="relative">
+                            {link.text}
+                            {/* Mobile hover underline effect */}
+                            <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-blue-300 group-hover/item:w-full transition-all duration-300"></span>
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                ) : (
                   <Link
-                    key={j}
-                    href={link.href}
+                    key={i}
+                    href={item.href!}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="text-sm opacity-80 hover:opacity-100 hover:text-blue-300 transition-colors duration-300 py-2 relative group/item"
+                    className="text-sm font-semibold pb-2 border-b border-white/20 hover:border-blue-500 hover:text-blue-300 transition-all duration-300"
                   >
-                    <span className="relative">
-                      {link.text}
-                      {/* Mobile hover underline effect */}
-                      <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-blue-300 group-hover/item:w-full transition-all duration-300"></span>
-                    </span>
+                    {item.title}
                   </Link>
-                ))}
+                )
+              )}
+
+              <div className="mt-4 flex flex-col gap-2 border-t border-white/20 pt-4">
+                <Button href="/exhibiting-enquiry" fullWidth>
+                  Become an Exhibitor
+                </Button>
+                <Button href="/visitor-registration" fullWidth>
+                  Register Now
+                </Button>
               </div>
             </div>
-          ) : (
-            <Link
-              key={i}
-              href={item.href!}
-              onClick={() => setMobileMenuOpen(false)}
-              className="text-sm font-semibold pb-2 border-b border-white/20 hover:border-blue-500 hover:text-blue-300 transition-all duration-300"
-            >
-              {item.title}
-            </Link>
-          )
-        )}
-
-        <div className="mt-4 flex flex-col gap-2 border-t border-white/20 pt-4">
-          <Button href="/exhibiting-enquiry" fullWidth>
-            Become an Exhibitor
-          </Button>
-          <Button href="/visitor-registration" fullWidth>
-            Register Now
-          </Button>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-)}
+      )}
     </>
   )
 }

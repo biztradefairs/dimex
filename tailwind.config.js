@@ -1,3 +1,5 @@
+const { fontFamily } = require("html2canvas/dist/types/css/property-descriptors/font-family");
+
 module.exports = {
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
@@ -6,6 +8,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        parabolica: ["var(--font-parabolica"]
+      },
       screens: {
         'xs': '475px',
         'sm': '640px',
