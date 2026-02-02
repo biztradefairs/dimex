@@ -13,7 +13,7 @@ const EcosystemSection = () => {
 - Establish direct, face-to-face business connections with OEMs, toolroom owners, and senior decision-makers.
 - Showcase advanced die & mould solutions, including tooling technologies, design & engineering software, automation, materials, and Industry 4.0 innovations.
 - Engage with thousands of qualified buyers and technical professionals from automotive, EV, plastics, aerospace, and industrial manufacturing sectors—all in one place from 8–10 October 2026.`,
-      image: "/TR_2025_161_da551e1607.jpg",
+      image: "https://cdn.itegroupnews.com/TR_2025_159_0d4f744777.jpg",
       link: "/about-transrussia",
       buttonText: "Know More",
     },
@@ -25,7 +25,7 @@ const EcosystemSection = () => {
 - Gain insights from industry experts on the latest developments, challenges, and opportunities in die & mould and precision manufacturing.
 - Explore emerging technologies, including advanced tooling, materials, automation, digital design, and Industry 4.0 applications.
 - Build valuable professional connections with OEMs, toolroom heads, engineers, buyers, and decision-makers from across the manufacturing ecosystem.`,
-      image: "/TR_2025_159_0d4f744777.jpg",
+      image: "https://cdn.itegroupnews.com/TR_2025_161_da551e1607.jpg",
       link: "/conference-programme",
       buttonText: "Conference Programme",
     },
@@ -36,7 +36,7 @@ const EcosystemSection = () => {
 - Network year-round with buyers, OEMs, toolrooms, technology providers, and industry peers.
 - Access curated content, including industry news, technical insights, exhibitor updates, and market trends.
 - Schedule meetings, manage contacts, and follow up on business leads seamlessly through a single digital platform.`,
-      image: "/Untitled_design_92_3f5e8a1454.png",
+      image: "http://cdn.itegroupnews.com/Untitled_design_92_3f5e8a1454.png",
       link: "/connect",
       buttonText: "Join Molding Trends",
     },
@@ -76,14 +76,14 @@ const EcosystemSection = () => {
                 {/* IMAGE + NUMBER */}
                 <div className="p-6 pb-0 xl:p-8">
                   <div className="mb-6 flex items-center justify-between">
-                    <div className="relative size-16 overflow-hidden rounded-full">
-                      <Image
-                        src={item.image}
-                        alt={item.title}
-                        fill
-                        className="object-cover"
-                      />
-                    </div>
+                  <div className="relative size-16 overflow-hidden rounded-full">
+  <img
+    src={item.image}
+    alt={item.title}
+    className="h-full w-full object-cover"
+  />
+</div>
+
 
                     <span className="text-2xl font-semibold text-black/60">
                       {item.number}

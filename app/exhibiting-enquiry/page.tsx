@@ -2,14 +2,14 @@
 
 import React, { useEffect, useRef, useState } from "react"
 import Head from "next/head"
-import Image from "next/image"
-import Link from "next/link"
 import SectionContainer from "@/components/UI/SectionContainer"
 import PartnersSection from "@/components/section/PartnersSection"
+import ReCAPTCHA from "react-google-recaptcha"
 
 const TransRussiaExhibitPage: React.FC = () => {
   const introRef = useRef<HTMLDivElement>(null)
   const backToTopRef = useRef<HTMLButtonElement>(null)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
 
   const [formData, setFormData] = useState({
     interestLevel: "",
@@ -34,9 +34,9 @@ const TransRussiaExhibitPage: React.FC = () => {
   ]
 
   const standSizes = [
-    "9 sqm (3x3)","12 sqm (3x4)","15 sqm (3x5)","18 sqm (3x6)",
-    "20 sqm (4x5)","24 sqm (4x6)","30 sqm (5x6)",
-    "36 sqm (6x6)","Custom Size"
+    "9 sqm (3x3)","12 sqm (3x4)","15 sqm (3x5)",
+    "18 sqm (3x6)","20 sqm (4x5)","24 sqm (4x6)",
+    "30 sqm (5x6)","36 sqm (6x6)","Custom Size"
   ]
 
   const hearAboutOptions = [
@@ -60,9 +60,8 @@ const TransRussiaExhibitPage: React.FC = () => {
     "CAD/CAM/CAE, Simulation",
     "Mould Base",
     "Tool Room - Die Casting Dies & Rubber Moulds",
-     "Tool Room - Jig, Fixture and Gauges",
-      "Tool Room - Sheet Metal Dies / Sheet metal Components",
-     
+    "Tool Room - Jig, Fixture and Gauges",
+    "Tool Room - Sheet Metal Dies / Sheet metal Components",
   ]
 
   useEffect(() => {
@@ -72,13 +71,9 @@ const TransRussiaExhibitPage: React.FC = () => {
 
     const handleScroll = () => {
       if (!backToTopRef.current) return
-      if (window.scrollY > 300) {
-        backToTopRef.current.style.opacity = "1"
-        backToTopRef.current.style.pointerEvents = "auto"
-      } else {
-        backToTopRef.current.style.opacity = "0"
-        backToTopRef.current.style.pointerEvents = "none"
-      }
+      backToTopRef.current.style.opacity = window.scrollY > 300 ? "1" : "0"
+      backToTopRef.current.style.pointerEvents =
+        window.scrollY > 300 ? "auto" : "none"
     }
 
     window.addEventListener("scroll", handleScroll)
@@ -101,14 +96,23 @@ const TransRussiaExhibitPage: React.FC = () => {
           : prev.productSector.filter(s => s !== name),
       }))
     } else {
-      setFormData(prev => ({ ...prev, [name]: type === "checkbox" ? checked : value }))
+      setFormData(prev => ({
+        ...prev,
+        [name]: type === "checkbox" ? checked : value,
+      }))
     }
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log(formData)
-    alert("Form submitted")
+
+    if (!formData.notRobot) {
+      alert("Please confirm that you are not a robot.")
+      return
+    }
+
+    console.log("Submitted Data:", formData)
+    alert("Form submitted successfully!")
   }
 
   return (
@@ -118,140 +122,147 @@ const TransRussiaExhibitPage: React.FC = () => {
       </Head>
 
       {/* INTRO LOADER */}
-      <div ref={introRef} className="fixed inset-0 z-[100] grid place-content-center bg-mainColor1">
+      <div
+        ref={introRef}
+        className="fixed inset-0 z-[100] grid place-content-center bg-mainColor1"
+      >
         <div className="loader" />
       </div>
 
       {/* BACK TO TOP */}
       <button
         ref={backToTopRef}
-        className="fixed bottom-6 right-6 z-50 opacity-0 transition"
+        className="fixed bottom-6 right-6 z-50 opacity-0 transition bg-black text-white px-4 py-2 rounded-full"
         onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
       >
         ↑
       </button>
 
-      <main className="page-spacing-wrapper font-parabolica">
+      <main className="page-spacing-wrapper">
 
         {/* ================= HERO ================= */}
         <div className="relative z-[1] bg-[#F4FAFF] pt-48">
           <SectionContainer className="!pb-10">
-            <h1 className="title-72 bg-[] text-black mt-15">Enquiry to Exhibit</h1>
+            <h1 className="title-72 text-black">Enquiry to Exhibit</h1>
             <p className="max-w-6xl py-5">
-              If you'd like to exhibit at DIEMEX 2026 or would like more
-              information about exhibiting opportunities, please complete the
-              form below and a member of our team will be in touch with you.
+              Please complete the form below and our team will contact you
+              regarding DIEMEX 2026 exhibiting opportunities.
             </p>
           </SectionContainer>
         </div>
 
-        {/* ================= CONTENT ================= */}
+        {/* CONTENT */}
         <SectionContainer className="py-20">
           <div className="grid gap-10 lg:grid-cols-2">
-
-            {/* LEFT CONTENT */}
+            {/* LEFT */}
             <div>
-              <h2 className="title-mainColor2 my-5 text-3xl lg:text-6xl font-semibold">
+              <h2 className="text-3xl lg:text-6xl font-semibold text-mainColor2">
                 Be Part of India’s Leading Die & Mould Manufacturing Exhibition
               </h2>
 
               <p className="my-5">
-                Showcase your die & mould, tooling, materials, and precision manufacturing solutions to India’s rapidly expanding automotive, EV, plastics, aerospace, and industrial manufacturing market.
+                Showcase your solutions to automotive, EV, plastics, aerospace
+                and industrial manufacturing leaders.
               </p>
 
               <hr className="my-8" />
 
               <div className="grid grid-cols-2 gap-10">
                 {[
-                  ["10,000","Visitors"],
-                  ["200+","Exhibitors"],
-                  ["20+","Speakers"],
-                  ["5+","Countries"],
-                ].map(([n,l]) => (
+                  ["10,000", "Visitors"],
+                  ["200+", "Exhibitors"],
+                  ["20+", "Speakers"],
+                  ["5+", "Countries"],
+                ].map(([n, l]) => (
                   <div key={l}>
-                    <p className="text-mainColor1 text-5xl font-bold">{n}</p>
+                    <p className="text-5xl font-bold text-mainColor1">{n}</p>
                     <p className="text-xl">{l}</p>
                   </div>
                 ))}
               </div>
-
-              <h3 className="title-mainColor2 my-10 text-3xl lg:text-5xl font-semibold">
-                Who You'll Meet?
-              </h3>
-
-              <ul className="list-disc pl-5 space-y-2">
-                <li>Die & Mould Manufacturers & Toolrooms</li>
-                <li>OEMs & Component Manufacturers (Automotive, EV, Plastics, Aerospace, Industrial)</li>
-                <li>Production, Toolroom & Plant Heads</li>
-                <li>Design, CAD/CAM & Engineering Professionals</li>
-                <li>Material, Tool Steel & Consumables Suppliers</li>
-                <li>Automation, Industry 4.0 & Manufacturing Technology Providers</li>
-                <li>Procurement Heads, Investors & Industry Consultants</li>
-              </ul>
             </div>
 
-            {/* RIGHT FORM */}
-            <div className="form-style border-1 px-3 py-3">
-              <form onSubmit={handleSubmit} className="space-y-5">
-
-                {["Ready to book my stand","Looking for more information","Looking for sponsorship opportunities"].map(v => (
+            {/* FORM */}
+            <div className="border rounded-xl p-6 bg-white">
+              <form onSubmit={handleSubmit} className="space-y-4">
+                {[
+                  "Ready to book my stand",
+                  "Looking for more information",
+                  "Looking for sponsorship opportunities",
+                ].map(v => (
                   <label key={v} className="flex gap-2">
-                    <input type="radio" name="interestLevel" value={v} onChange={handleChange} required />
+                    <input
+                      type="radio"
+                      name="interestLevel"
+                      value={v}
+                      onChange={handleChange}
+                      required
+                    />
                     {v}
                   </label>
                 ))}
 
-                {["firstName","lastName","companyName","companyWebsite","jobTitle","phone","email"].map(f => (
+                {[
+                  "firstName",
+                  "lastName",
+                  "companyName",
+                  "companyWebsite",
+                  "jobTitle",
+                  "phone",
+                  "email",
+                ].map(f => (
                   <input
                     key={f}
                     name={f}
-                    onChange={handleChange}
                     placeholder={f}
-                    className="w-full border p-3 rounded"
+                    onChange={handleChange}
                     required
+                    className="w-full border p-3 rounded"
                   />
                 ))}
 
-                <select name="country" onChange={handleChange} className="w-full border p-3 rounded" required>
+                <select name="country" onChange={handleChange} required className="w-full border p-3 rounded">
                   <option value="">Select Country</option>
                   {countries.map(c => <option key={c}>{c}</option>)}
                 </select>
 
-                <select name="standSize" onChange={handleChange} className="w-full border p-3 rounded" required>
+                <select name="standSize" onChange={handleChange} required className="w-full border p-3 rounded">
                   <option value="">Preferred Stand Size</option>
                   {standSizes.map(s => <option key={s}>{s}</option>)}
                 </select>
 
-                <select name="hearAboutUs" onChange={handleChange} className="w-full border p-3 rounded" required>
+                <select name="hearAboutUs" onChange={handleChange} required className="w-full border p-3 rounded">
                   <option value="">How did you hear about us?</option>
                   {hearAboutOptions.map(o => <option key={o}>{o}</option>)}
                 </select>
 
                 <div className="border p-4 rounded max-h-60 overflow-y-auto">
                   {productSectors.map(s => (
-                    <label key={s} className="flex gap-2">
+                    <label key={s} className="flex gap-2 text-sm">
                       <input type="checkbox" name={s} onChange={handleChange} />
                       {s}
                     </label>
                   ))}
                 </div>
 
-                <label className="flex gap-2">
-                  <input type="checkbox" name="notRobot" onChange={handleChange} required />
-                  I'm not a robot
-                </label>
+                {/* NOT ROBOT */}
+                <div className="border rounded p-4 bg-gray-50">
+                 <ReCAPTCHA
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+            onChange={(token) => setCaptchaToken(token)}
+            onExpired={() => setCaptchaToken(null)}
+          />
+                </div>
 
-                <button className="w-full bg-blue-600 text-white py-3 rounded">
-                  Submit
+                <button className="w-full bg-blue-600 text-white py-3 rounded font-semibold">
+                  Submit Enquiry
                 </button>
               </form>
             </div>
-
           </div>
         </SectionContainer>
 
-        <PartnersSection/>
-
+        <PartnersSection />
       </main>
     </>
   )

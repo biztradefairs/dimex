@@ -1,268 +1,197 @@
 "use client"
-import React, { useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
-import ThankYouPopup from '@/components/ThankYouPopup';
+
+import React, { useState } from "react"
+import toast, { Toaster } from "react-hot-toast"
+import ReCAPTCHA from "react-google-recaptcha"
+import ThankYouPopup from "@/components/ThankYouPopup"
 
 export default function ContactForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showThankYou, setShowThankYou] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [showThankYou, setShowThankYou] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
+
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    company: '',
-    jobTitle: '',
-    enquiryType: 'general',
-    message: '',
-  });
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    company: "",
+    jobTitle: "",
+    enquiryType: "general",
+    message: "",
+  })
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+    const { name, value } = e.target
+    setFormData(prev => ({ ...prev, [name]: value }))
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
+    e.preventDefault()
+
+    if (!captchaToken) {
+      toast.error("Please verify that you are not a robot.")
+      return
+    }
+
+    setIsSubmitting(true)
 
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
-          formType: 'contact',
+          captchaToken, // sent to backend (optional)
+          formType: "contact",
           submittedAt: new Date().toISOString(),
         }),
-      });
+      })
 
-      const result = await response.json();
+      const result = await response.json()
 
       if (result.success) {
-        toast.success('Message sent successfully!');
-        setShowThankYou(true);
-        // Reset form
+        toast.success("Message sent successfully!")
+        setShowThankYou(true)
+
         setFormData({
-          firstName: '',
-          lastName: '',
-          email: '',
-          phone: '',
-          company: '',
-          jobTitle: '',
-          enquiryType: 'general',
-          message: '',
-        });
+          firstName: "",
+          lastName: "",
+          email: "",
+          phone: "",
+          company: "",
+          jobTitle: "",
+          enquiryType: "general",
+          message: "",
+        })
+
+        setCaptchaToken(null)
       } else {
-        toast.error(result.message || 'Failed to send message. Please try again.');
+        toast.error(result.message || "Submission failed.")
       }
     } catch (error) {
-      toast.error('Network error. Please check your connection.');
-      console.error('Submission error:', error);
+      console.error(error)
+      toast.error("Network error. Please try again.")
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <>
-      <Toaster 
-        position="top-right"
-        toastOptions={{
-          duration: 4000,
-          style: {
-            background: '#363636',
-            color: '#fff',
-          },
-          success: {
-            duration: 3000,
-            iconTheme: {
-              primary: '#10b981',
-              secondary: '#fff',
-            },
-          },
-          error: {
-            duration: 4000,
-            iconTheme: {
-              primary: '#ef4444',
-              secondary: '#fff',
-            },
-          },
-        }}
-      />
-      
+      <Toaster position="top-right" />
+
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="grid gap-6 sm:grid-cols-2">
-          {/* First Name */}
-          <div>
-            <label className="mb-2 block text-sm font-semibold text-gray-700">
-              First Name <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-              placeholder="John"
-            />
-          </div>
-
-          {/* Last Name */}
-          <div>
-            <label className="mb-2 block text-sm font-semibold text-gray-700">
-              Last Name <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              required
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-              placeholder="Doe"
-            />
-          </div>
-        </div>
-
-        {/* Email */}
-        <div>
-          <label className="mb-2 block text-sm font-semibold text-gray-700">
-            Email Address <span className="text-red-500">*</span>
-          </label>
           <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
+            name="firstName"
+            placeholder="First Name *"
             required
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-            placeholder="john@company.com"
+            value={formData.firstName}
+            onChange={handleChange}
+            className="w-full rounded-lg border px-4 py-3"
+          />
+          <input
+            name="lastName"
+            placeholder="Last Name *"
+            required
+            value={formData.lastName}
+            onChange={handleChange}
+            className="w-full rounded-lg border px-4 py-3"
           />
         </div>
 
-        {/* Phone */}
-        <div>
-          <label className="mb-2 block text-sm font-semibold text-gray-700">
-            Phone Number
-          </label>
-          <input
-            type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-            placeholder="+1 (555) 123-4567"
-          />
-        </div>
+        <input
+          type="email"
+          name="email"
+          placeholder="Email *"
+          required
+          value={formData.email}
+          onChange={handleChange}
+          className="w-full rounded-lg border px-4 py-3"
+        />
+
+        <input
+          name="phone"
+          placeholder="Phone"
+          value={formData.phone}
+          onChange={handleChange}
+          className="w-full rounded-lg border px-4 py-3"
+        />
 
         <div className="grid gap-6 sm:grid-cols-2">
-          {/* Company */}
-          <div>
-            <label className="mb-2 block text-sm font-semibold text-gray-700">
-              Company
-            </label>
-            <input
-              type="text"
-              name="company"
-              value={formData.company}
-              onChange={handleChange}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-              placeholder="Company Name"
-            />
-          </div>
-
-          {/* Job Title */}
-          <div>
-            <label className="mb-2 block text-sm font-semibold text-gray-700">
-              Job Title
-            </label>
-            <input
-              type="text"
-              name="jobTitle"
-              value={formData.jobTitle}
-              onChange={handleChange}
-              className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-              placeholder="e.g., Logistics Manager"
-            />
-          </div>
-        </div>
-
-        {/* Enquiry Type */}
-        <div>
-          <label className="mb-2 block text-sm font-semibold text-gray-700">
-            Enquiry Type <span className="text-red-500">*</span>
-          </label>
-          <select
-            name="enquiryType"
-            value={formData.enquiryType}
+          <input
+            name="company"
+            placeholder="Company"
+            value={formData.company}
             onChange={handleChange}
-            required
-            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-          >
-            <option value="general">General Enquiry</option>
-            <option value="sales">Sales</option>
-            <option value="marketing">Marketing</option>
-            <option value="partnership">Partnership</option>
-            <option value="media">Media Enquiry</option>
-          </select>
-        </div>
-
-        {/* Message */}
-        <div>
-          <label className="mb-2 block text-sm font-semibold text-gray-700">
-            Message <span className="text-red-500">*</span>
-          </label>
-          <textarea
-            name="message"
-            value={formData.message}
+            className="w-full rounded-lg border px-4 py-3"
+          />
+          <input
+            name="jobTitle"
+            placeholder="Job Title"
+            value={formData.jobTitle}
             onChange={handleChange}
-            required
-            rows={4}
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-            placeholder="Please provide details of your enquiry..."
+            className="w-full rounded-lg border px-4 py-3"
           />
         </div>
 
-        {/* Submit Button */}
+        <select
+          name="enquiryType"
+          value={formData.enquiryType}
+          onChange={handleChange}
+          className="w-full rounded-lg border px-4 py-3"
+        >
+          <option value="general">General Enquiry</option>
+          <option value="sales">Sales</option>
+          <option value="marketing">Marketing</option>
+          <option value="partnership">Partnership</option>
+          <option value="media">Media Enquiry</option>
+        </select>
+
+        <textarea
+          name="message"
+          placeholder="Your message *"
+          required
+          rows={4}
+          value={formData.message}
+          onChange={handleChange}
+          className="w-full rounded-lg border px-4 py-3"
+        />
+
+        {/* ✅ GOOGLE IMAGE CAPTCHA */}
+        <div className="flex justify-center">
+          <ReCAPTCHA
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+            onChange={(token) => setCaptchaToken(token)}
+            onExpired={() => setCaptchaToken(null)}
+          />
+        </div>
+
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`w-full rounded-lg px-6 py-4 font-semibold text-white transition-all ${
+          className={`w-full rounded-lg py-4 font-semibold text-white ${
             isSubmitting
-              ? 'cursor-not-allowed bg-blue-400'
-              : 'bg-blue-600 hover:bg-blue-700 hover:shadow-lg'
+              ? "cursor-not-allowed bg-blue-400"
+              : "bg-blue-600 hover:bg-blue-700"
           }`}
         >
-          {isSubmitting ? (
-            <span className="flex items-center justify-center">
-              <svg className="mr-3 h-5 w-5 animate-spin" fill="none" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-              Processing...
-            </span>
-          ) : (
-            'Send Message'
-          )}
+          {isSubmitting ? "Processing..." : "Send Message"}
         </button>
 
-        {/* Privacy Note */}
         <p className="text-center text-xs text-gray-500">
-          By submitting this form, you agree to our{' '}
-          <a href="/privacy-policy" className="text-blue-600 hover:underline">
+          By submitting this form you agree to our{" "}
+          <a href="/privacy-policy" className="text-blue-600 underline">
             Privacy Policy
           </a>
-          . We'll never share your information with third parties.
         </p>
       </form>
 
-      {/* Thank You Popup */}
       <ThankYouPopup
         isVisible={showThankYou}
         onClose={() => setShowThankYou(false)}
@@ -270,5 +199,5 @@ export default function ContactForm() {
         formType="contact"
       />
     </>
-  );
+  )
 }

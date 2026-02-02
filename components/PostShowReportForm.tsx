@@ -3,10 +3,13 @@
 import React, { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import ThankYouPopup from '@/components/ThankYouPopup';
+import ReCAPTCHA from 'react-google-recaptcha';
+
 
 export default function PostShowReportForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -289,7 +292,15 @@ export default function PostShowReportForm() {
               </label>
             ))}
           </div>
+          <div className="flex justify-center">
+          <ReCAPTCHA
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+            onChange={(token) => setCaptchaToken(token)}
+            onExpired={() => setCaptchaToken(null)}
+          />
         </div>
+        </div>
+         
 
         {/* Submit Button */}
         <button

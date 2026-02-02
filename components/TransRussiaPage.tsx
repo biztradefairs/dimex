@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import SectionContainer from './UI/SectionContainer';
 import PartnersSection from './PartnersSection';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 // Types
 interface TextLink {
@@ -106,6 +107,7 @@ const TransRussiaPage: React.FC<Props> = ({ navbarData, pageData, footerData }) 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -286,7 +288,14 @@ const TransRussiaPage: React.FC<Props> = ({ navbarData, pageData, footerData }) 
                             Privacy Policy
                           </a>.
                         </label>
+              
                       </div>
+
+                                <ReCAPTCHA
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+            onChange={(token) => setCaptchaToken(token)}
+            onExpired={() => setCaptchaToken(null)}
+          />
 
                       <div className="pt-4">
                         <button

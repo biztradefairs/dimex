@@ -2,10 +2,12 @@
 import React, { useState } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import ThankYouPopup from '@/components/ThankYouPopup';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 export default function BrochureForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
+   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -14,6 +16,7 @@ export default function BrochureForm() {
     email: '',
     phone: '',
     country: '',
+    notRobot: false
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -24,6 +27,10 @@ export default function BrochureForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+      if (!formData.notRobot) {
+      alert("Please confirm that you are not a robot.")
+      return
+    }
 
     try {
       const response = await fetch('/api/contact', {
@@ -52,6 +59,7 @@ export default function BrochureForm() {
           email: '',
           phone: '',
           country: '',
+          notRobot: false
         });
       } else {
         toast.error(result.message || 'Failed to submit request.');
@@ -185,6 +193,16 @@ export default function BrochureForm() {
             <option value="Turkey">Turkey</option>
             <option value="Kazakhstan">Kazakhstan</option>
           </select>
+
+            <div className="rounded border bg-gray-50 p-4">
+       <div className="flex justify-center pt-4">
+          <ReCAPTCHA
+            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+            onChange={(token) => setCaptchaToken(token)}
+            onExpired={() => setCaptchaToken(null)}
+          />
+        </div>
+        </div>
         </div>
 
         <button

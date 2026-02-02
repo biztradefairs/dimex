@@ -8,6 +8,9 @@ import SectionContainer from "@/components/UI/SectionContainer"
 import Image from "next/image";
 import Link from "next/link"
 import { motion } from 'framer-motion'
+import { HiOutlineCalendar, HiOutlineLocationMarker } from "react-icons/hi"
+import BrochureSection from "@/components/section/BrochureSection"
+
 const data = [
   {
     title: 'Want to grow internationally?',
@@ -101,7 +104,7 @@ export default function WhyExhibit() {
     <>
       <main className="bg-white overflow-hidden">
         {/* HERO SECTION */}
-<section className="relative h-[70vh] lg:h-[75vh] overflow-hidden">
+<section className="relative h-[50vh] lg:h-[70vh] overflow-hidden">
   {/* Background */}
   <motion.div
     initial={{ scale: 1.1 }}
@@ -140,10 +143,18 @@ export default function WhyExhibit() {
           Discover new possibilities at DIEMEX 2026—where industry leaders connect, collaborate, and innovate.
         </motion.p>
 
-        <div className="flex flex-wrap gap-6 mt-6 text-white/90">
-          <span>📅 08 – 10 October 2026</span>
-          <span>📍 Pune, India</span>
-        </div>
+       <div className="flex flex-wrap gap-6 mt-6 text-white/90">
+  <span className="flex items-center gap-2">
+    <HiOutlineCalendar className="size-5 text-mainColor2" />
+    08 – 10 October 2026
+  </span>
+
+  <span className="flex items-center gap-2">
+    <HiOutlineLocationMarker className="size-5 text-mainColor2" />
+    Pune, India
+  </span>
+</div>
+
 
         <Link href="/exhibiting-enquiry">
           <motion.button
@@ -488,67 +499,7 @@ export default function WhyExhibit() {
 </section>
 
 {/* DOWNLOAD BROCHURE */}
-<motion.section
-  initial="hidden"
-  whileInView="visible"
-  viewport={{ once: true }}
-  variants={fadeInUp}
-  className="py-10 lg:py-24"
->
-  <SectionContainer>
-    <div
-      className="relative overflow-hidden rounded-3xl px-8 py-14 lg:px-20 lg:py-20 text-white"
-      style={{
-        backgroundImage:
-          "url(https://cdn.itegroupnews.com/Brochure_Mockup_8_f53822fd4a.png)",
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      {/* Dark gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-r from-[#0B1B3A]/95 via-[#0B1B3A]/85 to-[#0B1B3A]/70" />
-
-      {/* Right circular accents */}
-      <div className="absolute -right-24 -top-24 w-96 h-96 rounded-full bg-blue-600/20 blur-3xl" />
-      <div className="absolute -right-10 top-24 w-72 h-72 rounded-full bg-blue-500/20 blur-2xl" />
-
-      {/* Content */}
-      <div className="relative max-w-4xl flex flex-col gap-6">
-        <motion.h2
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-4xl lg:text-6xl font-bold leading-tight"
-        >
-          Download Your Event Brochure
-        </motion.h2>
-
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="text-white/80 text-lg max-w-10xl"
-        >
-          Get a comprehensive look at the event’s attendees, showcased sectors,
-          and the key industry players you’ll connect with.
-        </motion.p>
-
-        <Link href="/event-brochure">
-          <motion.button
-            whileHover={{
-              scale: 1.06,
-              boxShadow: "0 15px 35px rgba(255,255,255,0.25)",
-            }}
-            whileTap={{ scale: 0.95 }}
-            className="mt-4 w-fit rounded-full bg-white px-10 py-3 text-blue-900 font-semibold transition-all duration-300 hover:bg-gray-100"
-          >
-            Download Now
-          </motion.button>
-        </Link>
-      </div>
-    </div>
-  </SectionContainer>
-</motion.section>
+<BrochureSection/>
 
 
         {/* TESTIMONIALS */}
