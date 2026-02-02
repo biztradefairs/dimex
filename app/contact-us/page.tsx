@@ -104,7 +104,6 @@ Auto Cluster Exhibition Centre                    </h3>
                   <div className="rounded-lg overflow-hidden border border-gray-300">
                     <iframe
                     href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4110.374496455856!2d73.7990458754672!3d18.638844465550328!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b84992d04bbd%3A0x9f1c44fb853ba461!2sAuto%20Cluster%20Exhibition%20Center%2C%20Chinchwad%2C%20Pune!5e1!3m2!1sen!2sin!4v1770050921314!5m2!1sen!2sin"
-
                       width="100%"
                       height="400"
                       style={{ border: 0 }}
