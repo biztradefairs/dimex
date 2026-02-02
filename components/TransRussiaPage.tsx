@@ -2,8 +2,8 @@
 "use client"
 import React, { useState, useEffect } from 'react';
 import SectionContainer from './UI/SectionContainer';
-import PartnersSection from './PartnersSection';
 import ReCAPTCHA from 'react-google-recaptcha';
+import PartnersSection from './section/PartnersSection';
 
 // Types
 interface TextLink {
@@ -191,253 +191,326 @@ const TransRussiaPage: React.FC<Props> = ({ navbarData, pageData, footerData }) 
                   <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 mt-15">
                     {pageData.Header.Title}
                   </h1>
-                  <p className="text-lg text-gray-600 max-w-3xl">
+                  <p className="text-lg text-gray-600 max-w-8xl">
                     Register now to access Eurasia's premier transport and logistics exhibition. Connect with industry leaders, discover innovations, and expand your network.
                   </p>
                 </div>
               </SectionContainer>
             </div>
 
-            {/* Registration Section */}
-            <section className="py-16 lg:py-24 bg-blue-50/30">
-              <SectionContainer>
-                <div className="max-w-4xl mx-auto">
-                  <div className="mb-12 text-center">
-                    <span className="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full mb-4">
-                      Get Your Visitor Pass
-                    </span>
-                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                      Register for TransRussia 2026
-                    </h2>
-                    <p className="text-gray-600 text-lg">
-                      Join 30,500+ industry professionals and 600+ exhibitors at the heart of Eurasia's logistics innovation.
-                    </p>
-                  </div>
+<section className="py-16 lg:py-24 bg-blue-50/30">
+  <SectionContainer>
+    <div className="max-w-4xl mx-auto">
+      <div className="mb-12 text-center">
+        <span className="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full mb-4">
+          Get Your Visitor Pass
+        </span>
+        <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+          Register for TransRussia 2026
+        </h2>
+        <p className="text-gray-600 text-lg">
+          Join 30,500+ industry professionals and 600+ exhibitors at the heart of Eurasia's logistics innovation.
+        </p>
+      </div>
 
-                  {/* Pricing Info */}
-                  <div className="bg-white rounded-xl p-6 lg:p-8 mb-8 border border-gray-200 shadow-sm">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-4">Registration Pricing</h3>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                      <div className="bg-blue-50 p-4 rounded-lg">
-                        <div className="text-blue-700 font-bold text-lg mb-2">Free</div>
-                        <p className="text-sm text-gray-700">Online with promo code</p>
-                      </div>
-                      <div className="bg-gray-50 p-4 rounded-lg">
-                        <div className="text-gray-800 font-bold text-lg mb-2">1,000 RUB</div>
-                        <p className="text-sm text-gray-700">Online without promo code</p>
-                      </div>
-                      <div className="bg-amber-50 p-4 rounded-lg">
-                        <div className="text-amber-800 font-bold text-lg mb-2">1,500 RUB</div>
-                        <p className="text-sm text-gray-700">At the ticket office during exhibition</p>
-                      </div>
-                    </div>
-                    <p className="text-sm text-gray-500 mt-4">
-                      *Only one personal ticket can be requested per email address.
-                    </p>
-                  </div>
+      {/* Registration Form */}
+      <div className="bg-white rounded-xl p-6 lg:p-8 border border-gray-200 shadow-sm">
+        <h3 className="text-xl font-semibold text-gray-900 mb-6">Visitor Registration Form</h3>
+        
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Name */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              placeholder="Enter your full name"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+            />
+          </div>
 
-                  {/* Registration Form */}
-                  <div className="bg-white rounded-xl p-6 lg:p-8 border border-gray-200 shadow-sm">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-6">Registration Form</h3>
-                    
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Email Address <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="email"
-                          required
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          placeholder="Enter your email address"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                        />
-                        <p className="mt-2 text-xs text-gray-500">
-                          We'll send your registration confirmation and updates to this email.
-                        </p>
-                      </div>
+          {/* Designation */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Designation <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              placeholder="Your job title/position"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+            />
+          </div>
 
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Do you have a promo code? (Optional)
-                        </label>
-                        <input
-                          type="text"
-                          placeholder="Enter promo code if available"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                        />
-                      </div>
+          {/* Company Name */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Company Name <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              placeholder="Your company/organization name"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+            />
+          </div>
 
-                      <div className="flex items-start">
-                        <input
-                          type="checkbox"
-                          id="terms"
-                          required
-                          className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
-                        />
-                        <label htmlFor="terms" className="ml-3 text-sm text-gray-600">
-                          I agree to receive marketing communications, updates, and promotional materials from TransRussia. 
-                          I can unsubscribe anytime by clicking the "unsubscribe" link in emails. 
-                          For more information on how we handle your data, please refer to our{' '}
-                          <a 
-                            href="https://ite.group/en/privacy/" 
-                            target="_blank" 
-                            className="text-blue-600 hover:underline"
-                          >
-                            Privacy Policy
-                          </a>.
-                        </label>
-              
-                      </div>
+          {/* Address */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Address <span className="text-red-500">*</span>
+            </label>
+            <textarea
+              required
+              placeholder="ex: #20, 4th cross, RK Road"
+              rows={3}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+            />
+          </div>
 
-                                <ReCAPTCHA
-            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-            onChange={(token) => setCaptchaToken(token)}
-            onExpired={() => setCaptchaToken(null)}
-          />
+          {/* Country */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Country <span className="text-red-500">*</span>
+            </label>
+            <select
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white"
+            >
+              <option value="">Select Country</option>
+              <option value="India">India</option>
+              <option value="Russia">Russia</option>
+              <option value="Turkey">Turkey</option>
+              <option value="China">China</option>
+              <option value="Germany">Germany</option>
+              <option value="USA">United States</option>
+              <option value="UK">United Kingdom</option>
+              <option value="UAE">United Arab Emirates</option>
+              <option value="Kazakhstan">Kazakhstan</option>
+              <option value="Belarus">Belarus</option>
+              {/* Add more countries as needed */}
+            </select>
+          </div>
 
-                      <div className="pt-4">
-                        <button
-                          type="submit"
-                          disabled={loading}
-                          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                          {loading ? (
-                            <span className="flex items-center justify-center">
-                              <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                              </svg>
-                              Processing...
-                            </span>
-                          ) : (
-                            'Complete Registration'
-                          )}
-                        </button>
-                      </div>
-                    </form>
-                  </div>
+          {/* State and City Row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* State */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                State <span className="text-red-500">*</span>
+              </label>
+              <select
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white"
+              >
+                <option value="">Select State</option>
+                <option value="Moscow">Moscow</option>
+                <option value="Maharashtra">Maharashtra</option>
+                <option value="Karnataka">Karnataka</option>
+                <option value="Delhi">Delhi</option>
+                <option value="Tamil Nadu">Tamil Nadu</option>
+                <option value="Gujarat">Gujarat</option>
+                <option value="Istanbul">Istanbul</option>
+                <option value="Ankara">Ankara</option>
+                <option value="Beijing">Beijing</option>
+                <option value="Berlin">Berlin</option>
+                <option value="California">California</option>
+                {/* Add more states as needed */}
+              </select>
+            </div>
 
-                  {/* Additional Info */}
-                  <div className="mt-8 text-center text-gray-600">
-                    <p className="text-sm">
-                      Need assistance with registration? Contact us at{' '}
-                      <a href="mailto:info@transrussia.ru" className="text-blue-600 hover:underline">
-                        info@transrussia.ru
-                      </a>
-                    </p>
-                  </div>
-                </div>
-              </SectionContainer>
-            </section>
+            {/* City */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                City <span className="text-red-500">*</span>
+              </label>
+              <select
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white"
+              >
+                <option value="">Select City</option>
+                <option value="Moscow">Moscow</option>
+                <option value="Mumbai">Mumbai</option>
+                <option value="Bangalore">Bangalore</option>
+                <option value="Chennai">Chennai</option>
+                <option value="Istanbul">Istanbul</option>
+                <option value="Beijing">Beijing</option>
+                <option value="Berlin">Berlin</option>
+                <option value="Los Angeles">Los Angeles</option>
+                <option value="Almaty">Almaty</option>
+                <option value="Minsk">Minsk</option>
+                {/* Add more cities as needed */}
+              </select>
+            </div>
+          </div>
 
-            {/* Why Register Section */}
-            <section className="py-16 lg:py-24 bg-white">
-              <SectionContainer>
-                <div className="max-w-4xl mx-auto">
-                  <h2 className="text-3xl lg:text-4xl font-bold text-center text-gray-900 mb-12">
-                    Why Register for TransRussia?
-                  </h2>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div className="text-center">
-                      <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span className="text-2xl">👥</span>
-                      </div>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-3">Network with Leaders</h3>
-                      <p className="text-gray-600">
-                        Connect with 30,500+ logistics professionals, freight forwarders, and industry decision-makers.
-                      </p>
-                    </div>
+          {/* Pin Code */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Pin Code / Zip Code <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              required
+              placeholder="Enter your postal code"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+            />
+          </div>
 
-                    <div className="text-center">
-                      <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span className="text-2xl">💡</span>
-                      </div>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-3">Discover Innovations</h3>
-                      <p className="text-gray-600">
-                        Explore cutting-edge solutions from 600+ exhibitors across 13 specialized sectors.
-                      </p>
-                    </div>
+          {/* Email */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Email <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter your email address"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+            />
+            <p className="mt-2 text-xs text-gray-500">
+              We'll send your registration confirmation and updates to this email.
+            </p>
+          </div>
 
-                    <div className="text-center">
-                      <div className="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
-                        <span className="text-2xl">🌍</span>
-                      </div>
-                      <h3 className="text-xl font-semibold text-gray-900 mb-3">Global Connections</h3>
-                      <p className="text-gray-600">
-                        Access international markets with representatives from 50+ countries worldwide.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </SectionContainer>
-            </section>
+          {/* Mobile Number */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Mobile Number <span className="text-red-500">*</span>
+            </label>
+            <div className="flex">
+              <div className="flex items-center px-3 py-3 border border-r-0 border-gray-300 rounded-l-lg bg-gray-50">
+                <span className="text-gray-700">+91</span>
+              </div>
+              <input
+                type="tel"
+                required
+                placeholder="Enter your mobile number"
+                className="w-full px-4 py-3 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+              />
+            </div>
+          </div>
 
-            {/* Partners Section */}
-            <section className="py-16 lg:py-24 bg-gray-50">
-              <SectionContainer>
-                <div className="text-center mb-12">
-                  <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-                    Our Partners & Sponsors
-                  </h2>
-                  <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-                    Join industry leaders who trust and partner with TransRussia to drive logistics innovation.
-                  </p>
-                </div>
-                <PartnersSection />
-              </SectionContainer>
-            </section>
+          {/* Profile Selection */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Please choose your Profile <span className="text-red-500">*</span>
+            </label>
+            <select
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white"
+            >
+              <option value="">Select your industry profile</option>
+              <option value="Automotive">Automotive (Auto OE Ms, Auto Ancillary)</option>
+              <option value="Consumer Appliances">Consumer Appliances</option>
+              <option value="Electricals">Electricals</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Packaging">Packaging</option>
+              <option value="Plastic Processing">Plastic Processing</option>
+              <option value="Visitors">Visitors Visitor Registration</option>
+              <option value="Logistics">Logistics & Supply Chain</option>
+              <option value="Warehousing">Warehousing & Storage</option>
+              <option value="Transport">Transport Services</option>
+              <option value="IT Solutions">IT Solutions</option>
+              <option value="Manufacturing">Manufacturing</option>
+              <option value="Retail">Retail & E-commerce</option>
+              <option value="Consulting">Consulting Services</option>
+            </select>
+          </div>
 
-            {/* Quick Info */}
-            <section className="py-16 lg:py-24 bg-white">
-              <SectionContainer>
-                <div className="max-w-4xl mx-auto">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div className="bg-gray-50 p-6 lg:p-8 rounded-xl">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-4">Event Details</h3>
-                      <div className="space-y-4">
-                        <div>
-                          <h4 className="font-medium text-gray-700">Dates</h4>
-                          <p className="text-gray-600">17-19 March 2026</p>
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-gray-700">Venue</h4>
-                          <p className="text-gray-600">Crocus Expo IEC, Pavilion 3<br />Moscow, Russia</p>
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-gray-700">Opening Hours</h4>
-                          <p className="text-gray-600">
-                            17-18 March: 10:00 – 18:00<br />
-                            19 March: 10:00 – 16:00
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+          {/* Promo Code */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Promo Code (Optional)
+            </label>
+            <input
+              type="text"
+              placeholder="Enter promo code if available"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+            />
+            <p className="mt-2 text-xs text-gray-500">
+              Enter your promo code to get discounted or free registration.
+            </p>
+          </div>
 
-                    <div className="bg-gray-50 p-6 lg:p-8 rounded-xl">
-                      <h3 className="text-xl font-semibold text-gray-900 mb-4">Need Help?</h3>
-                      <div className="space-y-4">
-                        <p className="text-gray-600">
-                          Our team is here to assist you with registration, travel planning, or any questions about the event.
-                        </p>
-                        <div>
-                          <h4 className="font-medium text-gray-700">Contact Information</h4>
-                          <p className="text-gray-600">
-                            Email: <a href="mailto:info@transrussia.ru" className="text-blue-600 hover:underline">info@transrussia.ru</a><br />
-                            Phone: +7 (495) 799-55-85
-                          </p>
-                        </div>
-                        <button className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg transition">
-                          Contact Support
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </SectionContainer>
-            </section>
+          {/* Terms & Conditions */}
+          <div className="flex items-start">
+            <input
+              type="checkbox"
+              id="terms"
+              required
+              className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
+            />
+            <label htmlFor="terms" className="ml-3 text-sm text-gray-600">
+              I agree to receive marketing communications, updates, and promotional materials from TransRussia. 
+              I can unsubscribe anytime by clicking the "unsubscribe" link in emails. 
+              For more information on how we handle your data, please refer to our{' '}
+              <a 
+                href="https://ite.group/en/privacy/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-blue-600 hover:underline"
+              >
+                Privacy Policy
+              </a>.
+            </label>
+          </div>
+
+          {/* CAPTCHA */}
+          {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
+            <div className="py-4">
+              <ReCAPTCHA
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                onChange={(token) => setCaptchaToken(token)}
+                onExpired={() => setCaptchaToken(null)}
+              />
+            </div>
+          )}
+
+          {/* Submit Button */}
+          <div className="pt-4">
+            <button
+              type="submit"
+              disabled={
+  loading ||
+  (Boolean(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) && !captchaToken)
+}
+
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {loading ? (
+                <span className="flex items-center justify-center">
+                  <svg className="animate-spin h-5 w-5 mr-3 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Processing...
+                </span>
+              ) : (
+                'Complete Registration'
+              )}
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {/* Additional Info */}
+      <div className="mt-8 text-center text-gray-600">
+        <p className="text-sm">
+          Need assistance with registration? Contact us at{' '}
+          <a href="mailto:info@transrussia.ru" className="text-blue-600 hover:underline">
+            info@transrussia.ru
+          </a>
+        </p>
+      </div>
+    </div>
+  </SectionContainer>
+  <PartnersSection/>
+</section>
           </div>
         </div>
       </div>

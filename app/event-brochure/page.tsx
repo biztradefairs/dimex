@@ -31,20 +31,20 @@ export default function BrochurePage() {
             {/* LEFT CONTENT */}
             <div>
               <div className="max-w-3xl">
-                <h2 className="mt-5 text-4xl font-semibold text-blue-800 lg:text-5xl">
+                <h2 className="mt-5 text-4xl font-semibold  text-[#4D4D4D] lg:text-5xl">
                   Your Roadmap to DIEMEX 2026
                 </h2>
 
                 <p className="mt-6 text-lg leading-relaxed text-gray-700">
                   Position your brand at the centre of India’s fast-growing die, mould, and precision 
                   manufacturing market. As a leading B2B exhibition for die & mould, tooling, and advanced 
-                  manufacturing technologies, <strong className="text-blue-700">DIEMEX</strong> connects global solution providers with qualified buyers, 
+                  manufacturing technologies, <strong className=" text-[#4D4D4D]">DIEMEX</strong> connects global solution providers with qualified buyers, 
                   OEMs, and decision-makers from across India and international markets. 
                 </p>
 
                 <hr className="my-10 border-gray-300" />
 
-                <h3 className="text-3xl font-semibold text-blue-800 lg:text-4xl">
+                <h3 className="text-3xl font-semibold  text-[#4D4D4D] lg:text-4xl">
                   Download the Event Brochure to:
                 </h3>
 
@@ -65,27 +65,27 @@ export default function BrochurePage() {
 
                 <div className="grid grid-cols-2 gap-x-10 gap-y-12">
                   <div>
-                    <p className="text-5xl font-bold text-blue-600">3rd Edition</p>
+                    <p className="text-5xl font-bold  text-[#4D4D4D]">3rd Edition</p>
                     <p className="mt-2 text-xl text-gray-700">2 Successful Editions Completed</p>
                   </div>
                   <div>
-                    <p className="text-5xl font-bold text-blue-600">Growing</p>
+                    <p className="text-5xl font-bold  text-[#4D4D4D]">Growing</p>
                     <p className="mt-2 text-xl text-gray-700">Exhibitor Participation</p>
                   </div>
                   <div>
-                    <p className="text-5xl font-bold text-blue-600">Strong</p>
+                    <p className="text-5xl font-bold  text-[#4D4D4D]">Strong</p>
                     <p className="mt-2 text-xl text-gray-700">Buyer & OEM Engagement</p>
                   </div>
                   <div>
-                    <p className="text-5xl font-bold text-blue-600">3+</p>
+                    <p className="text-5xl font-bold  text-[#4D4D4D]">3+</p>
                     <p className="mt-2 text-xl text-gray-700">Countries Represented</p>
                   </div>
                 </div>
 
                 <div className="mt-20 flex justify-center">
                   <div className="relative">
-                    <Image
-                      src="/Brochure_Mockup_8_f53822fd4a.png"
+                    <img
+                      src="https://cdn.itegroupnews.com/Brochure_Mockup_8_f53822fd4a.png"
                       alt="Event Brochure Mockup"
                       width={420}
                       height={420}
