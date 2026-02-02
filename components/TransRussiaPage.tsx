@@ -254,59 +254,45 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
 
                     {/* State and City Row */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {/* State */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          State <span className="text-red-500">*</span>
-                        </label>
-                        <select
-                          name="state"
-                          value={formData.state}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer"
-                        >
-                          <option value="">Select State</option>
-                          <option value="Moscow">Moscow</option>
-                          <option value="Maharashtra">Maharashtra</option>
-                          <option value="Karnataka">Karnataka</option>
-                          <option value="Delhi">Delhi</option>
-                          <option value="Tamil Nadu">Tamil Nadu</option>
-                          <option value="Gujarat">Gujarat</option>
-                          <option value="Istanbul">Istanbul</option>
-                          <option value="Ankara">Ankara</option>
-                          <option value="Beijing">Beijing</option>
-                          <option value="Berlin">Berlin</option>
-                          <option value="California">California</option>
-                        </select>
-                      </div>
+  
+  {/* State */}
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-2">
+      State <span className="text-red-500">*</span>
+    </label>
+    <input
+      type="text"
+      name="state"
+      value={formData.state}
+      onChange={handleInputChange}
+      required
+      placeholder="Enter your state"
+      className="w-full px-4 py-3 border border-gray-300 rounded-lg 
+                 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                 outline-none transition hover:border-blue-300"
+    />
+  </div>
 
-                      {/* City */}
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          City <span className="text-red-500">*</span>
-                        </label>
-                        <select
-                          name="city"
-                          value={formData.city}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer"
-                        >
-                          <option value="">Select City</option>
-                          <option value="Moscow">Moscow</option>
-                          <option value="Mumbai">Mumbai</option>
-                          <option value="Bangalore">Bangalore</option>
-                          <option value="Chennai">Chennai</option>
-                          <option value="Istanbul">Istanbul</option>
-                          <option value="Beijing">Beijing</option>
-                          <option value="Berlin">Berlin</option>
-                          <option value="Los Angeles">Los Angeles</option>
-                          <option value="Almaty">Almaty</option>
-                          <option value="Minsk">Minsk</option>
-                        </select>
-                      </div>
-                    </div>
+  {/* City */}
+  <div>
+    <label className="block text-sm font-medium text-gray-700 mb-2">
+      City <span className="text-red-500">*</span>
+    </label>
+    <input
+      type="text"
+      name="city"
+      value={formData.city}
+      onChange={handleInputChange}
+      required
+      placeholder="Enter your city"
+      className="w-full px-4 py-3 border border-gray-300 rounded-lg 
+                 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+                 outline-none transition hover:border-blue-300"
+    />
+  </div>
+
+</div>
+
 
                     {/* Pin Code */}
                     <div>
