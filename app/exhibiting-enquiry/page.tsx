@@ -131,7 +131,7 @@ const TransRussiaExhibitPage: React.FC = () => {
         ↑
       </button>
 
-      <main className="page-spacing-wrapper">
+      <main className="page-spacing-wrapper font-parabolica">
 
         {/* ================= HERO ================= */}
         <div className="relative z-[1] bg-[#F4FAFF] pt-48">

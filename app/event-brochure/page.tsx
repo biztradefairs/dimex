@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function BrochurePage() {
   return (
-    <main className="bg-white">
+    <main className="bg-white font-parabolica">
       {/* HEADER */}
       <div className="bg-[#F4FAFF] pt-48 pb-10">
         <SectionContainer>

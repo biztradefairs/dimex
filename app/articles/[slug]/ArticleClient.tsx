@@ -89,7 +89,7 @@ export default function ArticleClient({ article }: ArticleClientProps) {
 
   return (
     <div className="min-h-screen bg-white overflow-hidden">
-      <main>
+      <main className='font-parabolica'>
         {/* Hero Section */}
         <motion.div
           initial={{ opacity: 0 }}

@@ -173,7 +173,7 @@ const HeroSection: React.FC = () => {
         >
           <div className="absolute inset-0 bg-gradient-to-t from-black"></div>
           <img
-            src="/images/image.png"
+            src="https://cdn.itegroupnews.com/Untitled_design_14_8a27b98e95.jpg"
             alt="Diemex"
             className="size-full object-cover"
           />
@@ -229,7 +229,7 @@ const IntroductionSection: React.FC = () => {
               />
               <span>DIEMEX</span>
             </motion.div>
-            <h2 className="title-72 text-black my-3">
+            <h2 className="title-72 text-black w-7xl">
 Combine Business with Pune’s Manufacturing Heritage at DIEMEX
             </h2>
             <p className="whitespace-pre-line">
@@ -283,7 +283,7 @@ const GuideItemComponent: React.FC<GuideItem & { index: number }> = ({
               fill="currentColor" 
               strokeWidth="0" 
               viewBox="0 0 448 512" 
-              className="size-4 lg:size-5" 
+              className="size-4 lg:size-5 text-black"  
               height="1em" 
               width="1em" 
               xmlns="http://www.w3.org/2000/svg"
@@ -435,7 +435,7 @@ const HotelComponent: React.FC<HotelItem & { index: number }> = ({
             href={bookingLink} 
             target="_blank" 
             rel="noopener noreferrer"
-            className="max-lg:w-full"
+            className="max-lg:w-full !text-black"
           >
             Book your stay
           </Button>
@@ -444,7 +444,7 @@ const HotelComponent: React.FC<HotelItem & { index: number }> = ({
             target="_blank" 
             rel="noopener noreferrer"
             variant="secondary"
-            className="max-lg:w-full"
+            className="max-lg:w-full hover:!text-black"
           >
             View Location
           </Button>
@@ -522,7 +522,7 @@ The hotel has a stylish interior and an elaborate infrastructure, including a re
 // Main Page Component
 const PlanYourTravelPage: React.FC = () => {
   return (
-    <div className="">
+    <div className="font-parabolica">
       <HeroSection />
       <IntroductionSection />
       <GuideSection />

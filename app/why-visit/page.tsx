@@ -55,7 +55,7 @@ export default function WhyVisit() {
             animate={{ scale: 1 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url(/images/image.png)" }}
+            style={{ backgroundImage: "url(https://cdn.itegroupnews.com/Why_visit_header_58ece0089d.webp)" }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/10" />
           <SectionContainer>
@@ -68,15 +68,25 @@ export default function WhyVisit() {
               >
                 Why Visit DIEMEX 2026
               </motion.h1>
+<motion.p
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ delay: 0.3 }}
+  className="
+    text-base sm:text-lg lg:text-xl 
+    text-white/90 
+    mb-6 sm:mb-8 
+    max-w-10xl
+    line-clamp-2 lg:line-clamp-none
+  "
+>
+  Discover a focused B2B platform bringing together die & mould manufacturers,
+  tooling suppliers, and precision manufacturing technology providers. DIEMEX
+  offers visitors the opportunity to explore new solutions, connect directly
+  with exhibitors, and gain insights into trends shaping India's manufacturing
+  and automotive sectors.
+</motion.p>
 
-              <motion.p
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                className="text-base sm:text-lg lg:text-xl text-white/90 mb-6 sm:mb-8 max-w-10xl"
-              >
-                Discover a focused B2B platform bringing together die & mould manufacturers, tooling suppliers, and precision manufacturing technology providers. DIEMEX offers visitors the opportunity to explore new solutions, connect directly with exhibitors, and gain insights into trends shaping India's manufacturing and automotive sectors.
-              </motion.p>
 
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -266,22 +276,22 @@ export default function WhyVisit() {
               >
                 {[
                   {
-                    image: "/images/attend-1.jpg",
+                    image: "https://cdn.itegroupnews.com/why_visit_1_b9ef94bf3b.webp",
                     title: "Connect with Key Industry Players",
                     text: "DIEMEX offers a focused platform to meet die & mould manufacturers, tooling suppliers, and precision manufacturing solution providers from India and international markets—helping you connect with the right partners for your business."
                   },
                   {
-                    image: "/images/attend-2.jpg",
+                    image: "https://cdn.itegroupnews.com/why_visit_2_231ef95a51.webp",
                     title: "Discover The Latest Innovations",
                     text: "Visit DIEMEX to explore the newest developments in die & mould, tooling, and precision manufacturing technologies—and understand how they can enhance productivity, quality, and competitiveness."
                   },
                   {
-                    image: "/images/attend-3.jpg",
+                    image: "https://cdn.itegroupnews.com/1_41fae57627.jpg",
                     title: "Build the Right Business Deals",
                     text: "Engage directly with manufacturers and technology suppliers to discuss requirements, evaluate solutions, and establish long-term business partnerships."
                   },
                   {
-                    image: "/images/attend-4.jpg",
+                    image: "https://cdn.itegroupnews.com/Why_visit_4_418c67c8b2.webp",
                     title: "Stay Ahead of Industry Trends",
                     text: "Gain insights into emerging technologies, market developments, and best practices through DIEMEX's conference sessions led by industry experts."
                   }
@@ -752,12 +762,12 @@ export default function WhyVisit() {
                   {
                     title: "Conference Programme",
                     text: "2 Days focused industry conference delivering practical insights to address real business challenges — from emerging die & mould technologies and tooling innovations to future trends shaping precision manufacturing.",
-                    image: "/images/more/conference.jpg"
+                    image: "https://cdn.itegroupnews.com/Business_Programme_9f14587238.webp"
                   },
                   {
                     title: "MOLDING TRENDS Summit",
                     text: "A knowledge-driven platform bringing industry professionals and leading experts together to share insights, helping the die & mould and tooling community stay ahead in a rapidly evolving manufacturing landscape.",
-                    image: "/images/more/summit.jpg"
+                    image: "https://cdn.itegroupnews.com/18_6c90079699.jpg"
                   }
                 ].map((card, index) => (
                   <motion.div

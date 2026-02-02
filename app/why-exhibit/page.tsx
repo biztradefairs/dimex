@@ -126,7 +126,7 @@ export default function WhyExhibit() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="font-parabolica text-4xl lg:text-5xl xl:text-6xl font-bold lg:whitespace-nowrap mt-80"
+          className="font-parabolica text-4xl lg:text-5xl xl:text-6xl font-bold lg:whitespace-nowrap mt-60"
         >
           Unlock New Opportunities at DIEMEX
         </motion.h1>

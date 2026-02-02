@@ -18,7 +18,7 @@ import Link from 'next/link';
 
 export default function ExploreMoscowPage() {
   return (
-    <main className="relative min-h-screen font-sans antialiased">
+    <main className="relative min-h-screen font-sans antialiased font-parabolica">
       {/* Hero Section */}
       <section className="relative z-10 flex flex-col justify-end bg-[#005EB8] pt-96">
         <SectionContainer className="pt-0 pb-10 text-white">

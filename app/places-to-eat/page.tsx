@@ -7,7 +7,7 @@ import { ChevronDown, ChevronUp } from 'lucide-react'
 
 export default function PlacesToEatPage() {
   return (
-    <div className="page-spacing-wrapper">
+    <div className="page-spacing-wrapper font-parabolica">
       {/* Hero Section */}
 {/* Hero Section */}
 <div className="relative flex flex-col justify-end min-h-[90vh]">

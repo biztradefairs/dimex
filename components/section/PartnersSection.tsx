@@ -150,7 +150,7 @@ const partners: Partner[] = [
         </div>
 
         {/* Slider Container */}
-        <div className="relative">
+        <div className="relative hidden lg:block">
           {/* Gradient overlay for smooth edges */}
           <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-12 bg-linear-to-r from-white to-transparent" />
           <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-12 bg-linear-to-l from-white to-transparent" />

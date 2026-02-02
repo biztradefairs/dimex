@@ -117,7 +117,7 @@ const skladTechSectors = [
 
 export default function SectorsPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen font-parabolica">
       {/* Hero Section - COMPACT */}
       <section className="relative min-h-[40vh] md:min-h-[50vh] flex items-end">
         <div

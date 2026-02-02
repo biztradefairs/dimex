@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { mockPageData } from './data';
+import PartnersSection from '@/components/section/PartnersSection';
 
 // Safe Image component that handles missing config - FIXED
 const SafeImage = ({ src, alt, fill, ...props }: any) => {
@@ -80,7 +81,7 @@ export default function ArticlesPage() {
 
   return (
     <div className="min-h-screen bg-white pt-20">
-      <main className=''>
+      <main className='font-parabolica'>
         {/* Hero Section */}
         <motion.section
           initial={{ opacity: 0, y: 20 }}
@@ -209,73 +210,7 @@ export default function ArticlesPage() {
             </motion.div>
           </div>
         </section>
-
-        {/* Partners Section */}
-        {partnersSection && partnersSection.Partners && (
-          <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="py-12 md:py-16 bg-gray-50"
-          >
-            <div className="mx-auto max-w-[1240px] lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1600px] px-4 sm:px-6 lg:px-8">
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-12"
-              >
-                {partnersSection.PartnersSectionTitle || "Our Partners"}
-              </motion.h2>
-              
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={staggerContainer}
-                className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8"
-              >
-                {partnersSection.Partners.data.map((partner, index) => (
-                  <motion.div
-                    key={partner.id}
-                    variants={scaleIn}
-                    whileHover={{ 
-                      y: -5,
-                      scale: 1.05,
-                      boxShadow: "0 15px 30px rgba(0,0,0,0.1)",
-                      transition: { duration: 0.3 }
-                    }}
-                    className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 flex flex-col items-center"
-                    custom={index}
-                  >
-                    <Link
-                      href={`/partner/${partner.attributes.Slug}`}
-                      className="flex flex-col items-center gap-4 w-full"
-                    >
-                      <div className="h-24 w-full flex items-center justify-center p-2">
-                        <motion.div
-                          whileHover={{ scale: 1.1 }}
-                          transition={{ duration: 0.3 }}
-                        >
-                          <SafeImage
-                            src={partner.attributes.Logo?.data?.attributes?.url}
-                            alt={partner.attributes.Name}
-                            className="max-h-full max-w-full object-contain"
-                            width={120}
-                            height={80}
-                          />
-                        </motion.div>
-                      </div>
-                      <span className="text-sm font-medium text-gray-700 text-center hover:text-blue-600 transition-colors duration-300">
-                        {partner.attributes.Name}
-                      </span>
-                    </Link>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </div>
-          </motion.section>
-        )}
+        <PartnersSection/>
       </main>
     </div>
   );
