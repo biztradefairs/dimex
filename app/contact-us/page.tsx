@@ -59,7 +59,7 @@ export default function ContactPage() {
                             <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
                           </svg>
                         </div>
-                        <span className="font-medium">+91 9742 711211</span>
+                        <span className="font-medium">+91 91483 19993</span>
                       </div>
                       
                       <div className="flex items-center gap-3">
@@ -91,8 +91,7 @@ export default function ContactPage() {
                   
                   <div className="mb-6">
                     <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                      Chennai Trade Centre
-                    </h3>
+Auto Cluster Exhibition Centre                    </h3>
                     
                     <div className="space-y-2 text-gray-700">
                       <p className="text-lg font-medium">Tamilnadu Trade Promotion Organisation,</p>
@@ -125,7 +124,7 @@ export default function ContactPage() {
                       <span>Interactive map - Zoom & explore</span>
                     </div>
                     <a 
-                      href="https://maps.google.com/?q=Chennai+Trade+Centre+Nandambakkam+Chennai" 
+                                            href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4110.374496455856!2d73.7990458754672!3d18.638844465550328!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2b84992d04bbd%3A0x9f1c44fb853ba461!2sAuto%20Cluster%20Exhibition%20Center%2C%20Chinchwad%2C%20Pune!5e1!3m2!1sen!2sin!4v1770050921314!5m2!1sen!2sin"
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:text-blue-800 font-medium"
