@@ -4,6 +4,7 @@
 import React from 'react';
 import SectionContainer from "@/components/UI/SectionContainer";
 import { motion, Variants } from "framer-motion";
+import ExhibitionsGlance from './ExhibitionsGlance';
 
 const AboutITEPage: React.FC = () => {
   // Animation variants
@@ -293,6 +294,7 @@ At Maxx Business Media, our mission is to create powerful B2B platforms that acc
             </motion.div>
           </SectionContainer>
         </section>
+        <ExhibitionsGlance/>
 
         {/* Exhibitions Section */}
         <section className="py-16 lg:py-24 bg-gray-50">
