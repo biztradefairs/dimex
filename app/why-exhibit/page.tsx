@@ -160,7 +160,7 @@ export default function WhyExhibit() {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="mt-8 bg-blue-600 hover:bg-blue-700 px-8 py-3 rounded-full font-medium"
+            className="mt-8 bg-[#004D9F] hover:bg-blue-700 px-8 py-3 rounded-full font-medium"
           >
             Enquire to Exhibit
           </motion.button>
@@ -230,7 +230,7 @@ export default function WhyExhibit() {
                   <motion.button
                     whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                     whileTap={{ scale: 0.95 }}
-                    className="font-parabolica bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-medium transition-all duration-300"
+                    className="font-parabolica bg-[#004D9F] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-medium transition-all duration-300"
                   >
                     Enquire to Exhibit
                   </motion.button>
@@ -334,7 +334,7 @@ export default function WhyExhibit() {
               <motion.button
                 whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                 whileTap={{ scale: 0.95 }}
-                className="mt-8 bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full font-medium transition-all duration-300"
+                className="mt-8 bg-[#004D9F] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-medium transition-all duration-300"
               >
                 Enquire to Exhibit
               </motion.button>
@@ -423,7 +423,7 @@ export default function WhyExhibit() {
         <motion.button
           whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
           whileTap={{ scale: 0.95 }}
-          className="mt-16 lg:mt-24 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition-all duration-300"
+          className="mt-16 lg:mt-24 bg-[#004D9F] hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition-all duration-300"
         >
           Explore Our 13 Sectors
         </motion.button>
@@ -622,7 +622,7 @@ export default function WhyExhibit() {
                 <motion.button
                   whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-blue-700 hover:bg-blue-800 text-white px-10 py-4 rounded-full text-lg font-medium transition-all duration-300"
+                  className="bg-[#004D9F] hover:bg-blue-800 text-white px-10 py-4 rounded-full text-lg font-medium transition-all duration-300"
                 >
                   Know More Insights – Download Your Post-Show Report
                 </motion.button>
@@ -656,7 +656,7 @@ export default function WhyExhibit() {
                     }}
                     className="p-6 rounded-xl transition-all duration-300 cursor-pointer"
                   >
-                    <div className="text-6xl font-bold text-blue-700 mb-4 hover:text-blue-800 transition-colors duration-300">
+                    <div className="text-6xl font-bold text-[#004D9F] mb-4 hover:text-blue-800 transition-colors duration-300">
                       {stat.value}
                     </div>
                     <p className="text-lg text-gray-800 mb-6">{stat.label}</p>
@@ -738,7 +738,7 @@ export default function WhyExhibit() {
 >
   <Link 
     href="/exhibition-directory" 
-    className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full text-base font-medium"
+    className="inline-block bg-[#004D9F] hover:bg-blue-700 text-white px-6 py-3 rounded-full text-base font-medium"
   >
     View Top 2025 Exhibitor List
   </Link>
@@ -747,7 +747,7 @@ export default function WhyExhibit() {
         </section>
 
         {/* JOURNEY CTA */}
-        <section className="font-parabolica py-16 lg:py-24 bg-gradient-to-b from-blue-900 to-blue-800 text-white">
+        <section className="font-parabolica py-16 lg:py-24 bg-blue-900 text-white">
           <SectionContainer>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -861,7 +861,7 @@ export default function WhyExhibit() {
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full font-medium transition-all duration-300"
+                      className="w-full bg-[#004D9F] hover:bg-blue-700 text-white py-3 rounded-full font-medium transition-all duration-300"
                     >
                       {card.buttonText}
                     </motion.button>
@@ -892,7 +892,7 @@ export default function WhyExhibit() {
                 whileHover={{ y: -5, boxShadow: "0 15px 30px rgba(37, 99, 235, 0.1)" }}
                 className="bg-blue-50 p-8 rounded-lg transition-all duration-300"
               >
-                <h3 className="text-lg lg:text-xl font-semibold text-blue-600 mb-4">Venue</h3>
+                <h3 className="text-lg lg:text-xl font-semibold text-[#004D9F] mb-4">Venue</h3>
                 <p className="text-gray-800 font-medium text-lg"> Auto Cluster Exhibition Centre, Pune, India</p>
               </motion.div>
 
@@ -904,7 +904,7 @@ export default function WhyExhibit() {
                 whileHover={{ y: -5, boxShadow: "0 15px 30px rgba(37, 99, 235, 0.1)" }}
                 className="bg-blue-50 p-8 rounded-lg transition-all duration-300"
               >
-                <h3 className="text-lg lg:text-xl font-semibold text-blue-600 mb-4">Opening Hours</h3>
+                <h3 className="text-lg lg:text-xl font-semibold text-[#004D9F] mb-4">Opening Hours</h3>
                 <p className="text-gray-800 font-medium text-lg">08-10 October 2026, 10:00 -18:00</p>
               </motion.div>
             </div>

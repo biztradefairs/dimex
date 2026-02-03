@@ -14,7 +14,7 @@ const EcosystemSection = () => {
 - Showcase advanced die & mould solutions, including tooling technologies, design & engineering software, automation, materials, and Industry 4.0 innovations.
 - Engage with thousands of qualified buyers and technical professionals from automotive, EV, plastics, aerospace, and industrial manufacturing sectors—all in one place from 8–10 October 2026.`,
       image: "https://cdn.itegroupnews.com/TR_2025_159_0d4f744777.jpg",
-      link: "/about-transrussia",
+      link: "/about-diemex",
       buttonText: "Know More",
     },
     {

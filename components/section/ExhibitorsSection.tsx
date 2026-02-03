@@ -52,7 +52,7 @@ const ExhibitorsSection = () => {
       {/* CTA */}
       <div className="flex justify-center">
         <Link href="/exhibition-directory" target="_blank" rel="noopener noreferrer">
-          <button className="group flex items-center gap-3 rounded-full px-10 py-4 text-[18px] font-semibold bg-blue-700 text-white transition hover:bg-mainColor4 hover:shadow-xl">
+          <button className="group flex items-center gap-3 rounded-full px-10 py-4 text-[18px] font-semibold bg-[#004D9F] text-white transition hover:bg-mainColor4 hover:shadow-xl">
             View Our 2026 Exhibitor List
           </button>
         </Link>

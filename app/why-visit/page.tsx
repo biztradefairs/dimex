@@ -349,7 +349,7 @@ export default function WhyVisit() {
                   <motion.button
                     whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                     whileTap={{ scale: 0.95 }}
-                    className="bg-blue-700 hover:bg-blue-800 text-white px-6 sm:px-8 md:px-10 py-2 sm:py-3 md:py-4 rounded-full text-sm sm:text-base md:text-lg font-medium transition-all duration-300 w-full sm:w-auto"
+                    className="bg-[#004D9F] hover:bg-blue-800 text-white px-6 sm:px-8 md:px-10 py-2 sm:py-3 md:py-4 rounded-full text-sm sm:text-base md:text-lg font-medium transition-all duration-300 w-full sm:w-auto"
                   >
                     Download Your Post-Show Report
                   </motion.button>
@@ -725,7 +725,7 @@ export default function WhyVisit() {
                     }}
                     className="rounded-lg sm:rounded-xl overflow-hidden border border-gray-200 transition-all duration-300"
                   >
-                    <div className="bg-blue-950 text-white p-4 sm:p-6 lg:p-8">
+                    <div className="bg-[#0E1C35] text-white p-4 sm:p-6 lg:p-8">
                       <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 sm:mb-3 hover:text-blue-300 transition-colors duration-300">
                         {card.title}
                       </h3>
@@ -755,7 +755,7 @@ export default function WhyVisit() {
                 initial={{ opacity: 0, x: -20 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
-                className="text-xs sm:text-sm text-blue-600 font-semibold mb-1 sm:mb-2"
+                className="text-xs sm:text-sm text-[#004D9F] font-semibold mb-1 sm:mb-2"
               >
                 Simplifying Your Participation Journey
               </motion.h3>
@@ -831,7 +831,7 @@ export default function WhyVisit() {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 sm:py-3 rounded-full font-medium transition-all duration-300 text-sm sm:text-base"
+                        className="w-full bg-[#004D9F] hover:bg-blue-700 text-white py-2 sm:py-3 rounded-full font-medium transition-all duration-300 text-sm sm:text-base"
                       >
                         {card.buttonText}
                       </motion.button>
@@ -862,7 +862,7 @@ export default function WhyVisit() {
                   whileHover={{ y: -5, boxShadow: "0 10px 20px rgba(37, 99, 235, 0.1)" }}
                   className="bg-blue-50 p-4 sm:p-6 lg:p-8 rounded-lg transition-all duration-300"
                 >
-                  <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-blue-600 mb-2 sm:mb-4">Venue</h3>
+                  <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-[#004D9F] mb-2 sm:mb-4">Venue</h3>
                   <p className="text-gray-800 font-medium text-sm sm:text-base lg:text-lg">Auto Cluster Exhibition Centre, Pune, India</p>
                 </motion.div>
 
@@ -874,7 +874,7 @@ export default function WhyVisit() {
                   whileHover={{ y: -5, boxShadow: "0 10px 20px rgba(37, 99, 235, 0.1)" }}
                   className="bg-blue-50 p-4 sm:p-6 lg:p-8 rounded-lg transition-all duration-300"
                 >
-                  <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-blue-600 mb-2 sm:mb-4">Opening Hours</h3>
+                  <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-[#004D9F] mb-2 sm:mb-4">Opening Hours</h3>
                   <p className="text-gray-800 font-medium text-sm sm:text-base lg:text-lg">08-10 October 2026, 10:00 - 18:00</p>
                 </motion.div>
               </div>

@@ -183,26 +183,6 @@ export default function ArticlesPage() {
                 </motion.article>
               ))}
             </motion.div>
-
-            {/* Load More Button */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5 }}
-              className="mt-12 text-center"
-            >
-              <motion.button
-                whileHover={{ 
-                  scale: 1.05,
-                  boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)"
-                }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all duration-300 font-semibold"
-              >
-                Load More Articles
-              </motion.button>
-            </motion.div>
           </div>
         </section>
         <PartnersSection/>
