@@ -115,7 +115,7 @@ const [countriesLoading, setCountriesLoading] = useState(false);
       <Toaster position="top-right" />
       
       <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-        <h3 className="text-xl font-semibold text-blue-700">
+        <h3 className="text-xl font-semibold text-[#004D9F]">
           Download Event Brochure
         </h3>
 
@@ -284,7 +284,7 @@ const [countriesLoading, setCountriesLoading] = useState(false);
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`mt-4 w-fit rounded bg-blue-600 px-6 py-2 text-sm font-medium text-white hover:opacity-90 ${
+          className={`mt-4 w-fit rounded bg-[#004D9F] px-6 py-2 text-sm font-medium text-white hover:opacity-90 ${
             isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
           }`}
         >

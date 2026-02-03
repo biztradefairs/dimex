@@ -150,27 +150,22 @@ export default function ArticlesPage() {
                     </div>
                     <div className="p-6">
                       <div className="flex items-center gap-2 mb-3">
-                        <time className="text-sm text-gray-500">
+                        <time className="text-sm text-[#4D4D4D]">
                           {new Date(article.attributes.PublishedDate).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'short',
                             day: 'numeric'
                           })}
                         </time>
-                        <motion.span
-                          whileHover={{ scale: 1.05 }}
-                          className="text-xs px-2 py-1 bg-blue-100 text-blue-800 rounded-full"
-                        >
-                          Logistics
-                        </motion.span>
+                       
                       </div>
-                      <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 hover:text-blue-600 transition-colors duration-300">
+                      <h3 className="text-xl font-bold text-[#4D4D4D] mb-3 line-clamp-2 hover:text-blue-600 transition-colors duration-300">
                         {article.attributes.Title}
                       </h3>
                       <p className="text-gray-600 line-clamp-3 mb-4">
                         {article.attributes.Excerpt}
                       </p>
-                      <div className="flex items-center text-blue-600 font-semibold group">
+                      <div className="flex items-center text-[#4D4D4D] font-semibold group">
                         <span>Read Article</span>
                         <motion.svg 
                           animate={{ x: [0, 5, 0] }}

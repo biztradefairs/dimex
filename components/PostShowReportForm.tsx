@@ -115,7 +115,7 @@ const [countriesLoading, setCountriesLoading] = useState(false);
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Title */}
         <div className="mb-4">
-          <h3 className="text-2xl font-bold text-blue-700">Download Post-Show Report</h3>
+          <h3 className="text-2xl font-bold text-[#004D9F]">Download Post-Show Report</h3>
           <p className="mt-1 text-gray-600">Fill in your details to get the complete report</p>
         </div>
 

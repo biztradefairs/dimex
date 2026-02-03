@@ -15,7 +15,7 @@ const StatsSection = () => {
       {/* CONTENT */}
       <SectionContainer className="pt-24 pb-16">
         <div className="max-w-10xl">
-          <h2 className="text-[56px] leading-[1.1] font-extrabold text-black mb-6">
+          <h2 className="text-[56px] leading-[1.1] font-bold text-black mb-6">
             Shaping the Future of Die & Mould Manufacturing
           </h2>
 
@@ -30,7 +30,7 @@ const StatsSection = () => {
             engineering solutions, automation, materials, and Industry 4.0 innovations to a highly qualified audience of industry decision-makers.
           </p>
           <Link href="/why-exhibit">
-            <button className="rounded-full bg-[#0B4EA2] px-10 py-4 text-white font-semibold text-base transition hover:bg-[#083E82]">
+            <button className="rounded-full bg-[#004D9F] px-10 py-4 text-white font-semibold text-base transition hover:bg-[#083E82]">
               Why Exhibit
             </button>
           </Link>
@@ -43,7 +43,7 @@ const StatsSection = () => {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-14">
       {stats.map((stat, index) => (
         <div key={index}>
-          <h3 className="text-[52px] font-extrabold text-[#0B4EA2] mb-2">
+          <h3 className="text-[52px] font-bold text-[#004D9F] mb-2">
             {stat.value}
           </h3>
 

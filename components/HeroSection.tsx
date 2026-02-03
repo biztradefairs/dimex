@@ -168,7 +168,7 @@ export default function HeroSection() {
 
               <div className="mt-6 shrink-0 lg:ml-auto lg:mt-0">
                 <a href="/exhibiting-enquiry">
-                  <button className="w-full rounded-full bg-[#33A8DF] px-8 py-3 text-base font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#33A8DF]/40 sm:w-auto sm:px-12 sm:py-4 sm:text-lg">
+                  <button className="w-full rounded-full bg-[#004D9F] px-8 py-3 text-base font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-[#33A8DF]/40 sm:w-auto sm:px-12 sm:py-4 sm:text-lg">
                     Book Your Stand
                   </button>
                 </a>

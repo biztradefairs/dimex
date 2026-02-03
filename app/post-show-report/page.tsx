@@ -35,7 +35,7 @@ export default function PostShowReportPage() {
 
               <p className="mb-8 text-lg leading-relaxed text-gray-700">
                 Position your brand within India’s growing die, mould, and precision manufacturing 
-                ecosystem. <strong className="text-blue-700">DIEMEX </strong> is a focused B2B platform that brings together die & mould manufacturers, 
+                ecosystem. <strong className="text-[#4D4D4D]">DIEMEX </strong> is a focused B2B platform that brings together die & mould manufacturers, 
                 tooling suppliers, technology providers, and serious buyers from automotive, engineering, 
                 and industrial manufacturing sectors. 
               </p>
@@ -63,19 +63,19 @@ export default function PostShowReportPage() {
 
                 <div className="grid grid-cols-2 gap-x-10 gap-y-12">
                   <div>
-                    <p className="text-5xl font-bold text-blue-600">3rd Edition</p>
+                    <p className="text-5xl font-bold text-[#4D4D4D]">3rd Edition</p>
                     <p className="mt-2 text-xl text-gray-700">2 Successful Editions Completed</p>
                   </div>
                   <div>
-                    <p className="text-5xl font-bold text-blue-600">Growing</p>
+                    <p className="text-5xl font-bold text-[#4D4D4D]">Growing</p>
                     <p className="mt-2 text-xl text-gray-700">Exhibitor Participation</p>
                   </div>
                   <div>
-                    <p className="text-5xl font-bold text-blue-600">Strong</p>
+                    <p className="text-5xl font-bold text-[#4D4D4D]">Strong</p>
                     <p className="mt-2 text-xl text-gray-700">Buyer & OEM Engagement</p>
                   </div>
                   <div>
-                    <p className="text-5xl font-bold text-blue-600">3+</p>
+                    <p className="text-5xl font-bold text-[#4D4D4D]">3+</p>
                     <p className="mt-2 text-xl text-gray-700">Countries Represented</p>
                   </div>
                 </div>

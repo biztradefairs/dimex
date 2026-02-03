@@ -206,14 +206,16 @@ export default function WhyVisit() {
                 <p className="text-gray-600 text-sm sm:text-base lg:text-lg xl:text-xl mb-6 sm:mb-10 leading-relaxed">
                   DIEMEX brings together die & mould manufacturers, tooling suppliers, and precision manufacturing solution providers from India and abroad, creating a focused platform for networking, collaboration, and business over three action-packed days.
                 </p>
-
-                <motion.button
+                <Link href="/exhibition-directory">
+                 <motion.button
                   whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                   whileTap={{ scale: 0.95 }}
                   className="bg-blue-700 hover:bg-blue-800 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 mb-6 sm:mb-0 w-full sm:w-auto"
                 >
                   Explore the Exhibitor list
                 </motion.button>
+                </Link>
+               
 
                 <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mt-8 sm:mt-14">
                   {countries.map((country, index) => (
@@ -537,13 +539,15 @@ export default function WhyVisit() {
               </motion.div>
 
               <div className="text-center sm:text-left">
+                <Link href="/exhibition-directory">
                 <motion.button
                   whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 w-full sm:w-auto"
+                  className="bg-[#004D9F] hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 w-full sm:w-auto"
                 >
                   View Top 2025 Exhibitor List
                 </motion.button>
+                </Link>
               </div>
             </SectionContainer>
           </section>
@@ -647,7 +651,7 @@ export default function WhyVisit() {
                   <motion.button
                     whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                     whileTap={{ scale: 0.95 }}
-                    className="bg-blue-700 hover:bg-blue-800 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 w-full sm:w-auto"
+                    className="bg-[#004D9F] hover:bg-blue-800 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 w-full sm:w-auto"
                   >
                     Explore All the Event Sectors
                   </motion.button>
@@ -808,7 +812,7 @@ export default function WhyVisit() {
                     className="border border-gray-200 rounded-lg p-4 sm:p-6 lg:p-8 transition-all duration-300 cursor-pointer"
                   >
                     <div className="flex items-center justify-between mb-4 sm:mb-6">
-                      <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-[#004D9F] rounded-full flex items-center justify-center">
                         <span className="text-lg sm:text-xl lg:text-2xl">{card.icon}</span>
                       </div>
                       <motion.span

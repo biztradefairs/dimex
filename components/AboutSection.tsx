@@ -164,7 +164,7 @@ export default function AboutSection() {
           <a href="/about-diemex" className="mt-4 w-fit">
             <button
               ref={buttonRef}
-              className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-[#0092D7] to-[#33A8DF] px-10 py-4 text-[16px] font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#33A8DF]/30 opacity-0"
+              className="group flex items-center gap-2 rounded-full bg-[#004D9F] px-10 py-4 text-[16px] font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#33A8DF]/30 opacity-0"
             >
               Learn More
               <svg
@@ -196,7 +196,7 @@ export default function AboutSection() {
                 className="flex flex-col items-center opacity-0"
               >
                 <div className="border-b border-black/10 pb-5 text-center">
-                  <h3 className="mb-2 text-5xl md:text-6xl font-parabolica font-bold leading-none text-[#0092D7]">
+                  <h3 className="mb-2 text-5xl md:text-6xl font-parabolica font-bold leading-none text-[#004D9F]">
                     {stat.value}
                   </h3>
                   <p className="text-lg md:text-xl font-medium text-black/80">

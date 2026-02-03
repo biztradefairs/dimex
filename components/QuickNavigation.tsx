@@ -53,7 +53,7 @@ export default function QuickNavigation() {
           {quickNavItems.map((item) => (
             <div key={item.id} className="bg-white rounded-2xl p-6 lg:p-8 shadow-lg hover:shadow-xl transition-shadow duration-300 border border-gray-100">
               <div className="flex justify-between items-start mb-6">
-                <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center">
+                <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-[#004D9F] flex items-center justify-center">
                   <span className="text-white text-xl lg:text-2xl font-bold">{item.number}</span>
                 </div>
                 <span className="text-2xl font-bold text-gray-300">{item.number}</span>
@@ -65,7 +65,7 @@ export default function QuickNavigation() {
               <div className="mt-auto">
                 <Link 
                   href={item.cta.href}
-                  className="block w-full rounded-full bg-[#0092D7] text-white text-center font-semibold py-3 px-6 hover:bg-[#0074D9] transition-colors text-sm lg:text-base"
+                  className="block w-full rounded-full bg-[#004D9F] text-white text-center font-semibold py-3 px-6 hover:bg-[#0074D9] transition-colors text-sm lg:text-base"
                 >
                   {item.cta.text}
                 </Link>

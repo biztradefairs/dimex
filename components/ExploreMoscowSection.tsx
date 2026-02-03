@@ -21,7 +21,7 @@ export default function ExplorePuneSection() {
 
           {/* CTA */}
           <a href="/explore-moscow" className="mt-6 w-fit">
-            <button className="flex items-center justify-center gap-2 rounded-full bg-[#0092D7] px-8 lg:px-10 py-3 lg:py-4 text-[16px] font-semibold text-white transition-all duration-300 hover:bg-[#33A8DF]">
+            <button className="flex items-center justify-center gap-2 rounded-full bg-[#004D9F] px-8 lg:px-10 py-3 lg:py-4 text-[16px] font-semibold text-white transition-all duration-300 hover:bg-[#33A8DF]">
               City Guide
             </button>
           </a>
