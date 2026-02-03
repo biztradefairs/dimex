@@ -150,13 +150,12 @@ export default function ExploreMoscowPage() {
               </div>
               
               <h3 className="text-2xl md:text-3xl font-semibold text-black group-hover:text-blue-600 transition-colors">
-                Savor Moscow's Culinary Delights
+                Savor Pune’s Culinary Delights
               </h3>
               
               <p className="mb-10 whitespace-pre-line text-gray-600 leading-relaxed">
-                From traditional Russian dishes to international flavors, Moscow's dining scene is as diverse as its culture. 
-                Indulge in borscht, pelmeni, and blini at a cozy café, or enjoy contemporary cuisine at one of the city's 
-                Michelin-starred restaurants.
+               From authentic Maharashtrian cuisine to global flavors, Pune’s food scene reflects its diverse and cosmopolitan character. Relish local favourites such as misal pav, vada pav, pithla-bhakri, 
+                and puran poli at traditional eateries, or explore contemporary Indian and international cuisine at the city’s upscale restaurants and cafés.
               </p>
               
               <Link 
