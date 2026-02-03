@@ -254,43 +254,51 @@ export default function ExploreMoscowPage() {
       </section>
 
       {/* Contact/Visa Section */}
-      <section className="py-16">
-        <SectionContainer>
-          <div className="rounded-xl bg-[#F0F4F8] p-5">
-            <div className="prose max-w-none text-black">
-              <p>
-                For detailed information, visit the website{' '}
-                leave a request or contact in any convenient way:
-              </p>
-              
-              <p>
-                <a 
-                  href="https://api.whatsapp.com/send?phone=79035460935" 
-                  className="text-blue-600 hover:text-blue-800 hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  WhatsApp
-                </a>
-                {' '}- +91 91483 19993
-              </p>
-              
-              <p>
-                <a 
-                  href="mailto:pad@maxxmedia.in" 
-                  className="text-blue-600 hover:text-blue-800 hover:underline"
-                >
-                  pad@maxxmedia.in
-                </a>
-              </p>
-                         
-                  Feedback form
-                </a>
-              </p>
-            </div>
-          </div>
-        </SectionContainer>
-      </section>
+     <section className="py-16">
+  <SectionContainer>
+    <div className="rounded-xl bg-[#F0F4F8] p-5">
+      <div className="prose max-w-none text-black">
+        <p>
+          For detailed information, visit the website{' '}
+          leave a request or contact in any convenient way:
+        </p>
+
+        <p>
+          <a 
+            href="https://api.whatsapp.com/send?phone=79035460935" 
+            className="text-blue-600 hover:text-blue-800 hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            WhatsApp
+          </a>
+          {' '}– +91 91483 19993
+        </p>
+
+        <p>
+          <a 
+            href="mailto:pad@maxxmedia.in" 
+            className="text-blue-600 hover:text-blue-800 hover:underline"
+          >
+            pad@maxxmedia.in
+          </a>
+        </p>
+
+        <p>
+          <a 
+            href="https://visa-russian.ru/call.php"
+            className="text-blue-600 hover:text-blue-800 hover:underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Feedback form
+          </a>
+        </p>
+      </div>
+    </div>
+  </SectionContainer>
+</section>
+
 
       {/* Partners & Sponsors Section */}
       <PartnersSection />
