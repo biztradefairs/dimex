@@ -223,8 +223,10 @@ export default function ExploreMoscowPage() {
               </h2>
               
               <p className="whitespace-pre-line text-white/90 text-lg leading-relaxed">
-                Moscow's efficient metro system is a marvel in itself, with stations that are often called "underground palaces." 
-                Easy to navigate and beautifully designed, it's the best way to experience the city like a local.
+                Pune offers multiple convenient transport options for visitors. App-based cabs, auto-rickshaws, and local buses 
+                make it easy to navigate the city, while ride-hailing services provide a comfortable way to travel between 
+                business districts and key attractions. For nearby destinations such as Lonavala and Lavasa, road travel is 
+                the most convenient option, allowing you to explore the region at your own pace.
               </p>
               
               <Link 
