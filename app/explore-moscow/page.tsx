@@ -7,11 +7,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 // export const metadata: Metadata = {
-//   title: "Logistics & Transport Exhibition Trade Show | TransRussia",
-//   description: "Join TransRussia 2026, the premier transport and logistics exhibition at Crocus Expo. Network with global industry leaders and explore cutting-edge solutions.",
+//   title: "Die & Mould Exhibition Trade Show | DIEMEX",
+//   description: "Join Diemex 2026, the premier internatinal die and mould exhibition at Auto Cluster Exhibition Centre, Pune.. Network with global industry leaders and explore cutting-edge solutions.",
 //   openGraph: {
-//     title: "Logistics & Transport Exhibition Trade Show | TransRussia",
-//     description: "Join TransRussia 2026, the premier transport and logistics exhibition at Crocus Expo. Network with global industry leaders and explore cutting-edge solutions.",
+//     title: "Die & Mould Exhibition Trade Show | DIEMEX",
+//   description: "Join Diemex 2026, the premier internatinal die and mould exhibition at Auto Cluster Exhibition Centre, Pune.. Network with global industry leaders and explore cutting-edge solutions.",
 //     images: ["https://cdn.itegroupnews.com/TRU_Sectors_Images_1_c2980dbd37.png"]
 //   }
 // };
@@ -23,10 +23,10 @@ export default function ExploreMoscowPage() {
       <section className="relative z-10 flex flex-col justify-end bg-[#005EB8] pt-96">
         <SectionContainer className="pt-0 pb-10 text-white">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white">
-            Explore Moscow
+            Explore Pune
           </h1>
           <p className="mt-5 max-w-6xl whitespace-pre-line text-lg">
-            A City of Timeless Wonders
+            Where Heritage Meets Innovation
           </p>
         </SectionContainer>
         
@@ -47,12 +47,14 @@ export default function ExploreMoscowPage() {
           <div className="mb-14 flex flex-wrap justify-between gap-10 lg:items-end">
             <div className="lg:basis-2/3">
               <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-black my-3">
-                A Unique Guide
+               A City of Culture, Education & Industry
               </h2>
               <p className="whitespace-pre-line text-gray-700 text-lg">
-                Welcome to Moscow, a city where history and modernity intertwine to create an unforgettable experience. 
-                As the heart of Russia, Moscow offers something for every traveler—whether you're here for MITT or exploring beyond. 
-                This guide highlights must-visit attractions in the city center and beyond, including shopping, dining, museums, and theaters.
+                Welcome to Pune, a vibrant city where rich heritage blends seamlessly with modern industry. Known as the cultural capital of Maharashtra and one of India’s 
+                leading manufacturing and automotive hubs, Pune offers a dynamic experience for business visitors and travellers alike.</p>
+
+                 <p  Whether you’re visiting for DIEMEX 2026 or extending your stay, Pune has something for everyone. From historic landmarks and spiritual sites to bustling markets, fine dining, museums, and performing arts venues, 
+                this guide highlights must-visit attractions in the city and surrounding regions to help you make the most of your visit.
               </p>
             </div>
           </div>
@@ -78,12 +80,13 @@ export default function ExploreMoscowPage() {
               </h3>
               
               <p className="mb-10 whitespace-pre-line text-gray-600 leading-relaxed">
-                Moscow is home to some of the world's most famous landmarks. Start your journey at the Red Square, 
-                a UNESCO World Heritage Site and the cultural epicenter of the city. Marvel at the colorful domes 
-                of St. Basil's Cathedral, the imposing walls of the Kremlin, and the grandeur of the State Historical Museum. 
-                Don't forget to witness the solemn beauty of the Lenin Mausoleum, a symbol of Soviet history.
+                Pune is home to some of Maharashtra’s most iconic landmarks. Begin your journey at Shaniwar Wada, the historic seat of the Maratha 
+                Empire and a symbol of the city’s rich legacy. Explore the grandeur of Aga Khan Palace, a site of national importance closely 
+                associated with India’s freedom movement, and admire the architectural elegance of Pataleshwar Cave Temple, carved from a single rock.
               </p>
-              
+
+               <p> Experience Pune’s cultural depth at Sinhagad Fort, offering panoramic views and a glimpse into Maratha history, and visit the Raja Dinkar Kelkar Museum, 
+              renowned for its remarkable collection of traditional Indian art and artifacts. Together, these landmarks reflect Pune’s timeless heritage and enduring spirit.</p>
               <Link 
                 href="/iconic-landmarks" 
                 className="mt-auto w-full"
@@ -115,11 +118,11 @@ export default function ExploreMoscowPage() {
               </h3>
               
               <p className="mb-10 whitespace-pre-line text-gray-600 leading-relaxed">
-                Dive into Moscow's rich cultural scene with a visit to the Bolshoi Theatre, where world-class ballet 
-                and opera performances captivate audiences. Art lovers will find inspiration at the Tretyakov Gallery 
-                and the Pushkin Museum of Fine Arts, showcasing masterpieces that span centuries.
+               Experience Pune’s vibrant cultural landscape, deeply rooted in tradition and creativity. 
+                Enjoy classical music, theatre, and contemporary performances at renowned venues such as Balgandharva Rangmandir and Pandit Bhimsen Joshi Udyan.
               </p>
-              
+               <p className="mb-10 whitespace-pre-line text-gray-600 leading-relaxed">Art and history enthusiasts can explore the Raja Dinkar Kelkar Museum, Mahatma Phule Museum, and several art galleries that showcase Maharashtra’s artistic heritage and 
+              modern expressions. Together, Pune’s cultural institutions offer an enriching experience that reflects the city’s intellectual and artistic spirit.</p>
               <Link 
                 href="/culture" 
                 className="mt-auto w-full"
