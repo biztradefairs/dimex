@@ -1,23 +1,33 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import ThankYouPopup from '@/components/ThankYouPopup';
 import ReCAPTCHA from 'react-google-recaptcha';
 
 export default function BrochureForm() {
+  type Country = {
+  name: string;
+};
+
+const [countries, setCountries] = useState<Country[]>([]);
+const [countriesLoading, setCountriesLoading] = useState(false);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
    const [captchaToken, setCaptchaToken] = useState<string | null>(null)
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    company: '',
-    jobTitle: '',
-    email: '',
-    phone: '',
-    country: '',
-    notRobot: false
-  });
+  firstName: '',
+  lastName: '',
+  company: '',
+  jobTitle: '',
+  email: '',
+  phone: '',
+  country: '',
+  state: '',
+  city: '',
+  notRobot: false
+});
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -59,6 +69,8 @@ export default function BrochureForm() {
           email: '',
           phone: '',
           country: '',
+          city: '',
+          state: '',
           notRobot: false
         });
       } else {
@@ -71,6 +83,32 @@ export default function BrochureForm() {
       setIsSubmitting(false);
     }
   };
+  useEffect(() => {
+  const fetchCountries = async () => {
+    try {
+      setCountriesLoading(true);
+
+      const res = await fetch("https://restcountries.com/v3.1/all?fields=name");
+      const data = await res.json();
+
+      // Sort alphabetically
+      const sortedCountries = data
+        .map((c: any) => ({ name: c.name.common }))
+        .sort((a: Country, b: Country) =>
+          a.name.localeCompare(b.name)
+        );
+
+      setCountries(sortedCountries);
+    } catch (error) {
+      console.error("Failed to fetch countries", error);
+    } finally {
+      setCountriesLoading(false);
+    }
+  };
+
+  fetchCountries();
+}, []);
+
 
   return (
     <>
@@ -175,24 +213,62 @@ export default function BrochureForm() {
           <label className="mb-1 block text-sm font-medium">
             Country<span className="ml-1 text-red-500">*</span>
           </label>
-          <select
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-            required
-            className="w-full rounded border border-gray-300 bg-white px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          >
-            <option value="">Select country</option>
-            <option value="India">India</option>
-            <option value="Russia">Russia</option>
-            <option value="UAE">UAE</option>
-            <option value="UK">UK</option>
-            <option value="USA">USA</option>
-            <option value="Germany">Germany</option>
-            <option value="China">China</option>
-            <option value="Turkey">Turkey</option>
-            <option value="Kazakhstan">Kazakhstan</option>
-          </select>
+         <select
+  name="country"
+  value={formData.country}
+  onChange={handleChange}
+  required
+  className="w-full px-4 py-3 border border-gray-300 rounded-lg 
+             focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+             outline-none transition hover:border-blue-300 bg-white cursor-pointer"
+>
+  <option value="">
+    {countriesLoading ? "Loading countries..." : "Select Country"}
+  </option>
+
+  {countries.map((country) => (
+    <option key={country.name} value={country.name}>
+      {country.name}
+    </option>
+  ))}
+</select>
+{/* State & City */}
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  {/* State */}
+  <div>
+    <label className="mb-1 block text-sm font-medium">
+      State<span className="ml-1 text-red-500">*</span>
+    </label>
+    <input
+      type="text"
+      name="state"
+      value={formData.state}
+      onChange={handleChange}
+      required
+      placeholder="Enter your state"
+      className="w-full rounded border border-gray-300 px-3 py-2 text-sm 
+                 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+    />
+  </div>
+
+  {/* City */}
+  <div>
+    <label className="mb-1 block text-sm font-medium">
+      City<span className="ml-1 text-red-500">*</span>
+    </label>
+    <input
+      type="text"
+      name="city"
+      value={formData.city}
+      onChange={handleChange}
+      required
+      placeholder="Enter your city"
+      className="w-full rounded border border-gray-300 px-3 py-2 text-sm 
+                 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+    />
+  </div>
+</div>
+
 
             <div className="rounded border bg-gray-50 p-4">
        <div className="flex justify-center pt-4">

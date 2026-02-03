@@ -23,7 +23,7 @@ export default function ContactPage() {
       </section>
 
       {/* VENUE & ORGANIZER DETAILS SECTION */}
-      <section className="relative py-16">
+      <section className="relative py-16 font-parabolica">
         <SectionContainer>
           {/* Intro text */}
           <div className="mb-12 text-center">

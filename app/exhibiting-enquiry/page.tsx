@@ -7,6 +7,13 @@ import PartnersSection from "@/components/section/PartnersSection"
 import ReCAPTCHA from "react-google-recaptcha"
 
 const TransRussiaExhibitPage: React.FC = () => {
+  type Country = {
+  name: string;
+};
+
+const [countries, setCountries] = useState<Country[]>([]);
+const [countriesLoading, setCountriesLoading] = useState(false);
+
   const introRef = useRef<HTMLDivElement>(null)
   const backToTopRef = useRef<HTMLButtonElement>(null)
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
@@ -19,6 +26,8 @@ const TransRussiaExhibitPage: React.FC = () => {
     companyWebsite: "",
     jobTitle: "",
     country: "",
+    city: "",
+    state: "",
     phone: "",
     email: "",
     standSize: "",
@@ -27,11 +36,6 @@ const TransRussiaExhibitPage: React.FC = () => {
     notRobot: false,
   })
 
-  const countries = [
-    "Russia","USA","China","Germany","France","UK","Japan","South Korea",
-    "India","Brazil","Italy","Spain","Canada","Australia","Netherlands",
-    "Switzerland","UAE","Singapore","Turkey","Poland","Other"
-  ]
 
   const standSizes = [
     "9 sqm (3x3)","12 sqm (3x4)","15 sqm (3x5)",
@@ -114,6 +118,32 @@ const TransRussiaExhibitPage: React.FC = () => {
     console.log("Submitted Data:", formData)
     alert("Form submitted successfully!")
   }
+  useEffect(() => {
+  const fetchCountries = async () => {
+    try {
+      setCountriesLoading(true);
+
+      const res = await fetch("https://restcountries.com/v3.1/all?fields=name");
+      const data = await res.json();
+
+      // Sort alphabetically
+      const sortedCountries = data
+        .map((c: any) => ({ name: c.name.common }))
+        .sort((a: Country, b: Country) =>
+          a.name.localeCompare(b.name)
+        );
+
+      setCountries(sortedCountries);
+    } catch (error) {
+      console.error("Failed to fetch countries", error);
+    } finally {
+      setCountriesLoading(false);
+    }
+  };
+
+  fetchCountries();
+}, []);
+
 
   return (
     <>
@@ -221,10 +251,63 @@ const TransRussiaExhibitPage: React.FC = () => {
                   />
                 ))}
 
-                <select name="country" onChange={handleChange} required className="w-full border p-3 rounded">
-                  <option value="">Select Country</option>
-                  {countries.map(c => <option key={c}>{c}</option>)}
-                </select>
+                <select
+  name="country"
+  value={formData.country}
+  onChange={handleChange}
+  required
+  className="w-full px-4 py-3 border border-gray-300 rounded-lg 
+             focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+             outline-none transition hover:border-blue-300 bg-white cursor-pointer"
+>
+  <option value="">
+    {countriesLoading ? "Loading countries..." : "Select Country"}
+  </option>
+
+  {countries.map((country) => (
+    <option key={country.name} value={country.name}>
+      {country.name}
+    </option>
+  ))}
+</select>
+{/* State & City */}
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  {/* State */}
+  <div>
+    <label className="mb-1 block text-sm font-medium">
+      State<span className="ml-1 text-red-500">*</span>
+    </label>
+    <input
+      type="text"
+      name="state"
+      value={formData.state}
+      onChange={handleChange}
+      required
+      placeholder="Enter your state"
+      className="w-full rounded border border-gray-300 px-3 py-2 text-sm 
+                 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+    />
+  </div>
+
+  {/* City */}
+  <div>
+    <label className="mb-1 block text-sm font-medium">
+      City<span className="ml-1 text-red-500">*</span>
+    </label>
+    <input
+      type="text"
+      name="city"
+      value={formData.city}
+      onChange={handleChange}
+      required
+      placeholder="Enter your city"
+      className="w-full rounded border border-gray-300 px-3 py-2 text-sm 
+                 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+    />
+  </div>
+</div>
+
+
 
                 <select name="standSize" onChange={handleChange} required className="w-full border p-3 rounded">
                   <option value="">Preferred Stand Size</option>

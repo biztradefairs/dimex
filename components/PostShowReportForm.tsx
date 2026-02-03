@@ -7,6 +7,13 @@ import ReCAPTCHA from 'react-google-recaptcha';
 
 
 export default function PostShowReportForm() {
+  type Country = {
+  name: string;
+};
+
+const [countries, setCountries] = useState<Country[]>([]);
+const [countriesLoading, setCountriesLoading] = useState(false);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null)
@@ -17,6 +24,8 @@ export default function PostShowReportForm() {
     website: '',
     jobTitle: '',
     country: '',
+    city: '',
+    state: '',
     phone: '',
     email: '',
     standSize: '',
@@ -61,6 +70,8 @@ export default function PostShowReportForm() {
           website: '',
           jobTitle: '',
           country: '',
+          city: '',
+          state: '',
           phone: '',
           email: '',
           standSize: '',
@@ -79,13 +90,23 @@ export default function PostShowReportForm() {
   };
 
   const sectors = [
-    "Air Freight",
-    "Rail Freight",
-    "Road Freight Transportation",
-    "Warehouse Equipment & Technology SkladTech",
-    "Ports & Terminals",
-    "E-commerce Logistics",
-  ];
+    "Additive Manufacturing - 3D Printing",
+    "CNC Milling / Machining Centre, EDM",
+    "Cutting Tools",
+    "Heat Treatment",
+    "Hot Runner System",
+    "Injection Moulding Machine",
+    "Inspection and Quality Systems, CMM",
+    "Machine Tools & Accessories for Dies and Moulds",
+    "Mechanical Presses for Sheet Metal Components",
+    "Raw Material Suppliers (Tool Steel)",
+    "Texturizing, Polishing & Plating",
+    "CAD/CAM/CAE, Simulation",
+    "Mould Base",
+    "Tool Room - Die Casting Dies & Rubber Moulds",
+    "Tool Room - Jig, Fixture and Gauges",
+    "Tool Room - Sheet Metal Dies / Sheet metal Components",
+  ]
 
   return (
     <>
@@ -183,22 +204,63 @@ export default function PostShowReportForm() {
             Country<span className="ml-1 text-red-500">*</span>
           </label>
           <select
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-            required
-            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
-          >
-            <option value="">Select country</option>
-            <option value="India">India</option>
-            <option value="Russia">Russia</option>
-            <option value="United Kingdom">United Kingdom</option>
-            <option value="United States">United States</option>
-            <option value="Germany">Germany</option>
-            <option value="China">China</option>
-            <option value="UAE">UAE</option>
-          </select>
+  name="country"
+  value={formData.country}
+  onChange={handleChange}
+  required
+  className="w-full px-4 py-3 border border-gray-300 rounded-lg 
+             focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+             outline-none transition hover:border-blue-300 bg-white cursor-pointer"
+>
+  <option value="">
+    {countriesLoading ? "Loading countries..." : "Select Country"}
+  </option>
+
+  {countries.map((country) => (
+    <option key={country.name} value={country.name}>
+      {country.name}
+    </option>
+  ))}
+</select>
+
         </div>
+        {/* State & City */}
+<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+  {/* State */}
+  <div>
+    <label className="mb-1 block text-sm font-medium">
+      State<span className="ml-1 text-red-500">*</span>
+    </label>
+    <input
+      type="text"
+      name="state"
+      value={formData.state}
+      onChange={handleChange}
+      required
+      placeholder="Enter your state"
+      className="w-full rounded border border-gray-300 px-3 py-2 text-sm 
+                 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+    />
+  </div>
+
+  {/* City */}
+  <div>
+    <label className="mb-1 block text-sm font-medium">
+      City<span className="ml-1 text-red-500">*</span>
+    </label>
+    <input
+      type="text"
+      name="city"
+      value={formData.city}
+      onChange={handleChange}
+      required
+      placeholder="Enter your city"
+      className="w-full rounded border border-gray-300 px-3 py-2 text-sm 
+                 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+    />
+  </div>
+</div>
+
 
         {/* Phone */}
         <div>

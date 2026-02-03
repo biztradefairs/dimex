@@ -31,6 +31,14 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
   footerData,
 }) => {
 
+  type Country = {
+  name: string;
+};
+
+const [countries, setCountries] = useState<Country[]>([]);
+const [countriesLoading, setCountriesLoading] = useState(false);
+
+
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -79,6 +87,32 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
       [name]: value
     }));
   };
+  useEffect(() => {
+  const fetchCountries = async () => {
+    try {
+      setCountriesLoading(true);
+
+      const res = await fetch("https://restcountries.com/v3.1/all?fields=name");
+      const data = await res.json();
+
+      // Sort alphabetically
+      const sortedCountries = data
+        .map((c: any) => ({ name: c.name.common }))
+        .sort((a: Country, b: Country) =>
+          a.name.localeCompare(b.name)
+        );
+
+      setCountries(sortedCountries);
+    } catch (error) {
+      console.error("Failed to fetch countries", error);
+    } finally {
+      setCountriesLoading(false);
+    }
+  };
+
+  fetchCountries();
+}, []);
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -231,25 +265,26 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Country <span className="text-red-500">*</span>
                       </label>
-                      <select
-                        name="country"
-                        value={formData.country}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer"
-                      >
-                        <option value="">Select Country</option>
-                        <option value="India">India</option>
-                        <option value="Russia">Russia</option>
-                        <option value="Turkey">Turkey</option>
-                        <option value="China">China</option>
-                        <option value="Germany">Germany</option>
-                        <option value="USA">United States</option>
-                        <option value="UK">United Kingdom</option>
-                        <option value="UAE">United Arab Emirates</option>
-                        <option value="Kazakhstan">Kazakhstan</option>
-                        <option value="Belarus">Belarus</option>
-                      </select>
+                     <select
+  name="country"
+  value={formData.country}
+  onChange={handleInputChange}
+  required
+  className="w-full px-4 py-3 border border-gray-300 rounded-lg 
+             focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+             outline-none transition hover:border-blue-300 bg-white cursor-pointer"
+>
+  <option value="">
+    {countriesLoading ? "Loading countries..." : "Select Country"}
+  </option>
+
+  {countries.map((country) => (
+    <option key={country.name} value={country.name}>
+      {country.name}
+    </option>
+  ))}
+</select>
+
                     </div>
 
                     {/* State and City Row */}
