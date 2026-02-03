@@ -21,32 +21,32 @@ const ExhibitionsGlance: React.FC<ExhibitionsGlanceProps> = ({
   exhibitions = [
     {
       id: "1",
-      name: "comtrans",
+      name: "DIEMEX 2023",
       image:"https://cdn.itegroupnews.com/comtrans_92db3bfebf.webp",
-      description: "The international exhibition of commercial vehicles.",
-      startDate: "Dec 9th, 2025",
-      endDate: "Dec 12th, 2025",
-      venue: "Crocus Expo, Moscow",
+      description: "The international exhibition of Die & Mould Industry.",
+      startDate: "Oct 27th, 2023",
+      endDate: "Oct 29th, 2023",
+      venue: "KTPO Convention Centre, Bengaluru",
       websiteUrl: "#"
     },
     {
       id: "2",
-      name: "dairy tech",
+      name: "DIEMEX 2025",
       image:"https://cdn.itegroupnews.com/dairytech_d532416dae.webp",
-      description: "The international exhibition of equipment for milk and dairy production.",
-      startDate: "Jan 27th, 2026",
-      endDate: "Jan 29th, 2026",
-      venue: "Pavilion 1, Hall 4, Crocus Expo, Moscow",
+      description: "The international exhibition of Die & Mould Industry.",
+      startDate: "Nov 20th, 2025",
+      endDate: "Nov 22nd, 2025",
+      venue: "Chennai Trade Centre,Chennai",
       websiteUrl: "#"
     },
     {
       id: "3",
-      name: "AIRVent",
+      name: "DIEMEX 2026",
       image:"https://cdn.itegroupnews.com/airvent_b09e1eb665.webp",
-      description: "The international exhibition of ventilation, air conditioning, and refrigeration equipment.",
-      startDate: "Feb 3rd, 2026",
-      endDate: "Feb 6th, 2026",
-      venue: "Crocus Expo, Moscow",
+     description: "The international exhibition of Die & Mould Industry.",
+      startDate: "Oct 8th, 2026",
+      endDate: "Oct 10th, 2026",
+      venue: "Auto Cluster Exhibition Centre, Pune",
       websiteUrl: "#"
     }
   ]
