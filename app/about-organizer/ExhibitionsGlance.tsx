@@ -64,7 +64,7 @@ const ExhibitionsGlance: React.FC<ExhibitionsGlanceProps> = ({
         </h1>
         
         <p className="text-gray-700 max-w-10xl">
-          Each year, we organize and host over 30 leading industry events across key sectors, including exhibitions, summits, and conferences. Supported by the Connect digital platform, the ITE ecosystem offers innovative hybrid solutions for industry communities in Russia, the CIS, and beyond.
+         We host a portfolio of focused industry exhibitions and conferences, creating powerful business platforms for manufacturing, engineering, and technology communities.
         </p>
       </div>
 
