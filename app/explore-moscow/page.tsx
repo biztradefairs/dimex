@@ -53,8 +53,8 @@ export default function ExploreMoscowPage() {
                 Welcome to Pune, a vibrant city where rich heritage blends seamlessly with modern industry. Known as the cultural capital of Maharashtra and one of India’s 
                 leading manufacturing and automotive hubs, Pune offers a dynamic experience for business visitors and travellers alike.
 
-            <br></br> Whether you’re visiting for DIEMEX 2026 or extending your stay, Pune has something for everyone. From historic landmarks and spiritual sites to bustling markets, fine dining, museums, and performing arts venues, 
-                this guide highlights must-visit attractions in the city and surrounding regions to help you make the most of your visit.
+            <br> Whether you’re visiting for DIEMEX 2026 or extending your stay, Pune has something for everyone. From historic landmarks and spiritual sites to bustling markets, fine dining, museums, and performing arts venues, 
+                this guide highlights must-visit attractions in the city and surrounding regions to help you make the most of your visit.</br>
               </p>
             </div>
           </div>
