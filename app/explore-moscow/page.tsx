@@ -260,15 +260,7 @@ export default function ExploreMoscowPage() {
             <div className="prose max-w-none text-black">
               <p>
                 For detailed information, visit the website{' '}
-                <a 
-                  href="https://visa-russian.ru/for-exhibition-participants.php" 
-                  className="text-blue-600 hover:text-blue-800 hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Visa-Russian.ru
-                </a>
-                , leave a request or contact in any convenient way:
+                leave a request or contact in any convenient way:
               </p>
               
               <p>
@@ -280,25 +272,18 @@ export default function ExploreMoscowPage() {
                 >
                   WhatsApp
                 </a>
-                {' '}- +7 (495) 935-83-85
+                {' '}- +91 91483 19993
               </p>
               
               <p>
                 <a 
-                  href="mailto:visa@visa-russian.ru" 
+                  href="mailto:pad@maxxmedia.in" 
                   className="text-blue-600 hover:text-blue-800 hover:underline"
                 >
-                  visa@visa-russian.ru
+                  pad@maxxmedia.in
                 </a>
               </p>
-              
-              <p>
-                <a 
-                  href="https://visa-russian.ru/call.php" 
-                  className="text-blue-600 hover:text-blue-800 hover:underline"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
+                         
                   Feedback form
                 </a>
               </p>
