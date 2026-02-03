@@ -85,7 +85,7 @@ export default function ExploreMoscowPage() {
                 associated with India’s freedom movement, and admire the architectural elegance of Pataleshwar Cave Temple, carved from a single rock.
               </p>
 
-               <p> Experience Pune’s cultural depth at Sinhagad Fort, offering panoramic views and a glimpse into Maratha history, and visit the Raja Dinkar Kelkar Museum, 
+               <p className="mb-10 whitespace-pre-line text-gray-600 leading-relaxed"> Experience Pune’s cultural depth at Sinhagad Fort, offering panoramic views and a glimpse into Maratha history, and visit the Raja Dinkar Kelkar Museum, 
               renowned for its remarkable collection of traditional Indian art and artifacts. Together, these landmarks reflect Pune’s timeless heritage and enduring spirit.</p>
               <Link 
                 href="/iconic-landmarks" 
