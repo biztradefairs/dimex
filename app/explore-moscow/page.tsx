@@ -175,7 +175,7 @@ export default function ExploreMoscowPage() {
                 <div className="mb-5 w-16 h-16 rounded-full overflow-hidden">
                   <img
                     src="https://cdn.itegroupnews.com/two_girls_walking_with_shopping_city_streets_208e2abb3e.jpg"
-                    alt="Shopping in Moscow"
+                    alt="Shopping in Pune"
                     width={64}
                     height={64}
                     className="w-full h-full object-cover"
@@ -189,8 +189,8 @@ export default function ExploreMoscowPage() {
               </h3>
               
               <p className="mb-10 whitespace-pre-line text-gray-600 leading-relaxed">
-                For a blend of luxury and tradition, explore the historic GUM Department Store or the trendy boutiques 
-                of the Patriarch Ponds area. Antique markets and souvenir shops offer a chance to take a piece of Moscow home with you.
+                For a blend of tradition and modern retail, explore Pune’s vibrant shopping destinations. Wander through Laxmi Road and Tulsi Baug for traditional textiles, 
+                handicrafts, and local souvenirs, or enjoy a modern shopping experience at upscale malls such as Phoenix Marketcity, Pavilion Mall, and Seasons Mall.
               </p>
               
               <Link 
