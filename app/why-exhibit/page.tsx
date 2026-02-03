@@ -732,13 +732,17 @@ export default function WhyExhibit() {
               ))}
             </motion.div>
 
-            <motion.button
-              whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full text-base font-medium transition-all duration-300"
-            >
-              View Top 2025 Exhibitor List
-            </motion.button>
+           <motion.button
+  whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
+  whileTap={{ scale: 0.95 }}
+>
+  <Link 
+    href="/exhibition-directory" 
+    className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full text-base font-medium"
+  >
+    View Top 2025 Exhibitor List
+  </Link>
+</motion.button>
           </SectionContainer>
         </section>
 

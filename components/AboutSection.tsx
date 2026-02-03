@@ -161,7 +161,7 @@ export default function AboutSection() {
           </div>
 
           {/* BUTTON — BELOW TEXT */}
-          <a href="/about-transrussia" className="mt-4 w-fit">
+          <a href="/about-diemex" className="mt-4 w-fit">
             <button
               ref={buttonRef}
               className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-[#0092D7] to-[#33A8DF] px-10 py-4 text-[16px] font-semibold text-white transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-[#33A8DF]/30 opacity-0"
