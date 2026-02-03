@@ -3,8 +3,8 @@ import PartnersSlider from "@/components/section/PartnersSection"
 import SectionContainer from "@/components/UI/SectionContainer"
 
 export const metadata: Metadata = {
-  title: "Contact Us | TransRussia & SkladTech",
-  description: "Get in touch with TransRussia & SkladTech Expo. Contact our team for sales, marketing, technical, or general exhibition enquiries.",
+  title: "Contact Us | Diemex 2026",
+  description: "Get in touch with Diemex Expo. Contact our team for sales, marketing, technical, or general exhibition enquiries.",
 }
 
 export default function ContactPage() {
@@ -94,9 +94,9 @@ export default function ContactPage() {
 Auto Cluster Exhibition Centre                    </h3>
                     
                     <div className="space-y-2 text-gray-700">
-                      <p className="text-lg font-medium">Tamilnadu Trade Promotion Organisation,</p>
-                      <p>CTC Complex, Nandambakkam,</p>
-                      <p>Chennai 600089.</p>
+                      <p className="text-lg font-medium">MIDC, Chinchwad,</p>
+                      <p>Pimpri-Chinchwad, ,</p>
+                      <p>Pune, Maharashtra 411019.</p>
                     </div>
                   </div>
 
