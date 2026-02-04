@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import KeySectors from './keySector'
+// import KeySectors from './keySector'
 import CompanyGrid from './company-grid'
 import { mockCompanies } from '@/lib/mock-data'
 
@@ -125,8 +125,8 @@ export default function CompanyDirectory() {
           </button>
         </div>
 
-        {/* Key Sectors */}
-        <KeySectors />
+        {/* Key Sectors
+        <KeySectors /> */}
 
         {/* Companies */}
         <CompanyGrid companies={displayedCompanies} viewMode={viewMode} />

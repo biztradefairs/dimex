@@ -61,9 +61,9 @@ export default function CompanyCard({ company }: CompanyCardProps) {
 
             {/* Action Buttons */}
             <div className="grid grid-cols-2 gap-2">
-              <button className="px-3 py-2 text-xs font-semibold text-slate-900 border border-slate-300 rounded hover:bg-slate-50 transition-colors whitespace-nowrap">
+              {/* <button className="px-3 py-2 text-xs font-semibold text-slate-900 border border-slate-300 rounded hover:bg-slate-50 transition-colors whitespace-nowrap">
                 Product Brochure
-              </button>
+              </button> */}
               <button
                 onClick={() => setIsFormOpen(true)}
                 className="px-3 py-2 text-xs font-semibold text-white bg-slate-900 rounded hover:bg-slate-800 transition-colors whitespace-nowrap"
