@@ -132,7 +132,7 @@ export default function WhyVisit() {
                 <motion.button
                   whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-blue-700 hover:bg-blue-800 text-white px-6 sm:px-8 md:px-10 py-2 sm:py-3 md:py-4 rounded-full text-sm sm:text-base md:text-lg font-medium transition-all duration-300 w-full sm:w-auto"
+                  className="bg-[#004D9F] hover:bg-blue-800 text-white px-6 sm:px-8 md:px-10 py-2 sm:py-3 md:py-4 rounded-full text-sm sm:text-base md:text-lg font-medium transition-all duration-300 w-full sm:w-auto"
                 >
                   Contact Us
                 </motion.button>
@@ -166,7 +166,7 @@ export default function WhyVisit() {
                     }}
                     className="p-4 sm:p-6 rounded-xl transition-all duration-300 cursor-pointer"
                   >
-                    <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-blue-700 mb-2 sm:mb-4 hover:text-blue-800 transition-colors duration-300">
+                    <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#004D9F] mb-2 sm:mb-4 hover:text-blue-800 transition-colors duration-300">
                       {stat.value}
                     </div>
                     <p className="text-sm sm:text-base lg:text-lg text-gray-800 mb-4 sm:mb-6">{stat.label}</p>
@@ -175,7 +175,7 @@ export default function WhyVisit() {
                       whileInView={{ width: "100%" }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.8, delay: index * 0.1 }}
-                      className="h-px bg-gradient-to-r from-blue-400 to-blue-600"
+                      className="h-px bg-[#004D9F]"
                     />
                   </motion.div>
                 ))}
@@ -210,7 +210,7 @@ export default function WhyVisit() {
                  <motion.button
                   whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-blue-700 hover:bg-blue-800 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 mb-6 sm:mb-0 w-full sm:w-auto"
+                  className="bg-[#004D9F] hover:bg-blue-800 text-white px-6 sm:px-8 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 mb-6 sm:mb-0 w-full sm:w-auto"
                 >
                   Explore the Exhibitor list
                 </motion.button>
@@ -382,7 +382,7 @@ export default function WhyVisit() {
                       }}
                       className="p-4 sm:p-6 rounded-xl transition-all duration-300 cursor-pointer"
                     >
-                      <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-blue-700 mb-2 sm:mb-4 hover:text-blue-800 transition-colors duration-300">
+                      <div className="text-4xl sm:text-5xl lg:text-6xl font-bold text-[#004D9F] mb-2 sm:mb-4 hover:text-blue-800 transition-colors duration-300">
                         {stat.value}
                       </div>
                       <p className="text-sm sm:text-base lg:text-lg text-gray-800 mb-4 sm:mb-6">{stat.label}</p>
@@ -391,7 +391,7 @@ export default function WhyVisit() {
                         whileInView={{ width: "100%" }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: index * 0.1 }}
-                        className="h-px bg-gradient-to-r from-blue-400 to-blue-600"
+                        className="h-px bg-[#004D9F]"
                       />
                     </motion.div>
                   ))}
@@ -690,7 +690,7 @@ export default function WhyVisit() {
                   <motion.button
                     whileHover={{ scale: 1.1, backgroundColor: "#1d4ed8" }}
                     whileTap={{ scale: 0.95 }}
-                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-blue-700 text-white flex items-center justify-center transition-all duration-300"
+                    className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-[#004D9F] text-white flex items-center justify-center transition-all duration-300"
                   >
                     →
                   </motion.button>

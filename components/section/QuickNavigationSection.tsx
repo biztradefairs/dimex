@@ -35,7 +35,7 @@ const QuickNavigationSection = () => {
           </p>
 
           <Link href="/exhibiting-enquiry">
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full font-medium">
+            <button className="w-full bg-[#004D9F] hover:bg-blue-700 text-white py-3 rounded-full font-medium">
               Book a Stand
             </button>
           </Link>
@@ -59,7 +59,7 @@ const QuickNavigationSection = () => {
           </p>
 
           <Link href="/event-brochure">
-            <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full font-medium">
+            <button className="w-full bg-[#004D9F] hover:bg-blue-700 text-white py-3 rounded-full font-medium">
               Download Now
             </button>
           </Link>
