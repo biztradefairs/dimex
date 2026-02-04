@@ -20,7 +20,7 @@ export default function ServiceCard({ service, index }: ServiceCardProps) {
       className="flex items-start gap-4 p-4 bg-white rounded-lg hover:bg-blue-50 transition-all duration-300 border border-gray-200"
     >
       <motion.div 
-        className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"
+        className="w-2 h-2 bg-[#004D9F] rounded-full mt-2 flex-shrink-0"
         animate={{ scale: [1, 1.5, 1] }}
         transition={{ duration: 2, repeat: Infinity, delay: index * 0.2 }}
       />

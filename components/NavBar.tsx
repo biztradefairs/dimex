@@ -22,6 +22,9 @@ const navItems: NavItem[] = [
       { text: "Become an Exhibitor", href: "/exhibiting-enquiry" },
       { text: "Event Sectors", href: "/sectors" },
       { text: "Plan your travel", href: "/plan-your-travel" },
+      {text: "Exhibitor List",  href: "/exhibition-directory"},
+      {text: "Exhibitor Resource Center", href: "/exhibitor-resource-center"},
+      // {text: "Exhibitor Promotions", href: "/free-promo"}
     ],
   },
   {
@@ -30,6 +33,7 @@ const navItems: NavItem[] = [
     links: [
       { text: "Why Visit", href: "/why-visit" },
       { text: "Event Sector", href: "/sectors" },
+      {text: "Exhibitor List",  href: "/exhibition-directory"},
       { text: "Download Event Brochure", href: "/event-brochure" },
     ],
   },
@@ -40,6 +44,7 @@ const navItems: NavItem[] = [
       { text: "Industry News", href: "/articles" },
       { text: "Post Show Report", href: "/post-show-report" },
       { text: "Event Brochure", href: "/event-brochure" },
+      {text: "Media Gallery", href: "/media-gallery"}
     ],
   },
   {
