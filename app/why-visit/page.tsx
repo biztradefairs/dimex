@@ -751,22 +751,23 @@ export default function WhyVisit() {
           {/* QUICK NAVIGATION */}
           <section className="py-12 sm:py-16 lg:py-24">
             <SectionContainer>
-              <motion.h3
-                initial={{ opacity: 0, x: -20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="text-xs sm:text-sm text-[#004D9F] font-semibold mb-1 sm:mb-2"
-              >
-                Simplifying Your Participation Journey
-              </motion.h3>
+              
               <motion.h2
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-8 sm:mb-12"
+                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-8 sm:mb-2"
               >
                 Quick Navigation
               </motion.h2>
+              <motion.h3
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="text-xs sm:text-sm text-[#4D4D4D] mb-1 sm:mb-2"
+              >
+                Simplifying Your Participation Journey
+              </motion.h3>
 
               <motion.div
                 initial="hidden"
@@ -862,7 +863,7 @@ export default function WhyVisit() {
                   whileHover={{ y: -5, boxShadow: "0 10px 20px rgba(37, 99, 235, 0.1)" }}
                   className="bg-blue-50 p-4 sm:p-6 lg:p-8 rounded-lg transition-all duration-300"
                 >
-                  <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-[#004D9F] mb-2 sm:mb-4">Venue</h3>
+                  <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-[#4D4D4D] mb-2 sm:mb-4">Venue</h3>
                   <p className="text-gray-800 font-medium text-sm sm:text-base lg:text-lg">Auto Cluster Exhibition Centre, Pune, India</p>
                 </motion.div>
 
@@ -874,7 +875,7 @@ export default function WhyVisit() {
                   whileHover={{ y: -5, boxShadow: "0 10px 20px rgba(37, 99, 235, 0.1)" }}
                   className="bg-blue-50 p-4 sm:p-6 lg:p-8 rounded-lg transition-all duration-300"
                 >
-                  <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-[#004D9F] mb-2 sm:mb-4">Opening Hours</h3>
+                  <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-[#4D4D4D] mb-2 sm:mb-4">Opening Hours</h3>
                   <p className="text-gray-800 font-medium text-sm sm:text-base lg:text-lg">08-10 October 2026, 10:00 - 18:00</p>
                 </motion.div>
               </div>
