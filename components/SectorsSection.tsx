@@ -86,7 +86,7 @@ export default function SectorsSection() {
             <Link href="/sectors">
               <button className="
                 rounded-full 
-                bg-[#005EB8] 
+                bg-[#004D9F] 
                 px-8 lg:px-10 
                 py-3 lg:py-4 
                 text-white 

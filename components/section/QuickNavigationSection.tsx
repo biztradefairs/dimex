@@ -6,13 +6,14 @@ const QuickNavigationSection = () => {
   return (
     <SectionContainer className="py-16 lg:py-24">
       
-      <h3 className="text-sm text-blue-600 font-semibold mb-2">
-        Simplifying Your Participation Journey
-      </h3>
+      
 
-      <h2 className="text-3xl lg:text-4xl font-bold mb-12">
+      <h2 className="text-6xl lg:text-7xl font-bold mb-4">
         Quick Navigation
       </h2>
+      <h3 className="text-sm text-gray-600 font-semibold mb-3">
+        Simplifying Your Participation Journey
+      </h3>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
         

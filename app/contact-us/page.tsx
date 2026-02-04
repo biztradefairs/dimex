@@ -86,7 +86,7 @@ export default function ContactPage() {
                     <h2 className="mb-2 text-2xl font-bold text-[#004D9F]">
                       VENUE
                     </h2>
-                    <div className="h-1 w-16 bg-blue-500"></div>
+                    <div className="h-1 w-16 bg-[#004D9F]"></div>
                   </div>
                   
                   <div className="mb-6">

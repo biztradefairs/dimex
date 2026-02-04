@@ -370,8 +370,8 @@ const [countriesLoading, setCountriesLoading] = useState(false);
           disabled={isSubmitting}
           className={`mt-4 w-full rounded-lg px-6 py-3 font-semibold text-white transition ${
             isSubmitting
-              ? 'cursor-not-allowed bg-blue-400'
-              : 'bg-blue-600 hover:bg-blue-700'
+              ? 'cursor-not-allowed bg-[#004D9F]'
+              : 'bg-[#004D9F] hover:bg-blue-700'
           }`}
         >
           {isSubmitting ? 'Submitting...' : 'Download Report'}

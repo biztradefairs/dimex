@@ -746,37 +746,52 @@ export default function WhyExhibit() {
           </SectionContainer>
         </section>
 
-        {/* JOURNEY CTA */}
-        <section className="font-parabolica py-16 lg:py-24 bg-blue-900 text-white">
-          <SectionContainer>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center"
-            >
-              <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-                Your Journey Starts Here: Essential Travel Info for DIEMEX 2026
-              </h2>
-              <p className="text-lg mb-8 max-w-3xl mx-auto">
-                Whether you are travelling from across India or from overseas, find all the essential information you need to ensure a smooth, comfortable, and hassle-free visit to DIEMEX 2026 at the Auto Cluster Exhibition Centre, Pune, India.
-              </p>
-              <Link href="/plan-your-travel">
-                <motion.button
-                  whileHover={{ 
-                    scale: 1.05,
-                    backgroundColor: "#f8fafc",
-                    boxShadow: "0 10px 25px rgba(255, 255, 255, 0.2)"
-                  }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-white text-blue-900 px-6 py-3 rounded-full font-medium hover:bg-gray-100 transition-all duration-300"
-                >
-                  Plan Your Travel
-                </motion.button>
-              </Link>
-            </motion.div>
-          </SectionContainer>
-        </section>
+    {/* JOURNEY CTA */}
+<section
+  className="relative font-parabolica py-16 lg:py-24 text-white bg-cover bg-center"
+  style={{
+    backgroundImage:
+      "url('https://cdn.itegroupnews.com/Frame_1707480883_b10f284c3d.jpg')",
+  }}
+>
+  {/* Dark overlay */}
+  <div className="absolute inset-0"></div>
+
+  <SectionContainer>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="relative z-10 text-center"
+    >
+      <h2 className="text-4xl lg:text-5xl font-bold mb-4">
+        Your Journey Starts Here: Essential Travel Info for DIEMEX 2026
+      </h2>
+
+      <p className="text-lg mb-8 max-w-3xl mx-auto">
+        Whether you are travelling from across India or from overseas, find all
+        the essential information you need to ensure a smooth, comfortable, and
+        hassle-free visit to DIEMEX 2026 at the Auto Cluster Exhibition Centre,
+        Pune, India.
+      </p>
+
+      <Link href="/plan-your-travel">
+        <motion.button
+          whileHover={{
+            scale: 1.05,
+            backgroundColor: "#f8fafc",
+            boxShadow: "0 10px 25px rgba(255, 255, 255, 0.2)",
+          }}
+          whileTap={{ scale: 0.95 }}
+          className="bg-white text-blue-900 px-6 py-3 rounded-full font-medium transition-all duration-300"
+        >
+          Plan Your Travel
+        </motion.button>
+      </Link>
+    </motion.div>
+  </SectionContainer>
+</section>
+
 
         {/* QUICK NAVIGATION */}
         <section className="font-parabolica py-16 lg:py-24">

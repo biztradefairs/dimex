@@ -186,7 +186,7 @@ const [countriesLoading, setCountriesLoading] = useState(false);
           <div className="grid gap-10 lg:grid-cols-2">
             {/* LEFT */}
             <div>
-              <h2 className="text-3xl lg:text-6xl font-semibold text-mainColor2">
+              <h2 className="text-3xl lg:text-6xl font-semibold text-[#4D4D4D]">
                 Be Part of India’s Leading Die & Mould Manufacturing Exhibition
               </h2>
 
@@ -337,7 +337,7 @@ const [countriesLoading, setCountriesLoading] = useState(false);
           />
                 </div>
 
-                <button className="w-full bg-blue-600 text-white py-3 rounded font-semibold">
+                <button className="w-full bg-[#004D9F] text-white py-3 rounded font-semibold">
                   Submit Enquiry
                 </button>
               </form>
