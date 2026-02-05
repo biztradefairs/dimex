@@ -4,6 +4,7 @@ import React from 'react';
 import SectionContainer from "@/components/UI/SectionContainer"
 import { motion } from 'framer-motion';
 import { partnersData, Partner as PartnerType } from '@/data/partnersData';
+import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 
 /* ===================== TYPES ===================== */
 
@@ -207,6 +208,7 @@ const PartnersSponsorsPage: React.FC = () => {
   /* ===================== RENDER ===================== */
 
   return (
+    <>
     <div className="">
       {/* HERO */}
       <motion.section
@@ -245,6 +247,8 @@ const PartnersSponsorsPage: React.FC = () => {
         />
       ))}
     </div>
+    <BackToTop/>
+    </>
   );
 };
 

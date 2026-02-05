@@ -1,7 +1,9 @@
+// components/copanyCard.tsx
 'use client'
 
 import { useState } from 'react'
 import VisitorRegistrationForm from './visitor-registration-form'
+import Link from 'next/link'
 
 interface CompanyCardProps {
   company: {
@@ -13,10 +15,16 @@ interface CompanyCardProps {
     logo: string
     logoColor?: string
   }
+  onProductBrochureClick: (companyId: number, companyName: string) => void
 }
 
-export default function CompanyCard({ company }: CompanyCardProps) {
+export default function CompanyCard({ company, onProductBrochureClick }: CompanyCardProps) {
   const [isFormOpen, setIsFormOpen] = useState(false)
+
+  // Function to generate slug from company name
+  const generateSlug = (name: string) => {
+    return name.toLowerCase().replace(/\s+/g, '-')
+  }
 
   return (
     <>
@@ -49,21 +57,28 @@ export default function CompanyCard({ company }: CompanyCardProps) {
           {/* Divider */}
           <div className="border-t border-slate-200 pt-4 mt-4">
             <div className="flex justify-center mb-4">
-              <svg
-                className="w-4 h-4 text-slate-400 hover:text-slate-600 cursor-pointer transition-colors"
-                fill="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" />
-                <polyline points="13 2 13 9 20 9" />
-              </svg>
+              
+               
             </div>
 
             {/* Action Buttons */}
             <div className="grid grid-cols-2 gap-2">
-              {/* <button className="px-3 py-2 text-xs font-semibold text-slate-900 border border-slate-300 rounded hover:bg-slate-50 transition-colors whitespace-nowrap">
+              {/* Option 1: Direct navigation with Next.js Link */}
+              <Link
+                href={`/exhibition-directory/${company.id}`}
+                className="px-3 py-2 text-xs font-semibold text-slate-900 border border-slate-300 rounded hover:bg-slate-50 transition-colors whitespace-nowrap text-center"
+              >
+                Product Brochure
+              </Link>
+
+              {/* Option 2: Using onClick handler (uncomment to use) */}
+              {/* <button
+                onClick={() => onProductBrochureClick(company.id, company.name)}
+                className="px-3 py-2 text-xs font-semibold text-slate-900 border border-slate-300 rounded hover:bg-slate-50 transition-colors whitespace-nowrap"
+              >
                 Product Brochure
               </button> */}
+
               <button
                 onClick={() => setIsFormOpen(true)}
                 className="px-3 py-2 text-xs font-semibold text-white bg-slate-900 rounded hover:bg-slate-800 transition-colors whitespace-nowrap"

@@ -2,6 +2,7 @@ import SectionContainer from "@/components/UI/SectionContainer"
 import QuickNavigation from "@/components/QuickNavigation"
 import PartnersSection from "@/components/section/PartnersSection"
 import Link from "next/link"
+import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 
 // Mock data - replace with actual data
 const transRussiaSectors = [
@@ -117,6 +118,8 @@ const skladTechSectors = [
 
 export default function SectorsPage() {
   return (
+    <>
+    
     <div className="min-h-screen font-parabolica">
       {/* Hero Section - COMPACT */}
       <section className="relative min-h-[40vh] md:min-h-[50vh] flex items-end">
@@ -155,6 +158,8 @@ export default function SectorsPage() {
       <QuickNavigation/>
       <PartnersSection/>
     </div>
+    <BackToTop/>
+    </>
   )
 }
 

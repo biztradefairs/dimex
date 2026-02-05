@@ -24,7 +24,7 @@ const navItems: NavItem[] = [
       { text: "Plan your travel", href: "/plan-your-travel" },
       {text: "Exhibitor List",  href: "/exhibition-directory"},
       {text: "Exhibitor Resource Center", href: "/exhibitor-resource-center"},
-      // {text: "Exhibitor Promotions", href: "/free-promo"}
+      {text: "Exhibitor Promotions", href: "/free-promo"}
     ],
   },
   {
@@ -57,6 +57,7 @@ const navItems: NavItem[] = [
     ],
   },
   { title: "Contact us", dropdown: false, href: "/contact-us" },
+  {title: "Conference", dropdown: false, href:"/conference"}
 ]
 const EVENT_DATE = new Date("2026-10-08T10:00:00").getTime()
 

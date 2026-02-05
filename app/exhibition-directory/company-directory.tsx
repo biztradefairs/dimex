@@ -1,11 +1,14 @@
+// app/exhibition-directory/page.tsx
 'use client'
 
 import { useState } from 'react'
 // import KeySectors from './keySector'
 import CompanyGrid from './company-grid'
 import { mockCompanies } from '@/lib/mock-data'
+import { useRouter } from 'next/navigation'
 
 export default function CompanyDirectory() {
+  const router = useRouter()
   const [currentPage, setCurrentPage] = useState(1)
   const [viewMode, setViewMode] = useState<'grid' | 'gallery' | 'list'>('grid')
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
@@ -28,6 +31,17 @@ export default function CompanyDirectory() {
     startIndex,
     startIndex + companiesPerPage
   )
+
+  const handleProductBrochure = (companyId: number, companyName: string) => {
+    // Create a slug from company name (lowercase, replace spaces with hyphens)
+    const slug = companyName.toLowerCase().replace(/\s+/g, '-')
+    
+    // Navigate to the product brochure page with the company slug
+    router.push(`/exhibitor/${companyId}/brochures/${slug}`)
+    
+    // Alternatively, if you want to navigate to a page that shows all brochures:
+    // router.push(`/exhibitor/${companyId}/brochures`)
+  }
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -125,11 +139,12 @@ export default function CompanyDirectory() {
           </button>
         </div>
 
-        {/* Key Sectors
-        <KeySectors /> */}
-
         {/* Companies */}
-        <CompanyGrid companies={displayedCompanies} viewMode={viewMode} />
+        <CompanyGrid 
+          companies={displayedCompanies} 
+          viewMode={viewMode}
+          onProductBrochureClick={handleProductBrochure}
+        />
 
         {/* Pagination */}
         <div className="mt-8 md:mt-12 flex flex-col md:flex-row items-center justify-between gap-4">

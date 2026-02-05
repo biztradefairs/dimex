@@ -12,6 +12,7 @@ import QuickNavigationSection from '@/components/section/QuickNavigationSection'
 import PartnersSection from '@/components/section/PartnersSection';
 import MapSection from '@/components/section/MapSection';
 import SectionContainer from '@/components/UI/SectionContainer';
+import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 
 export default function AboutTransRussia() {
   return (
@@ -136,6 +137,7 @@ export default function AboutTransRussia() {
           </div>
         </div>
       </main>
+      <BackToTop/>
     </>
   );
 }

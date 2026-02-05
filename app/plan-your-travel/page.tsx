@@ -4,6 +4,7 @@ import PartnersSection from '@/components/section/PartnersSection';
 import React, { ReactNode, useState } from 'react';
 import SectionContainer from '@/components/UI/SectionContainer';
 import { motion } from 'framer-motion';
+import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 
 interface ButtonProps {
   children: ReactNode;
@@ -220,7 +221,7 @@ const IntroductionSection: React.FC = () => {
           <div className="lg:basis-2/3">
             <motion.div
               whileHover={{ x: 5 }}
-              className="flex-center w-fit gap-2 py-2 pe-5 pl-1 capitalize"
+              className="flex w-fit gap-2 py-2 pe-5 pl-1 capitalize"
             >
               <Image
                 src="/images/logo-icon-3.png"
@@ -336,7 +337,7 @@ const GuideSection: React.FC = () => {
           <div className="max-w-6xl">
             <motion.div
               whileHover={{ x: 5 }}
-              className="flex-center w-fit gap-2 py-2 pe-5 pl-1 capitalize"
+              className="flex w-fit gap-2 py-2 pe-5 pl-1 capitalize"
             >
               <Image
                 src="/images/logo-icon-3.png"
@@ -522,6 +523,7 @@ The hotel has a stylish interior and an elaborate infrastructure, including a re
 // Main Page Component
 const PlanYourTravelPage: React.FC = () => {
   return (
+    <>
     <div className="font-parabolica">
       <HeroSection />
       <IntroductionSection />
@@ -529,6 +531,8 @@ const PlanYourTravelPage: React.FC = () => {
       <HotelsSection />
       <PartnersSection />
     </div>
+    <BackToTop/>
+    </>
   );
 };
 

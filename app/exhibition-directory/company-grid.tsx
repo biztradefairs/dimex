@@ -1,3 +1,4 @@
+// components/company-grid.tsx
 'use client'
 
 import CompanyCard from "./copanyCard"
@@ -15,9 +16,10 @@ interface Company {
 interface CompanyGridProps {
   companies: Company[]
   viewMode: 'grid' | 'gallery' | 'list'
+  onProductBrochureClick: (companyId: number, companyName: string) => void
 }
 
-export default function CompanyGrid({ companies, viewMode }: CompanyGridProps) {
+export default function CompanyGrid({ companies, viewMode, onProductBrochureClick }: CompanyGridProps) {
   return (
     <div
       className={`grid gap-3 md:gap-4 my-6 md:my-8 ${
@@ -29,7 +31,11 @@ export default function CompanyGrid({ companies, viewMode }: CompanyGridProps) {
       }`}
     >
       {companies.map((company) => (
-        <CompanyCard key={company.id} company={company} />
+        <CompanyCard 
+          key={company.id} 
+          company={company} 
+          onProductBrochureClick={onProductBrochureClick}
+        />
       ))}
     </div>
   )

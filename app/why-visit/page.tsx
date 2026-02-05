@@ -7,6 +7,7 @@ import { motion } from 'framer-motion'
 import Image from "next/image";
 import { HiOutlineCalendar, HiOutlineLocationMarker } from "react-icons/hi"
 import BrochureSection from "@/components/section/BrochureSection";
+import BackToTop from "../exhibitor-resource-center/component/BackToTop";
 
  const countries = [
     { name: 'China', flag: 'https://cdn.itegroupnews.com/Flag_icons_3e3608eca2.png' },
@@ -908,6 +909,7 @@ export default function WhyVisit() {
           </section>
         </div>
       </main>
+      <BackToTop/>
     </>
   )
 }

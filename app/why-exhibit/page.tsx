@@ -10,6 +10,7 @@ import Link from "next/link"
 import { motion } from 'framer-motion'
 import { HiOutlineCalendar, HiOutlineLocationMarker } from "react-icons/hi"
 import BrochureSection from "@/components/section/BrochureSection"
+import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 
 const data = [
   {
@@ -964,6 +965,7 @@ export default function WhyExhibit() {
           </SectionContainer>
         </section>
       </main>
+      <BackToTop/>
     </>
   )
 }

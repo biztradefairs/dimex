@@ -45,194 +45,224 @@ export default function ExhibitorPromotionPage() {
 
   return (
     <div className="page-spacing-wrapper font-parabolica">
-      {/* Header Section */}
-<div className="bg-[#F3F9FC] pt-48 pb-16">
-  <div className="container">
-    <h1 className="title-72 text-black mb-6">
-      Exhibitor Promotion
-    </h1>
+      {/* Header Section - Updated with proper padding */}
+      <div className="bg-[#F3F9FC] pt-48 pb-16">
+        <div className="px-4 sm:px-6 lg:px-8 mx-auto max-w-[1600px] mt-10">
+          <h1 className="title-72 text-black mb-6">
+            Exhibitor Promotion
+          </h1>
 
-    <p className="max-w-6xl text-lg leading-relaxed text-black/80">
-      As an exhibitor at TransRussia 2026, maximise your impact by inviting your
-      clients, partners, and prospects to visit your stand for free! We’re
-      providing you with an exclusive promo code to include in your branded
-      materials, ensuring your audience can easily register and connect with you
-      at the event.
-    </p>
-  </div>
-</div>
+          <p className="max-w-10xl text-lg leading-relaxed text-black/80">
+            As an exhibitor at TransRussia 2026, maximise your impact by inviting your
+            clients, partners, and prospects to visit your stand for free! We're
+            providing you with an exclusive promo code to include in your branded
+            materials, ensuring your audience can easily register and connect with you
+            at the event.
+          </p>
+        </div>
+      </div>
 
+      {/* Section with text and image - Updated with proper padding */}
+      <section className="py-20">
+        <div className="px-4 sm:px-6 lg:px-8 mx-auto max-w-[1600px] grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          {/* TEXT */}
+          <div className='text-[#4D4D4D]'>
+            <h2 className="text-2xl lg:text-3xl font-bold text-[#4D4D4D] mb-6 leading-tight">
+              Invite Your Clients to TransRussia 2026 with a Free Promo Code
+            </h2>
 
-<section className="py-20">
-  <div className="container grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
-    {/* TEXT */}
-    <div>
-      <h2 className="title-48 mb-6">
-        Invite Your Clients to TransRussia 2026 with a Free Promo Code
-      </h2>
+            <h3 className="text-2xl lg:text-3xl font-semibold mb-4">
+              How It Works
+            </h3>
 
-      <h3 className="text-xl font-semibold mb-3">How It Works</h3>
-      <ul className="list-disc pl-6 space-y-2 mb-6 text-black/80">
-        <li>
-          Your <strong>unique promo code</strong> allows an unlimited number of
-          visitors to register for a free electronic ticket.
-        </li>
-        <li>
-          Share your promo code and direct them to register on the official
-          exhibition website.
-        </li>
-      </ul>
+            <ul className="list-disc pl-6 space-y-4 mb-6 text-lg lg:text-xl text-black/80">
+              <li>
+                Your <strong>unique promo code</strong> allows an unlimited number of
+                visitors to register for a free electronic ticket.
+              </li>
+              <li>
+                Share your promo code and direct them to register on the official
+                exhibition website.
+              </li>
+            </ul>
 
-      <h3 className="text-xl font-semibold mb-3">Maximise Your Reach</h3>
+            <h3 className="text-2xl lg:text-3xl font-semibold mb-4">
+              Maximise Your Reach
+            </h3>
 
-      <ul className="space-y-3 text-black/80">
-        <li className="flex gap-2">✔ Invitations – Send direct invitations</li>
-        <li className="flex gap-2">✔ Email signatures – Daily visibility</li>
-        <li className="flex gap-2">
-          ✔ News & Digest additions – Boost attendance
-        </li>
-      </ul>
+            <ul className="space-y-4 text-lg lg:text-xl text-black/80">
+              <li>✔ Invitations – Send direct invitations</li>
+              <li>✔ Email signatures – Daily visibility</li>
+              <li>✔ News & Digest additions – Boost attendance</li>
+            </ul>
 
-      <a
-        href="mailto:Alexandra.Kiryanova@ite.group"
-        className="inline-block mt-8 rounded-full bg-mainColor2 px-10 py-3 text-white font-semibold hover:bg-mainColor4 transition"
+            <a
+              href="mailto:Alexandra.Kiryanova@ite.group"
+              className="inline-block mt-10 rounded-full bg-[#004D9F] px-12 py-4 text-lg font-semibold text-white hover:bg-mainColor4 transition"
+            >
+              Request Promo Code
+            </a>
+          </div>
+
+          {/* IMAGE */}
+          <div>
+            <img
+              src="https://cdn.itegroupnews.com/TR_23_IMG_0029i_54b0b0806d.jpg"
+              alt=""
+              className="w-full h-[400px] lg:h-[520px] object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Download Materials Sections - Updated with proper padding */}
+      <div
+        className="animated-block"
+        style={{
+          opacity: animatedBlocksVisible ? 1 : 0,
+          transform: `translateY(${animatedBlocksVisible ? '0' : '30px'})`,
+          transition: 'opacity 0.7s ease, transform 0.7s ease',
+        }}
       >
-        Request Promo Code
-      </a>
-    </div>
+        <div className="px-4 sm:px-6 lg:px-8 mx-auto max-w-[1600px]">
+          {/* FORCE 2 ITEMS PER ROW */}
+          <div className="grid grid-cols-2 gap-6 text-[#4D4D4D]">
+            
+            {/* CARD */}
+            <div className="relative flex min-h-[520px] flex-col bg-sky-50 p-6 lg:p-10">
+              <h2 className="text-3xl lg:text-4xl font-semibold mb-4">
+                Invitation
+              </h2>
 
-    {/* IMAGE */}
-    <div>
-      <img
-        src="https://cdn.itegroupnews.com/TR_23_IMG_0029i_54b0b0806d.jpg"
-        alt=""
-        className="w-full rounded-xl object-cover"
-      />
-    </div>
-  </div>
-</section>
+              <p className="text-lg lg:text-xl leading-relaxed text-black/80 mb-6">
+                Use your <strong>exclusive promo code</strong> to personally invite
+                your clients, distributors, and business partners to visit your stand
+                at <strong>TransRussia 2026</strong> for free. Add the promo code to
+                your email invitations and formal letters to ensure they secure their
+                <strong> free electronic ticket</strong>.
+              </p>
 
-
-      {/* Download Materials Sections */}
-      <div className="animated-block" style={{ opacity: animatedBlocksVisible ? 1 : 0, transform: `translateY(${animatedBlocksVisible ? '0' : '30px'})`, transition: 'opacity 0.7s ease, transform 0.7s ease' }}>
-        <div className="container">
-          <div className="grid size-full grid-cols-1 gap-5 md:grid-cols-2">
-            {/* Invitation */}
-            <div className="z-[1] relative flex size-full min-h-[500px] flex-col p-5 lg:p-10 bg-mainColor5">
-              <div className="flex flex-col z-[1] gap-5">
-                <h2 className="title-40 font-semibold">Invitation</h2>
-                <div className="rte-style">
-                  <p>
-                    Use your <strong>exclusive promo code</strong> to personally invite your clients, distributors, and business partners to visit your stand at <strong>TransRussia 2026</strong> for free. Add the promo code to your email invitations and formal letters to ensure they secure their <strong>free electronic ticket</strong> and meet you at the exhibition.
-                  </p>
-                </div>
-                <div className="flex w-full flex-wrap gap-5">
-                  <a
-                    href="https://cdn.itegroupnews.com/Invitation_TRU_2026_99e491351b.docx"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-center group w-fit gap-2 overflow-hidden rounded-full px-10 py-3 font-jakarta text-[16px] font-semibold global-transition bg-mainColor2 text-white hover:bg-mainColor4"
-                  >
-                    Download Your Invitation
-                  </a>
-                </div>
-              </div>
+              <a
+                href="https://cdn.itegroupnews.com/Invitation_TRU_2026_99e491351b.docx"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-auto inline-flex w-fit rounded-full bg-[#004D9F] px-10 py-4 text-lg font-semibold text-white hover:bg-mainColor4 transition"
+              >
+                Download Your Invitation
+              </a>
             </div>
 
-            {/* Personalized Banners */}
-            <div className="z-[1] relative flex size-full min-h-[500px] flex-col p-5 lg:p-10 bg-mainColor5">
-              <div className="flex flex-col z-[1] gap-5">
-                <h2 className="title-40 font-semibold">Personalised Banners</h2>
-                <div className="rte-style">
-                  <p>
-                    Enhance your marketing materials by integrating your <strong>promo code</strong> into <strong>custom banners</strong> for digital campaigns, social media ads, and website promotions. These banners can drive more traffic to your stand by making it easy for potential visitors to register with your <strong>free access code</strong>.
-                  </p>
-                </div>
-                <div className="flex w-full flex-wrap gap-5">
-                  <a
-                    href="https://cdn-ite.prismetic.com/Trans_Russia_Personalized_Banners_2aafdd6055.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-center group w-fit gap-2 overflow-hidden rounded-full px-10 py-3 font-jakarta text-[16px] font-semibold global-transition bg-mainColor2 text-white hover:bg-mainColor4"
-                  >
-                    Download Your Personalised Banners
-                  </a>
-                </div>
-              </div>
+            {/* CARD */}
+            <div className="relative flex min-h-[520px] flex-col rounded-2xl bg-sky-50 p-6 lg:p-10">
+              <h2 className="text-3xl lg:text-4xl font-semibold mb-4">
+                Personalised Banners
+              </h2>
+
+              <p className="text-lg lg:text-xl leading-relaxed text-black/80 mb-6">
+                Enhance your marketing materials by integrating your
+                <strong> promo code</strong> into <strong>custom banners</strong> for
+                digital campaigns, social media ads, and website promotions. These
+                banners help visitors register easily using your
+                <strong> free access code</strong>.
+              </p>
+
+              <a
+                href="https://cdn-ite.prismetic.com/Trans_Russia_Personalized_Banners_2aafdd6055.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-auto inline-flex w-fit rounded-full bg-[#004D9F] px-10 py-4 text-lg font-semibold text-white hover:bg-mainColor4 transition"
+              >
+                Download Your Personalised Banners
+              </a>
             </div>
 
-            {/* Announcement Template */}
-            <div className="z-[1] relative flex size-full min-h-[500px] flex-col p-5 lg:p-10 bg-mainColor5">
-              <div className="flex flex-col z-[1] gap-5">
-                <h2 className="title-40 font-semibold">Announcement Template</h2>
-                <div className="rte-style">
-                  <p>
-                    Announce your participation in the exhibition on your company's website. Provide your stand number, information about your products, and place an announcement on your company's website.
-                  </p>
-                </div>
-                <div className="flex w-full flex-wrap gap-5">
-                  <a
-                    href="https://cdn.itegroupnews.com/Announcement_Temp_TRU_2026_2392c6a28a.docx"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-center group w-fit gap-2 overflow-hidden rounded-full px-10 py-3 font-jakarta text-[16px] font-semibold global-transition bg-mainColor2 text-white hover:bg-mainColor4"
-                  >
-                    Download Announcement Template
-                  </a>
-                </div>
-              </div>
+            {/* CARD */}
+            <div className="relative flex min-h-[520px] flex-col rounded-2xl bg-sky-50 p-6 lg:p-10">
+              <h2 className="text-3xl lg:text-4xl font-semibold mb-4">
+                Announcement Template
+              </h2>
+
+              <p className="text-lg lg:text-xl leading-relaxed text-black/80 mb-6">
+                Announce your participation in the exhibition on your company website.
+                Share your stand number, product information, and invite visitors to
+                meet you at <strong>TransRussia 2026</strong>.
+              </p>
+
+              <a
+                href="https://cdn.itegroupnews.com/Announcement_Temp_TRU_2026_2392c6a28a.docx"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-auto inline-flex w-fit rounded-full bg-[#004D9F] px-10 py-4 text-lg font-semibold text-white hover:bg-mainColor4 transition"
+              >
+                Download Announcement Template
+              </a>
             </div>
 
-            {/* News Promotion */}
-            <div className="z-[1] relative flex size-full min-h-[500px] flex-col p-5 lg:p-10 bg-mainColor5">
-              <div className="flex flex-col z-[1] gap-5">
-                <h2 className="title-40 font-semibold">News Promotion</h2>
-                <div className="rte-style">
-                  <p>
-                    Include your <strong>company product launches</strong> in <strong>company newsletters, industry publications, and press releases</strong> to spread the word about your participation at <strong>TransRussia 2026</strong>. This ensures <strong>maximum visibility</strong> among potential clients, reinforcing your presence at the exhibition and encouraging attendance.
-                  </p>
-                </div>
-                <div className="flex w-full flex-wrap gap-5">
-                  <a
-                    href="https://cdn-ite.prismetic.com/Trans_Russia_Sklad_Tech_2025_news_en_5830ff14f4.pdf"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-center group w-fit gap-2 overflow-hidden rounded-full px-10 py-3 font-jakarta text-[16px] font-semibold global-transition bg-mainColor2 text-white hover:bg-mainColor4"
-                  >
-                    Requirements to News Promotion
-                  </a>
-                </div>
-              </div>
+            {/* CARD */}
+            <div className="relative flex min-h-[520px] flex-col rounded-2xl bg-sky-50 p-6 lg:p-10">
+              <h2 className="text-3xl lg:text-4xl font-semibold mb-4">
+                News Promotion
+              </h2>
+
+              <p className="text-lg lg:text-xl leading-relaxed text-black/80 mb-6">
+                Promote your <strong>product launches</strong> through company
+                newsletters, industry publications, and press releases to maximise
+                visibility and encourage visitors to attend
+                <strong> TransRussia 2026</strong>.
+              </p>
+
+              <a
+                href="https://cdn-ite.prismetic.com/Trans_Russia_Sklad_Tech_2025_news_en_5830ff14f4.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-auto inline-flex w-fit rounded-full bg-[#004D9F] px-10 py-4 text-lg font-semibold text-white hover:bg-mainColor4 transition"
+              >
+                Requirements to News Promotion
+              </a>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Email Signature Section */}
-      <div className="animated-block" style={{ opacity: animatedBlocksVisible ? 1 : 0, transform: `translateY(${animatedBlocksVisible ? '0' : '30px'})`, transition: 'opacity 0.7s ease, transform 0.7s ease' }}>
-        <div className="container">
-          <div className="grid size-full grid-cols-1 gap-5">
-            <div className="z-[1] relative flex size-full min-h-[500px] flex-col p-5 lg:p-10">
-              <div className="flex flex-col z-[1] gap-5">
-                <h2 className="title-40 font-semibold title-40">INVITATION IN EMAIL SIGNATURE</h2>
-                <div className="rte-style">
-                  <p style={{ marginLeft: '0px' }}>
-                    Download the exhibition logo and place it in your email signature with a link to the ticket pickup page, attaching your personal link to the ticket pickup page. Change the word PROMOCODE in the link to your real promo code.
-                    <br />&nbsp;
+      {/* Email Signature Section - Updated with proper padding */}
+      <div
+        className="animated-block"
+        style={{
+          opacity: animatedBlocksVisible ? 1 : 0,
+          transform: `translateY(${animatedBlocksVisible ? '0' : '30px'})`,
+          transition: 'opacity 0.7s ease, transform 0.7s ease',
+        }}
+      >
+        <div className="px-4 sm:px-6 lg:px-8 mx-auto max-w-[1600px]">
+          <div className="grid grid-cols-1 gap-6">
+            <div className="relative flex min-h-[520px] flex-col rounded-2xl text-[#4D4D4D] p-6 lg:p-10">
+              <div className="flex flex-col gap-6">
+
+                {/* BIG HEADING */}
+                <h2 className="text-3xl lg:text-4xl font-semibold">
+                  INVITATION IN EMAIL SIGNATURE
+                </h2>
+
+                {/* BIG BODY TEXT */}
+                <div className="space-y-6 text-lg lg:text-xl leading-relaxed text-black/80">
+                  <p>
+                    Download the exhibition logo and place it in your email signature
+                    with a link to the ticket pickup page, attaching your personal link
+                    to the ticket pickup page. Change the word <strong>PROMOCODE</strong>{" "}
+                    in the link to your real promo code.
                   </p>
-                  <p style={{ marginLeft: '0px' }}>
-                    <img
-                      src="https://storage.yandexcloud.net/assets.ite.group/sites/transrussia.ru/pages/ru/exhibit/free-promo/logo_transrussia.png"
-                      alt="TransRussia logo"
-                      className="max-w-full h-auto"
-                    />
-                    <br />&nbsp;
+
+                  <img
+                    src="https://storage.yandexcloud.net/assets.ite.group/sites/transrussia.ru/pages/ru/exhibit/free-promo/logo_transrussia.png"
+                    alt="TransRussia logo"
+                    className="max-w-[260px]"
+                  />
+
+                  <p className="font-semibold text-black">
+                    TransRussia | Skladtech 2025
                   </p>
-                  <p style={{ marginLeft: '0px' }}>
-                    <strong>TransRussia | Skladtech 2025</strong>
-                    <br />&nbsp;
-                  </p>
-                  <p style={{ marginLeft: '0px' }}>
+
+                  <p>
                     March 18–20, 2025, Moscow, Crocus Expo
                     <br />
                     <br />
@@ -243,25 +273,25 @@ export default function ExhibitorPromotionPage() {
                     Promo code: ___
                   </p>
                 </div>
-                <div className="flex w-full flex-wrap gap-5">
-                  <a
-                    href="https://cdn-ite.prismetic.com/Trans_Russia_Sklad_Tech_logos_2992e07778.zip"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-center group w-fit gap-2 overflow-hidden rounded-full px-10 py-3 font-jakarta text-[16px] font-semibold global-transition bg-mainColor2 text-white hover:bg-mainColor4"
-                  >
-                    Download Logo
-                  </a>
-                </div>
+
+                {/* BUTTON */}
+                <a
+                  href="https://cdn-ite.prismetic.com/Trans_Russia_Sklad_Tech_logos_2992e07778.zip"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 inline-flex w-fit rounded-full bg-[#004D9F] px-12 py-4 text-lg font-semibold text-white hover:bg-mainColor4 transition"
+                >
+                  Download Logo
+                </a>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Partners & Sponsors Section */}
+      {/* Partners & Sponsors Section - Updated with proper padding */}
       <div className="animated-block" style={{ opacity: animatedBlocksVisible ? 1 : 0, transform: `translateY(${animatedBlocksVisible ? '0' : '30px'})`, transition: 'opacity 0.7s ease, transform 0.7s ease' }}>
-        <div className="container" role="region" aria-roledescription="carousel">
+        <div className="px-4 sm:px-6 lg:px-8 mx-auto max-w-[1600px]" role="region" aria-roledescription="carousel">
           <div className="mb-10 flex flex-col items-center">
             {/* <h2 className="title-72 text-black mt-5">Partners &amp; Sponsors</h2> */}
           </div>

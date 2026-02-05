@@ -80,7 +80,7 @@ export default function ArticlesPage() {
   const partnersSection = pageData.Sections?.find(section => section.__typename === 'ComponentTransRussiaPartnersSection');
 
   return (
-    <div className="min-h-screen bg-white pt-20">
+    <div className="min-h-screen bg-white ">
       <main className='font-parabolica'>
         {/* Hero Section */}
         <motion.section
@@ -94,7 +94,7 @@ export default function ArticlesPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mt-15 mb-5 "
             >
               {pageData.Header?.Title || "Industry Insights"}
             </motion.h1>

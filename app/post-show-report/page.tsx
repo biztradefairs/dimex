@@ -2,6 +2,7 @@ import { Metadata } from "next"
 import PostShowReportForm from "@/components/PostShowReportForm"
 import PartnersSlider from "@/components/section/PartnersSection"
 import SectionContainer from "@/components/UI/SectionContainer"
+import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 
 export const metadata: Metadata = {
   title: "Post-Show Report | TransRussia & SkladTech",
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
 
 export default function PostShowReportPage() {
   return (
+    <>
     <main className="bg-white font-parabolica">
       {/* HERO */}
       <section className="bg-[#F4FAFF] pt-40 pb-20">
@@ -109,5 +111,7 @@ export default function PostShowReportPage() {
         </SectionContainer>
       </section>
     </main>
+    <BackToTop/>
+    </>
   )
 }

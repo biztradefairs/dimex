@@ -1,6 +1,7 @@
 import { Metadata } from "next"
 import PartnersSlider from "@/components/section/PartnersSection"
 import SectionContainer from "@/components/UI/SectionContainer"
+import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 
 export const metadata: Metadata = {
   title: "Contact Us | Diemex 2026",
@@ -161,6 +162,7 @@ Auto Cluster Exhibition Centre                    </h3>
           <PartnersSlider />
         </SectionContainer>
       </section>
+      <BackToTop/>
     </main>
   )
 }
