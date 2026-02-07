@@ -1,10 +1,11 @@
-// components/copanyCard.tsx
+// components/companyCard.tsx
 'use client'
 
 import { useState } from 'react'
 import VisitorRegistrationForm from './visitor-registration-form'
 import Link from 'next/link'
 import { ExternalLink, MessageCircle } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 interface CompanyCardProps {
   company: {
@@ -21,10 +22,40 @@ interface CompanyCardProps {
 
 export default function CompanyCard({ company, onProductBrochureClick }: CompanyCardProps) {
   const [isFormOpen, setIsFormOpen] = useState(false)
+  const router = useRouter()
+
+  const handleCardClick = (e: React.MouseEvent) => {
+    // Prevent navigation if clicking on the Connect button or its children
+    const target = e.target as HTMLElement
+    if (
+      target.closest('button') || 
+      target.closest('a') ||
+      target.tagName === 'BUTTON' ||
+      target.tagName === 'A'
+    ) {
+      return
+    }
+    
+    // Navigate to company page using Next.js router
+    router.push(`/exhibition-directory/${company.id}`)
+  }
+
+  const handleConnectClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setIsFormOpen(true)
+  }
+
+  const handleBrochureClick = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    router.push(`/exhibition-directory/${company.id}`)
+  }
 
   return (
     <>
-      <div className="group bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full hover:-translate-y-1">
+      <div 
+        onClick={handleCardClick}
+        className="group bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full hover:-translate-y-1 cursor-pointer"
+      >
         {/* Logo Area - Responsive */}
         <div
           className={`h-32 sm:h-40 md:h-48 flex items-center justify-center p-4 sm:p-6 transition-colors duration-300 ${
@@ -60,19 +91,22 @@ export default function CompanyCard({ company, onProductBrochureClick }: Company
           </div>
 
           {/* Action Buttons - Responsive grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 pt-4 border-t border-slate-200">
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 pt-4 border-t border-slate-200"
+          >
             {/* Product Brochure Button */}
-            <Link
-              href={`/exhibition-directory/${company.id}`}
+            <button
+              onClick={handleBrochureClick}
               className="group/btn px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-slate-900 border border-slate-300 rounded-lg hover:bg-slate-50 transition-all duration-300 hover:border-slate-400 hover:shadow-sm flex items-center justify-center gap-2"
             >
               <ExternalLink size={14} className="sm:w-4 sm:h-4" />
-              <span className="whitespace-nowrap">Brochure</span>
-            </Link>
+              <span className="whitespace-nowrap">Product</span>
+            </button>
 
             {/* Connect Button */}
             <button
-              onClick={() => setIsFormOpen(true)}
+              onClick={handleConnectClick}
               className="group/btn px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-slate-900 to-slate-700 rounded-lg hover:from-slate-800 hover:to-slate-600 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2"
             >
               <MessageCircle size={14} className="sm:w-4 sm:h-4" />
@@ -83,7 +117,10 @@ export default function CompanyCard({ company, onProductBrochureClick }: Company
           {/* Quick Actions - Mobile only */}
           <div className="mt-3 pt-3 border-t border-slate-200 sm:hidden">
             <button
-              onClick={() => onProductBrochureClick(company.id, company.name)}
+              onClick={(e) => {
+                e.stopPropagation()
+                router.push(`/exhibition-directory/${company.id}`)
+              }}
               className="w-full text-xs text-slate-500 hover:text-slate-700 text-center py-1.5"
             >
               View all products →
