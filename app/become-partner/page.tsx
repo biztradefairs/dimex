@@ -10,7 +10,7 @@ export default function BecomePartnerPage() {
         <div className="w-full px-4 sm:px-6 lg:px-8 mx-auto max-w-[1240px] lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1600px]">
           <div className="flex flex-col justify-end !pt-0 !pb-10">
             <h2 className="title-72 text-black">
-              Leave your application to participate in TransRussia Summit as a partner
+              Leave your application to participate in TransRussia Summit as a partner.
             </h2>
             <p className="max-w-6xl whitespace-pre-line py-5">
               {/* Empty as per original */}
