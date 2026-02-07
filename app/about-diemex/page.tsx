@@ -17,15 +17,6 @@ import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 export default function AboutTransRussia() {
   return (
     <>
-      {/* Intro Loader */}
-  <div
-  id="intro"
-  className="fixed inset-0 z-100 grid place-content-center bg-mainColor1 pointer-events-none"
->
-  <div className="loader"></div>
-</div>
-
-
       {/* Back to Top Button */}
       <div className="fixed bottom-3 right-3 lg:bottom-10 lg:right-2 z-50 transition-all duration-300 opacity-0 translate-y-10 pointer-events-none">
         <button aria-label="Back to top" className="m-0 rounded-full border-none bg-white p-0 outline-none drop-shadow-lg">
@@ -37,11 +28,9 @@ export default function AboutTransRussia() {
 
       <main className='font-parabolica'>
         {/* Hero Section wrapped with SectionContainer */}
-        <div className="animated-block">
-          <div className="animated-block-target">
-            <HeroSection />
-          </div>
-        </div>
+ 
+  <HeroSection />
+
         
         <div className="page-spacing-wrapper">
           {/* Stats Section with SectionContainer */}

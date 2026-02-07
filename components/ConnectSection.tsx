@@ -1,7 +1,10 @@
+import SectionContainer from "./UI/SectionContainer";
+
 // components/ConnectSection.tsx
 export default function ConnectSection() {
   return (
     <section className="relative z-1 overflow-hidden bg-[#0E1C35] text-white py-32">
+      <SectionContainer>
       <div className="container">
         <div className="grid gap-16 lg:grid-cols-3 lg:gap-24">
           <div className="flex flex-col gap-8 py-10 lg:col-span-2 lg:py-20">
@@ -39,6 +42,7 @@ Experience continuous networking and collaboration with MOLDING TRENDS, our excl
 
         </div>
       </div>
+      </SectionContainer>
     </section>
   )
 }
