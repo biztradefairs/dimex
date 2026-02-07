@@ -3,7 +3,7 @@ import { sectorDatabase, allSectorSlugs } from '../data';
 import SectionContainer from "@/components/UI/SectionContainer";
 import QuickNavigation from "@/components/QuickNavigation";
 import PartnersSection from "@/components/section/PartnersSection";
-import Image from 'next/image';
+// import Image from 'next/image';
 import Link from 'next/link';
 import WhyExhibitCard from '../components/WhyExhibitCard';
 import ServiceCard from '../components/ServiceCard';
@@ -35,11 +35,11 @@ export default async function SectorPage({ params }: PageProps) {
           </p>
 
           <div className="mt-10 relative w-full h-[420px] rounded-lg overflow-hidden">
-            <Image
+            <img
               src={sectorData.heroImage}
               alt={sectorData.title}
-              fill
-              priority
+              
+              
               className="object-cover"
             />
           </div>
@@ -100,7 +100,7 @@ export default async function SectorPage({ params }: PageProps) {
 
       {/* RIGHT IMAGE */}
       <div className="w-full">
-        <Image 
+        <img
           src={sectorData.heroImage} 
           alt={sectorData.title} 
           width={800} 

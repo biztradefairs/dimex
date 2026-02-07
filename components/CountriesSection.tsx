@@ -42,7 +42,7 @@ export default function CountriesSection() {
 
           {/* Button – SAME TEXT */}
           <a
-            href="https://catalogue.ite-expo.ru/ru-RU/exhibitorlist.aspx?project_id=535"
+            href="/exhibition-directory"
             target="_blank"
             rel="noopener noreferrer"
             className="mx-auto"

@@ -26,7 +26,7 @@ const EcosystemSection = () => {
 - Explore emerging technologies, including advanced tooling, materials, automation, digital design, and Industry 4.0 applications.
 - Build valuable professional connections with OEMs, toolroom heads, engineers, buyers, and decision-makers from across the manufacturing ecosystem.`,
       image: "https://cdn.itegroupnews.com/TR_2025_161_da551e1607.jpg",
-      link: "/conference-programme",
+      link: "/conference",
       buttonText: "Conference Programme",
     },
     {
@@ -37,7 +37,7 @@ const EcosystemSection = () => {
 - Access curated content, including industry news, technical insights, exhibitor updates, and market trends.
 - Schedule meetings, manage contacts, and follow up on business leads seamlessly through a single digital platform.`,
       image: "http://cdn.itegroupnews.com/Untitled_design_92_3f5e8a1454.png",
-      link: "/connect",
+      link: "mouldingtrends.com",
       buttonText: "Join Molding Trends",
     },
   ]

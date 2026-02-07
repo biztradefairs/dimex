@@ -2,6 +2,7 @@
 
 import React from 'react';
 import SectionContainer from '@/components/UI/SectionContainer';
+import Link from 'next/link'
 
 const BrochureSection = () => {
   return (
@@ -26,10 +27,12 @@ const BrochureSection = () => {
           <p className="text-white/90 text-sm lg:text-base mb-6">
             Make sure you grab your copy of the event brochure to learn more about the show and explore your participation opportunities.
           </p>
-
-          <button className="bg-white text-blue-900 font-medium px-6 py-2.5 rounded-full hover:bg-gray-100 transition">
+          <Link href="/event-broucher">
+            <button className="bg-white text-blue-900 font-medium px-6 py-2.5 rounded-full hover:bg-gray-100 transition">
             Download Now
           </button>
+          </Link>
+        
         </div>
 
         {/* DECORATIVE CIRCLES */}

@@ -10,7 +10,7 @@ const ConferenceOverview = () => {
           Innovate Through Knowledge
         </h2>
 
-        <p className="max-w-5xl text-base leading-relaxed text-black/80 mb-10">
+        <p className="max-w-9xl text-base leading-relaxed text-black/80 mb-10">
           Transport and Logistics Congress “TransRussia 2025” – 6 industry
           conferences featuring only the most useful and relevant information
           to solve your business problems. Trends and prospects for the

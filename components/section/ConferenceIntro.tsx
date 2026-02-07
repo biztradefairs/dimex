@@ -7,7 +7,7 @@ const ConferenceIntro = () => {
   return (
     <section className="bg-[#f3f9fd] py-20 ">
       <SectionContainer>
-        <h1 className="text-[56px] font-extrabold text-black mb-4 mt-10">
+        <h1 className="text-[56px] font-bold text-black mb-4 mt-10">
           Conference Programme
         </h1>
 

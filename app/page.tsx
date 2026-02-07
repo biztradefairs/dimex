@@ -26,7 +26,7 @@ export default function Home() {
       <WhyChooseSection />
       <DiscoverSection />
       <ImpactSection />
-      <SectorsSection />
+      <SectorsSection  />
       <CountriesSection />
       <ConnectSection />
       <ArticlesSection />

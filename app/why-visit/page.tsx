@@ -709,42 +709,59 @@ export default function WhyVisit() {
                   {
                     title: "Conference Programme",
                     text: "2 Days focused industry conference delivering practical insights to address real business challenges — from emerging die & mould technologies and tooling innovations to future trends shaping precision manufacturing.",
-                    image: "https://cdn.itegroupnews.com/Business_Programme_9f14587238.webp"
+                    image: "https://cdn.itegroupnews.com/Business_Programme_9f14587238.webp",
+                    link: "/conference",
+                    external:true
                   },
                   {
                     title: "MOLDING TRENDS Summit",
                     text: "A knowledge-driven platform bringing industry professionals and leading experts together to share insights, helping the die & mould and tooling community stay ahead in a rapidly evolving manufacturing landscape.",
-                    image: "https://cdn.itegroupnews.com/18_6c90079699.jpg"
+                    image: "https://cdn.itegroupnews.com/18_6c90079699.jpg",
+                    link: "https://mouldingtrends.com",
+                    external:true
                   }
-                ].map((card, index) => (
-                  <motion.div
-                    key={index}
-                    variants={scaleIn}
-                    whileHover={{ 
-                      y: -5,
-                      boxShadow: "0 15px 30px rgba(0,0,0,0.15)"
-                    }}
-                    className="rounded-lg sm:rounded-xl overflow-hidden border border-gray-200 transition-all duration-300"
-                  >
-                    <div className="bg-[#0E1C35] text-white p-4 sm:p-6 lg:p-8">
-                      <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 sm:mb-3 hover:text-blue-300 transition-colors duration-300">
-                        {card.title}
-                      </h3>
-                      <p className="text-white/90 text-xs sm:text-sm lg:text-base leading-relaxed line-clamp-3 sm:line-clamp-4">
-                        {card.text}
-                      </p>
-                    </div>
-                    <div className="h-48 sm:h-56 lg:h-64 xl:h-72 overflow-hidden">
-                      <motion.img
-                        whileHover={{ scale: 1.1 }}
-                        transition={{ duration: 0.5 }}
-                        src={card.image}
-                        alt={card.title}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                  </motion.div>
-                ))}
+                ].map((card, index) => {
+  const Wrapper = card.external ? 'a' : Link
+
+  return (
+    <motion.div key={index} variants={scaleIn}>
+      <Wrapper
+        href={card.link}
+        {...(card.external
+          ? { target: '_blank', rel: 'noopener noreferrer' }
+          : {})}
+        className="block h-full"
+      >
+        <motion.div
+          whileHover={{
+            y: -5,
+            boxShadow: "0 15px 30px rgba(0,0,0,0.15)",
+          }}
+          className="rounded-lg sm:rounded-xl overflow-hidden border border-gray-200 transition-all duration-300 cursor-pointer h-full"
+        >
+          <div className="bg-[#0E1C35] text-white p-4 sm:p-6 lg:p-8">
+            <h3 className="text-lg sm:text-xl lg:text-2xl font-bold mb-2 sm:mb-3 hover:text-blue-300 transition-colors duration-300">
+              {card.title}
+            </h3>
+            <p className="text-white/90 text-xs sm:text-sm lg:text-base leading-relaxed line-clamp-3 sm:line-clamp-4">
+              {card.text}
+            </p>
+          </div>
+
+          <div className="h-48 sm:h-56 lg:h-64 xl:h-72 overflow-hidden">
+            <motion.img
+              whileHover={{ scale: 1.1 }}
+              transition={{ duration: 0.5 }}
+              src={card.image}
+              alt={card.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        </motion.div>
+      </Wrapper>
+    </motion.div>
+  )
+})}
               </motion.div>
             </SectionContainer>
           </section>
