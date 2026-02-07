@@ -105,7 +105,7 @@ export default function WhyExhibit() {
     <>
       <main className="bg-white overflow-hidden">
         {/* HERO SECTION */}
-<section className="relative h-[50vh] lg:h-[70vh] overflow-hidden">
+<section className="relative min-h-[60vh] lg:min-h-[70vh] overflow-hidden">
   {/* Background */}
   <motion.div
     initial={{ scale: 1.1 }}
@@ -118,19 +118,19 @@ export default function WhyExhibit() {
     }}
   />
 
-  {/* Left gradient */}
+  {/* Overlay */}
   <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-transparent" />
 
   <SectionContainer>
-    <div className="relative z-10 h-full grid grid-cols-12 items-end pb-20 lg:pb-28">
+    <div className="relative z-10 min-h-[60vh] lg:min-h-[70vh] flex items-center">
       
       {/* LEFT CONTENT */}
-      <div className="col-span-12 lg:col-span-6 text-white">
+      <div className="max-w-7xl text-white">
         <motion.h1
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          className="font-parabolica text-4xl lg:text-5xl xl:text-6xl font-bold lg:whitespace-nowrap mt-60"
+          className="font-parabolica text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mt-30"
         >
           Unlock New Opportunities at DIEMEX
         </motion.h1>
@@ -139,23 +139,27 @@ export default function WhyExhibit() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
-          className="mt-4 text-base lg:text-lg text-white/90 lg:whitespace-nowrap"
+          className="mt-4 text-sm sm:text-base lg:text-lg text-white/90"
         >
-          Discover new possibilities at DIEMEX 2026—where industry leaders connect, collaborate, and innovate.
+          Discover new possibilities at DIEMEX 2026—where industry leaders connect,
+          collaborate, and innovate.
         </motion.p>
 
-       <div className="flex flex-wrap gap-6 mt-6 text-white/90">
-  <span className="flex items-center gap-2">
-    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" className="size-5 shrink-0 fill-blue-800 " height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm106.5 150.5L228.8 332.8h-.1c-1.7 1.7-6.3 5.5-11.6 5.5-3.8 0-8.1-2.1-11.7-5.7l-56-56c-1.6-1.6-1.6-4.1 0-5.7l17.8-17.8c.8-.8 1.8-1.2 2.8-1.2 1 0 2 .4 2.8 1.2l44.4 44.4 122-122.9c.8-.8 1.8-1.2 2.8-1.2 1.1 0 2.1.4 2.8 1.2l17.5 18.1c1.8 1.7 1.8 4.2.2 5.8z"></path></svg>
-    08 – 10 October 2026
-  </span>
+        <div className="flex flex-wrap gap-4 mt-6 text-white/90 text-sm sm:text-base">
+          <span className="flex items-center gap-2">
+            <svg className="size-5 fill-blue-800" viewBox="0 0 512 512">
+              <path d="M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48z"/>
+            </svg>
+            08 – 10 October 2026
+          </span>
 
-  <span className="flex items-center gap-2">
-    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" className="size-5 shrink-0 fill-blue-800 " height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm106.5 150.5L228.8 332.8h-.1c-1.7 1.7-6.3 5.5-11.6 5.5-3.8 0-8.1-2.1-11.7-5.7l-56-56c-1.6-1.6-1.6-4.1 0-5.7l17.8-17.8c.8-.8 1.8-1.2 2.8-1.2 1 0 2 .4 2.8 1.2l44.4 44.4 122-122.9c.8-.8 1.8-1.2 2.8-1.2 1.1 0 2.1.4 2.8 1.2l17.5 18.1c1.8 1.7 1.8 4.2.2 5.8z"></path></svg>
-    Pune, India
-  </span>
-</div>
-
+          <span className="flex items-center gap-2">
+            <svg className="size-5 fill-blue-800" viewBox="0 0 512 512">
+              <path d="M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48z"/>
+            </svg>
+            Pune, India
+          </span>
+        </div>
 
         <Link href="/exhibiting-enquiry">
           <motion.button
@@ -167,13 +171,9 @@ export default function WhyExhibit() {
           </motion.button>
         </Link>
       </div>
-
-      <div className="hidden lg:block col-span-6" />
     </div>
   </SectionContainer>
 </section>
-
-
 
 
         {/* WHERE TRANSPORT COMES TOGETHER */}
