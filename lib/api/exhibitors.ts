@@ -81,6 +81,7 @@ export type ExhibitorStatus =
   | "rejected";
 
 export interface Exhibitor {
+
   id: string;
   name: string;
   email: string;

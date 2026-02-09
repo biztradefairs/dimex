@@ -17,21 +17,17 @@ export default function Footer() {
           <div className="flex items-center gap-5">
             <Link href="/" className="flex items-center gap-3">
               <div className="flex items-center gap-2">
-
                 <Image
-                  src="/images/logo-diemex2.png"          // put logo inside /public
+                  src="/images/logo-diemex2.png"
                   alt="DIEMEX 2026 Logo"
                   width={120}
                   height={80}
                   className="object-contain"
                   priority
                 />
-
-                {/* Text */}
-                {/* <span>DIEMEX 2026</span> */}
                 <span className="h-8 w-px bg-white/70 mx-2"></span>
                 <Image
-                  src="/images/3rd-edition.png"          // put logo inside /public
+                  src="/images/3rd-edition.png"
                   alt="DIEMEX 2026 Logo"
                   width={120}
                   height={80}
@@ -39,12 +35,6 @@ export default function Footer() {
                   priority
                 />
               </div>
-              {false && (
-                <div className="flex items-center gap-2">
-                  <div className="h-8 w-8 rounded-full bg-blue-300" />
-                  <div className="text-xl font-bold"></div>
-                </div>
-              )}
             </Link>
           </div>
         </div>
@@ -52,9 +42,9 @@ export default function Footer() {
 
       {/* MAIN CONTENT */}
       <div className="mx-auto max-w-7xl px-5 py-12">
-        <div className="flex flex-wrap justify-between gap-10">
+        <div className="flex flex-col lg:flex-row flex-wrap justify-between gap-10">
           {/* ABOUT */}
-          <div className="max-w-md space-y-5">
+          <div className="lg:max-w-md space-y-5">
             <p className="text-white/70">
               DIEMEX 2026 is a premier international exhibition showcasing die & mould technologies, tool room solutions, precision components, and next-generation manufacturing systems.
             </p>
@@ -78,7 +68,7 @@ export default function Footer() {
           </div>
 
           {/* HOURS + VENUE */}
-          <div className="max-w-md space-y-5">
+          <div className="lg:max-w-md space-y-5">
             <div>
               <h5 className="mb-2 font-semibold">Opening Hours</h5>
               <div className="text-white/70 space-y-1">
@@ -106,7 +96,7 @@ export default function Footer() {
           </div>
 
           {/* LINKS + SOCIAL */}
-          <div className="max-w-md space-y-5">
+          <div className="lg:max-w-md space-y-5">
             <div>
               <h5 className="mb-2 font-semibold">Quick Links</h5>
               <div className="flex flex-col gap-2 text-white/70">
@@ -140,7 +130,6 @@ export default function Footer() {
             <div>
               <h5 className="mb-2 font-semibold">Stay Connected</h5>
               <div className="flex gap-3">
-                {/* LinkedIn */}
                 <a
                   href="https://www.linkedin.com/company/diemex-india/"
                   target="_blank"
@@ -151,7 +140,6 @@ export default function Footer() {
                   <FaLinkedinIn className="h-5 w-5 text-blue-600 hover:text-white" />
                 </a>
 
-                {/* Instagram */}
                 <a
                   href="https://www.instagram.com/diemex_india"
                   target="_blank"
@@ -161,28 +149,6 @@ export default function Footer() {
                 >
                   <FaInstagram className="h-5 w-5 text-white" />
                 </a>
-
-                {/* Facebook */}
-                {/* <a
-                  href="https://www.facebook.com/diemexindia"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-700 hover:bg-blue-800 transition-all duration-300 hover:scale-110"
-                  aria-label="Facebook"
-                >
-                  <FaFacebookF className="h-5 w-5 text-white" />
-                </a> */}
-
-                {/* Twitter */}
-                {/* <a
-                  href="https://twitter.com/diemexindia"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-sky-500 hover:bg-sky-600 transition-all duration-300 hover:scale-110"
-                  aria-label="Twitter"
-                >
-                  <FaTwitter className="h-5 w-5 text-white" />
-                </a> */}
               </div>
 
               <p className="mt-3 text-sm text-white/60">
@@ -194,53 +160,45 @@ export default function Footer() {
       </div>
 
       {/* BOTTOM BAR */}
-      <div className="mx-auto max-w-7xl px-8">
-        <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/20 py-5 text-sm">
-         <div className="flex items-center gap-3">
-  <span className="text-sm text-white/70">Organised By</span>
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col sm:flex-row flex-wrap items-center justify-between gap-4 border-t border-white/20 py-5 text-sm">
+          {/* Organized By - Updated for mobile */}
+          <div className="flex flex-col sm:flex-row items-center gap-3">
+            <span className="text-sm text-white/70 mb-2 sm:mb-0">Organised By</span>
+            
+            <div className="flex items-center rounded-md bg-white px-4 py-2 shadow-sm whitespace-nowrap min-w-0">
+              <span className="font-bold text-[#004A96] text-sm sm:text-base">
+                MAXX BUSINESS MEDIA PVT. LTD.
+              </span>
+            </div>
+          </div>
 
-  <div className="flex items-center rounded-md bg-white px-4 py-2 shadow-sm">
-    <span className="font-bold text-[#004A96]">MAXX</span>
-    <span className="mx-1 font-semibold text-gray-700">BUSINESS</span>
-    <span className="mx-1 font-semibold text-gray-700">MEDIA</span>
-    <span className="ml-1 font-bold text-[#004A96]">PVT. LTD.</span>
-  </div>
-</div>
-
-
-          <div className="flex flex-wrap items-center gap-4 text-white/90">
-            <span>© DIEMEX 2026. All Rights Reserved</span>
-            <div className="flex gap-3">
-              <a
-                href="https://maxxmedia.in/terms-of-use"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white hover:underline transition-colors"
+          {/* Copyright and Links - Updated for mobile */}
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 text-white/90 text-center sm:text-left">
+            <span className="text-sm sm:text-base">© DIEMEX 2026. All Rights Reserved</span>
+            
+            <div className="flex flex-wrap justify-center gap-2 sm:gap-3 text-sm">
+              <Link
+                href="/termstouse"
+                className="hover:text-white hover:underline transition-colors px-1"
               >
                 Terms of Use
-              </a>
-              <a
-                href="https://maxxmedia.in/privacy"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white hover:underline transition-colors"
+              </Link>
+              <span className="text-white/40">•</span>
+              <Link
+                href="/privacy-policy"
+                className="hover:text-white hover:underline transition-colors px-1"
               >
                 Privacy Policy
-              </a>
-              <a
-                href="https://maxxmedia.in/cookies/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-white hover:underline transition-colors"
+              </Link>
+              <span className="text-white/40">•</span>
+              <Link
+                href="/cookies-policy"
+                className="hover:text-white hover:underline transition-colors px-1"
               >
                 Cookie Policy
-              </a>
-              <a
-                href="/sitemap.xml"
-                className="hover:text-white hover:underline transition-colors"
-              >
-                Sitemap
-              </a>
+              </Link>
+              {/* Sitemap removed as requested */}
             </div>
           </div>
         </div>
