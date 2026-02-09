@@ -1,62 +1,84 @@
-import axios from 'axios';
+import axios from "axios";
 
-// Create axios instance
+/* =========================================================
+   AXIOS INSTANCE
+========================================================= */
+
 const api = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com/api',
+  baseURL:
+    process.env.NEXT_PUBLIC_API_URL ||
+    "https://diemex-backend.onrender.com/api",
   headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json'
+    "Content-Type": "application/json",
+    Accept: "application/json",
   },
-  timeout: 30000,
+  timeout: 30000, // ⬅️ Render-safe timeout
 });
 
-// Request interceptor
+/* =========================================================
+   REQUEST INTERCEPTOR
+========================================================= */
+
 api.interceptors.request.use(
   (config) => {
     console.log(`🌐 ${config.method?.toUpperCase()} ${config.url}`);
-    
-    // Get token from localStorage
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('exhibitor_token') || localStorage.getItem('token');
+
+    if (typeof window !== "undefined") {
+      const token =
+        localStorage.getItem("exhibitor_token") ||
+        localStorage.getItem("token");
+
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       }
     }
-    
+
     return config;
   },
   (error) => {
-    console.error('❌ Request error:', error);
+    console.error("❌ Request error:", error);
     return Promise.reject(error);
   }
 );
 
-// Response interceptor
+/* =========================================================
+   RESPONSE INTERCEPTOR
+========================================================= */
+
 api.interceptors.response.use(
   (response) => {
     console.log(`✅ ${response.status} ${response.config.url}`);
     return response;
   },
   (error) => {
-    console.error('❌ API Error:', {
+    console.error("❌ API Error:", {
       url: error.config?.url,
       method: error.config?.method,
       status: error.response?.status,
       data: error.response?.data,
-      message: error.message
+      message: error.message,
     });
-    
-    // Handle 401 Unauthorized
-    if (error.response?.status === 401 && typeof window !== 'undefined') {
-      localStorage.removeItem('exhibitor_token');
-      localStorage.removeItem('exhibitor_data');
+
+    // Auto logout on 401
+    if (error.response?.status === 401 && typeof window !== "undefined") {
+      localStorage.removeItem("exhibitor_token");
+      localStorage.removeItem("exhibitor_data");
     }
-    
+
     return Promise.reject(error);
   }
 );
 
-export type ExhibitorStatus = "pending" | "active" | "inactive" | "approved" | "rejected";
+/* =========================================================
+   TYPES
+========================================================= */
+
+export type ExhibitorStatus =
+  | "pending"
+  | "active"
+  | "inactive"
+  | "approved"
+  | "rejected";
 
 export interface Exhibitor {
   id: string;
@@ -109,42 +131,28 @@ interface ApiResponse<T> {
   error?: string;
 }
 
-// Helper function to test server connection
+/* =========================================================
+   OPTIONAL: HEALTH CHECK (NON-BLOCKING)
+========================================================= */
+
 export const testServerConnection = async () => {
   try {
-    const response = await axios.get('https://diemex-backend.onrender.com/health', {
-      timeout: 5000
+    const response = await api.get("/health", {
+      timeout: 20000,
     });
-    console.log('✅ Server connection test:', response.data);
+
     return { success: true, data: response.data };
-  } catch (error: any) {
-    console.error('❌ Server connection failed:', error.message);
-    return { 
-      success: false, 
-      error: `Cannot connect to server at http://localhost:5000. Please ensure backend is running.`
+  } catch {
+    return {
+      success: false,
+      error: "Backend is not reachable yet (cold start).",
     };
   }
 };
 
-// Test login endpoint
-export const testLoginEndpoint = async () => {
-  try {
-    const response = await axios.post('https://diemex-backend.onrender.com/api/auth/exhibitor/login', {
-      email: 'test@example.com',
-      password: 'test123'
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      timeout: 5000
-    });
-    console.log('✅ Login endpoint test:', response.data);
-    return { success: true, data: response.data };
-  } catch (error: any) {
-    console.error('❌ Login endpoint test failed:', error.message);
-    return { success: false, error: error.message };
-  }
-};
+/* =========================================================
+   EXHIBITORS API
+========================================================= */
 
 export const exhibitorsAPI = {
   getAll: async (params?: {
@@ -154,231 +162,213 @@ export const exhibitorsAPI = {
     sector?: string;
     status?: string;
   }): Promise<PaginatedResponse<Exhibitor>> => {
-    try {
-      const response = await api.get<PaginatedResponse<Exhibitor>>("/exhibitors", { params });
-      
-      if (!response.data.success) {
-        throw new Error(response.data.error || 'Failed to fetch exhibitors');
-      }
-      
-      return response.data;
-    } catch (error: any) {
-      console.error('Error fetching exhibitors:', error);
-      throw error;
+    const response = await api.get("/exhibitors", { params });
+
+    if (!response.data.success) {
+      throw new Error(response.data.error || "Failed to fetch exhibitors");
     }
+
+    return response.data;
   },
 
   getStats: async (): Promise<ExhibitorStats> => {
-    try {
-      const response = await api.get<ApiResponse<ExhibitorStats>>("/exhibitors/stats");
-      
-      if (!response.data.success) {
-        throw new Error(response.data.error || 'Failed to fetch exhibitor statistics');
-      }
-      
-      return response.data.data;
-    } catch (error: any) {
-      console.error('Error fetching exhibitor stats:', error);
-      throw error;
+    const response = await api.get<ApiResponse<ExhibitorStats>>(
+      "/exhibitors/stats"
+    );
+
+    if (!response.data.success) {
+      throw new Error(
+        response.data.error || "Failed to fetch exhibitor statistics"
+      );
     }
+
+    return response.data.data;
   },
 
-  create: async (data: CreateExhibitorData): Promise<Exhibitor & { originalPassword: string }> => {
-    try {
-      const response = await api.post<ApiResponse<Exhibitor & { originalPassword: string }>>("/exhibitors", data);
-      
-      if (!response.data.success) {
-        throw new Error(response.data.error || 'Failed to create exhibitor');
-      }
-      
-      return response.data.data;
-    } catch (error: any) {
-      console.error('Error creating exhibitor:', error);
-      
-      if (error.response?.data?.error) {
-        throw new Error(error.response.data.error);
-      }
-      
-      throw error;
+  create: async (
+    data: CreateExhibitorData
+  ): Promise<Exhibitor & { originalPassword: string }> => {
+    const response = await api.post("/exhibitors", data);
+
+    if (!response.data.success) {
+      throw new Error(response.data.error || "Failed to create exhibitor");
     }
+
+    return response.data.data;
   },
 
-update: async (id: string, data: Partial<CreateExhibitorData>): Promise<Exhibitor> => {
-    try {
-      console.log('🔄 Updating exhibitor:', id, data);
-      
-      const response = await api.put<ApiResponse<Exhibitor>>(`/exhibitors/${id}`, data);
-      
-      console.log('✅ Update response:', response.data);
-      
-      if (!response.data.success) {
-        throw new Error(response.data.error || 'Failed to update exhibitor');
-      }
-      
-      return response.data.data;
-    } catch (error: any) {
-      console.error('❌ Error updating exhibitor:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status
-      });
-      
-      let errorMessage = 'Failed to update exhibitor';
-      
-      if (error.response?.data?.error) {
-        errorMessage = error.response.data.error;
-      } else if (error.message) {
-        errorMessage = error.message;
-      }
-      
-      throw new Error(errorMessage);
+  update: async (
+    id: string,
+    data: Partial<CreateExhibitorData>
+  ): Promise<Exhibitor> => {
+    const response = await api.put(`/exhibitors/${id}`, data);
+
+    if (!response.data.success) {
+      throw new Error(response.data.error || "Failed to update exhibitor");
     }
+
+    return response.data.data;
   },
 
-  bulkUpdateStatus: async (ids: string[], status: ExhibitorStatus): Promise<{ affectedCount: number }> => {
-    try {
-      console.log('🔄 Bulk updating status:', { ids, status });
-      
-      const response = await api.post<ApiResponse<{ affectedCount: number }>>("/exhibitors/bulk/update-status", {
-        ids,
-        status
-      });
-      
-      console.log('✅ Bulk update response:', response.data);
-      
-      if (!response.data.success) {
-        throw new Error(response.data.error || 'Failed to update status');
-      }
-      
-      return response.data.data;
-    } catch (error: any) {
-      console.error('❌ Error bulk updating status:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status
-      });
-      
-      throw new Error(error.message || 'Failed to update status');
+  bulkUpdateStatus: async (
+    ids: string[],
+    status: ExhibitorStatus
+  ): Promise<{ affectedCount: number }> => {
+    const response = await api.post("/exhibitors/bulk/update-status", {
+      ids,
+      status,
+    });
+
+    if (!response.data.success) {
+      throw new Error(response.data.error || "Failed to update status");
     }
+
+    return response.data.data;
   },
 
   delete: async (id: string): Promise<void> => {
+    const response = await api.delete(`/exhibitors/${id}`);
+
+    if (!response.data.success) {
+      throw new Error(response.data.error || "Failed to delete exhibitor");
+    }
+  },
+
+  resendCredentials: async (
+    id: string
+  ): Promise<{ email: string; timestamp: string }> => {
     try {
-      const response = await api.delete<ApiResponse<void>>(`/exhibitors/${id}`);
-      
+      const response = await api.post(
+        `/exhibitors/${id}/resend-credentials`,
+        {},
+        { timeout: 30000 }
+      );
+
       if (!response.data.success) {
-        throw new Error(response.data.error || 'Failed to delete exhibitor');
+        throw new Error(
+          response.data.error || "Failed to resend credentials"
+        );
       }
+
+      return response.data.data;
     } catch (error: any) {
-      console.error('Error deleting exhibitor:', error);
+      if (
+        error.code === "ECONNABORTED" ||
+        error.message?.includes("timeout")
+      ) {
+        throw new Error(
+          "Email service is slow. Please try again after some time."
+        );
+      }
+
       throw error;
     }
   },
-  resendCredentials: async (id: string): Promise<{ email: string; timestamp: string }> => {
-    try {
-      const response = await api.post<ApiResponse<{ email: string; timestamp: string }>>(
-        `/exhibitors/${id}/resend-credentials`,
-        {}, // empty body 
-        {
-          timeout: 30000 // ⬅️ SPECIFIC TIMEOUT FOR THIS ENDPOINT
-        }
-      );
-      
-      if (!response.data.success) {
-        throw new Error(response.data.error || 'Failed to resend credentials');
-      }
-      
-      return response.data.data;
-    } catch (error: any) {
-      console.error('Error resending credentials:', error);
-      
-      // More helpful error messages
-      if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
-        throw new Error('Email service is taking too long. Check if email is configured properly.');
-      }
-      
-      throw error;
-    }
-  }
-
-
 };
 
-
+/* =========================================================
+   AUTH API (FIXED LOGIN FLOW)
+========================================================= */
 
 export const authAPI = {
-  login: async (email: string, password: string): Promise<{ token: string; exhibitor: Exhibitor }> => {
+  login: async (
+    email: string,
+    password: string
+  ): Promise<{ token: string; exhibitor: Exhibitor }> => {
     try {
-      console.log('🔐 Attempting login for:', email);
-      
-      // First, test if server is reachable
-      const serverTest = await testServerConnection();
-      if (!serverTest.success) {
-        throw new Error(serverTest.error);
-      }
-      
-      console.log('🔄 Sending login request...');
-      
-      const response = await api.post('/auth/exhibitor/login', { 
-        email, 
-        password 
+      console.log("🔐 Logging in:", email);
+
+      const response = await api.post("/auth/exhibitor/login", {
+        email,
+        password,
       });
-      
-      console.log('✅ Login response:', response.data);
-      
+
       if (!response.data.success) {
-        throw new Error(response.data.error || 'Login failed');
+        throw new Error(response.data.error || "Login failed");
       }
-      
+
       return response.data.data;
-      
     } catch (error: any) {
-      console.error('❌ Login error details:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status
-      });
-      
-      let errorMessage = 'Login failed';
-      
+      let errorMessage = "Login failed";
+
       if (error.response?.status === 401) {
-        errorMessage = 'Invalid email or password';
+        errorMessage = "Invalid email or password";
       } else if (error.response?.status === 403) {
-        errorMessage = 'Account is not active. Please contact administrator.';
-      } else if (error.message.includes('Network Error') || error.message.includes('timeout')) {
-        errorMessage = 'Cannot connect to server. Please ensure backend is running on http://localhost:5000';
+        errorMessage = "Account is not active. Contact administrator.";
+      } else if (
+        error.message?.includes("Network Error") ||
+        error.message?.includes("timeout")
+      ) {
+        errorMessage =
+          "Server is starting up. Please wait a few seconds and retry.";
       } else if (error.response?.data?.error) {
         errorMessage = error.response.data.error;
-      } else if (error.message) {
-        errorMessage = error.message;
       }
-      
+
       throw new Error(errorMessage);
     }
   },
 
   getProfile: async (): Promise<Exhibitor> => {
-    try {
-      const response = await api.get<ApiResponse<Exhibitor>>("/auth/exhibitor/profile");
-      
-      if (!response.data.success) {
-        throw new Error(response.data.error || 'Failed to fetch profile');
-      }
-      
-      return response.data.data;
-    } catch (error: any) {
-      console.error('Profile error:', error);
-      throw error;
+    const response = await api.get("/auth/exhibitor/profile");
+
+    if (!response.data.success) {
+      throw new Error(response.data.error || "Failed to fetch profile");
     }
+
+    return response.data.data;
   },
 
-  // Test function
   test: async () => {
-    try {
-      const response = await api.get('/auth/exhibitor/test');
-      return response.data;
-    } catch (error) {
-      throw error;
+    const response = await api.get("/auth/exhibitor/test");
+    return response.data;
+  },
+};
+/* =========================================================
+   DASHBOARD API (RENDER SAFE)
+========================================================= */
+
+export interface DashboardData {
+  exhibitor: {
+    id: string;
+    name: string;
+    company: string;
+    email: string;
+    phone: string;
+    boothNumber: string;
+    status: string;
+  };
+  invoices: Array<{
+    id: string;
+    invoiceNumber: string;
+    amount: number;
+    status: string;
+    dueDate?: string;
+  }>;
+  requirements: Array<{
+    id: string;
+    type: string;
+    description: string;
+    status: string;
+  }>;
+  floorPlan?: {
+    name: string;
+    floor: string;
+  };
+}
+
+export const dashboardAPI = {
+  getLayout: async (): Promise<DashboardData> => {
+    const response = await api.get('/exhibitorDashboard/layout', {
+      timeout: 30000, // Render cold start safe
+    });
+
+    if (!response.data.success) {
+      throw new Error(
+        response.data.error || 'Failed to load dashboard data'
+      );
     }
-  }
+
+    return response.data.data;
+  },
 };

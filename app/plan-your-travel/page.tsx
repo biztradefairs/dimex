@@ -22,6 +22,7 @@ interface ImageProps {
   className?: string;
   width?: number;
   height?: number;
+  rounded?: boolean;
 }
 
 interface GuideItem {
@@ -129,19 +130,19 @@ const Button: React.FC<ButtonProps> = ({
   );
 };
 
-// Image Component
 const Image: React.FC<ImageProps> = ({
   src,
   alt,
   className = '',
   width = 500,
-  height = 500
+  height = 500,
+  rounded = true, // default rounded
 }) => {
   return (
     <motion.div
       whileHover={{ scale: 1.05 }}
       transition={{ duration: 0.3 }}
-      className="overflow-hidden rounded-lg"
+      className={`overflow-hidden ${rounded ? 'rounded-lg' : 'rounded-none'}`}
     >
       <img
         src={src}
@@ -150,12 +151,13 @@ const Image: React.FC<ImageProps> = ({
         height={height}
         loading="lazy"
         decoding="async"
-        className={`size-auto object-contain ${className}`}
+        className={`object-contain ${className}`}
         style={{ color: 'transparent' }}
       />
     </motion.div>
   );
 };
+
 
 // Hero Section
 const HeroSection: React.FC = () => {
@@ -223,11 +225,13 @@ const IntroductionSection: React.FC = () => {
               whileHover={{ x: 5 }}
               className="flex w-fit gap-2 py-2 pe-5 pl-1 capitalize"
             >
-              <Image
-                src="/images/logo-icon-3.png"
-                alt="Diemex"
-                className="size-auto w-5"
-              />
+             <Image
+  src="/images/logo-icon-3.png"
+  alt="Diemex"
+  className="w-5 h-5"
+  rounded={false}
+/>
+
               <span>DIEMEX</span>
             </motion.div>
             <h2 className="title-72 text-black w-7xl">
@@ -339,11 +343,13 @@ const GuideSection: React.FC = () => {
               whileHover={{ x: 5 }}
               className="flex w-fit gap-2 py-2 pe-5 pl-1 capitalize"
             >
-              <Image
-                src="/images/logo-icon-3.png"
-                alt="TransRussia©24"
-                className="w-5"
-              />
+             <Image
+  src="/images/logo-icon-3.png"
+  alt="Diemex"
+  className="w-5 h-5"
+  rounded={false}
+/>
+
               <span>Plan Your Travel</span>
             </motion.div>
 

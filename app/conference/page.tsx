@@ -17,6 +17,7 @@ import DownloadLinks from './components/DownloadLinks';
 import Contacts from './components/Contacts';
 import BecomeDelegate from './components/BecomeDelegate';
 import BackToTop from '../exhibitor-resource-center/component/BackToTop';
+import TransRussiaSummitProgram from './components/TransRussiaSummitProgram';
 
 export const metadata: Metadata = {
   title: 'TransRussia Summit | October 19-21, 2026, Moscow',
@@ -287,6 +288,11 @@ export default function HomePage() {
                   subtitle="The largest cargo owners, experts and market leaders"
                   speakers={speakersData}
                 />
+              </div>
+            </section>
+             <section className="w-full">
+              <div className="mx-auto w-full max-w-[1240px] lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1600px] px-4 sm:px-6 lg:px-8">
+                <TransRussiaSummitProgram/>
               </div>
             </section>
             
