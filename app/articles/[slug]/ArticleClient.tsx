@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Article, mockArticles } from '../data';
+import BackToTop from '@/app/exhibitor-resource-center/component/BackToTop';
 
 // Safe Image component - FIXED
 const SafeImage = ({ src, alt, fill, ...props }: any) => {
@@ -296,6 +297,7 @@ export default function ArticleClient({ article }: ArticleClientProps) {
           </div>
         </section>
       </main>
+      <BackToTop/>
     </div>
   );
 }

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { mockPageData } from './data';
 import PartnersSection from '@/components/section/PartnersSection';
+import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 
 // Safe Image component that handles missing config - FIXED
 const SafeImage = ({ src, alt, fill, ...props }: any) => {
@@ -186,6 +187,7 @@ export default function ArticlesPage() {
           </div>
         </section>
         <PartnersSection/>
+        <BackToTop/>
       </main>
     </div>
   );

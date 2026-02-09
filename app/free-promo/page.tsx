@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
 import PartnersSection from '@/components/section/PartnersSection';
 import DownloadSection from './DownloadSection';
+import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 
 export default function ExhibitorPromotionPage() {
   const [isHeaderVisible, setIsHeaderVisible] = useState(false);
@@ -322,6 +323,7 @@ export default function ExhibitorPromotionPage() {
           </svg>
         </button>
       </div>
+      <BackToTop/>
     </div>
   );
 }

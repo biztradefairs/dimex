@@ -6,6 +6,7 @@ import CompanyGrid from './company-grid'
 import { mockCompanies } from '@/lib/mock-data'
 import { useRouter } from 'next/navigation'
 import { Search, ChevronDown, Filter, X } from 'lucide-react'
+import BackToTop from '../exhibitor-resource-center/component/BackToTop'
 
 export default function CompanyDirectory() {
   const router = useRouter()
@@ -336,6 +337,7 @@ export default function CompanyDirectory() {
           </div>
         )}
       </main>
+      <BackToTop/>
     </div>
   )
 }
