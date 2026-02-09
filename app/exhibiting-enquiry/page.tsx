@@ -5,6 +5,7 @@ import Head from "next/head"
 import SectionContainer from "@/components/UI/SectionContainer"
 import PartnersSection from "@/components/section/PartnersSection"
 import ReCAPTCHA from "react-google-recaptcha"
+import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 
 const TransRussiaExhibitPage: React.FC = () => {
   type Country = {
@@ -159,14 +160,7 @@ const [countriesLoading, setCountriesLoading] = useState(false);
         <div className="loader" />
       </div>
 
-      {/* BACK TO TOP */}
-      <button
-        ref={backToTopRef}
-        className="fixed bottom-6 right-6 z-50 opacity-0 transition bg-black text-white px-4 py-2 rounded-full"
-        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-      >
-        ↑
-      </button>
+   
 
       <main className="page-spacing-wrapper">
 
@@ -347,6 +341,7 @@ const [countriesLoading, setCountriesLoading] = useState(false);
 
         <PartnersSection />
       </main>
+      <BackToTop/>
     </>
   )
 }
