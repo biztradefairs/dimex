@@ -1,6 +1,7 @@
 // pages/index.tsx - Main page component
 import React from 'react';
 import TransRussiaPage from '@/components/TransRussiaPage';
+import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 
 // This would typically come from an API or CMS
 const pageData = {
@@ -256,7 +257,8 @@ const pageData = {
 
 const HomePage: React.FC = () => {
   return (
-    <TransRussiaPage
+    <>
+        <TransRussiaPage
       navbarData={pageData.navbarData}
       pageData={pageData.pageData}
       footerData={{
@@ -270,6 +272,9 @@ const HomePage: React.FC = () => {
         })),
       }}
     />
+    <BackToTop/>
+    </>
+
   );
 };
 

@@ -3,6 +3,7 @@ import Image from "next/image"
 import BrochureForm from "@/components/BrochureForm"
 import PartnersSlider from "@/components/section/PartnersSection"
 import SectionContainer from "@/components/UI/SectionContainer"
+import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 
 export const metadata: Metadata = {
   title: "Event Brochure | TransRussia & SkladTech",
@@ -112,6 +113,7 @@ export default function BrochurePage() {
           <PartnersSlider />
         </SectionContainer>
       </section>
+      <BackToTop/>
     </main>
   )
 }

@@ -8,6 +8,7 @@ import Link from 'next/link';
 import WhyExhibitCard from '../components/WhyExhibitCard';
 import ServiceCard from '../components/ServiceCard';
 import FAQCard from '../components/FAQCard';
+import BackToTop from '@/app/exhibitor-resource-center/component/BackToTop';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -22,6 +23,7 @@ export default async function SectorPage({ params }: PageProps) {
   }
 
   return (
+    <>
     <main className="bg-white">
       {/* HERO SECTION */}
       <section className="pt-20 pb-12 px-4 md:px-8">
@@ -185,6 +187,8 @@ export default async function SectorPage({ params }: PageProps) {
       <QuickNavigation />
       <PartnersSection />
     </main>
+    <BackToTop/>
+    </>
   );
 }
 // Add this CSS for the clip-arrow effect
