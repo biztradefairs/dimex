@@ -71,9 +71,9 @@ body {
   @apply text-base sm:text-lg;
 }
 /* Fix fixed navbar pushing content down */
-.page-spacing-wrapper {
+/* .page-spacing-wrapper {
   margin-top: -110px;
-}
+} */
 .clip-arrow {
   clip-path: polygon(0 0, 100% 50%, 0 100%);
 }

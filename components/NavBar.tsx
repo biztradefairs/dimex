@@ -70,9 +70,9 @@ export default function NavBar() {
   const [isMounted, setIsMounted] = useState(false)
 
   const [timeLeft, setTimeLeft] = useState({
-    days: 0,
+    days: 35,
     hours: 0,
-    minutes: 0,
+    minutes: 29,
   })
 
   /* ================= MOUNT CHECK ================= */
@@ -165,7 +165,69 @@ export default function NavBar() {
       <header className="fixed top-0 left-0 right-0 z-[999] font-parabolica">
         <div className={`px-2 sm:px-4 md:px-6 lg:px-8 transition-all duration-300 ${scrolled ? "pt-1.5 sm:pt-2" : "pt-2 sm:pt-3 md:pt-4"}`}>
           <div className="mx-auto max-w-[1600px]">
-            <div className="rounded-xl sm:rounded-2xl lg:rounded-3xl bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white shadow-xl">
+{/* ================= MOBILE NAVBAR ================= */}
+<div className="lg:hidden w-full absolute top-0 left-0 right-0 z-50">
+  <div className="bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white w-full">
+    
+    {/* HEADER */}
+    <div className="grid grid-cols-[70px_auto_1fr_auto] gap-x-2 px-1 pt-0.5 pb-1.5 items-center w-full">
+
+      
+      {/* LOGO */}
+      <div className="relative w-[70px] h-[47px]">
+        <Image
+          src="/images/logo-diemex2.png"
+          alt="DIEMEX 2026 Logo"
+          fill
+          className="object-contain"
+          priority
+        />
+      </div>
+      <span className="block h-5 lg:h-6 xl:h-8 w-px bg-white/70 mx-1"></span>
+
+
+      {/* 3rd Edition */}
+      <div className="relative w-[52px] h-[26px]">
+        <Image
+          src="/images/3rd-edition.png"
+          alt="3rd Edition"
+          fill
+          className="object-contain"
+          priority
+        />
+      </div>
+
+      {/* MENU BUTTON */}
+      <button
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        className="rounded-full bg-white/10 hover:bg-white/20 p-1 active:scale-95"
+        aria-label="Toggle menu"
+      >
+        <Menu className="w-4 h-4" />
+      </button>
+
+      {/* DATE + VENUE */}
+      <div className="col-span-3 text-[9px] opacity-90 leading-tight whitespace-nowrap">
+        08–10 October 2026 · Auto Cluster Exhibition Centre, Pune
+      </div>
+    </div>
+  </div>
+
+  {/* TIME BAR */}
+  <div className="flex justify-center px-0">
+    <div className="flex items-start gap-1.5 rounded-full bg-[#0d1e3c] px-2 py-0.5 text-[10px] text-white justify-start mr-30">
+      <span className="font-medium">{timeLeft.days} Days</span>
+      <span className="font-medium">{timeLeft.hours} Hours</span>
+      <span className="font-medium">{timeLeft.minutes} Mins</span>
+    </div>
+  </div>
+</div>
+
+
+
+
+            {/* ================= DESKTOP NAV BAR (UNCHANGED) ================= */}
+            <div className="hidden lg:block rounded-xl sm:rounded-2xl lg:rounded-3xl bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white shadow-xl">
               <div className="flex items-center justify-between gap-1 sm:gap-2 md:gap-3 lg:gap-4 px-2 sm:px-3 md:px-4 lg:px-5 py-1.5 sm:py-2 md:py-2.5 lg:py-3">
                 
                 {/* ================= LOGO SECTION ================= */}
@@ -203,7 +265,7 @@ export default function NavBar() {
                   </div>
 
                   {/* Event Info - Hidden on small screens */}
-                  <div className="hidden md:flex flex-col font-parabolica min-w-0 ml-1 lg:ml-2">
+                  <div className="md:flex flex-col font-parabolica min-w-0 ml-1 lg:ml-2">
                     <span className="text-[8px] md:text-[9px] lg:text-[10px] xl:text-[12px] leading-tight whitespace-nowrap">
                       08–10 October 2026
                     </span>
@@ -280,19 +342,6 @@ export default function NavBar() {
                     {screenSize === "laptop" ? "Register" : "Register Now"}
                   </Button>
                 </div>
-
-                {/* ================= MOBILE MENU BUTTON ================= */}
-                <button
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="lg:hidden rounded-full bg-white/10 hover:bg-white/20 p-1.5 sm:p-2 flex-shrink-0 transition-all active:scale-95"
-                  aria-label="Toggle menu"
-                >
-                  {mobileMenuOpen ? (
-                    <X className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-                  ) : (
-                    <Menu className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
-                  )}
-                </button>
               </div>
             </div>
 
@@ -311,134 +360,108 @@ export default function NavBar() {
       </header>
 
       {/* ================= MOBILE MENU ================= */}
-      {mobileMenuOpen && (
-        <>
-          {/* Backdrop */}
-          <div 
-            className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[997] transition-opacity duration-300"
-            onClick={() => setMobileMenuOpen(false)}
-            style={{ animation: 'fadeIn 0.3s ease-out' }}
-          />
-          
-          {/* Menu Panel */}
-          <div 
-            className="lg:hidden fixed top-[50px] xs:top-[56px] sm:top-[64px] md:top-[74px] left-0 right-0 bottom-0 z-[998] overflow-y-auto bg-[#0d1e3c] text-white shadow-2xl font-parabolica"
-            style={{ animation: 'slideDown 0.3s ease-out' }}
-          >
-            <div className="px-3 xs:px-4 sm:px-5 md:px-6 py-3 xs:py-4 sm:py-5 md:py-6">
-              
-              {/* Event Info */}
-              <div className="mb-3 sm:mb-4 text-center pb-3 border-b border-white/20">
-                <div className="text-xs xs:text-sm sm:text-base font-bold mb-1 sm:mb-1.5">DIEMEX 2026</div>
-                <div className="text-[10px] xs:text-[11px] sm:text-xs md:text-sm opacity-90 leading-relaxed">
-                  08–10 October 2026
-                </div>
-                <div className="text-[10px] xs:text-[11px] sm:text-xs md:text-sm opacity-90">
-                  Auto Cluster Exhibition Centre, Pune
-                </div>
-              </div>
+     {mobileMenuOpen && (
+  <>
+    {/* Backdrop */}
+    <div 
+      className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[998] transition-opacity duration-300"
+      onClick={() => setMobileMenuOpen(false)}
+    />
+    
+    {/* Menu Panel - Opens from the right like TransRussia */}
+    <div 
+      className="lg:hidden fixed inset-y-0 right-0 z-[999] w-full max-w-xs bg-gradient-to-b from-[#06162f] to-[#0a2b57] text-white shadow-2xl overflow-y-auto"
+      style={{ animation: 'slideInRight 0.3s ease-out' }}
+    >
+      {/* Menu Header */}
+      <div className="sticky top-0 bg-[#06162f] border-b border-white/10 px-4 py-3 flex items-center justify-between">
+        <h2 className="text-lg font-bold">Menu</h2>
+        <button
+          onClick={() => setMobileMenuOpen(false)}
+          className="rounded-full bg-white/10 hover:bg-white/20 p-2 active:scale-95"
+          aria-label="Close menu"
+        >
+          <X className="w-5 h-5" />
+        </button>
+      </div>
 
-              {/* Countdown Timer */}
-              <div className="mb-4 sm:mb-5 md:mb-6">
-                <div className="flex items-center justify-center gap-2 sm:gap-3">
-                  <div className="bg-white/10 backdrop-blur-sm px-3 xs:px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg">
-                    <div className="text-center">
-                      <span className="text-sm xs:text-base sm:text-lg md:text-xl font-bold block">{timeLeft.days}</span>
-                      <span className="text-[9px] xs:text-[10px] sm:text-xs opacity-70">Days</span>
-                    </div>
+      {/* Navigation Items */}
+      <div className="px-4 py-6">
+        <div className="space-y-1">
+          {navItems.map((item, i) =>
+            item.dropdown && item.links ? (
+              <div key={i} className="border-b border-white/10 last:border-0">
+                <button
+                  onClick={() => setActiveDropdown(activeDropdown === i ? null : i)}
+                  className="w-full flex items-center justify-between text-base font-semibold py-4 hover:text-blue-300 transition-colors"
+                >
+                  <span>{item.title}</span>
+                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${activeDropdown === i ? "rotate-180" : ""}`} />
+                </button>
+                
+                {activeDropdown === i && (
+                  <div className="pb-3 pl-3">
+                    {item.links.map((link, j) => (
+                      <Link
+                        key={j}
+                        href={link.href}
+                        onClick={() => setMobileMenuOpen(false)}
+                        className="block py-2.5 text-sm opacity-85 hover:opacity-100 hover:text-blue-300 transition-colors pl-4 border-l border-white/10"
+                      >
+                        {link.text}
+                      </Link>
+                    ))}
                   </div>
-                  <div className="bg-white/10 backdrop-blur-sm px-3 xs:px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg">
-                    <div className="text-center">
-                      <span className="text-sm xs:text-base sm:text-lg md:text-xl font-bold block">{timeLeft.hours}</span>
-                      <span className="text-[9px] xs:text-[10px] sm:text-xs opacity-70">Hours</span>
-                    </div>
-                  </div>
-                  <div className="bg-white/10 backdrop-blur-sm px-3 xs:px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg">
-                    <div className="text-center">
-                      <span className="text-sm xs:text-base sm:text-lg md:text-xl font-bold block">{timeLeft.minutes}</span>
-                      <span className="text-[9px] xs:text-[10px] sm:text-xs opacity-70">Mins</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Navigation Items */}
-              <div className="flex flex-col gap-2.5 xs:gap-3 sm:gap-4">
-                {navItems.map((item, i) =>
-                  item.dropdown && item.links ? (
-                    <div key={i} className="group/mobile">
-                      <div className="text-xs xs:text-sm sm:text-base font-bold pb-2 border-b-2 border-white/30 group-hover/mobile:border-blue-400 transition-colors">
-                        {item.title}
-                      </div>
-                      <div className="mt-1.5 sm:mt-2 ml-2 xs:ml-3 sm:ml-4 flex flex-col gap-0.5 sm:gap-1">
-                        {item.links.map((link, j) => (
-                          <Link
-                            key={j}
-                            href={link.href}
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="text-[11px] xs:text-xs sm:text-sm md:text-base opacity-85 hover:opacity-100 hover:text-blue-300 transition-all py-1.5 xs:py-2 relative group/item active:scale-95"
-                          >
-                            <span className="relative">
-                              {link.text}
-                              <span className="absolute -bottom-0.5 left-0 w-0 h-[1.5px] bg-blue-300 group-hover/item:w-full transition-all duration-300"></span>
-                            </span>
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <Link
-                      key={i}
-                      href={item.href!}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="text-xs xs:text-sm sm:text-base font-bold pb-2 border-b-2 border-white/30 hover:border-blue-400 hover:text-blue-300 transition-all active:scale-95"
-                    >
-                      {item.title}
-                    </Link>
-                  )
                 )}
-
-                {/* CTA Buttons */}
-                <div className="mt-3 xs:mt-4 sm:mt-5 md:mt-6 flex flex-col gap-2 sm:gap-2.5 md:gap-3 border-t-2 border-white/30 pt-3 xs:pt-4 sm:pt-5">
-                  <Button 
-                    href="/exhibiting-enquiry" 
-                    className="bg-[#004D9F] hover:bg-[#003d7f] text-xs xs:text-sm sm:text-base py-2.5 xs:py-3 sm:py-3.5 md:py-4 font-semibold active:scale-95 transition-all shadow-lg" 
-                    fullWidth
-                  >
-                    Become an Exhibitor
-                  </Button>
-                  <Button 
-                    href="/visitor-registration" 
-                    className="bg-[#004D9F] hover:bg-[#003d7f] text-xs xs:text-sm sm:text-base py-2.5 xs:py-3 sm:py-3.5 md:py-4 font-semibold active:scale-95 transition-all shadow-lg" 
-                    fullWidth
-                  >
-                    Register Now
-                  </Button>
-                </div>
               </div>
-            </div>
-          </div>
-        </>
-      )}
+            ) : (
+              <Link
+                key={i}
+                href={item.href!}
+                onClick={() => setMobileMenuOpen(false)}
+                className="block text-base font-semibold py-4 border-b border-white/10 last:border-0 hover:text-blue-300 transition-colors"
+              >
+                {item.title}
+              </Link>
+            )
+          )}
+        </div>
 
-      {/* CSS Animations */}
-      <style jsx global>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
-        }
-        
-        @keyframes slideDown {
-          from {
-            opacity: 0;
-            transform: translateY(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
+        {/* CTA Buttons */}
+        <div className="mt-8 space-y-3">
+          <Button 
+            href="/exhibiting-enquiry" 
+            onClick={() => setMobileMenuOpen(false)}
+            className="bg-[#004D9F] hover:bg-[#003d7f] text-sm py-3 font-semibold rounded-lg active:scale-95 transition-all shadow-lg w-full" 
+          >
+            Become an Exhibitor
+          </Button>
+          <Button 
+            href="/visitor-registration" 
+            onClick={() => setMobileMenuOpen(false)}
+            className="bg-[#004D9F]  text-sm py-3 font-semibold rounded-lg active:scale-95 transition-all shadow-lg w-full" 
+          >
+            Register Now
+          </Button>
+        </div>
+      </div>
+    </div>
+  </>
+)}
+
+{/* CSS Animations */}
+<style jsx global>{`
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+`}</style> 
     </>
   )
 }
