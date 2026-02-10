@@ -360,45 +360,53 @@ export default function NavBar() {
       </header>
 
       {/* ================= MOBILE MENU ================= */}
-     {mobileMenuOpen && (
+{mobileMenuOpen && (
   <>
     {/* Backdrop */}
-    <div 
-      className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-[998] transition-opacity duration-300"
+    <div
+      className="lg:hidden fixed inset-0 bg-black/30 z-[998]"
       onClick={() => setMobileMenuOpen(false)}
     />
-    
-    {/* Menu Panel - Opens from the right like TransRussia */}
-    <div 
-      className="lg:hidden fixed inset-y-0 right-0 z-[999] w-full max-w-xs bg-gradient-to-b from-[#06162f] to-[#0a2b57] text-white shadow-2xl overflow-y-auto"
-      style={{ animation: 'slideInRight 0.3s ease-out' }}
-    >
-      {/* Menu Header */}
-      <div className="sticky top-0 bg-[#06162f] border-b border-white/10 px-4 py-3 flex items-center justify-between">
-        <h2 className="text-lg font-bold">Menu</h2>
+
+    {/* Dropdown Menu */}
+    <div
+  className={`lg:hidden fixed top-[64px] left-0 right-0 z-[999]
+  mt-2 bg-white text-gray-900 shadow-xl rounded-xl mx-2`}
+  style={{ animation: "slideDown 0.25s ease-out" }}
+>
+
+      {/* Dropdown Header (Close Button) */}
+      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+        <span className="text-sm font-semibold">Menu</span>
         <button
           onClick={() => setMobileMenuOpen(false)}
-          className="rounded-full bg-white/10 hover:bg-white/20 p-2 active:scale-95"
+          className="rounded-full p-1.5 hover:bg-gray-100 active:scale-95"
           aria-label="Close menu"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4 text-gray-700" />
         </button>
       </div>
 
       {/* Navigation Items */}
-      <div className="px-4 py-6">
+      <div className="px-4 py-4">
         <div className="space-y-1">
           {navItems.map((item, i) =>
             item.dropdown && item.links ? (
-              <div key={i} className="border-b border-white/10 last:border-0">
+              <div key={i} className="border-b border-gray-200 last:border-0">
                 <button
-                  onClick={() => setActiveDropdown(activeDropdown === i ? null : i)}
-                  className="w-full flex items-center justify-between text-base font-semibold py-4 hover:text-blue-300 transition-colors"
+                  onClick={() =>
+                    setActiveDropdown(activeDropdown === i ? null : i)
+                  }
+                  className="w-full flex items-center justify-between text-sm font-semibold py-3"
                 >
                   <span>{item.title}</span>
-                  <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${activeDropdown === i ? "rotate-180" : ""}`} />
+                  <ChevronDown
+                    className={`w-4 h-4 transition-transform ${
+                      activeDropdown === i ? "rotate-180" : ""
+                    }`}
+                  />
                 </button>
-                
+
                 {activeDropdown === i && (
                   <div className="pb-3 pl-3">
                     {item.links.map((link, j) => (
@@ -406,7 +414,7 @@ export default function NavBar() {
                         key={j}
                         href={link.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className="block py-2.5 text-sm opacity-85 hover:opacity-100 hover:text-blue-300 transition-colors pl-4 border-l border-white/10"
+                        className="block py-2 text-sm text-gray-600 hover:text-blue-600"
                       >
                         {link.text}
                       </Link>
@@ -419,7 +427,7 @@ export default function NavBar() {
                 key={i}
                 href={item.href!}
                 onClick={() => setMobileMenuOpen(false)}
-                className="block text-base font-semibold py-4 border-b border-white/10 last:border-0 hover:text-blue-300 transition-colors"
+                className="block text-sm font-semibold py-3 border-b border-gray-200 last:border-0"
               >
                 {item.title}
               </Link>
@@ -428,18 +436,18 @@ export default function NavBar() {
         </div>
 
         {/* CTA Buttons */}
-        <div className="mt-8 space-y-3">
-          <Button 
-            href="/exhibiting-enquiry" 
+        <div className="mt-6 space-y-3">
+          <Button
+            href="/exhibiting-enquiry"
             onClick={() => setMobileMenuOpen(false)}
-            className="bg-[#004D9F] hover:bg-[#003d7f] text-sm py-3 font-semibold rounded-lg active:scale-95 transition-all shadow-lg w-full" 
+            className="bg-[#004D9F] text-white text-sm py-3 font-semibold rounded-md w-full"
           >
             Become an Exhibitor
           </Button>
-          <Button 
-            href="/visitor-registration" 
+          <Button
+            href="/visitor-registration"
             onClick={() => setMobileMenuOpen(false)}
-            className="bg-[#004D9F]  text-sm py-3 font-semibold rounded-lg active:scale-95 transition-all shadow-lg w-full" 
+            className="bg-[#004D9F] text-white text-sm py-3 font-semibold rounded-md w-full"
           >
             Register Now
           </Button>
@@ -449,19 +457,22 @@ export default function NavBar() {
   </>
 )}
 
+
+
 {/* CSS Animations */}
 <style jsx global>{`
-  @keyframes slideInRight {
+  @keyframes slideDown {
     from {
-      transform: translateX(100%);
+      transform: translateY(-12px);
       opacity: 0;
     }
     to {
-      transform: translateX(0);
+      transform: translateY(0);
       opacity: 1;
     }
   }
-`}</style> 
+`}</style>
+
     </>
   )
 }
