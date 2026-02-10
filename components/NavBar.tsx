@@ -356,25 +356,28 @@ export default function NavBar() {
               </div>
             </div>
 
-            {/* ================= TIMER BAR (DESKTOP ONLY) ================= */}
-            {!scrolled && (
-              <div className="flex gap-2 items-end justify-end w-full">
+{!scrolled && (
+  <div className="hidden lg:flex justify-end w-full pr-4">
+    <div className="flex items-center gap-2">
+      
+      {/* Time Bar */}
+      <div className="flex items-center gap-2 rounded-b-xl bg-[#0d1e3c] px-3 py-1 text-[12px] text-white shadow-md">
+        <span className="font-medium">{timeLeft.days} Days</span>
+        <span className="font-medium">{timeLeft.hours} Hours</span>
+        <span className="font-medium">{timeLeft.minutes} Mins</span>
+      </div>
 
-              <div className="hidden lg:flex justify-end mr-1 lg:mr-2 xl:mr-4 pr-1 lg:pr-2 xl:pr-4 font-parabolica">
-                <div className={`flex items-center gap-1 lg:gap-1.5 xl:gap-2 2xl:gap-3 rounded-b-xl bg-[#0d1e3c] px-1.5 lg:px-2 xl:px-3 py-0.5 lg:py-1 xl:py-1.5 text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-[13px] text-white whitespace-nowrap shadow-md ${screenSize === "laptop" ? "mr-2" : ""}`}>
-                  <span className="font-medium">{timeLeft.days} Days</span>
-                  <span className="font-medium">{timeLeft.hours} Hours</span>
-                  <span className="font-medium">{timeLeft.minutes} Mins</span>
-                </div>
-              </div>
-    <Link href="/updated-shortly" className="relative z-[1001] -mt-[6px]">
-  <div className="flex items-center rounded-b-xl bg-[#0d1e3c] px-2 py-0.5 text-[12px] text-white cursor-pointer hover:bg-[#102a55] active:scale-95 transition-all shadow-md">
-    <span className="font-bold">Exhibitor Login</span>
+      {/* Exhibitor Login */}
+      <Link href="/updated-shortly">
+        <div className="flex items-center rounded-b-xl bg-[#0d1e3c] px-3 py-1 text-[12px] text-white font-bold cursor-pointer hover:bg-[#102a55] active:scale-95 transition-all shadow-md">
+          Exhibitor Login
+        </div>
+      </Link>
+
+    </div>
   </div>
-</Link>
+)}
 
-</div>
-            )}
           </div>
         </div>
       </header>
