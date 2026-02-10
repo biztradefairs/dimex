@@ -124,7 +124,7 @@ export default function NavBar() {
         setScreenSize("desktop")
       }
     }
-    
+
     checkScreenSize()
     window.addEventListener("resize", checkScreenSize)
     return () => window.removeEventListener("resize", checkScreenSize)
@@ -144,7 +144,7 @@ export default function NavBar() {
 
   // Calculate font sizes based on screen size
   const getNavItemFontSize = () => {
-    switch(screenSize) {
+    switch (screenSize) {
       case "laptop": return "text-[10px] lg:text-[11px] xl:text-[13px]"
       case "desktop": return "text-[11px] lg:text-[13px] xl:text-[15px]"
       default: return "text-[11px] lg:text-[13px] xl:text-[15px]"
@@ -152,7 +152,7 @@ export default function NavBar() {
   }
 
   const getButtonFontSize = () => {
-    switch(screenSize) {
+    switch (screenSize) {
       case "laptop": return "text-[8px] lg:text-[10px] xl:text-[12px]"
       case "desktop": return "text-[9px] lg:text-[11px] xl:text-[13px]"
       default: return "text-[9px] lg:text-[11px] xl:text-[13px]"
@@ -165,63 +165,63 @@ export default function NavBar() {
       <header className="fixed top-0 left-0 right-0 z-[999] font-parabolica">
         <div className={`px-2 sm:px-4 md:px-6 lg:px-8 transition-all duration-300 ${scrolled ? "pt-1.5 sm:pt-2" : "pt-2 sm:pt-3 md:pt-4"}`}>
           <div className="mx-auto max-w-[1600px]">
-{/* ================= MOBILE NAVBAR ================= */}
-<div className="lg:hidden w-full absolute top-0 left-0 right-0 z-50">
-  <div className="bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white w-full">
-    
-    {/* HEADER */}
-    <div className="grid grid-cols-[70px_auto_1fr_auto] gap-x-3 px-4 pt-2 pb-2 items-center w-full">
+            {/* ================= MOBILE NAVBAR ================= */}
+            <div className="lg:hidden w-full absolute top-0 left-0 right-0 z-50">
+              <div className="bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white w-full">
 
-      
-      {/* LOGO */}
-      <div className="relative w-[70px] h-[47px]">
-        <Image
-          src="/images/logo-diemex2.png"
-          alt="DIEMEX 2026 Logo"
-          fill
-          className="object-contain"
-          priority
-        />
-      </div>
-      <span className="block h-5 lg:h-6 xl:h-8 w-px bg-white/70 mx-1"></span>
+                {/* HEADER */}
+                <div className="grid grid-cols-[70px_auto_1fr_auto] gap-x-3 px-4 pt-2 pb-2 items-center w-full">
 
 
-      {/* 3rd Edition */}
-      <div className="relative w-[70px] h-[47px]">
-        <Image
-          src="/images/3rd-edition.png"
-          alt="3rd Edition"
-          fill
-          className="object-contain"
-          priority
-        />
-      </div>
+                  {/* LOGO */}
+                  <div className="relative w-[70px] h-[47px]">
+                    <Image
+                      src="/images/logo-diemex2.png"
+                      alt="DIEMEX 2026 Logo"
+                      fill
+                      className="object-contain"
+                      priority
+                    />
+                  </div>
+                  <span className="block h-5 lg:h-6 xl:h-8 w-px bg-white/70 mx-1"></span>
 
-      {/* MENU BUTTON */}
-      <button
-        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        className="rounded-full bg-white/10 hover:bg-white/20 p-1 active:scale-95"
-        aria-label="Toggle menu"
-      >
-        <Menu className="w-4 h-4" />
-      </button>
 
-      {/* DATE + VENUE */}
-      <div className="col-span-3 text-[12px] opacity-90 leading-tight whitespace-nowrap">
-        08–10 October 2026 · Auto Cluster Exhibition Centre, Pune
-      </div>
-    </div>
-  </div>
+                  {/* 3rd Edition */}
+                  <div className="relative w-[70px] h-[47px]">
+                    <Image
+                      src="/images/3rd-edition.png"
+                      alt="3rd Edition"
+                      fill
+                      className="object-contain"
+                      priority
+                    />
+                  </div>
 
-  {/* TIME BAR */}
-  <div className="relative z-[1001] flex justify-center px-0">
-  <div className="flex items-start gap-1.5 rounded-b-xl bg-[#0d1e3c] px-2 py-0.5 text-[12px] text-white justify-start">
-      <span className="font-medium">{timeLeft.days} Days</span>
-      <span className="font-medium">{timeLeft.hours} Hours</span>
-      <span className="font-medium">{timeLeft.minutes} Mins</span>
-    </div>
-  </div>
-</div>
+                  {/* MENU BUTTON */}
+                  <button
+                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                    className="rounded-full bg-white/10 hover:bg-white/20 p-1 active:scale-95"
+                    aria-label="Toggle menu"
+                  >
+                    <Menu className="w-4 h-4" />
+                  </button>
+
+                  {/* DATE + VENUE */}
+                  <div className="col-span-3 text-[12px] opacity-90 leading-tight whitespace-nowrap">
+                    08–10 October 2026 · Auto Cluster Exhibition Centre, Pune
+                  </div>
+                </div>
+              </div>
+
+              {/* TIME BAR */}
+              <div className="relative z-[1001] flex justify-center px-0">
+                <div className="flex items-start gap-1.5 rounded-b-xl bg-[#0d1e3c] px-2 py-0.5 text-[12px] text-white justify-start">
+                  <span className="font-medium">{timeLeft.days} Days</span>
+                  <span className="font-medium">{timeLeft.hours} Hours</span>
+                  <span className="font-medium">{timeLeft.minutes} Mins</span>
+                </div>
+              </div>
+            </div>
 
 
 
@@ -229,7 +229,7 @@ export default function NavBar() {
             {/* ================= DESKTOP NAV BAR (UNCHANGED) ================= */}
             <div className="hidden lg:block rounded-xl sm:rounded-2xl lg:rounded-3xl bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white shadow-xl">
               <div className="flex items-center justify-between gap-1 sm:gap-2 md:gap-3 lg:gap-4 px-2 sm:px-3 md:px-4 lg:px-5 py-1.5 sm:py-2 md:py-2.5 lg:py-3">
-                
+
                 {/* ================= LOGO SECTION ================= */}
                 <Link
                   href="/"
@@ -329,13 +329,13 @@ export default function NavBar() {
 
                 {/* ================= DESKTOP CTA BUTTONS ================= */}
                 <div className="hidden lg:flex items-center gap-1 lg:gap-1.5 xl:gap-2 2xl:gap-3 flex-shrink-0">
-                  <Button 
-                    href="/exhibiting-enquiry" 
+                  <Button
+                    href="/exhibiting-enquiry"
                     className={`bg-[#004D9F] hover:bg-[#003d7f] px-1.5 lg:px-2 xl:px-3 py-1 lg:py-1.5 xl:py-2 whitespace-nowrap transition-all ${getButtonFontSize()}`}
                   >
                     {screenSize === "laptop" ? "Exhibit" : "Become an Exhibitor"}
                   </Button>
-                  <Button 
+                  <Button
                     href="/visitor-registration"
                     className={`bg-[#004D9F] hover:bg-[#003d7f] px-1.5 lg:px-2 xl:px-3 py-1 lg:py-1.5 xl:py-2 whitespace-nowrap transition-all ${getButtonFontSize()}`}
                   >
@@ -358,106 +358,105 @@ export default function NavBar() {
           </div>
         </div>
       </header>
-{/* ================= MOBILE MENU ================= */}
-{mobileMenuOpen && (
-  <>
-    {/* Backdrop - lower z-index */}
-    <div
-      className="lg:hidden fixed inset-0 bg-black/30 z-[998]"
-      onClick={() => setMobileMenuOpen(false)}
-    />
+      {/* ================= MOBILE MENU ================= */}
+      {mobileMenuOpen && (
+        <>
+          {/* Backdrop - lower z-index */}
+          <div
+            className="lg:hidden fixed inset-0 bg-black/30 z-[998]"
+            onClick={() => setMobileMenuOpen(false)}
+          />
 
-    {/* Dropdown Menu - higher z-index */}
-    <div
-      className={`lg:hidden fixed top-[64px] left-0 right-0 z-[9999] mt-2 bg-white text-gray-900 shadow-xl rounded-xl mx-2`}
-      style={{ animation: "slideDown 0.25s ease-out" }}
-    >
-      {/* Dropdown Header (Close Button) */}
-      <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
-        <span className="text-sm font-semibold">Menu</span>
-        <button
-          onClick={() => setMobileMenuOpen(false)}
-          className="rounded-full p-1.5 hover:bg-gray-100 active:scale-95"
-          aria-label="Close menu"
-        >
-          <X className="w-4 h-4 text-gray-700" />
-        </button>
-      </div>
+          {/* Dropdown Menu - higher z-index */}
+          <div
+            className={`lg:hidden fixed top-[64px] left-0 right-0 z-[9999] mt-2 bg-white text-gray-900 shadow-xl rounded-xl mx-2`}
+            style={{ animation: "slideDown 0.25s ease-out" }}
+          >
+            {/* Dropdown Header (Close Button) */}
+            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+              <span className="text-sm font-semibold">Menu</span>
+              <button
+                onClick={() => setMobileMenuOpen(false)}
+                className="rounded-full p-1.5 hover:bg-gray-100 active:scale-95"
+                aria-label="Close menu"
+              >
+                <X className="w-4 h-4 text-gray-700" />
+              </button>
+            </div>
 
-      {/* Navigation Items */}
-      <div className="px-4 py-4">
-        <div className="space-y-1">
-          {navItems.map((item, i) =>
-            item.dropdown && item.links ? (
-              <div key={i} className="border-b border-gray-200 last:border-0">
-                <button
-                  onClick={() =>
-                    setActiveDropdown(activeDropdown === i ? null : i)
-                  }
-                  className="w-full flex items-center justify-between text-sm font-semibold py-3"
-                >
-                  <span>{item.title}</span>
-                  <ChevronDown
-                    className={`w-4 h-4 transition-transform ${
-                      activeDropdown === i ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-
-                {activeDropdown === i && (
-                  <div className="pb-3 pl-3">
-                    {item.links.map((link, j) => (
-                      <Link
-                        key={j}
-                        href={link.href}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="block py-2 text-sm text-gray-600 hover:text-blue-600"
+            {/* Navigation Items */}
+            <div className="px-4 py-4">
+              <div className="space-y-1">
+                {navItems.map((item, i) =>
+                  item.dropdown && item.links ? (
+                    <div key={i} className="border-b border-gray-200 last:border-0">
+                      <button
+                        onClick={() =>
+                          setActiveDropdown(activeDropdown === i ? null : i)
+                        }
+                        className="w-full flex items-center justify-between text-sm font-semibold py-3"
                       >
-                        {link.text}
-                      </Link>
-                    ))}
-                  </div>
+                        <span>{item.title}</span>
+                        <ChevronDown
+                          className={`w-4 h-4 transition-transform ${activeDropdown === i ? "rotate-180" : ""
+                            }`}
+                        />
+                      </button>
+
+                      {activeDropdown === i && (
+                        <div className="pb-3 pl-3">
+                          {item.links.map((link, j) => (
+                            <Link
+                              key={j}
+                              href={link.href}
+                              onClick={() => setMobileMenuOpen(false)}
+                              className="block py-2 text-sm text-gray-600 hover:text-blue-600"
+                            >
+                              {link.text}
+                            </Link>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <Link
+                      key={i}
+                      href={item.href!}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="block text-sm font-semibold py-3 border-b border-gray-200 last:border-0"
+                    >
+                      {item.title}
+                    </Link>
+                  )
                 )}
               </div>
-            ) : (
-              <Link
-                key={i}
-                href={item.href!}
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-sm font-semibold py-3 border-b border-gray-200 last:border-0"
-              >
-                {item.title}
-              </Link>
-            )
-          )}
-        </div>
 
-        {/* CTA Buttons */}
-        <div className="mt-6 space-y-3">
-          <Button
-            href="/exhibiting-enquiry"
-            onClick={() => setMobileMenuOpen(false)}
-            className="bg-[#004D9F] text-white text-sm py-3 font-semibold rounded-md w-full"
-          >
-            Become an Exhibitor
-          </Button>
-          <Button
-            href="/visitor-registration"
-            onClick={() => setMobileMenuOpen(false)}
-            className="bg-[#004D9F] text-white text-sm py-3 font-semibold rounded-md w-full"
-          >
-            Register Now
-          </Button>
-        </div>
-      </div>
-    </div>
-  </>
-)}
+              {/* CTA Buttons */}
+              <div className="mt-6 space-y-3">
+                <Button
+                  href="/exhibiting-enquiry"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="bg-[#004D9F] text-white text-sm py-3 font-semibold rounded-md w-full"
+                >
+                  Become an Exhibitor
+                </Button>
+                <Button
+                  href="/visitor-registration"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="bg-[#004D9F] text-white text-sm py-3 font-semibold rounded-md w-full"
+                >
+                  Register Now
+                </Button>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
 
 
 
-{/* CSS Animations */}
-<style jsx global>{`
+      {/* CSS Animations */}
+      <style jsx global>{`
   @keyframes slideDown {
     from {
       transform: translateY(-12px);
