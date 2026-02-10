@@ -215,7 +215,7 @@ export default function NavBar() {
 
   {/* TIME BAR */}
   <div className="relative z-[1001] flex justify-center px-0">
-  <div className="flex items-start gap-1.5 rounded-b-2xl bg-[#0d1e3c] px-2 py-0.5 text-[12px] text-white justify-start">
+  <div className="flex items-start gap-1.5 rounded-b-xl bg-[#0d1e3c] px-2 py-0.5 text-[12px] text-white justify-start">
       <span className="font-medium">{timeLeft.days} Days</span>
       <span className="font-medium">{timeLeft.hours} Hours</span>
       <span className="font-medium">{timeLeft.minutes} Mins</span>
@@ -358,23 +358,20 @@ export default function NavBar() {
           </div>
         </div>
       </header>
-
-      {/* ================= MOBILE MENU ================= */}
+{/* ================= MOBILE MENU ================= */}
 {mobileMenuOpen && (
   <>
-    {/* Backdrop */}
+    {/* Backdrop - lower z-index */}
     <div
       className="lg:hidden fixed inset-0 bg-black/30 z-[998]"
       onClick={() => setMobileMenuOpen(false)}
     />
 
-    {/* Dropdown Menu */}
+    {/* Dropdown Menu - higher z-index */}
     <div
-  className={`lg:hidden fixed top-[64px] left-0 right-0 z-[998]
-  mt-2 bg-white text-gray-900 shadow-xl rounded-xl mx-2`}
-  style={{ animation: "slideDown 0.25s ease-out" }}
->
-
+      className={`lg:hidden fixed top-[64px] left-0 right-0 z-[9999] mt-2 bg-white text-gray-900 shadow-xl rounded-xl mx-2`}
+      style={{ animation: "slideDown 0.25s ease-out" }}
+    >
       {/* Dropdown Header (Close Button) */}
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
         <span className="text-sm font-semibold">Menu</span>
