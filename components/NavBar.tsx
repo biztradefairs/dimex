@@ -215,7 +215,7 @@ export default function NavBar() {
 
   {/* TIME BAR */}
   <div className="flex justify-center px-0">
-    <div className="flex items-start gap-1.5 rounded-full bg-[#0d1e3c] px-2 py-0.5 text-[10px] text-white justify-start mr-30">
+    <div className="flex items-start gap-1.5 rounded-b-2xl bg-[#0d1e3c] px-2 py-0.5 text-[10px] text-white justify-start mr-30">
       <span className="font-medium">{timeLeft.days} Days</span>
       <span className="font-medium">{timeLeft.hours} Hours</span>
       <span className="font-medium">{timeLeft.minutes} Mins</span>
