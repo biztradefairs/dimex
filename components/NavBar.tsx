@@ -170,7 +170,7 @@ export default function NavBar() {
   <div className="bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white w-full">
     
     {/* HEADER */}
-    <div className="grid grid-cols-[70px_auto_1fr_auto] gap-x-2 px-1 pt-0.5 pb-1.5 items-center w-full">
+    <div className="grid grid-cols-[70px_auto_1fr_auto] gap-x-3 px-4 pt-2 pb-2 items-center w-full">
 
       
       {/* LOGO */}
@@ -187,7 +187,7 @@ export default function NavBar() {
 
 
       {/* 3rd Edition */}
-      <div className="relative w-[52px] h-[26px]">
+      <div className="relative w-[70px] h-[47px]">
         <Image
           src="/images/3rd-edition.png"
           alt="3rd Edition"
@@ -207,15 +207,15 @@ export default function NavBar() {
       </button>
 
       {/* DATE + VENUE */}
-      <div className="col-span-3 text-[9px] opacity-90 leading-tight whitespace-nowrap">
+      <div className="col-span-3 text-[12px] opacity-90 leading-tight whitespace-nowrap">
         08–10 October 2026 · Auto Cluster Exhibition Centre, Pune
       </div>
     </div>
   </div>
 
   {/* TIME BAR */}
-  <div className="flex justify-center px-0">
-    <div className="flex items-start gap-1.5 rounded-b-2xl bg-[#0d1e3c] px-2 py-0.5 text-[10px] text-white justify-start mr-30">
+  <div className="relative z-[1001] flex justify-center px-0">
+  <div className="flex items-start gap-1.5 rounded-b-2xl bg-[#0d1e3c] px-2 py-0.5 text-[12px] text-white justify-start">
       <span className="font-medium">{timeLeft.days} Days</span>
       <span className="font-medium">{timeLeft.hours} Hours</span>
       <span className="font-medium">{timeLeft.minutes} Mins</span>
@@ -370,7 +370,7 @@ export default function NavBar() {
 
     {/* Dropdown Menu */}
     <div
-  className={`lg:hidden fixed top-[64px] left-0 right-0 z-[999]
+  className={`lg:hidden fixed top-[64px] left-0 right-0 z-[998]
   mt-2 bg-white text-gray-900 shadow-xl rounded-xl mx-2`}
   style={{ animation: "slideDown 0.25s ease-out" }}
 >
