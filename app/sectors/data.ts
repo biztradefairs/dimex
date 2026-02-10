@@ -162,6 +162,331 @@ export const sectorDatabase = {
       }
     ]
   },
+  // Complete TransRussia sectors data - Rail Freight to Heavy Lift Carriage
+'rail-freight': {
+  title: 'Rail Freight',
+  description: 'Rail transportation, intermodal solutions, and rail logistics across Eurasia.',
+  heroImage: '/images/image.png',
+  stats: {
+    visitors: '30,400+',
+    exhibitors: '590+',
+    countries: '50+'
+  },
+  whyExhibit: [
+    {
+      title: "Connect with Cross-Continent Shippers",
+      icon: "🚂",
+      description: "Meet businesses moving bulk commodities, containers, and project cargo across Eurasian rail corridors."
+    },
+    {
+      title: "Showcase Intermodal Rail Solutions",
+      icon: "🔄",
+      description: "Present your rail freight services, block train operations, wagon leasing, and rail-port connectivity."
+    },
+    {
+      title: "Capitalize on New Silk Road Growth",
+      icon: "🌐",
+      description: "With China-Europe rail traffic expanding, demand for efficient rail logistics solutions is at record levels."
+    }
+  ],
+  services: [
+    "Container Rail Services",
+    "Bulk Commodity Transport",
+    "Intermodal Terminal Operations",
+    "Wagon Leasing & Management",
+    "Railcar Maintenance & Repair",
+    "Railway Infrastructure Services",
+    "Cross-border Rail Logistics",
+    "Rail Freight Documentation",
+    "Dangerous Goods Transport by Rail",
+    "Temperature-controlled Rail Services"
+  ],
+  faqs: [
+    {
+      question: "What rail services are featured?",
+      answer: "Container trains, bulk cargo services, intermodal solutions, wagon management, and rail logistics consulting."
+    },
+    {
+      question: "Who are the key rail freight users?",
+      answer: "Manufacturers, mining companies, agricultural exporters, container shippers, and cross-border traders."
+    },
+    {
+      question: "What are the advantages of rail freight?",
+      answer: "Cost-effective for long distances, eco-friendly, reliable schedules, and high capacity for bulk commodities."
+    }
+  ]
+},
+
+'road-freight-transportation': {
+  title: 'Road Freight Transportation',
+  description: 'Trucking, LTL, FTL services, and road transport logistics.',
+  heroImage: '/images/image.png',
+  stats: {
+    visitors: '30,400+',
+    exhibitors: '590+',
+    countries: '50+'
+  },
+  whyExhibit: [
+    {
+      title: "Connect with Regional & Long-Haul Shippers",
+      icon: "🚚",
+      description: "Meet manufacturers, distributors, and retailers requiring flexible road transport solutions."
+    },
+    {
+      title: "Showcase Comprehensive Trucking Services",
+      icon: "📦",
+      description: "Present your fleet capabilities, LTL/FTL services, temperature-controlled transport, and last-mile delivery."
+    },
+    {
+      title: "Address E-commerce & Just-in-Time Demands",
+      icon: "⚡",
+      description: "With online retail growing, reliable and flexible road transport is more critical than ever."
+    }
+  ],
+  services: [
+    "Full Truckload (FTL) Services",
+    "Less Than Truckload (LTL) Solutions",
+    "Temperature-controlled Transport",
+    "Dangerous Goods by Road",
+    "Express & Urgent Delivery",
+    "Last-Mile Delivery Services",
+    "Fleet Management Solutions",
+    "Cross-border Road Transport",
+    "Vehicle Leasing & Rental",
+    "Road Transport Insurance"
+  ],
+  faqs: [
+    {
+      question: "What types of road transport services are featured?",
+      answer: "FTL/LTL services, specialized transport, express delivery, fleet management, and cross-border trucking."
+    },
+    {
+      question: "Who uses road freight services?",
+      answer: "Manufacturers, retailers, distributors, e-commerce companies, and businesses requiring flexible transport."
+    },
+    {
+      question: "What are the key challenges in road transport?",
+      answer: "Border crossing efficiency, driver shortages, fuel costs, regulatory compliance, and infrastructure constraints."
+    }
+  ]
+},
+
+'warehouse-technology': {
+  title: 'Warehouse Technology',
+  description: 'Warehouse management systems, automation, and storage technology solutions.',
+  heroImage: '/images/image.png',
+  stats: {
+    visitors: '30,400+',
+    exhibitors: '590+',
+    countries: '50+'
+  },
+  whyExhibit: [
+    {
+      title: "Connect with Warehouse & DC Managers",
+      icon: "🏭",
+      description: "Meet logistics managers, 3PLs, and distribution center operators seeking efficiency improvements."
+    },
+    {
+      title: "Showcase Smart Warehouse Solutions",
+      icon: "🤖",
+      description: "Present your WMS software, automation systems, robotics, and warehouse optimization technologies."
+    },
+    {
+      title: "Address Labor Shortages & Efficiency Goals",
+      icon: "📊",
+      description: "With e-commerce driving warehouse volume, automation and technology adoption are accelerating."
+    }
+  ],
+  services: [
+    "Warehouse Management Systems (WMS)",
+    "Inventory Management Software",
+    "Automated Storage & Retrieval",
+    "Pick-to-Light & Put-to-Light Systems",
+    "RFID & Barcode Technology",
+    "Warehouse Robotics & Automation",
+    "Voice Picking Systems",
+    "Yard Management Systems",
+    "Labor Management Software",
+    "Warehouse Analytics & Reporting"
+  ],
+  faqs: [
+    {
+      question: "What warehouse technologies are featured?",
+      answer: "WMS software, automation systems, robotics, scanning technology, and warehouse optimization solutions."
+    },
+    {
+      question: "Who implements warehouse technology?",
+      answer: "3PLs, distribution centers, manufacturers, retailers, and logistics companies with storage operations."
+    },
+    {
+      question: "What ROI can warehouse technology provide?",
+      answer: "Reduced labor costs, improved accuracy, faster order processing, better space utilization, and enhanced visibility."
+    }
+  ]
+},
+
+'it-solutions': {
+  title: 'IT Solutions',
+  description: 'Logistics software, tracking systems, and digital supply chain solutions.',
+  heroImage: '/images/image.png',
+  stats: {
+    visitors: '30,400+',
+    exhibitors: '590+',
+    countries: '50+'
+  },
+  whyExhibit: [
+    {
+      title: "Connect with Digital Transformation Teams",
+      icon: "💻",
+      description: "Meet CIOs, logistics managers, and operations directors seeking to digitize their supply chains."
+    },
+    {
+      title: "Showcase End-to-End Supply Chain Visibility",
+      icon: "👁️",
+      description: "Present your TMS, visibility platforms, IoT solutions, and digital logistics ecosystems."
+    },
+    {
+      title: "Capitalize on Supply Chain Digitization",
+      icon: "🚀",
+      description: "With supply chain complexity increasing, demand for digital solutions is growing exponentially."
+    }
+  ],
+  services: [
+    "Transportation Management Systems (TMS)",
+    "Supply Chain Visibility Platforms",
+    "Fleet Management Software",
+    "IoT & Telematics Solutions",
+    "Blockchain for Logistics",
+    "Digital Freight Marketplaces",
+    "Route Optimization Software",
+    "Document Management Systems",
+    "EDI & API Integration",
+    "Cloud Logistics Platforms"
+  ],
+  faqs: [
+    {
+      question: "What IT solutions are featured?",
+      answer: "TMS, visibility platforms, fleet management software, IoT solutions, and digital logistics platforms."
+    },
+    {
+      question: "Who implements logistics IT solutions?",
+      answer: "Logistics companies, manufacturers, retailers, 3PLs, and businesses with complex supply chains."
+    },
+    {
+      question: "What are the benefits of logistics IT?",
+      answer: "Improved visibility, reduced costs, better customer service, enhanced efficiency, and data-driven decision making."
+    }
+  ]
+},
+
+'ecommerce-logistics': {
+  title: 'E-commerce Logistics',
+  description: 'Fulfillment, last-mile delivery, and e-commerce supply chain services.',
+  heroImage: '/images/image.png',
+  stats: {
+    visitors: '30,400+',
+    exhibitors: '590+',
+    countries: '50+'
+  },
+  whyExhibit: [
+    {
+      title: "Connect with Online Retailers & Marketplaces",
+      icon: "🛒",
+      description: "Meet e-commerce businesses, D2C brands, and marketplace sellers seeking fulfillment solutions."
+    },
+    {
+      title: "Showcase End-to-End E-commerce Solutions",
+      icon: "📦",
+      description: "Present your fulfillment services, last-mile delivery, returns management, and cross-border e-commerce."
+    },
+    {
+      title: "Tap into Explosive E-commerce Growth",
+      icon: "📈",
+      description: "With online retail continuing to expand, specialized e-commerce logistics services are in high demand."
+    }
+  ],
+  services: [
+    "E-commerce Fulfillment Services",
+    "Last-Mile Delivery Solutions",
+    "Returns Management & Reverse Logistics",
+    "Cross-border E-commerce Logistics",
+    "Multi-channel Fulfillment",
+    "Subscription Box Logistics",
+    "Same-Day & Next-Day Delivery",
+    "Parcel Consolidation",
+    "E-commerce Warehouse Solutions",
+    "Customs Clearance for E-commerce"
+  ],
+  faqs: [
+    {
+      question: "What e-commerce logistics services are featured?",
+      answer: "Fulfillment, last-mile delivery, returns management, cross-border solutions, and specialized e-commerce services."
+    },
+    {
+      question: "Who uses e-commerce logistics?",
+      answer: "Online retailers, marketplace sellers, D2C brands, subscription services, and e-commerce platforms."
+    },
+    {
+      question: "What are the key challenges in e-commerce logistics?",
+      answer: "Last-mile delivery costs, returns management, peak season capacity, cross-border complexity, and customer expectations."
+    }
+  ]
+},
+
+'heavy-lift-carriage': {
+  title: 'Heavy Lift Carriage',
+  description: 'Oversized cargo transport, project logistics, and specialized heavy haulage.',
+  heroImage: '/images/image.png',
+  stats: {
+    visitors: '30,400+',
+    exhibitors: '590+',
+    countries: '50+'
+  },
+  whyExhibit: [
+    {
+      title: "Connect with Energy & Infrastructure Projects",
+      icon: "⚡",
+      description: "Meet oil & gas, renewable energy, construction, and industrial project managers moving oversized equipment."
+    },
+    {
+      title: "Showcase Specialized Heavy Transport Capabilities",
+      icon: "🏗️",
+      description: "Present your heavy lift equipment, specialized transport solutions, engineering capabilities, and project logistics."
+    },
+    {
+      title: "Capitalize on Infrastructure Development",
+      icon: "🔨",
+      description: "With major infrastructure projects underway across Eurasia, demand for heavy lift expertise is growing."
+    }
+  ],
+  services: [
+    "Oversized & Overweight Cargo Transport",
+    "Project Logistics Management",
+    "Heavy Lift Equipment & Cranes",
+    "Specialized Transport Vehicles",
+    "Engineering & Route Surveys",
+    "Permitting & Regulatory Compliance",
+    "Off-road & Remote Area Transport",
+    "Marine Heavy Lift Services",
+    "Industrial Relocation",
+    "Risk Management & Insurance"
+  ],
+  faqs: [
+    {
+      question: "What types of heavy lift services are featured?",
+      answer: "Oversized cargo transport, project logistics, specialized equipment, engineering services, and permit management."
+    },
+    {
+      question: "Who requires heavy lift services?",
+      answer: "Energy companies, construction firms, manufacturers, mining operations, and infrastructure developers."
+    },
+    {
+      question: "What makes heavy lift logistics complex?",
+      answer: "Route planning, permitting, specialized equipment, engineering requirements, and coordination with multiple authorities."
+    }
+  ]
+},
+
   
   'ports-and-terminals-freight-handling-services-in-ports': {
     title: 'Ports & Terminals, Freight Handling Services In Ports',
