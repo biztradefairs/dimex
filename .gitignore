@@ -13,8 +13,8 @@
 
 # app routes to ignore
 /app/admin/
-/app/dashboard/
-/app/login/
+# /app/dashboard/
+# /app/login/
 
 
 # next.js

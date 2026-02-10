@@ -214,14 +214,25 @@ export default function NavBar() {
               </div>
 
               {/* TIME BAR */}
-              <div className="relative z-[1001] flex justify-center px-0">
-                <div className="flex items-start gap-1.5 rounded-b-xl bg-[#0d1e3c] px-2 py-0.5 text-[12px] text-white justify-start">
+              <div className="flex items-center gap-2 pl-4">
+                <div className="relative z-[1001] flex justify-center px-0">
+                <div className="flex items-center gap-1.5 rounded-b-xl bg-[#0d1e3c] px-2 py-0.5 text-[12px] text-white justify-start">
                   <span className="font-medium">{timeLeft.days} Days</span>
                   <span className="font-medium">{timeLeft.hours} Hours</span>
                   <span className="font-medium">{timeLeft.minutes} Mins</span>
                 </div>
               </div>
+<Link href="/updated-shortly" className="relative z-[1001]">
+  <div className="flex items-end gap-1.5 rounded-b-xl bg-[#0d1e3c] px-2 py-0.5 text-[12px] text-white cursor-pointer hover:bg-[#102a55] active:scale-95 transition-all">
+    <span className="font-bold">Exhibitor Login</span>
+  </div>
+</Link>
+
+              </div>
+
+
             </div>
+                          
 
 
 
@@ -347,6 +358,8 @@ export default function NavBar() {
 
             {/* ================= TIMER BAR (DESKTOP ONLY) ================= */}
             {!scrolled && (
+              <div className="flex gap-2 items-end justify-end w-full">
+
               <div className="hidden lg:flex justify-end mr-1 lg:mr-2 xl:mr-4 pr-1 lg:pr-2 xl:pr-4 font-parabolica">
                 <div className={`flex items-center gap-1 lg:gap-1.5 xl:gap-2 2xl:gap-3 rounded-b-xl bg-[#0d1e3c] px-1.5 lg:px-2 xl:px-3 py-0.5 lg:py-1 xl:py-1.5 text-[9px] lg:text-[10px] xl:text-[11px] 2xl:text-[13px] text-white whitespace-nowrap shadow-md ${screenSize === "laptop" ? "mr-2" : ""}`}>
                   <span className="font-medium">{timeLeft.days} Days</span>
@@ -354,6 +367,13 @@ export default function NavBar() {
                   <span className="font-medium">{timeLeft.minutes} Mins</span>
                 </div>
               </div>
+    <Link href="/updated-shortly" className="relative z-[1001] -mt-[6px]">
+  <div className="flex items-center rounded-b-xl bg-[#0d1e3c] px-2 py-0.5 text-[12px] text-white cursor-pointer hover:bg-[#102a55] active:scale-95 transition-all shadow-md">
+    <span className="font-bold">Exhibitor Login</span>
+  </div>
+</Link>
+
+</div>
             )}
           </div>
         </div>
