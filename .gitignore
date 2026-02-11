@@ -12,7 +12,7 @@
 /coverage
 
 # app routes to ignore
-/app/admin/
+# /app/admin/
 # /app/dashboard/
 # /app/login/
 

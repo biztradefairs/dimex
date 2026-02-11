@@ -23,6 +23,12 @@ import {
   UserCircleIcon,
   CreditCardIcon,
   ClipboardDocumentListIcon,
+  PhoneIcon,
+  EnvelopeIcon,
+  ClockIcon,
+  MapIcon,
+  BuildingOfficeIcon,
+  TrashIcon,
 } from "@heroicons/react/24/outline";
 
 interface DashboardData {
@@ -52,6 +58,12 @@ interface DashboardData {
     name: string;
     floor: string;
   };
+  event?: {
+    name: string;
+    venue: string;
+    exhibitionDay: string;
+    dismantleDay: string;
+  };
 }
 
 export default function EnhancedDashboardPage() {
@@ -60,52 +72,44 @@ export default function EnhancedDashboardPage() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
-  // Function to get token
-  const getAuthToken = () => {
-    const token = localStorage.getItem('exhibitor_token') || 
-                   localStorage.getItem('token');
-    return token;
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+
+      const token =
+        localStorage.getItem('exhibitor_token') ||
+        localStorage.getItem('token');
+
+      if (!token) {
+        setError('Please log in to access dashboard');
+        setTimeout(() => router.push('/login'), 1500);
+        return;
+      }
+
+      const data = await dashboardAPI.getLayout();
+      setDashboardData(data);
+
+    } catch (error: any) {
+      console.error('❌ Dashboard error:', error);
+
+      if (
+        error.message?.includes('401') ||
+        error.message?.includes('Unauthorized')
+      ) {
+        localStorage.removeItem('exhibitor_token');
+        localStorage.removeItem('exhibitor_data');
+        setError('Session expired. Please login again.');
+        setTimeout(() => router.push('/login'), 1500);
+      } else if (error.message?.includes('timeout')) {
+        setError('Server is waking up. Please retry in a few seconds.');
+      } else {
+        setError(error.message || 'Failed to load dashboard');
+      }
+    } finally {
+      setLoading(false);
+    }
   };
-
-const fetchDashboardData = async () => {
-  try {
-    setLoading(true);
-    setError(null);
-
-    const token =
-      localStorage.getItem('exhibitor_token') ||
-      localStorage.getItem('token');
-
-    if (!token) {
-      setError('Please log in to access dashboard');
-      setTimeout(() => router.push('/login'), 1500);
-      return;
-    }
-
-    const data = await dashboardAPI.getLayout();
-    setDashboardData(data);
-
-  } catch (error: any) {
-    console.error('❌ Dashboard error:', error);
-
-    if (
-      error.message?.includes('401') ||
-      error.message?.includes('Unauthorized')
-    ) {
-      localStorage.removeItem('exhibitor_token');
-      localStorage.removeItem('exhibitor_data');
-      setError('Session expired. Please login again.');
-      setTimeout(() => router.push('/login'), 1500);
-    } else if (error.message?.includes('timeout')) {
-      setError('Server is waking up. Please retry in a few seconds.');
-    } else {
-      setError(error.message || 'Failed to load dashboard');
-    }
-  } finally {
-    setLoading(false);
-  }
-};
-
 
   useEffect(() => {
     fetchDashboardData();
@@ -144,7 +148,7 @@ const fetchDashboardData = async () => {
       },
       {
         title: "Total Investment",
-        value: `$${totalAmount.toLocaleString()}`,
+        value: `₹${totalAmount.toLocaleString()}`,
         change: paidInvoices > 0 ? `${paidInvoices}/${totalInvoices} Paid` : "No Invoices",
         icon: CurrencyDollarIcon,
         color: paidAmount >= totalAmount ? "from-purple-500 to-violet-600" : "from-orange-500 to-red-600",
@@ -165,10 +169,24 @@ const fetchDashboardData = async () => {
     return stats;
   };
 
-  const upcomingEvents = [
-    { id: 1, title: "Setup Day", date: "Jan 28, 2024", time: "8:00 AM", type: "setup" },
-    { id: 2, title: "Exhibition Opening", date: "Jan 29, 2024", time: "9:00 AM", type: "event" },
-    { id: 3, title: "Networking Dinner", date: "Jan 30, 2024", time: "7:00 PM", type: "social" },
+  // Mock event data - you can replace this with actual API data
+  const upcomingEvents = dashboardData?.event ? [
+    { id: 1, title: "Event Name", value: dashboardData.event.name, icon: BuildingOfficeIcon },
+    { id: 2, title: "Venue", value: dashboardData.event.venue, icon: MapIcon },
+    { id: 3, title: "Exhibition Day", value: dashboardData.event.exhibitionDay, icon: CalendarIcon },
+    { id: 4, title: "Dismantle Day", value: dashboardData.event.dismantleDay, icon: TrashIcon },
+  ] : [
+    { id: 1, title: "Event Name", value: "DIEMEX 2026", icon: BuildingOfficeIcon },
+    { id: 2, title: "Venue", value: "Auto Cluster Exhibition Center", icon: MapIcon },
+    { id: 3, title: "Exhibition Day", value: "8th October, 2026", icon: CalendarIcon },
+    { id: 4, title: "Dismantle Day", value: "10th October, 2026", icon: TrashIcon },
+  ];
+
+  // Contact information
+  const contactInfo = [
+    { id: 1, type: "Phone", value: "+91 9876543210", icon: PhoneIcon },
+    { id: 2, type: "Email", value: "support@exhibitionhub.com", icon: EnvelopeIcon },
+    { id: 3, type: "Hours", value: "Mon-Fri, 9AM-6PM", icon: ClockIcon },
   ];
 
   if (loading) {
@@ -285,22 +303,46 @@ const fetchDashboardData = async () => {
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <div className="hidden md:flex items-center gap-2 text-sm text-gray-600 bg-gray-50 px-3 py-1.5 rounded-lg">
-            <CalendarIcon className="h-4 w-4" />
-            <span>Account Status: <span className={`font-semibold ${dashboardData.exhibitor.status === 'active' ? 'text-green-600' : 'text-yellow-600'}`}>
-              {dashboardData.exhibitor.status.charAt(0).toUpperCase() + dashboardData.exhibitor.status.slice(1)}
-            </span></span>
-          </div>
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-md border border-gray-100 p-5">
+  
+  {/* Header */}
+  <div className="flex items-center justify-between mb-4">
+    <h3 className="text-lg font-semibold text-gray-800">
+      Account Overview
+    </h3>
 
-          <button 
-            onClick={fetchDashboardData}
-            className="btn-secondary flex items-center gap-2"
-          >
-            <ArrowPathIcon className="h-4 w-4" />
-            Refresh
-          </button>
-        </div>
+    <button 
+      onClick={fetchDashboardData}
+      className="flex items-center gap-2 text-sm font-medium text-blue-600 hover:text-blue-700 transition"
+    >
+      <ArrowPathIcon className="h-4 w-4" />
+      Refresh
+    </button>
+  </div>
+
+  {/* Status Section */}
+  <div className="flex items-center gap-3 bg-gray-50 rounded-xl p-3">
+    <div className="bg-white p-2 rounded-lg shadow-sm">
+      <CalendarIcon className="h-5 w-5 text-gray-600" />
+    </div>
+
+    <div>
+      <p className="text-sm text-gray-500">Account Status</p>
+      <p
+        className={`text-base font-semibold ${
+          dashboardData.exhibitor.status === "active"
+            ? "text-green-600"
+            : "text-yellow-600"
+        }`}
+      >
+        {dashboardData.exhibitor.status.charAt(0).toUpperCase() +
+          dashboardData.exhibitor.status.slice(1)}
+      </p>
+    </div>
+  </div>
+
+</div>
+
       </div>
 
       {/* Stats Grid */}
@@ -318,7 +360,7 @@ const fetchDashboardData = async () => {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="section-title">Quick Actions</h2>
-                <p className="section-subtitle">Common tasks and shortcuts</p>
+                {/* <p className="section-subtitle">Common tasks and shortcuts</p> */}
               </div>
               <SparklesIcon className="h-5 w-5 text-gray-400" />
             </div>
@@ -329,11 +371,9 @@ const fetchDashboardData = async () => {
             <div className="flex items-center justify-between mb-6">
               <div>
                 <h2 className="section-title">Recent Activity</h2>
-                <p className="section-subtitle">Latest updates and notifications</p>
+            
               </div>
-              <button className="text-sm font-medium text-blue-600">
-                View All
-              </button>
+             
             </div>
             <RecentActivity 
               exhibitorName={dashboardData.exhibitor.name}
@@ -380,15 +420,15 @@ const fetchDashboardData = async () => {
           </div>
 
           <div className="card p-6">
-            <h2 className="section-title mb-4">Upcoming Events</h2>
+            <h2 className="section-title mb-4">Event Details</h2>
             <div className="space-y-4">
               {upcomingEvents.map((event) => (
                 <div key={event.id} className="flex items-center gap-4 p-3 border rounded-lg hover:bg-gray-50">
-                  <CalendarIcon className="h-4 w-4 text-gray-500" />
+                  <event.icon className="h-5 w-5 text-gray-500" />
                   <div className="flex-1">
                     <p className="text-sm font-medium">{event.title}</p>
-                    <p className="text-xs text-gray-500">
-                      {event.date} • {event.time}
+                    <p className="text-sm text-gray-700 mt-0.5">
+                      {event.value}
                     </p>
                   </div>
                 </div>
@@ -401,12 +441,17 @@ const fetchDashboardData = async () => {
             <p className="text-sm mb-4">
               Contact our support team for assistance with your exhibition setup.
             </p>
-            <button 
-              onClick={() => router.push('/dashboard/support')}
-              className="btn-primary w-full"
-            >
-              Contact Support
-            </button>
+            <div className="space-y-3">
+              {contactInfo.map((contact) => (
+                <div key={contact.id} className="flex items-center gap-3">
+                  <contact.icon className="h-4 w-4 text-blue-600" />
+                  <div>
+                    <p className="text-xs text-gray-600">{contact.type}</p>
+                    <p className="text-sm font-medium">{contact.value}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>

@@ -222,7 +222,7 @@ export default function NavBar() {
                   <span className="font-medium">{timeLeft.minutes} Mins</span>
                 </div>
               </div>
-<Link href="/updated-shortly" className="relative z-[1001]">
+<Link href="/login" className="relative z-[1001]">
   <div className="flex items-end gap-1.5 rounded-b-xl bg-[#0d1e3c] px-2 py-0.5 text-[12px] text-white cursor-pointer hover:bg-[#102a55] active:scale-95 transition-all">
     <span className="font-bold">Exhibitor Login</span>
   </div>
@@ -368,7 +368,7 @@ export default function NavBar() {
       </div>
 
       {/* Exhibitor Login */}
-      <Link href="/updated-shortly">
+      <Link href="/login">
         <div className="flex items-center rounded-b-xl bg-[#0d1e3c] px-3 py-1 text-[12px] text-white font-bold cursor-pointer hover:bg-[#102a55] active:scale-95 transition-all shadow-md">
           Exhibitor Login
         </div>

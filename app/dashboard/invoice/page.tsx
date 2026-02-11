@@ -47,9 +47,11 @@ export default function InvoicePage() {
   };
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
+    return new Intl.NumberFormat('en-IN', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'INR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0,
     }).format(amount);
   };
 
@@ -153,39 +155,6 @@ export default function InvoicePage() {
               ))}
             </tbody>
           </table>
-        </div>
-      </div>
-
-      {/* Payment Methods */}
-      <div className="bg-white shadow rounded-lg p-6">
-        <h2 className="text-lg font-medium text-gray-900 mb-4">Payment Methods</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="border rounded-lg p-4">
-            <div className="flex items-center mb-3">
-              <div className="h-10 w-16 bg-blue-100 rounded flex items-center justify-center">
-                <span className="font-bold text-blue-600">VISA</span>
-              </div>
-              <span className="ml-3 text-sm font-medium text-gray-900">Primary</span>
-            </div>
-            <p className="text-sm text-gray-600">**** **** **** 1234</p>
-            <p className="text-sm text-gray-600">Expires: 12/25</p>
-          </div>
-          
-          <div className="border rounded-lg p-4">
-            <div className="flex items-center mb-3">
-              <div className="h-10 w-16 bg-red-100 rounded flex items-center justify-center">
-                <span className="font-bold text-red-600">PP</span>
-              </div>
-            </div>
-            <p className="text-sm text-gray-600">payments@company.com</p>
-            <p className="text-sm text-gray-600">PayPal Account</p>
-          </div>
-          
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 flex items-center justify-center">
-            <button className="text-blue-600 hover:text-blue-700 font-medium">
-              + Add Payment Method
-            </button>
-          </div>
         </div>
       </div>
 

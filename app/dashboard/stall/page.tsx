@@ -16,17 +16,6 @@ const initialStalls: Stall[] = [
     bookedDate: new Date('2024-01-15'),
     status: 'confirmed',
     amenities: ['Power Outlets', 'WiFi', 'Spotlights', 'Table & Chairs', 'Storage']
-  },
-  {
-    id: 'ST002',
-    stallNumber: 'B-08',
-    location: 'Hall B, Food Court Area',
-    size: '2m x 2m',
-    type: 'standard',
-    price: 2500,
-    bookedDate: new Date('2024-01-10'),
-    status: 'confirmed',
-    amenities: ['Power Outlet', 'Table']
   }
 ];
 
@@ -86,13 +75,13 @@ export default function StallPage() {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Type</p>
-                  <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getTypeColor(stall.type)}`}>
+                  <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ₹{getTypeColor(stall.type)}`}>
                     {stall.type.charAt(0).toUpperCase() + stall.type.slice(1)}
                   </span>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Price</p>
-                  <p className="font-medium text-gray-900">${stall.price.toLocaleString()}</p>
+                  <p className="font-medium text-gray-900">₹{stall.price.toLocaleString()}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Booked Date</p>
@@ -118,18 +107,6 @@ export default function StallPage() {
                     </span>
                   ))}
                 </div>
-              </div>
-
-              <div className="flex space-x-3">
-                <button className="flex-1 bg-blue-50 hover:bg-blue-100 text-blue-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                  View Layout
-                </button>
-                <button className="flex-1 bg-gray-50 hover:bg-gray-100 text-gray-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                  Download Details
-                </button>
-                <button className="flex-1 bg-red-50 hover:bg-red-100 text-red-700 px-4 py-2 rounded-md text-sm font-medium transition-colors">
-                  Cancel Booking
-                </button>
               </div>
             </div>
           </div>

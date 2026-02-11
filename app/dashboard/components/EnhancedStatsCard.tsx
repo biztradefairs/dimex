@@ -38,25 +38,52 @@ export default function EnhancedStatsCard({
     }
   };
 
-  return (
-    <Link href={href}>
-      <div className="card card-hover">
-        <div className="p-5">
-          <div className="flex justify-between mb-4">
-            <div className={`p-2 rounded-lg bg-gradient-to-br ${color}`}>
-              <Icon className="h-5 w-5 text-white" />
-            </div>
+return (
+  <Link href={href} className="block">
+    <div className="relative bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1 overflow-hidden group">
+      
+      {/* Gradient Glow Background */}
+      <div className={`absolute inset-0 opacity-5 bg-gradient-to-br ${color}`} />
 
-            <div className="flex items-center gap-1 text-xs">
-              {getTrendIcon()}
-              <span>{change}</span>
-            </div>
+      <div className="relative p-6">
+        
+        {/* Top Section */}
+        <div className="flex items-center justify-between mb-6">
+          
+          {/* Icon */}
+          <div className={`p-3 rounded-xl bg-gradient-to-br ${color} shadow-md`}>
+            <Icon className="h-6 w-6 text-white" />
           </div>
 
-          <h3 className="text-sm text-gray-600">{title}</h3>
-          <p className="text-2xl font-bold">{value}</p>
+          {/* Trend */}
+          <div
+            className={`flex items-center gap-1 text-xs font-medium px-2 py-1 rounded-full ${
+              trend === "up"
+                ? "bg-green-50 text-green-600"
+                : trend === "down"
+                ? "bg-red-50 text-red-600"
+                : trend === "warning"
+                ? "bg-amber-50 text-amber-600"
+                : "bg-gray-100 text-gray-500"
+            }`}
+          >
+            {getTrendIcon()}
+            <span>{change}</span>
+          </div>
+        </div>
+
+        {/* Stats Content */}
+        <div>
+          <p className="text-sm font-medium text-gray-500 mb-1">
+            {title}
+          </p>
+          <p className="text-3xl font-bold text-gray-900 tracking-tight">
+            {value}
+          </p>
         </div>
       </div>
-    </Link>
-  );
+    </div>
+  </Link>
+);
+
 }

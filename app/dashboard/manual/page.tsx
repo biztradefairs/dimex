@@ -161,12 +161,6 @@ export default function ManualPage() {
               <li>
                 <a href="#" className="flex items-center text-blue-600 hover:text-blue-800">
                   <ArrowDownTrayIcon className="h-4 w-4 mr-2" />
-                  Floor Plan PDF
-                </a>
-              </li>
-              <li>
-                <a href="#" className="flex items-center text-blue-600 hover:text-blue-800">
-                  <ArrowDownTrayIcon className="h-4 w-4 mr-2" />
                   Safety Guidelines
                 </a>
               </li>

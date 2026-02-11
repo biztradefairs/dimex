@@ -583,7 +583,7 @@ const response = await axios.put('https://diemex-backend.onrender.com/api/exhibi
                 </div>
                 <div>
                   <h2 className="section-title">Company Information</h2>
-                  <p className="section-subtitle">Update your company details and description</p>
+                 
                 </div>
               </div>
 
