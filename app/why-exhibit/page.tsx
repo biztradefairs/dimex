@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from "react"
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import PartnersSection from "@/components/section/PartnersSection"
+// import PartnersSection from "@/components/section/PartnersSection"
 import SectionContainer from "@/components/UI/SectionContainer"
 import Image from "next/image";
 import Link from "next/link"
@@ -955,11 +955,11 @@ export default function WhyExhibit() {
         </section>
 
         {/* PARTNERS & SPONSORS */}
-        <section className="py-16 lg:py-24">
+        {/* <section className="py-16 lg:py-24">
           <SectionContainer>
             <PartnersSection />
           </SectionContainer>
-        </section>
+        </section> */}
       </main>
       <BackToTop/>
     </>

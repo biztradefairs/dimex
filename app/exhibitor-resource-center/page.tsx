@@ -10,7 +10,7 @@ import CeilingSuspension from './component/CeilingSuspension';
 import ApplicationDeadline from './component/ApplicationDeadline';
 import ContactInformation from './component/ContactInformation';
 import AttentionSection from './component/AttentionSection';
-import PartnersSection from '@/components/section/PartnersSection';
+// import PartnersSection from '@/components/section/PartnersSection';
 
 export const metadata = {
   title: 'Exhibitor Resource Center | TransRussia',
@@ -32,7 +32,7 @@ export default function ExhibitorResourceCenterPage() {
         {/* <ApplicationDeadline /> */}
         <ContactInformation />
         <AttentionSection />
-        <PartnersSection />
+        {/* <PartnersSection /> */}
       </main>
     
       <BackToTop />

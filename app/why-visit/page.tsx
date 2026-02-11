@@ -1,6 +1,6 @@
 "use client";
 
-import PartnersSection from "@/components/section/PartnersSection"
+// import PartnersSection from "@/components/section/PartnersSection"
 import SectionContainer from "@/components/UI/SectionContainer"
 import Link from "next/link"
 import { motion } from 'framer-motion'
@@ -919,11 +919,11 @@ export default function WhyVisit() {
             </SectionContainer>
           </section>
 
-          <section className="py-12 sm:py-16 lg:py-24">
+          {/* <section className="py-12 sm:py-16 lg:py-24">
             <SectionContainer>
               <PartnersSection />
             </SectionContainer>
-          </section>
+          </section> */}
         </div>
       </main>
       <BackToTop/>

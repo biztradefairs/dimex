@@ -1,6 +1,6 @@
 import SectionContainer from "@/components/UI/SectionContainer"
 import QuickNavigation from "@/components/QuickNavigation"
-import PartnersSection from "@/components/section/PartnersSection"
+// import PartnersSection from "@/components/section/PartnersSection"
 import Link from "next/link"
 import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 
@@ -156,7 +156,7 @@ export default function SectorsPage() {
     
       
       <QuickNavigation/>
-      <PartnersSection/>
+      {/* <PartnersSection/> */}
     </div>
     <BackToTop/>
     </>

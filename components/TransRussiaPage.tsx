@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import SectionContainer from './UI/SectionContainer';
 import dynamic from 'next/dynamic';
-import PartnersSection from './section/PartnersSection';
+// import PartnersSection from './section/PartnersSection';
 
 
 
@@ -508,7 +508,7 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                 </div>
               </div>
             </SectionContainer>
-            <PartnersSection />
+            {/* <PartnersSection /> */}
           </section>
         </div>
       </div>

@@ -3,7 +3,7 @@
 import React, { useEffect, useRef, useState } from "react"
 import Head from "next/head"
 import SectionContainer from "@/components/UI/SectionContainer"
-import PartnersSection from "@/components/section/PartnersSection"
+// import PartnersSection from "@/components/section/PartnersSection"
 import ReCAPTCHA from "react-google-recaptcha"
 import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 
@@ -339,7 +339,7 @@ const [countriesLoading, setCountriesLoading] = useState(false);
           </div>
         </SectionContainer>
 
-        <PartnersSection />
+        {/* <PartnersSection /> */}
       </main>
       <BackToTop/>
     </>

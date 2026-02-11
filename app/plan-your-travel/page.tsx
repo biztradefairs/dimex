@@ -1,6 +1,6 @@
 'use client';
 
-import PartnersSection from '@/components/section/PartnersSection';
+// import PartnersSection from '@/components/section/PartnersSection';
 import React, { ReactNode, useState } from 'react';
 import SectionContainer from '@/components/UI/SectionContainer';
 import { motion } from 'framer-motion';
@@ -535,7 +535,7 @@ const PlanYourTravelPage: React.FC = () => {
       <IntroductionSection />
       <GuideSection />
       <HotelsSection />
-      <PartnersSection />
+      {/* <PartnersSection /> */}
     </div>
     <BackToTop/>
     </>

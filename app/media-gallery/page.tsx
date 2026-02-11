@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import PartnersSection from '@/components/section/PartnersSection';
+// import PartnersSection from '@/components/section/PartnersSection';
 import SectionContainer from '@/components/UI/SectionContainer';
 
 const mediaItems = [
@@ -217,7 +217,7 @@ export default function MediaGalleryPage() {
         </div>
 
         {/* Partners Section - Also aligned with navbar container */}
-        <PartnersSection />
+        {/* <PartnersSection /> */}
       </div>
     </section>
   );

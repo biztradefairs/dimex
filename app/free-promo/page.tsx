@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
-import PartnersSection from '@/components/section/PartnersSection';
+// import PartnersSection from '@/components/section/PartnersSection';
 import DownloadSection from './DownloadSection';
 import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 
@@ -296,7 +296,7 @@ export default function ExhibitorPromotionPage() {
           <div className="mb-10 flex flex-col items-center">
             {/* <h2 className="title-72 text-black mt-5">Partners &amp; Sponsors</h2> */}
           </div>
-          <PartnersSection />
+          {/* <PartnersSection /> */}
         </div>
       </div>
 

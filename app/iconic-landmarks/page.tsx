@@ -2,7 +2,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import PartnersSection from '@/components/section/PartnersSection';
+// import PartnersSection from '@/components/section/PartnersSection';
 
 // Define types
 interface Landmark {
@@ -133,7 +133,7 @@ const IconicLandmarksPage: React.FC = () => {
         </div>
       </section>
 
-      <PartnersSection/>
+      {/* <PartnersSection/> */}
     </div>
   );
 };

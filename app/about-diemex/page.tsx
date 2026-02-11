@@ -9,7 +9,7 @@ import ConferenceSection from '@/components/section/ConferenceSection';
 import ConnectSection from '@/components/ConnectSection';
 import TravelSection from '@/components/section/TravelSection';
 import QuickNavigationSection from '@/components/section/QuickNavigationSection';
-import PartnersSection from '@/components/section/PartnersSection';
+// import PartnersSection from '@/components/section/PartnersSection';
 import MapSection from '@/components/section/MapSection';
 import SectionContainer from '@/components/UI/SectionContainer';
 import BackToTop from '../exhibitor-resource-center/component/BackToTop';
@@ -117,13 +117,13 @@ export default function AboutTransRussia() {
 
 
           {/* Partners Section with SectionContainer */}
-          <div className="animated-block">
+          {/* <div className="animated-block">
             <div className="animated-block-target">
               <SectionContainer>
                 <PartnersSection />
               </SectionContainer>
             </div>
-          </div>
+          </div> */}
         </div>
       </main>
       <BackToTop/>

@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 import Image from 'next/image';
-import PartnersSection from '@/components/section/PartnersSection';
+// import PartnersSection from '@/components/section/PartnersSection';
 
 interface FormData {
   email: string;
@@ -280,7 +280,7 @@ const NewsletterPage: React.FC = () => {
               </div>
             </div>
           </div>
-          <PartnersSection/>
+          {/* <PartnersSection/> */}
         </div>
       </div>
     </>

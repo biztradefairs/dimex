@@ -4,7 +4,7 @@ import React from 'react';
 import HeroSection from './components/HeroSection';
 import TheatresSection from './components/TheatresSection';
 import MuseumsSection from './components/MuseumsSection';
-import PartnersSection from '@/components/section/PartnersSection';
+// import PartnersSection from '@/components/section/PartnersSection';
 import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 
 const CulturePage: React.FC = () => {
@@ -15,7 +15,7 @@ const CulturePage: React.FC = () => {
         <HeroSection />
         <TheatresSection />
         <MuseumsSection />
-        <PartnersSection />
+        {/* <PartnersSection /> */}
       </main>
       <BackToTop/>
     </div>

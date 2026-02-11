@@ -1,7 +1,7 @@
 // app/about-skladtech/page.tsx
 "use client";
 
-import PartnersSection from "@/components/section/PartnersSection"
+// import PartnersSection from "@/components/section/PartnersSection"
 import SectionContainer from "@/components/UI/SectionContainer"
 import Link from "next/link"
 import { motion, Variants } from 'framer-motion'
@@ -646,7 +646,7 @@ const slideInFromRight: Variants = {
             </motion.div>
           </SectionContainer>
         </section>
-        <PartnersSection/>
+        {/* <PartnersSection/> */}
       </div>
     </>
   )

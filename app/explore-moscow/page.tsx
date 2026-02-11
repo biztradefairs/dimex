@@ -2,7 +2,7 @@
 
 // import { Metadata } from 'next';
 import SectionContainer from '@/components/UI/SectionContainer';
-import PartnersSection from '@/components/section/PartnersSection';
+// import PartnersSection from '@/components/section/PartnersSection';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -301,7 +301,7 @@ export default function ExploreMoscowPage() {
 
 
       {/* Partners & Sponsors Section */}
-      <PartnersSection />
+      {/* <PartnersSection /> */}
     </main>
   );
 }
