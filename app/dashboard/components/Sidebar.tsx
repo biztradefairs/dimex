@@ -13,6 +13,7 @@ import {
   CogIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
+import { icons } from 'lucide-react';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
@@ -22,6 +23,7 @@ const navigation = [
   { name: 'Invoice', href: '/dashboard/invoice', icon: DocumentTextIcon },
   { name: 'Exhibitor Manual', href: '/dashboard/manual', icon: BookOpenIcon },
   { name: 'Extra Requirements', href: '/dashboard/requirements', icon: CogIcon },
+  { name: 'Exhibitor', href: '/dashboard/exhibitor', icon: UserIcon}
 ];
 
 interface SidebarProps {
