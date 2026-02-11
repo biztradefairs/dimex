@@ -52,7 +52,7 @@ const navigation = [
     color: "text-purple-500",
     subItems: [
       { name: "Exhibitors", href: "/admin/exhibition/exhibitors", icon: Briefcase },
-      { name: "Sectors", href: "/admin/exhibition/sectors", icon: Target },
+      // { name: "Sectors", href: "/admin/exhibition/sectors", icon: Target },
       { name: "Floor Plans", href: "/admin/exhibition/floor-plans", icon: Globe },
       { name: "Manuals", href: "/admin/exhibition/manuals", icon: BookOpen },
     ],
@@ -73,18 +73,18 @@ const navigation = [
     icon: Users,
     color: "text-blue-500"
   },
-  { 
-    name: "Media Library", 
-    href: "/admin/media", 
-    icon: Camera,
-    color: "text-pink-500"
-  },
-  { 
-    name: "Partners", 
-    href: "/admin/partners", 
-    icon: Handshake,
-    color: "text-emerald-500"
-  },
+  // { 
+  //   name: "Media Library", 
+  //   href: "/admin/media", 
+  //   icon: Camera,
+  //   color: "text-pink-500"
+  // },
+  // { 
+  //   name: "Partners", 
+  //   href: "/admin/partners", 
+  //   icon: Handshake,
+  //   color: "text-emerald-500"
+  // },
   {
     name: "Settings",
     icon: Settings,
