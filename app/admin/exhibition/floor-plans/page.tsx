@@ -39,6 +39,7 @@ interface ExhibitionShape {
 
 export default function ProfessionalExhibitionEditor() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const canvasContentRef = useRef<HTMLDivElement>(null);
   const [image, setImage] = useState<string | null>(null);
   const [shapes, setShapes] = useState<Shape[]>([
     {
@@ -46,13 +47,13 @@ export default function ProfessionalExhibitionEditor() {
       type: "booth",
       x: 100,
       y: 100,
-      width: 80,
-      height: 60,
+      width: 120,
+      height: 80,
       rotation: 0,
       color: "rgba(59, 130, 246, 0.3)",
       borderColor: "#1e40af",
       borderWidth: 2,
-      fontSize: 12,
+      fontSize: 14,
       text: "Booth 1",
       zIndex: 1,
       metadata: {
@@ -71,7 +72,7 @@ export default function ProfessionalExhibitionEditor() {
   const [currentColor, setCurrentColor] = useState("rgba(59, 130, 246, 0.3)");
   const [currentBorderColor, setCurrentBorderColor] = useState("#1e40af");
   const [borderWidth, setBorderWidth] = useState(2);
-  const [fontSize, setFontSize] = useState(12);
+  const [fontSize, setFontSize] = useState(14);
   const [isDrawing, setIsDrawing] = useState(false);
   const [isPanning, setIsPanning] = useState(false);
   const [startPoint, setStartPoint] = useState({ x: 0, y: 0 });
@@ -108,6 +109,10 @@ export default function ProfessionalExhibitionEditor() {
   const [autoSave, setAutoSave] = useState(false);
   const [lastSaved, setLastSaved] = useState<string | null>(null);
   const [saveInterval, setSaveInterval] = useState<NodeJS.Timeout | null>(null);
+
+  // Text editing state
+  const [editingTextId, setEditingTextId] = useState<string | null>(null);
+  const [editingTextValue, setEditingTextValue] = useState("");
 
   // Professional color palette
   const colorPalette = [
@@ -152,7 +157,14 @@ export default function ProfessionalExhibitionEditor() {
     maintenance: "#ef4444"
   };
 
-  // ================= CRITICAL FIXES START =================
+  const statusLabels = {
+    available: "Available",
+    booked: "Booked",
+    reserved: "Reserved",
+    maintenance: "Maintenance"
+  };
+
+  // ================= CRITICAL FIXES =================
 
   // FIXED: Get coordinates that handle zoom/pan correctly
   const getCoordinates = (clientX: number, clientY: number) => {
@@ -207,17 +219,18 @@ export default function ProfessionalExhibitionEditor() {
         type: shapeType,
         x,
         y,
-        width: 0,
-        height: 0,
+        width: shapeType === "text" ? 150 : 60,
+        height: shapeType === "text" ? 40 : 40,
         rotation: 0,
         color: currentColor,
         borderColor: currentBorderColor,
         borderWidth,
-        fontSize,
-        text: shapeType === "text" ? "Text" : getDefaultText(shapeType),
+        fontSize: 14,
+        text: shapeType === "text" ? "Double click to edit" : getDefaultText(shapeType),
         zIndex: shapes.length + 1,
         metadata: shapeType === "booth" ? {
           boothNumber: (shapes.filter(s => s.type === "booth").length + 1).toString(),
+          companyName: "",
           status: "available",
           category: "General",
           scale: scale
@@ -273,8 +286,8 @@ export default function ProfessionalExhibitionEditor() {
         ...tempShape,
         x: Math.min(startPoint.x, x),
         y: Math.min(startPoint.y, y),
-        width: Math.max(20, width),
-        height: Math.max(20, height)
+        width: Math.max(30, width),
+        height: Math.max(30, height)
       });
     }
 
@@ -305,39 +318,57 @@ export default function ProfessionalExhibitionEditor() {
 
   // FIXED: Export function that properly captures shapes
   const handleExport = async () => {
-    if (!containerRef.current) return;
+    if (!canvasContentRef.current) return;
     
     setIsLoading(true);
+    toast.loading('Generating export...', { id: 'export' });
+    
     try {
       const html2canvas = (await import("html2canvas")).default;
 
-      // Clone the container and reset transformations for export
-      const clone = containerRef.current.cloneNode(true) as HTMLElement;
+      // Create a clone of the canvas content with all transformations applied
+      const exportContainer = document.createElement('div');
+      exportContainer.style.position = 'fixed';
+      exportContainer.style.left = '-9999px';
+      exportContainer.style.top = '0';
+      exportContainer.style.width = `${containerRef.current?.scrollWidth || 1920}px`;
+      exportContainer.style.height = `${containerRef.current?.scrollHeight || 1080}px`;
+      exportContainer.style.backgroundColor = 'white';
+      exportContainer.style.overflow = 'visible';
       
-      // Remove zoom and pan transformations from clone
-      const canvasContent = clone.querySelector('.canvas-content') as HTMLElement;
-      if (canvasContent) {
-        canvasContent.style.transform = 'none';
-        canvasContent.style.left = '0';
-        canvasContent.style.top = '0';
-      }
-
-      // Remove grid background from clone if present
-      const grid = clone.querySelector('.grid-background');
-      if (grid) {
-        grid.remove();
-      }
-
-      // Set clone styles
-      clone.style.position = 'fixed';
-      clone.style.left = '-9999px';
-      clone.style.top = '0';
-      clone.style.width = containerRef.current.scrollWidth + 'px';
-      clone.style.height = containerRef.current.scrollHeight + 'px';
-      clone.style.backgroundColor = 'white';
-      clone.style.overflow = 'visible';
+      // Clone the canvas content
+      const canvasContent = canvasContentRef.current.cloneNode(true) as HTMLElement;
       
-      document.body.appendChild(clone);
+      // Remove any temporary elements
+      const tempElements = canvasContent.querySelectorAll('.temp-shape, .measurement-line');
+      tempElements.forEach(el => el.remove());
+      
+      // Apply final transformations to the clone
+      canvasContent.style.transform = `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoom})`;
+      canvasContent.style.transformOrigin = '0 0';
+      
+      exportContainer.appendChild(canvasContent);
+      
+      // Add grid if enabled
+      if (showGrid) {
+        const gridDiv = document.createElement('div');
+        gridDiv.className = 'grid-background';
+        gridDiv.style.position = 'absolute';
+        gridDiv.style.top = '0';
+        gridDiv.style.left = '0';
+        gridDiv.style.width = '100%';
+        gridDiv.style.height = '100%';
+        gridDiv.style.backgroundImage = `
+          linear-gradient(to right, #94a3b8 1px, transparent 1px),
+          linear-gradient(to bottom, #94a3b8 1px, transparent 1px)
+        `;
+        gridDiv.style.backgroundSize = `${gridSize * zoom}px ${gridSize * zoom}px`;
+        gridDiv.style.opacity = '0.1';
+        gridDiv.style.transform = `translate(${panOffset.x}px, ${panOffset.y}px)`;
+        exportContainer.appendChild(gridDiv);
+      }
+      
+      document.body.appendChild(exportContainer);
 
       const options: Partial<Html2CanvasOptions> = {
         backgroundColor: "#ffffff",
@@ -346,28 +377,20 @@ export default function ProfessionalExhibitionEditor() {
         logging: false,
         allowTaint: true,
         removeContainer: false,
-        width: clone.scrollWidth,
-        height: clone.scrollHeight,
+        width: exportContainer.scrollWidth,
+        height: exportContainer.scrollHeight,
         x: 0,
         y: 0,
         scrollX: 0,
         scrollY: 0,
-        windowWidth: clone.scrollWidth,
-        windowHeight: clone.scrollHeight,
-        onclone: (clonedDoc, element) => {
-          // Ensure all elements are visible
-          const allElements = clonedDoc.querySelectorAll('*');
-          allElements.forEach(el => {
-            (el as HTMLElement).style.transform = 'none';
-            (el as HTMLElement).style.transformOrigin = '0 0';
-          });
-        }
+        windowWidth: exportContainer.scrollWidth,
+        windowHeight: exportContainer.scrollHeight
       };
 
-      const canvas = await html2canvas(clone, options);
+      const canvas = await html2canvas(exportContainer, options);
       
       // Clean up
-      document.body.removeChild(clone);
+      document.body.removeChild(exportContainer);
       
       // Create and trigger download
       const link = document.createElement("a");
@@ -375,263 +398,18 @@ export default function ProfessionalExhibitionEditor() {
       link.href = canvas.toDataURL("image/png");
       link.click();
       
-      toast.success('Floor plan exported successfully!');
+      toast.success('Floor plan exported successfully!', { id: 'export' });
     } catch (error) {
       console.error('Export failed:', error);
-      toast.error('Export failed. Please try again.');
+      toast.error('Export failed. Please try again.', { id: 'export' });
     } finally {
       setIsLoading(false);
     }
-  };
-
-  // FIXED: Type-safe safeNumber function
-  const safeNumber = (num: number | undefined): number => {
-    if (num === undefined || num === null) return 0;
-    const parsed = Number(num);
-    return !isNaN(parsed) && isFinite(parsed) ? parsed : 0;
-  };
-
-  // FIXED: Simple save function for shapes with proper null handling
-  const saveMasterFloorPlan = async (isAutoSave: boolean = false) => {
-    try {
-      setIsLoading(true);
-      
-      const planName = saveName || "Master Exhibition Floor Plan";
-      const saveScale = scale || 0.1;
-      
-      // Save shapes as they are in canvas coordinates
-      const shapesToSave = shapes.map(shape => ({
-        id: shape.id,
-        type: shape.type,
-        x: safeNumber(shape.x),
-        y: safeNumber(shape.y),
-        width: safeNumber(shape.width),
-        height: safeNumber(shape.height),
-        rotation: safeNumber(shape.rotation),
-        color: shape.color,
-        borderColor: shape.borderColor,
-        borderWidth: safeNumber(shape.borderWidth),
-        fontSize: safeNumber(shape.fontSize ?? 12), // FIX: Handle undefined
-        text: shape.text || getDefaultText(shape.type),
-        zIndex: safeNumber(shape.zIndex ?? 1), // FIX: Handle undefined
-        isLocked: Boolean(shape.isLocked),
-        metadata: {
-          ...shape.metadata,
-          realWidth: (shape.width * saveScale).toFixed(2),
-          realHeight: (shape.height * saveScale).toFixed(2),
-          scale: saveScale
-        }
-      }));
-
-      const floorPlanData: any = {
-        name: planName,
-        description: masterFloorPlan?.description || 'Master floor plan',
-        version: "1.0",
-        shapes: shapesToSave,
-        image: image || undefined,
-        scale: saveScale,
-        tags: ['master', 'exhibition'],
-        isPublic: true,
-        isMaster: true
-      };
-
-      if (masterFloorPlan?.id) {
-        floorPlanData.id = masterFloorPlan.id;
-      }
-
-      // Save to backend
-      const endpoint = `${process.env.NEXT_PUBLIC_API_BASE_URL}/floor-plans/master`;
-      const method = masterFloorPlan?.id ? 'PUT' : 'POST';
-      
-      const response = await fetch(endpoint, {
-        method: method,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('admin_token') || localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(floorPlanData)
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        
-        if (data.success) {
-          const updatedPlan = {
-            ...data.data,
-            id: String(data.data.id),
-            shapes: data.data.shapes || []
-          };
-          
-          setMasterFloorPlan(updatedPlan);
-          setLastSaved(new Date().toLocaleTimeString());
-          
-          if (!isAutoSave) {
-            toast.success('Master floor plan saved successfully');
-            setIsSaveDialogOpen(false);
-          }
-        }
-      }
-    } catch (error) {
-      console.error('Error saving:', error);
-      toast.error('Failed to save floor plan');
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // FIXED: Type-safe click handler for save button
-  const handleSaveClick = async (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    await saveMasterFloorPlan(false);
-  };
-
-  // Simple load function
-  const loadMasterFloorPlan = async () => {
-    try {
-      setIsLoading(true);
-      
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_BASE_URL}/floor-plans/master`,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('admin_token') || localStorage.getItem('token')}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
-      
-      const data = await response.json();
-      
-      if (data.success && data.data) {
-        const plan = data.data;
-        const planScale = Number(plan.scale) || 0.1;
-        
-        setScale(planScale);
-        
-        // Transform shapes - use coordinates as they are
-        const transformedShapes = Array.isArray(plan.shapes) ? plan.shapes.map((shape: any) => ({
-          id: shape.id || `shape-${Date.now()}-${Math.random()}`,
-          type: (shape.type || 'rectangle') as ShapeType,
-          x: Number(shape.x) || 0,
-          y: Number(shape.y) || 0,
-          width: Number(shape.width) || 50,
-          height: Number(shape.height) || 50,
-          rotation: Number(shape.rotation) || 0,
-          color: shape.color || "rgba(59, 130, 246, 0.3)",
-          borderColor: shape.borderColor || "#1e40af",
-          borderWidth: Number(shape.borderWidth) || 2,
-          fontSize: Number(shape.fontSize) || 12,
-          text: shape.text || getDefaultText(shape.type || 'rectangle'),
-          zIndex: Number(shape.zIndex) || 1,
-          metadata: shape.metadata || {},
-          isLocked: Boolean(shape.isLocked)
-        })) : [];
-        
-        setShapes(transformedShapes);
-        setImage(plan.image || null);
-        setSaveName(plan.name || "Master Exhibition Floor Plan");
-        setLastSaved(plan.updatedAt || null);
-        
-        toast.success('Floor plan loaded successfully');
-      } else {
-        // Create default if none exists
-        createDefaultMasterPlan();
-      }
-    } catch (error) {
-      console.error('Error loading:', error);
-      createDefaultMasterPlan();
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  // ================= CRITICAL FIXES END =================
-
-  const createDefaultMasterPlan = () => {
-    const defaultPlan: FloorPlan = {
-      name: "Master Exhibition Floor Plan",
-      description: "Main exhibition floor layout",
-      version: "1.0",
-      shapes: [
-        {
-          id: "booth-1",
-          type: "booth",
-          x: 100,
-          y: 100,
-          width: 80,
-          height: 60,
-          rotation: 0,
-          color: "rgba(59, 130, 246, 0.3)",
-          borderColor: "#1e40af",
-          borderWidth: 2,
-          fontSize: 12,
-          text: "Booth 1",
-          zIndex: 1,
-          metadata: {
-            boothNumber: "1",
-            companyName: "TechCorp Inc.",
-            status: "booked",
-            category: "Technology"
-          }
-        }
-      ],
-      scale: 0.1,
-      tags: ['master', 'exhibition'],
-      isPublic: true,
-      id: ""
-    };
-    
-    setMasterFloorPlan(defaultPlan);
-    setShapes(defaultPlan.shapes);
-    setSaveName(defaultPlan.name);
-  };
-
-  const handleUpload = async () => {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = "image/*,.png,.jpg,.jpeg,.gif,.webp";
-    input.onchange = async e => {
-      const file = (e.target as HTMLInputElement).files?.[0];
-      if (!file) return;
-      
-      if (file.size > 10 * 1024 * 1024) {
-        toast.error('Image size should be less than 10MB');
-        return;
-      }
-      
-      setIsLoading(true);
-      
-      try {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-          setImage(e.target?.result as string);
-          toast.success('Background image uploaded');
-          setIsLoading(false);
-        };
-        reader.readAsDataURL(file);
-      } catch (error) {
-        console.error('Error uploading image:', error);
-        toast.error('Failed to upload image');
-        setIsLoading(false);
-      }
-    };
-    input.click();
-  };
-
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
-    const touch = e.touches[0];
-    handleMouseMove({
-      ...e,
-      clientX: touch.clientX,
-      clientY: touch.clientY,
-      buttons: 1,
-      preventDefault: () => e.preventDefault()
-    } as unknown as React.MouseEvent);
   };
 
   const handleMouseUp = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (isDrawing && tempShape && tempShape.width > 10 && tempShape.height > 10) {
+    if (isDrawing && tempShape && tempShape.width > 20 && tempShape.height > 20) {
       const finalShape: Shape = {
         ...tempShape,
         id: `shape-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
@@ -644,6 +422,15 @@ export default function ProfessionalExhibitionEditor() {
       };
       setShapes(prev => [...prev, finalShape]);
       setSelectedId(finalShape.id);
+      
+      // Auto-edit text for new text shapes
+      if (finalShape.type === "text") {
+        setTimeout(() => {
+          setEditingTextId(finalShape.id);
+          setEditingTextValue(finalShape.text || "");
+        }, 100);
+      }
+      
       if (finalShape.type === "booth") {
         setShowBoothDetails(true);
       }
@@ -654,6 +441,7 @@ export default function ProfessionalExhibitionEditor() {
     setIsPanning(false);
     setIsMeasuring(false);
     setTempShape(null);
+    setMeasurementLine(null);
   };
 
   const handleShapeClick = (shapeId: string, e: React.MouseEvent | React.TouchEvent) => {
@@ -664,7 +452,42 @@ export default function ProfessionalExhibitionEditor() {
       if (shape?.type === "booth") {
         setShowBoothDetails(true);
       }
+      setEditingTextId(null);
     }
+  };
+
+  const handleDoubleClick = (shapeId: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    const shape = shapes.find(s => s.id === shapeId);
+    if (shape) {
+      setEditingTextId(shapeId);
+      setEditingTextValue(shape.text || "");
+    }
+  };
+
+  const handleTextEdit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEditingTextValue(e.target.value);
+  };
+
+  const handleTextEditKeyDown = (e: React.KeyboardEvent, shapeId: string) => {
+    if (e.key === 'Enter') {
+      saveTextEdit(shapeId);
+    } else if (e.key === 'Escape') {
+      setEditingTextId(null);
+    }
+  };
+
+  const saveTextEdit = (shapeId: string) => {
+    if (editingTextValue.trim()) {
+      setShapes(prev =>
+        prev.map(s =>
+          s.id === shapeId
+            ? { ...s, text: editingTextValue }
+            : s
+        )
+      );
+    }
+    setEditingTextId(null);
   };
 
   const deleteSelected = () => {
@@ -698,74 +521,7 @@ export default function ProfessionalExhibitionEditor() {
     }
   };
 
-  const rotateSelected = () => {
-    if (selectedId) {
-      setShapes(prev =>
-        prev.map(s =>
-          s.id === selectedId
-            ? { ...s, rotation: (safeNumber(s.rotation) + 45) % 360 }
-            : s
-        )
-      );
-      toast.success('Shape rotated');
-    }
-  };
-
-  const bringToFront = () => {
-    if (selectedId) {
-      const maxZIndex = Math.max(...shapes.map(s => safeNumber(s.zIndex ?? 1)));
-      setShapes(prev =>
-        prev.map(s =>
-          s.id === selectedId
-            ? { ...s, zIndex: maxZIndex + 1 }
-            : s
-        )
-      );
-      toast.success('Brought to front');
-    }
-  };
-
-  const sendToBack = () => {
-    if (selectedId) {
-      const minZIndex = Math.min(...shapes.map(s => safeNumber(s.zIndex ?? 1)));
-      setShapes(prev =>
-        prev.map(s =>
-          s.id === selectedId
-            ? { ...s, zIndex: minZIndex - 1 }
-            : s
-        )
-      );
-      toast.success('Sent to back');
-    }
-  };
-
-  const toggleLock = () => {
-    if (selectedId) {
-      setShapes(prev =>
-        prev.map(s =>
-          s.id === selectedId
-            ? { ...s, isLocked: !s.isLocked }
-            : s
-        )
-      );
-      const selected = shapes.find(s => s.id === selectedId);
-      toast.success(selected?.isLocked ? 'Shape unlocked' : 'Shape locked');
-    }
-  };
-
-  const updateSelectedText = (text: string) => {
-    if (selectedId) {
-      setShapes(prev =>
-        prev.map(s =>
-          s.id === selectedId
-            ? { ...s, text: text || getDefaultText(s.type) }
-            : s
-        )
-      );
-    }
-  };
-
-  const updateBoothMetadata = (key: string, value: any) => {
+  const updateBoothStatus = (status: 'available' | 'booked' | 'reserved' | 'maintenance') => {
     if (selectedId) {
       setShapes(prev =>
         prev.map(s => {
@@ -774,33 +530,13 @@ export default function ProfessionalExhibitionEditor() {
             ...s,
             metadata: {
               ...s.metadata,
-              [key]: value,
-              updatedAt: new Date().toISOString()
+              status
             }
           };
         })
       );
+      toast.success(`Booth status updated to ${statusLabels[status]}`);
     }
-  };
-
-  const toggleLayerVisibility = (layerId: string) => {
-    setLayers(prev =>
-      prev.map(layer =>
-        layer.id === layerId
-          ? { ...layer, visible: !layer.visible }
-          : layer
-      )
-    );
-  };
-
-  const toggleLayerLock = (layerId: string) => {
-    setLayers(prev =>
-      prev.map(layer =>
-        layer.id === layerId
-          ? { ...layer, locked: !layer.locked }
-          : layer
-      )
-    );
   };
 
   const getDefaultText = (shapeType: ShapeType): string => {
@@ -822,7 +558,7 @@ export default function ProfessionalExhibitionEditor() {
       case 'pillar': return 'Pillar';
       case 'info': return 'Info Desk';
       case 'emergency': return 'Emergency';
-      case 'text': return 'Text';
+      case 'text': return 'Double click to edit';
       case 'rectangle': return `Rectangle ${shapeCount}`;
       case 'square': return `Square ${shapeCount}`;
       case 'circle': return `Circle ${shapeCount}`;
@@ -861,6 +597,40 @@ export default function ProfessionalExhibitionEditor() {
     }
   };
 
+  // Helper function for text color
+  const getTextColor = (shape: Shape): string => {
+    if (shape.type === 'booth') {
+      return '#ffffff'; // White text for booths
+    }
+    return '#ffffff'; // White text for all shapes for better visibility
+  };
+
+  // Helper function for background color with better contrast
+  const getBackgroundColor = (shape: Shape): string => {
+    if (shape.type === 'booth' && shape.metadata?.status) {
+      // Use status-based colors with higher opacity for better readability
+      switch (shape.metadata.status) {
+        case 'available': return 'rgba(16, 185, 129, 0.7)'; // Green
+        case 'booked': return 'rgba(59, 130, 246, 0.7)'; // Blue
+        case 'reserved': return 'rgba(245, 158, 11, 0.7)'; // Orange
+        case 'maintenance': return 'rgba(239, 68, 68, 0.7)'; // Red
+        default: return shape.color;
+      }
+    }
+    return shape.color;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    const touch = e.touches[0];
+    handleMouseMove({
+      ...e,
+      clientX: touch.clientX,
+      clientY: touch.clientY,
+      buttons: 1,
+      preventDefault: () => e.preventDefault()
+    } as unknown as React.MouseEvent);
+  };
+
   const handleTouchEnd = (event: React.TouchEvent<HTMLDivElement>) => {
     event.preventDefault();
     handleMouseUp(event as unknown as React.MouseEvent);
@@ -876,11 +646,10 @@ export default function ProfessionalExhibitionEditor() {
     } as unknown as React.MouseEvent);
   };
 
-  // FIXED: Render shapes with proper coordinate transformation and null handling
+  // FIXED: Render shapes with proper coordinate transformation and white text
   const renderShape = (shape: Shape) => {
     const isSelected = shape.id === selectedId;
-    const layer = layers.find(l => l.category === exhibitionShapes.find(s => s.type === shape.type)?.category);
-    const isLocked = shape.isLocked || layer?.locked;
+    const isEditing = shape.id === editingTextId;
     
     // Apply zoom and pan for display
     const displayX = shape.x * zoom + panOffset.x;
@@ -888,76 +657,106 @@ export default function ProfessionalExhibitionEditor() {
     const displayWidth = shape.width * zoom;
     const displayHeight = shape.height * zoom;
     const displayBorderWidth = shape.borderWidth * zoom;
-    const displayFontSize = (shape.fontSize ?? 12) * zoom; // Handle undefined
+    const displayFontSize = Math.max(12, (shape.fontSize ?? 14) * zoom);
 
     return (
       <div
         key={shape.id}
         onClick={(e) => handleShapeClick(shape.id, e)}
+        onDoubleClick={(e) => handleDoubleClick(shape.id, e)}
         onTouchStart={(e) => handleShapeClick(shape.id, e)}
-        className={`absolute transition-all duration-150 ${isLocked ? 'cursor-not-allowed opacity-70' : 'cursor-pointer hover:shadow-md'} ${
-          isSelected ? 'ring-2 ring-blue-500 ring-offset-1 shadow-lg z-50' : ''
+        className={`absolute transition-all duration-150 ${
+          shape.isLocked ? 'cursor-not-allowed opacity-70' : 'cursor-pointer hover:shadow-lg'
+        } ${
+          isSelected ? 'ring-3 ring-blue-500 ring-offset-2 shadow-xl z-50' : ''
         }`}
         style={{
           left: `${displayX}px`,
           top: `${displayY}px`,
           width: `${displayWidth}px`,
           height: `${displayHeight}px`,
-          backgroundColor: shape.color,
+          backgroundColor: getBackgroundColor(shape),
           border: `${displayBorderWidth}px solid ${shape.borderColor}`,
           borderRadius: getBorderRadius(shape.type),
           transform: `rotate(${shape.rotation}deg)`,
           transformOrigin: 'center',
-          zIndex: shape.zIndex ?? 1
+          zIndex: shape.zIndex ?? 1,
+          boxShadow: isSelected ? '0 10px 25px -5px rgba(0,0,0,0.2)' : '0 2px 5px rgba(0,0,0,0.1)'
         }}
       >
-        {/* Shape Icon */}
-        {shape.type !== "text" && (
-          <div className="absolute top-1 left-1/2 transform -translate-x-1/2 opacity-60">
-            {(() => {
-              const Icon = getShapeIcon(shape.type);
-              return <Icon size={Math.max(8, displayFontSize * 0.8)} />;
-            })()}
-          </div>
-        )}
-
         {/* Text Content */}
-        {(shape.text || shape.type === "text") && (
-          <div className="w-full h-full flex items-center justify-center pointer-events-none p-2">
-            <span
-              className="text-center wrap-break-word leading-tight"
+        {isEditing ? (
+          <div className="absolute inset-0 flex items-center justify-center p-1">
+            <input
+              type="text"
+              value={editingTextValue}
+              onChange={handleTextEdit}
+              onKeyDown={(e) => handleTextEditKeyDown(e, shape.id)}
+              onBlur={() => saveTextEdit(shape.id)}
+              className="w-full h-full text-center bg-white border-2 border-blue-500 rounded outline-none"
               style={{
-                fontSize: `${Math.max(8, displayFontSize)}px`,
-                color: shape.type === 'text' ? shape.borderColor : '#1f2937',
-                fontWeight: shape.type === 'booth' ? '600' : '400'
+                fontSize: `${Math.min(displayFontSize, displayWidth * 0.2)}px`,
+                color: '#000000'
               }}
-            >
-              {shape.text || getDefaultText(shape.type)}
-            </span>
+              autoFocus
+              onClick={(e) => e.stopPropagation()}
+            />
           </div>
-        )}
+        ) : (
+          <>
+            {/* Shape Icon - Small and subtle */}
+            {shape.type !== "text" && shape.type !== "booth" && (
+              <div className="absolute top-1 left-1/2 transform -translate-x-1/2 opacity-50">
+                {(() => {
+                  const Icon = getShapeIcon(shape.type);
+                  return <Icon size={Math.max(12, displayFontSize * 0.6)} color="white" />;
+                })()}
+              </div>
+            )}
 
-        {/* Status Indicator */}
-        {shape.type === "booth" && shape.metadata?.status && (
-          <div 
-            className="absolute -top-1 -right-1 w-3 h-3 rounded-full border-2 border-white shadow-sm"
-            style={{ 
-              backgroundColor: statusColors[shape.metadata.status as keyof typeof statusColors],
-              width: `${8 * zoom}px`,
-              height: `${8 * zoom}px`
-            }}
-            title={`Status: ${shape.metadata.status}`}
-          />
+            {/* Main Text */}
+            <div className="absolute inset-0 flex items-center justify-center p-2 overflow-hidden">
+              <span
+                className="text-center break-words leading-tight font-medium"
+                style={{
+                  fontSize: `${Math.min(displayFontSize, displayWidth * 0.2)}px`,
+                  color: getTextColor(shape),
+                  textShadow: '0 1px 2px rgba(0,0,0,0.3)',
+                  maxWidth: '100%',
+                  maxHeight: '100%',
+                  display: '-webkit-box',
+                  WebkitLineClamp: 3,
+                  WebkitBoxOrient: 'vertical',
+                  overflow: 'hidden'
+                }}
+              >
+                {shape.text || getDefaultText(shape.type)}
+              </span>
+            </div>
+
+            {/* Status Badge for Booths */}
+            {shape.type === "booth" && shape.metadata?.status && (
+              <div 
+                className="absolute -top-2 -right-2 px-2 py-1 rounded-full text-xs font-bold shadow-lg"
+                style={{ 
+                  backgroundColor: statusColors[shape.metadata.status as keyof typeof statusColors],
+                  color: 'white',
+                  fontSize: `${Math.max(10, displayFontSize * 0.5)}px`,
+                  transform: `scale(${1/zoom})`,
+                  transformOrigin: 'top right',
+                  whiteSpace: 'nowrap'
+                }}
+              >
+                {statusLabels[shape.metadata.status as keyof typeof statusLabels]}
+              </div>
+            )}
+          </>
         )}
       </div>
     );
   };
 
   // ================= USE EFFECTS =================
-
-  useEffect(() => {
-    loadMasterFloorPlan();
-  }, []);
 
   useEffect(() => {
     const checkDevice = () => {
@@ -994,18 +793,6 @@ export default function ProfessionalExhibitionEditor() {
         case "d":
           if (e.ctrlKey) duplicateSelected();
           break;
-        case "r":
-          rotateSelected();
-          break;
-        case "[":
-          sendToBack();
-          break;
-        case "]":
-          bringToFront();
-          break;
-        case "l":
-          toggleLock();
-          break;
         case " ":
           setCurrentTool("pan");
           break;
@@ -1013,6 +800,7 @@ export default function ProfessionalExhibitionEditor() {
           setSelectedId(null);
           setCurrentTool("select");
           setShowBoothDetails(false);
+          setEditingTextId(null);
           break;
         case "+":
         case "=":
@@ -1027,7 +815,6 @@ export default function ProfessionalExhibitionEditor() {
         case "s":
           if (e.ctrlKey) {
             e.preventDefault();
-            setIsSaveDialogOpen(true);
           }
           break;
       }
@@ -1037,76 +824,15 @@ export default function ProfessionalExhibitionEditor() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedId, shapes]);
 
-  const zoomLevels = [0.1, 0.25, 0.5, 0.75, 1, 1.5, 2, 3, 4];
   const selectedShape = shapes.find(s => s.id === selectedId);
-
-  const handleSave = () => {
-    setIsSaveDialogOpen(true);
-  };
-
-  const SaveFloorPlanModal = () => (
-    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-md">
-        <div className="p-6 border-b border-gray-200">
-          <div className="flex items-center justify-between">
-            <div>
-              <h3 className="text-lg font-semibold text-gray-900">Save Floor Plan</h3>
-              <p className="text-sm text-gray-500">Save your changes</p>
-            </div>
-            <button
-              onClick={() => setIsSaveDialogOpen(false)}
-              className="p-2 hover:bg-gray-100 rounded-lg"
-            >
-              <X size={20} />
-            </button>
-          </div>
-        </div>
-
-        <div className="p-6">
-          <div className="space-y-4">
-            <div>
-              <label className="text-sm text-gray-600 mb-2 block">Floor Plan Name</label>
-              <input
-                type="text"
-                value={saveName}
-                onChange={(e) => setSaveName(e.target.value)}
-                className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter floor plan name"
-              />
-            </div>
-          </div>
-
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <div className="flex gap-3">
-              <button
-                onClick={() => setIsSaveDialogOpen(false)}
-                className="flex-1 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg font-medium"
-              >
-                Cancel
-              </button>
-              <button
-                onClick={handleSaveClick}
-                disabled={!saveName.trim() || isLoading}
-                className="flex-1 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-              >
-                {isLoading ? <Loader2 size={16} className="animate-spin" /> : <SaveAll size={16} />}
-                Save
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
 
   return (
     <div className="flex flex-col h-screen bg-gray-50">
-      <Toaster />
+      <Toaster position="top-right" />
       
       {/* HEADER */}
       <header className="bg-white border-b border-gray-200 px-4 py-3 shadow-sm">
         <div className="flex items-center justify-between">
-          {/* Left: Logo & Title */}
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
@@ -1125,22 +851,7 @@ export default function ProfessionalExhibitionEditor() {
             </div>
           </div>
 
-          {/* Right: Actions */}
           <div className="flex items-center gap-2">
-            <button
-              onClick={handleSave}
-              className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm flex items-center gap-2"
-            >
-              <SaveAll size={14} />
-              Save
-            </button>
-            <button
-              onClick={handleUpload}
-              className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm flex items-center gap-2"
-            >
-              <Upload size={14} />
-              Upload
-            </button>
             <button
               onClick={handleExport}
               disabled={isLoading}
@@ -1157,7 +868,7 @@ export default function ProfessionalExhibitionEditor() {
       <div className="flex flex-1 overflow-hidden">
         {/* LEFT SIDEBAR - TOOLS */}
         {isToolsOpen && (
-          <aside className="w-64 bg-white border-r border-gray-200 flex flex-col">
+          <aside className="w-64 bg-white border-r border-gray-200 flex flex-col overflow-y-auto">
             <div className="p-4 border-b border-gray-200">
               <h3 className="font-semibold text-gray-800 mb-4">Tools</h3>
               <div className="grid grid-cols-2 gap-2">
@@ -1205,6 +916,30 @@ export default function ProfessionalExhibitionEditor() {
                 </div>
               </div>
             )}
+
+            {/* Image Upload */}
+            <div className="p-4 border-t border-gray-200">
+              <button
+                onClick={() => {
+                  const input = document.createElement("input");
+                  input.type = "file";
+                  input.accept = "image/*";
+                  input.onchange = async (e) => {
+                    const file = (e.target as HTMLInputElement).files?.[0];
+                    if (file) {
+                      const reader = new FileReader();
+                      reader.onload = (e) => setImage(e.target?.result as string);
+                      reader.readAsDataURL(file);
+                    }
+                  };
+                  input.click();
+                }}
+                className="w-full p-3 bg-gray-100 hover:bg-gray-200 rounded-lg flex items-center justify-center gap-2 text-sm"
+              >
+                <Upload size={16} />
+                Upload Background
+              </button>
+            </div>
           </aside>
         )}
 
@@ -1215,28 +950,65 @@ export default function ProfessionalExhibitionEditor() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => setZoom(z => Math.max(z - 0.2, 0.1))}
+                  onClick={() => setZoom(z => Math.max(z - 0.1, 0.1))}
                   className="p-2 hover:bg-gray-100 rounded"
                   disabled={zoom <= 0.1}
                 >
                   <ZoomOut size={16} />
                 </button>
-                <span className="text-sm text-gray-700">{Math.round(zoom * 100)}%</span>
+                <span className="text-sm text-gray-700 w-16 text-center">
+                  {Math.round(zoom * 100)}%
+                </span>
                 <button
-                  onClick={() => setZoom(z => Math.min(z + 0.2, 5))}
+                  onClick={() => setZoom(z => Math.min(z + 0.1, 5))}
                   className="p-2 hover:bg-gray-100 rounded"
                   disabled={zoom >= 5}
                 >
                   <ZoomIn size={16} />
                 </button>
+                
+                <button
+                  onClick={() => setShowGrid(!showGrid)}
+                  className={`p-2 rounded ${
+                    showGrid ? 'bg-blue-100 text-blue-700' : 'hover:bg-gray-100'
+                  }`}
+                  title="Toggle Grid"
+                >
+                  <Grid size={16} />
+                </button>
               </div>
               
               {selectedShape && (
                 <div className="flex items-center gap-2">
+                  {selectedShape.type === "booth" && (
+                    <>
+                      <button
+                        onClick={() => updateBoothStatus('available')}
+                        className="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded-lg text-xs flex items-center gap-1"
+                      >
+                        <CheckCircle size={14} />
+                        Available
+                      </button>
+                      <button
+                        onClick={() => updateBoothStatus('booked')}
+                        className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs flex items-center gap-1"
+                      >
+                        <Building2 size={14} />
+                        Booked
+                      </button>
+                      <button
+                        onClick={() => updateBoothStatus('reserved')}
+                        className="px-3 py-1.5 bg-orange-600 hover:bg-orange-700 text-white rounded-lg text-xs flex items-center gap-1"
+                      >
+                        <Clock size={14} />
+                        Reserved
+                      </button>
+                    </>
+                  )}
                   <button
                     onClick={duplicateSelected}
                     className="p-2 hover:bg-gray-100 rounded"
-                    title="Duplicate"
+                    title="Duplicate (Ctrl+D)"
                   >
                     <Copy size={14} />
                   </button>
@@ -1255,7 +1027,7 @@ export default function ProfessionalExhibitionEditor() {
           {/* Canvas */}
           <div
             ref={containerRef}
-            className="flex-1 relative overflow-hidden bg-gray-50 select-none canvas-container"
+            className="flex-1 relative overflow-hidden bg-gray-50 select-none"
             onMouseDown={handleMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
@@ -1267,7 +1039,7 @@ export default function ProfessionalExhibitionEditor() {
             {/* Grid */}
             {showGrid && (
               <div
-                className="absolute inset-0 opacity-10 grid-background"
+                className="absolute inset-0 opacity-10 pointer-events-none"
                 style={{
                   backgroundImage: `
                     linear-gradient(to right, #94a3b8 1px, transparent 1px),
@@ -1281,7 +1053,8 @@ export default function ProfessionalExhibitionEditor() {
 
             {/* Canvas Content */}
             <div
-              className="absolute inset-0 canvas-content"
+              ref={canvasContentRef}
+              className="absolute inset-0"
               style={{
                 transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoom})`,
                 transformOrigin: '0 0'
@@ -1292,7 +1065,7 @@ export default function ProfessionalExhibitionEditor() {
                 <img
                   src={image}
                   alt="Floor plan background"
-                  className="absolute top-0 left-0 max-w-full max-h-full object-contain"
+                  className="absolute top-0 left-0 max-w-full max-h-full object-contain pointer-events-none"
                   draggable={false}
                   style={{ opacity: 0.7 }}
                 />
@@ -1300,26 +1073,18 @@ export default function ProfessionalExhibitionEditor() {
 
               {/* Shapes */}
               {[...shapes]
-                .filter(shape => {
-                  const layer = layers.find(l => l.category === exhibitionShapes.find(s => s.type === shape.type)?.category);
-                  return layer ? layer.visible : true;
-                })
-                .sort((a, b) => {
-                  const aZ = safeNumber(a.zIndex ?? 1);
-                  const bZ = safeNumber(b.zIndex ?? 1);
-                  return aZ - bZ;
-                })
+                .sort((a, b) => (a.zIndex ?? 0) - (b.zIndex ?? 0))
                 .map(renderShape)}
 
               {/* Temporary Shape */}
               {tempShape && (
                 <div
-                  className="absolute border-2 border-dashed border-blue-400 bg-blue-100/20"
+                  className="absolute border-2 border-dashed border-blue-400 bg-blue-100/20 pointer-events-none temp-shape"
                   style={{
-                    left: `${tempShape.x * zoom + panOffset.x}px`,
-                    top: `${tempShape.y * zoom + panOffset.y}px`,
-                    width: `${tempShape.width * zoom}px`,
-                    height: `${tempShape.height * zoom}px`,
+                    left: `${tempShape.x}px`,
+                    top: `${tempShape.y}px`,
+                    width: `${tempShape.width}px`,
+                    height: `${tempShape.height}px`,
                     borderRadius: getBorderRadius(tempShape.type)
                   }}
                 />
@@ -1327,29 +1092,42 @@ export default function ProfessionalExhibitionEditor() {
 
               {/* Measurement Line */}
               {measurementLine && (
-                <>
-                  <div
-                    className="absolute bg-red-500"
+                <div className="measurement-line">
+                  <svg
+                    className="absolute top-0 left-0 pointer-events-none"
                     style={{
-                      left: `${measurementLine.x1 * zoom + panOffset.x}px`,
-                      top: `${measurementLine.y1 * zoom + panOffset.y}px`,
-                      width: `${Math.sqrt(
-                        Math.pow((measurementLine.x2 - measurementLine.x1) * zoom, 2) + 
-                        Math.pow((measurementLine.y2 - measurementLine.y1) * zoom, 2)
-                      )}px`,
-                      height: '2px',
-                      transform: `rotate(${Math.atan2(
-                        measurementLine.y2 - measurementLine.y1,
-                        measurementLine.x2 - measurementLine.x1
-                      )}rad)`,
-                      transformOrigin: '0 0'
+                      width: '100%',
+                      height: '100%'
                     }}
-                  />
+                  >
+                    <line
+                      x1={measurementLine.x1}
+                      y1={measurementLine.y1}
+                      x2={measurementLine.x2}
+                      y2={measurementLine.y2}
+                      stroke="#ef4444"
+                      strokeWidth="2"
+                      strokeDasharray="5,5"
+                    />
+                    <circle
+                      cx={measurementLine.x1}
+                      cy={measurementLine.y1}
+                      r="4"
+                      fill="#ef4444"
+                    />
+                    <circle
+                      cx={measurementLine.x2}
+                      cy={measurementLine.y2}
+                      r="4"
+                      fill="#ef4444"
+                    />
+                  </svg>
                   <div
                     className="absolute bg-white text-red-700 text-xs px-2 py-1 rounded shadow"
                     style={{
-                      left: `${((measurementLine.x1 + measurementLine.x2) / 2) * zoom + panOffset.x}px`,
-                      top: `${((measurementLine.y1 + measurementLine.y2) / 2) * zoom + panOffset.y - 20}px`,
+                      left: `${(measurementLine.x1 + measurementLine.x2) / 2}px`,
+                      top: `${(measurementLine.y1 + measurementLine.y2) / 2 - 20}px`,
+                      transform: 'translate(-50%, -50%)'
                     }}
                   >
                     {calculateDistance(
@@ -1359,7 +1137,7 @@ export default function ProfessionalExhibitionEditor() {
                       measurementLine.y2
                     ).meters}m
                   </div>
-                </>
+                </div>
               )}
             </div>
           </div>
@@ -1367,31 +1145,96 @@ export default function ProfessionalExhibitionEditor() {
 
         {/* RIGHT SIDEBAR - PROPERTIES */}
         {isPropertiesOpen && selectedShape && (
-          <aside className="w-80 bg-white border-l border-gray-200 p-4">
-            <h3 className="font-semibold text-gray-800 mb-4">Properties</h3>
+          <aside className="w-80 bg-white border-l border-gray-200 p-4 overflow-y-auto">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="font-semibold text-gray-800">Properties</h3>
+              <button
+                onClick={() => setIsPropertiesOpen(false)}
+                className="p-1 hover:bg-gray-100 rounded lg:hidden"
+              >
+                <X size={16} />
+              </button>
+            </div>
             
             <div className="space-y-4">
               <div>
-                <label className="text-sm text-gray-600 mb-1 block">Text</label>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">
+                  {selectedShape.type === 'booth' ? 'Booth Name' : 'Text'}
+                </label>
                 <input
                   type="text"
                   value={selectedShape.text || getDefaultText(selectedShape.type)}
-                  onChange={(e) => updateSelectedText(e.target.value)}
-                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                  onChange={(e) => {
+                    setShapes(prev =>
+                      prev.map(s =>
+                        s.id === selectedId
+                          ? { ...s, text: e.target.value }
+                          : s
+                      )
+                    );
+                  }}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter text"
                 />
               </div>
 
+              {selectedShape.type === 'booth' && (
+                <div>
+                  <label className="text-sm font-medium text-gray-700 mb-2 block">
+                    Booth Status
+                  </label>
+                  <div className="grid grid-cols-3 gap-2">
+                    <button
+                      onClick={() => updateBoothStatus('available')}
+                      className={`px-3 py-2 rounded-lg text-xs font-medium ${
+                        selectedShape.metadata?.status === 'available'
+                          ? 'bg-green-600 text-white'
+                          : 'bg-green-100 text-green-800 hover:bg-green-200'
+                      }`}
+                    >
+                      Available
+                    </button>
+                    <button
+                      onClick={() => updateBoothStatus('booked')}
+                      className={`px-3 py-2 rounded-lg text-xs font-medium ${
+                        selectedShape.metadata?.status === 'booked'
+                          ? 'bg-blue-600 text-white'
+                          : 'bg-blue-100 text-blue-800 hover:bg-blue-200'
+                      }`}
+                    >
+                      Booked
+                    </button>
+                    <button
+                      onClick={() => updateBoothStatus('reserved')}
+                      className={`px-3 py-2 rounded-lg text-xs font-medium ${
+                        selectedShape.metadata?.status === 'reserved'
+                          ? 'bg-orange-600 text-white'
+                          : 'bg-orange-100 text-orange-800 hover:bg-orange-200'
+                      }`}
+                    >
+                      Reserved
+                    </button>
+                  </div>
+                </div>
+              )}
+
               <div>
-                <label className="text-sm text-gray-600 mb-1 block">Position</label>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">Position</label>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <span className="text-xs text-gray-500">X</span>
                     <input
                       type="number"
-                      value={selectedShape.x}
-                      onChange={(e) => setShapes(prev =>
-                        prev.map(s => s.id === selectedId ? {...s, x: parseFloat(e.target.value)} : s)
-                      )}
+                      value={Math.round(selectedShape.x)}
+                      onChange={(e) => {
+                        setShapes(prev =>
+                          prev.map(s =>
+                            s.id === selectedId
+                              ? { ...s, x: parseFloat(e.target.value) || 0 }
+                              : s
+                          )
+                        );
+                      }}
                       className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
                     />
                   </div>
@@ -1399,10 +1242,16 @@ export default function ProfessionalExhibitionEditor() {
                     <span className="text-xs text-gray-500">Y</span>
                     <input
                       type="number"
-                      value={selectedShape.y}
-                      onChange={(e) => setShapes(prev =>
-                        prev.map(s => s.id === selectedId ? {...s, y: parseFloat(e.target.value)} : s)
-                      )}
+                      value={Math.round(selectedShape.y)}
+                      onChange={(e) => {
+                        setShapes(prev =>
+                          prev.map(s =>
+                            s.id === selectedId
+                              ? { ...s, y: parseFloat(e.target.value) || 0 }
+                              : s
+                          )
+                        );
+                      }}
                       className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
                     />
                   </div>
@@ -1410,39 +1259,170 @@ export default function ProfessionalExhibitionEditor() {
               </div>
 
               <div>
-                <label className="text-sm text-gray-600 mb-1 block">Size</label>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">Size</label>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
                     <span className="text-xs text-gray-500">Width</span>
                     <input
                       type="number"
-                      value={selectedShape.width}
-                      onChange={(e) => setShapes(prev =>
-                        prev.map(s => s.id === selectedId ? {...s, width: parseFloat(e.target.value)} : s)
-                      )}
+                      value={Math.round(selectedShape.width)}
+                      onChange={(e) => {
+                        setShapes(prev =>
+                          prev.map(s =>
+                            s.id === selectedId
+                              ? { ...s, width: Math.max(20, parseFloat(e.target.value) || 20) }
+                              : s
+                          )
+                        );
+                      }}
                       className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
+                      min="20"
                     />
                   </div>
                   <div>
                     <span className="text-xs text-gray-500">Height</span>
                     <input
                       type="number"
-                      value={selectedShape.height}
-                      onChange={(e) => setShapes(prev =>
-                        prev.map(s => s.id === selectedId ? {...s, height: parseFloat(e.target.value)} : s)
-                      )}
+                      value={Math.round(selectedShape.height)}
+                      onChange={(e) => {
+                        setShapes(prev =>
+                          prev.map(s =>
+                            s.id === selectedId
+                              ? { ...s, height: Math.max(20, parseFloat(e.target.value) || 20) }
+                              : s
+                          )
+                        );
+                      }}
                       className="w-full border border-gray-300 rounded px-2 py-1 text-sm"
+                      min="20"
                     />
                   </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">Rotation</label>
+                <input
+                  type="number"
+                  value={selectedShape.rotation || 0}
+                  onChange={(e) => {
+                    setShapes(prev =>
+                      prev.map(s =>
+                        s.id === selectedId
+                          ? { ...s, rotation: parseFloat(e.target.value) || 0 }
+                          : s
+                      )
+                    );
+                  }}
+                  className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+                  min="0"
+                  max="360"
+                  step="45"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">Colors</label>
+                <div className="space-y-2">
+                  <div>
+                    <span className="text-xs text-gray-500">Fill</span>
+                    <div className="flex gap-1 mt-1 flex-wrap">
+                      {colorPalette.slice(0, 5).map((color, i) => (
+                        <button
+                          key={i}
+                          onClick={() => {
+                            setShapes(prev =>
+                              prev.map(s =>
+                                s.id === selectedId
+                                  ? { ...s, color }
+                                  : s
+                              )
+                            );
+                          }}
+                          className="w-6 h-6 rounded border border-gray-300 hover:scale-110 transition"
+                          style={{ backgroundColor: color }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <span className="text-xs text-gray-500">Border</span>
+                    <div className="flex gap-1 mt-1 flex-wrap">
+                      {borderColors.slice(0, 5).map((color, i) => (
+                        <button
+                          key={i}
+                          onClick={() => {
+                            setShapes(prev =>
+                              prev.map(s =>
+                                s.id === selectedId
+                                  ? { ...s, borderColor: color }
+                                  : s
+                              )
+                            );
+                          }}
+                          className="w-6 h-6 rounded border border-gray-300 hover:scale-110 transition"
+                          style={{ backgroundColor: color }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="text-sm font-medium text-gray-700 mb-1 block">
+                  Border Width
+                </label>
+                <input
+                  type="range"
+                  min="1"
+                  max="5"
+                  value={selectedShape.borderWidth || 2}
+                  onChange={(e) => {
+                    setShapes(prev =>
+                      prev.map(s =>
+                        s.id === selectedId
+                          ? { ...s, borderWidth: parseInt(e.target.value) }
+                          : s
+                      )
+                    );
+                  }}
+                  className="w-full"
+                />
+              </div>
+
+              <div className="pt-4 border-t border-gray-200">
+                <div className="flex gap-2">
+                  <button
+                    onClick={duplicateSelected}
+                    className="flex-1 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg text-sm flex items-center justify-center gap-1"
+                  >
+                    <Copy size={14} />
+                    Duplicate
+                  </button>
+                  <button
+                    onClick={deleteSelected}
+                    className="flex-1 py-2 bg-red-100 hover:bg-red-200 text-red-700 rounded-lg text-sm flex items-center justify-center gap-1"
+                  >
+                    <Trash2 size={14} />
+                    Delete
+                  </button>
                 </div>
               </div>
             </div>
           </aside>
         )}
-      </div>
 
-      {/* Modals */}
-      {isSaveDialogOpen && <SaveFloorPlanModal />}
+        {/* Toggle Properties Button (when hidden) */}
+        {!isPropertiesOpen && (
+          <button
+            onClick={() => setIsPropertiesOpen(true)}
+            className="fixed right-4 top-20 bg-white p-2 rounded-lg shadow-lg border border-gray-200 hover:bg-gray-50 lg:hidden"
+          >
+            <ChevronLeft size={20} />
+          </button>
+        )}
+      </div>
     </div>
   );
 }
