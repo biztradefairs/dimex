@@ -24,7 +24,7 @@ const navigation = [
   { name: 'Invoice', href: '/dashboard/invoice', icon: DocumentTextIcon },
   { name: 'Exhibitor Manual', href: '/dashboard/manual', icon: BookOpenIcon },
   { name: 'Extra Requirements', href: '/dashboard/requirements', icon: CogIcon },
-  { name: 'Exhibitor', href: '/dashboard/exhibitor', icon: UserIcon}
+  // { name: 'Exhibitor', href: '/dashboard/exhibitor', icon: UserIcon}
 ];
 
 interface SidebarProps {
