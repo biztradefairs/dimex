@@ -157,7 +157,7 @@ const pageData = {
             id: "181",
             Title: null,
             Content: {
-              Content: "<p>TransRussia is Eurasia's leading international exhibition for transport and logistics services, warehouse equipment, and IT solutions. It brings together shippers, carriers, freight forwarders, and technology providers to explore innovations, build partnerships, and optimise supply chains across Eurasia and beyond.</p>"
+              Content: "<p>Diemex 2026 is India's leading international exhibition for Die, Mould and Precision Manufacturing Technologies.</p>"
             },
             Socials: []
           },
@@ -165,7 +165,7 @@ const pageData = {
             id: "182",
             Title: "Contact Us",
             Content: {
-              Content: "<p>+7-(495)-799-55-85</p><p><a href=\"mailto:transport@ite.group\">marketing@ite.group</a></p>"
+              Content: "<p>+91-91483 19993</p><p><a href=\"mailto:pad@maxxmedia.in\">pad@maxxmedia.in</a></p>"
             },
             Socials: []
           }
@@ -190,7 +190,7 @@ const pageData = {
             id: "8",
             Title: "Venue",
             Content: {
-              Content: "<p>Crocus Expo IEC, Russia, Moscow, Pavilion 3</p>"
+              Content: "<p>Auto Cluster Exhibition Centre, Pune</p>"
             },
             Socials: []
           }
