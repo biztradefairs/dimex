@@ -53,7 +53,7 @@ const navigation = [
     subItems: [
       { name: "Exhibitors", href: "/admin/exhibition/exhibitors", icon: Briefcase },
       // { name: "Sectors", href: "/admin/exhibition/sectors", icon: Target },
-      { name: "Floor Plans", href: "/admin/exhibition/floor-plans", icon: Globe },
+      { name: "Floor Plans", href: "/admin/exhibition/booths", icon: Globe },
       { name: "Manuals", href: "/admin/exhibition/manuals", icon: BookOpen },
     ],
   },
