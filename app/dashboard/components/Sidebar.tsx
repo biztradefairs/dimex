@@ -17,7 +17,8 @@ import { icons } from 'lucide-react';
 
 const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: HomeIcon },
-  { name: 'Profile', href: '/dashboard/profile', icon: UserIcon },
+  { name: 'Profile', href: '/dashboard/exhibitor', icon: UserIcon},
+  // { name: 'Profile', href: '/dashboard/profile', icon: UserIcon },
   { name: 'Layout', href: '/dashboard/layout', icon: MapIcon },
   { name: 'Stall Booked', href: '/dashboard/stall', icon: ShoppingCartIcon },
   { name: 'Invoice', href: '/dashboard/invoice', icon: DocumentTextIcon },

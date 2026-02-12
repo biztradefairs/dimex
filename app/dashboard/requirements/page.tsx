@@ -1,4 +1,3 @@
-// app/dashboard/requirements/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -182,6 +181,34 @@ interface PaymentDetails {
   uploadedReceipt: File | null;
 }
 
+// New Interfaces for Step 14 & 15
+interface RentalItem {
+  description: string;
+  costFor3Days: number;
+  quantity: number;
+  totalCost: number;
+}
+
+interface RentalItems {
+  lcdProjector: RentalItem;
+  laptop: RentalItem;
+  laserPrinter: RentalItem;
+  paSystem: RentalItem;
+  cordlessMike: RentalItem;
+  tv42: RentalItem;
+  tv50: RentalItem;
+  tv55: RentalItem;
+}
+
+interface HousekeepingStaff {
+  category: 'Housekeeping';
+  chargesPerShift: number;
+  noOfDays: number;
+  totalCost: number;
+  gst: number;
+  grandTotal: number;
+}
+
 // Furniture catalog
 const furnitureCatalog: FurnitureItem[] = [
   { code: 'PI-01', description: 'Executive Chair', size: 'Black/red', cost3Days: 2000, quantity: 0, cost: 0 },
@@ -225,7 +252,7 @@ export default function RequirementsPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Form 1 - General Information (SIMPLIFIED)
+  // Form 1 - General Information
   const [generalInfo, setGeneralInfo] = useState<GeneralInfo>({
     title: 'Mr',
     firstName: '',
@@ -360,6 +387,29 @@ export default function RequirementsPage() {
     grandTotal: 0
   });
 
+  // ============= NEW FORM STATES =============
+  // Form 14 - Rental Items (AV & IT)
+  const [rentalItems, setRentalItems] = useState<RentalItems>({
+    lcdProjector: { description: 'LCD Projector (XGA 3000 ASNI Lumens)', costFor3Days: 20000, quantity: 0, totalCost: 0 },
+    laptop: { description: 'Laptop with Accessories', costFor3Days: 4000, quantity: 0, totalCost: 0 },
+    laserPrinter: { description: 'Laser Jet B & W Printer / Scanner (Without Cartridges)', costFor3Days: 10000, quantity: 0, totalCost: 0 },
+    paSystem: { description: 'PA Systems (150 w Speaker 2 nos., 400 w Amplifier 1 no)', costFor3Days: 10000, quantity: 0, totalCost: 0 },
+    cordlessMike: { description: 'Cordless Hand Mike', costFor3Days: 2000, quantity: 0, totalCost: 0 },
+    tv42: { description: 'LCD / LED TV 42"', costFor3Days: 12000, quantity: 0, totalCost: 0 },
+    tv50: { description: 'LCD / LED TV 50"', costFor3Days: 16000, quantity: 0, totalCost: 0 },
+    tv55: { description: 'LCD / LED TV 55"', costFor3Days: 25000, quantity: 0, totalCost: 0 }
+  });
+
+  // Form 15 - Housekeeping Staff
+  const [housekeepingStaff, setHousekeepingStaff] = useState<HousekeepingStaff>({
+    category: 'Housekeeping',
+    chargesPerShift: 2000,
+    noOfDays: 0,
+    totalCost: 0,
+    gst: 0,
+    grandTotal: 0
+  });
+
   // Payment Details
   const [paymentDetails, setPaymentDetails] = useState<PaymentDetails>({
     paymentMode: 'RTGS',
@@ -381,6 +431,10 @@ export default function RequirementsPage() {
     const waterTotal = waterConnection.grandTotal || 0;
     const securityTotal = securityGuard.grandTotal || 0;
     const depositAmount = securityDeposit.amountINR || 0;
+    
+    // New totals
+    const rentalTotal = Object.values(rentalItems).reduce((sum, item) => sum + item.totalCost, 0);
+    const housekeepingTotal = housekeepingStaff.grandTotal || 0;
 
     return {
       furniture: furnitureTotal,
@@ -390,8 +444,12 @@ export default function RequirementsPage() {
       water: waterTotal,
       security: securityTotal,
       deposit: depositAmount,
-      subtotal: furnitureTotal + hostessTotal + electricalTotal + compressedAirTotal + waterTotal + securityTotal,
-      total: furnitureTotal + hostessTotal + electricalTotal + compressedAirTotal + waterTotal + securityTotal + depositAmount
+      rental: rentalTotal,
+      housekeeping: housekeepingTotal,
+      subtotal: furnitureTotal + hostessTotal + electricalTotal + compressedAirTotal + 
+                waterTotal + securityTotal + rentalTotal + housekeepingTotal,
+      total: furnitureTotal + hostessTotal + electricalTotal + compressedAirTotal + 
+             waterTotal + securityTotal + rentalTotal + housekeepingTotal + depositAmount
     };
   };
 
@@ -476,6 +534,16 @@ export default function RequirementsPage() {
     }
   };
 
+  // New Handler for Rental Items
+  const handleRentalQuantity = (itemKey: keyof RentalItems, quantity: number) => {
+    setRentalItems(prev => {
+      const updated = { ...prev };
+      updated[itemKey].quantity = quantity;
+      updated[itemKey].totalCost = quantity * updated[itemKey].costFor3Days;
+      return updated;
+    });
+  };
+
   const handlePaymentFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files[0]) {
@@ -493,7 +561,7 @@ export default function RequirementsPage() {
       formData.append('boothDetails', JSON.stringify(boothDetails));
       formData.append('securityDeposit', JSON.stringify(securityDeposit));
       formData.append('machines', JSON.stringify(machines.filter(m => m.machineName)));
-      formData.append('personnel', JSON.stringify(personnel.filter(p => p.name)));
+      formData.append('Exhibitor Passes', JSON.stringify(personnel.filter(p => p.name)));
       formData.append('companyDetails', JSON.stringify(companyDetails));
       formData.append('electricalLoad', JSON.stringify(electricalLoad));
       formData.append('furnitureItems', JSON.stringify(furnitureItems.filter(f => f.quantity > 0)));
@@ -501,6 +569,8 @@ export default function RequirementsPage() {
       formData.append('compressedAir', JSON.stringify(compressedAir));
       formData.append('waterConnection', JSON.stringify(waterConnection));
       formData.append('securityGuard', JSON.stringify(securityGuard));
+      formData.append('rentalItems', JSON.stringify(rentalItems));
+      formData.append('housekeepingStaff', JSON.stringify(housekeepingStaff));
       formData.append('paymentDetails', JSON.stringify({ ...paymentDetails, uploadedReceipt: null }));
       
       if (paymentDetails.uploadedReceipt) {
@@ -541,6 +611,16 @@ export default function RequirementsPage() {
     }
   }, [securityGuard.noOfDays]);
 
+  // New Effect for Housekeeping
+  useEffect(() => {
+    if (housekeepingStaff.noOfDays > 0) {
+      const total = housekeepingStaff.noOfDays * housekeepingStaff.chargesPerShift;
+      const gst = total * 0.18;
+      const grandTotal = total + gst;
+      setHousekeepingStaff(prev => ({ ...prev, totalCost: total, gst, grandTotal }));
+    }
+  }, [housekeepingStaff.noOfDays]);
+
   // ============= RENDER FUNCTIONS =============
 
   const steps = [
@@ -556,7 +636,9 @@ export default function RequirementsPage() {
     { number: 10, name: 'Hostess', icon: SparklesIcon, mobileName: 'Host' },
     { number: 11, name: 'Air', icon: WrenchScrewdriverIcon, mobileName: 'Air' },
     { number: 12, name: 'Water', icon: TruckIcon, mobileName: 'Water' },
-    { number: 13, name: 'Security', icon: ShieldCheckIcon, mobileName: 'Guard' }
+    { number: 13, name: 'Security', icon: ShieldCheckIcon, mobileName: 'Guard' },
+    { number: 14, name: 'AV Rentals', icon: ComputerDesktopIcon, mobileName: 'Rentals' },
+    { number: 15, name: 'Housekeeping', icon: SparklesIcon, mobileName: 'House' }
   ];
 
   const totalSteps = steps.length;
@@ -1746,6 +1828,126 @@ export default function RequirementsPage() {
     </div>
   );
 
+  // ============= NEW FORM 14: RENTAL ITEMS (AV & IT) =============
+  const renderRentalItems = () => {
+    const rentalTotal = Object.values(rentalItems).reduce((sum, item) => sum + item.totalCost, 0);
+    
+    return (
+      <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center">
+            <div className="bg-blue-100 p-2 rounded-lg">
+              <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">AV & IT Rentals</h2>
+          </div>
+          <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1.5 rounded-full">For 3 Days</span>
+        </div>
+
+        <div className="overflow-x-auto border border-gray-200 rounded-lg">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Description of Item</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Cost for 3 Days</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Quantity</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Total Cost</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {Object.entries(rentalItems).map(([key, item], index) => (
+                <tr key={key} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-4 py-3 text-sm text-gray-900">{item.description}</td>
+                  <td className="px-4 py-3 text-sm text-gray-900">₹{item.costFor3Days.toLocaleString()}</td>
+                  <td className="px-4 py-3">
+                    <input
+                      type="number"
+                      min="0"
+                      value={item.quantity || ''}
+                      onChange={(e) => handleRentalQuantity(key as keyof RentalItems, parseInt(e.target.value) || 0)}
+                      className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="0"
+                    />
+                  </td>
+                  <td className="px-4 py-3 text-sm font-semibold text-blue-600">₹{item.totalCost.toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot className="bg-gray-50">
+              <tr>
+                <td colSpan={3} className="px-4 py-3 text-right text-sm font-bold text-gray-900">Total Rental Cost:</td>
+                <td className="px-4 py-3 text-sm font-bold text-blue-600">₹{rentalTotal.toLocaleString()}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <p className="text-xs text-gray-500 mt-4 italic">* GST @ 18% will be applied to the total rental cost</p>
+      </div>
+    );
+  };
+
+  // ============= NEW FORM 15: HOUSEKEEPING STAFF =============
+  const renderHousekeepingStaff = () => {
+    return (
+      <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center">
+            <div className="bg-blue-100 p-2 rounded-lg">
+              <SparklesIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Housekeeping Staff</h2>
+          </div>
+          <span className="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1.5 rounded-full">Per Shift (10 Hrs)</span>
+        </div>
+
+        <div className="border border-gray-200 rounded-lg overflow-hidden">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Category</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Charges per Shift (10 Hrs)</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">No. of Days</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Total Cost</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              <tr className="hover:bg-gray-50 transition-colors">
+                <td className="px-4 py-4 text-sm font-medium text-gray-900">Housekeeping</td>
+                <td className="px-4 py-4 text-sm text-gray-900">₹{housekeepingStaff.chargesPerShift.toLocaleString()}</td>
+                <td className="px-4 py-4">
+                  <input
+                    type="number"
+                    min="0"
+                    value={housekeepingStaff.noOfDays || ''}
+                    onChange={(e) => setHousekeepingStaff({...housekeepingStaff, noOfDays: parseInt(e.target.value) || 0})}
+                    className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    placeholder="0"
+                  />
+                </td>
+                <td className="px-4 py-4 text-sm font-semibold text-blue-600">₹{housekeepingStaff.totalCost.toLocaleString()}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {housekeepingStaff.noOfDays > 0 && (
+          <div className="mt-4 bg-blue-50 p-4 rounded-lg">
+            <div className="flex justify-between items-center">
+              <div>
+                <p className="text-sm text-gray-700">Subtotal: <span className="font-semibold">₹{housekeepingStaff.totalCost.toLocaleString()}</span></p>
+                <p className="text-sm text-gray-700">GST @ 18%: <span className="font-semibold">₹{housekeepingStaff.gst.toLocaleString()}</span></p>
+              </div>
+              <div className="text-right">
+                <p className="text-xs text-gray-500">Grand Total</p>
+                <p className="text-xl font-bold text-blue-700">₹{housekeepingStaff.grandTotal.toLocaleString()}</p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  };
+
   // ============= PREVIEW MODAL =============
   const renderPreviewModal = () => {
     const totals = calculateTotals();
@@ -1827,8 +2029,16 @@ export default function RequirementsPage() {
                     <td className="px-4 py-2 text-xs">Security Guard</td>
                     <td className="px-4 py-2 text-xs text-right">₹{totals.security.toLocaleString()}</td>
                   </tr>
+                  <tr className="bg-yellow-50">
+                    <td className="px-4 py-2 text-xs font-semibold">AV & IT Rentals</td>
+                    <td className="px-4 py-2 text-xs font-semibold text-right">₹{totals.rental.toLocaleString()}</td>
+                  </tr>
+                  <tr className="bg-green-50">
+                    <td className="px-4 py-2 text-xs font-semibold">Housekeeping Staff</td>
+                    <td className="px-4 py-2 text-xs font-semibold text-right">₹{totals.housekeeping.toLocaleString()}</td>
+                  </tr>
                   <tr className="bg-gray-50">
-                    <td className="px-4 py-2 text-xs font-semibold">Grand Total</td>
+                    <td className="px-4 py-2 text-xs font-bold">Grand Total</td>
                     <td className="px-4 py-2 text-xs font-bold text-blue-600 text-right">₹{totals.total.toLocaleString()}</td>
                   </tr>
                 </tbody>
@@ -1884,7 +2094,7 @@ export default function RequirementsPage() {
             </div>
 
             <div className="bg-gray-50 p-4 rounded-lg">
-              <h3 className="text-sm font-semibold text-gray-800 mb-3">Bank Transfer</h3>
+              <h3 className="text-sm font-semibold text-gray-800 mb-3">Bank Transfer Details</h3>
               <div className="grid grid-cols-2 gap-2 text-xs">
                 <div className="text-gray-600">Account Name:</div>
                 <div className="font-medium">Maxx Business Media Pvt. Ltd.</div>
@@ -1892,6 +2102,10 @@ export default function RequirementsPage() {
                 <div className="font-medium">272605000632</div>
                 <div className="text-gray-600">IFSC:</div>
                 <div className="font-medium">ICIC0002726</div>
+                <div className="text-gray-600">Bank:</div>
+                <div className="font-medium">ICICI Bank</div>
+                <div className="text-gray-600">Branch:</div>
+                <div className="font-medium">New Delhi</div>
               </div>
             </div>
 
@@ -1907,11 +2121,14 @@ export default function RequirementsPage() {
                   >
                     <option value="RTGS">RTGS</option>
                     <option value="NEFT">NEFT</option>
+                    <option value="IMPS">IMPS</option>
                     <option value="UPI">UPI</option>
+                    <option value="Cheque">Cheque</option>
+                    <option value="DD">DD</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Transaction ID</label>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Transaction ID / UTR</label>
                   <input
                     type="text"
                     value={paymentDetails.transactionId}
@@ -1931,13 +2148,23 @@ export default function RequirementsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Upload Receipt</label>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Transaction Date</label>
+                  <input
+                    type="date"
+                    value={paymentDetails.transactionDate}
+                    onChange={(e) => setPaymentDetails({...paymentDetails, transactionDate: e.target.value})}
+                    className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Upload Payment Receipt</label>
                   <input
                     type="file"
                     onChange={handlePaymentFileUpload}
                     accept=".pdf,.jpg,.jpeg,.png"
                     className="w-full border border-gray-200 rounded-lg p-1.5 text-sm"
                   />
+                  <p className="text-xs text-gray-500 mt-1">Accepted formats: PDF, JPG, PNG (Max 5MB)</p>
                 </div>
               </div>
             </div>
@@ -1952,9 +2179,17 @@ export default function RequirementsPage() {
               <button
                 onClick={handleSubmitApplication}
                 disabled={isSubmitting}
-                className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-semibold disabled:opacity-50"
+                className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-semibold disabled:opacity-50 flex items-center justify-center"
               >
-                {isSubmitting ? 'Submitting...' : 'Submit Application'}
+                {isSubmitting ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Submitting...
+                  </>
+                ) : 'Submit Application'}
               </button>
             </div>
           </div>
@@ -1984,15 +2219,19 @@ export default function RequirementsPage() {
           <span className="hidden sm:inline">Preview & Totals</span>
           <span className="sm:hidden">Preview</span>
         </button>
-        <button
-          onClick={() => setCurrentStep(Math.min(totalSteps, currentStep + 1))}
-          disabled={currentStep === totalSteps}
-          className="flex-1 sm:flex-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center justify-center text-sm"
-        >
-          <span className="sm:hidden">Next</span>
-          <span className="hidden sm:inline">Next</span>
-          <ChevronRightIcon className="h-4 w-4 ml-1" />
-        </button>
+        
+        {/* Only show Next button if not on last step (15) */}
+        {currentStep < totalSteps && (
+          <button
+            onClick={() => setCurrentStep(Math.min(totalSteps, currentStep + 1))}
+            disabled={currentStep === totalSteps}
+            className="flex-1 sm:flex-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center justify-center text-sm"
+          >
+            <span className="sm:hidden">Next</span>
+            <span className="hidden sm:inline">Next</span>
+            <ChevronRightIcon className="h-4 w-4 ml-1" />
+          </button>
+        )}
       </div>
     </div>
   );
@@ -2100,6 +2339,8 @@ export default function RequirementsPage() {
           {currentStep === 11 && renderCompressedAir()}
           {currentStep === 12 && renderWaterConnection()}
           {currentStep === 13 && renderSecurityGuard()}
+          {currentStep === 14 && renderRentalItems()}
+          {currentStep === 15 && renderHousekeepingStaff()}
         </div>
 
         {/* Navigation - Bottom */}
