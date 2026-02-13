@@ -8,7 +8,7 @@ import {
   BuildingOfficeIcon, MapPinIcon, UserGroupIcon, CheckCircleIcon
 } from '@heroicons/react/24/outline';
 import FloorPlanRenderer from '@/components/FloorPlanRenderer';
-import { Shape, ShapeType } from '@/lib/types'; // Import from shared types
+import { Shape, ShapeType } from '@/lib/types';
 
 interface FloorPlan {
   id: string | number;
@@ -18,7 +18,7 @@ interface FloorPlan {
   scale: number;
   gridSize?: number;
   showGrid?: boolean;
-  shapes: Shape[]; // Use the imported Shape type
+  shapes: Shape[];
   createdAt: string;
   updatedAt: string;
   thumbnail?: string;
@@ -40,43 +40,27 @@ interface BoothDetails {
 }
 
 export default function LayoutPage() {
-  const [scale, setScale] = useState(1);
   const [zoom, setZoom] = useState(1);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [masterFloorPlan, setMasterFloorPlan] = useState<FloorPlan | null>(null);
   const [selectedShapeId, setSelectedShapeId] = useState<string | null>(null);
   const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
-  const [stallDetails, setStallDetails] = useState<BoothDetails>({
-    boothNumber: 'A-12',
-    location: 'Main Hall, Near Entrance',
-    size: '3m x 3m (9 sqm)',
-    type: 'Premium Corner Stall',
-    amenities: [
-      'Power Outlets (2)',
-      'WiFi Access',
-      'Spotlights',
-      'Table & Chairs'
-    ],
-    restrictions: [
-      'No open flames',
-      'Maximum height: 3m',
-      'No blocking aisles'
-    ]
-  });
+  const [stallDetails, setStallDetails] = useState<BoothDetails | null>(null);
+  const [userBooth, setUserBooth] = useState<Shape | null>(null);
 
-  // Get user data from localStorage or auth context
+  // Get user data from localStorage
   const [userData, setUserData] = useState({
     id: 1,
-    name: 'John Exhibitor',
-    company: 'TechCorp Inc.',
-    email: 'john@techcorp.com',
-    phone: '+1234567890',
-    boothNumber: 'A-12'
+    name: '',
+    company: '',
+    email: '',
+    phone: '',
+    boothNumber: ''
   });
 
   useEffect(() => {
-    // Try to get user data from localStorage
+    // Get user data from localStorage
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       try {
@@ -90,106 +74,137 @@ export default function LayoutPage() {
     fetchMasterFloorPlan();
   }, []);
 
-const fetchMasterFloorPlan = async () => {
+// app/dashboard/layout/page.tsx - Update the fetch function
+const fetchMasterFloorPlan = async (silent = false) => {
   try {
-    setLoading(true);
+    if (!silent) setLoading(true);
     setError(null);
 
-    const token =
-      localStorage.getItem('exhibitor_token') 
-      // localStorage.getItem('token');
+    const token = localStorage.getItem('exhibitor_token');
+    console.log("TOKEN:", token);
+    
+    if (!token) {
+      throw new Error('No authentication token found');
+    }
 
-    const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_BASE_URL}/floor-plans/master/exhibitor-view`,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }
-      }
-    );
+    // Add timestamp to prevent caching
+    const timestamp = new Date().getTime();
+    
+const response = await fetch(
+  "https://diemex-backend.onrender.com/api/booths/floor-plan",
+  {
+    method: "GET",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json"
+    }
+  }
+);
 
     if (!response.ok) {
+      if (response.status === 404) {
+        setMasterFloorPlan(null);
+        return;
+      }
       throw new Error(`HTTP ${response.status}`);
     }
 
     const result = await response.json();
 
     if (!result.success) {
-      throw new Error(result.error || 'Failed to load');
+      throw new Error(result.error || 'Failed to load floor plan');
     }
 
     const plan = result.data;
 
-    setMasterFloorPlan({
-      ...plan,
-      id: String(plan.id),
-      shapes: plan.shapes || []
-    });
+    // Transform the data to match your FloorPlanRenderer props
+    const transformedPlan = {
+      id: plan.id,
+      name: plan.name || 'Exhibition Floor Plan',
+      image: plan.baseImageUrl,
+      scale: 0.1, // You might want to store this in your floor plan
+      gridSize: 20,
+      showGrid: true,
+      shapes: (plan.booths || []).map((booth: any) => ({
+        id: booth.id,
+        type: 'booth',
+        x: (booth.xPercent / 100) * (plan.imageWidth || 1000),
+        y: (booth.yPercent / 100) * (plan.imageHeight || 800),
+        width: (booth.widthPercent / 100) * (plan.imageWidth || 1000),
+        height: (booth.heightPercent / 100) * (plan.imageHeight || 800),
+        metadata: {
+          ...booth.metadata,
+          boothNumber: booth.boothNumber,
+          companyName: booth.companyName,
+          status: booth.status,
+          amenities: booth.metadata?.amenities || [],
+          restrictions: booth.metadata?.restrictions || []
+        }
+      })),
+      createdAt: plan.createdAt || new Date().toISOString(),
+      updatedAt: plan.updatedAt || new Date().toISOString()
+    };
 
-    // Auto-select exhibitor booth
-    const myBooth = plan.shapes?.find(
-      (s: any) => s.metadata?.isUserBooth
-    );
+    setMasterFloorPlan(transformedPlan);
 
-    if (myBooth) {
-      setSelectedShapeId(myBooth.id);
-      updateStallDetails(myBooth);
+    // Find user's booth
+    if (userData.boothNumber) {
+      const myBooth = transformedPlan.shapes.find(
+        (shape: any) => 
+          shape.metadata?.boothNumber === userData.boothNumber
+      );
+
+      if (myBooth) {
+        setUserBooth(myBooth);
+        setSelectedShapeId(myBooth.id);
+        updateStallDetails(myBooth, transformedPlan);
+      }
     }
 
   } catch (err: any) {
-    console.error(err);
-    setError('Unable to load floor plan');
+    console.error('Error fetching floor plan:', err);
+    setError(err.message || 'Unable to load floor plan');
   } finally {
-    setLoading(false);
+    if (!silent) setLoading(false);
   }
 };
 
-
-  const updateStallDetails = (boothShape: Shape) => {
+  const updateStallDetails = (boothShape: Shape, floorPlan: FloorPlan) => {
     if (!boothShape || boothShape.type !== 'booth') return;
     
     const metadata = boothShape.metadata || {};
-    const sizeInMeters = {
-      width: (boothShape.width * (masterFloorPlan?.scale || 0.1)).toFixed(1),
-      height: (boothShape.height * (masterFloorPlan?.scale || 0.1)).toFixed(1)
-    };
+    const scale = floorPlan.scale || 0.1;
+    
+    // Calculate actual dimensions
+    const widthInMeters = (boothShape.width * scale).toFixed(1);
+    const heightInMeters = (boothShape.height * scale).toFixed(1);
+    const area = (parseFloat(widthInMeters) * parseFloat(heightInMeters)).toFixed(1);
     
     setStallDetails({
-      boothNumber: metadata.boothNumber || 'Unknown',
-      location: `${Math.round(boothShape.x)}px, ${Math.round(boothShape.y)}px on plan`,
-      size: `${sizeInMeters.width}m x ${sizeInMeters.height}m (${(parseFloat(sizeInMeters.width) * parseFloat(sizeInMeters.height)).toFixed(1)} sqm)`,
-      type: metadata.category || 'Standard Booth',
-      amenities: metadata.amenities || [
-        'Power Outlets (2)',
-        'WiFi Access',
-        'Spotlights',
-        'Table & Chairs'
-      ],
-      restrictions: metadata.restrictions || [
-        'No open flames',
-        'Maximum height: 3m',
-        'No blocking aisles'
-      ],
-      companyName: metadata.companyName || userData.company,
-      contactPerson: metadata.contactPerson || userData.name,
-      phone: metadata.phone || userData.phone,
-      email: userData.email,
+      boothNumber: metadata.boothNumber || userData.boothNumber || 'Not Assigned',
+      location: `Position: (${Math.round(boothShape.x)}, ${Math.round(boothShape.y)}) on plan`,
+      size: `${widthInMeters}m × ${heightInMeters}m (${area} m²)`,
+      type: metadata.category || metadata.type || 'Standard Booth',
+      amenities: metadata.amenities || [],
+      restrictions: metadata.restrictions || [],
+      companyName: metadata.companyName || userData.company || '',
+      contactPerson: metadata.contactPerson || userData.name || '',
+      phone: metadata.phone || userData.phone || '',
+      email: metadata.email || userData.email || '',
       status: metadata.status || 'booked'
     });
   };
 
   const handleShapeClick = (shapeId: string) => {
     const shape = masterFloorPlan?.shapes?.find(s => s.id === shapeId);
-    if (shape) {
+    if (shape && shape.type === 'booth' && masterFloorPlan) {
       setSelectedShapeId(shapeId);
-      if (shape.type === 'booth') {
-        updateStallDetails(shape);
-      }
+      updateStallDetails(shape, masterFloorPlan);
     }
   };
 
   const zoomIn = () => setZoom(prev => Math.min(prev + 0.2, 3));
-  const zoomOut = () => setZoom(prev => Math.max(prev - 0.2, 0.5));
+  const zoomOut = () => setZoom(prev => Math.max(prev - 0.2, 0.25));
   const resetZoom = () => setZoom(1);
 
   const handlePan = (direction: 'up' | 'down' | 'left' | 'right') => {
@@ -209,7 +224,7 @@ const fetchMasterFloorPlan = async () => {
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `exhibition-floor-plan.jpg`;
+      link.download = `floor-plan-${masterFloorPlan.id || 'latest'}.jpg`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -233,7 +248,9 @@ const fetchMasterFloorPlan = async () => {
   };
 
   const getBoothStatistics = () => {
-    if (!masterFloorPlan?.shapes) return { total: 0, available: 0, booked: 0, reserved: 0 };
+    if (!masterFloorPlan?.shapes) {
+      return { total: 0, available: 0, booked: 0, reserved: 0 };
+    }
     
     const booths = masterFloorPlan.shapes.filter(s => s.type === 'booth');
     const available = booths.filter(b => b.metadata?.status === 'available').length;
@@ -272,7 +289,7 @@ const fetchMasterFloorPlan = async () => {
         <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold text-gray-900">Exhibition Layout</h1>
           <button
-            onClick={fetchMasterFloorPlan}
+            onClick={() => fetchMasterFloorPlan()}
             className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
           >
             <ArrowPathIcon className="h-4 w-4 mr-2" />
@@ -299,6 +316,38 @@ const fetchMasterFloorPlan = async () => {
     );
   }
 
+  // No floor plan exists yet
+  if (!masterFloorPlan) {
+    return (
+      <div className="space-y-6">
+        <div className="flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-gray-900">Exhibition Layout</h1>
+          <button
+            onClick={() => fetchMasterFloorPlan()}
+            className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+          >
+            <ArrowPathIcon className="h-4 w-4 mr-2" />
+            Check for Updates
+          </button>
+        </div>
+        <div className="bg-white shadow rounded-lg p-4">
+          <div className="h-125 flex flex-col items-center justify-center">
+            <div className="text-center">
+              <BuildingOfficeIcon className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <h3 className="text-xl font-medium text-gray-900 mb-2">No Floor Plan Available</h3>
+              <p className="text-gray-600 mb-4">
+                The exhibition floor plan hasn't been published yet.
+              </p>
+              <p className="text-sm text-gray-500">
+                Please check back later or contact the exhibition organizer.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const stats = getBoothStatistics();
 
   return (
@@ -307,7 +356,11 @@ const fetchMasterFloorPlan = async () => {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Exhibition Layout</h1>
           <p className="text-gray-600 mt-1">
-            View your exhibition stall location and details
+            {userBooth ? (
+              <>Your stall: <span className="font-medium text-blue-600">{userBooth.metadata?.boothNumber || 'Not assigned'}</span></>
+            ) : (
+              'View the exhibition floor plan'
+            )}
           </p>
         </div>
         
@@ -336,7 +389,7 @@ const fetchMasterFloorPlan = async () => {
               <button
                 onClick={zoomOut}
                 className="px-2 py-1 text-gray-700 hover:bg-gray-200 rounded"
-                disabled={zoom <= 0.5}
+                disabled={zoom <= 0.25}
                 title="Zoom Out"
               >
                 <span className="font-bold">-</span>
@@ -418,53 +471,43 @@ const fetchMasterFloorPlan = async () => {
           <div className="bg-white shadow rounded-lg p-4">
             {/* Floor Plan Display */}
             <div className="relative h-[600px] border border-gray-200 rounded-lg overflow-hidden">
-              {masterFloorPlan ? (
-                <FloorPlanRenderer
-                  image={masterFloorPlan.image}
-                  shapes={masterFloorPlan.shapes || []}
-                  scale={masterFloorPlan.scale || 0.1}
-                  showGrid={masterFloorPlan.showGrid !== false}
-                  gridSize={masterFloorPlan.gridSize || 20}
-                  zoom={zoom}
-                  panOffset={panOffset}
-                  onShapeClick={handleShapeClick}
-                  selectedShapeId={selectedShapeId}
-                  isEditable={false}
-                />
-              ) : (
-                <div className="h-full flex flex-col items-center justify-center text-gray-500">
-                  <BuildingOfficeIcon className="h-12 w-12 mb-4" />
-                  <p className="text-lg font-medium">No Floor Plan Available</p>
-                  <p className="text-sm mt-1">The exhibition floor plan will be available soon</p>
-                </div>
-              )}
+              <FloorPlanRenderer
+                image={masterFloorPlan.image}
+                shapes={masterFloorPlan.shapes || []}
+                scale={masterFloorPlan.scale || 0.1}
+                showGrid={masterFloorPlan.showGrid !== false}
+                gridSize={masterFloorPlan.gridSize || 20}
+                zoom={zoom}
+                panOffset={panOffset}
+                onShapeClick={handleShapeClick}
+                selectedShapeId={selectedShapeId}
+                isEditable={false}
+              />
             </div>
 
             {/* Plan Details */}
-            {masterFloorPlan && (
-              <div className="mt-4 p-3 bg-gray-50 rounded-lg">
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                  <div>
-                    <span className="text-gray-500">Plan Name:</span>
-                    <p className="font-medium">{masterFloorPlan.name || 'Exhibition Floor Plan'}</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-500">Scale:</span>
-                    <p className="font-medium">1:{masterFloorPlan.scale}px</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-500">Total Booths:</span>
-                    <p className="font-medium">{stats.total}</p>
-                  </div>
-                  <div>
-                    <span className="text-gray-500">Last Updated:</span>
-                    <p className="font-medium">
-                      {new Date(masterFloorPlan.updatedAt).toLocaleDateString()}
-                    </p>
-                  </div>
+            <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div>
+                  <span className="text-gray-500">Plan Name:</span>
+                  <p className="font-medium">{masterFloorPlan.name || 'Exhibition Floor Plan'}</p>
+                </div>
+                <div>
+                  <span className="text-gray-500">Scale:</span>
+                  <p className="font-medium">1:{masterFloorPlan.scale}px = 1m</p>
+                </div>
+                <div>
+                  <span className="text-gray-500">Total Booths:</span>
+                  <p className="font-medium">{stats.total}</p>
+                </div>
+                <div>
+                  <span className="text-gray-500">Last Updated:</span>
+                  <p className="font-medium">
+                    {new Date(masterFloorPlan.updatedAt).toLocaleString()}
+                  </p>
                 </div>
               </div>
-            )}
+            </div>
           </div>
         </div>
 
@@ -472,108 +515,126 @@ const fetchMasterFloorPlan = async () => {
         <div className="bg-white shadow rounded-lg p-6">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-lg font-medium text-gray-900">Stall Details</h2>
-            <span className={`px-3 py-1 text-xs font-medium rounded-full ${
-              stallDetails.status === 'available' ? 'bg-green-100 text-green-800' :
-              stallDetails.status === 'booked' ? 'bg-blue-100 text-blue-800' :
-              stallDetails.status === 'reserved' ? 'bg-yellow-100 text-yellow-800' :
-              'bg-red-100 text-red-800'
-            }`}>
-              {stallDetails.status?.toUpperCase() || 'YOUR STALL'}
-            </span>
+            {stallDetails && (
+              <span className={`px-3 py-1 text-xs font-medium rounded-full ${
+                stallDetails.status === 'available' ? 'bg-green-100 text-green-800' :
+                stallDetails.status === 'booked' ? 'bg-blue-100 text-blue-800' :
+                stallDetails.status === 'reserved' ? 'bg-yellow-100 text-yellow-800' :
+                'bg-gray-100 text-gray-800'
+              }`}>
+                {stallDetails.status?.toUpperCase() || 'YOUR STALL'}
+              </span>
+            )}
           </div>
           
-          <div className="space-y-6">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="bg-blue-50 p-3 rounded-lg">
-                <p className="text-xs text-blue-600 font-medium mb-1">Stall Number</p>
-                <p className="text-xl font-bold text-gray-900">{stallDetails.boothNumber}</p>
+          {stallDetails ? (
+            <div className="space-y-6">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-blue-50 p-3 rounded-lg">
+                  <p className="text-xs text-blue-600 font-medium mb-1">Stall Number</p>
+                  <p className="text-xl font-bold text-gray-900">{stallDetails.boothNumber}</p>
+                </div>
+                <div className="bg-green-50 p-3 rounded-lg">
+                  <p className="text-xs text-green-600 font-medium mb-1">Stall Size</p>
+                  <p className="text-lg font-medium text-gray-900">{stallDetails.size}</p>
+                </div>
               </div>
-              <div className="bg-green-50 p-3 rounded-lg">
-                <p className="text-xs text-green-600 font-medium mb-1">Stall Size</p>
-                <p className="text-lg font-medium text-gray-900">{stallDetails.size}</p>
-              </div>
-            </div>
 
-            <div>
-              <h3 className="text-sm font-medium text-gray-700 mb-2">Company Information</h3>
-              <div className="space-y-3">
-                <div className="flex items-start">
-                  <BuildingOfficeIcon className="h-5 w-5 text-gray-400 mr-2 mt-0.5" />
-                  <div>
-                    <p className="text-sm text-gray-500">Company</p>
-                    <p className="text-gray-900">{stallDetails.companyName}</p>
+              <div>
+                <h3 className="text-sm font-medium text-gray-700 mb-2">Company Information</h3>
+                <div className="space-y-3">
+                  {stallDetails.companyName && (
+                    <div className="flex items-start">
+                      <BuildingOfficeIcon className="h-5 w-5 text-gray-400 mr-2 mt-0.5" />
+                      <div>
+                        <p className="text-sm text-gray-500">Company</p>
+                        <p className="text-gray-900">{stallDetails.companyName}</p>
+                      </div>
+                    </div>
+                  )}
+                  {stallDetails.contactPerson && (
+                    <div className="flex items-start">
+                      <UserGroupIcon className="h-5 w-5 text-gray-400 mr-2 mt-0.5" />
+                      <div>
+                        <p className="text-sm text-gray-500">Contact Person</p>
+                        <p className="text-gray-900">{stallDetails.contactPerson}</p>
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex items-start">
+                    <MapPinIcon className="h-5 w-5 text-gray-400 mr-2 mt-0.5" />
+                    <div>
+                      <p className="text-sm text-gray-500">Location</p>
+                      <p className="text-gray-900">{stallDetails.location}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-start">
-                  <UserGroupIcon className="h-5 w-5 text-gray-400 mr-2 mt-0.5" />
-                  <div>
-                    <p className="text-sm text-gray-500">Contact Person</p>
-                    <p className="text-gray-900">{stallDetails.contactPerson}</p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <MapPinIcon className="h-5 w-5 text-gray-400 mr-2 mt-0.5" />
-                  <div>
-                    <p className="text-sm text-gray-500">Location</p>
-                    <p className="text-gray-900">{stallDetails.location}</p>
-                  </div>
-                </div>
-                <div className="flex items-start">
-                  <svg className="h-5 w-5 text-gray-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-                  </svg>
-                  <div>
-                    <p className="text-sm text-gray-500">Stall Type</p>
-                    <p className="text-gray-900">{stallDetails.type}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-sm font-medium text-gray-700 mb-3">Amenities Included</h3>
-              <div className="space-y-2">
-                {stallDetails.amenities.map((amenity, index) => (
-                  <div key={index} className="flex items-center">
-                    <CheckCircleIcon className="h-5 w-5 text-green-500 mr-2" />
-                    <span className="text-gray-700">{amenity}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="text-sm font-medium text-gray-700 mb-3">Important Restrictions</h3>
-              <div className="space-y-2">
-                {stallDetails.restrictions.map((restriction, index) => (
-                  <div key={index} className="flex items-start">
-                    <svg className="h-5 w-5 text-yellow-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                  <div className="flex items-start">
+                    <svg className="h-5 w-5 text-gray-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                     </svg>
-                    <span className="text-gray-700 text-sm">{restriction}</span>
+                    <div>
+                      <p className="text-sm text-gray-500">Stall Type</p>
+                      <p className="text-gray-900">{stallDetails.type}</p>
+                    </div>
                   </div>
-                ))}
+                </div>
               </div>
-            </div>
 
-            <div className="pt-4 border-t">
-              <div className="space-y-3">
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium flex items-center justify-center">
-                  <svg className="h-5 w-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                  Download Stall Manual
-                </button>
-                <button 
-                  onClick={fetchMasterFloorPlan}
-                  className="w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-50 flex items-center justify-center"
-                >
-                  <ArrowPathIcon className="h-4 w-4 mr-2" />
-                  Refresh Floor Plan
-                </button>
+              {stallDetails.amenities && stallDetails.amenities.length > 0 && (
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Amenities Included</h3>
+                  <div className="space-y-2">
+                    {stallDetails.amenities.map((amenity, index) => (
+                      <div key={index} className="flex items-center">
+                        <CheckCircleIcon className="h-5 w-5 text-green-500 mr-2" />
+                        <span className="text-gray-700">{amenity}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {stallDetails.restrictions && stallDetails.restrictions.length > 0 && (
+                <div>
+                  <h3 className="text-sm font-medium text-gray-700 mb-3">Important Restrictions</h3>
+                  <div className="space-y-2">
+                    {stallDetails.restrictions.map((restriction, index) => (
+                      <div key={index} className="flex items-start">
+                        <svg className="h-5 w-5 text-yellow-500 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.464 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                        </svg>
+                        <span className="text-gray-700 text-sm">{restriction}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              <div className="pt-4 border-t">
+                <div className="space-y-3">
+                  <button 
+                    onClick={() => fetchMasterFloorPlan()}
+                    className="w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-lg font-medium hover:bg-gray-50 flex items-center justify-center"
+                  >
+                    <ArrowPathIcon className="h-4 w-4 mr-2" />
+                    Refresh Floor Plan
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
+          ) : (
+            <div className="text-center py-8">
+              <BuildingOfficeIcon className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+              <p className="text-gray-600">Click on a booth to view details</p>
+              <p className="text-sm text-gray-500 mt-2">
+                {userBooth ? (
+                  <>Your booth is highlighted in blue on the map</>
+                ) : (
+                  <>You haven't been assigned a booth yet</>
+                )}
+              </p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -587,7 +648,7 @@ const fetchMasterFloorPlan = async () => {
             <h4 className="text-sm font-medium text-blue-800">Need Help?</h4>
             <p className="text-sm text-blue-600 mt-1">
               If you cannot locate your stall or have questions about the layout, 
-              please contact exhibition support at support@exhibition.com or call +1 (555) 123-4567.
+              please contact exhibition support.
             </p>
           </div>
         </div>

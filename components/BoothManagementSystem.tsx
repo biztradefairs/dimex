@@ -2,726 +2,358 @@
 
 import { useRef, useState, useEffect } from "react";
 import {
-  Building2, CheckCircle, Clock, Download, Save,
-  Loader2, Grid, ZoomIn, ZoomOut, Hand, Plus, Trash2,
-  Edit, Menu, X, ChevronLeft, ChevronRight, RefreshCw,
-  BarChart3, MapPin, AlertCircle
+  Download, Loader2, Upload, RefreshCw, Image as ImageIcon,
+  Trash2, Maximize2, Minimize2, ZoomIn, ZoomOut,
+  View,
+  Save
 } from "lucide-react";
 import toast, { Toaster } from 'react-hot-toast';
-import { boothsAPI, Booth, BoothStatistics } from "../app/api/boothsAPI"
+import { boothsAPI } from "../app/api/boothsAPI";
 
-export default function BoothManagementSystem() {
-  const canvasRef = useRef<HTMLDivElement>(null);
-  const [booths, setBooths] = useState<Booth[]>([]);
-  const [selectedBoothId, setSelectedBoothId] = useState<string | null>(null);
-  const [zoom, setZoom] = useState(1);
-  const [panOffset, setPanOffset] = useState({ x: 0, y: 0 });
-  const [isPanning, setIsPanning] = useState(false);
-  const [startPoint, setStartPoint] = useState({ x: 0, y: 0 });
-  const [showGrid, setShowGrid] = useState(true);
-  const [gridSize] = useState(20);
+export default function FloorPlanViewer() {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  const [baseImage, setBaseImage] = useState<string | null>(null);
+  const [imageId, setImageId] = useState<number | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [showSidebar, setShowSidebar] = useState(true);
-  const [isMobile, setIsMobile] = useState(false);
-  const [statistics, setStatistics] = useState<BoothStatistics>({
-    total: 0,
-    available: 0,
-    booked: 0,
-    reserved: 0,
-    occupied: 0
-  });
+  const [zoom, setZoom] = useState(1);
+  const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Form state
-  const [editCompanyName, setEditCompanyName] = useState('');
-  const [editStatus, setEditStatus] = useState<'available' | 'booked' | 'reserved'>('available');
-  const [isAddingBooth, setIsAddingBooth] = useState(false);
-  const [newBoothPosition, setNewBoothPosition] = useState({ x: 100, y: 100 });
-
-  // Status configuration
-  const statusConfig = {
-    available: {
-      color: 'bg-green-600',
-      lightColor: 'bg-green-100',
-      textColor: 'text-green-800',
-      borderColor: 'border-green-600',
-      icon: CheckCircle,
-      label: 'Available'
-    },
-    booked: {
-      color: 'bg-blue-600',
-      lightColor: 'bg-blue-100',
-      textColor: 'text-blue-800',
-      borderColor: 'border-blue-600',
-      icon: Building2,
-      label: 'Booked'
-    },
-    reserved: {
-      color: 'bg-orange-600',
-      lightColor: 'bg-orange-100',
-      textColor: 'text-orange-800',
-      borderColor: 'border-orange-600',
-      icon: Clock,
-      label: 'Reserved'
-    }
-  };
-
-  // Load booths on mount
+  // Load existing floor plan on mount
   useEffect(() => {
-    loadBooths();
-    checkDevice();
-    window.addEventListener('resize', checkDevice);
-    return () => window.removeEventListener('resize', checkDevice);
+    loadFloorPlan();
   }, []);
 
-  const checkDevice = () => {
-    const width = window.innerWidth;
-    setIsMobile(width < 768);
-    setShowSidebar(width >= 768);
-  };
-
-  // Load booths from API
-  const loadBooths = async () => {
+  // Load floor plan from API
+  const loadFloorPlan = async () => {
     setIsLoading(true);
     try {
-      const result = await boothsAPI.getAll();
+      const result = await boothsAPI.getFloorPlan();
       
-      if (result.success && result.data) {
-        setBooths(result.data);
-        if (result.floorPlanId) {
-          localStorage.setItem('floorPlanId', String(result.floorPlanId));
-        }
-        toast.success('Booths loaded successfully');
-      } else {
-        toast.error(result.error || 'Failed to load booths');
+      if (result.success && result.data?.baseImageUrl) {
+        setBaseImage(result.data.baseImageUrl);
+        setImageId(result.data.id || null);
+        toast.success('Floor plan loaded');
       }
-      
-      // Load statistics
-      loadStatistics();
-      
     } catch (error) {
-      console.error('Error loading booths:', error);
-      toast.error('Failed to load booths');
+      console.error('Error loading floor plan:', error);
     } finally {
       setIsLoading(false);
     }
   };
 
-  // Load statistics
-  const loadStatistics = async () => {
+  // Handle image upload
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Validate file type
+    if (!file.type.startsWith('image/')) {
+      toast.error('Please upload an image file');
+      return;
+    }
+
+    // Validate file size (max 10MB)
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error('Image size should be less than 10MB');
+      return;
+    }
+
+    setIsLoading(true);
+    const toastId = toast.loading('Uploading floor plan...');
+
     try {
-      const result = await boothsAPI.getStatistics();
+      const formData = new FormData();
+      formData.append('image', file);
+
+      const result = await boothsAPI.uploadImage(formData);
       
       if (result.success && result.data) {
-        setStatistics(result.data);
-      }
-    } catch (error) {
-      console.error('Error loading statistics:', error);
-    }
-  };
-
-  // Get coordinates with grid snap
-  const getCoordinates = (clientX: number, clientY: number) => {
-    if (!canvasRef.current) return { x: 0, y: 0 };
-    
-    const rect = canvasRef.current.getBoundingClientRect();
-    const canvasX = (clientX - rect.left - panOffset.x) / zoom;
-    const canvasY = (clientY - rect.top - panOffset.y) / zoom;
-    
-    // Snap to grid
-    return {
-      x: Math.round(canvasX / gridSize) * gridSize,
-      y: Math.round(canvasY / gridSize) * gridSize
-    };
-  };
-
-  // Handle mouse down for panning
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if (e.button === 1 || (e.button === 0 && e.ctrlKey)) {
-      setIsPanning(true);
-      setStartPoint({ x: e.clientX, y: e.clientY });
-      e.preventDefault();
-    }
-  };
-
-  // Handle mouse move for panning
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (isPanning) {
-      const deltaX = e.clientX - startPoint.x;
-      const deltaY = e.clientY - startPoint.y;
-      setPanOffset(prev => ({
-        x: prev.x + deltaX,
-        y: prev.y + deltaY
-      }));
-      setStartPoint({ x: e.clientX, y: e.clientY });
-    }
-  };
-
-  // Handle mouse up
-  const handleMouseUp = () => {
-    setIsPanning(false);
-  };
-
-  // Handle booth click
-  const handleBoothClick = (booth: Booth, e: React.MouseEvent) => {
-    e.stopPropagation();
-    setSelectedBoothId(booth.id);
-    setEditCompanyName(booth.companyName || '');
-    setEditStatus(booth.status);
-  };
-
-  // Handle canvas click (deselect)
-  const handleCanvasClick = () => {
-    setSelectedBoothId(null);
-    setIsAddingBooth(false);
-  };
-
-  // Update booth status
-  const updateBoothStatus = async (boothId: string, status: 'available' | 'booked' | 'reserved') => {
-    try {
-      const result = await boothsAPI.updateStatus(boothId, status);
-      
-      if (result.success) {
-        // Update local state
-        setBooths(prev =>
-          prev.map(b =>
-            b.id === boothId ? { ...b, status } : b
-          )
-        );
-        if (selectedBoothId === boothId) {
-          setEditStatus(status);
-        }
-        toast.success(result.message || `Status updated to ${statusConfig[status].label}`);
-        loadStatistics();
+        setBaseImage(result.data.baseImageUrl);
+        setImageId(result.data.id || null);
+        setZoom(1);
+        toast.success('Floor plan uploaded successfully!', { id: toastId });
       } else {
-        toast.error(result.error || 'Failed to update status');
+        toast.error(result.error || 'Upload failed', { id: toastId });
       }
     } catch (error) {
-      console.error('Error updating status:', error);
-      toast.error('Failed to update status');
-    }
-  };
-
-  // Update company name
-  const updateCompanyName = async (boothId: string, companyName: string) => {
-    try {
-      const result = await boothsAPI.updateCompanyName(boothId, companyName);
-      
-      if (result.success) {
-        setBooths(prev =>
-          prev.map(b =>
-            b.id === boothId ? { ...b, companyName } : b
-          )
-        );
-        toast.success('Company name updated');
-        loadStatistics();
-      } else {
-        toast.error(result.error || 'Failed to update company name');
+      console.error('Upload error:', error);
+      toast.error('Failed to upload image', { id: toastId });
+    } finally {
+      setIsLoading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
       }
-    } catch (error) {
-      console.error('Error updating company:', error);
-      toast.error('Failed to update company name');
     }
   };
+// Save floor plan
+const saveFloorPlan = async () => {
+  try {
+    const toastId = toast.loading("Saving floor plan...");
 
-  // Save company name from form
-  const handleSaveCompany = () => {
-    if (selectedBoothId) {
-      updateCompanyName(selectedBoothId, editCompanyName);
+    const result = await boothsAPI.saveFloorPlan({
+      baseImageUrl: baseImage
+    });
+
+    if (result.success) {
+      toast.success("Floor plan saved successfully!", { id: toastId });
+    } else {
+      toast.error(result.error || "Failed to save floor plan", { id: toastId });
     }
-  };
-
-  // Add new booth
-  const addBooth = async () => {
-    try {
-      const newBooth = {
-        boothNumber: `B${booths.length + 1}`,
-        companyName: '',
-        status: 'available' as const,
-        x: newBoothPosition.x,
-        y: newBoothPosition.y,
-        width: 120,
-        height: 80
-      };
-
-      const result = await boothsAPI.add(newBooth);
-      
-      if (result.success && result.data) {
-        setBooths(prev => [...prev, result.data as Booth]);
-        toast.success('New booth added');
-        setIsAddingBooth(false);
-        loadStatistics();
-      } else {
-        toast.error(result.error || 'Failed to add booth');
-      }
-    } catch (error) {
-      console.error('Error adding booth:', error);
-      toast.error('Failed to add booth');
-    }
-  };
-
-  // Delete booth
-  const deleteBooth = async (boothId: string) => {
-    if (!confirm('Are you sure you want to delete this booth?')) return;
+  } catch (error) {
+    console.error("Save error:", error);
+    toast.error("Failed to save floor plan");
+  }
+};
+  // Delete floor plan
+  const deleteFloorPlan = async () => {
+    if (!confirm('Are you sure you want to delete this floor plan?')) return;
     
-    try {
-      const result = await boothsAPI.delete(boothId);
-      
-      if (result.success) {
-        setBooths(prev => prev.filter(b => b.id !== boothId));
-        if (selectedBoothId === boothId) {
-          setSelectedBoothId(null);
-        }
-        toast.success('Booth deleted');
-        loadStatistics();
-      } else {
-        toast.error(result.error || 'Failed to delete booth');
-      }
-    } catch (error) {
-      console.error('Error deleting booth:', error);
-      toast.error('Failed to delete booth');
-    }
-  };
-
-  // Reset to default
-  const resetToDefault = async () => {
-    if (!confirm('Reset floor plan to default layout? This will remove all custom booths.')) return;
-    
+    setIsLoading(true);
     try {
       const result = await boothsAPI.reset();
       
       if (result.success) {
-        toast.success('Floor plan reset to default');
-        loadBooths();
+        setBaseImage(null);
+        setImageId(null);
+        setZoom(1);
+        toast.success('Floor plan deleted');
       } else {
-        toast.error(result.error || 'Failed to reset floor plan');
+        toast.error(result.error || 'Failed to delete');
       }
     } catch (error) {
-      console.error('Error resetting:', error);
-      toast.error('Failed to reset floor plan');
-    }
-  };
-
-  // Export as PNG
-  const exportAsPNG = async () => {
-    if (!canvasRef.current) return;
-    
-    setIsLoading(true);
-    toast.loading('Generating export...', { id: 'export' });
-    
-    try {
-      const html2canvas = (await import('html2canvas')).default;
-      const canvas = await html2canvas(canvasRef.current, {
-        backgroundColor: '#ffffff',
-        scale: 2,
-        allowTaint: true,
-        useCORS: true
-      });
-      
-      const link = document.createElement('a');
-      link.download = `floor-plan-${Date.now()}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
-      
-      toast.success('Floor plan exported successfully!', { id: 'export' });
-    } catch (error) {
-      console.error('Export failed:', error);
-      toast.error('Export failed', { id: 'export' });
+      console.error('Delete error:', error);
+      toast.error('Failed to delete floor plan');
     } finally {
       setIsLoading(false);
     }
   };
+  
 
-  const selectedBooth = booths.find(b => b.id === selectedBoothId);
+  // Download image
+  const downloadImage = () => {
+    if (!baseImage) return;
+    
+    const link = document.createElement('a');
+    link.href = baseImage;
+    link.download = `floor-plan-${Date.now()}.png`;
+    link.click();
+    toast.success('Image downloaded');
+  };
+
+  // Toggle fullscreen
+  const toggleFullscreen = () => {
+    if (!containerRef.current) return;
+    
+    if (!isFullscreen) {
+      if (containerRef.current.requestFullscreen) {
+        containerRef.current.requestFullscreen();
+      }
+    } else {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      }
+    }
+    setIsFullscreen(!isFullscreen);
+  };
+
+  // Handle fullscreen change
+  useEffect(() => {
+    const handleFullscreenChange = () => {
+      setIsFullscreen(!!document.fullscreenElement);
+    };
+    
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+    return () => {
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, []);
+
+  // Zoom in
+  const zoomIn = () => {
+    setZoom(z => Math.min(z + 0.25, 3));
+  };
+
+  // Zoom out
+  const zoomOut = () => {
+    setZoom(z => Math.max(z - 0.25, 0.5));
+  };
+
+  // Reset zoom
+  const resetZoom = () => {
+    setZoom(1);
+  };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-50">
+    <div className="flex flex-col h-screen bg-gray-900">
       <Toaster position="top-right" />
       
       {/* Header */}
-      <header className="bg-white border-b border-gray-200 px-4 py-3 shadow-sm">
+      <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => setShowSidebar(!showSidebar)}
-              className="lg:hidden p-2 hover:bg-gray-100 rounded-lg"
-            >
-              {showSidebar ? <X size={20} /> : <Menu size={20} />}
-            </button>
-            <div className="flex items-center gap-2">
-              <div className="bg-blue-600 text-white p-2 rounded-lg">
-                <Building2 size={20} />
-              </div>
-              <div>
-                <h1 className="font-semibold text-gray-800">Booth Management System</h1>
-                <p className="text-xs text-gray-500">Manage exhibition booths & assignments</p>
-              </div>
+            <div className="bg-blue-600 text-white p-2 rounded-lg">
+              <ImageIcon size={24} />
+            </div>
+            <div>
+              <h1 className="text-xl font-bold text-white">Floor Plan Manager</h1>
+              <p className="text-sm text-gray-400">Upload, view, and manage your floor plans</p>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
+            <input
+              type="file"
+              ref={fileInputRef}
+              onChange={handleImageUpload}
+              accept="image/*"
+              className="hidden"
+            />
+            
             <button
-              onClick={exportAsPNG}
+              onClick={() => fileInputRef.current?.click()}
               disabled={isLoading}
-              className="px-3 py-1.5 bg-green-600 hover:bg-green-700 text-white rounded-lg text-sm flex items-center gap-2 disabled:opacity-50"
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 disabled:opacity-50 transition-colors"
             >
-              {isLoading ? <Loader2 size={14} className="animate-spin" /> : <Download size={14} />}
-              Export PNG
+              {isLoading ? (
+                <Loader2 size={18} className="animate-spin" />
+              ) : (
+                <Upload size={18} />
+              )}
+              Upload
             </button>
-            <button
-              onClick={resetToDefault}
-              className="px-3 py-1.5 bg-gray-600 hover:bg-gray-700 text-white rounded-lg text-sm flex items-center gap-2"
-            >
-              <RefreshCw size={14} />
-              Reset
-            </button>
+
+            {baseImage && (
+              <>
+                <button
+                  onClick={downloadImage}
+                  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg flex items-center gap-2 transition-colors"
+                >
+                  <View size={18} />
+                  View
+                </button>
+
+                <button
+                  onClick={deleteFloorPlan}
+                  disabled={isLoading}
+                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg flex items-center gap-2 disabled:opacity-50 transition-colors"
+                >
+                  <Trash2 size={18} />
+                  Delete
+                </button>
+                <button
+  onClick={saveFloorPlan}
+  className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg flex items-center gap-2"
+>
+  <Save size={18} />
+  Save Floor Plan
+</button>
+              </>
+            )}
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <div className="flex flex-1 overflow-hidden">
-        {/* Left Sidebar - Statistics & Controls */}
-        {showSidebar && (
-          <aside className="w-80 bg-white border-r border-gray-200 flex flex-col overflow-y-auto">
-            <div className="p-4 border-b border-gray-200">
-              <h2 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                <BarChart3 size={18} />
-                Statistics
-              </h2>
-              
-              <div className="grid grid-cols-2 gap-3">
-                <div className="bg-blue-50 p-3 rounded-lg">
-                  <p className="text-xs text-gray-600">Total Booths</p>
-                  <p className="text-2xl font-bold text-gray-900">{statistics.total}</p>
-                </div>
-                <div className="bg-green-50 p-3 rounded-lg">
-                  <p className="text-xs text-gray-600">Available</p>
-                  <p className="text-2xl font-bold text-green-700">{statistics.available}</p>
-                </div>
-                <div className="bg-blue-50 p-3 rounded-lg">
-                  <p className="text-xs text-gray-600">Booked</p>
-                  <p className="text-2xl font-bold text-blue-700">{statistics.booked}</p>
-                </div>
-                <div className="bg-orange-50 p-3 rounded-lg">
-                  <p className="text-xs text-gray-600">Reserved</p>
-                  <p className="text-2xl font-bold text-orange-700">{statistics.reserved}</p>
-                </div>
-                <div className="col-span-2 bg-purple-50 p-3 rounded-lg">
-                  <p className="text-xs text-gray-600">Occupied Booths</p>
-                  <p className="text-2xl font-bold text-purple-700">
-                    {statistics.occupied} / {statistics.total}
-                  </p>
-                </div>
+      <main className="flex-1 flex overflow-hidden bg-gray-900">
+        <div 
+          ref={containerRef}
+          className="flex-1 relative flex items-center justify-center p-4"
+        >
+          {!baseImage ? (
+            <div className="text-center">
+              <div className="bg-gray-800 p-12 rounded-2xl border-2 border-dashed border-gray-700">
+                <ImageIcon size={64} className="mx-auto text-gray-600 mb-4" />
+                <h3 className="text-xl font-medium text-white mb-2">No Floor Plan</h3>
+                <p className="text-gray-400 mb-6">Upload an image to get started</p>
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+                >
+                  Choose Image
+                </button>
               </div>
             </div>
-
-            <div className="p-4 border-b border-gray-200">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="font-semibold text-gray-800">Controls</h2>
-              </div>
-              
-              <div className="space-y-3">
+          ) : (
+            <div className="relative flex flex-col items-center w-full h-full">
+              {/* Zoom Controls */}
+              <div className="absolute top-4 right-4 z-10 bg-gray-800 rounded-lg shadow-lg flex items-center gap-1 p-1 border border-gray-700">
                 <button
-                  onClick={() => {
-                    setIsAddingBooth(!isAddingBooth);
-                    setSelectedBoothId(null);
-                  }}
-                  className="w-full p-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center justify-center gap-2"
-                >
-                  <Plus size={16} />
-                  {isAddingBooth ? 'Cancel Adding' : 'Add New Booth'}
-                </button>
-
-                <div className="bg-gray-50 p-3 rounded-lg">
-                  <p className="text-sm font-medium text-gray-700 mb-2">Zoom: {Math.round(zoom * 100)}%</p>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => setZoom(z => Math.max(z - 0.1, 0.5))}
-                      className="flex-1 p-2 bg-white border border-gray-300 rounded hover:bg-gray-50"
-                      disabled={zoom <= 0.5}
-                    >
-                      <ZoomOut size={16} className="mx-auto" />
-                    </button>
-                    <button
-                      onClick={() => setZoom(1)}
-                      className="flex-1 p-2 bg-white border border-gray-300 rounded hover:bg-gray-50 text-sm"
-                    >
-                      Reset
-                    </button>
-                    <button
-                      onClick={() => setZoom(z => Math.min(z + 0.1, 2))}
-                      className="flex-1 p-2 bg-white border border-gray-300 rounded hover:bg-gray-50"
-                      disabled={zoom >= 2}
-                    >
-                      <ZoomIn size={16} className="mx-auto" />
-                    </button>
-                  </div>
-                </div>
-
-                <button
-                  onClick={() => setShowGrid(!showGrid)}
-                  className={`w-full p-3 rounded-lg flex items-center justify-center gap-2 ${
-                    showGrid 
-                      ? 'bg-blue-100 text-blue-700 border border-blue-300' 
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
-                >
-                  <Grid size={16} />
-                  {showGrid ? 'Hide Grid' : 'Show Grid'}
-                </button>
-
-                <div className="text-xs text-gray-500 p-3 bg-gray-50 rounded-lg">
-                  <p className="font-medium mb-1">Tips:</p>
-                  <p>• Ctrl+Click or Middle-click to pan</p>
-                  <p>• Click booth to select and edit</p>
-                  <p>• Double-click company name to edit</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Selected Booth Editor */}
-            {selectedBooth && (
-              <div className="p-4">
-                <h2 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
-                  <Edit size={18} />
-                  Edit Booth {selectedBooth.boothNumber}
-                </h2>
-                
-                <div className="space-y-4">
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 mb-1 block">
-                      Company Name
-                    </label>
-                    <input
-                      type="text"
-                      value={editCompanyName}
-                      onChange={(e) => setEditCompanyName(e.target.value)}
-                      className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                      placeholder="Enter company name"
-                    />
-                    <button
-                      onClick={handleSaveCompany}
-                      className="mt-2 w-full py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm flex items-center justify-center gap-1"
-                    >
-                      <Save size={14} />
-                      Save Company Name
-                    </button>
-                  </div>
-
-                  <div>
-                    <label className="text-sm font-medium text-gray-700 mb-2 block">
-                      Booth Status
-                    </label>
-                    <div className="grid grid-cols-3 gap-2">
-                      {(['available', 'booked', 'reserved'] as const).map((status) => {
-                        const config = statusConfig[status];
-                        const Icon = config.icon;
-                        const isSelected = selectedBooth.status === status;
-                        
-                        return (
-                          <button
-                            key={status}
-                            onClick={() => updateBoothStatus(selectedBooth.id, status)}
-                            className={`px-3 py-2 rounded-lg text-xs font-medium flex flex-col items-center gap-1 ${
-                              isSelected
-                                ? `${config.color} text-white`
-                                : `${config.lightColor} ${config.textColor} hover:bg-opacity-80`
-                            }`}
-                          >
-                            <Icon size={14} />
-                            {config.label}
-                          </button>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  <div className="pt-4 border-t border-gray-200">
-                    <button
-                      onClick={() => deleteBooth(selectedBooth.id)}
-                      className="w-full py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg text-sm flex items-center justify-center gap-1"
-                    >
-                      <Trash2 size={14} />
-                      Delete Booth
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
-          </aside>
-        )}
-
-        {/* Main Canvas */}
-        <main className="flex-1 flex flex-col overflow-hidden">
-          {/* Canvas Controls Bar */}
-          <div className="bg-white border-b border-gray-200 p-2 px-4">
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-1 bg-gray-100 rounded-lg p-1">
-                <button
-                  onClick={() => setZoom(z => Math.max(z - 0.1, 0.5))}
-                  className="p-1.5 hover:bg-white rounded"
+                  onClick={zoomOut}
                   disabled={zoom <= 0.5}
+                  className="p-2 hover:bg-gray-700 rounded text-gray-300 hover:text-white disabled:opacity-50 disabled:hover:bg-transparent transition-colors"
+                  title="Zoom Out"
                 >
-                  <ZoomOut size={16} />
+                  <ZoomOut size={18} />
                 </button>
-                <span className="text-sm px-2">{Math.round(zoom * 100)}%</span>
+                <span className="px-3 py-1 text-sm text-white font-medium">
+                  {Math.round(zoom * 100)}%
+                </span>
                 <button
-                  onClick={() => setZoom(z => Math.min(z + 0.1, 2))}
-                  className="p-1.5 hover:bg-white rounded"
-                  disabled={zoom >= 2}
+                  onClick={zoomIn}
+                  disabled={zoom >= 3}
+                  className="p-2 hover:bg-gray-700 rounded text-gray-300 hover:text-white disabled:opacity-50 disabled:hover:bg-transparent transition-colors"
+                  title="Zoom In"
                 >
-                  <ZoomIn size={16} />
+                  <ZoomIn size={18} />
+                </button>
+                <button
+                  onClick={resetZoom}
+                  className="p-2 hover:bg-gray-700 rounded text-gray-300 hover:text-white transition-colors ml-1 border-l border-gray-700"
+                  title="Reset Zoom"
+                >
+                  Reset
+                </button>
+                <button
+                  onClick={toggleFullscreen}
+                  className="p-2 hover:bg-gray-700 rounded text-gray-300 hover:text-white transition-colors"
+                  title={isFullscreen ? "Exit Fullscreen" : "Fullscreen"}
+                >
+                  {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
                 </button>
               </div>
-              
-              <div className="text-sm text-gray-600">
-                <Hand size={14} className="inline mr-1" />
-                Ctrl+Click to pan
+
+              {/* Image Container */}
+              <div className="flex-1 flex items-center justify-center w-full h-full overflow-auto">
+                <div className="relative inline-block">
+                  <img
+                    ref={imageRef}
+                    src={baseImage}
+                    alt="Floor Plan"
+                    style={{
+                      transform: `scale(${zoom})`,
+                      transformOrigin: 'center',
+                      transition: 'transform 0.2s ease',
+                      maxWidth: '100%',
+                      maxHeight: '100%',
+                      objectFit: 'contain'
+                    }}
+                    className="rounded-lg shadow-2xl"
+                  />
+                </div>
               </div>
 
-              {isAddingBooth && (
-                <div className="ml-auto bg-yellow-100 text-yellow-800 px-3 py-1.5 rounded-lg text-sm flex items-center gap-2">
-                  <MapPin size={14} />
-                  Click on canvas to place new booth
-                </div>
-              )}
+              {/* Image Info */}
+              <div className="absolute bottom-4 left-4 bg-gray-800 bg-opacity-90 px-4 py-2 rounded-lg text-sm text-gray-300 border border-gray-700">
+                <span>Floor Plan ID: {imageId || 'N/A'}</span>
+              </div>
             </div>
-          </div>
+          )}
+        </div>
+      </main>
 
-          {/* Canvas */}
-          <div
-            ref={canvasRef}
-            className="flex-1 relative overflow-hidden bg-gray-100 cursor-default"
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-            onClick={handleCanvasClick}
-          >
-            {/* Grid */}
-            {showGrid && (
-              <div
-                className="absolute inset-0 pointer-events-none"
-                style={{
-                  backgroundImage: `
-                    linear-gradient(to right, #94a3b8 1px, transparent 1px),
-                    linear-gradient(to bottom, #94a3b8 1px, transparent 1px)
-                  `,
-                  backgroundSize: `${gridSize * zoom}px ${gridSize * zoom}px`,
-                  transform: `translate(${panOffset.x}px, ${panOffset.y}px)`,
-                  opacity: 0.2
-                }}
-              />
-            )}
-
-            {/* Booths Container */}
-            <div
-              className="absolute inset-0"
-              style={{
-                transform: `translate(${panOffset.x}px, ${panOffset.y}px) scale(${zoom})`,
-                transformOrigin: '0 0'
-              }}
-            >
-              {/* Booths */}
-              {booths.map((booth) => {
-                const isSelected = selectedBoothId === booth.id;
-                const status = statusConfig[booth.status];
-                const StatusIcon = status.icon;
-                
-                return (
-                  <div
-                    key={booth.id}
-                    onClick={(e) => handleBoothClick(booth, e)}
-                    className={`absolute cursor-pointer transition-all duration-150 ${
-                      isSelected ? 'ring-4 ring-blue-500 ring-offset-2 z-50' : 'hover:shadow-xl'
-                    }`}
-                    style={{
-                      left: `${booth.x}px`,
-                      top: `${booth.y}px`,
-                      width: `${booth.width}px`,
-                      height: `${booth.height}px`
-                    }}
-                  >
-                    {/* Booth Background */}
-                    <div
-                      className={`absolute inset-0 rounded-lg border-2 ${
-                        isSelected ? 'border-blue-600' : status.borderColor
-                      }`}
-                      style={{
-                        backgroundColor: isSelected 
-                          ? 'rgba(59, 130, 246, 0.2)'
-                          : booth.status === 'available' ? 'rgba(16, 185, 129, 0.15)'
-                          : booth.status === 'booked' ? 'rgba(59, 130, 246, 0.15)'
-                          : 'rgba(245, 158, 11, 0.15)'
-                      }}
-                    />
-
-                    {/* Status Badge */}
-                    <div
-                      className={`absolute -top-2 -right-2 px-2 py-0.5 rounded-full text-xs font-bold text-white flex items-center gap-1 shadow-lg ${status.color}`}
-                    >
-                      <StatusIcon size={10} />
-                      {status.label}
-                    </div>
-
-                    {/* Booth Number */}
-                    <div className="absolute top-1 left-2 text-xs font-bold text-gray-700 bg-white bg-opacity-80 px-1.5 py-0.5 rounded">
-                      {booth.boothNumber}
-                    </div>
-
-                    {/* Company Name */}
-                    <div className="absolute inset-0 flex items-center justify-center p-3 text-center">
-                      <span className="text-sm font-medium text-gray-900 break-words line-clamp-2">
-                        {booth.companyName || '—'}
-                      </span>
-                    </div>
-                  </div>
-                );
-              })}
-
-              {/* New Booth Placement Indicator */}
-              {isAddingBooth && (
-                <div
-                  className="absolute border-3 border-dashed border-blue-500 bg-blue-100 bg-opacity-30 rounded-lg"
-                  style={{
-                    left: `${newBoothPosition.x}px`,
-                    top: `${newBoothPosition.y}px`,
-                    width: '120px',
-                    height: '80px',
-                    pointerEvents: 'none'
-                  }}
-                >
-                  <div className="absolute inset-0 flex items-center justify-center text-blue-700 text-xs font-medium">
-                    Click to place
-                  </div>
-                </div>
-              )}
-            </div>
-
-            {/* Canvas Click Handler for New Booth */}
-            {isAddingBooth && (
-              <div
-                className="absolute inset-0 cursor-crosshair"
-                onClick={(e) => {
-                  const { x, y } = getCoordinates(e.clientX, e.clientY);
-                  setNewBoothPosition({ x, y });
-                  addBooth();
-                }}
-              />
-            )}
-          </div>
-        </main>
-
-        {/* Toggle Sidebar Button (Mobile) */}
-        {!showSidebar && isMobile && (
-          <button
-            onClick={() => setShowSidebar(true)}
-            className="fixed left-4 top-20 bg-white p-2 rounded-lg shadow-lg border border-gray-200"
-          >
-            <ChevronRight size={20} />
-          </button>
-        )}
-      </div>
+      {/* Footer */}
+      <footer className="bg-gray-800 border-t border-gray-700 px-6 py-3">
+        <div className="flex justify-between items-center text-sm text-gray-400">
+          <span>© 2024 Floor Plan Manager</span>
+          <span className="flex items-center gap-2">
+            <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+            {baseImage ? 'Image Loaded' : 'No Image'}
+          </span>
+        </div>
+      </footer>
     </div>
   );
 }

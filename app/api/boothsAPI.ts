@@ -1,36 +1,25 @@
-import api from '@/lib/api';
-import { ApiResponse } from '@/lib/api/floorPlans';
+// app/api/boothsAPI.js
+import api from "@/lib/api";
 
-export interface Booth {
-  id: string;
-  boothNumber: string;
-  companyName: string;
-  status: 'available' | 'booked' | 'reserved';
-  x: number;
-  y: number;
-  width: number;
-  height: number;
+export interface FloorPlanData {
+  id?: number;
+  baseImageUrl: string | null;
+  imageWidth?: number | null;
+  imageHeight?: number | null;
 }
 
-export interface BoothStatistics {
-  total: number;
-  available: number;
-  booked: number;
-  reserved: number;
-  occupied: number;
+export interface ApiResponse<T = any> {
+  success: boolean;
+  data?: T;
+  error?: string;
+  message?: string;
 }
 
-// ==============================
-// 🔹 Common API Error Handler
-// ==============================
-const handleApiError = <T>(
-  error: any,
-  defaultMessage: string
-): ApiResponse<T> => {
-  console.error('Booth API Error:', error);
-
+const handleApiError = (error: any, defaultMessage: string): ApiResponse => {
+  console.error('API Error:', error);
+  
   let errorMessage = defaultMessage;
-
+  
   if (error.response?.data?.error) {
     errorMessage = error.response.data.error;
   } else if (error.response?.data?.message) {
@@ -38,261 +27,59 @@ const handleApiError = <T>(
   } else if (error.message) {
     errorMessage = error.message;
   }
-
+  
   return {
     success: false,
     error: errorMessage,
   };
 };
 
-// ==============================
-// 🔹 Booth API Methods
-// ==============================
 export const boothsAPI = {
-  // Get all booths
-  getAll: async (): Promise<ApiResponse<Booth[]>> => {
+  // Get floor plan
+  getFloorPlan: async (): Promise<ApiResponse<FloorPlanData>> => {
     try {
-      const response = await api.get('/booths');
-
-      if (response.data?.success) {
-        return {
-          success: true,
-          data: response.data.data || [],
-          floorPlanId: response.data.floorPlanId,
-        };
-      }
-
-      return {
-        success: false,
-        error: 'Failed to load booths',
-      };
+      const response = await api.get('/booths/floor-plan');
+      return response.data;
     } catch (error: any) {
-      return handleApiError<Booth[]>(error, 'Failed to fetch booths');
+      return handleApiError(error, 'Failed to load floor plan');
     }
   },
 
-  // Get booth statistics
-  getStatistics: async (): Promise<ApiResponse<BoothStatistics>> => {
+  // Upload image
+  uploadImage: async (formData: FormData): Promise<ApiResponse<FloorPlanData>> => {
     try {
-      const response = await api.get('/booths/statistics');
-
-      if (response.data?.success) {
-        return {
-          success: true,
-          data: response.data.data,
-        };
-      }
-
-      return {
-        success: false,
-        error: 'Failed to load statistics',
-      };
+      const response = await api.post('/booths/upload-image', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      return response.data;
     } catch (error: any) {
-      return handleApiError<BoothStatistics>(
-        error,
-        'Failed to fetch statistics'
-      );
+      return handleApiError(error, 'Failed to upload image');
     }
   },
 
-  // Add new booth
-  add: async (
-    boothData: Omit<Booth, 'id'>
-  ): Promise<ApiResponse<Booth>> => {
-    try {
-      const response = await api.post('/booths', boothData);
-
-      if (response.data?.success) {
-        return {
-          success: true,
-          data: response.data.data,
-          message: response.data.message || 'Booth added successfully',
-        };
-      }
-
-      return {
-        success: false,
-        error: 'Failed to add booth',
-      };
-    } catch (error: any) {
-      return handleApiError<Booth>(error, 'Failed to add booth');
-    }
-  },
-
-  // Update booth
-  update: async (
-    boothId: string,
-    updateData: Partial<Booth>
-  ): Promise<ApiResponse<Booth>> => {
-    try {
-      const response = await api.put(`/booths/${boothId}`, updateData);
-
-      if (response.data?.success) {
-        return {
-          success: true,
-          data: response.data.data,
-          message: response.data.message || 'Booth updated successfully',
-        };
-      }
-
-      return {
-        success: false,
-        error: 'Failed to update booth',
-      };
-    } catch (error: any) {
-      return handleApiError<Booth>(error, 'Failed to update booth');
-    }
-  },
-
-  // Update booth status
-  updateStatus: async (
-    boothId: string,
-    status: 'available' | 'booked' | 'reserved'
-  ): Promise<ApiResponse<Booth>> => {
-    try {
-      const response = await api.patch(
-        `/booths/${boothId}/status`,
-        { status }
-      );
-
-      if (response.data?.success) {
-        return {
-          success: true,
-          data: response.data.data,
-          message:
-            response.data.message ||
-            `Booth status updated to ${status}`,
-        };
-      }
-
-      return {
-        success: false,
-        error: 'Failed to update booth status',
-      };
-    } catch (error: any) {
-      return handleApiError<Booth>(
-        error,
-        'Failed to update booth status'
-      );
-    }
-  },
-
-  // Update company name
-  updateCompanyName: async (
-    boothId: string,
-    companyName: string
-  ): Promise<ApiResponse<Booth>> => {
-    try {
-      const response = await api.patch(
-        `/booths/${boothId}/company`,
-        { companyName }
-      );
-
-      if (response.data?.success) {
-        return {
-          success: true,
-          data: response.data.data,
-          message:
-            response.data.message ||
-            'Company name updated successfully',
-        };
-      }
-
-      return {
-        success: false,
-        error: 'Failed to update company name',
-      };
-    } catch (error: any) {
-      return handleApiError<Booth>(
-        error,
-        'Failed to update company name'
-      );
-    }
-  },
-
-  // Delete booth
-  delete: async (
-    boothId: string
-  ): Promise<ApiResponse<null>> => {
-    try {
-      const response = await api.delete(`/booths/${boothId}`);
-
-      if (response.data?.success) {
-        return {
-          success: true,
-          message:
-            response.data.message ||
-            'Booth deleted successfully',
-        };
-      }
-
-      return {
-        success: false,
-        error: 'Failed to delete booth',
-      };
-    } catch (error: any) {
-      return handleApiError<null>(
-        error,
-        'Failed to delete booth'
-      );
-    }
-  },
-
-  // Bulk update booths
-  bulkUpdate: async (
-    updates: Array<Partial<Booth> & { id: string }>
-  ): Promise<ApiResponse<Booth[]>> => {
-    try {
-      const response = await api.post(
-        '/booths/bulk-update',
-        { updates }
-      );
-
-      if (response.data?.success) {
-        return {
-          success: true,
-          data: response.data.data,
-          message:
-            response.data.message ||
-            `${updates.length} booths updated successfully`,
-        };
-      }
-
-      return {
-        success: false,
-        error: 'Failed to bulk update booths',
-      };
-    } catch (error: any) {
-      return handleApiError<Booth[]>(
-        error,
-        'Failed to bulk update booths'
-      );
-    }
-  },
-
-  // Reset floor plan
-  reset: async (): Promise<ApiResponse<null>> => {
+  // Reset/Delete floor plan
+  reset: async (): Promise<ApiResponse> => {
     try {
       const response = await api.post('/booths/reset');
-
-      if (response.data?.success) {
-        return {
-          success: true,
-          message:
-            response.data.message ||
-            'Floor plan reset to default',
-        };
-      }
-
-      return {
-        success: false,
-        error: 'Failed to reset floor plan',
-      };
+      return response.data;
     } catch (error: any) {
-      return handleApiError<null>(
-        error,
-        'Failed to reset floor plan'
-      );
+      return handleApiError(error, 'Failed to reset floor plan');
     }
   },
+saveFloorPlan: async (data: {
+  baseImageUrl?: string | null;
+  booths?: any[];
+}) => {
+  try {
+    const response = await api.post("/booths/save-floor-plan", data);
+    return response.data;
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.response?.data?.error || "Save failed"
+    };
+  }
+}
 };
