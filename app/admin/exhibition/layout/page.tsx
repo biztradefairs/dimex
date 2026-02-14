@@ -1,256 +1,289 @@
-// app/admin/exhibition/layout/page.tsx
 "use client";
 
-import { useState } from 'react';
-import { 
-  Plus, 
-  Edit, 
-  Trash2, 
-  Download, 
-  Upload, 
-  Grid, 
-  Map, 
-  Building,
-  Eye
-} from 'lucide-react';
+import { useState, useEffect, useRef } from "react";
+import {
+  Download,
+  Upload,
+  Map,
+  ZoomIn,
+  ZoomOut,
+  X
+} from "lucide-react";
 
-interface Layout {
+interface Booth {
   id: string;
-  name: string;
-  description: string;
-  floor: string;
-  version: string;
-  lastUpdated: string;
-  fileSize: string;
-  status: 'published' | 'draft';
+  number: string;
+  size: string;
+  type: "standard" | "corner" | "premium";
+  status: "available" | "booked" | "reserved";
+  position: {
+    row: number;
+    col: number;
+    rowSpan?: number;
+    colSpan?: number;
+  };
 }
 
-export default function LayoutPlansPage() {
-  const [layouts, setLayouts] = useState<Layout[]>([
-    {
-      id: '1',
-      name: 'Main Exhibition Hall',
-      description: 'Complete layout of the main exhibition area',
-      floor: 'Ground Floor',
-      version: '3.2',
-      lastUpdated: '2024-01-15',
-      fileSize: '4.7 MB',
-      status: 'published'
-    },
-    {
-      id: '2',
-      name: 'Technology Pavilion',
-      description: 'Tech companies and software providers area',
-      floor: 'First Floor',
-      version: '2.1',
-      lastUpdated: '2024-01-14',
-      fileSize: '3.2 MB',
-      status: 'published'
-    },
-    {
-      id: '3',
-      name: 'Food Court & Lounge',
-      description: 'Dining and networking areas layout',
-      floor: 'Ground Floor',
-      version: '1.4',
-      lastUpdated: '2024-01-13',
-      fileSize: '2.8 MB',
-      status: 'draft'
-    },
-    {
-      id: '4',
-      name: 'Conference Rooms',
-      description: 'Speaker sessions and workshop rooms',
-      floor: 'Second Floor',
-      version: '2.0',
-      lastUpdated: '2024-01-12',
-      fileSize: '3.5 MB',
-      status: 'published'
-    },
-    {
-      id: '5',
-      name: 'Registration Area',
-      description: 'Check-in counters and information desk',
-      floor: 'Ground Floor',
-      version: '1.2',
-      lastUpdated: '2024-01-11',
-      fileSize: '1.9 MB',
-      status: 'published'
+interface FloorPlan {
+  id: string;
+  name: string;
+  hall: string;
+  description: string;
+  gridSize: {
+    rows: number;
+    cols: number;
+  };
+  booths: Booth[];
+  lastUpdated: string;
+  status: "published" | "draft";
+  capacity: number;
+  entry_points: string[];
+  amenities: string[];
+}
+
+export default function FloorPlanManager() {
+  /* ================= STATE ================= */
+
+  const [zoom, setZoom] = useState(1);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const [selectedBooth, setSelectedBooth] = useState<Booth | null>(null);
+  const [showBoothDetails, setShowBoothDetails] = useState(false);
+
+  const [floorPlan] = useState<FloorPlan>({
+    id: "60001",
+    name: "EXHIBITION HALL - B",
+    hall: "Main Hall",
+    description: "Main exhibition hall with mixed booth sizes",
+    gridSize: { rows: 12, cols: 20 },
+    booths: generateSampleBooths(),
+    lastUpdated: "2024-01-29",
+    status: "published",
+    capacity: 500,
+    entry_points: ["Main Entrance", "Food Court Entrance"],
+    amenities: ["Power Outlets", "WiFi", "Lighting"],
+  });
+
+  /* ================= AUTO FIT ZOOM ================= */
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const containerWidth = containerRef.current.offsetWidth;
+    const containerHeight = containerRef.current.offsetHeight;
+
+    const gridWidth = floorPlan.gridSize.cols * 50;
+    const gridHeight = floorPlan.gridSize.rows * 50;
+
+    const scaleX = containerWidth / gridWidth;
+    const scaleY = containerHeight / gridHeight;
+
+    const fittedZoom = Math.min(scaleX, scaleY);
+
+    setZoom(fittedZoom);
+  }, [floorPlan]);
+
+  /* ================= SAMPLE BOOTHS ================= */
+
+  function generateSampleBooths(): Booth[] {
+    const booths: Booth[] = [];
+
+    for (let i = 1; i <= 20; i++) {
+      booths.push({
+        id: `booth-${i}`,
+        number: i.toString(),
+        size: i <= 10 ? "4x3" : "5x3",
+        type: i % 3 === 0 ? "corner" : "standard",
+        status:
+          i % 4 === 0
+            ? "booked"
+            : i % 7 === 0
+            ? "reserved"
+            : "available",
+        position: {
+          row: Math.ceil(i / 5),
+          col: (i - 1) % 5,
+        },
+      });
     }
-  ]);
 
-  const [isUploading, setIsUploading] = useState(false);
+    for (let i = 21; i <= 43; i++) {
+      booths.push({
+        id: `booth-${i}`,
+        number: i.toString(),
+        size: i <= 30 ? "7x5" : "7x6",
+        type: i === 41 ? "premium" : "standard",
+        status: i % 3 === 0 ? "booked" : "available",
+        position: {
+          row: Math.ceil((i - 20) / 4) + 5,
+          col: ((i - 21) % 4) + 15,
+        },
+      });
+    }
 
-  const handleDelete = (id: string) => {
-    if (confirm('Are you sure you want to delete this layout plan?')) {
-      setLayouts(layouts.filter(layout => layout.id !== id));
+    return booths;
+  }
+
+  /* ================= HELPERS ================= */
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "available":
+        return "bg-green-100 border-green-300 text-green-800";
+      case "booked":
+        return "bg-blue-100 border-blue-300 text-blue-800";
+      case "reserved":
+        return "bg-yellow-100 border-yellow-300 text-yellow-800";
+      default:
+        return "bg-gray-100 border-gray-300";
     }
   };
 
-  const handleUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files;
-    if (files && files.length > 0) {
-      setIsUploading(true);
-      const file = files[0];
-      
-      // Simulate upload process
-      setTimeout(() => {
-        const newLayout: Layout = {
-          id: (layouts.length + 1).toString(),
-          name: file.name.replace(/\.[^/.]+$/, ""), // Remove extension
-          description: 'Uploaded layout plan',
-          floor: 'New Floor',
-          version: '1.0',
-          lastUpdated: new Date().toISOString().split('T')[0],
-          fileSize: `${(file.size / (1024 * 1024)).toFixed(1)} MB`,
-          status: 'draft'
-        };
-        
-        setLayouts([...layouts, newLayout]);
-        setIsUploading(false);
-        alert('Layout plan uploaded successfully!');
-      }, 1500);
-    }
-  };
-
-  const handleDownload = (id: string) => {
-    const layout = layouts.find(l => l.id === id);
-    alert(`Downloading ${layout?.name}...`);
-  };
-
-  const handlePreview = (id: string) => {
-    const layout = layouts.find(l => l.id === id);
-    alert(`Previewing ${layout?.name}...`);
-  };
+  /* ================= UI ================= */
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Layout Plans</h1>
-          <p className="text-gray-600">Manage exhibition hall layouts and floor plans</p>
-        </div>
-        <div className="flex space-x-3">
-          <label className="cursor-pointer">
-            <div className={`inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}>
-              <Upload className="mr-2 h-4 w-4" />
-              {isUploading ? 'Uploading...' : 'Upload Layout'}
-            </div>
-            <input
-              type="file"
-              className="hidden"
-              onChange={handleUpload}
-              accept=".pdf,.jpg,.jpeg,.png,.dwg"
-              disabled={isUploading}
-            />
-          </label>
-          <button
-            onClick={() => alert('Create new layout')}
-            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
-          >
-            <Plus className="mr-2 h-4 w-4" />
-            New Layout
-          </button>
+    <div className="min-h-screen bg-gray-50">
+
+      {/* HEADER */}
+      <div className="bg-white border-b sticky top-0 z-10">
+        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold">Floor Plan Manager</h1>
+            <p className="text-sm text-gray-500">
+              Upload, view, and manage your floor plans
+            </p>
+          </div>
+
+          <div className="flex gap-3">
+            <button className="px-4 py-2 border rounded-lg flex items-center gap-2">
+              <Download size={16} /> Export
+            </button>
+            <button className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2">
+              <Upload size={16} /> Upload
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* Layout Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {layouts.map((layout) => (
-          <div key={layout.id} className="bg-white shadow rounded-lg overflow-hidden">
-            <div className="p-6">
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <div className="flex items-center">
-                    <Map className="h-5 w-5 text-blue-500 mr-2" />
-                    <h3 className="text-lg font-medium text-gray-900">{layout.name}</h3>
+      {/* CONTENT */}
+      <div className="max-w-7xl mx-auto px-6 py-8">
+
+        {/* FLOOR PLAN INFO */}
+        <div className="bg-white rounded-xl border shadow-sm p-6 mb-6">
+          <h2 className="text-xl font-bold">{floorPlan.name}</h2>
+          <p className="text-sm text-gray-500">
+            Floor Plan ID: {floorPlan.id}
+          </p>
+        </div>
+
+        {/* GRID SECTION */}
+        <div className="bg-white rounded-xl border shadow-sm p-6">
+
+          {/* ENTRY */}
+          <div className="flex justify-between mb-4 text-sm text-gray-500">
+            <span className="flex items-center gap-1">
+              <Map size={14} /> MAIN ENTRANCE
+            </span>
+            <span className="flex items-center gap-1">
+              <Map size={14} /> FOOD COURT
+            </span>
+          </div>
+
+          {/* ZOOM CONTROLS */}
+          <div className="flex justify-end gap-2 mb-4">
+            <button
+              onClick={() => setZoom((z) => z + 0.1)}
+              className="p-2 border rounded"
+            >
+              <ZoomIn size={16} />
+            </button>
+            <button
+              onClick={() => setZoom((z) => Math.max(0.1, z - 0.1))}
+              className="p-2 border rounded"
+            >
+              <ZoomOut size={16} />
+            </button>
+          </div>
+
+          {/* ZOOM WRAPPER */}
+          <div
+            ref={containerRef}
+            className="relative w-full h-[600px] overflow-hidden border rounded-lg bg-gray-100"
+          >
+            <div
+              className="absolute top-0 left-0"
+              style={{
+                transform: `scale(${zoom})`,
+                transformOrigin: "top left",
+                width: `${floorPlan.gridSize.cols * 50}px`,
+                height: `${floorPlan.gridSize.rows * 50}px`,
+              }}
+            >
+              <div
+                className="grid border-2 border-gray-300 bg-white"
+                style={{
+                  gridTemplateColumns: `repeat(${floorPlan.gridSize.cols}, 50px)`,
+                  gridTemplateRows: `repeat(${floorPlan.gridSize.rows}, 50px)`,
+                }}
+              >
+                {Array.from({
+                  length:
+                    floorPlan.gridSize.rows *
+                    floorPlan.gridSize.cols,
+                }).map((_, i) => (
+                  <div key={i} className="border border-gray-100" />
+                ))}
+
+                {floorPlan.booths.map((booth) => (
+                  <div
+                    key={booth.id}
+                    onClick={() => {
+                      setSelectedBooth(booth);
+                      setShowBoothDetails(true);
+                    }}
+                    className={`flex items-center justify-center text-xs font-bold border cursor-pointer ${getStatusColor(
+                      booth.status
+                    )}`}
+                    style={{
+                      gridRow: booth.position.row,
+                      gridColumn: booth.position.col + 1,
+                    }}
+                  >
+                    {booth.number}
                   </div>
-                  <p className="mt-1 text-sm text-gray-500">{layout.description}</p>
-                </div>
-                <span className={`px-2 py-1 text-xs font-semibold rounded-full ${
-                  layout.status === 'published' 
-                    ? 'bg-green-100 text-green-800' 
-                    : 'bg-yellow-100 text-yellow-800'
-                }`}>
-                  {layout.status}
-                </span>
-              </div>
-              
-              <div className="space-y-3">
-                <div className="flex items-center text-sm text-gray-600">
-                  <Building className="h-4 w-4 mr-2 text-gray-400" />
-                  <span>Floor: {layout.floor}</span>
-                </div>
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">Version: {layout.version}</span>
-                  <span className="text-gray-600">{layout.fileSize}</span>
-                </div>
-                <div className="text-sm text-gray-500">
-                  Updated: {new Date(layout.lastUpdated).toLocaleDateString()}
-                </div>
-              </div>
-              
-              {/* Layout Preview (Mock) */}
-              <div className="mt-4 bg-gray-100 rounded-lg p-4">
-                <div className="grid grid-cols-3 gap-2">
-                  {[...Array(9)].map((_, i) => (
-                    <div key={i} className="aspect-square bg-white border border-gray-300 rounded flex items-center justify-center">
-                      <Grid className="h-4 w-4 text-gray-400" />
-                    </div>
-                  ))}
-                </div>
-                <p className="text-xs text-gray-500 text-center mt-2">
-                  Layout preview - {layout.name}
-                </p>
-              </div>
-              
-              <div className="mt-6 flex justify-between items-center">
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => handlePreview(layout.id)}
-                    className="text-blue-600 hover:text-blue-900"
-                    title="Preview"
-                  >
-                    <Eye className="h-5 w-5" />
-                  </button>
-                  <button
-                    onClick={() => handleDownload(layout.id)}
-                    className="text-green-600 hover:text-green-900"
-                    title="Download"
-                  >
-                    <Download className="h-5 w-5" />
-                  </button>
-                </div>
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => alert(`Edit ${layout.name}`)}
-                    className="text-blue-600 hover:text-blue-900"
-                    title="Edit"
-                  >
-                    <Edit className="h-5 w-5" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(layout.id)}
-                    className="text-red-600 hover:text-red-900"
-                    title="Delete"
-                  >
-                    <Trash2 className="h-5 w-5" />
-                  </button>
-                </div>
+                ))}
               </div>
             </div>
           </div>
-        ))}
+
+          {/* CAPACITY */}
+          <div className="mt-4 p-3 bg-yellow-50 border rounded-lg text-sm">
+            Max Capacity: <strong>{floorPlan.capacity}</strong>
+          </div>
+        </div>
       </div>
 
-      {/* No layouts message */}
-      {layouts.length === 0 && (
-        <div className="text-center py-12">
-          <Map className="mx-auto h-12 w-12 text-gray-400" />
-          <h3 className="mt-2 text-sm font-medium text-gray-900">No layout plans yet</h3>
-          <p className="mt-1 text-sm text-gray-500">
-            Upload your first layout plan to get started.
-          </p>
+      {/* MODAL */}
+      {showBoothDetails && selectedBooth && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
+            <div className="flex justify-between mb-4">
+              <h3 className="text-xl font-bold">
+                Booth #{selectedBooth.number}
+              </h3>
+              <button onClick={() => setShowBoothDetails(false)}>
+                <X size={20} />
+              </button>
+            </div>
+
+            <p className="text-sm">Size: {selectedBooth.size}</p>
+            <p className="text-sm capitalize">
+              Type: {selectedBooth.type}
+            </p>
+            <p className="text-sm capitalize">
+              Status: {selectedBooth.status}
+            </p>
+          </div>
         </div>
       )}
     </div>

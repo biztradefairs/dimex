@@ -35,10 +35,16 @@ import {
   HelpCircle,
   Info,
   AlertTriangle,
-  Building
+  Building,
+  Receipt,
+  FileText as FileTextIcon,
+  Download as DownloadIcon
 } from 'lucide-react';
 import Link from 'next/link';
-import Image from 'next/image';
+
+
+// API Configuration
+const API_BASE_URL = 'https://diemex-backend.onrender.com';
 
 // Types
 interface ExhibitorProfile {
@@ -106,6 +112,11 @@ interface ExhibitorProfile {
   
   // Brochures
   brochures: Brochure[];
+  
+  // Additional fields from API
+  status: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface Product {
@@ -136,6 +147,27 @@ interface Brochure {
   fileSize: string;
   downloads: number;
   uploadedAt: Date;
+  publicId?: string;
+}
+
+interface FloorPlan {
+  id: string;
+  name: string;
+  gridSize: {
+    rows: number;
+    cols: number;
+  };
+  imageUrl?: string;
+}
+
+interface BoothDetails {
+  boothNumber: string;
+  position: {
+    x: number;
+    y: number;
+  };
+  size: string;
+  status: string;
 }
 
 // Country options
@@ -226,20 +258,28 @@ const hallOptions = [
 ];
 
 export default function ExhibitorDashboard() {
-  const [activeTab, setActiveTab] = useState<'profile' | 'products' | 'brands' | 'brochures' | 'preview'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'products' | 'brands' | 'brochures' | 'preview' | 'invoices' | 'requirements' | 'manual'>('profile');
   const [isEditing, setIsEditing] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [showAddBrand, setShowAddBrand] = useState(false);
   const [showAddBrochure, setShowAddBrochure] = useState(false);
+  const [showAddRequirement, setShowAddRequirement] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
-  const [showPreview, setShowPreview] = useState(false);
+  const [showError, setShowError] = useState<string | null>(null);
   const [completionScore, setCompletionScore] = useState(0);
+  
+  // Additional state from API
+  // const [invoices, setInvoices] = useState<Invoice[]>([]);
+  // const [requirements, setRequirements] = useState<Requirement[]>([]);
+  const [floorPlan, setFloorPlan] = useState<FloorPlan | null>(null);
+  const [boothDetails, setBoothDetails] = useState<BoothDetails | null>(null);
+  const [manualSections, setManualSections] = useState<any[]>([]);
   
   // Profile State
   const [profile, setProfile] = useState<ExhibitorProfile>({
-    id: 'exh-001',
+    id: '',
     companyName: '',
     shortName: '',
     registrationNumber: '',
@@ -280,6 +320,9 @@ export default function ExhibitorDashboard() {
     products: [],
     brands: [],
     brochures: [],
+    status: 'active',
+    createdAt: '',
+    updatedAt: '',
   });
 
   // New product form state
@@ -299,7 +342,7 @@ export default function ExhibitorDashboard() {
     description: '',
   });
 
-  // New brochure form state - FIXED: Added file property with undefined
+  // New brochure form state
   const [newBrochure, setNewBrochure] = useState<Brochure>({
     id: '',
     name: '',
@@ -311,13 +354,20 @@ export default function ExhibitorDashboard() {
     uploadedAt: new Date(),
   });
 
+  // New requirement form state
+  const [newRequirement, setNewRequirement] = useState({
+    type: '',
+    description: '',
+    quantity: 1,
+  });
+
   // New spec key/value for product
   const [newSpecKey, setNewSpecKey] = useState('');
   const [newSpecValue, setNewSpecValue] = useState('');
 
-  // Load exhibitor profile
+  // Load all exhibitor data
   useEffect(() => {
-    fetchExhibitorProfile();
+    fetchAllData();
   }, []);
 
   // Calculate profile completion
@@ -325,111 +375,266 @@ export default function ExhibitorDashboard() {
     calculateCompletionScore();
   }, [profile]);
 
-  const fetchExhibitorProfile = async () => {
-    setLoading(true);
-    try {
-      // In production: Fetch from your API
-      // const response = await fetch('/api/exhibitor/profile');
-      // const data = await response.json();
+  // Helper function for API calls with auth
+const apiCall = async (endpoint: string, options: RequestInit = {}, isFormData = false) => {
+  const token = localStorage.getItem('exhibitor_token') || localStorage.getItem('token');
+  
+  const headers: HeadersInit = {};
+  
+  // Don't set Content-Type for FormData - browser will set it with boundary
+  if (!isFormData) {
+    headers['Content-Type'] = 'application/json';
+  }
+  
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+    ...options,
+    headers: {
+      ...headers,
+      ...options.headers,
+    },
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    const error = await response.json().catch(() => ({}));
+    throw new Error(error.message || `HTTP error! status: ${response.status}`);
+  }
+
+  return response.json();
+};
+const uploadToCloudinary = async (file: File, folder: string = 'exhibitor-files') => {
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('folder', folder);
+
+  const result = await apiCall('/api/upload', {
+    method: 'POST',
+    body: formData,
+  }, true); // true = isFormData
+
+  return result.data; // Should return { url, publicId, format, etc. }
+};
+
+const fetchAllData = async () => {
+  setLoading(true);
+  setShowError(null);
+  
+  try {
+    // Fetch all data in parallel for better performance
+    await Promise.all([
+      fetchExhibitorProfile(),
+      fetchProducts(),
+      fetchBrands(),
+      fetchBrochures(),
+      fetchDashboardLayout(),
+      fetchManual()
+    ]);
+    
+  } catch (error: any) {
+    console.error('Error fetching data:', error);
+    setShowError(error.message || 'Failed to load data');
+  } finally {
+    setLoading(false);
+  }
+};
+
+const fetchExhibitorProfile = async () => {
+  try {
+    const result = await apiCall('/api/exhibitorDashboard/profile');
+    
+    if (result.success) {
+      const apiData = result.data;
       
-      // Mock data for demo
-      setTimeout(() => {
-        setProfile({
-          id: 'exh-001',
-          companyName: 'Global Logistics Solutions',
-          shortName: 'GLS',
-          registrationNumber: 'REG-2023-0042',
-          yearEstablished: 2010,
-          companySize: '51-200',
-          companyType: 'Private',
-          contactPerson: {
-            name: 'John Smith',
-            jobTitle: 'Exhibition Manager',
-            email: 'john.smith@gls.com',
-            phone: '+90 212 555 0123',
-            alternatePhone: '+90 532 555 4567',
-          },
-          exhibition: {
-            pavilion: 'Pavilion 3',
-            hall: 'Hall A',
-            standNumber: 'A-42',
-          },
-          address: {
-            street: 'Levent Mahallesi, Büyükdere Cad. No:123',
-            city: 'Istanbul',
-            state: 'Sariyer',
-            country: 'Turkey',
-            countryCode: 'TR',
-            postalCode: '34330',
-          },
-          sector: ['Logistics', 'Supply Chain', 'Freight'],
-          about: 'Global Logistics Solutions (GLS) has been a pioneer in the logistics industry since 2010. We provide comprehensive supply chain solutions to clients across 50+ countries.',
-          mission: 'To deliver exceptional logistics solutions that drive our clients success.',
-          vision: 'To be the most trusted global logistics partner.',
-          socialMedia: {
-            website: 'https://www.gls.com',
-            linkedin: 'https://linkedin.com/company/gls',
-            twitter: 'https://twitter.com/gls_logistics',
-            facebook: '',
-            instagram: '',
-          },
-          products: [
-            {
-              id: 'prod-1',
-              name: 'Air Freight Services',
-              description: 'Fast and reliable air freight solutions for urgent shipments worldwide.',
-              category: 'Logistics',
-              price: 'Starting from $200',
-              specifications: {
-                'Service Level': 'Express, Standard',
-                'Coverage': 'Global',
-                'Tracking': 'Real-time'
-              }
-            },
-            {
-              id: 'prod-2',
-              name: 'Sea Freight Services',
-              description: 'Cost-effective ocean freight for bulk shipments and containers.',
-              category: 'Logistics',
-              price: 'Quote based',
-              specifications: {
-                'Container Types': '20ft, 40ft, 40ft HC',
-                'Routes': 'Global',
-                'Transit Time': '15-45 days'
-              }
-            }
-          ],
-          brands: [
-            {
-              id: 'brand-1',
-              name: 'GLS Express',
-              description: 'Express logistics solutions',
-            },
-            {
-              id: 'brand-2',
-              name: 'GLS Cargo',
-              description: 'Heavy cargo specialists',
-            }
-          ],
-          brochures: [
-            {
-              id: 'broch-1',
-              name: 'Company Overview 2024',
-              description: 'Complete overview of our services and capabilities',
-              fileUrl: '/brochures/gls-overview-2024.pdf',
-              fileSize: '2.4 MB',
-              downloads: 245,
-              uploadedAt: new Date('2024-01-15')
-            }
-          ],
-        });
-        setLoading(false);
-      }, 1000);
-    } catch (error) {
-      console.error('Error fetching profile:', error);
-      setLoading(false);
+      // Parse address if it's a string
+      let addressParts = {
+        street: '',
+        city: '',
+        state: '',
+        country: '',
+        postalCode: ''
+      };
+      
+      if (apiData.address) {
+        const parts = apiData.address.split(',').map((p: string) => p.trim());
+        addressParts.street = parts[0] || '';
+        addressParts.city = parts[1] || '';
+        addressParts.state = parts[2] || '';
+        addressParts.country = parts[3] || '';
+        addressParts.postalCode = parts[4] || '';
+      }
+      
+      // Parse social media if it's stored as JSON string or object
+      let socialMedia = {
+        website: '',
+        linkedin: '',
+        twitter: '',
+        facebook: '',
+        instagram: '',
+      };
+      
+      if (apiData.socialMedia) {
+        if (typeof apiData.socialMedia === 'string') {
+          try {
+            socialMedia = JSON.parse(apiData.socialMedia);
+          } catch (e) {
+            console.error('Error parsing social media:', e);
+          }
+        } else if (typeof apiData.socialMedia === 'object') {
+          socialMedia = {
+            website: apiData.socialMedia.website || apiData.website || '',
+            linkedin: apiData.socialMedia.linkedin || '',
+            twitter: apiData.socialMedia.twitter || '',
+            facebook: apiData.socialMedia.facebook || '',
+            instagram: apiData.socialMedia.instagram || '',
+          };
+        }
+      } else {
+        // If no socialMedia object, try to get website directly
+        socialMedia.website = apiData.website || '';
+      }
+      
+      setProfile({
+        id: apiData.id || '',
+        companyName: apiData.company || apiData.name || '',
+        shortName: apiData.shortName || apiData.short_name || '',
+        registrationNumber: apiData.registrationNumber || apiData.registration_number || '',
+        yearEstablished: apiData.yearEstablished || apiData.year_established || '',
+        companySize: apiData.companySize || apiData.company_size || '',
+        companyType: apiData.companyType || apiData.company_type || '',
+        contactPerson: {
+          name: apiData.contactPerson?.name || apiData.contact_name || apiData.name || '',
+          jobTitle: apiData.contactPerson?.jobTitle || apiData.contact_job_title || '',
+          email: apiData.contactPerson?.email || apiData.email || '',
+          phone: apiData.contactPerson?.phone || apiData.phone || '',
+          alternatePhone: apiData.contactPerson?.alternatePhone || apiData.alternate_phone || '',
+        },
+        exhibition: {
+          pavilion: apiData.exhibition?.pavilion || apiData.pavilion || '',
+          hall: apiData.exhibition?.hall || apiData.hall || '',
+          standNumber: apiData.exhibition?.standNumber || apiData.boothNumber || apiData.booth_number || '',
+          floorPlanUrl: apiData.exhibition?.floorPlanUrl || apiData.floor_plan_url || '',
+        },
+        address: {
+          street: addressParts.street || apiData.address_street || '',
+          city: addressParts.city || apiData.address_city || '',
+          state: addressParts.state || apiData.address_state || '',
+          country: addressParts.country || apiData.address_country || '',
+          countryCode: apiData.address_country_code || '',
+          postalCode: addressParts.postalCode || apiData.address_postal_code || '',
+        },
+        sector: apiData.sector ? 
+          (Array.isArray(apiData.sector) ? apiData.sector : apiData.sector.split(',').map((s: string) => s.trim())) 
+          : [],
+        about: apiData.about || apiData.description || '',
+        mission: apiData.mission || '',
+        vision: apiData.vision || '',
+        socialMedia: socialMedia,
+        products: apiData.products || [],
+        brands: apiData.brands || [],
+        brochures: apiData.brochures || [],
+        status: apiData.status || 'active',
+        createdAt: apiData.createdAt || apiData.created_at || '',
+        updatedAt: apiData.updatedAt || apiData.updated_at || '',
+      });
     }
-  };
+  } catch (error) {
+    console.error('Error fetching profile:', error);
+    throw error;
+  }
+};
+const fetchProducts = async () => {
+  try {
+    const result = await apiCall('/api/exhibitorDashboard/products');
+    
+    if (result.success) {
+      setProfile(prev => ({
+        ...prev,
+        products: Array.isArray(result.data) ? result.data : []
+      }));
+    }
+  } catch (error) {
+    console.error('Error fetching products:', error);
+  }
+};
+const fetchBrands = async () => {
+  try {
+    const result = await apiCall('/api/exhibitorDashboard/brands');
+    
+    if (result.success) {
+      setProfile(prev => ({
+        ...prev,
+        brands: Array.isArray(result.data) ? result.data : []
+      }));
+    }
+  } catch (error) {
+    console.error('Error fetching brands:', error);
+  }
+};
+const fetchBrochures = async () => {
+  try {
+    const result = await apiCall('/api/exhibitorDashboard/brochures');
+    
+    if (result.success) {
+      setProfile(prev => ({
+        ...prev,
+        brochures: Array.isArray(result.data) ? result.data : []
+      }));
+    }
+  } catch (error) {
+    console.error('Error fetching brochures:', error);
+  }
+};
+
+const fetchDashboardLayout = async () => {
+  try {
+    // FIXED: Use correct endpoint
+    const result = await apiCall('/api/exhibitorDashboard/layout');
+    
+    if (result.success) {
+      const { exhibitor, floorPlan: fp, booth } = result.data;
+      
+      setFloorPlan(fp);
+      setBoothDetails(booth);
+      
+      // Update profile with any additional data from layout
+      if (exhibitor) {
+        setProfile(prev => ({
+          ...prev,
+          companyName: exhibitor.company || exhibitor.name || prev.companyName,
+          exhibition: {
+            ...prev.exhibition,
+            standNumber: exhibitor.boothNumber || prev.exhibition.standNumber,
+          },
+        }));
+      }
+    }
+  } catch (error) {
+    console.error('Error fetching layout:', error);
+    // Don't throw - this is non-critical
+  }
+};
+
+
+
+
+
+const fetchManual = async () => {
+  try {
+    // FIXED: Use correct endpoint
+    const result = await apiCall('/api/exhibitorDashboard/manual');
+    
+    if (result.success) {
+      setManualSections(result.data.sections || []);
+    }
+  } catch (error) {
+    console.error('Error fetching manual:', error);
+    setManualSections([]);
+  }
+};
 
   const calculateCompletionScore = () => {
     let totalFields = 0;
@@ -488,126 +693,326 @@ export default function ExhibitorDashboard() {
     setCompletionScore(Math.round((completedFields / totalFields) * 100));
   };
 
-  const handleSaveProfile = async () => {
-    setSaving(true);
-    try {
-      // In production: Send to your API
-      // const response = await fetch('/api/exhibitor/profile', {
-      //   method: 'PUT',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(profile),
-      // });
+const handleSaveProfile = async () => {
+  setSaving(true);
+  setShowError(null);
+  
+  try {
+    // Build address string
+    const addressParts = [
+      profile.address.street,
+      profile.address.city,
+      profile.address.state,
+      profile.address.country,
+      profile.address.postalCode
+    ].filter(part => part.trim() !== '');
+    
+    const addressString = addressParts.join(', ');
+    
+    const apiData = {
+      // Basic Info
+      company: profile.companyName,
+      name: profile.contactPerson.name,
+      email: profile.contactPerson.email,
+      phone: profile.contactPerson.phone,
+      alternatePhone: profile.contactPerson.alternatePhone,
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Exhibition
+      boothNumber: profile.exhibition.standNumber,
+      pavilion: profile.exhibition.pavilion,
+      hall: profile.exhibition.hall,
       
+      // Address
+      address: addressString || undefined,
+      
+      // Business Details
+      description: profile.about,
+      mission: profile.mission,
+      vision: profile.vision,
+      sector: profile.sector.join(', '),
+      companySize: profile.companySize,
+      companyType: profile.companyType,
+      yearEstablished: profile.yearEstablished,
+      registrationNumber: profile.registrationNumber,
+      shortName: profile.shortName,
+      
+      // Social Media
+      website: profile.socialMedia.website,
+      linkedin: profile.socialMedia.linkedin,
+      twitter: profile.socialMedia.twitter,
+      facebook: profile.socialMedia.facebook,
+      instagram: profile.socialMedia.instagram,
+      
+      // You might want to send social media as a JSON object
+      socialMedia: JSON.stringify(profile.socialMedia)
+    };
+
+    const result = await apiCall('/api/exhibitorDashboard/profile', {
+      method: 'PUT',
+      body: JSON.stringify(apiData),
+    });
+    
+    if (result.success) {
       setShowSuccess(true);
       setIsEditing(false);
       setTimeout(() => setShowSuccess(false), 3000);
-    } catch (error) {
-      console.error('Error saving profile:', error);
-    } finally {
-      setSaving(false);
+      
+      // Refresh all data
+      await fetchAllData();
     }
-  };
+  } catch (error: any) {
+    console.error('Error saving profile:', error);
+    setShowError(error.message || 'Failed to save profile');
+  } finally {
+    setSaving(false);
+  }
+};
 
-  const handleAddProduct = () => {
-    if (!newProduct.name || !newProduct.description) return;
+const handleAddProduct = async () => {
+  if (!newProduct.name || !newProduct.description) return;
+  
+  setSaving(true);
+  try {
+    let imageUrl = '';
+    let imagePublicId = '';
+    
+    // Upload image to Cloudinary if exists
+    if (newProduct.image) {
+      const uploadResult = await uploadToCloudinary(newProduct.image as File, 'products');
+      imageUrl = uploadResult.url;
+      imagePublicId = uploadResult.publicId;
+    }
     
     const product: Product = {
       ...newProduct,
       id: `prod-${Date.now()}`,
+      imageUrl,
       specifications: newProduct.specifications || {},
     };
     
-    setProfile({
-      ...profile,
-      products: [...profile.products, product],
+    // FIXED: Use correct endpoint
+    const result = await apiCall('/api/exhibitorDashboard/products', {
+      method: 'POST',
+      body: JSON.stringify({
+        ...product,
+        imagePublicId
+      }),
     });
     
-    setNewProduct({
-      id: '',
-      name: '',
-      description: '',
-      category: '',
-      price: '',
-      specifications: {},
-    });
-    setShowAddProduct(false);
-  };
+    if (result.success) {
+      setProfile({
+        ...profile,
+        products: [...profile.products, result.data],
+      });
+      
+      setNewProduct({
+        id: '',
+        name: '',
+        description: '',
+        category: '',
+        price: '',
+        specifications: {},
+      });
+      setShowAddProduct(false);
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    }
+  } catch (error: any) {
+    console.error('Error adding product:', error);
+    setShowError(error.message || 'Failed to add product');
+  } finally {
+    setSaving(false);
+  }
+};
 
-  const handleAddBrand = () => {
-    if (!newBrand.name) return;
+const handleAddBrand = async () => {
+  if (!newBrand.name) return;
+  
+  setSaving(true);
+  try {
+    let logoUrl = '';
+    let logoPublicId = '';
+    
+    // Upload logo to Cloudinary if exists
+    if (newBrand.logo) {
+      const uploadResult = await uploadToCloudinary(newBrand.logo as File, 'brands');
+      logoUrl = uploadResult.url;
+      logoPublicId = uploadResult.publicId;
+    }
     
     const brand: Brand = {
       ...newBrand,
       id: `brand-${Date.now()}`,
+      logoUrl,
     };
     
-    setProfile({
-      ...profile,
-      brands: [...profile.brands, brand],
+    // Save to backend
+    const result = await apiCall('/api/exhibitorDashboard/brands', {
+      method: 'POST',
+      body: JSON.stringify({
+        ...brand,
+        logoPublicId
+      }),
     });
     
-    setNewBrand({
-      id: '',
-      name: '',
-      description: '',
-    });
-    setShowAddBrand(false);
-  };
+    if (result.success) {
+      setProfile({
+        ...profile,
+        brands: [...profile.brands, result.data],
+      });
+      
+      setNewBrand({
+        id: '',
+        name: '',
+        description: '',
+      });
+      setShowAddBrand(false);
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    }
+  } catch (error: any) {
+    console.error('Error adding brand:', error);
+    setShowError(error.message || 'Failed to add brand');
+  } finally {
+    setSaving(false);
+  }
+};
 
-  // FIXED: handleAddBrochure function with proper null check
-  const handleAddBrochure = () => {
-    if (!newBrochure.name || !newBrochure.file) return;
+const handleAddBrochure = async () => {
+  if (!newBrochure.name || !newBrochure.file) return;
+  
+  setSaving(true);
+  try {
+    // Upload PDF to Cloudinary
+    const uploadResult = await uploadToCloudinary(newBrochure.file as File, 'brochures');
     
     const brochure: Brochure = {
       ...newBrochure,
       id: `broch-${Date.now()}`,
       fileSize: `${(newBrochure.file.size / (1024 * 1024)).toFixed(1)} MB`,
-      fileUrl: URL.createObjectURL(newBrochure.file),
+      fileUrl: uploadResult.url,
+      publicId: uploadResult.publicId, // Now this is valid
       downloads: 0,
       uploadedAt: new Date(),
     };
     
-    setProfile({
-      ...profile,
-      brochures: [...profile.brochures, brochure],
+    // Save to backend
+    const result = await apiCall('/api/exhibitorDashboard/brochures', {
+      method: 'POST',
+      body: JSON.stringify({
+        name: brochure.name,
+        description: brochure.description,
+        fileUrl: brochure.fileUrl,
+        fileSize: brochure.fileSize,
+        publicId: brochure.publicId // Use the publicId from the brochure object
+      }),
     });
     
-    setNewBrochure({
-      id: '',
-      name: '',
-      description: '',
-      file: undefined,
-      fileUrl: '',
-      fileSize: '',
-      downloads: 0,
-      uploadedAt: new Date(),
-    });
-    setShowAddBrochure(false);
-  };
+    if (result.success) {
+      setProfile({
+        ...profile,
+        brochures: [...profile.brochures, result.data],
+      });
+      
+      setNewBrochure({
+        id: '',
+        name: '',
+        description: '',
+        file: undefined,
+        fileUrl: '',
+        fileSize: '',
+        downloads: 0,
+        uploadedAt: new Date(),
+      });
+      setShowAddBrochure(false);
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    }
+  } catch (error: any) {
+    console.error('Error adding brochure:', error);
+    setShowError(error.message || 'Failed to upload brochure');
+  } finally {
+    setSaving(false);
+  }
+};
 
-  const handleDeleteProduct = (productId: string) => {
+const handleDeleteProduct = async (productId: string, imagePublicId?: string) => {
+  try {
+    // Delete from Cloudinary first if image exists
+    if (imagePublicId) {
+      await apiCall(`/api/upload/${imagePublicId}`, {
+        method: 'DELETE',
+      });
+    }
+    
+    // FIXED: Use correct endpoint
+    await apiCall(`/api/exhibitorDashboard/products/${productId}`, {
+      method: 'DELETE',
+    });
+    
     setProfile({
       ...profile,
       products: profile.products.filter(p => p.id !== productId),
     });
-  };
+    
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+  } catch (error: any) {
+    console.error('Error deleting product:', error);
+    setShowError(error.message || 'Failed to delete product');
+  }
+};
 
-  const handleDeleteBrand = (brandId: string) => {
+const handleDeleteBrand = async (brandId: string, logoPublicId?: string) => {
+  try {
+    if (logoPublicId) {
+      await apiCall(`/api/upload/${logoPublicId}`, {
+        method: 'DELETE',
+      });
+    }
+    
+    // FIXED: Use correct endpoint
+    await apiCall(`/api/exhibitorDashboard/brands/${brandId}`, {
+      method: 'DELETE',
+    });
+    
     setProfile({
       ...profile,
       brands: profile.brands.filter(b => b.id !== brandId),
     });
-  };
+    
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+  } catch (error: any) {
+    console.error('Error deleting brand:', error);
+    setShowError(error.message || 'Failed to delete brand');
+  }
+};
 
-  const handleDeleteBrochure = (brochureId: string) => {
+const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
+  try {
+    if (publicId) {
+      await apiCall(`/api/upload/${publicId}`, {
+        method: 'DELETE',
+      });
+    }
+    
+    await apiCall(`/api/exhibitorDashboard/brochures/${brochureId}`, {
+      method: 'DELETE',
+    });
+    
     setProfile({
       ...profile,
       brochures: profile.brochures.filter(b => b.id !== brochureId),
     });
-  };
+    
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+  } catch (error: any) {
+    console.error('Error deleting brochure:', error);
+    setShowError(error.message || 'Failed to delete brochure');
+  }
+};
 
   const handleSectorToggle = (sector: string) => {
     if (profile.sector.includes(sector)) {
@@ -659,7 +1064,6 @@ export default function ExhibitorDashboard() {
     }
   };
 
-  // FIXED: handleBrochureUpload function
   const handleBrochureUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -695,12 +1099,45 @@ export default function ExhibitorDashboard() {
     }
   };
 
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'active':
+      case 'paid':
+      case 'approved':
+      case 'completed':
+        return 'bg-green-100 text-green-800';
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'overdue':
+      case 'rejected':
+      case 'cancelled':
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'USD',
+    }).format(amount);
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    });
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-4 border-gray-200 border-t-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600 font-medium">Loading your profile...</p>
+          <p className="mt-4 text-gray-600 font-medium">Loading your dashboard...</p>
         </div>
       </div>
     );
@@ -715,7 +1152,7 @@ export default function ExhibitorDashboard() {
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Exhibitor Dashboard</h1>
               <p className="text-sm text-gray-500 mt-1">
-                Manage your company profile and exhibition presence
+                Manage your exhibition presence and account
               </p>
             </div>
             
@@ -785,7 +1222,20 @@ export default function ExhibitorDashboard() {
         <div className="fixed top-20 right-4 z-50 animate-slide-down">
           <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg shadow-lg flex items-center gap-2">
             <CheckCircle size={20} className="text-green-500" />
-            <span>Profile updated successfully!</span>
+            <span>Operation completed successfully!</span>
+          </div>
+        </div>
+      )}
+
+      {/* Error Message */}
+      {showError && (
+        <div className="fixed top-20 right-4 z-50 animate-slide-down">
+          <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg shadow-lg flex items-center gap-2">
+            <AlertCircle size={20} className="text-red-500" />
+            <span>{showError}</span>
+            <button onClick={() => setShowError(null)} className="ml-2 text-red-500 hover:text-red-700">
+              <XCircle size={16} />
+            </button>
           </div>
         </div>
       )}
@@ -793,7 +1243,7 @@ export default function ExhibitorDashboard() {
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-8">
-          {/* Sidebar - FIXED: Tailwind CSS classes updated */}
+          {/* Sidebar */}
           <div className="lg:w-64 shrink-0">
             <div className="bg-white rounded-xl border shadow-sm overflow-hidden sticky top-24">
               {/* Profile Summary */}
@@ -803,7 +1253,7 @@ export default function ExhibitorDashboard() {
                     profile.logoUrl ? '' : 'bg-gray-100'
                   }`}>
                     {profile.logoUrl ? (
-                      <Image
+                      <img
                         src={profile.logoUrl}
                         alt={profile.companyName}
                         width={96}
@@ -842,6 +1292,14 @@ export default function ExhibitorDashboard() {
                     Stand {profile.exhibition.standNumber}
                   </div>
                 )}
+
+                {profile.status && (
+                  <div className="mt-2">
+                    <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(profile.status)}`}>
+                      {profile.status}
+                    </span>
+                  </div>
+                )}
               </div>
 
               {/* Navigation Tabs */}
@@ -852,7 +1310,7 @@ export default function ExhibitorDashboard() {
                     { id: 'products', label: 'Products & Services', icon: Package, count: profile.products.length },
                     { id: 'brands', label: 'Brands', icon: Tag, count: profile.brands.length },
                     { id: 'brochures', label: 'Brochures', icon: FileText, count: profile.brochures.length },
-                    { id: 'preview', label: 'Live Preview', icon: Eye },
+                   
                   ].map((tab) => {
                     const Icon = tab.icon;
                     const isActive = activeTab === tab.id;
@@ -883,21 +1341,57 @@ export default function ExhibitorDashboard() {
                 </div>
               </div>
 
+              {/* Booth Info */}
+              {boothDetails && (
+                <div className="p-4 border-t bg-gray-50">
+                  <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                    Booth Information
+                  </h4>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Booth Number:</span>
+                      <span className="font-medium text-gray-900">{boothDetails.boothNumber}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Size:</span>
+                      <span className="font-medium text-gray-900">{boothDetails.size}</span>
+                    </div>
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Status:</span>
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getStatusColor(boothDetails.status)}`}>
+                        {boothDetails.status}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Floor Plan */}
+              {floorPlan && (
+                <div className="p-4 border-t">
+                  <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
+                    Floor Plan
+                  </h4>
+                  <p className="text-sm text-gray-700">{floorPlan.name}</p>
+                  {floorPlan.imageUrl && (
+                    <button className="mt-2 text-xs text-blue-600 hover:text-blue-800">
+                      View Floor Plan
+                    </button>
+                  )}
+                </div>
+              )}
+
               {/* Status */}
               <div className="p-4 border-t bg-gray-50">
                 <div className="flex items-center gap-2 text-sm">
                   <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                   <span className="text-gray-600">Profile Published</span>
                 </div>
-                <p className="text-xs text-gray-500 mt-2">
-                  Last updated: {new Date().toLocaleDateString('en-IN', {
-                    day: '2-digit',
-                    month: 'short',
-                    year: 'numeric',
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })}
-                </p>
+                {profile.updatedAt && (
+                  <p className="text-xs text-gray-500 mt-2">
+                    Last updated: {formatDate(profile.updatedAt)}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -1681,7 +2175,7 @@ export default function ExhibitorDashboard() {
                               </label>
                               {newProduct.imageUrl && (
                                 <div className="w-16 h-16 border rounded-lg overflow-hidden shrink-0">
-                                  <Image
+                                  <img
                                     src={newProduct.imageUrl}
                                     alt="Preview"
                                     width={64}
@@ -1896,7 +2390,7 @@ export default function ExhibitorDashboard() {
                             </label>
                             {newBrand.logoUrl && (
                               <div className="w-16 h-16 border rounded-lg overflow-hidden shrink-0">
-                                <Image
+                                <img
                                   src={newBrand.logoUrl}
                                   alt="Preview"
                                   width={64}
@@ -1936,7 +2430,7 @@ export default function ExhibitorDashboard() {
                             <div className="flex items-center gap-4">
                               <div className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden shrink-0">
                                 {brand.logoUrl ? (
-                                  <Image
+                                  <img
                                     src={brand.logoUrl}
                                     alt={brand.name}
                                     width={64}
@@ -2144,151 +2638,6 @@ export default function ExhibitorDashboard() {
                   )}
                 </div>
               )}
-
-              {/* PREVIEW TAB */}
-              {activeTab === 'preview' && (
-                <div className="p-6">
-                  <div className="flex items-center justify-between mb-6">
-                    <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-                      <Eye size={20} className="text-blue-600" />
-                      Live Preview
-                    </h2>
-                    
-                    <Link
-                      href={`/exhibitor/${profile.id}`}
-                      target="_blank"
-                      className="inline-flex items-center px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
-                    >
-                      <ExternalLink size={16} className="mr-2" />
-                      Open in New Tab
-                    </Link>
-                  </div>
-
-                  <div className="border rounded-xl overflow-hidden">
-                    {/* Preview Header */}
-                    <div className="bg-linear-to-r from-blue-600 to-blue-800 px-6 py-4">
-                      <div className="flex items-center justify-between text-white">
-                        <div className="flex items-center gap-2">
-                          <Eye size={20} />
-                          <span className="font-medium">Public Profile Preview</span>
-                        </div>
-                        <span className="text-sm text-blue-100">This is how visitors see your profile</span>
-                      </div>
-                    </div>
-
-                    {/* Preview Content */}
-                    <div className="p-6 bg-white">
-                      <div className="flex flex-col lg:flex-row gap-6">
-                        {/* Logo */}
-                        <div className="shrink-0">
-                          <div className={`w-32 h-32 rounded-2xl border-2 flex items-center justify-center ${
-                            profile.logoUrl ? '' : 'bg-gray-100'
-                          }`}>
-                            {profile.logoUrl ? (
-                              <Image
-                                src={profile.logoUrl}
-                                alt={profile.companyName}
-                                width={128}
-                                height={128}
-                                className="object-contain"
-                              />
-                            ) : (
-                              <div className="text-4xl font-bold text-gray-400">
-                                {profile.companyName ? profile.companyName.substring(0, 2).toUpperCase() : 'EX'}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Company Info */}
-                        <div className="flex-1">
-                          <h1 className="text-2xl font-bold text-gray-900">
-                            {profile.companyName || 'Your Company Name'}
-                          </h1>
-                          {profile.shortName && (
-                            <p className="text-gray-600">({profile.shortName})</p>
-                          )}
-                          
-                          <div className="flex flex-wrap gap-4 mt-4">
-                            <div className="flex items-center gap-1 text-gray-600">
-                              <MapPin size={16} />
-                              <span>{profile.exhibition.pavilion || 'Pavilion'}, {profile.exhibition.hall || 'Hall'}</span>
-                            </div>
-                            <div className="flex items-center gap-1 text-gray-600">
-                              <Award size={16} />
-                              <span>Stand {profile.exhibition.standNumber || 'N/A'}</span>
-                            </div>
-                          </div>
-
-                          <div className="flex flex-wrap gap-2 mt-4">
-                            {profile.sector.map((sector, index) => (
-                              <span key={index} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">
-                                {sector}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* About Preview */}
-                      <div className="mt-6 pt-6 border-t">
-                        <h3 className="font-semibold text-gray-900 mb-2">About</h3>
-                        <p className="text-gray-700">
-                          {profile.about || 'No description provided.'}
-                        </p>
-                      </div>
-
-                      {/* Stats */}
-                      <div className="grid grid-cols-3 gap-4 mt-6 pt-6 border-t">
-                        <div className="text-center">
-                          <p className="text-2xl font-bold text-gray-900">{profile.products.length}</p>
-                          <p className="text-sm text-gray-500">Products</p>
-                        </div>
-                        <div className="text-center">
-                          <p className="text-2xl font-bold text-gray-900">{profile.brands.length}</p>
-                          <p className="text-sm text-gray-500">Brands</p>
-                        </div>
-                        <div className="text-center">
-                          <p className="text-2xl font-bold text-gray-900">{profile.brochures.length}</p>
-                          <p className="text-sm text-gray-500">Brochures</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Quick Tips */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-8">
-        <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
-          <div className="flex items-start gap-4">
-            <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center shrink-0">
-              <Info size={20} className="text-blue-600" />
-            </div>
-            <div>
-              <h3 className="font-semibold text-blue-800 mb-2">Quick Tips for Better Visibility</h3>
-              <ul className="space-y-2 text-sm text-blue-700">
-                <li className="flex items-start gap-2">
-                  <CheckCircle size={16} className="shrink-0 mt-0.5" />
-                  <span>Complete your profile to 100% to get featured in search results</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle size={16} className="shrink-0 mt-0.5" />
-                  <span>Add high-quality product images to increase engagement</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle size={16} className="shrink-0 mt-0.5" />
-                  <span>Upload brochures in PDF format for easy download</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <CheckCircle size={16} className="shrink-0 mt-0.5" />
-                  <span>Keep your contact information updated for potential clients</span>
-                </li>
-              </ul>
             </div>
           </div>
         </div>
