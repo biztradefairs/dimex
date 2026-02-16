@@ -16,6 +16,8 @@ import {
   XCircle,
   Clock,
   RefreshCw,
+  Ruler,
+  Info,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { exhibitorsAPI, Exhibitor } from "@/lib/api/exhibitors";
@@ -36,41 +38,41 @@ export default function ExhibitorDetailsPage() {
   const fetchExhibitor = async () => {
     try {
       setLoading(true);
-      const response = await exhibitorsAPI.getAll();
-      const found = response.data.find((e: Exhibitor) => e.id === id);
-      if (found) {
-        setExhibitor(found);
-      } else {
-        toast.error("Exhibitor not found");
-        router.push("/admin/exhibition/exhibitors");
-      }
+      const response = await exhibitorsAPI.getById(id);
+      console.log("Raw exhibitor data:", response.data); // Debug log
+      setExhibitor(response.data);
     } catch (error: any) {
       toast.error(error.message || "Failed to load exhibitor");
+      router.push("/admin/exhibition/exhibitors");
     } finally {
       setLoading(false);
     }
   };
 
- // In NewExhibitorPage.tsx, ExhibitorDetailsPage.tsx, ExhibitorsPage.tsx
-const resendCredentials = async () => {
-  try {
-    toast.loading('Processing credentials...');
+  const resendCredentials = async () => {
+    if (!exhibitor) return;
     
-    const result = await exhibitorsAPI.resendCredentials(id);
-    
-    toast.dismiss();
-    toast.success(
-      <div>
-        <p>✅ Credentials logged to console!</p>
-        <p className="text-sm">Check your backend terminal for password</p>
-      </div>
-    );
-    
-  } catch (error: any) {
-    toast.dismiss();
-    toast.error(error.message || 'Failed to process');
-  }
-};
+    try {
+      setResending(true);
+      toast.loading('Sending credentials...');
+      
+      await exhibitorsAPI.resendCredentials(id);
+      
+      toast.dismiss();
+      toast.success(
+        <div>
+          <p>✅ Credentials sent successfully!</p>
+          <p className="text-sm">Email sent to {exhibitor.email}</p>
+        </div>
+      );
+      
+    } catch (error: any) {
+      toast.dismiss();
+      toast.error(error.message || 'Failed to send credentials');
+    } finally {
+      setResending(false);
+    }
+  };
 
   const getStatusIcon = (status: string) => {
     switch (status) {
@@ -94,6 +96,17 @@ const resendCredentials = async () => {
       default:
         return "bg-red-100 text-red-800";
     }
+  };
+
+  const getBoothTypeLabel = (type: string) => {
+    const types: Record<string, string> = {
+      standard: "Standard Booth (3x3m)",
+      double: "Double Booth (6x3m)",
+      corner: "Corner Booth",
+      island: "Island Booth",
+      custom: "Custom Size",
+    };
+    return types[type] || type;
   };
 
   if (loading) {
@@ -215,6 +228,16 @@ const resendCredentials = async () => {
                     </div>
                     <p className="text-lg font-medium">{exhibitor.company}</p>
                   </div>
+
+                  <div>
+                    <div className="flex items-center gap-2 text-gray-600 mb-2">
+                      <Building className="h-4 w-4" />
+                      <span className="text-sm font-medium">Sector</span>
+                    </div>
+                    <p className="text-lg font-medium">
+                      {exhibitor.sector || "Not specified"}
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -232,20 +255,54 @@ const resendCredentials = async () => {
                       <span className="text-sm font-medium">Booth Number</span>
                     </div>
                     <p className="text-lg font-medium">
-                      {exhibitor.booth || "Not assigned"}
+                      {exhibitor.booth && exhibitor.booth !== "Not assigned" 
+                        ? exhibitor.booth 
+                        : exhibitor.boothNumber || "Not assigned"}
                     </p>
                   </div>
 
                   <div>
                     <div className="flex items-center gap-2 text-gray-600 mb-2">
-                      <Building className="h-4 w-4" />
-                      <span className="text-sm font-medium">Sector</span>
+                      <Ruler className="h-4 w-4" />
+                      <span className="text-sm font-medium">Booth Type</span>
                     </div>
                     <p className="text-lg font-medium">
-                      {exhibitor.sector || "Not specified"}
+                      {exhibitor.boothType ? getBoothTypeLabel(exhibitor.boothType) : "Not specified"}
                     </p>
                   </div>
+
+                  <div>
+                    <div className="flex items-center gap-2 text-gray-600 mb-2">
+                      <Ruler className="h-4 w-4" />
+                      <span className="text-sm font-medium">Booth Size</span>
+                    </div>
+                    <p className="text-lg font-medium">
+                      {exhibitor.boothSize || "Not specified"}
+                    </p>
+                  </div>
+
+                  {exhibitor.boothDimensions && (
+                    <div>
+                      <div className="flex items-center gap-2 text-gray-600 mb-2">
+                        <Ruler className="h-4 w-4" />
+                        <span className="text-sm font-medium">Dimensions</span>
+                      </div>
+                      <p className="text-lg font-medium">{exhibitor.boothDimensions}</p>
+                    </div>
+                  )}
                 </div>
+
+                {exhibitor.boothNotes && (
+                  <div className="mt-4 pt-4 border-t">
+                    <div className="flex items-center gap-2 text-gray-600 mb-2">
+                      <Info className="h-4 w-4" />
+                      <span className="text-sm font-medium">Booth Notes / Special Requirements</span>
+                    </div>
+                    <p className="text-gray-700 bg-gray-50 p-4 rounded-lg">
+                      {exhibitor.boothNotes}
+                    </p>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -274,7 +331,7 @@ const resendCredentials = async () => {
                   {exhibitor.originalPassword ? (
                     <div className="space-y-3">
                       <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                        <p className="font-mono text-lg text-center">
+                        <p className="font-mono text-lg text-center break-all">
                           {exhibitor.originalPassword}
                         </p>
                       </div>
@@ -299,13 +356,25 @@ const resendCredentials = async () => {
                   </p>
                   <button
                     onClick={() => {
-                      const message = `Exhibitor Login Credentials:\n\nEmail: ${exhibitor.email}\nPassword: ${exhibitor.originalPassword}\n\nLogin URL: ${window.location.origin}/login`;
+                      const message = `Exhibitor Login Credentials:
+                      
+Email: ${exhibitor.email}
+Password: ${exhibitor.originalPassword || '[Password not available]'}
+
+Exhibition Details:
+Company: ${exhibitor.company}
+Contact: ${exhibitor.name}
+Booth Number: ${exhibitor.booth || 'N/A'}
+Booth Size: ${exhibitor.boothSize || 'N/A'}
+Booth Type: ${exhibitor.boothType ? getBoothTypeLabel(exhibitor.boothType) : 'N/A'}
+
+Login URL: ${window.location.origin}/login`;
                       navigator.clipboard.writeText(message);
-                      toast.success("Credentials copied to clipboard");
+                      toast.success("All credentials copied to clipboard");
                     }}
                     className="w-full py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100"
                   >
-                    Copy All Credentials
+                    Copy All Details
                   </button>
                 </div>
               </div>

@@ -38,10 +38,14 @@ import {
   Building,
   Receipt,
   FileText as FileTextIcon,
-  Download as DownloadIcon
+  Download as DownloadIcon,
+  Ruler,
+  Home,
+  Grid,
+  Maximize2,
+  Move
 } from 'lucide-react';
 import Link from 'next/link';
-
 
 // API Configuration
 const API_BASE_URL = 'https://diemex-backend.onrender.com';
@@ -113,6 +117,15 @@ interface ExhibitorProfile {
   // Brochures
   brochures: Brochure[];
   
+  // Booth Details from Admin
+  boothNumber?: string;
+  boothSize?: string;
+  boothType?: string;
+  boothDimensions?: string;
+  boothNotes?: string;
+  boothStatus?: string;
+  boothPrice?: string;
+  
   // Additional fields from API
   status: string;
   createdAt: string;
@@ -168,6 +181,9 @@ interface BoothDetails {
   };
   size: string;
   status: string;
+  type?: string;
+  dimensions?: string;
+  notes?: string;
 }
 
 // Country options
@@ -257,13 +273,22 @@ const hallOptions = [
   'Hall H',
 ];
 
+// Booth type options
+const boothTypeOptions = [
+  { value: 'standard', label: 'Standard Booth (3x3m)' },
+  { value: 'double', label: 'Double Booth (6x3m)' },
+  { value: 'corner', label: 'Corner Booth' },
+  { value: 'island', label: 'Island Booth' },
+  { value: 'custom', label: 'Custom Size' },
+];
+
 export default function ExhibitorDashboard() {
-  const [activeTab, setActiveTab] = useState<'profile' | 'products' | 'brands' | 'brochures' | 'preview' | 'invoices' | 'requirements' | 'manual'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'products' | 'brands' | 'brochures' | 'booth' | 'preview' | 'invoices' | 'requirements' | 'manual'>('profile');
   const [isEditing, setIsEditing] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [showAddBrand, setShowAddBrand] = useState(false);
   const [showAddBrochure, setShowAddBrochure] = useState(false);
-  const [showAddRequirement, setShowAddRequirement] = useState(false);
+  // const [showAddRequirement, setShowAddRequirement] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
@@ -271,11 +296,10 @@ export default function ExhibitorDashboard() {
   const [completionScore, setCompletionScore] = useState(0);
   
   // Additional state from API
-  // const [invoices, setInvoices] = useState<Invoice[]>([]);
-  // const [requirements, setRequirements] = useState<Requirement[]>([]);
   const [floorPlan, setFloorPlan] = useState<FloorPlan | null>(null);
   const [boothDetails, setBoothDetails] = useState<BoothDetails | null>(null);
   const [manualSections, setManualSections] = useState<any[]>([]);
+  
   
   // Profile State
   const [profile, setProfile] = useState<ExhibitorProfile>({
@@ -320,6 +344,12 @@ export default function ExhibitorDashboard() {
     products: [],
     brands: [],
     brochures: [],
+    boothNumber: '',
+    boothSize: '',
+    boothType: '',
+    boothDimensions: '',
+    boothNotes: '',
+    boothStatus: 'pending',
     status: 'active',
     createdAt: '',
     updatedAt: '',
@@ -359,23 +389,103 @@ export default function ExhibitorDashboard() {
     type: '',
     description: '',
     quantity: 1,
+    price: 0
   });
 
   // New spec key/value for product
   const [newSpecKey, setNewSpecKey] = useState('');
   const [newSpecValue, setNewSpecValue] = useState('');
+  const [showAddRequirement, setShowAddRequirement] = useState(false);
+const [requirements, setRequirements] = useState<any[]>([]);
+
 
   // Load all exhibitor data
   useEffect(() => {
     fetchAllData();
   }, []);
 
+  const fetchRequirements = async () => {
+  try {
+    const result = await apiCall('/api/exhibitorDashboard/requirements');
+    if (result.success) {
+      setRequirements(result.data);
+    }
+  } catch (error) {
+    console.error('Error fetching requirements:', error);
+  }
+};
+const handleAddRequirement = async () => {
+  if (!newRequirement.type || !newRequirement.description) return;
+  
+  setSaving(true);
+  try {
+    const result = await apiCall('/api/exhibitorDashboard/requirements', {
+      method: 'POST',
+      body: JSON.stringify({
+        ...newRequirement,
+        price: newRequirement.price || 0, // Include price in the request
+      }),
+    });
+    
+    if (result.success) {
+      setRequirements([result.data, ...requirements]);
+      setNewRequirement({ type: '', description: '', quantity: 1, price: 0 }); // Reset with price
+      setShowAddRequirement(false);
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    }
+  } catch (error: any) {
+    console.error('Error adding requirement:', error);
+    setShowError(error.message || 'Failed to add requirement');
+  } finally {
+    setSaving(false);
+  }
+};
+const handleDeleteRequirement = async (requirementId: string) => {
+  try {
+    await apiCall(`/api/exhibitorDashboard/requirements/${requirementId}`, {
+      method: 'DELETE',
+    });
+    
+    setRequirements(requirements.filter(req => req.id !== requirementId));
+    setShowSuccess(true);
+    setTimeout(() => setShowSuccess(false), 3000);
+  } catch (error: any) {
+    console.error('Error deleting requirement:', error);
+    setShowError(error.message || 'Failed to delete requirement');
+  }
+};
+
+
+// Add fetchRequirements to fetchAllData
+const fetchAllData = async () => {
+  setLoading(true);
+  setShowError(null);
+  
+  try {
+    await fetchExhibitorProfile();
+    await Promise.all([
+      fetchProducts(),
+      fetchBrands(),
+      fetchBrochures(),
+      fetchDashboardLayout(),
+      fetchManual(),
+      fetchBoothDetailsFromAdmin(),
+      fetchRequirements(), // Add this line
+    ]);
+  } catch (error: any) {
+    console.error('Error fetching data:', error);
+    setShowError(error.message || 'Failed to load data');
+  } finally {
+    setLoading(false);
+  }
+};
+
   // Calculate profile completion
   useEffect(() => {
     calculateCompletionScore();
   }, [profile]);
 
-  // Helper function for API calls with auth
 const apiCall = async (endpoint: string, options: RequestInit = {}, isFormData = false) => {
   const token = localStorage.getItem('exhibitor_token') || localStorage.getItem('token');
   
@@ -390,55 +500,107 @@ const apiCall = async (endpoint: string, options: RequestInit = {}, isFormData =
     headers['Authorization'] = `Bearer ${token}`;
   }
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-    ...options,
-    headers: {
-      ...headers,
-      ...options.headers,
-    },
-    credentials: 'include',
-  });
-
-  if (!response.ok) {
-    const error = await response.json().catch(() => ({}));
-    throw new Error(error.message || `HTTP error! status: ${response.status}`);
-  }
-
-  return response.json();
-};
-const uploadToCloudinary = async (file: File, folder: string = 'exhibitor-files') => {
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('folder', folder);
-
-  const result = await apiCall('/api/upload', {
-    method: 'POST',
-    body: formData,
-  }, true); // true = isFormData
-
-  return result.data; // Should return { url, publicId, format, etc. }
-};
-
-const fetchAllData = async () => {
-  setLoading(true);
-  setShowError(null);
-  
   try {
-    // Fetch all data in parallel for better performance
-    await Promise.all([
-      fetchExhibitorProfile(),
-      fetchProducts(),
-      fetchBrands(),
-      fetchBrochures(),
-      fetchDashboardLayout(),
-      fetchManual()
-    ]);
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+      ...options,
+      headers: {
+        ...headers,
+        ...options.headers,
+      },
+      credentials: 'include',
+    });
+
+    const responseData = await response.json().catch(() => ({}));
+
+    if (!response.ok) {
+      console.error('API Error Response:', responseData);
+      throw new Error(responseData.error || responseData.message || `HTTP error! status: ${response.status}`);
+    }
+
+    return responseData;
+  } catch (error) {
+    console.error('API Call Error:', error);
+    throw error;
+  }
+};
+
+  const uploadToCloudinary = async (file: File, folder: string = 'exhibitor-files') => {
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('folder', folder);
+
+    const result = await apiCall('/api/upload', {
+      method: 'POST',
+      body: formData,
+    }, true); // true = isFormData
+
+    return result.data; // Should return { url, publicId, format, etc. }
+  };
+
+
+
+const fetchBoothDetailsFromAdmin = async () => {
+  try {
+    const exhibitorId = profile.id;
     
-  } catch (error: any) {
-    console.error('Error fetching data:', error);
-    setShowError(error.message || 'Failed to load data');
-  } finally {
-    setLoading(false);
+    if (!exhibitorId) {
+      console.log('No exhibitor ID available for booth details');
+      return;
+    }
+
+    console.log('Fetching booth details from admin for exhibitor:', exhibitorId);
+
+    const result = await apiCall(`/api/exhibitors/${exhibitorId}`, {
+      method: 'GET',
+    });
+    
+    if (result.success && result.data) {
+      const adminData = result.data;
+      
+      // Parse stallDetails if it exists
+      let stallDetails = adminData.stallDetails || {};
+      if (typeof stallDetails === 'string') {
+        try {
+          stallDetails = JSON.parse(stallDetails);
+        } catch {
+          stallDetails = {};
+        }
+      }
+
+      console.log('Parsed stall details:', stallDetails);
+      console.log('Price from stallDetails:', stallDetails.price);
+
+      // Extract booth details from admin data with proper fallbacks
+      const boothInfo = {
+        boothNumber: adminData.boothNumber || adminData.booth || stallDetails.boothNumber || '',
+        boothSize: adminData.boothSize || stallDetails.size || stallDetails.boothSize || '3m x 3m',
+        boothType: adminData.boothType || stallDetails.type || stallDetails.boothType || 'standard',
+        boothDimensions: adminData.boothDimensions || stallDetails.dimensions || stallDetails.boothDimensions || '',
+        boothNotes: adminData.boothNotes || stallDetails.notes || stallDetails.boothNotes || '',
+        boothPrice: stallDetails.price || adminData.boothPrice || adminData.price || '', // TRY MULTIPLE SOURCES
+        status: adminData.status || 'active'
+      };
+
+      console.log('Booth details fetched from admin:', boothInfo);
+
+      // Update profile with booth details
+      setProfile(prev => ({
+        ...prev,
+        exhibition: {
+          ...prev.exhibition,
+          standNumber: boothInfo.boothNumber || prev.exhibition.standNumber,
+        },
+        boothNumber: boothInfo.boothNumber,
+        boothSize: boothInfo.boothSize,
+        boothType: boothInfo.boothType,
+        boothDimensions: boothInfo.boothDimensions,
+        boothNotes: boothInfo.boothNotes,
+        boothPrice: boothInfo.boothPrice, // THIS WILL NOW BE SET
+        boothStatus: boothInfo.status
+      }));
+    }
+  } catch (error) {
+    console.error('Error fetching booth details from admin:', error);
   }
 };
 
@@ -497,7 +659,22 @@ const fetchExhibitorProfile = async () => {
         socialMedia.website = apiData.website || '';
       }
       
-      setProfile({
+      // ===== IMPORTANT: Parse stallDetails to get booth price =====
+      let stallDetails = apiData.stallDetails || {};
+      if (typeof stallDetails === 'string') {
+        try {
+          stallDetails = JSON.parse(stallDetails);
+        } catch (e) {
+          console.error('Error parsing stallDetails:', e);
+          stallDetails = {};
+        }
+      }
+      
+      console.log('📦 Fetched stallDetails:', stallDetails);
+      console.log('💰 Booth price from stallDetails:', stallDetails.price);
+      
+      setProfile(prev => ({
+        ...prev,
         id: apiData.id || '',
         companyName: apiData.company || apiData.name || '',
         shortName: apiData.shortName || apiData.short_name || '',
@@ -533,108 +710,120 @@ const fetchExhibitorProfile = async () => {
         mission: apiData.mission || '',
         vision: apiData.vision || '',
         socialMedia: socialMedia,
-        products: apiData.products || [],
-        brands: apiData.brands || [],
-        brochures: apiData.brochures || [],
+        // ===== IMPORTANT: Add booth price from stallDetails =====
+        boothNumber: apiData.boothNumber || stallDetails.boothNumber || '',
+        boothSize: apiData.boothSize || stallDetails.size || '',
+        boothType: apiData.boothType || stallDetails.type || 'standard',
+        boothDimensions: apiData.boothDimensions || stallDetails.dimensions || '',
+        boothNotes: apiData.boothNotes || stallDetails.notes || '',
+        boothPrice: stallDetails.price || apiData.boothPrice || '', // THIS IS THE KEY LINE
+        boothStatus: apiData.status || 'active',
         status: apiData.status || 'active',
         createdAt: apiData.createdAt || apiData.created_at || '',
         updatedAt: apiData.updatedAt || apiData.updated_at || '',
-      });
+      }));
     }
   } catch (error) {
     console.error('Error fetching profile:', error);
     throw error;
   }
 };
-const fetchProducts = async () => {
-  try {
-    const result = await apiCall('/api/exhibitorDashboard/products');
-    
-    if (result.success) {
-      setProfile(prev => ({
-        ...prev,
-        products: Array.isArray(result.data) ? result.data : []
-      }));
-    }
-  } catch (error) {
-    console.error('Error fetching products:', error);
-  }
-};
-const fetchBrands = async () => {
-  try {
-    const result = await apiCall('/api/exhibitorDashboard/brands');
-    
-    if (result.success) {
-      setProfile(prev => ({
-        ...prev,
-        brands: Array.isArray(result.data) ? result.data : []
-      }));
-    }
-  } catch (error) {
-    console.error('Error fetching brands:', error);
-  }
-};
-const fetchBrochures = async () => {
-  try {
-    const result = await apiCall('/api/exhibitorDashboard/brochures');
-    
-    if (result.success) {
-      setProfile(prev => ({
-        ...prev,
-        brochures: Array.isArray(result.data) ? result.data : []
-      }));
-    }
-  } catch (error) {
-    console.error('Error fetching brochures:', error);
-  }
-};
 
-const fetchDashboardLayout = async () => {
-  try {
-    // FIXED: Use correct endpoint
-    const result = await apiCall('/api/exhibitorDashboard/layout');
-    
-    if (result.success) {
-      const { exhibitor, floorPlan: fp, booth } = result.data;
+  const fetchProducts = async () => {
+    try {
+      const result = await apiCall('/api/exhibitorDashboard/products');
       
-      setFloorPlan(fp);
-      setBoothDetails(booth);
-      
-      // Update profile with any additional data from layout
-      if (exhibitor) {
+      if (result.success) {
         setProfile(prev => ({
           ...prev,
-          companyName: exhibitor.company || exhibitor.name || prev.companyName,
-          exhibition: {
-            ...prev.exhibition,
-            standNumber: exhibitor.boothNumber || prev.exhibition.standNumber,
-          },
+          products: Array.isArray(result.data) ? result.data : []
         }));
       }
+    } catch (error) {
+      console.error('Error fetching products:', error);
     }
-  } catch (error) {
-    console.error('Error fetching layout:', error);
-    // Don't throw - this is non-critical
-  }
-};
+  };
 
-
-
-
-
-const fetchManual = async () => {
-  try {
-    // FIXED: Use correct endpoint
-    const result = await apiCall('/api/exhibitorDashboard/manual');
-    
-    if (result.success) {
-      setManualSections(result.data.sections || []);
+  const fetchBrands = async () => {
+    try {
+      const result = await apiCall('/api/exhibitorDashboard/brands');
+      
+      if (result.success) {
+        setProfile(prev => ({
+          ...prev,
+          brands: Array.isArray(result.data) ? result.data : []
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching brands:', error);
     }
-  } catch (error) {
-    console.error('Error fetching manual:', error);
-    setManualSections([]);
-  }
-};
+  };
+
+  const fetchBrochures = async () => {
+    try {
+      const result = await apiCall('/api/exhibitorDashboard/brochures');
+      
+      if (result.success) {
+        setProfile(prev => ({
+          ...prev,
+          brochures: Array.isArray(result.data) ? result.data : []
+        }));
+      }
+    } catch (error) {
+      console.error('Error fetching brochures:', error);
+    }
+  };
+
+  const fetchDashboardLayout = async () => {
+    try {
+      const result = await apiCall('/api/exhibitorDashboard/layout');
+      
+      if (result.success) {
+        const { exhibitor, floorPlan: fp, booth } = result.data;
+        
+        setFloorPlan(fp);
+        
+        // Update booth details if available from layout
+        if (booth) {
+          setBoothDetails(prev => ({
+            ...prev,
+            boothNumber: booth.boothNumber || prev?.boothNumber || '',
+            position: booth.position || { x: 0, y: 0 },
+            size: booth.size || prev?.size || '',
+            status: booth.status || prev?.status || 'active'
+          }));
+        }
+        
+        // Update profile with any additional data from layout
+        if (exhibitor) {
+          setProfile(prev => ({
+            ...prev,
+            companyName: exhibitor.company || exhibitor.name || prev.companyName,
+            exhibition: {
+              ...prev.exhibition,
+              standNumber: exhibitor.boothNumber || prev.exhibition.standNumber,
+            },
+          }));
+        }
+      }
+    } catch (error) {
+      console.error('Error fetching layout:', error);
+      // Don't throw - this is non-critical
+    }
+  };
+
+  const fetchManual = async () => {
+    try {
+      const result = await apiCall('/api/exhibitorDashboard/manual');
+      
+      if (result.success) {
+        setManualSections(result.data.sections || []);
+      }
+    } catch (error) {
+      console.error('Error fetching manual:', error);
+      setManualSections([]);
+    }
+  };
 
   const calculateCompletionScore = () => {
     let totalFields = 0;
@@ -709,6 +898,18 @@ const handleSaveProfile = async () => {
     
     const addressString = addressParts.join(', ');
     
+    // Build stall details object - MAKE SURE PRICE IS INCLUDED
+const stallDetails = {
+  size: profile.boothSize || '3m x 3m',
+  type: profile.boothType || 'standard',
+  dimensions: profile.boothDimensions || '',
+  notes: profile.boothNotes || '',
+  price: profile.boothPrice || '', // Price in Indian Rupees (INR)
+  updatedAt: new Date().toISOString()
+};
+    
+    console.log('💾 Saving stall details with price:', stallDetails);
+    
     const apiData = {
       // Basic Info
       company: profile.companyName,
@@ -743,8 +944,18 @@ const handleSaveProfile = async () => {
       facebook: profile.socialMedia.facebook,
       instagram: profile.socialMedia.instagram,
       
-      // You might want to send social media as a JSON object
-      socialMedia: JSON.stringify(profile.socialMedia)
+      // Social media as JSON string
+      socialMedia: JSON.stringify(profile.socialMedia),
+      
+      // === IMPORTANT: Include booth details with price ===
+      stallDetails: JSON.stringify(stallDetails),
+      
+      // Individual booth fields for backward compatibility
+      boothSize: profile.boothSize,
+      boothType: profile.boothType,
+      boothDimensions: profile.boothDimensions,
+      boothNotes: profile.boothNotes,
+      boothPrice: profile.boothPrice // Include this too
     };
 
     const result = await apiCall('/api/exhibitorDashboard/profile', {
@@ -757,7 +968,7 @@ const handleSaveProfile = async () => {
       setIsEditing(false);
       setTimeout(() => setShowSuccess(false), 3000);
       
-      // Refresh all data
+      // Refresh all data to ensure consistency
       await fetchAllData();
     }
   } catch (error: any) {
@@ -767,252 +978,248 @@ const handleSaveProfile = async () => {
     setSaving(false);
   }
 };
-
-const handleAddProduct = async () => {
-  if (!newProduct.name || !newProduct.description) return;
-  
-  setSaving(true);
-  try {
-    let imageUrl = '';
-    let imagePublicId = '';
+  const handleAddProduct = async () => {
+    if (!newProduct.name || !newProduct.description) return;
     
-    // Upload image to Cloudinary if exists
-    if (newProduct.image) {
-      const uploadResult = await uploadToCloudinary(newProduct.image as File, 'products');
-      imageUrl = uploadResult.url;
-      imagePublicId = uploadResult.publicId;
-    }
-    
-    const product: Product = {
-      ...newProduct,
-      id: `prod-${Date.now()}`,
-      imageUrl,
-      specifications: newProduct.specifications || {},
-    };
-    
-    // FIXED: Use correct endpoint
-    const result = await apiCall('/api/exhibitorDashboard/products', {
-      method: 'POST',
-      body: JSON.stringify({
-        ...product,
-        imagePublicId
-      }),
-    });
-    
-    if (result.success) {
-      setProfile({
-        ...profile,
-        products: [...profile.products, result.data],
+    setSaving(true);
+    try {
+      let imageUrl = '';
+      let imagePublicId = '';
+      
+      // Upload image to Cloudinary if exists
+      if (newProduct.image) {
+        const uploadResult = await uploadToCloudinary(newProduct.image as File, 'products');
+        imageUrl = uploadResult.url;
+        imagePublicId = uploadResult.publicId;
+      }
+      
+      const product: Product = {
+        ...newProduct,
+        id: `prod-${Date.now()}`,
+        imageUrl,
+        specifications: newProduct.specifications || {},
+      };
+      
+      const result = await apiCall('/api/exhibitorDashboard/products', {
+        method: 'POST',
+        body: JSON.stringify({
+          ...product,
+          imagePublicId
+        }),
       });
       
-      setNewProduct({
-        id: '',
-        name: '',
-        description: '',
-        category: '',
-        price: '',
-        specifications: {},
-      });
-      setShowAddProduct(false);
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 3000);
+      if (result.success) {
+        setProfile({
+          ...profile,
+          products: [...profile.products, result.data],
+        });
+        
+        setNewProduct({
+          id: '',
+          name: '',
+          description: '',
+          category: '',
+          price: '',
+          specifications: {},
+        });
+        setShowAddProduct(false);
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 3000);
+      }
+    } catch (error: any) {
+      console.error('Error adding product:', error);
+      setShowError(error.message || 'Failed to add product');
+    } finally {
+      setSaving(false);
     }
-  } catch (error: any) {
-    console.error('Error adding product:', error);
-    setShowError(error.message || 'Failed to add product');
-  } finally {
-    setSaving(false);
-  }
-};
+  };
 
-const handleAddBrand = async () => {
-  if (!newBrand.name) return;
-  
-  setSaving(true);
-  try {
-    let logoUrl = '';
-    let logoPublicId = '';
+  const handleAddBrand = async () => {
+    if (!newBrand.name) return;
     
-    // Upload logo to Cloudinary if exists
-    if (newBrand.logo) {
-      const uploadResult = await uploadToCloudinary(newBrand.logo as File, 'brands');
-      logoUrl = uploadResult.url;
-      logoPublicId = uploadResult.publicId;
-    }
-    
-    const brand: Brand = {
-      ...newBrand,
-      id: `brand-${Date.now()}`,
-      logoUrl,
-    };
-    
-    // Save to backend
-    const result = await apiCall('/api/exhibitorDashboard/brands', {
-      method: 'POST',
-      body: JSON.stringify({
-        ...brand,
-        logoPublicId
-      }),
-    });
-    
-    if (result.success) {
-      setProfile({
-        ...profile,
-        brands: [...profile.brands, result.data],
+    setSaving(true);
+    try {
+      let logoUrl = '';
+      let logoPublicId = '';
+      
+      // Upload logo to Cloudinary if exists
+      if (newBrand.logo) {
+        const uploadResult = await uploadToCloudinary(newBrand.logo as File, 'brands');
+        logoUrl = uploadResult.url;
+        logoPublicId = uploadResult.publicId;
+      }
+      
+      const brand: Brand = {
+        ...newBrand,
+        id: `brand-${Date.now()}`,
+        logoUrl,
+      };
+      
+      // Save to backend
+      const result = await apiCall('/api/exhibitorDashboard/brands', {
+        method: 'POST',
+        body: JSON.stringify({
+          ...brand,
+          logoPublicId
+        }),
       });
       
-      setNewBrand({
-        id: '',
-        name: '',
-        description: '',
-      });
-      setShowAddBrand(false);
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 3000);
+      if (result.success) {
+        setProfile({
+          ...profile,
+          brands: [...profile.brands, result.data],
+        });
+        
+        setNewBrand({
+          id: '',
+          name: '',
+          description: '',
+        });
+        setShowAddBrand(false);
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 3000);
+      }
+    } catch (error: any) {
+      console.error('Error adding brand:', error);
+      setShowError(error.message || 'Failed to add brand');
+    } finally {
+      setSaving(false);
     }
-  } catch (error: any) {
-    console.error('Error adding brand:', error);
-    setShowError(error.message || 'Failed to add brand');
-  } finally {
-    setSaving(false);
-  }
-};
+  };
 
-const handleAddBrochure = async () => {
-  if (!newBrochure.name || !newBrochure.file) return;
-  
-  setSaving(true);
-  try {
-    // Upload PDF to Cloudinary
-    const uploadResult = await uploadToCloudinary(newBrochure.file as File, 'brochures');
+  const handleAddBrochure = async () => {
+    if (!newBrochure.name || !newBrochure.file) return;
     
-    const brochure: Brochure = {
-      ...newBrochure,
-      id: `broch-${Date.now()}`,
-      fileSize: `${(newBrochure.file.size / (1024 * 1024)).toFixed(1)} MB`,
-      fileUrl: uploadResult.url,
-      publicId: uploadResult.publicId, // Now this is valid
-      downloads: 0,
-      uploadedAt: new Date(),
-    };
-    
-    // Save to backend
-    const result = await apiCall('/api/exhibitorDashboard/brochures', {
-      method: 'POST',
-      body: JSON.stringify({
-        name: brochure.name,
-        description: brochure.description,
-        fileUrl: brochure.fileUrl,
-        fileSize: brochure.fileSize,
-        publicId: brochure.publicId // Use the publicId from the brochure object
-      }),
-    });
-    
-    if (result.success) {
-      setProfile({
-        ...profile,
-        brochures: [...profile.brochures, result.data],
-      });
+    setSaving(true);
+    try {
+      // Upload PDF to Cloudinary
+      const uploadResult = await uploadToCloudinary(newBrochure.file as File, 'brochures');
       
-      setNewBrochure({
-        id: '',
-        name: '',
-        description: '',
-        file: undefined,
-        fileUrl: '',
-        fileSize: '',
+      const brochure: Brochure = {
+        ...newBrochure,
+        id: `broch-${Date.now()}`,
+        fileSize: `${(newBrochure.file.size / (1024 * 1024)).toFixed(1)} MB`,
+        fileUrl: uploadResult.url,
+        publicId: uploadResult.publicId,
         downloads: 0,
         uploadedAt: new Date(),
+      };
+      
+      // Save to backend
+      const result = await apiCall('/api/exhibitorDashboard/brochures', {
+        method: 'POST',
+        body: JSON.stringify({
+          name: brochure.name,
+          description: brochure.description,
+          fileUrl: brochure.fileUrl,
+          fileSize: brochure.fileSize,
+          publicId: brochure.publicId
+        }),
       });
-      setShowAddBrochure(false);
+      
+      if (result.success) {
+        setProfile({
+          ...profile,
+          brochures: [...profile.brochures, result.data],
+        });
+        
+        setNewBrochure({
+          id: '',
+          name: '',
+          description: '',
+          file: undefined,
+          fileUrl: '',
+          fileSize: '',
+          downloads: 0,
+          uploadedAt: new Date(),
+        });
+        setShowAddBrochure(false);
+        setShowSuccess(true);
+        setTimeout(() => setShowSuccess(false), 3000);
+      }
+    } catch (error: any) {
+      console.error('Error adding brochure:', error);
+      setShowError(error.message || 'Failed to upload brochure');
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handleDeleteProduct = async (productId: string, imagePublicId?: string) => {
+    try {
+      // Delete from Cloudinary first if image exists
+      if (imagePublicId) {
+        await apiCall(`/api/upload/${imagePublicId}`, {
+          method: 'DELETE',
+        });
+      }
+      
+      await apiCall(`/api/exhibitorDashboard/products/${productId}`, {
+        method: 'DELETE',
+      });
+      
+      setProfile({
+        ...profile,
+        products: profile.products.filter(p => p.id !== productId),
+      });
+      
       setShowSuccess(true);
       setTimeout(() => setShowSuccess(false), 3000);
+    } catch (error: any) {
+      console.error('Error deleting product:', error);
+      setShowError(error.message || 'Failed to delete product');
     }
-  } catch (error: any) {
-    console.error('Error adding brochure:', error);
-    setShowError(error.message || 'Failed to upload brochure');
-  } finally {
-    setSaving(false);
-  }
-};
+  };
 
-const handleDeleteProduct = async (productId: string, imagePublicId?: string) => {
-  try {
-    // Delete from Cloudinary first if image exists
-    if (imagePublicId) {
-      await apiCall(`/api/upload/${imagePublicId}`, {
+  const handleDeleteBrand = async (brandId: string, logoPublicId?: string) => {
+    try {
+      if (logoPublicId) {
+        await apiCall(`/api/upload/${logoPublicId}`, {
+          method: 'DELETE',
+        });
+      }
+      
+      await apiCall(`/api/exhibitorDashboard/brands/${brandId}`, {
         method: 'DELETE',
       });
+      
+      setProfile({
+        ...profile,
+        brands: profile.brands.filter(b => b.id !== brandId),
+      });
+      
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    } catch (error: any) {
+      console.error('Error deleting brand:', error);
+      setShowError(error.message || 'Failed to delete brand');
     }
-    
-    // FIXED: Use correct endpoint
-    await apiCall(`/api/exhibitorDashboard/products/${productId}`, {
-      method: 'DELETE',
-    });
-    
-    setProfile({
-      ...profile,
-      products: profile.products.filter(p => p.id !== productId),
-    });
-    
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 3000);
-  } catch (error: any) {
-    console.error('Error deleting product:', error);
-    setShowError(error.message || 'Failed to delete product');
-  }
-};
+  };
 
-const handleDeleteBrand = async (brandId: string, logoPublicId?: string) => {
-  try {
-    if (logoPublicId) {
-      await apiCall(`/api/upload/${logoPublicId}`, {
+  const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
+    try {
+      if (publicId) {
+        await apiCall(`/api/upload/${publicId}`, {
+          method: 'DELETE',
+        });
+      }
+      
+      await apiCall(`/api/exhibitorDashboard/brochures/${brochureId}`, {
         method: 'DELETE',
       });
-    }
-    
-    // FIXED: Use correct endpoint
-    await apiCall(`/api/exhibitorDashboard/brands/${brandId}`, {
-      method: 'DELETE',
-    });
-    
-    setProfile({
-      ...profile,
-      brands: profile.brands.filter(b => b.id !== brandId),
-    });
-    
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 3000);
-  } catch (error: any) {
-    console.error('Error deleting brand:', error);
-    setShowError(error.message || 'Failed to delete brand');
-  }
-};
-
-const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
-  try {
-    if (publicId) {
-      await apiCall(`/api/upload/${publicId}`, {
-        method: 'DELETE',
+      
+      setProfile({
+        ...profile,
+        brochures: profile.brochures.filter(b => b.id !== brochureId),
       });
+      
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
+    } catch (error: any) {
+      console.error('Error deleting brochure:', error);
+      setShowError(error.message || 'Failed to delete brochure');
     }
-    
-    await apiCall(`/api/exhibitorDashboard/brochures/${brochureId}`, {
-      method: 'DELETE',
-    });
-    
-    setProfile({
-      ...profile,
-      brochures: profile.brochures.filter(b => b.id !== brochureId),
-    });
-    
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 3000);
-  } catch (error: any) {
-    console.error('Error deleting brochure:', error);
-    setShowError(error.message || 'Failed to delete brochure');
-  }
-};
+  };
 
   const handleSectorToggle = (sector: string) => {
     if (profile.sector.includes(sector)) {
@@ -1117,12 +1324,17 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
     }
   };
 
-  const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount);
+  const getBoothTypeLabel = (type: string) => {
+    const types: Record<string, string> = {
+      standard: "Standard Booth (3x3m)",
+      double: "Double Booth (6x3m)",
+      corner: "Corner Booth",
+      island: "Island Booth",
+      custom: "Custom Size",
+    };
+    return types[type] || type;
   };
+
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -1157,20 +1369,6 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
             </div>
             
             <div className="flex items-center gap-3">
-              {/* Profile Completion */}
-              <div className="flex items-center gap-2 px-3 py-2 bg-gray-100 rounded-lg">
-                <div className="flex items-center gap-1">
-                  <div className="w-20 h-2 bg-gray-200 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-green-500 rounded-full transition-all duration-500"
-                      style={{ width: `${completionScore}%` }}
-                    ></div>
-                  </div>
-                  <span className="text-sm font-medium text-gray-700">{completionScore}%</span>
-                </div>
-                <span className="text-xs text-gray-500">Complete</span>
-              </div>
-
               {/* Preview Button */}
               <Link
                 href={`/exhibitor/${profile.id}`}
@@ -1286,13 +1484,6 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
                   <p className="text-sm text-gray-500">{profile.shortName}</p>
                 )}
                 
-                {profile.exhibition.standNumber && (
-                  <div className="mt-3 inline-flex items-center gap-1 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium">
-                    <MapPin size={12} />
-                    Stand {profile.exhibition.standNumber}
-                  </div>
-                )}
-
                 {profile.status && (
                   <div className="mt-2">
                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(profile.status)}`}>
@@ -1310,7 +1501,7 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
                     { id: 'products', label: 'Products & Services', icon: Package, count: profile.products.length },
                     { id: 'brands', label: 'Brands', icon: Tag, count: profile.brands.length },
                     { id: 'brochures', label: 'Brochures', icon: FileText, count: profile.brochures.length },
-                   
+                    { id: 'booth', label: 'Booth Details', icon: Home, count: profile.boothNumber ? 1 : 0 },
                   ].map((tab) => {
                     const Icon = tab.icon;
                     const isActive = activeTab === tab.id;
@@ -1341,45 +1532,6 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
                 </div>
               </div>
 
-              {/* Booth Info */}
-              {boothDetails && (
-                <div className="p-4 border-t bg-gray-50">
-                  <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                    Booth Information
-                  </h4>
-                  <div className="space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Booth Number:</span>
-                      <span className="font-medium text-gray-900">{boothDetails.boothNumber}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Size:</span>
-                      <span className="font-medium text-gray-900">{boothDetails.size}</span>
-                    </div>
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">Status:</span>
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${getStatusColor(boothDetails.status)}`}>
-                        {boothDetails.status}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              {/* Floor Plan */}
-              {floorPlan && (
-                <div className="p-4 border-t">
-                  <h4 className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">
-                    Floor Plan
-                  </h4>
-                  <p className="text-sm text-gray-700">{floorPlan.name}</p>
-                  {floorPlan.imageUrl && (
-                    <button className="mt-2 text-xs text-blue-600 hover:text-blue-800">
-                      View Floor Plan
-                    </button>
-                  )}
-                </div>
-              )}
 
               {/* Status */}
               <div className="p-4 border-t bg-gray-50">
@@ -1660,7 +1812,7 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Pavilion <span className="text-red-500">*</span>
+                          Pavilion
                         </label>
                         {isEditing ? (
                           <select
@@ -1683,7 +1835,7 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Hall <span className="text-red-500">*</span>
+                          Hall
                         </label>
                         {isEditing ? (
                           <select
@@ -1706,7 +1858,7 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
 
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Stand Number <span className="text-red-500">*</span>
+                          Stand Number
                         </label>
                         {isEditing ? (
                           <input
@@ -2309,7 +2461,7 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
                       <p className="text-gray-500 mb-4">Start adding your products and services to showcase them to visitors.</p>
                       <button
                         onClick={() => setShowAddProduct(true)}
-                        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+                        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
                       >
                         <Plus size={16} className="mr-2" />
                         Add Your First Product
@@ -2352,7 +2504,7 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
                             value={newBrand.name}
                             onChange={(e) => setNewBrand({...newBrand, name: e.target.value})}
                             className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="e.g., GLS Express"
+                            placeholder="e.g., Apple, Samsung, etc."
                           />
                         </div>
 
@@ -2363,9 +2515,9 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
                           <textarea
                             value={newBrand.description}
                             onChange={(e) => setNewBrand({...newBrand, description: e.target.value})}
-                            rows={2}
+                            rows={3}
                             className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Describe this brand..."
+                            placeholder="Describe the brand..."
                           />
                         </div>
 
@@ -2426,33 +2578,30 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {profile.brands.map((brand) => (
                         <div key={brand.id} className="border rounded-xl p-5 hover:shadow-md transition-shadow">
-                          <div className="flex items-start justify-between">
-                            <div className="flex items-center gap-4">
-                              <div className="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden shrink-0">
-                                {brand.logoUrl ? (
-                                  <img
-                                    src={brand.logoUrl}
-                                    alt={brand.name}
-                                    width={64}
-                                    height={64}
-                                    className="object-contain"
-                                  />
-                                ) : (
-                                  <div className="text-2xl font-bold text-gray-400">
-                                    {brand.name.substring(0, 2).toUpperCase()}
+                          <div className="flex justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-3">
+                                {brand.logoUrl && (
+                                  <div className="w-12 h-12 border rounded-lg overflow-hidden shrink-0">
+                                    <img
+                                      src={brand.logoUrl}
+                                      alt={brand.name}
+                                      width={48}
+                                      height={48}
+                                      className="object-cover w-full h-full"
+                                    />
                                   </div>
                                 )}
-                              </div>
-                              <div>
-                                <h3 className="font-semibold text-gray-900">{brand.name}</h3>
-                                {brand.description && (
-                                  <p className="text-sm text-gray-600 mt-1">{brand.description}</p>
-                                )}
+                                <div>
+                                  <h3 className="font-semibold text-gray-900">{brand.name}</h3>
+                                  <p className="text-sm text-gray-600">{brand.description}</p>
+                                </div>
                               </div>
                             </div>
+                            
                             <button
                               onClick={() => handleDeleteBrand(brand.id)}
-                              className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                              className="ml-4 p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                             >
                               <Trash2 size={16} />
                             </button>
@@ -2464,10 +2613,10 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
                     <div className="text-center py-12 border-2 border-dashed rounded-xl">
                       <Tag size={48} className="text-gray-300 mx-auto mb-4" />
                       <h3 className="text-lg font-medium text-gray-900 mb-2">No Brands Added</h3>
-                      <p className="text-gray-500 mb-4">Add your brands to increase visibility.</p>
+                      <p className="text-gray-500 mb-4">Add the brands you represent or distribute.</p>
                       <button
                         onClick={() => setShowAddBrand(true)}
-                        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+                        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
                       >
                         <Plus size={16} className="mr-2" />
                         Add Your First Brand
@@ -2503,14 +2652,14 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
                       <div className="space-y-4">
                         <div>
                           <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Brochure Name *
+                            Document Name *
                           </label>
                           <input
                             type="text"
                             value={newBrochure.name}
                             onChange={(e) => setNewBrochure({...newBrochure, name: e.target.value})}
                             className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="e.g., Company Overview 2024"
+                            placeholder="e.g., Company Brochure 2024"
                           />
                         </div>
 
@@ -2523,7 +2672,7 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
                             onChange={(e) => setNewBrochure({...newBrochure, description: e.target.value})}
                             rows={2}
                             className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Describe this brochure..."
+                            placeholder="Brief description of the document..."
                           />
                         </div>
 
@@ -2532,14 +2681,12 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
                             PDF File *
                           </label>
                           <label className="cursor-pointer block">
-                            <div className="border-2 border-dashed rounded-lg p-6 text-center hover:border-blue-500 transition-colors">
+                            <div className="border-2 border-dashed rounded-lg px-6 py-8 text-center hover:border-blue-500 transition-colors">
                               <Upload size={32} className="mx-auto text-gray-400 mb-2" />
                               <p className="text-sm text-gray-600 mb-1">
                                 {newBrochure.file ? newBrochure.file.name : 'Click to upload PDF'}
                               </p>
-                              <p className="text-xs text-gray-500">
-                                Maximum file size: 10MB
-                              </p>
+                              <p className="text-xs text-gray-500">PDF files only, max 10MB</p>
                             </div>
                             <input
                               type="file"
@@ -2573,51 +2720,43 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
                   {profile.brochures.length > 0 ? (
                     <div className="space-y-4">
                       {profile.brochures.map((brochure) => (
-                        <div key={brochure.id} className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors">
-                          <div className="flex items-center gap-4">
-                            <div className="w-12 h-16 bg-red-50 border rounded-lg flex items-center justify-center">
-                              <FileText size={24} className="text-red-500" />
-                            </div>
-                            <div>
-                              <h3 className="font-medium text-gray-900">{brochure.name}</h3>
-                              <p className="text-sm text-gray-600">{brochure.description}</p>
-                              <div className="flex items-center gap-3 mt-1">
-                                <span className="text-xs text-gray-500">{brochure.fileSize}</span>
-                                <span className="text-xs text-gray-500">
-                                  <Download size={12} className="inline mr-1" />
-                                  {brochure.downloads} downloads
-                                </span>
-                                <span className="text-xs text-gray-500">
-                                  {new Date(brochure.uploadedAt).toLocaleDateString()}
-                                </span>
+                        <div key={brochure.id} className="border rounded-xl p-5 hover:shadow-md transition-shadow">
+                          <div className="flex justify-between items-start">
+                            <div className="flex-1">
+                              <div className="flex items-start gap-3">
+                                <FileText size={24} className="text-blue-600 shrink-0 mt-1" />
+                                <div>
+                                  <h3 className="font-semibold text-gray-900">{brochure.name}</h3>
+                                  <p className="text-sm text-gray-600 mt-1">{brochure.description}</p>
+                                  <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                                    <span>{brochure.fileSize}</span>
+                                    <span>•</span>
+                                    <span>{brochure.downloads} downloads</span>
+                                    <span>•</span>
+                                    <span>Uploaded {formatDate(brochure.uploadedAt.toString())}</span>
+                                  </div>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <a
-                              href={brochure.fileUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors shrink-0"
-                              title="View"
-                            >
-                              <Eye size={18} />
-                            </a>
-                            <a
-                              href={brochure.fileUrl}
-                              download
-                              className="p-2 text-green-600 hover:bg-green-50 rounded-lg transition-colors shrink-0"
-                              title="Download"
-                            >
-                              <Download size={18} />
-                            </a>
-                            <button
-                              onClick={() => handleDeleteBrochure(brochure.id)}
-                              className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors shrink-0"
-                              title="Delete"
-                            >
-                              <Trash2 size={18} />
-                            </button>
+                            
+                            <div className="flex items-center gap-2">
+                              <a
+                                href={brochure.fileUrl}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors"
+                                title="Download"
+                              >
+                                <Download size={16} />
+                              </a>
+                              <button
+                                onClick={() => handleDeleteBrochure(brochure.id, brochure.publicId)}
+                                className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                                title="Delete"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                            </div>
                           </div>
                         </div>
                       ))}
@@ -2626,10 +2765,10 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
                     <div className="text-center py-12 border-2 border-dashed rounded-xl">
                       <FileText size={48} className="text-gray-300 mx-auto mb-4" />
                       <h3 className="text-lg font-medium text-gray-900 mb-2">No Brochures Uploaded</h3>
-                      <p className="text-gray-500 mb-4">Upload brochures and documents for visitors to download.</p>
+                      <p className="text-gray-500 mb-4">Upload brochures, catalogs, and documents for visitors to download.</p>
                       <button
                         onClick={() => setShowAddBrochure(true)}
-                        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700"
+                        className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
                       >
                         <Plus size={16} className="mr-2" />
                         Upload Your First Brochure
@@ -2638,6 +2777,218 @@ const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
                   )}
                 </div>
               )}
+{activeTab === 'booth' && (
+  <div className="p-6">
+    <div className="flex justify-between items-center mb-6">
+      <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+        <Home size={20} className="text-blue-600" />
+        Booth Details
+      </h2>
+      
+      {!isEditing && (
+        <button
+          onClick={() => setIsEditing(true)}
+          className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1"
+        >
+          <Edit size={14} />
+          Edit
+        </button>
+      )}
+    </div>
+
+    {/* Booth Information Card */}
+    <div className="bg-white border rounded-xl overflow-hidden">
+      {/* Header with stand number */}
+      <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-blue-100 text-sm">Assigned Stand</p>
+            <p className="text-white text-2xl font-bold">
+              {profile.exhibition.standNumber || 'Not assigned'}
+            </p>
+          </div>
+          <div className="bg-white/20 rounded-lg px-4 py-2 text-white text-sm font-medium">
+            {profile.boothStatus || 'Pending'}
+          </div>
+        </div>
+      </div>
+
+      {/* Booth Specifications */}
+      <div className="p-6 space-y-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Booth Type */}
+          <div className="border-b pb-3">
+            <label className="block text-xs text-gray-500 mb-1">Booth Type</label>
+            {isEditing ? (
+              <select
+                value={profile.boothType || 'standard'}
+                onChange={(e) => setProfile({...profile, boothType: e.target.value})}
+                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              >
+                <option value="standard">Standard</option>
+                <option value="double">Double</option>
+                <option value="corner">Corner</option>
+                <option value="island">Island</option>
+                <option value="custom">Custom</option>
+              </select>
+            ) : (
+              <p className="text-gray-900 font-medium capitalize">
+                {profile.boothType || 'Standard'}
+              </p>
+            )}
+          </div>
+
+          {/* Booth Size */}
+          <div className="border-b pb-3">
+            <label className="block text-xs text-gray-500 mb-1">Booth Size</label>
+            {isEditing ? (
+              <input
+                type="text"
+                value={profile.boothSize || ''}
+                onChange={(e) => setProfile({...profile, boothSize: e.target.value})}
+                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="e.g., 3m x 3m"
+              />
+            ) : (
+              <p className="text-gray-900 font-medium">
+                {profile.boothSize || '3m x 3m'}
+              </p>
+            )}
+          </div>
+
+          {/* Dimensions */}
+          <div className="border-b pb-3">
+            <label className="block text-xs text-gray-500 mb-1">Dimensions</label>
+            {isEditing ? (
+              <input
+                type="text"
+                value={profile.boothDimensions || ''}
+                onChange={(e) => setProfile({...profile, boothDimensions: e.target.value})}
+                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="e.g., 3m width x 3m depth"
+              />
+            ) : (
+              <p className="text-gray-900 font-medium">
+                {profile.boothDimensions || 'Standard'}
+              </p>
+            )}
+          </div>
+
+          {/* Stand Number */}
+          <div className="border-b pb-3">
+            <label className="block text-xs text-gray-500 mb-1">Stand Number</label>
+            {isEditing ? (
+              <input
+                type="text"
+                value={profile.exhibition.standNumber || ''}
+                onChange={(e) => setProfile({
+                  ...profile,
+                  exhibition: {...profile.exhibition, standNumber: e.target.value}
+                })}
+                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="e.g., A-1111"
+              />
+            ) : (
+              <p className="text-gray-900 font-medium">
+                {profile.exhibition.standNumber || 'Not assigned'}
+              </p>
+            )}
+          </div>
+
+          {/* Pavilion */}
+          <div className="border-b pb-3">
+            <label className="block text-xs text-gray-500 mb-1">Pavilion</label>
+            {isEditing ? (
+              <input
+                type="text"
+                value={profile.exhibition.pavilion || ''}
+                onChange={(e) => setProfile({
+                  ...profile,
+                  exhibition: {...profile.exhibition, pavilion: e.target.value}
+                })}
+                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="e.g., Pavilion 1"
+              />
+            ) : (
+              <p className="text-gray-900 font-medium">
+                {profile.exhibition.pavilion || 'Not specified'}
+              </p>
+            )}
+          </div>
+
+          {/* Hall */}
+          <div className="border-b pb-3">
+            <label className="block text-xs text-gray-500 mb-1">Hall</label>
+            {isEditing ? (
+              <input
+                type="text"
+                value={profile.exhibition.hall || ''}
+                onChange={(e) => setProfile({
+                  ...profile,
+                  exhibition: {...profile.exhibition, hall: e.target.value}
+                })}
+                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="e.g., Hall A"
+              />
+            ) : (
+              <p className="text-gray-900 font-medium">
+                {profile.exhibition.hall || 'Not specified'}
+              </p>
+            )}
+          </div>
+        </div>
+
+        {/* Price Section - Editable by Exhibitor */}
+<div className="mt-6 pt-4 border-t-2 border-dashed">
+  <div className="flex items-center justify-between">
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-1">
+        Booth Price (₹)
+      </label>
+      <p className="text-xs text-gray-500">
+        Set the price for your booth in Indian Rupees
+      </p>
+    </div>
+    {isEditing ? (
+      <div className="w-48">
+        <div className="relative">
+          <span className="absolute left-3 top-2.5 text-gray-500">₹</span>
+          <input
+            type="number"
+            value={profile.boothPrice || ''}
+            onChange={(e) => setProfile({...profile, boothPrice: e.target.value})}
+            className="w-full border rounded-lg pl-8 pr-4 py-2 text-lg font-medium focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+            placeholder="0.00"
+            min="0"
+            step="1"
+          />
+        </div>
+      </div>
+    ) : (
+      <div className="text-right">
+        {profile.boothPrice ? (
+          <p className="text-2xl font-bold text-gray-900">
+            ₹{parseFloat(profile.boothPrice).toLocaleString('en-IN')}
+          </p>
+        ) : (
+          <p className="text-gray-400 italic">Not set</p>
+        )}
+      </div>
+    )}
+  </div>
+</div>
+
+        {/* Additional Notes - Optional */}
+        {profile.boothNotes && (
+          <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+            <p className="text-xs text-gray-500 mb-1">Additional Notes</p>
+            <p className="text-sm text-gray-700">{profile.boothNotes}</p>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+)}
             </div>
           </div>
         </div>

@@ -76,28 +76,32 @@ class ManualApi {
     });
 
     // Add request interceptor to ensure token is always included
-this.api.interceptors.request.use(
-  (config) => {
-    // Get the latest token from localStorage on every request
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('admin_token'); // Use 'admin_token'
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-        console.log(`🔑 Token attached to ${config.method?.toUpperCase()} ${config.url}`);
-      } else {
-        console.warn(`🔑 No auth token found for ${config.method?.toUpperCase()} ${config.url}`);
+    this.api.interceptors.request.use(
+      (config) => {
+        // Get the latest token from localStorage on every request
+        if (typeof window !== 'undefined') {
+          // Try both admin_token and authToken for compatibility
+          const adminToken = localStorage.getItem('admin_token');
+          const authToken = localStorage.getItem('authToken');
+          const token = adminToken || authToken;
+          
+          if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+            console.log(`🔑 Token attached to ${config.method?.toUpperCase()} ${config.url}`);
+          } else {
+            console.warn(`🔑 No auth token found for ${config.method?.toUpperCase()} ${config.url}`);
+          }
+        }
+        return config;
       }
-    }
-    return config;
-  }
-);
+    );
 
     // Global response error handler
     this.api.interceptors.response.use(
       (response) => {
         // Log responses in development
         if (process.env.NODE_ENV === 'development') {
-          console.log(`✅ ${response.config.method?.toUpperCase()} ${response.config.url} - ${response.status} (${response.config.url ? 'success' : ''})`);
+          console.log(`✅ ${response.config.method?.toUpperCase()} ${response.config.url} - ${response.status}`);
         }
         return response;
       },
@@ -115,12 +119,12 @@ this.api.interceptors.request.use(
           // Handle 401 Unauthorized - token expired or invalid
           if (error.response.status === 401) {
             console.error('🔐 Authentication failed. Token may be expired.');
-            // Optionally redirect to login
             if (typeof window !== 'undefined') {
-              // Clear invalid token
+              // Clear invalid tokens
+              localStorage.removeItem('admin_token');
               localStorage.removeItem('authToken');
               // You might want to redirect to login page here
-              // window.location.href = '/login';
+              // window.location.href = '/admin/login';
             }
           }
         } else if (error.request) {
@@ -143,29 +147,31 @@ this.api.interceptors.request.use(
   // AUTH TOKEN HANDLER
   // ========================
 
- setAuthToken(token: string | null): void {
-  if (token) {
-    localStorage.setItem('admin_token', token); // Use 'admin_token' consistently
-    this.api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    console.log('🔑 Auth token set in API headers');
-  } else {
-    localStorage.removeItem('admin_token');
-    delete this.api.defaults.headers.common['Authorization'];
-    console.log('🔑 Auth token removed from API headers');
+  setAuthToken(token: string | null): void {
+    if (token) {
+      localStorage.setItem('admin_token', token);
+      localStorage.setItem('authToken', token); // Set both for compatibility
+      this.api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+      console.log('🔑 Auth token set in API headers');
+    } else {
+      localStorage.removeItem('admin_token');
+      localStorage.removeItem('authToken');
+      delete this.api.defaults.headers.common['Authorization'];
+      console.log('🔑 Auth token removed from API headers');
+    }
   }
-}
 
   // Helper to check if user is authenticated
-isAuthenticated(): boolean {
-  if (typeof window !== 'undefined') {
-    const token = localStorage.getItem('admin_token'); // Use 'admin_token'
-    return !!token;
+  isAuthenticated(): boolean {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('admin_token') || localStorage.getItem('authToken');
+      return !!token;
+    }
+    return false;
   }
-  return false;
-}
 
   // ========================
-  // PUBLIC ROUTES
+  // PUBLIC ROUTES (No auth required for exhibitor views)
   // ========================
 
   async getManuals(filters: ManualFilters = {}): Promise<ApiResponse<Manual[]>> {
@@ -209,18 +215,18 @@ isAuthenticated(): boolean {
 
       const { downloadUrl, fileName } = response.data.data;
 
-      // Option 1: Return the download info and let the component handle it
-      return { success: true, downloadUrl, fileName };
+      // Automatically trigger download
+      if (downloadUrl) {
+        const link = document.createElement('a');
+        link.href = downloadUrl;
+        link.setAttribute('download', fileName || 'manual.pdf');
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        return { success: true };
+      }
       
-      /* Option 2: Handle download here (uncomment if you prefer this)
-      const link = document.createElement('a');
-      link.href = downloadUrl;
-      link.setAttribute('download', fileName || 'manual');
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      return { success: true };
-      */
+      return { success: true, downloadUrl, fileName };
     } catch (error) {
       if (error instanceof ApiError) throw error;
       throw new ApiError(`Failed to download manual with id ${id}`);

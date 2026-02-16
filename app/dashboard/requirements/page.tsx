@@ -28,9 +28,11 @@ import {
   EyeIcon,
   MinusIcon,
   ChevronLeftIcon,
-  ChevronRightIcon
+  ChevronRightIcon,
+  PhotoIcon
 } from '@heroicons/react/24/outline';
 import { MenuIcon } from 'lucide-react';
+import Image from 'next/image';
 
 // ============= INTERFACES =============
 interface GeneralInfo {
@@ -125,8 +127,6 @@ interface ElectricalLoad {
   exhibitionLoad: string;
   temporaryTotal: number;
   exhibitionTotal: number;
-  gst: number;
-  grandTotal: number;
 }
 
 interface FurnitureItem {
@@ -136,6 +136,7 @@ interface FurnitureItem {
   cost3Days: number;
   quantity: number;
   cost: number;
+  image: string;
 }
 
 interface HostessRequirement {
@@ -153,24 +154,18 @@ interface CompressedAir {
   powerKW: number;
   costPerKW: number;
   totalCost: number;
-  gst: number;
-  grandTotal: number;
 }
 
 interface WaterConnection {
   connections: number;
   costPerConnection: number;
   totalCost: number;
-  gst: number;
-  grandTotal: number;
 }
 
 interface SecurityGuard {
   quantity: number;
   noOfDays: number;
   totalCost: number;
-  gst: number;
-  grandTotal: number;
 }
 
 interface PaymentDetails {
@@ -182,7 +177,6 @@ interface PaymentDetails {
   uploadedReceipt: File | null;
 }
 
-// New Interfaces for Step 14 & 15
 interface RentalItem {
   description: string;
   costFor3Days: number;
@@ -202,47 +196,46 @@ interface RentalItems {
 }
 
 interface HousekeepingStaff {
+  quantity: number;
   category: 'Housekeeping';
   chargesPerShift: number;
   noOfDays: number;
   totalCost: number;
-  gst: number;
-  grandTotal: number;
 }
 
-// Furniture catalog
+// Furniture catalog with image paths
 const furnitureCatalog: FurnitureItem[] = [
-  { code: 'PI-01', description: 'Executive Chair', size: 'Black/red', cost3Days: 2000, quantity: 0, cost: 0 },
-  { code: 'PI-02', description: 'VIP Sofa (1 Seater)', size: 'Black', cost3Days: 2000, quantity: 0, cost: 0 },
-  { code: 'PI-03', description: 'VIP Sofa (2 Seater)', size: 'Black', cost3Days: 3500, quantity: 0, cost: 0 },
-  { code: 'PI-04', description: 'Visitor Chair', size: 'Black', cost3Days: 800, quantity: 0, cost: 0 },
-  { code: 'PI-05', description: 'Fibre Chair', size: 'Black', cost3Days: 400, quantity: 0, cost: 0 },
-  { code: 'PI-07', description: 'Round Table (Wooden Top)', size: '70CM (dia) x 75CM (H)', cost3Days: 1500, quantity: 0, cost: 0 },
-  { code: 'PI-08', description: 'Round Table Cross Leg (Glass Top)', size: '90CM (dia) x 75CM (H)', cost3Days: 2000, quantity: 0, cost: 0 },
-  { code: 'PI-09', description: 'Bar Stool (Adjustable Chrome leg with Cup)', size: '50CM (H)', cost3Days: 2000, quantity: 0, cost: 0 },
-  { code: 'PI-10', description: 'Glass Showcase (Big with 2 downlights)', size: '1M x 50CM x 2M (H)', cost3Days: 5000, quantity: 0, cost: 0 },
-  { code: 'PI-11', description: 'Glass Showcase (Small)', size: '50CM X 50CM X 2M (H)', cost3Days: 4000, quantity: 0, cost: 0 },
-  { code: 'PI-12', description: 'Glass Counter', size: '1M X 50CM X 1M (H)', cost3Days: 3500, quantity: 0, cost: 0 },
-  { code: 'PI-13', description: 'Centre Table (Black Glass Top)', size: '1.20M (L) x 45CM (W)', cost3Days: 1500, quantity: 0, cost: 0 },
-  { code: 'PI-14', description: 'Standing Discussion Table', size: '1.0M (H) x 70CM (Dia)', cost3Days: 1500, quantity: 0, cost: 0 },
-  { code: 'PI-15', description: 'System Counter (Table)', size: '1.05M X 60CM X 75CM', cost3Days: 1500, quantity: 0, cost: 0 },
-  { code: 'PI-16', description: 'Side Rack (Lockable)', size: '40CM X 1M X 60CM (H)', cost3Days: 3600, quantity: 0, cost: 0 },
-  { code: 'PI-17', description: 'System Podium', size: '50CM X 50CM X 1M (H)', cost3Days: 1000, quantity: 0, cost: 0 },
-  { code: 'PI-18', description: 'System Podium', size: '50CM X 50CM X 70CM (H)', cost3Days: 1000, quantity: 0, cost: 0 },
-  { code: 'PI-19', description: 'System Podium', size: '50CM x 50CM x 50CM (H)', cost3Days: 1500, quantity: 0, cost: 0 },
-  { code: 'PI-20', description: 'Brochure Rack', size: '', cost3Days: 1500, quantity: 0, cost: 0 },
-  { code: 'PI-21', description: 'Round Table (White Top)', size: '80CM (dia) x 75CM (H)', cost3Days: 1500, quantity: 0, cost: 0 },
-  { code: 'PI-22', description: 'Square Table', size: '1.2M X 45CM', cost3Days: 1200, quantity: 0, cost: 0 },
-  { code: 'PI-23', description: 'Lockable Door', size: '', cost3Days: 4000, quantity: 0, cost: 0 },
-  { code: 'PI-24', description: 'System Panel', size: '1M x 2.5M (H) - White', cost3Days: 1500, quantity: 0, cost: 0 },
-  { code: 'PI-25', description: 'Glass Shelf (each)', size: '30CM x 1M', cost3Days: 1000, quantity: 0, cost: 0 },
-  { code: 'PI-26', description: 'Wooden Shelf Flat / Adjustable (each)', size: '30CM x 1M', cost3Days: 750, quantity: 0, cost: 0 },
-  { code: 'PI-27', description: 'Long Arm Halogen Light', size: '150W', cost3Days: 1000, quantity: 0, cost: 0 },
-  { code: 'PI-28', description: 'Spot Lights', size: '75W', cost3Days: 750, quantity: 0, cost: 0 },
-  { code: 'PI-29', description: 'Metal Halide', size: '150W', cost3Days: 2000, quantity: 0, cost: 0 },
-  { code: 'PI-30', description: '5A/13A Power Socket', size: '', cost3Days: 500, quantity: 0, cost: 0 },
-  { code: 'PI-31', description: 'Photo Clip / T-Bolt', size: '', cost3Days: 100, quantity: 0, cost: 0 },
-  { code: 'PI-32', description: 'Waste Basket', size: '', cost3Days: 150, quantity: 0, cost: 0 },
+  { code: 'PI-01', description: 'Executive Chair', size: 'Black/red', cost3Days: 2000, quantity: 0, cost: 0, image: '/furniture/executive-chair.jpg' },
+  { code: 'PI-02', description: 'VIP Sofa (1 Seater)', size: 'Black', cost3Days: 2000, quantity: 0, cost: 0, image: '/furniture/vip-sofa-1.jpg' },
+  { code: 'PI-03', description: 'VIP Sofa (2 Seater)', size: 'Black', cost3Days: 3500, quantity: 0, cost: 0, image: '/furniture/vip-sofa-2.jpg' },
+  { code: 'PI-04', description: 'Visitor Chair', size: 'Black', cost3Days: 800, quantity: 0, cost: 0, image: '/furniture/visitor-chair.jpg' },
+  { code: 'PI-05', description: 'Fibre Chair', size: 'Black', cost3Days: 400, quantity: 0, cost: 0, image: '/furniture/fibre-chair.jpg' },
+  { code: 'PI-07', description: 'Round Table (Wooden Top)', size: '70CM (dia) x 75CM (H)', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/round-table-wooden.jpg' },
+  { code: 'PI-08', description: 'Round Table Cross Leg (Glass Top)', size: '90CM (dia) x 75CM (H)', cost3Days: 2000, quantity: 0, cost: 0, image: '/furniture/round-table-glass.jpg' },
+  { code: 'PI-09', description: 'Bar Stool (Adjustable Chrome leg with Cup)', size: '50CM (H)', cost3Days: 2000, quantity: 0, cost: 0, image: '/furniture/bar-stool.jpg' },
+  { code: 'PI-10', description: 'Glass Showcase (Big with 2 downlights)', size: '1M x 50CM x 2M (H)', cost3Days: 5000, quantity: 0, cost: 0, image: '/furniture/glass-showcase-big.jpg' },
+  { code: 'PI-11', description: 'Glass Showcase (Small)', size: '50CM X 50CM X 2M (H)', cost3Days: 4000, quantity: 0, cost: 0, image: '/furniture/glass-showcase-small.jpg' },
+  { code: 'PI-12', description: 'Glass Counter', size: '1M X 50CM X 1M (H)', cost3Days: 3500, quantity: 0, cost: 0, image: '/furniture/glass-counter.jpg' },
+  { code: 'PI-13', description: 'Centre Table (Black Glass Top)', size: '1.20M (L) x 45CM (W)', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/centre-table.jpg' },
+  { code: 'PI-14', description: 'Standing Discussion Table', size: '1.0M (H) x 70CM (Dia)', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/standing-table.jpg' },
+  { code: 'PI-15', description: 'System Counter (Table)', size: '1.05M X 60CM X 75CM', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/system-counter.jpg' },
+  { code: 'PI-16', description: 'Side Rack (Lockable)', size: '40CM X 1M X 60CM (H)', cost3Days: 3600, quantity: 0, cost: 0, image: '/furniture/side-rack.jpg' },
+  { code: 'PI-17', description: 'System Podium', size: '50CM X 50CM X 1M (H)', cost3Days: 1000, quantity: 0, cost: 0, image: '/furniture/podium-1m.jpg' },
+  { code: 'PI-18', description: 'System Podium', size: '50CM X 50CM X 70CM (H)', cost3Days: 1000, quantity: 0, cost: 0, image: '/furniture/podium-70cm.jpg' },
+  { code: 'PI-19', description: 'System Podium', size: '50CM x 50CM x 50CM (H)', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/podium-50cm.jpg' },
+  { code: 'PI-20', description: 'Brochure Rack', size: '', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/brochure-rack.jpg' },
+  { code: 'PI-21', description: 'Round Table (White Top)', size: '80CM (dia) x 75CM (H)', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/round-table-white.jpg' },
+  { code: 'PI-22', description: 'Square Table', size: '1.2M X 45CM', cost3Days: 1200, quantity: 0, cost: 0, image: '/furniture/square-table.jpg' },
+  { code: 'PI-23', description: 'Lockable Door', size: '', cost3Days: 4000, quantity: 0, cost: 0, image: '/furniture/lockable-door.jpg' },
+  { code: 'PI-24', description: 'System Panel', size: '1M x 2.5M (H) - White', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/system-panel.jpg' },
+  { code: 'PI-25', description: 'Glass Shelf (each)', size: '30CM x 1M', cost3Days: 1000, quantity: 0, cost: 0, image: '/furniture/glass-shelf.jpg' },
+  { code: 'PI-26', description: 'Wooden Shelf Flat / Adjustable (each)', size: '30CM x 1M', cost3Days: 750, quantity: 0, cost: 0, image: '/furniture/wooden-shelf.jpg' },
+  { code: 'PI-27', description: 'Long Arm Halogen Light', size: '150W', cost3Days: 1000, quantity: 0, cost: 0, image: '/furniture/halogen-light.jpg' },
+  { code: 'PI-28', description: 'Spot Lights', size: '75W', cost3Days: 750, quantity: 0, cost: 0, image: '/furniture/spot-light.jpg' },
+  { code: 'PI-29', description: 'Metal Halide', size: '150W', cost3Days: 2000, quantity: 0, cost: 0, image: '/furniture/metal-halide.jpg' },
+  { code: 'PI-30', description: '5A/13A Power Socket', size: '', cost3Days: 500, quantity: 0, cost: 0, image: '/furniture/power-socket.jpg' },
+  { code: 'PI-31', description: 'Photo Clip / T-Bolt', size: '', cost3Days: 100, quantity: 0, cost: 0, image: '/furniture/photo-clip.jpg' },
+  { code: 'PI-32', description: 'Waste Basket', size: '', cost3Days: 150, quantity: 0, cost: 0, image: '/furniture/waste-basket.jpg' },
 ];
 
 export default function RequirementsPage() {
@@ -344,9 +337,7 @@ export default function RequirementsPage() {
     temporaryLoad: '',
     exhibitionLoad: '',
     temporaryTotal: 0,
-    exhibitionTotal: 0,
-    gst: 0,
-    grandTotal: 0
+    exhibitionTotal: 0
   });
 
   // Form 9 - Furniture
@@ -366,30 +357,23 @@ export default function RequirementsPage() {
     qty: 0,
     powerKW: 0,
     costPerKW: 3500,
-    totalCost: 0,
-    gst: 0,
-    grandTotal: 0
+    totalCost: 0
   });
 
   // Form 12 - Water Connection
   const [waterConnection, setWaterConnection] = useState<WaterConnection>({
     connections: 0,
     costPerConnection: 15000,
-    totalCost: 0,
-    gst: 0,
-    grandTotal: 0
+    totalCost: 0
   });
 
   // Form 13 - Security Guard
-const [securityGuard, setSecurityGuard] = useState<SecurityGuard>({
-  quantity: 0,
-  noOfDays: 0,
-  totalCost: 0,
-  gst: 0,
-  grandTotal: 0
-});
+  const [securityGuard, setSecurityGuard] = useState<SecurityGuard>({
+    quantity: 0,
+    noOfDays: 0,
+    totalCost: 0
+  });
 
-  // ============= NEW FORM STATES =============
   // Form 14 - Rental Items (AV & IT)
   const [rentalItems, setRentalItems] = useState<RentalItems>({
     lcdProjector: { description: 'LCD Projector (XGA 3000 ASNI Lumens)', costFor3Days: 20000, quantity: 0, totalCost: 0 },
@@ -404,12 +388,11 @@ const [securityGuard, setSecurityGuard] = useState<SecurityGuard>({
 
   // Form 15 - Housekeeping Staff
   const [housekeepingStaff, setHousekeepingStaff] = useState<HousekeepingStaff>({
+    quantity: 0,
     category: 'Housekeeping',
     chargesPerShift: 2000,
     noOfDays: 0,
-    totalCost: 0,
-    gst: 0,
-    grandTotal: 0
+    totalCost: 0
   });
 
   // Payment Details
@@ -424,57 +407,51 @@ const [securityGuard, setSecurityGuard] = useState<SecurityGuard>({
 
   // ============= CALCULATIONS =============
   
-const calculateTotals = () => {
-  const furnitureTotal = furnitureItems.reduce((sum, item) => sum + item.cost, 0);
-  const hostessTotal = hostessRequirements.reduce((sum, h) => sum + h.amount, 0);
+  const calculateTotals = () => {
+    const furnitureTotal = furnitureItems.reduce((sum, item) => sum + item.cost, 0);
+    const hostessTotal = hostessRequirements.reduce((sum, h) => sum + h.amount, 0);
 
-  const electricalTotal =
-    (parseFloat(electricalLoad.temporaryLoad || '0') * 3500) +
-    (parseFloat(electricalLoad.exhibitionLoad || '0') * 3500);
+    const electricalTotal = electricalLoad.temporaryTotal + electricalLoad.exhibitionTotal;
 
-  // ⚠️ Use base totals (without GST)
-  const compressedAirTotal = compressedAir.totalCost || 0;
-  const waterTotal = waterConnection.totalCost || 0;
-  const securityTotal = securityGuard.totalCost || 0;
-  const housekeepingTotal = housekeepingStaff.totalCost || 0;
+    const compressedAirTotal = compressedAir.totalCost || 0;
+    const waterTotal = waterConnection.totalCost || 0;
+    const securityTotal = securityGuard.totalCost || 0;
+    const housekeepingTotal = housekeepingStaff.totalCost || 0;
+    const rentalTotal = Object.values(rentalItems).reduce((sum, item) => sum + item.totalCost, 0);
+    const depositAmount = securityDeposit.amountINR || 0;
 
-  const rentalTotal = Object.values(rentalItems)
-    .reduce((sum, item) => sum + item.totalCost, 0);
+    // Subtotal (WITHOUT GST)
+    const subtotal =
+      furnitureTotal +
+      hostessTotal +
+      electricalTotal +
+      compressedAirTotal +
+      waterTotal +
+      securityTotal +
+      rentalTotal +
+      housekeepingTotal;
 
-  const depositAmount = securityDeposit.amountINR || 0;
+    // GST @ 18%
+    const gst = subtotal * 0.18;
 
-  // ✅ Subtotal (WITHOUT GST & WITHOUT Deposit)
-  const subtotal =
-    furnitureTotal +
-    hostessTotal +
-    electricalTotal +
-    compressedAirTotal +
-    waterTotal +
-    securityTotal +
-    rentalTotal +
-    housekeepingTotal;
+    // Grand Total (Subtotal + GST + Deposit)
+    const grandTotal = subtotal + gst + depositAmount;
 
-  // ✅ GST @ 18%
-  const gst = subtotal * 0.18;
-
-  // ✅ Grand Total (Subtotal + GST + Deposit)
-  const grandTotal = subtotal + gst + depositAmount;
-
-  return {
-    furniture: furnitureTotal,
-    hostess: hostessTotal,
-    electrical: electricalTotal,
-    compressedAir: compressedAirTotal,
-    water: waterTotal,
-    security: securityTotal,
-    rental: rentalTotal,
-    housekeeping: housekeepingTotal,
-    deposit: depositAmount,
-    subtotal,
-    gst,
-    total: grandTotal
+    return {
+      furniture: furnitureTotal,
+      hostess: hostessTotal,
+      electrical: electricalTotal,
+      compressedAir: compressedAirTotal,
+      water: waterTotal,
+      security: securityTotal,
+      rental: rentalTotal,
+      housekeeping: housekeepingTotal,
+      deposit: depositAmount,
+      subtotal,
+      gst,
+      total: grandTotal
+    };
   };
-};
 
   // ============= HANDLERS =============
   
@@ -513,38 +490,32 @@ const calculateTotals = () => {
     updated[index].amount = updated[index].quantity * updated[index].noOfDays * rate;
     setHostessRequirements(updated);
   };
-  // ============= MACHINE HANDLERS =============
 
-const handleAddMachine = () => {
-  setMachines(prev => [
-    ...prev,
-    {
-      srNo: prev.length + 1,
-      machineName: '',
-      width: '',
-      length: '',
-      height: '',
-      weight: ''
-    }
-  ]);
-};
+  const handleAddMachine = () => {
+    setMachines(prev => [
+      ...prev,
+      {
+        srNo: prev.length + 1,
+        machineName: '',
+        width: '',
+        length: '',
+        height: '',
+        weight: ''
+      }
+    ]);
+  };
 
-const handleRemoveMachine = (index: number) => {
-  const updated = machines.filter((_, i) => i !== index);
-  
-  // Reset serial numbers properly
-  const reIndexed = updated.map((machine, i) => ({
-    ...machine,
-    srNo: i + 1
-  }));
-
-  setMachines(reIndexed);
-};
+  const handleRemoveMachine = (index: number) => {
+    const updated = machines.filter((_, i) => i !== index);
+    const reIndexed = updated.map((machine, i) => ({
+      ...machine,
+      srNo: i + 1
+    }));
+    setMachines(reIndexed);
+  };
 
   const handleCompressedAirSelect = (option: any) => {
     const totalCost = option.costPerConnection + (option.powerKW * 3500);
-    const gst = totalCost * 0.18;
-    const grandTotal = totalCost + gst;
     
     setCompressedAir({
       ...compressedAir,
@@ -553,9 +524,7 @@ const handleRemoveMachine = (index: number) => {
       costPerConnection: option.costPerConnection,
       qty: option.qty,
       powerKW: option.powerKW,
-      totalCost,
-      gst,
-      grandTotal
+      totalCost
     });
   };
 
@@ -564,27 +533,20 @@ const handleRemoveMachine = (index: number) => {
     const total = loadValue * 3500;
     
     if (type === 'temporary') {
-      const newTemporaryTotal = total;
-      const newGrandTotal = newTemporaryTotal + (parseFloat(electricalLoad.exhibitionLoad || '0') * 3500);
       setElectricalLoad(prev => ({
         ...prev,
         temporaryLoad: value,
-        temporaryTotal: newTemporaryTotal,
-        grandTotal: newGrandTotal + (newGrandTotal * 0.18)
+        temporaryTotal: total
       }));
     } else {
-      const newExhibitionTotal = total;
-      const newGrandTotal = (parseFloat(electricalLoad.temporaryLoad || '0') * 3500) + newExhibitionTotal;
       setElectricalLoad(prev => ({
         ...prev,
         exhibitionLoad: value,
-        exhibitionTotal: newExhibitionTotal,
-        grandTotal: newGrandTotal + (newGrandTotal * 0.18)
+        exhibitionTotal: total
       }));
     }
   };
 
-  // New Handler for Rental Items
   const handleRentalQuantity = (itemKey: keyof RentalItems, quantity: number) => {
     setRentalItems(prev => {
       const updated = { ...prev };
@@ -594,36 +556,33 @@ const handleRemoveMachine = (index: number) => {
     });
   };
 
+  const handleAddPersonnel = () => {
+    setPersonnel(prev => [
+      ...prev,
+      {
+        srNo: prev.length + 1,
+        name: '',
+        designation: '',
+        organisation: ''
+      }
+    ]);
+  };
+
+  const handleRemovePersonnel = (index: number) => {
+    const updated = personnel.filter((_, i) => i !== index);
+    const reIndexed = updated.map((person, i) => ({
+      ...person,
+      srNo: i + 1
+    }));
+    setPersonnel(reIndexed);
+  };
+
   const handlePaymentFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files && files[0]) {
       setPaymentDetails(prev => ({ ...prev, uploadedReceipt: files[0] }));
     }
   };
-  // ============= PERSONNEL HANDLERS =============
-
-const handleAddPersonnel = () => {
-  setPersonnel(prev => [
-    ...prev,
-    {
-      srNo: prev.length + 1,
-      name: '',
-      designation: '',
-      organisation: ''
-    }
-  ]);
-};
-
-const handleRemovePersonnel = (index: number) => {
-  const updated = personnel.filter((_, i) => i !== index);
-
-  const reIndexed = updated.map((person, i) => ({
-    ...person,
-    srNo: i + 1
-  }));
-
-  setPersonnel(reIndexed);
-};
 
   const handleSubmitApplication = async () => {
     setIsSubmitting(true);
@@ -670,43 +629,29 @@ const handleRemovePersonnel = (index: number) => {
   useEffect(() => {
     if (waterConnection.connections > 0) {
       const total = waterConnection.connections * waterConnection.costPerConnection;
-      const gst = total * 0.18;
-      const grandTotal = total + gst;
-      setWaterConnection(prev => ({ ...prev, totalCost: total, gst, grandTotal }));
+      setWaterConnection(prev => ({ ...prev, totalCost: total }));
+    } else {
+      setWaterConnection(prev => ({ ...prev, totalCost: 0 }));
     }
   }, [waterConnection.connections]);
 
-useEffect(() => {
-  if (securityGuard.quantity > 0 && securityGuard.noOfDays > 0) {
-    const total = securityGuard.quantity * securityGuard.noOfDays * 2500;
-    const gst = total * 0.18;
-    const grandTotal = total + gst;
-
-    setSecurityGuard(prev => ({
-      ...prev,
-      totalCost: total,
-      gst,
-      grandTotal
-    }));
-  } else {
-    setSecurityGuard(prev => ({
-      ...prev,
-      totalCost: 0,
-      gst: 0,
-      grandTotal: 0
-    }));
-  }
-}, [securityGuard.quantity, securityGuard.noOfDays]);
-
-  // New Effect for Housekeeping
   useEffect(() => {
-    if (housekeepingStaff.noOfDays > 0) {
-      const total = housekeepingStaff.noOfDays * housekeepingStaff.chargesPerShift;
-      const gst = total * 0.18;
-      const grandTotal = total + gst;
-      setHousekeepingStaff(prev => ({ ...prev, totalCost: total, gst, grandTotal }));
+    if (securityGuard.quantity > 0 && securityGuard.noOfDays > 0) {
+      const total = securityGuard.quantity * securityGuard.noOfDays * 2500;
+      setSecurityGuard(prev => ({ ...prev, totalCost: total }));
+    } else {
+      setSecurityGuard(prev => ({ ...prev, totalCost: 0 }));
     }
-  }, [housekeepingStaff.noOfDays]);
+  }, [securityGuard.quantity, securityGuard.noOfDays]);
+
+  useEffect(() => {
+    if (housekeepingStaff.quantity > 0 && housekeepingStaff.noOfDays > 0) {
+      const total = housekeepingStaff.quantity * housekeepingStaff.noOfDays * housekeepingStaff.chargesPerShift;
+      setHousekeepingStaff(prev => ({ ...prev, totalCost: total }));
+    } else {
+      setHousekeepingStaff(prev => ({ ...prev, totalCost: 0 }));
+    }
+  }, [housekeepingStaff.quantity, housekeepingStaff.noOfDays]);
 
   // ============= RENDER FUNCTIONS =============
 
@@ -730,7 +675,7 @@ useEffect(() => {
 
   const totalSteps = steps.length;
 
-  // ============= FORM 1: SIMPLIFIED GENERAL INFO =============
+  // ============= FORM 1: GENERAL INFO =============
   const renderGeneralInfo = () => (
     <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
       <div className="flex items-center mb-6">
@@ -1354,61 +1299,7 @@ DEPOSIT FORM <br /> <span className='text-[#4D4D4D] font-semibold text-[15px]'>F
             </table>
           </div>
         </div>
-{/* 
-        <div className="border-t border-gray-200 pt-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Demand Draft Details</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">DD No.</label>
-              <input
-                type="text"
-                value={securityDeposit.ddNo}
-                onChange={(e) => setSecurityDeposit({...securityDeposit, ddNo: e.target.value})}
-                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter DD number"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Bank Name</label>
-              <input
-                type="text"
-                value={securityDeposit.bankName}
-                onChange={(e) => setSecurityDeposit({...securityDeposit, bankName: e.target.value})}
-                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter bank name"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Branch</label>
-              <input
-                type="text"
-                value={securityDeposit.branch}
-                onChange={(e) => setSecurityDeposit({...securityDeposit, branch: e.target.value})}
-                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter branch name"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Dated</label>
-              <input
-                type="date"
-                value={securityDeposit.dated}
-                onChange={(e) => setSecurityDeposit({...securityDeposit, dated: e.target.value})}
-                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-            <div className="sm:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Amount in words</label>
-              <input
-                type="text"
-                value={securityDeposit.amountWords}
-                onChange={(e) => setSecurityDeposit({...securityDeposit, amountWords: e.target.value})}
-                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter amount in words"
-              />
-            </div>
-          </div>
-        </div> */}
+
         {/* Important Notes Section */}
 <div className="mt-8 border-t border-gray-200 pt-6">
   <h3 className="text-lg font-semibold text-gray-800 mb-4">
@@ -1936,7 +1827,6 @@ const renderCompanyDetails = () => (
               <tr>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Unit Cost</th>
-                {/* <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">GST</th> */}
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Load (KW)</th>
                 <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
               </tr>
@@ -1945,7 +1835,6 @@ const renderCompanyDetails = () => (
               <tr>
                 <td className="px-3 py-2 text-sm">Temporary (18-19 Nov)</td>
                 <td className="px-3 py-2 text-sm">₹3,500/KW</td>
-                
                 <td className="px-3 py-2">
                   <input
                     type="number"
@@ -1960,7 +1849,6 @@ const renderCompanyDetails = () => (
               <tr>
                 <td className="px-3 py-2 text-sm">Exhibition (20-22 Nov)</td>
                 <td className="px-3 py-2 text-sm">₹3,500/KW</td>
-            
                 <td className="px-3 py-2">
                   <input
                     type="number"
@@ -2045,7 +1933,7 @@ const renderCompanyDetails = () => (
     </div>
   );
 
-  // ============= FORM 9: FURNITURE =============
+  // ============= FORM 9: FURNITURE (WITH IMAGES) =============
   const renderFurniture = () => {
     const furnitureTotal = furnitureItems.reduce((sum, item) => sum + item.cost, 0);
     
@@ -2062,6 +1950,7 @@ const renderCompanyDetails = () => (
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50 sticky top-0">
               <tr>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Image</th>
                 <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Code</th>
                 <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
                 <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Size</th>
@@ -2073,6 +1962,22 @@ const renderCompanyDetails = () => (
             <tbody className="bg-white divide-y divide-gray-200">
               {furnitureItems.map((item, index) => (
                 <tr key={item.code} className="hover:bg-gray-50">
+                  <td className="px-2 py-1.5">
+                    <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center">
+                      {item.image ? (
+                        <img 
+                          src={item.image} 
+                          alt={item.description}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = '/furniture/placeholder.jpg';
+                          }}
+                        />
+                      ) : (
+                        <PhotoIcon className="h-6 w-6 text-gray-400" />
+                      )}
+                    </div>
+                  </td>
                   <td className="px-2 py-1.5 text-xs font-mono text-blue-600">{item.code}</td>
                   <td className="px-2 py-1.5 text-xs">{item.description}</td>
                   <td className="px-2 py-1.5 text-xs">{item.size}</td>
@@ -2092,7 +1997,7 @@ const renderCompanyDetails = () => (
             </tbody>
             <tfoot className="bg-gray-50 sticky bottom-0">
               <tr>
-                <td colSpan={5} className="px-2 py-2 text-right text-xs font-semibold">Total:</td>
+                <td colSpan={6} className="px-2 py-2 text-right text-xs font-semibold">Total:</td>
                 <td className="px-2 py-2 text-xs font-bold text-blue-600">₹{furnitureTotal.toLocaleString()}</td>
               </tr>
             </tfoot>
@@ -2251,9 +2156,9 @@ const renderHostess = () => {
         <div className="mt-6 bg-blue-50 p-4 rounded-lg">
           <div className="flex justify-between text-sm">
             <span className="font-semibold">Selected: {compressedAir.cfmRange}</span>
-            <span className="font-bold text-blue-700">₹{compressedAir.grandTotal.toLocaleString()}</span>
+            <span className="font-bold text-blue-700">₹{compressedAir.totalCost.toLocaleString()}</span>
           </div>
-          <p className="text-xs text-blue-600 mt-2">Including 18% GST</p>
+          <p className="text-xs text-blue-600 mt-2">Excluding GST (will be added in final summary)</p>
         </div>
       )}
     </div>
@@ -2283,7 +2188,8 @@ const renderHostess = () => {
           </div>
           <div className="text-sm">
             <p className="text-gray-600">Cost per connection: ₹15,000</p>
-            <p className="font-semibold text-blue-600 mt-1">Total: ₹{waterConnection.grandTotal.toLocaleString()}</p>
+            <p className="font-semibold text-blue-600 mt-1">Total: ₹{waterConnection.totalCost.toLocaleString()}</p>
+            <p className="text-xs text-gray-500">Excluding GST (will be added in final summary)</p>
           </div>
         </div>
       </div>
@@ -2357,16 +2263,10 @@ const renderSecurityGuard = () => (
 
           <div className="mt-3 space-y-1 text-sm">
             <p>
-              Subtotal: <span className="font-semibold">₹{securityGuard.totalCost.toLocaleString()}</span>
+              Total Cost: <span className="font-semibold">₹{securityGuard.totalCost.toLocaleString()}</span>
             </p>
-            <p>
-              GST (18%): <span className="font-semibold">₹{securityGuard.gst.toLocaleString()}</span>
-            </p>
-          </div>
-
-          <div className="mt-3 border-t pt-3">
-            <p className="text-lg font-bold text-blue-700">
-              Grand Total: ₹{securityGuard.grandTotal.toLocaleString()}
+            <p className="text-xs text-blue-600 mt-2">
+              * GST @ 18% will be added in final summary
             </p>
           </div>
         </div>
@@ -2376,7 +2276,7 @@ const renderSecurityGuard = () => (
   </div>
 );
 
-  // ============= NEW FORM 14: RENTAL ITEMS (AV & IT) =============
+  // ============= FORM 14: RENTAL ITEMS (AV & IT) =============
   const renderRentalItems = () => {
     const rentalTotal = Object.values(rentalItems).reduce((sum, item) => sum + item.totalCost, 0);
     
@@ -2426,75 +2326,123 @@ const renderSecurityGuard = () => (
                 <td colSpan={3} className="px-4 py-3 text-right text-sm font-bold text-gray-900">Total Rental Cost:</td>
                 <td className="px-4 py-3 text-sm font-bold text-blue-600">₹{rentalTotal.toLocaleString()}</td>
               </tr>
+              <tr>
+                <td colSpan={4} className="px-4 py-2 text-xs text-gray-500 italic">
+                  * GST @ 18% will be applied to the total rental cost in the final summary
+                </td>
+              </tr>
             </tfoot>
           </table>
         </div>
-        <p className="text-xs text-gray-500 mt-4 italic">* GST @ 18% will be applied to the total rental cost</p>
       </div>
     );
   };
 
-  // ============= NEW FORM 15: HOUSEKEEPING STAFF =============
-  const renderHousekeepingStaff = () => {
-    return (
-      <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center">
-            <div className="bg-blue-100 p-2 rounded-lg">
-              <SparklesIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
-            </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Housekeeping Staff</h2>
+  // ============= FORM 15: HOUSEKEEPING STAFF =============
+const renderHousekeepingStaff = () => {
+  return (
+    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <SparklesIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
           </div>
-          <span className="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1.5 rounded-full">Per Shift (10 Hrs)</span>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
+            Housekeeping Staff
+          </h2>
         </div>
-
-        <div className="border border-gray-200 rounded-lg overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Category</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Charges per Shift (10 Hrs)</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">No. of Days</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Total Cost</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              <tr className="hover:bg-gray-50 transition-colors">
-                <td className="px-4 py-4 text-sm font-medium text-gray-900">Housekeeping</td>
-                <td className="px-4 py-4 text-sm text-gray-900">₹{housekeepingStaff.chargesPerShift.toLocaleString()}</td>
-                <td className="px-4 py-4">
-                  <input
-                    type="number"
-                    min="0"
-                    value={housekeepingStaff.noOfDays || ''}
-                    onChange={(e) => setHousekeepingStaff({...housekeepingStaff, noOfDays: parseInt(e.target.value) || 0})}
-                    className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="0"
-                  />
-                </td>
-                <td className="px-4 py-4 text-sm font-semibold text-blue-600">₹{housekeepingStaff.totalCost.toLocaleString()}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        {housekeepingStaff.noOfDays > 0 && (
-          <div className="mt-4 bg-blue-50 p-4 rounded-lg">
-            <div className="flex justify-between items-center">
-              <div>
-                <p className="text-sm text-gray-700">Subtotal: <span className="font-semibold">₹{housekeepingStaff.totalCost.toLocaleString()}</span></p>
-                <p className="text-sm text-gray-700">GST @ 18%: <span className="font-semibold">₹{housekeepingStaff.gst.toLocaleString()}</span></p>
-              </div>
-              <div className="text-right">
-                <p className="text-xs text-gray-500">Grand Total</p>
-                <p className="text-xl font-bold text-blue-700">₹{housekeepingStaff.grandTotal.toLocaleString()}</p>
-              </div>
-            </div>
-          </div>
-        )}
+        <span className="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1.5 rounded-full">
+          Per Shift (10 Hrs)
+        </span>
       </div>
-    );
-  };
+
+      <div className="border border-gray-200 rounded-lg overflow-hidden">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
+                Category
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
+                Charges per Shift
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
+                No. of Staff
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
+                No. of Days
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
+                Total Cost
+              </th>
+            </tr>
+          </thead>
+
+          <tbody className="bg-white divide-y divide-gray-200">
+            <tr className="hover:bg-gray-50 transition-colors">
+              <td className="px-4 py-4 text-sm font-medium text-gray-900">
+                Housekeeping
+              </td>
+
+              <td className="px-4 py-4 text-sm text-gray-900">
+                ₹{housekeepingStaff.chargesPerShift.toLocaleString()}
+              </td>
+
+              {/* Quantity */}
+              <td className="px-4 py-4">
+                <input
+                  type="number"
+                  min="0"
+                  value={housekeepingStaff.quantity || ""}
+                  onChange={(e) =>
+                    setHousekeepingStaff({
+                      ...housekeepingStaff,
+                      quantity: parseInt(e.target.value) || 0,
+                    })
+                  }
+                  className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="0"
+                />
+              </td>
+
+              {/* Days */}
+              <td className="px-4 py-4">
+                <input
+                  type="number"
+                  min="0"
+                  value={housekeepingStaff.noOfDays || ""}
+                  onChange={(e) =>
+                    setHousekeepingStaff({
+                      ...housekeepingStaff,
+                      noOfDays: parseInt(e.target.value) || 0,
+                    })
+                  }
+                  className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="0"
+                />
+              </td>
+
+              <td className="px-4 py-4 text-sm font-semibold text-blue-600">
+                ₹{housekeepingStaff.totalCost.toLocaleString()}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {housekeepingStaff.quantity > 0 && housekeepingStaff.noOfDays > 0 && (
+        <div className="mt-4 bg-blue-50 p-4 rounded-lg">
+          <p className="text-sm text-gray-700">
+            Subtotal: <span className="font-semibold text-blue-700">₹{housekeepingStaff.totalCost.toLocaleString()}</span>
+          </p>
+          <p className="text-xs text-blue-600 mt-1">
+            * GST @ 18% will be added in final summary
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
 
   // ============= PREVIEW MODAL =============
   const renderPreviewModal = () => {
@@ -2586,7 +2534,7 @@ const renderSecurityGuard = () => (
                     <td className="px-4 py-2 text-xs font-semibold text-right">₹{totals.housekeeping.toLocaleString()}</td>
                   </tr>
                  <tr className="bg-gray-50">
-  <td className="px-4 py-2 text-xs font-semibold">Subtotal</td>
+  <td className="px-4 py-2 text-xs font-semibold">Subtotal (Without GST)</td>
   <td className="px-4 py-2 text-xs text-right">
     ₹{totals.subtotal.toLocaleString()}
   </td>
@@ -2662,6 +2610,7 @@ const renderSecurityGuard = () => (
                 <span className="text-sm font-semibold text-blue-900">Total Amount:</span>
                 <span className="text-xl font-bold text-blue-900">₹{totals.total.toLocaleString()}</span>
               </div>
+              <p className="text-xs text-blue-700 mt-1">Includes 18% GST on services + Security Deposit</p>
             </div>
 
             <div className="bg-gray-50 p-4 rounded-lg">

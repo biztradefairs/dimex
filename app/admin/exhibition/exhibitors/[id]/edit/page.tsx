@@ -12,9 +12,18 @@ import {
   MapPin,
   Key,
   ArrowLeft,
+  Ruler,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { exhibitorsAPI, Exhibitor, CreateExhibitorData } from "@/lib/api/exhibitors";
+
+// Extend the interface to include booth size fields
+interface ExtendedCreateExhibitorData extends CreateExhibitorData {
+  boothSize?: string;
+  boothType?: string;
+  boothDimensions?: string;
+  boothNotes?: string;
+}
 
 export default function EditExhibitorPage() {
   const params = useParams();
@@ -24,13 +33,17 @@ export default function EditExhibitorPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   
-  const [formData, setFormData] = useState<CreateExhibitorData>({
+  const [formData, setFormData] = useState<ExtendedCreateExhibitorData>({
     name: "",
     email: "",
     phone: "",
     company: "",
     sector: "",
     boothNumber: "",
+    boothSize: "",
+    boothType: "standard",
+    boothDimensions: "",
+    boothNotes: "",
     password: "",
     status: "active",
   });
@@ -49,6 +62,23 @@ export default function EditExhibitorPage() {
     "Other",
   ];
 
+  const boothTypes = [
+    { value: "standard", label: "Standard Booth (3x3m)" },
+    { value: "double", label: "Double Booth (6x3m)" },
+    { value: "corner", label: "Corner Booth" },
+    { value: "island", label: "Island Booth" },
+    { value: "custom", label: "Custom Size" },
+  ];
+
+  const boothSizes = [
+    "3x3 m (9 sqm)",
+    "6x3 m (18 sqm)",
+    "6x6 m (36 sqm)",
+    "9x6 m (54 sqm)",
+    "12x6 m (72 sqm)",
+    "Custom",
+  ];
+
   useEffect(() => {
     fetchExhibitor();
   }, [id]);
@@ -56,8 +86,8 @@ export default function EditExhibitorPage() {
   const fetchExhibitor = async () => {
     try {
       setLoading(true);
-      const response = await exhibitorsAPI.getAll();
-      const exhibitor = response.data.find((e: Exhibitor) => e.id === id);
+      const response = await exhibitorsAPI.getById(id);
+      const exhibitor = response.data;
       
       if (exhibitor) {
         setFormData({
@@ -67,6 +97,10 @@ export default function EditExhibitorPage() {
           company: exhibitor.company,
           sector: exhibitor.sector,
           boothNumber: exhibitor.booth,
+          boothSize: exhibitor.boothSize || "",
+          boothType: exhibitor.boothType || "standard",
+          boothDimensions: exhibitor.boothDimensions || "",
+          boothNotes: exhibitor.boothNotes || "",
           password: "", // Don't show existing password for security
           status: exhibitor.status,
         });
@@ -82,43 +116,55 @@ export default function EditExhibitorPage() {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  setSaving(true);
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSaving(true);
 
-  try {
-    // ✅ Build payload manually (IMPORTANT)
-    const updateData: Partial<CreateExhibitorData> = {
-      name: formData.name,
-      email: formData.email,
-      phone: formData.phone,
-      company: formData.company,
-      sector: formData.sector,
-      boothNumber: formData.boothNumber,
-      status: formData.status,
-    };
+    try {
+      // Build payload
+      const updateData: Partial<ExtendedCreateExhibitorData> = {
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone,
+        company: formData.company,
+        sector: formData.sector,
+        boothNumber: formData.boothNumber,
+        boothSize: formData.boothSize,
+        boothType: formData.boothType,
+        boothDimensions: formData.boothDimensions,
+        boothNotes: formData.boothNotes,
+        status: formData.status,
+      };
 
-    // 🔐 ONLY send password if admin typed a new one
-    if (formData.password && formData.password.trim() !== "") {
-      updateData.password = formData.password; // plain text
+      // Only send password if admin typed a new one
+      if (formData.password && formData.password.trim() !== "") {
+        updateData.password = formData.password;
+      }
+
+      await exhibitorsAPI.update(id, updateData);
+      toast.success("Exhibitor updated successfully");
+      router.push(`/admin/exhibition/exhibitors/${id}`);
+    } catch (error: any) {
+      toast.error(error.message || "Failed to update exhibitor");
+    } finally {
+      setSaving(false);
     }
+  };
 
-    await exhibitorsAPI.update(id, updateData);
-    toast.success("Exhibitor updated successfully");
-    router.push(`/admin/exhibition/exhibitors/${id}`);
-  } catch (error: any) {
-    toast.error(error.message || "Failed to update exhibitor");
-  } finally {
-    setSaving(false);
-  }
-};
-
+  const generatePassword = () => {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*';
+    let password = '';
+    for (let i = 0; i < 12; i++) {
+      password += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    setFormData(prev => ({ ...prev, password }));
+  };
 
   if (loading) {
     return (
@@ -150,7 +196,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                 Edit Exhibitor
               </h1>
               <p className="text-gray-600">
-                Update exhibitor information and credentials
+                Update exhibitor information, booth details, and credentials
               </p>
             </div>
           </div>
@@ -277,10 +323,10 @@ const handleSubmit = async (e: React.FormEvent) => {
             </div>
           </div>
 
-          {/* Exhibition & Password Card */}
+          {/* Booth Details Card */}
           <div className="bg-white rounded-xl shadow-sm p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-6 pb-4 border-b">
-              Exhibition Details & Password
+              Booth Details
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -299,25 +345,130 @@ const handleSubmit = async (e: React.FormEvent) => {
                   value={formData.boothNumber}
                   onChange={handleChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                  placeholder="A-101"
                 />
               </div>
 
+              {/* Booth Type */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <div className="flex items-center gap-2">
+                    <Ruler className="h-4 w-4" />
+                    Booth Type
+                  </div>
+                </label>
+                <select
+                  name="boothType"
+                  value={formData.boothType}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                >
+                  {boothTypes.map((type) => (
+                    <option key={type.value} value={type.value}>
+                      {type.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Booth Size */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <div className="flex items-center gap-2">
+                    <Ruler className="h-4 w-4" />
+                    Booth Size
+                  </div>
+                </label>
+                <select
+                  name="boothSize"
+                  value={formData.boothSize}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                >
+                  <option value="">Select booth size</option>
+                  {boothSizes.map((size) => (
+                    <option key={size} value={size}>
+                      {size}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Booth Dimensions (if custom) */}
+              {formData.boothSize === "Custom" && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Custom Dimensions
+                  </label>
+                  <input
+                    type="text"
+                    name="boothDimensions"
+                    value={formData.boothDimensions}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                    placeholder="e.g., 4x5 m"
+                  />
+                </div>
+              )}
+
+              {/* Booth Notes */}
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Booth Notes / Special Requirements
+                </label>
+                <textarea
+                  name="boothNotes"
+                  value={formData.boothNotes}
+                  onChange={handleChange}
+                  rows={3}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                  placeholder="Any special requirements for the booth..."
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Password Card */}
+          <div className="bg-white rounded-xl shadow-sm p-6">
+            <h2 className="text-lg font-semibold text-gray-900 mb-6 pb-4 border-b">
+              Change Password (Optional)
+            </h2>
+            
+            <div className="grid grid-cols-1 gap-6">
               {/* Password */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   <div className="flex items-center gap-2">
                     <Key className="h-4 w-4" />
-                    Change Password (Optional)
+                    New Password
                   </div>
                 </label>
-                <input
-                  type="text"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none font-mono"
-                  placeholder="Leave blank to keep current password"
-                />
+                <div className="space-y-2">
+                  <input
+                    type="text"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none font-mono"
+                    placeholder="Leave blank to keep current password"
+                  />
+                  <div className="flex items-center justify-between">
+                    {formData.password && (
+                      <>
+                        <div className="text-xs px-2 py-1 bg-gray-100 rounded">
+                          {formData.password.length} characters
+                        </div>
+                        <button
+                          type="button"
+                          onClick={generatePassword}
+                          className="text-xs text-blue-600 hover:text-blue-800 hover:underline"
+                        >
+                          Generate Strong Password
+                        </button>
+                      </>
+                    )}
+                  </div>
+                </div>
                 <p className="text-sm text-gray-500 mt-2">
                   Only enter a new password if you want to change it
                 </p>

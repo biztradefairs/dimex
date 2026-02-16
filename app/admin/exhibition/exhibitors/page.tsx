@@ -101,6 +101,7 @@ export default function ExhibitorsPage() {
     }
   };
 
+  // ✅ FIXED: Type-safe status update function
   const updateStatus = async (id: string, status: ExhibitorStatus) => {
     try {
       await exhibitorsAPI.update(id, { status });
@@ -111,7 +112,19 @@ export default function ExhibitorsPage() {
     }
   };
 
-  const getStatusIcon = (status: ExhibitorStatus) => {
+  // ✅ FIXED: Helper function to safely handle status button clicks
+  const handleStatusClick = (id: string, status: string) => {
+    // Validate that the status is a valid ExhibitorStatus
+    const validStatuses: ExhibitorStatus[] = ["active", "pending", "inactive", "approved", "rejected"];
+    
+    if (validStatuses.includes(status as ExhibitorStatus)) {
+      updateStatus(id, status as ExhibitorStatus);
+    } else {
+      toast.error(`Invalid status: ${status}`);
+    }
+  };
+
+  const getStatusIcon = (status: string) => {
     switch (status) {
       case "active":
       case "approved":
@@ -123,7 +136,7 @@ export default function ExhibitorsPage() {
     }
   };
 
-  const getStatusColor = (status: ExhibitorStatus) => {
+  const getStatusColor = (status: string) => {
     switch (status) {
       case "active":
       case "approved":
@@ -273,6 +286,14 @@ export default function ExhibitorsPage() {
                             {exhibitor.booth || "Not assigned"}
                           </span>
                         </div>
+                        {exhibitor.boothSize && (
+                          <div>
+                            <span className="text-sm text-gray-600">Booth Size:</span>
+                            <span className="ml-2 font-medium">
+                              {exhibitor.boothSize}
+                            </span>
+                          </div>
+                        )}
                         <div className="text-sm text-gray-500">
                           Joined {new Date(exhibitor.createdAt).toLocaleDateString()}
                         </div>
@@ -291,19 +312,19 @@ export default function ExhibitorsPage() {
                       </div>
                       <div className="flex gap-2 mt-2">
                         <button
-                          onClick={() => updateStatus(exhibitor.id, "active")}
+                          onClick={() => handleStatusClick(exhibitor.id, "active")}
                           className="text-xs text-green-600 hover:text-green-800"
                         >
                           Active
                         </button>
                         <button
-                          onClick={() => updateStatus(exhibitor.id, "pending")}
+                          onClick={() => handleStatusClick(exhibitor.id, "pending")}
                           className="text-xs text-yellow-600 hover:text-yellow-800"
                         >
                           Pending
                         </button>
                         <button
-                          onClick={() => updateStatus(exhibitor.id, "inactive")}
+                          onClick={() => handleStatusClick(exhibitor.id, "inactive")}
                           className="text-xs text-red-600 hover:text-red-800"
                         >
                           Inactive

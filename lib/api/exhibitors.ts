@@ -81,18 +81,27 @@ export type ExhibitorStatus =
   | "rejected";
 
 export interface Exhibitor {
-
   id: string;
   name: string;
   email: string;
   phone: string;
   company: string;
   sector: string;
-  booth: string;
-  status: ExhibitorStatus;
+  booth: string;        // For frontend display (maps from boothNumber)
+  boothNumber?: string; // Original from backend
+  boothSize?: string;
+  boothType?: string;
+  boothDimensions?: string;
+  boothNotes?: string;
+  status: string;
   originalPassword?: string;
   createdAt: string;
-  updatedAt: string;
+  stallDetails?: {
+    size?: string;
+    type?: string;
+    dimensions?: string;
+    notes?: string;
+  };
 }
 
 export interface ExhibitorStats {
@@ -109,7 +118,12 @@ export interface CreateExhibitorData {
   sector: string;
   boothNumber: string;
   password: string;
-  status?: ExhibitorStatus;
+  status: string;
+  // Add booth size fields
+  boothSize?: string;
+  boothType?: string;
+  boothDimensions?: string;
+  boothNotes?: string;
 }
 
 export interface PaginatedResponse<T> {
@@ -152,6 +166,41 @@ export const testServerConnection = async () => {
 };
 
 /* =========================================================
+   HELPER FUNCTION TO MAP EXHIBITOR DATA
+========================================================= */
+
+const mapExhibitorData = (data: any): Exhibitor => {
+  // Parse stallDetails if it exists
+  let stallDetails = data.stallDetails || {};
+  if (typeof stallDetails === 'string') {
+    try {
+      stallDetails = JSON.parse(stallDetails);
+    } catch {
+      stallDetails = {};
+    }
+  }
+
+  return {
+    id: data.id,
+    name: data.name,
+    email: data.email,
+    phone: data.phone || '',
+    company: data.company,
+    sector: data.sector || '',
+    booth: data.boothNumber || data.booth || "Not assigned",
+    boothNumber: data.boothNumber,
+    boothSize: data.boothSize || stallDetails?.size || '',
+    boothType: data.boothType || stallDetails?.type || 'standard',
+    boothDimensions: data.boothDimensions || stallDetails?.dimensions || '',
+    boothNotes: data.boothNotes || stallDetails?.notes || '',
+    status: data.status === 'approved' ? 'active' : data.status,
+    originalPassword: data.originalPassword,
+    createdAt: data.createdAt,
+    stallDetails: stallDetails
+  };
+};
+
+/* =========================================================
    EXHIBITORS API
 ========================================================= */
 
@@ -169,7 +218,30 @@ export const exhibitorsAPI = {
       throw new Error(response.data.error || "Failed to fetch exhibitors");
     }
 
-    return response.data;
+    // Map each exhibitor to ensure proper data structure
+    const mappedData = response.data.data.map(mapExhibitorData);
+
+    return {
+      ...response.data,
+      data: mappedData
+    };
+  },
+
+  // Get single exhibitor by ID
+  getById: async (id: string): Promise<ApiResponse<Exhibitor>> => {
+    const response = await api.get(`/exhibitors/${id}`);
+
+    if (!response.data.success) {
+      throw new Error(response.data.error || "Failed to fetch exhibitor");
+    }
+
+    // Map the data to ensure proper structure
+    const mappedData = mapExhibitorData(response.data.data);
+
+    return {
+      ...response.data,
+      data: mappedData
+    };
   },
 
   getStats: async (): Promise<ExhibitorStats> => {
@@ -189,35 +261,77 @@ export const exhibitorsAPI = {
   create: async (
     data: CreateExhibitorData
   ): Promise<Exhibitor & { originalPassword: string }> => {
-    const response = await api.post("/exhibitors", data);
+    // Prepare data for backend - include stallDetails structure
+    const backendData = {
+      ...data,
+      boothNumber: data.boothNumber,
+      stallDetails: {
+        size: data.boothSize || '',
+        type: data.boothType || 'standard',
+        dimensions: data.boothDimensions || '',
+        notes: data.boothNotes || ''
+      }
+    };
+
+    const response = await api.post("/exhibitors", backendData);
 
     if (!response.data.success) {
       throw new Error(response.data.error || "Failed to create exhibitor");
     }
 
-    return response.data.data;
+    // Map response to include all fields
+    const mappedResponse = mapExhibitorData(response.data.data);
+    
+    return {
+      ...mappedResponse,
+      originalPassword: response.data.data.originalPassword || data.password
+    };
   },
 
   update: async (
     id: string,
     data: Partial<CreateExhibitorData>
   ): Promise<Exhibitor> => {
-    const response = await api.put(`/exhibitors/${id}`, data);
+    // Prepare data for backend
+    const backendData: any = {
+      ...data,
+      boothNumber: data.boothNumber,
+    };
+
+    // Include stallDetails if booth fields are provided
+    if (data.boothSize || data.boothType || data.boothDimensions || data.boothNotes) {
+      backendData.stallDetails = {
+        size: data.boothSize || '',
+        type: data.boothType || 'standard',
+        dimensions: data.boothDimensions || '',
+        notes: data.boothNotes || ''
+      };
+    }
+
+    const response = await api.put(`/exhibitors/${id}`, backendData);
 
     if (!response.data.success) {
       throw new Error(response.data.error || "Failed to update exhibitor");
     }
 
-    return response.data.data;
+    // Map response to include all fields
+    return mapExhibitorData(response.data.data);
   },
 
   bulkUpdateStatus: async (
     ids: string[],
-    status: ExhibitorStatus
+    status: string
   ): Promise<{ affectedCount: number }> => {
+    // Validate that status is a valid ExhibitorStatus
+    const validStatuses: ExhibitorStatus[] = ["pending", "active", "inactive", "approved", "rejected"];
+    
+    if (!validStatuses.includes(status as ExhibitorStatus)) {
+      throw new Error(`Invalid status: ${status}`);
+    }
+
     const response = await api.post("/exhibitors/bulk/update-status", {
       ids,
-      status,
+      status: status as ExhibitorStatus,
     });
 
     if (!response.data.success) {
@@ -268,7 +382,7 @@ export const exhibitorsAPI = {
 };
 
 /* =========================================================
-   AUTH API (FIXED LOGIN FLOW)
+   AUTH API
 ========================================================= */
 
 export const authAPI = {
@@ -288,7 +402,13 @@ export const authAPI = {
         throw new Error(response.data.error || "Login failed");
       }
 
-      return response.data.data;
+      // Map the exhibitor data
+      const mappedExhibitor = mapExhibitorData(response.data.data.exhibitor);
+
+      return {
+        token: response.data.data.token,
+        exhibitor: mappedExhibitor
+      };
     } catch (error: any) {
       let errorMessage = "Login failed";
 
@@ -317,7 +437,7 @@ export const authAPI = {
       throw new Error(response.data.error || "Failed to fetch profile");
     }
 
-    return response.data.data;
+    return mapExhibitorData(response.data.data);
   },
 
   test: async () => {
@@ -325,8 +445,9 @@ export const authAPI = {
     return response.data;
   },
 };
+
 /* =========================================================
-   DASHBOARD API (RENDER SAFE)
+   DASHBOARD API
 ========================================================= */
 
 export interface DashboardData {
@@ -361,7 +482,7 @@ export interface DashboardData {
 export const dashboardAPI = {
   getLayout: async (): Promise<DashboardData> => {
     const response = await api.get('/exhibitorDashboard/layout', {
-      timeout: 30000, // Render cold start safe
+      timeout: 30000,
     });
 
     if (!response.data.success) {

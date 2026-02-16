@@ -2,20 +2,32 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Save, X, Building, User, Mail, Phone, MapPin, Key, AlertCircle } from "lucide-react";
+import { Save, X, Building, User, Mail, Phone, MapPin, Key, AlertCircle, Ruler } from "lucide-react";
 import toast from "react-hot-toast";
 import { exhibitorsAPI, CreateExhibitorData } from "@/lib/api/exhibitors";
+
+// Update the interface to include booth size
+interface ExtendedCreateExhibitorData extends CreateExhibitorData {
+  boothSize?: string;
+  boothType?: string;
+  boothDimensions?: string;
+  boothNotes?: string;
+}
 
 export default function NewExhibitorPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState<CreateExhibitorData>({
+  const [formData, setFormData] = useState<ExtendedCreateExhibitorData>({
     name: "",
     email: "",
     phone: "",
     company: "",
     sector: "",
     boothNumber: "",
+    boothSize: "",
+    boothType: "standard",
+    boothDimensions: "",
+    boothNotes: "",
     password: "",
     status: "active",
   });
@@ -39,8 +51,25 @@ export default function NewExhibitorPage() {
     "Other",
   ];
 
+  const boothTypes = [
+    { value: "standard", label: "Standard Booth (3x3m)" },
+    { value: "double", label: "Double Booth (6x3m)" },
+    { value: "corner", label: "Corner Booth" },
+    { value: "island", label: "Island Booth" },
+    { value: "custom", label: "Custom Size" },
+  ];
+
+  const boothSizes = [
+    "3x3 m (9 sqm)",
+    "6x3 m (18 sqm)",
+    "6x6 m (36 sqm)",
+    "9x6 m (54 sqm)",
+    "12x6 m (72 sqm)",
+    "Custom",
+  ];
+
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -64,7 +93,17 @@ export default function NewExhibitorPage() {
     setEmailStatus(null);
 
     try {
-      const result = await exhibitorsAPI.create(formData);
+      // Prepare data for API
+      const apiData = {
+        ...formData,
+        // Ensure booth size is included
+        boothSize: formData.boothSize,
+        boothType: formData.boothType,
+        boothDimensions: formData.boothDimensions,
+        boothNotes: formData.boothNotes,
+      };
+      
+      const result = await exhibitorsAPI.create(apiData);
       
       // Store email status for display
       setEmailStatus({
@@ -73,7 +112,7 @@ export default function NewExhibitorPage() {
         password: result.originalPassword || formData.password,
       });
       
-      // Show success toast
+      // Show success toast with booth info
       toast.success(
         <div className="p-4">
           <div className="flex items-center gap-3 mb-4">
@@ -97,6 +136,18 @@ export default function NewExhibitorPage() {
                   <p className="text-sm text-green-800 mb-1">Password</p>
                   <p className="font-mono font-bold">{result.originalPassword || formData.password}</p>
                 </div>
+                {formData.boothSize && (
+                  <div>
+                    <p className="text-sm text-green-800 mb-1">Booth Size</p>
+                    <p className="font-medium">{formData.boothSize}</p>
+                  </div>
+                )}
+                {formData.boothNumber && (
+                  <div>
+                    <p className="text-sm text-green-800 mb-1">Booth Number</p>
+                    <p className="font-medium">{formData.boothNumber}</p>
+                  </div>
+                )}
               </div>
             </div>
             
@@ -130,7 +181,7 @@ export default function NewExhibitorPage() {
   };
 
   const copyAllCredentials = () => {
-    const message = `Exhibitor Login Credentials:\n\nEmail: ${formData.email}\nPassword: ${formData.password}\nCompany: ${formData.company}\nContact: ${formData.name}\n\nLogin URL: ${window.location.origin}/login`;
+    const message = `Exhibitor Login Credentials:\n\nEmail: ${formData.email}\nPassword: ${formData.password}\nCompany: ${formData.company}\nContact: ${formData.name}\nBooth Number: ${formData.boothNumber || 'N/A'}\nBooth Size: ${formData.boothSize || 'N/A'}\n\nLogin URL: ${window.location.origin}/login`;
     navigator.clipboard.writeText(message);
     toast.success("Credentials copied to clipboard");
   };
@@ -346,7 +397,7 @@ export default function NewExhibitorPage() {
           {/* Exhibition Details Card */}
           <div className="bg-white rounded-xl shadow-sm p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-6 pb-4 border-b">
-              Exhibition Details & Credentials
+              Exhibition Details & Booth Information
             </h2>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -369,6 +420,92 @@ export default function NewExhibitorPage() {
                 />
               </div>
 
+              {/* Booth Type */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <div className="flex items-center gap-2">
+                    <Ruler className="h-4 w-4" />
+                    Booth Type
+                  </div>
+                </label>
+                <select
+                  name="boothType"
+                  value={formData.boothType}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                >
+                  {boothTypes.map((type) => (
+                    <option key={type.value} value={type.value}>
+                      {type.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Booth Size */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <div className="flex items-center gap-2">
+                    <Ruler className="h-4 w-4" />
+                    Booth Size
+                  </div>
+                </label>
+                <select
+                  name="boothSize"
+                  value={formData.boothSize}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                >
+                  <option value="">Select booth size</option>
+                  {boothSizes.map((size) => (
+                    <option key={size} value={size}>
+                      {size}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Booth Dimensions (if custom) */}
+              {formData.boothSize === "Custom" && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Custom Dimensions
+                  </label>
+                  <input
+                    type="text"
+                    name="boothDimensions"
+                    value={formData.boothDimensions}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                    placeholder="e.g., 4x5 m"
+                  />
+                </div>
+              )}
+
+              {/* Booth Notes */}
+              <div className="md:col-span-2">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Booth Notes / Special Requirements
+                </label>
+                <textarea
+                  name="boothNotes"
+                  value={formData.boothNotes}
+                  onChange={handleChange}
+                  rows={3}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                  placeholder="Any special requirements for the booth..."
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Credentials Card */}
+          <div className="bg-white rounded-xl shadow-sm p-6">
+            <h2 className="text-lg font-semibold text-gray-900 mb-6 pb-4 border-b">
+              Login Credentials
+            </h2>
+            
+            <div className="grid grid-cols-1 gap-6">
               {/* Password */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
