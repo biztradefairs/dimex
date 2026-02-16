@@ -67,12 +67,12 @@ const navigation = [
       { name: "Revenue Analytics", href: "/admin/financial/revenue", icon: PieChart },
     ],
   },
-  { 
-    name: "User Management", 
-    href: "/admin/users", 
-    icon: Users,
-    color: "text-blue-500"
-  },
+  // { 
+  //   name: "User Management", 
+  //   href: "/admin/users", 
+  //   icon: Users,
+  //   color: "text-blue-500"
+  // },
   // { 
   //   name: "Media Library", 
   //   href: "/admin/media", 
@@ -85,16 +85,16 @@ const navigation = [
   //   icon: Handshake,
   //   color: "text-emerald-500"
   // },
-  {
-    name: "Settings",
-    icon: Settings,
-    color: "text-gray-500",
-    subItems: [
-      { name: "General", href: "/admin/settings/general", icon: Settings },
-      { name: "Email Templates", href: "/admin/settings/email", icon: Mail },
-      { name: "API Configuration", href: "/admin/settings/api", icon: Key },
-    ],
-  },
+  // {
+  //   name: "Settings",
+  //   icon: Settings,
+  //   color: "text-gray-500",
+  //   subItems: [
+  //     { name: "General", href: "/admin/settings/general", icon: Settings },
+  //     { name: "Email Templates", href: "/admin/settings/email", icon: Mail },
+  //     { name: "API Configuration", href: "/admin/settings/api", icon: Key },
+  //   ],
+  // },
 ];
 
 export default function AdminShell({

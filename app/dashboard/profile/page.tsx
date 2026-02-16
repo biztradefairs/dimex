@@ -1,34 +1,211 @@
 'use client';
 
-import { useState, useEffect, JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal } from 'react';
+import { useState, useEffect } from 'react';
 import { 
-  PencilIcon, 
-  CheckIcon, 
-  XMarkIcon,
-  CameraIcon,
+  PlusIcon, 
+  CheckCircleIcon, 
+  ClockIcon, 
+  XCircleIcon,
   BuildingOfficeIcon,
+  UserIcon,
+  DevicePhoneMobileIcon,
   EnvelopeIcon,
-  PhoneIcon,
+  DocumentTextIcon,
+  CubeIcon,
+  BoltIcon,
+  WrenchScrewdriverIcon,
+  ShieldCheckIcon,
+  SparklesIcon,
+  ComputerDesktopIcon,
+  BanknotesIcon,
+  ReceiptPercentIcon,
+  TruckIcon,
   MapPinIcon,
   GlobeAltIcon,
-  UserCircleIcon,
-  DocumentTextIcon,
-  ExclamationTriangleIcon,
-  CurrencyDollarIcon,
-  CalendarIcon,
-  UserIcon,
-  TagIcon,
-  ClipboardDocumentListIcon
+  CurrencyRupeeIcon,
+  CreditCardIcon,
+  PrinterIcon,
+  EyeIcon,
+  MinusIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  PhotoIcon
 } from '@heroicons/react/24/outline';
+import { MenuIcon } from 'lucide-react';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 
-// Define types locally if not in @/types
+// ============= INTERFACES =============
+interface GeneralInfo {
+  title: 'Mr' | 'Mrs' | 'Ms' | 'Dr' | 'Prof';
+  firstName: string;
+  lastName: string;
+  designation: string;
+  mobile: string;
+  email: string;
+  companyName: string;
+  businessNature: string;
+  gstNumber: string;
+}
+
+interface LocationDetails {
+  hallNo: string;
+  boothNo: string;
+  boothType: 'Shell Scheme' | 'Raw Space' | 'Island' | 'Corner' | 'Inline';
+  boothSize: {
+    length: string;
+    width: string;
+    area: string;
+  };
+  preferredLocation1: string;
+  preferredLocation2: string;
+  preferredLocation3: string;
+  specialRequirements: string;
+  access24x7: boolean;
+  forkliftRequired: boolean;
+  craneRequired: boolean;
+  vehicleEntry: boolean;
+}
+
+interface BoothDetails {
+  boothNo: string;
+  exhibitorName: string;
+  sqMtrBooked: string;
+  organisation: string;
+  contactPerson: string;
+  designation: string;
+  mobile: string;
+  email: string;
+  contractorCompany: string;
+  contractorPerson: string;
+  contractorMobile: string;
+  contractorEmail: string;
+  contractorGST: string;
+  contractorPAN: string;
+}
+
+interface MachineDisplay {
+  srNo: number;
+  machineName: string;
+  width: string;
+  length: string;
+  height: string;
+  weight: string;
+}
+
+interface Personnel {
+  srNo: number;
+  name: string;
+  designation: string;
+  organisation: string;
+}
+
+interface CompanyDetails {
+  companyName: string;
+  address: string;
+  telephone: string;
+  mobile: string;
+  email: string;
+  website: string;
+  contactPerson: string;
+  designation: string;
+  productsServices: string;
+}
+
+interface SecurityDeposit {
+  boothSq: string;
+  amountINR: number;
+  amountUSD: number;
+  ddNo: string;
+  bankName: string;
+  branch: string;
+  dated: string;
+  amountWords: string;
+}
+
+interface ElectricalLoad {
+  temporaryLoad: string;
+  exhibitionLoad: string;
+  temporaryTotal: number;
+  exhibitionTotal: number;
+}
+
+interface FurnitureItem {
+  code: string;
+  description: string;
+  size: string;
+  cost3Days: number;
+  quantity: number;
+  cost: number;
+  image: string;
+}
+
+interface HostessRequirement {
+  category: 'A' | 'B';
+  quantity: number;
+  noOfDays: number;
+  amount: number;
+}
+
+interface CompressedAir {
+  selected: string;
+  cfmRange: string;
+  costPerConnection: number;
+  qty: number;
+  powerKW: number;
+  costPerKW: number;
+  totalCost: number;
+}
+
+interface WaterConnection {
+  connections: number;
+  costPerConnection: number;
+  totalCost: number;
+}
+
+interface SecurityGuard {
+  quantity: number;
+  noOfDays: number;
+  totalCost: number;
+}
+
+interface PaymentDetails {
+  paymentMode: 'RTGS' | 'NEFT' | 'IMPS' | 'UPI' | 'Cheque' | 'DD' | 'Cash';
+  bankName: string;
+  transactionId: string;
+  transactionDate: string;
+  amount: number;
+  uploadedReceipt: File | null;
+}
+
+interface RentalItem {
+  description: string;
+  costFor3Days: number;
+  quantity: number;
+  totalCost: number;
+}
+
+interface RentalItems {
+  lcdProjector: RentalItem;
+  laptop: RentalItem;
+  laserPrinter: RentalItem;
+  paSystem: RentalItem;
+  cordlessMike: RentalItem;
+  tv42: RentalItem;
+  tv50: RentalItem;
+  tv55: RentalItem;
+}
+
+interface HousekeepingStaff {
+  quantity: number;
+  category: 'Housekeeping';
+  chargesPerShift: number;
+  noOfDays: number;
+  totalCost: number;
+}
+
+// Profile interface from your profile page
 interface ExhibitorProfile {
-  boothPrice: any;
-  boothBookedDate: any;
-  boothStatus: any;
-  boothAmenities: string[];
   id: string;
   companyName: string;
   contactPerson: string;
@@ -40,90 +217,246 @@ interface ExhibitorProfile {
   description: string;
   status: string;
   boothNumber?: string;
-  
-  // New booth detail fields
   boothCost?: number;
   registrationDate?: string;
   boothSize?: string;
   boothType?: string;
   boothDimensions?: string;
   boothNotes?: string;
-  paymentStatus?: 'paid' | 'pending' | 'partial' | 'cancelled';
-  invoiceNumber?: string;
-  registrationFee?: number;
-  totalAmount?: number;
-  amountPaid?: number;
-  dueDate?: string;
 }
 
-export default function EnhancedProfilePage() {
-  const [profile, setProfile] = useState<ExhibitorProfile | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedProfile, setEditedProfile] = useState<Partial<ExhibitorProfile>>({});
+// Furniture catalog with image paths
+const furnitureCatalog: FurnitureItem[] = [
+  { code: 'PI-01', description: 'Executive Chair', size: 'Black/red', cost3Days: 2000, quantity: 0, cost: 0, image: '/furniture/executive-chair.jpg' },
+  { code: 'PI-02', description: 'VIP Sofa (1 Seater)', size: 'Black', cost3Days: 2000, quantity: 0, cost: 0, image: '/furniture/vip-sofa-1.jpg' },
+  { code: 'PI-03', description: 'VIP Sofa (2 Seater)', size: 'Black', cost3Days: 3500, quantity: 0, cost: 0, image: '/furniture/vip-sofa-2.jpg' },
+  { code: 'PI-04', description: 'Visitor Chair', size: 'Black', cost3Days: 800, quantity: 0, cost: 0, image: '/furniture/visitor-chair.jpg' },
+  { code: 'PI-05', description: 'Fibre Chair', size: 'Black', cost3Days: 400, quantity: 0, cost: 0, image: '/furniture/fibre-chair.jpg' },
+  { code: 'PI-07', description: 'Round Table (Wooden Top)', size: '70CM (dia) x 75CM (H)', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/round-table-wooden.jpg' },
+  { code: 'PI-08', description: 'Round Table Cross Leg (Glass Top)', size: '90CM (dia) x 75CM (H)', cost3Days: 2000, quantity: 0, cost: 0, image: '/furniture/round-table-glass.jpg' },
+  { code: 'PI-09', description: 'Bar Stool (Adjustable Chrome leg with Cup)', size: '50CM (H)', cost3Days: 2000, quantity: 0, cost: 0, image: '/furniture/bar-stool.jpg' },
+  { code: 'PI-10', description: 'Glass Showcase (Big with 2 downlights)', size: '1M x 50CM x 2M (H)', cost3Days: 5000, quantity: 0, cost: 0, image: '/furniture/glass-showcase-big.jpg' },
+  { code: 'PI-11', description: 'Glass Showcase (Small)', size: '50CM X 50CM X 2M (H)', cost3Days: 4000, quantity: 0, cost: 0, image: '/furniture/glass-showcase-small.jpg' },
+  { code: 'PI-12', description: 'Glass Counter', size: '1M X 50CM X 1M (H)', cost3Days: 3500, quantity: 0, cost: 0, image: '/furniture/glass-counter.jpg' },
+  { code: 'PI-13', description: 'Centre Table (Black Glass Top)', size: '1.20M (L) x 45CM (W)', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/centre-table.jpg' },
+  { code: 'PI-14', description: 'Standing Discussion Table', size: '1.0M (H) x 70CM (Dia)', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/standing-table.jpg' },
+  { code: 'PI-15', description: 'System Counter (Table)', size: '1.05M X 60CM X 75CM', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/system-counter.jpg' },
+  { code: 'PI-16', description: 'Side Rack (Lockable)', size: '40CM X 1M X 60CM (H)', cost3Days: 3600, quantity: 0, cost: 0, image: '/furniture/side-rack.jpg' },
+  { code: 'PI-17', description: 'System Podium', size: '50CM X 50CM X 1M (H)', cost3Days: 1000, quantity: 0, cost: 0, image: '/furniture/podium-1m.jpg' },
+  { code: 'PI-18', description: 'System Podium', size: '50CM X 50CM X 70CM (H)', cost3Days: 1000, quantity: 0, cost: 0, image: '/furniture/podium-70cm.jpg' },
+  { code: 'PI-19', description: 'System Podium', size: '50CM x 50CM x 50CM (H)', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/podium-50cm.jpg' },
+  { code: 'PI-20', description: 'Brochure Rack', size: '', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/brochure-rack.jpg' },
+  { code: 'PI-21', description: 'Round Table (White Top)', size: '80CM (dia) x 75CM (H)', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/round-table-white.jpg' },
+  { code: 'PI-22', description: 'Square Table', size: '1.2M X 45CM', cost3Days: 1200, quantity: 0, cost: 0, image: '/furniture/square-table.jpg' },
+  { code: 'PI-23', description: 'Lockable Door', size: '', cost3Days: 4000, quantity: 0, cost: 0, image: '/furniture/lockable-door.jpg' },
+  { code: 'PI-24', description: 'System Panel', size: '1M x 2.5M (H) - White', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/system-panel.jpg' },
+  { code: 'PI-25', description: 'Glass Shelf (each)', size: '30CM x 1M', cost3Days: 1000, quantity: 0, cost: 0, image: '/furniture/glass-shelf.jpg' },
+  { code: 'PI-26', description: 'Wooden Shelf Flat / Adjustable (each)', size: '30CM x 1M', cost3Days: 750, quantity: 0, cost: 0, image: '/furniture/wooden-shelf.jpg' },
+  { code: 'PI-27', description: 'Long Arm Halogen Light', size: '150W', cost3Days: 1000, quantity: 0, cost: 0, image: '/furniture/halogen-light.jpg' },
+  { code: 'PI-28', description: 'Spot Lights', size: '75W', cost3Days: 750, quantity: 0, cost: 0, image: '/furniture/spot-light.jpg' },
+  { code: 'PI-29', description: 'Metal Halide', size: '150W', cost3Days: 2000, quantity: 0, cost: 0, image: '/furniture/metal-halide.jpg' },
+  { code: 'PI-30', description: '5A/13A Power Socket', size: '', cost3Days: 500, quantity: 0, cost: 0, image: '/furniture/power-socket.jpg' },
+  { code: 'PI-31', description: 'Photo Clip / T-Bolt', size: '', cost3Days: 100, quantity: 0, cost: 0, image: '/furniture/photo-clip.jpg' },
+  { code: 'PI-32', description: 'Waste Basket', size: '', cost3Days: 150, quantity: 0, cost: 0, image: '/furniture/waste-basket.jpg' },
+];
+
+export default function RequirementsPage() {
+  const router = useRouter();
+  
+  // ============= FORM STATES =============
+  const [currentStep, setCurrentStep] = useState(1);
+  const [showPreview, setShowPreview] = useState(false);
+  const [showPayment, setShowPayment] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<'profile' | 'booth' | 'payments'>('profile');
-  const router = useRouter();
+  const [profile, setProfile] = useState<ExhibitorProfile | null>(null);
 
-  // Function to get token - UPDATED to look for 'exhibitor_token'
+  // Form 1 - General Information
+  const [generalInfo, setGeneralInfo] = useState<GeneralInfo>({
+    title: 'Mr',
+    firstName: '',
+    lastName: '',
+    designation: '',
+    mobile: '',
+    email: '',
+    companyName: '',
+    businessNature: '',
+    gstNumber: ''
+  });
+
+  // Form 2 - Location Details
+  const [locationDetails, setLocationDetails] = useState<LocationDetails>({
+    hallNo: '',
+    boothNo: '',
+    boothType: 'Shell Scheme',
+    boothSize: { length: '', width: '', area: '' },
+    preferredLocation1: '',
+    preferredLocation2: '',
+    preferredLocation3: '',
+    specialRequirements: '',
+    access24x7: false,
+    forkliftRequired: false,
+    craneRequired: false,
+    vehicleEntry: false
+  });
+
+  // Form 3 - Booth Details
+  const [boothDetails, setBoothDetails] = useState<BoothDetails>({
+    boothNo: '',
+    exhibitorName: '',
+    sqMtrBooked: '',
+    organisation: '',
+    contactPerson: '',
+    designation: '',
+    mobile: '',
+    email: '',
+    contractorCompany: '',
+    contractorPerson: '',
+    contractorMobile: '',
+    contractorEmail: '',
+    contractorGST: '',
+    contractorPAN: ''
+  });
+
+  // Form 4 - Security Deposit
+  const [securityDeposit, setSecurityDeposit] = useState<SecurityDeposit>({
+    boothSq: '',
+    amountINR: 0,
+    amountUSD: 0,
+    ddNo: '',
+    bankName: '',
+    branch: '',
+    dated: '',
+    amountWords: ''
+  });
+
+  // Form 5 - Machine Display
+  const [machines, setMachines] = useState<MachineDisplay[]>([
+    { srNo: 1, machineName: '', width: '', length: '', height: '', weight: '' },
+    { srNo: 2, machineName: '', width: '', length: '', height: '', weight: '' },
+    { srNo: 3, machineName: '', width: '', length: '', height: '', weight: '' }
+  ]);
+
+  // Form 6 - Personnel
+  const [personnel, setPersonnel] = useState<Personnel[]>([
+    { srNo: 1, name: '', designation: '', organisation: '' },
+    { srNo: 2, name: '', designation: '', organisation: '' },
+    { srNo: 3, name: '', designation: '', organisation: '' }
+  ]);
+
+  // Form 7 - Company Details
+  const [companyDetails, setCompanyDetails] = useState<CompanyDetails>({
+    companyName: '',
+    address: '',
+    telephone: '',
+    mobile: '',
+    email: '',
+    website: '',
+    contactPerson: '',
+    designation: '',
+    productsServices: ''
+  });
+
+  // Form 8 - Electrical Load
+  const [electricalLoad, setElectricalLoad] = useState<ElectricalLoad>({
+    temporaryLoad: '',
+    exhibitionLoad: '',
+    temporaryTotal: 0,
+    exhibitionTotal: 0
+  });
+
+  // Form 9 - Furniture
+  const [furnitureItems, setFurnitureItems] = useState<FurnitureItem[]>(furnitureCatalog);
+
+  // Form 10 - Hostess
+  const [hostessRequirements, setHostessRequirements] = useState<HostessRequirement[]>([
+    { category: 'A', quantity: 0, noOfDays: 0, amount: 0 },
+    { category: 'B', quantity: 0, noOfDays: 0, amount: 0 }
+  ]);
+
+  // Form 11 - Compressed Air
+  const [compressedAir, setCompressedAir] = useState<CompressedAir>({
+    selected: '',
+    cfmRange: '',
+    costPerConnection: 0,
+    qty: 0,
+    powerKW: 0,
+    costPerKW: 3500,
+    totalCost: 0
+  });
+
+  // Form 12 - Water Connection
+  const [waterConnection, setWaterConnection] = useState<WaterConnection>({
+    connections: 0,
+    costPerConnection: 15000,
+    totalCost: 0
+  });
+
+  // Form 13 - Security Guard
+  const [securityGuard, setSecurityGuard] = useState<SecurityGuard>({
+    quantity: 0,
+    noOfDays: 0,
+    totalCost: 0
+  });
+
+  // Form 14 - Rental Items (AV & IT)
+  const [rentalItems, setRentalItems] = useState<RentalItems>({
+    lcdProjector: { description: 'LCD Projector (XGA 3000 ASNI Lumens)', costFor3Days: 20000, quantity: 0, totalCost: 0 },
+    laptop: { description: 'Laptop with Accessories', costFor3Days: 4000, quantity: 0, totalCost: 0 },
+    laserPrinter: { description: 'Laser Jet B & W Printer / Scanner (Without Cartridges)', costFor3Days: 10000, quantity: 0, totalCost: 0 },
+    paSystem: { description: 'PA Systems (150 w Speaker 2 nos., 400 w Amplifier 1 no)', costFor3Days: 10000, quantity: 0, totalCost: 0 },
+    cordlessMike: { description: 'Cordless Hand Mike', costFor3Days: 2000, quantity: 0, totalCost: 0 },
+    tv42: { description: 'LCD / LED TV 42"', costFor3Days: 12000, quantity: 0, totalCost: 0 },
+    tv50: { description: 'LCD / LED TV 50"', costFor3Days: 16000, quantity: 0, totalCost: 0 },
+    tv55: { description: 'LCD / LED TV 55"', costFor3Days: 25000, quantity: 0, totalCost: 0 }
+  });
+
+  // Form 15 - Housekeeping Staff
+  const [housekeepingStaff, setHousekeepingStaff] = useState<HousekeepingStaff>({
+    quantity: 0,
+    category: 'Housekeeping',
+    chargesPerShift: 2000,
+    noOfDays: 0,
+    totalCost: 0
+  });
+
+  // Payment Details
+  const [paymentDetails, setPaymentDetails] = useState<PaymentDetails>({
+    paymentMode: 'RTGS',
+    bankName: '',
+    transactionId: '',
+    transactionDate: '',
+    amount: 0,
+    uploadedReceipt: null
+  });
+
+  // ============= AUTH FUNCTIONS =============
   const getAuthToken = () => {
-    console.log('🔍 Checking for token in localStorage...');
-    
-    // First, check for 'exhibitor_token' (what your login component saves)
+    // Check for 'exhibitor_token' first
     const exhibitorToken = localStorage.getItem('exhibitor_token');
     if (exhibitorToken) {
-      console.log('✅ Found token in localStorage with key: exhibitor_token');
       return exhibitorToken;
     }
     
     // Also check for 'token' (backward compatibility)
     const token = localStorage.getItem('token');
     if (token) {
-      console.log('✅ Found token in localStorage with key: token');
       return token;
     }
     
-    // Check for exhibitor data
-    const exhibitorData = localStorage.getItem('exhibitor_data');
-    if (exhibitorData) {
-      console.log('ℹ️ Found exhibitor_data in localStorage');
-    }
-    
-    console.log('❌ No token found in localStorage');
     return null;
   };
 
-  // Function to check if we're logged in
   const checkAuth = () => {
     const token = getAuthToken();
     const exhibitorData = localStorage.getItem('exhibitor_data');
     
-    console.log('🔐 Auth check:', { 
-      hasToken: !!token, 
-      hasExhibitorData: !!exhibitorData,
-      localStorageKeys: Object.keys(localStorage)
-    });
-    
     return !!token;
   };
 
-  useEffect(() => {
-    console.log('🚀 Profile page mounted');
-    
-    // Check auth on mount
-    if (!checkAuth()) {
-      setError('Please log in to access your profile');
-      setLoading(false);
-      setTimeout(() => {
-        router.push('/login');
-      }, 1500);
-      return;
-    }
-    
-    fetchProfileData();
-  }, []);
-
+  // ============= FETCH PROFILE DATA =============
   const fetchProfileData = async () => {
     try {
       setLoading(true);
@@ -147,16 +480,9 @@ export default function EnhancedProfilePage() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      // DEBUG: Log the actual responses
-      console.log("🔍 PROFILE API RESPONSE:", profileResponse.data);
-      console.log("🔍 STALL API RESPONSE:", stallResponse.data);
-
       const exhibitorData = profileResponse.data.data;
       const stallData = stallResponse.data.data || {};
       const stallDetails = stallData.stallDetails || {};
-
-      console.log("🧾 Processed stallDetails:", stallDetails);
-      console.log("🧾 Processed exhibitorData:", exhibitorData);
 
       const profileData: ExhibitorProfile = {
         id: exhibitorData.id,
@@ -169,1058 +495,2726 @@ export default function EnhancedProfilePage() {
         industry: exhibitorData.sector || exhibitorData.industry || '',
         description: exhibitorData.description || '',
         status: exhibitorData.status || 'pending',
-
-        // Try multiple possible field names for booth data
-        boothNumber: stallData.boothNumber || stallData.standNumber || exhibitorData.standNumber || exhibitorData.boothNumber || 'Not assigned',
-        
-        // Stall details with multiple possible field names
+        boothNumber: stallData.boothNumber || stallData.standNumber || exhibitorData.standNumber || exhibitorData.boothNumber || '',
         boothSize: stallDetails.size || stallDetails.boothSize || stallData.size || stallData.boothSize || exhibitorData.boothSize || '',
         boothType: stallDetails.type || stallDetails.boothType || stallData.type || stallData.boothType || exhibitorData.boothType || '',
         boothDimensions: stallDetails.dimensions || stallDetails.boothDimensions || stallData.dimensions || stallData.boothDimensions || exhibitorData.dimensions || '',
         boothNotes: stallDetails.notes || stallDetails.boothNotes || stallData.notes || stallData.boothNotes || exhibitorData.notes || '',
         boothCost: stallDetails.price || stallDetails.cost || stallDetails.boothCost || stallData.price || stallData.cost || stallData.boothCost || exhibitorData.boothCost || 0,
-        registrationDate: stallDetails.bookedDate || stallDetails.registrationDate || stallData.bookedDate || stallData.registrationDate || exhibitorData.createdAt || exhibitorData.registrationDate || '',
-
-        // Legacy fields - set to undefined
-        boothPrice: undefined,
-        boothBookedDate: undefined,
-        boothStatus: undefined,
-        boothAmenities: []
+        registrationDate: stallDetails.bookedDate || stallDetails.registrationDate || stallData.bookedDate || stallData.registrationDate || exhibitorData.createdAt || exhibitorData.registrationDate || ''
       };
 
-      console.log("✅ Final profileData:", profileData);
       setProfile(profileData);
-      setEditedProfile(profileData);
+      
+      // Auto-fill the form with profile data
+      autoFillFormFromProfile(profileData);
 
     } catch (error: any) {
       console.error("❌ Fetch error:", error);
-      setError("Failed to load profile");
+      setError("Failed to load profile data");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleSave = async () => {
-    try {
-      setError(null);
-      setSuccess(null);
-      
-      const token = getAuthToken();
-      
-      if (!token) {
-        setError('Please log in to update your profile');
-        router.push('/login');
-        return;
-      }
-      
-      // Prepare data for backend with all fields
-      const updateData = {
-        name: editedProfile.contactPerson,
-        company: editedProfile.companyName,
-        phone: editedProfile.phone,
-        address: editedProfile.address,
-        website: editedProfile.website,
-        sector: editedProfile.industry,
-        description: editedProfile.description,
-        boothNumber: editedProfile.boothNumber,
-        
-        // Booth details
-        boothSize: editedProfile.boothSize,
-        boothType: editedProfile.boothType,
-        boothDimensions: editedProfile.boothDimensions,
-        boothNotes: editedProfile.boothNotes,
-        
-        // Stall details as nested object
-        stallDetails: {
-          size: editedProfile.boothSize,
-          type: editedProfile.boothType,
-          dimensions: editedProfile.boothDimensions,
-          notes: editedProfile.boothNotes
-        }
-      };
-      
-      console.log('💾 Saving profile update:', updateData);
-      
-      const response = await axios.put('https://diemex-backend.onrender.com/api/exhibitorDashboard/profile', updateData, {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
-      });
-      
-      if (response.data.success) {
-        // Update the profile with the edited data
-        const updatedProfile = {
-          ...profile,
-          ...editedProfile
-        } as ExhibitorProfile;
-        
-        setProfile(updatedProfile);
-        setIsEditing(false);
-        setSuccess('Profile updated successfully!');
-        setTimeout(() => setSuccess(null), 3000);
-        
-        // Refresh data to get latest from server
-        setTimeout(() => {
-          fetchProfileData();
-        }, 1000);
-      } else {
-        throw new Error(response.data.error || 'Failed to update profile');
-      }
-    } catch (error: any) {
-      console.error('❌ Error updating profile:', error);
-      
-      if (error.response?.status === 401 || error.response?.status === 403) {
-        setError('Your session has expired. Please log in again.');
-        
-        // Clear tokens and redirect
-        localStorage.removeItem('exhibitor_token');
-        localStorage.removeItem('exhibitor_data');
-        localStorage.removeItem('token');
-        sessionStorage.removeItem('token');
-        
-        setTimeout(() => {
-          router.push('/login');
-        }, 2000);
-      } else {
-        setError(error.response?.data?.error || error.message || 'Failed to update profile');
-      }
+  // ============= AUTO-FILL FORM FROM PROFILE =============
+  const autoFillFormFromProfile = (profileData: ExhibitorProfile) => {
+    // Split contact person into first and last name
+    const nameParts = profileData.contactPerson?.split(' ') || [];
+    const firstName = nameParts[0] || '';
+    const lastName = nameParts.slice(1).join(' ') || '';
+
+    // Update General Info
+    setGeneralInfo(prev => ({
+      ...prev,
+      firstName: firstName,
+      lastName: lastName,
+      mobile: profileData.phone || '',
+      email: profileData.email || '',
+      companyName: profileData.companyName || '',
+      designation: profileData.industry || '',
+      businessNature: profileData.industry || '',
+      gstNumber: prev.gstNumber // Keep existing GST or empty
+    }));
+
+    // Update Booth Details
+    setBoothDetails(prev => ({
+      ...prev,
+      exhibitorName: profileData.contactPerson || '',
+      organisation: profileData.companyName || '',
+      contactPerson: profileData.contactPerson || '',
+      mobile: profileData.phone || '',
+      email: profileData.email || '',
+      designation: profileData.industry || '',
+      boothNo: profileData.boothNumber || prev.boothNo,
+      sqMtrBooked: profileData.boothSize || prev.sqMtrBooked
+    }));
+
+    // Update Company Details
+    setCompanyDetails(prev => ({
+      ...prev,
+      companyName: profileData.companyName || '',
+      address: profileData.address || '',
+      mobile: profileData.phone || '',
+      email: profileData.email || '',
+      website: profileData.website || '',
+      contactPerson: profileData.contactPerson || '',
+      designation: profileData.industry || '',
+      productsServices: profileData.description || ''
+    }));
+
+    // Update Location Details with booth info if available
+    if (profileData.boothNumber) {
+      setLocationDetails(prev => ({
+        ...prev,
+        boothNo: profileData.boothNumber || prev.boothNo
+      }));
     }
-  };
 
-  const handleCancel = () => {
-    if (profile) {
-      setEditedProfile(profile);
-    }
-    setIsEditing(false);
-    setError(null);
-  };
-
-  const handleChange = (field: keyof ExhibitorProfile, value: any) => {
-    setEditedProfile(prev => ({ ...prev, [field]: value }));
-  };
-
-  const handleLoginRedirect = () => {
-    router.push('/login');
-  };
-
-  const handleDebugStorage = () => {
-    console.log('🔍 Debug localStorage:');
-    console.log('- exhibitor_token:', localStorage.getItem('exhibitor_token')?.substring(0, 20) + '...');
-    console.log('- exhibitor_data:', localStorage.getItem('exhibitor_data'));
-    console.log('- token:', localStorage.getItem('token'));
-    console.log('- All keys:', Object.keys(localStorage));
-    
-    // Check if token is valid
-    const token = localStorage.getItem('exhibitor_token');
-    if (token) {
-      try {
-        const payload = JSON.parse(atob(token.split('.')[1]));
-        console.log('🔑 Token payload:', payload);
-        console.log('⏰ Token expires:', new Date(payload.exp * 1000));
-      } catch (e) {
-        console.log('❌ Cannot parse token');
+    // Update first personnel entry
+    setPersonnel(prev => {
+      const updated = [...prev];
+      if (updated.length > 0) {
+        updated[0] = {
+          ...updated[0],
+          name: profileData.contactPerson || updated[0].name,
+          designation: profileData.industry || updated[0].designation,
+          organisation: profileData.companyName || updated[0].organisation
+        };
       }
-    }
-  };
-
-  const formatCurrency = (amount: number | undefined) => {
-    if (amount === undefined || amount === null) return 'N/A';
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-      minimumFractionDigits: 2
-    }).format(amount);
-  };
-
-  const formatDate = (dateString: string | undefined) => {
-    if (!dateString) return 'Not available';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
+      return updated;
     });
   };
 
-  const getPaymentStatusColor = (status: string | undefined) => {
-    switch(status) {
-      case 'paid': return 'bg-green-100 text-green-800';
-      case 'partial': return 'bg-yellow-100 text-yellow-800';
-      case 'pending': return 'bg-orange-100 text-orange-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
-      default: return 'bg-gray-100 text-gray-800';
+  // ============= AUTO-FILL EFFECT =============
+  useEffect(() => {
+    // Check auth on mount
+    if (!checkAuth()) {
+      setError('Please log in to access your profile');
+      setLoading(false);
+      setTimeout(() => {
+        router.push('/login');
+      }, 1500);
+      return;
+    }
+    
+    fetchProfileData();
+  }, []);
+
+  useEffect(() => {
+    if (profile) {
+      // Auto-update booth details when general info changes (secondary auto-fill)
+      setBoothDetails(prev => ({
+        ...prev,
+        exhibitorName: prev.exhibitorName || `${generalInfo.firstName} ${generalInfo.lastName}`.trim(),
+        organisation: prev.organisation || generalInfo.companyName,
+        contactPerson: prev.contactPerson || `${generalInfo.firstName} ${generalInfo.lastName}`.trim(),
+        mobile: prev.mobile || generalInfo.mobile,
+        email: prev.email || generalInfo.email,
+        designation: prev.designation || generalInfo.designation
+      }));
+
+      // Auto-update company details when general info changes
+      setCompanyDetails(prev => ({
+        ...prev,
+        companyName: prev.companyName || generalInfo.companyName,
+        mobile: prev.mobile || generalInfo.mobile,
+        email: prev.email || generalInfo.email,
+        contactPerson: prev.contactPerson || `${generalInfo.firstName} ${generalInfo.lastName}`.trim(),
+        designation: prev.designation || generalInfo.designation
+      }));
+
+      // Auto-update first personnel entry
+      setPersonnel(prev => {
+        const updated = [...prev];
+        if (updated.length > 0) {
+          updated[0] = {
+            ...updated[0],
+            name: updated[0].name || `${generalInfo.firstName} ${generalInfo.lastName}`.trim(),
+            designation: updated[0].designation || generalInfo.designation,
+            organisation: updated[0].organisation || generalInfo.companyName
+          };
+        }
+        return updated;
+      });
+    }
+  }, [generalInfo, profile]);
+
+  // ============= CALCULATIONS =============
+  
+  const calculateTotals = () => {
+    const furnitureTotal = furnitureItems.reduce((sum, item) => sum + item.cost, 0);
+    const hostessTotal = hostessRequirements.reduce((sum, h) => sum + h.amount, 0);
+
+    const electricalTotal = electricalLoad.temporaryTotal + electricalLoad.exhibitionTotal;
+
+    const compressedAirTotal = compressedAir.totalCost || 0;
+    const waterTotal = waterConnection.totalCost || 0;
+    const securityTotal = securityGuard.totalCost || 0;
+    const housekeepingTotal = housekeepingStaff.totalCost || 0;
+    const rentalTotal = Object.values(rentalItems).reduce((sum, item) => sum + item.totalCost, 0);
+    const depositAmount = securityDeposit.amountINR || 0;
+
+    // Subtotal (WITHOUT GST)
+    const subtotal =
+      furnitureTotal +
+      hostessTotal +
+      electricalTotal +
+      compressedAirTotal +
+      waterTotal +
+      securityTotal +
+      rentalTotal +
+      housekeepingTotal;
+
+    // GST @ 18%
+    const gst = subtotal * 0.18;
+
+    // Grand Total (Subtotal + GST + Deposit)
+    const grandTotal = subtotal + gst + depositAmount;
+
+    return {
+      furniture: furnitureTotal,
+      hostess: hostessTotal,
+      electrical: electricalTotal,
+      compressedAir: compressedAirTotal,
+      water: waterTotal,
+      security: securityTotal,
+      rental: rentalTotal,
+      housekeeping: housekeepingTotal,
+      deposit: depositAmount,
+      subtotal,
+      gst,
+      total: grandTotal
+    };
+  };
+
+  // ============= HANDLERS =============
+  
+  const handleGeneralInfoChange = (field: keyof GeneralInfo, value: any) => {
+    setGeneralInfo(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleLocationChange = (field: keyof LocationDetails, value: any) => {
+    if (field === 'boothSize') {
+      const updatedSize = { ...locationDetails.boothSize, ...value };
+      let area = '';
+      if (updatedSize.length && updatedSize.width) {
+        const areaValue = parseFloat(updatedSize.length) * parseFloat(updatedSize.width);
+        area = areaValue.toFixed(2);
+      }
+      setLocationDetails(prev => ({
+        ...prev,
+        boothSize: { ...updatedSize, area }
+      }));
+    } else {
+      setLocationDetails(prev => ({ ...prev, [field]: value }));
     }
   };
 
-  if (loading) {
-    return (
-      <div className="space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <div className="h-8 w-48 bg-gray-200 rounded animate-pulse mb-2"></div>
-            <div className="h-4 w-64 bg-gray-200 rounded animate-pulse"></div>
-          </div>
-          <div className="h-10 w-32 bg-gray-200 rounded animate-pulse"></div>
-        </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          <div className="lg:col-span-1">
-            <div className="card overflow-hidden">
-              <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6 h-48 animate-pulse"></div>
-              <div className="p-6">
-                <div className="space-y-4">
-                  {[1, 2, 3, 4].map(i => (
-                    <div key={i} className="flex items-center gap-3">
-                      <div className="p-2 bg-gray-200 rounded-lg h-10 w-10"></div>
-                      <div>
-                        <div className="h-4 w-24 bg-gray-200 rounded mb-1"></div>
-                        <div className="h-5 w-36 bg-gray-200 rounded"></div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="lg:col-span-2">
-            <div className="card">
-              <div className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {[1, 2, 3, 4].map(i => (
-                    <div key={i}>
-                      <div className="h-4 w-32 bg-gray-200 rounded mb-2"></div>
-                      <div className="h-12 bg-gray-100 rounded-lg"></div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const handleFurnitureQuantity = (index: number, quantity: number) => {
+    const updated = [...furnitureItems];
+    updated[index].quantity = quantity;
+    updated[index].cost = quantity * updated[index].cost3Days;
+    setFurnitureItems(updated);
+  };
 
-  // Show login prompt if no token
-  if (error?.includes('log in')) {
-    return (
-      <div className="space-y-6">
-        <div className="card p-6 text-center">
-          <ExclamationTriangleIcon className="h-12 w-12 text-yellow-500 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold mb-2">Authentication Required</h2>
-          <p className="text-gray-600 mb-4">{error}</p>
-          <div className="flex flex-col gap-3">
-            <button 
-              onClick={handleLoginRedirect}
-              className="btn-primary"
-            >
-              Go to Login
-            </button>
-            <button
-              onClick={handleDebugStorage}
-              className="btn-secondary text-sm"
-            >
-              Debug Storage
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const handleHostessChange = (index: number, field: string, value: number) => {
+    const updated = [...hostessRequirements];
+    updated[index] = { ...updated[index], [field]: value };
+    const rate = updated[index].category === 'A' ? 5000 : 4000;
+    updated[index].amount = updated[index].quantity * updated[index].noOfDays * rate;
+    setHostessRequirements(updated);
+  };
 
-  if (!profile) {
-    return (
-      <div className="space-y-6">
-        <div className="card p-6 text-center">
-          <ExclamationTriangleIcon className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <h2 className="text-xl font-semibold mb-2">Profile Not Found</h2>
-          <p className="text-gray-600 mb-4">{error || 'Unable to load exhibitor profile.'}</p>
-          <div className="flex flex-col gap-3">
-            <button 
-              onClick={fetchProfileData}
-              className="btn-primary"
-            >
-              Retry
-            </button>
-            <button 
-              onClick={handleLoginRedirect}
-              className="btn-secondary"
-            >
-              Go to Login
-            </button>
-            <button
-              onClick={handleDebugStorage}
-              className="btn-secondary text-sm"
-            >
-              Debug Storage
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const handleAddMachine = () => {
+    setMachines(prev => [
+      ...prev,
+      {
+        srNo: prev.length + 1,
+        machineName: '',
+        width: '',
+        length: '',
+        height: '',
+        weight: ''
+      }
+    ]);
+  };
 
-  return (
-    <div className="space-y-6">
-      {/* Success/Error Messages */}
-      {success && (
-        <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-          <div className="flex items-center">
-            <CheckIcon className="h-5 w-5 text-green-600 mr-2" />
-            <p className="text-green-800">{success}</p>
-          </div>
-        </div>
-      )}
+  const handleRemoveMachine = (index: number) => {
+    const updated = machines.filter((_, i) => i !== index);
+    const reIndexed = updated.map((machine, i) => ({
+      ...machine,
+      srNo: i + 1
+    }));
+    setMachines(reIndexed);
+  };
+
+  const handleCompressedAirSelect = (option: any) => {
+    const totalCost = option.costPerConnection + (option.powerKW * 3500);
+    
+    setCompressedAir({
+      ...compressedAir,
+      selected: option.cfmRange,
+      cfmRange: option.cfmRange,
+      costPerConnection: option.costPerConnection,
+      qty: option.qty,
+      powerKW: option.powerKW,
+      totalCost
+    });
+  };
+
+  const handleElectricalLoadChange = (type: 'temporary' | 'exhibition', value: string) => {
+    const loadValue = parseFloat(value) || 0;
+    const total = loadValue * 3500;
+    
+    if (type === 'temporary') {
+      setElectricalLoad(prev => ({
+        ...prev,
+        temporaryLoad: value,
+        temporaryTotal: total
+      }));
+    } else {
+      setElectricalLoad(prev => ({
+        ...prev,
+        exhibitionLoad: value,
+        exhibitionTotal: total
+      }));
+    }
+  };
+
+  const handleRentalQuantity = (itemKey: keyof RentalItems, quantity: number) => {
+    setRentalItems(prev => {
+      const updated = { ...prev };
+      updated[itemKey].quantity = quantity;
+      updated[itemKey].totalCost = quantity * updated[itemKey].costFor3Days;
+      return updated;
+    });
+  };
+
+  const handleAddPersonnel = () => {
+    setPersonnel(prev => [
+      ...prev,
+      {
+        srNo: prev.length + 1,
+        name: '',
+        designation: '',
+        organisation: ''
+      }
+    ]);
+  };
+
+  const handleRemovePersonnel = (index: number) => {
+    const updated = personnel.filter((_, i) => i !== index);
+    const reIndexed = updated.map((person, i) => ({
+      ...person,
+      srNo: i + 1
+    }));
+    setPersonnel(reIndexed);
+  };
+
+  const handlePaymentFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files[0]) {
+      setPaymentDetails(prev => ({ ...prev, uploadedReceipt: files[0] }));
+    }
+  };
+
+  const handleSubmitApplication = async () => {
+    setIsSubmitting(true);
+    
+    try {
+      const formData = new FormData();
+      formData.append('generalInfo', JSON.stringify(generalInfo));
+      formData.append('locationDetails', JSON.stringify(locationDetails));
+      formData.append('boothDetails', JSON.stringify(boothDetails));
+      formData.append('securityDeposit', JSON.stringify(securityDeposit));
+      formData.append('machines', JSON.stringify(machines.filter(m => m.machineName)));
+      formData.append('Exhibitor Passes', JSON.stringify(personnel.filter(p => p.name)));
+      formData.append('companyDetails', JSON.stringify(companyDetails));
+      formData.append('electricalLoad', JSON.stringify(electricalLoad));
+      formData.append('furnitureItems', JSON.stringify(furnitureItems.filter(f => f.quantity > 0)));
+      formData.append('hostessRequirements', JSON.stringify(hostessRequirements));
+      formData.append('compressedAir', JSON.stringify(compressedAir));
+      formData.append('waterConnection', JSON.stringify(waterConnection));
+      formData.append('securityGuard', JSON.stringify(securityGuard));
+      formData.append('rentalItems', JSON.stringify(rentalItems));
+      formData.append('housekeepingStaff', JSON.stringify(housekeepingStaff));
+      formData.append('paymentDetails', JSON.stringify({ ...paymentDetails, uploadedReceipt: null }));
       
-      {error && !error.includes('log in') && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <div className="flex items-center">
-            <XMarkIcon className="h-5 w-5 text-red-600 mr-2" />
-            <p className="text-red-800">{error}</p>
-          </div>
-        </div>
-      )}
+      if (paymentDetails.uploadedReceipt) {
+        formData.append('receipt', paymentDetails.uploadedReceipt);
+      }
 
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Company Profile</h1>
-          <p className="text-gray-600 mt-2">Manage your exhibitor information and booth details</p>
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      console.log('Application submitted successfully');
+      alert('Your exhibition registration has been submitted successfully!');
+      
+      window.location.href = '/dashboard/requirements/success';
+      
+    } catch (error) {
+      console.error('Submission failed:', error);
+      alert('Failed to submit application. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Effects
+  useEffect(() => {
+    if (waterConnection.connections > 0) {
+      const total = waterConnection.connections * waterConnection.costPerConnection;
+      setWaterConnection(prev => ({ ...prev, totalCost: total }));
+    } else {
+      setWaterConnection(prev => ({ ...prev, totalCost: 0 }));
+    }
+  }, [waterConnection.connections]);
+
+  useEffect(() => {
+    if (securityGuard.quantity > 0 && securityGuard.noOfDays > 0) {
+      const total = securityGuard.quantity * securityGuard.noOfDays * 2500;
+      setSecurityGuard(prev => ({ ...prev, totalCost: total }));
+    } else {
+      setSecurityGuard(prev => ({ ...prev, totalCost: 0 }));
+    }
+  }, [securityGuard.quantity, securityGuard.noOfDays]);
+
+  useEffect(() => {
+    if (housekeepingStaff.quantity > 0 && housekeepingStaff.noOfDays > 0) {
+      const total = housekeepingStaff.quantity * housekeepingStaff.noOfDays * housekeepingStaff.chargesPerShift;
+      setHousekeepingStaff(prev => ({ ...prev, totalCost: total }));
+    } else {
+      setHousekeepingStaff(prev => ({ ...prev, totalCost: 0 }));
+    }
+  }, [housekeepingStaff.quantity, housekeepingStaff.noOfDays]);
+
+  // ============= RENDER FUNCTIONS =============
+
+  const steps = [
+    { number: 1, name: 'Basic Info', icon: UserIcon, mobileName: 'Basic' },
+    { number: 2, name: 'Location', icon: MapPinIcon, mobileName: 'Loc' },
+    { number: 3, name: 'Booth', icon: BuildingOfficeIcon, mobileName: 'Booth' },
+    { number: 4, name: 'Security', icon: BanknotesIcon, mobileName: 'Deposit' },
+    { number: 5, name: 'Machines', icon: CubeIcon, mobileName: 'Mach' },
+    { number: 6, name: 'Personnel', icon: UserIcon, mobileName: 'Staff' },
+    { number: 7, name: 'Company', icon: BuildingOfficeIcon, mobileName: 'Co' },
+    { number: 8, name: 'Electrical', icon: BoltIcon, mobileName: 'Elec' },
+    { number: 9, name: 'Furniture', icon: ComputerDesktopIcon, mobileName: 'Furn' },
+    { number: 10, name: 'Hostess', icon: SparklesIcon, mobileName: 'Host' },
+    { number: 11, name: 'Air', icon: WrenchScrewdriverIcon, mobileName: 'Air' },
+    { number: 12, name: 'Water', icon: TruckIcon, mobileName: 'Water' },
+    { number: 13, name: 'Security', icon: ShieldCheckIcon, mobileName: 'Guard' },
+    { number: 14, name: 'AV Rentals', icon: ComputerDesktopIcon, mobileName: 'Rentals' },
+    { number: 15, name: 'Housekeeping', icon: SparklesIcon, mobileName: 'House' }
+  ];
+
+  const totalSteps = steps.length;
+
+  // ============= FORM 1: GENERAL INFO =============
+  const renderGeneralInfo = () => (
+    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+      <div className="flex items-center mb-6">
+        <div className="bg-blue-100 p-2 rounded-lg">
+          <UserIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
         </div>
-        <div className="flex gap-2">
-          {isEditing ? (
-            <>
-              <button
-                onClick={handleSave}
-                className="btn-primary flex items-center gap-2"
-              >
-                <CheckIcon className="h-4 w-4" />
-                Save Changes
-              </button>
-              <button
-                onClick={handleCancel}
-                className="btn-secondary flex items-center gap-2"
-              >
-                <XMarkIcon className="h-4 w-4" />
-                Cancel
-              </button>
-            </>
-          ) : (
-            <button
-              onClick={() => setIsEditing(true)}
-              className="btn-primary flex items-center gap-2"
-            >
-              <PencilIcon className="h-4 w-4" />
-              Edit Profile
-            </button>
-          )}
-        </div>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Basic Information</h2>
       </div>
 
-      {/* Tab Navigation */}
-      <div className="border-b border-gray-200">
-        <nav className="flex -mb-px space-x-8" aria-label="Tabs">
-          <button
-            onClick={() => setActiveTab('profile')}
-            className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
-              activeTab === 'profile'
-                ? 'border-blue-500 text-blue-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-            }`}
-          >
-            Company Profile
-          </button>
-          <button
-            onClick={() => setActiveTab('booth')}
-            className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
-              activeTab === 'booth'
-                ? 'border-blue-500 text-blue-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-            }`}
-          >
-            Booth Details
-          </button>
-          <button
-            onClick={() => setActiveTab('payments')}
-            className={`py-4 px-1 border-b-2 font-medium text-sm transition-colors ${
-              activeTab === 'payments'
-                ? 'border-blue-500 text-blue-600'
-                : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
-            }`}
-          >
-            Payment Information
-          </button>
-        </nav>
-      </div>
-
-      {/* Debug: Show current active tab (only in development) */}
-      {process.env.NODE_ENV === 'development' && (
-        <div className="text-xs text-gray-400 mb-2">
-          Active Tab: {activeTab}
-        </div>
-      )}
-
-      {/* Tab Content */}
-      {activeTab === 'profile' && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Left Column - Profile Card */}
-          <div className="lg:col-span-1">
-            <div className="card overflow-hidden">
-              {/* Profile Header */}
-              <div className="bg-gradient-to-r from-blue-500 to-blue-600 p-6">
-                <div className="flex flex-col items-center text-center text-white">
-                  <div className="relative mb-4">
-                    <div className="h-24 w-24 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center">
-                      <BuildingOfficeIcon className="h-12 w-12 text-white/90" />
-                    </div>
-                    {isEditing && (
-                      <button className="absolute bottom-0 right-0 p-2 bg-white rounded-full shadow-lg hover:bg-gray-100 transition-colors">
-                        <CameraIcon className="h-4 w-4 text-gray-700" />
-                      </button>
-                    )}
-                  </div>
-                  <h2 className="text-xl font-bold">{profile.companyName || 'No Company Name'}</h2>
-                  <p className="text-blue-100 text-sm mt-1">{profile.industry || 'No Industry Specified'}</p>
-                </div>
-              </div>
-
-              {/* Profile Info */}
-              <div className="p-6">
-                <div className="space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-blue-50 rounded-lg">
-                      <UserCircleIcon className="h-5 w-5 text-blue-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Contact Person</p>
-                      <p className="font-medium text-gray-900">{profile.contactPerson || 'Not specified'}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-green-50 rounded-lg">
-                      <EnvelopeIcon className="h-5 w-5 text-green-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Email</p>
-                      <p className="font-medium text-gray-900">{profile.email || 'Not specified'}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 bg-purple-50 rounded-lg">
-                      <PhoneIcon className="h-5 w-5 text-purple-600" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-gray-500">Phone</p>
-                      <p className="font-medium text-gray-900">{profile.phone || 'Not specified'}</p>
-                    </div>
-                  </div>
-
-                  {profile.boothNumber && (
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-red-50 rounded-lg">
-                        <MapPinIcon className="h-5 w-5 text-red-600" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-500">Booth Number</p>
-                        <p className="font-medium text-gray-900">{profile.boothNumber}</p>
-                      </div>
-                    </div>
-                  )}
-
-                  {profile.website && (
-                    <div className="flex items-center gap-3">
-                      <div className="p-2 bg-amber-50 rounded-lg">
-                        <GlobeAltIcon className="h-5 w-5 text-amber-600" />
-                      </div>
-                      <div>
-                        <p className="text-sm text-gray-500">Website</p>
-                        <a 
-                          href={`https://${profile.website}`}
-                          className="font-medium text-blue-600 hover:text-blue-800"
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          {profile.website}
-                        </a>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                {/* Status Badge */}
-                <div className="mt-6 pt-6 border-t border-gray-100">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Account Status</span>
-                    <span className={`badge ${
-                      profile.status === 'active' || profile.status === 'approved'
-                        ? 'bg-green-100 text-green-800'
-                        : profile.status === 'pending'
-                        ? 'bg-yellow-100 text-yellow-800'
-                        : 'bg-red-100 text-red-800'
-                    }`}>
-                      {profile.status.charAt(0).toUpperCase() + profile.status.slice(1)}
-                    </span>
-                  </div>
-                </div>
-              </div>
+      <div className="space-y-6">
+        {/* Personal Details */}
+        <div className="bg-gray-50 p-4 sm:p-5 rounded-xl">
+          <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center">
+            <UserIcon className="h-4 w-4 mr-2 text-gray-500" />
+            Personal Details
+          </h3>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <div className="col-span-1">
+              <label className="block text-xs font-medium text-gray-600 mb-1">Title</label>
+              <select
+                value={generalInfo.title}
+                onChange={(e) => handleGeneralInfoChange('title', e.target.value)}
+                className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 bg-white"
+              >
+                <option value="Mr">Mr.</option>
+                <option value="Mrs">Mrs.</option>
+                <option value="Ms">Ms.</option>
+                <option value="Dr">Dr.</option>
+                <option value="Prof">Prof.</option>
+              </select>
             </div>
-          </div>
-
-          {/* Right Column - Edit Form */}
-          <div className="lg:col-span-2">
-            <div className="card">
-              <div className="p-6">
-                <div className="flex items-center gap-3 mb-6">
-                  <div className="p-2 bg-blue-50 rounded-lg">
-                    <DocumentTextIcon className="h-5 w-5 text-blue-600" />
-                  </div>
-                  <div>
-                    <h2 className="section-title">Company Information</h2>
-                  </div>
-                </div>
-
-                <div className="space-y-6">
-                  {/* Company Details */}
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Company Name
-                      </label>
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          value={editedProfile.companyName || ''}
-                          onChange={(e) => handleChange('companyName', e.target.value)}
-                          className="input-field"
-                        />
-                      ) : (
-                        <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
-                          <p className="text-gray-900">{profile.companyName}</p>
-                        </div>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Industry
-                      </label>
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          value={editedProfile.industry || ''}
-                          onChange={(e) => handleChange('industry', e.target.value)}
-                          className="input-field"
-                        />
-                      ) : (
-                        <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
-                          <p className="text-gray-900">{profile.industry}</p>
-                        </div>
-                      )}
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Contact Person
-                      </label>
-                      {isEditing ? (
-                        <input
-                          type="text"
-                          value={editedProfile.contactPerson || ''}
-                          onChange={(e) => handleChange('contactPerson', e.target.value)}
-                          className="input-field"
-                        />
-                      ) : (
-                        <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
-                          <p className="text-gray-900">{profile.contactPerson}</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Address */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      <div className="flex items-center gap-2">
-                        <MapPinIcon className="h-4 w-4" />
-                        Company Address
-                      </div>
-                    </label>
-                    {isEditing ? (
-                      <textarea
-                        value={editedProfile.address || ''}
-                        onChange={(e) => handleChange('address', e.target.value)}
-                        rows={3}
-                        className="input-field"
-                      />
-                    ) : (
-                      <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
-                        <p className="text-gray-900 whitespace-pre-line">{profile.address || 'No address provided'}</p>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Description */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Company Description
-                    </label>
-                    {isEditing ? (
-                      <textarea
-                        value={editedProfile.description || ''}
-                        onChange={(e) => handleChange('description', e.target.value)}
-                        rows={4}
-                        className="input-field"
-                        placeholder="Tell us about your company, products, and services..."
-                      />
-                    ) : (
-                      <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
-                        <p className="text-gray-900 whitespace-pre-line">{profile.description || 'No description provided'}</p>
-                      </div>
-                    )}
-                    <p className="text-xs text-gray-500 mt-2">
-                      This description will be displayed in the exhibition catalog
-                    </p>
-                  </div>
-                </div>
-              </div>
+            <div className="col-span-1">
+              <label className="block text-xs font-medium text-gray-600 mb-1">First Name</label>
+              <input
+                type="text"
+                value={generalInfo.firstName}
+                onChange={(e) => handleGeneralInfoChange('firstName', e.target.value)}
+                className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="First"
+              />
+              {profile && !generalInfo.firstName && profile.contactPerson && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+              )}
             </div>
-          </div>
-        </div>
-      )}
-
-      {/* Booth Details Tab */}
-      {activeTab === 'booth' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-
-          {/* Booth Information Card */}
-          <div className="card">
-            <div className="p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-purple-50 rounded-lg">
-                  <UserIcon className="h-5 w-5 text-purple-600" />
-                </div>
-                <div>
-                  <h2 className="section-title">Booth Information</h2>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-
-                {/* Booth Number */}
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <MapPinIcon className="h-5 w-5 text-gray-400" />
-                    <span className="text-gray-600">Booth Number</span>
-                  </div>
-                  <span className="font-semibold text-gray-900">
-                    {profile.boothNumber || 'Not assigned'}
-                  </span>
-                </div>
-
-                {/* Size */}
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <UserIcon className="h-5 w-5 text-gray-400" />
-                    <span className="text-gray-600">Size</span>
-                  </div>
-                  <span className="font-semibold text-gray-900">
-                    {profile.boothSize || 'Standard'}
-                  </span>
-                </div>
-
-                {/* Type */}
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                  <div className="flex items-center gap-3">
-                    <TagIcon className="h-5 w-5 text-gray-400" />
-                    <span className="text-gray-600">Type</span>
-                  </div>
-                  <span className="font-semibold text-gray-900 capitalize">
-                    {profile.boothType || 'Standard'}
-                  </span>
-                </div>
-
-                {/* Dimensions */}
-                {profile.boothDimensions && (
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <span className="text-gray-600">Dimensions</span>
-                    <span className="font-semibold text-gray-900">
-                      {profile.boothDimensions}
-                    </span>
-                  </div>
-                )}
-
-                {/* Cost */}
-                {profile.boothCost ? (
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <CurrencyDollarIcon className="h-5 w-5 text-gray-400" />
-                      <span className="text-gray-600">Cost</span>
-                    </div>
-                    <span className="font-semibold text-gray-900">
-                      {formatCurrency(profile.boothCost)}
-                    </span>
-                  </div>
-                ) : (
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <CurrencyDollarIcon className="h-5 w-5 text-gray-400" />
-                      <span className="text-gray-600">Cost</span>
-                    </div>
-                    <span className="font-semibold text-gray-900">Not available</span>
-                  </div>
-                )}
-
-                {/* Registration Date */}
-                {profile.registrationDate && (
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <div className="flex items-center gap-3">
-                      <CalendarIcon className="h-5 w-5 text-gray-400" />
-                      <span className="text-gray-600">Registration Date</span>
-                    </div>
-                    <span className="font-semibold text-gray-900">
-                      {formatDate(profile.registrationDate)}
-                    </span>
-                  </div>
-                )}
-
-                {/* Notes */}
-                {profile.boothNotes && (
-                  <div className="p-4 bg-gray-50 rounded-lg">
-                    <h4 className="font-medium text-gray-800 mb-2">Notes</h4>
-                    <p className="text-gray-900">{profile.boothNotes}</p>
-                  </div>
-                )}
-
-              </div>
+            <div className="col-span-1">
+              <label className="block text-xs font-medium text-gray-600 mb-1">Last Name</label>
+              <input
+                type="text"
+                value={generalInfo.lastName}
+                onChange={(e) => handleGeneralInfoChange('lastName', e.target.value)}
+                className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Last"
+              />
             </div>
-          </div>
-
-          {/* Edit Booth Details Form */}
-          <div className="card">
-            <div className="p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-blue-50 rounded-lg">
-                  <PencilIcon className="h-5 w-5 text-blue-600" />
-                </div>
-                <div>
-                  <h2 className="section-title">Edit Booth Details</h2>
-                  <p className="text-sm text-gray-500 mt-1">
-                    Update your booth preferences
-                  </p>
-                </div>
-              </div>
-
-              {isEditing ? (
-                <div className="space-y-4">
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Booth Number
-                    </label>
-                    <input
-                      type="text"
-                      value={editedProfile.boothNumber || ''}
-                      onChange={(e) => handleChange('boothNumber', e.target.value)}
-                      className="input-field"
-                      placeholder="e.g. B-123"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Size
-                    </label>
-                    <input
-                      type="text"
-                      value={editedProfile.boothSize || ''}
-                      onChange={(e) => handleChange('boothSize', e.target.value)}
-                      className="input-field"
-                      placeholder="e.g. 3m x 3m"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Type
-                    </label>
-                    <select
-                      value={editedProfile.boothType || ''}
-                      onChange={(e) => handleChange('boothType', e.target.value)}
-                      className="input-field"
-                    >
-                      <option value="">Select type</option>
-                      <option value="standard">Standard</option>
-                      <option value="premium">Premium</option>
-                      <option value="corner">Corner</option>
-                      <option value="island">Island</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Dimensions
-                    </label>
-                    <input
-                      type="text"
-                      value={editedProfile.boothDimensions || ''}
-                      onChange={(e) => handleChange('boothDimensions', e.target.value)}
-                      className="input-field"
-                      placeholder="e.g. Width: 3m, Depth: 3m, Height: 2.5m"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Cost
-                    </label>
-                    <input
-                      type="number"
-                      value={editedProfile.boothCost || ''}
-                      onChange={(e) => handleChange('boothCost', parseFloat(e.target.value))}
-                      className="input-field"
-                      placeholder="e.g. 1000"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Notes
-                    </label>
-                    <textarea
-                      value={editedProfile.boothNotes || ''}
-                      onChange={(e) => handleChange('boothNotes', e.target.value)}
-                      rows={3}
-                      className="input-field"
-                      placeholder="Any special requirements or notes about your booth..."
-                    />
-                  </div>
-
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <PencilIcon className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-                  <p className="text-gray-500">
-                    Click the Edit Profile button to modify booth details
-                  </p>
-                </div>
+            <div className="col-span-2 lg:col-span-2">
+              <label className="block text-xs font-medium text-gray-600 mb-1">Designation</label>
+              <input
+                type="text"
+                value={generalInfo.designation}
+                onChange={(e) => handleGeneralInfoChange('designation', e.target.value)}
+                className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="e.g. Manager"
+              />
+              {profile && !generalInfo.designation && profile.industry && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
               )}
             </div>
           </div>
-
         </div>
-      )}
 
-      {/* Payment Information Tab */}
-      {activeTab === 'payments' && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          {/* Payment Summary Card */}
-          <div className="card">
-            <div className="p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-green-50 rounded-lg">
-                  <CurrencyDollarIcon className="h-5 w-5 text-green-600" />
-                </div>
-                <div>
-                  <h2 className="section-title">Payment Summary</h2>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                  <span className="text-gray-600">Registration Date</span>
-                  <span className="font-semibold text-gray-900">
-                    {formatDate(profile.registrationDate)}
-                  </span>
-                </div>
-
-                <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                  <span className="text-gray-600">Payment Status</span>
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${getPaymentStatusColor(profile.paymentStatus)}`}>
-                    {(profile.paymentStatus || 'pending').charAt(0).toUpperCase() + (profile.paymentStatus || 'pending').slice(1)}
-                  </span>
-                </div>
-
-                {profile.invoiceNumber && (
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <span className="text-gray-600">Invoice Number</span>
-                    <span className="font-semibold text-gray-900">{profile.invoiceNumber}</span>
-                  </div>
+        {/* Contact Details */}
+        <div className="bg-gray-50 p-4 sm:p-5 rounded-xl">
+          <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center">
+            <DevicePhoneMobileIcon className="h-4 w-4 mr-2 text-gray-500" />
+            Contact
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">Mobile</label>
+                <input
+                  type="tel"
+                  value={generalInfo.mobile}
+                  onChange={(e) => handleGeneralInfoChange('mobile', e.target.value)}
+                  className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                  placeholder="98765 43210"
+                />
+                {profile && !generalInfo.mobile && profile.phone && (
+                  <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
                 )}
-
-                {profile.dueDate && (
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <CalendarIcon className="h-4 w-4 text-gray-400" />
-                      <span className="text-gray-600">Due Date</span>
-                    </div>
-                    <span className="font-semibold text-gray-900">{formatDate(profile.dueDate)}</span>
-                  </div>
+              </div>
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">Email</label>
+                <input
+                  type="email"
+                  value={generalInfo.email}
+                  onChange={(e) => handleGeneralInfoChange('email', e.target.value)}
+                  className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                  placeholder="name@company.com"
+                />
+                {profile && !generalInfo.email && profile.email && (
+                  <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
                 )}
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Financial Details Card */}
-          <div className="card">
-            <div className="p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-blue-50 rounded-lg">
-                  <CurrencyDollarIcon className="h-5 w-5 text-blue-600" />
-                </div>
-                <div>
-                  <h2 className="section-title">Financial Details</h2>
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                {profile.registrationFee ? (
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <span className="text-gray-600">Registration Fee</span>
-                    <span className="font-semibold text-gray-900">{formatCurrency(profile.registrationFee)}</span>
-                  </div>
-                ) : null}
-
-                {profile.boothCost ? (
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <span className="text-gray-600">Booth Cost</span>
-                    <span className="font-semibold text-gray-900">{formatCurrency(profile.boothCost)}</span>
-                  </div>
-                ) : null}
-
-                {profile.totalAmount ? (
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                    <span className="text-gray-600">Total Amount</span>
-                    <span className="font-semibold text-gray-900">{formatCurrency(profile.totalAmount)}</span>
-                  </div>
-                ) : null}
-
-                {profile.amountPaid ? (
-                  <div className="flex items-center justify-between p-4 bg-blue-50 rounded-lg">
-                    <span className="text-blue-600 font-medium">Amount Paid</span>
-                    <span className="font-semibold text-blue-600">{formatCurrency(profile.amountPaid)}</span>
-                  </div>
-                ) : null}
-
-                {profile.totalAmount && profile.amountPaid ? (
-                  <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border-2 border-gray-200">
-                    <span className="text-gray-700 font-medium">Balance Due</span>
-                    <span className="font-bold text-red-600">{formatCurrency(profile.totalAmount - profile.amountPaid)}</span>
-                  </div>
-                ) : null}
-              </div>
-
-              {/* Payment Instructions */}
-              <div className="mt-6 p-4 bg-yellow-50 rounded-lg">
-                <h3 className="font-medium text-yellow-800 mb-2">Payment Information</h3>
-                <p className="text-sm text-yellow-700">
-                  For any payment-related inquiries, please contact our finance department at 
-                  <a href="mailto:finance@diemex.com" className="text-blue-600 hover:underline ml-1">finance@diemex.com</a>
-                </p>
-              </div>
+        {/* Company Details */}
+        <div className="bg-gray-50 p-4 sm:p-5 rounded-xl">
+          <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center">
+            <BuildingOfficeIcon className="h-4 w-4 mr-2 text-gray-500" />
+            Company
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="sm:col-span-2">
+              <label className="block text-xs font-medium text-gray-600 mb-1">Company Name</label>
+              <input
+                type="text"
+                value={generalInfo.companyName}
+                onChange={(e) => handleGeneralInfoChange('companyName', e.target.value)}
+                className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter company name"
+              />
+              {profile && !generalInfo.companyName && profile.companyName && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+              )}
             </div>
-          </div>
-
-          {/* Registration Timeline */}
-          <div className="lg:col-span-2 card">
-            <div className="p-6">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-2 bg-amber-50 rounded-lg">
-                  <CalendarIcon className="h-5 w-5 text-amber-600" />
-                </div>
-                <div>
-                  <h2 className="section-title">Registration Timeline</h2>
-                </div>
-              </div>
-
-              <div className="relative">
-                <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-gray-200"></div>
-                
-                <div className="space-y-6 relative">
-                  <div className="flex items-start gap-4">
-                    <div className="relative z-10 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center flex-shrink-0">
-                      <CheckIcon className="h-4 w-4 text-white" />
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-gray-900">Registration Submitted</h3>
-                      <p className="text-sm text-gray-500">{formatDate(profile.registrationDate)}</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      profile.status === 'approved' || profile.status === 'active'
-                        ? 'bg-green-500'
-                        : 'bg-gray-300'
-                    }`}>
-                      {profile.status === 'approved' || profile.status === 'active' ? (
-                        <CheckIcon className="h-4 w-4 text-white" />
-                      ) : (
-                        <span className="text-white text-sm">2</span>
-                      )}
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-gray-900">Application Approved</h3>
-                      <p className="text-sm text-gray-500">
-                        {profile.status === 'approved' || profile.status === 'active'
-                          ? 'Approved'
-                          : 'Pending approval'}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      profile.paymentStatus === 'paid'
-                        ? 'bg-green-500'
-                        : 'bg-gray-300'
-                    }`}>
-                      {profile.paymentStatus === 'paid' ? (
-                        <CheckIcon className="h-4 w-4 text-white" />
-                      ) : (
-                        <span className="text-white text-sm">3</span>
-                      )}
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-gray-900">Payment Completed</h3>
-                      <p className="text-sm text-gray-500">
-                        {profile.paymentStatus === 'paid'
-                          ? 'Paid in full'
-                          : profile.paymentStatus === 'partial'
-                          ? 'Partial payment received'
-                          : 'Awaiting payment'}
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-4">
-                    <div className={`relative z-10 w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                      profile.boothNumber && profile.status === 'active'
-                        ? 'bg-green-500'
-                        : 'bg-gray-300'
-                    }`}>
-                      {profile.boothNumber && profile.status === 'active' ? (
-                        <CheckIcon className="h-4 w-4 text-white" />
-                      ) : (
-                        <span className="text-white text-sm">4</span>
-                      )}
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-gray-900">Booth Assignment</h3>
-                      <p className="text-sm text-gray-500">
-                        {profile.boothNumber
-                          ? `Assigned to booth ${profile.boothNumber}`
-                          : 'Awaiting assignment'}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1">GST (Optional)</label>
+              <input
+                type="text"
+                value={generalInfo.gstNumber}
+                onChange={(e) => handleGeneralInfoChange('gstNumber', e.target.value)}
+                className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="22AAAAA0000A1Z5"
+              />
+            </div>
+            <div className="sm:col-span-3">
+              <label className="block text-xs font-medium text-gray-600 mb-1">Nature of Business</label>
+              <input
+                type="text"
+                value={generalInfo.businessNature}
+                onChange={(e) => handleGeneralInfoChange('businessNature', e.target.value)}
+                className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="e.g. Manufacturing, Trading, Services"
+              />
+              {profile && !generalInfo.businessNature && profile.industry && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+              )}
             </div>
           </div>
         </div>
+
+        <p className="text-xs text-gray-500 italic">
+          * Additional company details can be filled in the Company section (Step 7)
+        </p>
+      </div>
+    </div>
+  );
+
+  // ============= FORM 2: LOCATION DETAILS =============
+  const renderLocationDetails = () => (
+    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+      <div className="flex items-center mb-6">
+        <div className="bg-blue-100 p-2 rounded-lg">
+          <MapPinIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+        </div>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Location Details</h2>
+      </div>
+
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Hall No.</label>
+            <input
+              type="text"
+              value={locationDetails.hallNo}
+              onChange={(e) => handleLocationChange('hallNo', e.target.value)}
+              className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter hall number"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Booth No.</label>
+            <input
+              type="text"
+              value={locationDetails.boothNo || profile?.boothNumber || ''}
+              onChange={(e) => handleLocationChange('boothNo', e.target.value)}
+              className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+              placeholder="Enter booth number"
+            />
+            {profile?.boothNumber && !locationDetails.boothNo && (
+              <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+            )}
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Booth Type</label>
+            <select
+              value={locationDetails.boothType}
+              onChange={(e) => handleLocationChange('boothType', e.target.value)}
+              className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 bg-white"
+            >
+              <option value="Shell Scheme">Shell Scheme</option>
+              <option value="Raw Space">Raw Space</option>
+              <option value="Island">Island</option>
+              <option value="Corner">Corner</option>
+              <option value="Inline">Inline</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Booth Size (in meters)</label>
+          <div className="grid grid-cols-3 gap-3">
+            <div>
+              <input
+                type="number"
+                value={locationDetails.boothSize.length}
+                onChange={(e) => handleLocationChange('boothSize', { length: e.target.value })}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Length"
+              />
+            </div>
+            <div>
+              <input
+                type="number"
+                value={locationDetails.boothSize.width}
+                onChange={(e) => handleLocationChange('boothSize', { width: e.target.value })}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Width"
+              />
+            </div>
+            <div>
+              <input
+                type="text"
+                value={locationDetails.boothSize.area}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm bg-gray-50"
+                placeholder="Area (sq.m)"
+                readOnly
+              />
+            </div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Preferred Location 1</label>
+            <input
+              type="text"
+              value={locationDetails.preferredLocation1}
+              onChange={(e) => handleLocationChange('preferredLocation1', e.target.value)}
+              className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+              placeholder="Optional"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Preferred Location 2</label>
+            <input
+              type="text"
+              value={locationDetails.preferredLocation2}
+              onChange={(e) => handleLocationChange('preferredLocation2', e.target.value)}
+              className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+              placeholder="Optional"
+            />
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Special Requirements</label>
+          <textarea
+            value={locationDetails.specialRequirements}
+            onChange={(e) => handleLocationChange('specialRequirements', e.target.value)}
+            rows={2}
+            className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+            placeholder="Any special requirements..."
+          />
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <label className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={locationDetails.access24x7}
+              onChange={(e) => handleLocationChange('access24x7', e.target.checked)}
+              className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+            />
+            <span className="text-sm text-gray-700">24x7 Access</span>
+          </label>
+          <label className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={locationDetails.forkliftRequired}
+              onChange={(e) => handleLocationChange('forkliftRequired', e.target.checked)}
+              className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+            />
+            <span className="text-sm text-gray-700">Forklift</span>
+          </label>
+          <label className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={locationDetails.craneRequired}
+              onChange={(e) => handleLocationChange('craneRequired', e.target.checked)}
+              className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+            />
+            <span className="text-sm text-gray-700">Crane</span>
+          </label>
+          <label className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={locationDetails.vehicleEntry}
+              onChange={(e) => handleLocationChange('vehicleEntry', e.target.checked)}
+              className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500"
+            />
+            <span className="text-sm text-gray-700">Vehicle</span>
+          </label>
+        </div>
+      </div>
+    </div>
+  );
+
+  // ============= FORM 3: BOOTH & CONTRACTOR DETAILS =============
+  const renderBoothDetails = () => (
+    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+      <div className="flex items-center mb-6">
+        <div className="bg-blue-100 p-2 rounded-lg">
+          <BuildingOfficeIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+        </div>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">REGISTRATION OF CONTRACTOR
+<br /> <span className='text-[#4D4D4D] font-semibold text-[15px]'>FOR BARE SPACE EXHIBITORS (MANDATORY)</span>
+</h2>
+      </div>
+
+      <div className="space-y-6">
+        <div className="border-b border-gray-200 pb-6">
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Booth Details</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Booth No.</label>
+              <input
+                type="text"
+                value={boothDetails.boothNo || profile?.boothNumber || ''}
+                onChange={(e) => setBoothDetails({...boothDetails, boothNo: e.target.value})}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter booth number"
+              />
+              {profile?.boothNumber && !boothDetails.boothNo && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Exhibitor Name</label>
+              <input
+                type="text"
+                value={boothDetails.exhibitorName || profile?.contactPerson || `${generalInfo.firstName} ${generalInfo.lastName}`.trim()}
+                onChange={(e) => setBoothDetails({...boothDetails, exhibitorName: e.target.value})}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Auto-filled from profile"
+              />
+              {!boothDetails.exhibitorName && (profile?.contactPerson || generalInfo.firstName) && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Sq. Mtr Booked</label>
+              <input
+                type="text"
+                value={boothDetails.sqMtrBooked || profile?.boothSize || ''}
+                onChange={(e) => setBoothDetails({...boothDetails, sqMtrBooked: e.target.value})}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter square meters"
+              />
+              {!boothDetails.sqMtrBooked && profile?.boothSize && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Organisation</label>
+              <input
+                type="text"
+                value={boothDetails.organisation || profile?.companyName || generalInfo.companyName}
+                onChange={(e) => setBoothDetails({...boothDetails, organisation: e.target.value})}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Auto-filled from company name"
+              />
+              {!boothDetails.organisation && (profile?.companyName || generalInfo.companyName) && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contact Person</label>
+              <input
+                type="text"
+                value={boothDetails.contactPerson || profile?.contactPerson || `${generalInfo.firstName} ${generalInfo.lastName}`.trim()}
+                onChange={(e) => setBoothDetails({...boothDetails, contactPerson: e.target.value})}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Auto-filled from name"
+              />
+              {!boothDetails.contactPerson && (profile?.contactPerson || generalInfo.firstName) && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Designation</label>
+              <input
+                type="text"
+                value={boothDetails.designation || profile?.industry || generalInfo.designation}
+                onChange={(e) => setBoothDetails({...boothDetails, designation: e.target.value})}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Auto-filled from designation"
+              />
+              {!boothDetails.designation && (profile?.industry || generalInfo.designation) && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
+              <input
+                type="tel"
+                value={boothDetails.mobile || profile?.phone || generalInfo.mobile}
+                onChange={(e) => setBoothDetails({...boothDetails, mobile: e.target.value})}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Auto-filled from contact"
+              />
+              {!boothDetails.mobile && (profile?.phone || generalInfo.mobile) && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+              )}
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email ID</label>
+              <input
+                type="email"
+                value={boothDetails.email || profile?.email || generalInfo.email}
+                onChange={(e) => setBoothDetails({...boothDetails, email: e.target.value})}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Auto-filled from contact"
+              />
+              {!boothDetails.email && (profile?.email || generalInfo.email) && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Contractor Details</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contractor Company</label>
+              <input
+                type="text"
+                value={boothDetails.contractorCompany}
+                onChange={(e) => setBoothDetails({...boothDetails, contractorCompany: e.target.value})}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter contractor company"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contractor Person</label>
+              <input
+                type="text"
+                value={boothDetails.contractorPerson}
+                onChange={(e) => setBoothDetails({...boothDetails, contractorPerson: e.target.value})}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter contractor name"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contractor Mobile</label>
+              <input
+                type="tel"
+                value={boothDetails.contractorMobile}
+                onChange={(e) => setBoothDetails({...boothDetails, contractorMobile: e.target.value})}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter contractor mobile"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contractor Email</label>
+              <input
+                type="email"
+                value={boothDetails.contractorEmail}
+                onChange={(e) => setBoothDetails({...boothDetails, contractorEmail: e.target.value})}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter contractor email"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contractor GST</label>
+              <input
+                type="text"
+                value={boothDetails.contractorGST}
+                onChange={(e) => setBoothDetails({...boothDetails, contractorGST: e.target.value})}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter GST number"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contractor PAN</label>
+              <input
+                type="text"
+                value={boothDetails.contractorPAN}
+                onChange={(e) => setBoothDetails({...boothDetails, contractorPAN: e.target.value})}
+                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                placeholder="Enter PAN number"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* Booth Fabrication Guidelines */}
+<div className="mt-10 border-t border-gray-200 pt-8">
+  <h3 className="text-lg font-semibold text-gray-800 mb-4">
+    Booth Fabrication Guidelines & Regulations
+  </h3>
+
+  <div className="bg-gray-50 rounded-xl p-5 space-y-4 text-sm text-gray-700 leading-relaxed">
+    
+    <ul className="list-disc pl-5 space-y-2">
+      <li>
+        <span className="font-semibold">Height Limit:</span> The maximum allowable height for fabricated booths,
+        including platform height, is 4 meters.
+      </li>
+
+      <li>
+        <span className="font-semibold">Carpet Requirement:</span> Fabricators must lay a single-use carpet
+        over the entire booth area before starting construction. Failure to comply will result
+        in forfeiture of the refundable security deposit.
+      </li>
+
+      <li>
+        <span className="font-semibold">No Storage Space:</span> Storing or retaining materials behind
+        the booth is prohibited. Violating this rule will result in forfeiture of the performance bond.
+      </li>
+
+      <li>
+        <span className="font-semibold">Housekeeping:</span> Organizers will not provide booth cleaning
+        services during setup or show days. Fabricators must arrange their own housekeeping personnel
+        to ensure final booth cleaning.
+      </li>
+
+      <li>
+        <span className="font-semibold">Fire Extinguishers:</span> Each booth must have fire extinguishers.
+        This requirement must be incorporated into the booth design for approval.
+      </li>
+    </ul>
+  </div>
+</div>
+
+{/* Damage & Performance Bond */}
+<div className="mt-8">
+  <h3 className="text-lg font-semibold text-gray-800 mb-4">
+    Damage & Performance Bond
+  </h3>
+
+  <div className="bg-red-50 border border-red-100 rounded-xl p-5 space-y-4 text-sm text-gray-700 leading-relaxed">
+    
+    <ul className="list-disc pl-5 space-y-2">
+      <li>
+        <span className="font-semibold">Payment:</span> Booth contractors must pay a Damage & Performance
+        Bond via demand draft to the organizers, <span className="font-medium">“Maxx Business Media Pvt. Ltd.”</span>,
+        upon registering at the exhibition site. The bond covers potential venue damages and
+        disposal of booth construction waste. Any breach may result in forfeiture of the bond.
+      </li>
+
+      <li>
+        <span className="font-semibold">Waste Removal:</span> Contractors are responsible for removing
+        all packing and waste materials during move-in and move-out. Decoration waste must not be
+        discarded into aisles. All materials must be safely removed. Non-compliance will result
+        in forfeiture of the bond.
+      </li>
+
+      <li>
+        <span className="font-semibold">Refund of Security Deposit:</span> The Security Deposit DD will
+        be refunded upon presentation of the receipt after the exhibition, provided the site
+        is cleared without damage or garbage recorded by the exhibition centre management.
+      </li>
+
+      <li>
+        <span className="font-semibold">Deductions:</span> Organizers reserve the right to deduct amounts
+        for damages caused during build-up, show days, or dismantling. Additional claims may be
+        made if damages exceed the bond amount.
+      </li>
+
+      <li>
+        <span className="font-semibold">Contractor Access:</span> Upon submission of the form and deposit,
+        CONTRACTOR BANDS will be issued. Only individuals with CONTRACTOR BANDS will be granted access.
+      </li>
+    </ul>
+  </div>
+</div>
+    </div>
+  );
+
+  // ============= FORM 4: SECURITY DEPOSIT =============
+  const renderSecurityDeposit = () => (
+    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+      <div className="flex items-center mb-6">
+        <div className="bg-blue-100 p-2 rounded-lg">
+          <BanknotesIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+        </div>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">CONTRACTOR SECURITY
+DEPOSIT FORM <br /> <span className='text-[#4D4D4D] font-semibold text-[15px]'>FORM 2 FOR BARE SPACE EXHIBITORS
+(MANDATORY)</span>
+</h2>
+      </div>
+
+      <div className="space-y-6">
+        <div className="bg-gray-50 p-4 rounded-lg">
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Security Deposit Amount</h3>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead>
+                <tr>
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">No.</th>
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Booth Sq.</th>
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Amount (INR)</th>
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Amount (USD)</th>
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Select</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="hover:bg-gray-100">
+                  <td className="px-3 py-2 text-sm">1</td>
+                  <td className="px-3 py-2 text-sm">0 - 36</td>
+                  <td className="px-3 py-2 text-sm">₹25,000</td>
+                  <td className="px-3 py-2 text-sm">USD 3</td>
+                  <td className="px-3 py-2">
+                    <input
+                      type="radio"
+                      name="securityDeposit"
+                      onChange={() => setSecurityDeposit({...securityDeposit, boothSq: '0-36', amountINR: 25000, amountUSD: 3})}
+                      className="h-4 w-4 text-blue-600"
+                    />
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-100">
+                  <td className="px-3 py-2 text-sm">2</td>
+                  <td className="px-3 py-2 text-sm">37 - 100</td>
+                  <td className="px-3 py-2 text-sm">₹50,000</td>
+                  <td className="px-3 py-2 text-sm">USD 6</td>
+                  <td className="px-3 py-2">
+                    <input
+                      type="radio"
+                      name="securityDeposit"
+                      onChange={() => setSecurityDeposit({...securityDeposit, boothSq: '37-100', amountINR: 50000, amountUSD: 6})}
+                      className="h-4 w-4 text-blue-600"
+                    />
+                  </td>
+                </tr>
+                <tr className="hover:bg-gray-100">
+                  <td className="px-3 py-2 text-sm">3</td>
+                  <td className="px-3 py-2 text-sm">101 and above</td>
+                  <td className="px-3 py-2 text-sm">₹75,000</td>
+                  <td className="px-3 py-2 text-sm">USD 9</td>
+                  <td className="px-3 py-2">
+                    <input
+                      type="radio"
+                      name="securityDeposit"
+                      onChange={() => setSecurityDeposit({...securityDeposit, boothSq: '101+', amountINR: 75000, amountUSD: 9})}
+                      className="h-4 w-4 text-blue-600"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Important Notes Section */}
+<div className="mt-8 border-t border-gray-200 pt-6">
+  <h3 className="text-lg font-semibold text-gray-800 mb-4">
+    Important Notes
+  </h3>
+
+  <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 text-sm text-gray-700 leading-relaxed">
+    <ul className="list-disc pl-5 space-y-3">
+
+      <li>
+        The Security Deposit should be submitted only by <span className="font-semibold">Demand Draft</span>.
+        No other mode of payment will be accepted.
+      </li>
+
+      <li>
+        Refundable Security Deposit must be paid by Demand Draft in the name of 
+        <span className="font-semibold"> “Maxx Business Media Pvt. Ltd.”</span>.
+      </li>
+
+      <li>
+        If the contractor fails to submit the Security Deposit by Demand Draft,
+        booth possession will not be given. No cash will be accepted as Security Deposit.
+        In exceptional cases, if cash is accepted, a service charge of 
+        <span className="font-semibold"> INR 5,000 / USD 63 + 18% GST </span>
+        will be applicable and deducted from the Security Deposit.
+      </li>
+
+      <li>
+        The Security Deposit must be paid by the <span className="font-semibold">booth contractor</span>
+        and NOT the exhibitor, unless the exhibitor is undertaking their own stand fabrication.
+      </li>
+
+      <li>
+        If the booth contractor fails to meet the deadline for final completion of booth
+        building or dismantling, the complete Security Deposit will be 
+        <span className="font-semibold text-red-600"> fully forfeited </span>
+        as penalty charges for non-completion on time.
+      </li>
+
+      <li>
+        Kindly bring <span className="font-semibold">2 copies</span> of this form at the time of possession
+        with authorized signature and company stamp.
+      </li>
+
+      <li>
+        Submit the signed copy of this form while collecting your Security Deposit.
+      </li>
+
+    </ul>
+  </div>
+</div>
+      </div>
+    </div>
+  );
+
+  // ============= FORM 5: MACHINES =============
+ const renderMachines = () => (
+  <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+    <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center">
+        <div className="bg-blue-100 p-2 rounded-lg">
+          <CubeIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+        </div>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
+          NAME ON FASCIA
+          <br />
+          <span className="text-[#4D4D4D] font-semibold text-[15px]">
+            (MANDATORY)
+          </span>
+        </h2>
+      </div>
+
+      <button
+        type="button"
+        onClick={handleAddMachine}
+        className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition"
+      >
+        <PlusIcon className="h-4 w-4" />
+        Add Machine
+      </button>
+    </div>
+
+    <div className="overflow-x-auto">
+      <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Sr.</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Machine Name</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Width (m)</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Length (m)</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Height (m)</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Weight (Tons)</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+          </tr>
+        </thead>
+
+        <tbody className="bg-white divide-y divide-gray-200">
+          {machines.map((machine, index) => (
+            <tr key={machine.srNo} className="hover:bg-gray-50">
+              <td className="px-3 py-2 text-sm text-gray-900 font-medium">
+                {machine.srNo}
+              </td>
+
+              <td className="px-3 py-2">
+                <input
+                  type="text"
+                  value={machine.machineName}
+                  onChange={(e) => {
+                    const updated = [...machines];
+                    updated[index].machineName = e.target.value;
+                    setMachines(updated);
+                  }}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter machine name"
+                />
+              </td>
+
+              <td className="px-3 py-2">
+                <input
+                  type="number"
+                  min="0"
+                  value={machine.width}
+                  onChange={(e) => {
+                    const updated = [...machines];
+                    updated[index].width = e.target.value;
+                    setMachines(updated);
+                  }}
+                  className="w-24 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
+                  placeholder="W"
+                />
+              </td>
+
+              <td className="px-3 py-2">
+                <input
+                  type="number"
+                  min="0"
+                  value={machine.length}
+                  onChange={(e) => {
+                    const updated = [...machines];
+                    updated[index].length = e.target.value;
+                    setMachines(updated);
+                  }}
+                  className="w-24 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
+                  placeholder="L"
+                />
+              </td>
+
+              <td className="px-3 py-2">
+                <input
+                  type="number"
+                  min="0"
+                  value={machine.height}
+                  onChange={(e) => {
+                    const updated = [...machines];
+                    updated[index].height = e.target.value;
+                    setMachines(updated);
+                  }}
+                  className="w-24 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
+                  placeholder="H"
+                />
+              </td>
+
+              <td className="px-3 py-2">
+                <input
+                  type="number"
+                  min="0"
+                  value={machine.weight}
+                  onChange={(e) => {
+                    const updated = [...machines];
+                    updated[index].weight = e.target.value;
+                    setMachines(updated);
+                  }}
+                  className="w-24 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
+                  placeholder="Tons"
+                />
+              </td>
+
+              <td className="px-3 py-2">
+                {machines.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => handleRemoveMachine(index)}
+                    className="text-red-500 hover:text-red-700 text-xs font-medium"
+                  >
+                    Remove
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <p className="text-xs text-gray-500 mt-4 italic">
+      * Add all machines that will be displayed at your booth.
+    </p>
+  </div>
+);
+
+  // ============= FORM 6: PERSONNEL =============
+ const renderPersonnel = () => (
+  <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+    <div className="flex items-center justify-between mb-6">
+      <div className="flex items-center">
+        <div className="bg-blue-100 p-2 rounded-lg">
+          <UserIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+        </div>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
+          EXHIBITOR PASSES
+          <br />
+          <span className="text-[#4D4D4D] font-semibold text-[15px]">
+            (MANDATORY)
+          </span>
+        </h2>
+      </div>
+
+      <button
+        type="button"
+        onClick={handleAddPersonnel}
+        className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition"
+      >
+        <PlusIcon className="h-4 w-4" />
+        Add Exhibitor
+      </button>
+    </div>
+
+    <div className="overflow-x-auto">
+      <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+        <thead className="bg-gray-50">
+          <tr>
+            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Sr.</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Designation</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Organisation</th>
+            <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+          </tr>
+        </thead>
+
+        <tbody className="bg-white divide-y divide-gray-200">
+          {personnel.map((person, index) => (
+            <tr key={person.srNo} className="hover:bg-gray-50">
+              <td className="px-3 py-2 text-sm font-medium text-gray-900">
+                {person.srNo}
+              </td>
+
+              <td className="px-3 py-2">
+                <input
+                  type="text"
+                  value={person.name || (index === 0 ? (profile?.contactPerson || `${generalInfo.firstName} ${generalInfo.lastName}`.trim()) : '')}
+                  onChange={(e) => {
+                    const updated = [...personnel];
+                    updated[index].name = e.target.value;
+                    setPersonnel(updated);
+                  }}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
+                  placeholder={index === 0 ? "Auto-filled from profile" : "Enter name"}
+                />
+                {index === 0 && !person.name && (profile?.contactPerson || generalInfo.firstName) && (
+                  <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+                )}
+              </td>
+
+              <td className="px-3 py-2">
+                <input
+                  type="text"
+                  value={person.designation || (index === 0 ? (profile?.industry || generalInfo.designation) : '')}
+                  onChange={(e) => {
+                    const updated = [...personnel];
+                    updated[index].designation = e.target.value;
+                    setPersonnel(updated);
+                  }}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
+                  placeholder={index === 0 ? "Auto-filled" : "Designation"}
+                />
+              </td>
+
+              <td className="px-3 py-2">
+                <input
+                  type="text"
+                  value={person.organisation || (index === 0 ? (profile?.companyName || generalInfo.companyName) : '')}
+                  onChange={(e) => {
+                    const updated = [...personnel];
+                    updated[index].organisation = e.target.value;
+                    setPersonnel(updated);
+                  }}
+                  className="w-full border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
+                  placeholder={index === 0 ? "Auto-filled" : "Organisation"}
+                />
+              </td>
+
+              <td className="px-3 py-2">
+                {personnel.length > 1 && (
+                  <button
+                    type="button"
+                    onClick={() => handleRemovePersonnel(index)}
+                    className="text-red-500 hover:text-red-700 text-xs font-medium"
+                  >
+                    Remove
+                  </button>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+
+    <p className="text-xs text-gray-500 mt-4 italic">
+      * Please enter all representatives who require exhibitor passes.
+    </p>
+  </div>
+);
+
+  // ============= FORM 7: COMPANY DETAILS =============
+const renderCompanyDetails = () => (
+  <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+    <div className="flex items-center mb-6">
+      <div className="bg-blue-100 p-2 rounded-lg">
+        <BuildingOfficeIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+      </div>
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
+        DATA FOR EXHIBITOR'S GUIDE
+        <br />
+        <span className="text-[#4D4D4D] font-semibold text-[15px]">
+          (MANDATORY)
+        </span>
+      </h2>
+    </div>
+
+    {/* Form Fields */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="sm:col-span-2">
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Company Name
+        </label>
+        <input
+          type="text"
+          value={companyDetails.companyName || profile?.companyName || generalInfo.companyName}
+          onChange={(e) =>
+            setCompanyDetails({
+              ...companyDetails,
+              companyName: e.target.value,
+            })
+          }
+          className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+          placeholder="Auto-filled from profile"
+        />
+        {!companyDetails.companyName && (profile?.companyName || generalInfo.companyName) && (
+          <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+        )}
+      </div>
+
+      <div className="sm:col-span-2">
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Address
+        </label>
+        <textarea
+          value={companyDetails.address || profile?.address || ''}
+          onChange={(e) =>
+            setCompanyDetails({
+              ...companyDetails,
+              address: e.target.value,
+            })
+          }
+          rows={2}
+          className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+          placeholder="Enter complete address"
+        />
+        {!companyDetails.address && profile?.address && (
+          <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+        )}
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Telephone
+        </label>
+        <input
+          type="tel"
+          value={companyDetails.telephone}
+          onChange={(e) =>
+            setCompanyDetails({
+              ...companyDetails,
+              telephone: e.target.value,
+            })
+          }
+          className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+          placeholder="Enter telephone"
+        />
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Mobile
+        </label>
+        <input
+          type="tel"
+          value={companyDetails.mobile || profile?.phone || generalInfo.mobile}
+          onChange={(e) =>
+            setCompanyDetails({
+              ...companyDetails,
+              mobile: e.target.value,
+            })
+          }
+          className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+          placeholder="Auto-filled from profile"
+        />
+        {!companyDetails.mobile && (profile?.phone || generalInfo.mobile) && (
+          <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+        )}
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Email
+        </label>
+        <input
+          type="email"
+          value={companyDetails.email || profile?.email || generalInfo.email}
+          onChange={(e) =>
+            setCompanyDetails({
+              ...companyDetails,
+              email: e.target.value,
+            })
+          }
+          className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+          placeholder="Auto-filled from profile"
+        />
+        {!companyDetails.email && (profile?.email || generalInfo.email) && (
+          <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+        )}
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Website
+        </label>
+        <input
+          type="url"
+          value={companyDetails.website || profile?.website || ''}
+          onChange={(e) =>
+            setCompanyDetails({
+              ...companyDetails,
+              website: e.target.value,
+            })
+          }
+          className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+          placeholder="www.example.com"
+        />
+        {!companyDetails.website && profile?.website && (
+          <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+        )}
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Contact Person
+        </label>
+        <input
+          type="text"
+          value={companyDetails.contactPerson || profile?.contactPerson || `${generalInfo.firstName} ${generalInfo.lastName}`.trim()}
+          onChange={(e) =>
+            setCompanyDetails({
+              ...companyDetails,
+              contactPerson: e.target.value,
+            })
+          }
+          className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+          placeholder="Auto-filled from profile"
+        />
+        {!companyDetails.contactPerson && (profile?.contactPerson || generalInfo.firstName) && (
+          <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+        )}
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Designation
+        </label>
+        <input
+          type="text"
+          value={companyDetails.designation || profile?.industry || generalInfo.designation}
+          onChange={(e) =>
+            setCompanyDetails({
+              ...companyDetails,
+              designation: e.target.value,
+            })
+          }
+          className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+          placeholder="Auto-filled from profile"
+        />
+        {!companyDetails.designation && (profile?.industry || generalInfo.designation) && (
+          <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+        )}
+      </div>
+
+      <div className="sm:col-span-2">
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Products / Services
+        </label>
+        <textarea
+          value={companyDetails.productsServices || profile?.description || ''}
+          onChange={(e) =>
+            setCompanyDetails({
+              ...companyDetails,
+              productsServices: e.target.value,
+            })
+          }
+          rows={3}
+          className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+          placeholder="Enter products or services to be displayed in the Exhibitor's Guide"
+        />
+        {!companyDetails.productsServices && profile?.description && (
+          <p className="text-xs text-green-600 mt-1">✓ Auto-filled from profile</p>
+        )}
+      </div>
+    </div>
+        {/* Exhibitor Guide Information Notice */}
+    <div className="mb-8 bg-blue-50 border border-blue-200 rounded-xl p-5 text-sm text-gray-700 leading-relaxed">
+      <p>
+        <span className="font-semibold">Maxx Business Media Pvt. Ltd.</span> will be publishing an 
+        <span className="font-semibold"> Exhibitor's Guide </span> for visitors of the Exhibition. 
+        This Guide will contain information about the Exhibitors, their products & services, and 
+        other relevant details.
+      </p>
+      <p className="mt-2">
+        These Guides will be made available to the visitors for their reference. 
+        Kindly ensure that the information provided below is accurate and complete, 
+        as it will be used for publication.
+      </p>
+    </div>
+  </div>
+);
+
+  // ============= FORM 8: ELECTRICAL LOAD =============
+  const renderElectricalLoad = () => (
+    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+      <div className="flex items-center mb-6">
+        <div className="bg-blue-100 p-2 rounded-lg">
+          <BoltIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+        </div>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Electrical Load</h2>
+      </div>
+
+      <div className="space-y-6">
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Unit Cost</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Load (KW)</th>
+                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td className="px-3 py-2 text-sm">Temporary (18-19 Nov)</td>
+                <td className="px-3 py-2 text-sm">₹3,500/KW</td>
+                <td className="px-3 py-2">
+                  <input
+                    type="number"
+                    value={electricalLoad.temporaryLoad}
+                    onChange={(e) => handleElectricalLoadChange('temporary', e.target.value)}
+                    className="w-20 border border-gray-200 rounded px-2 py-1 text-sm"
+                    placeholder="KW"
+                  />
+                </td>
+                <td className="px-3 py-2 text-sm">₹{electricalLoad.temporaryTotal.toLocaleString()}</td>
+              </tr>
+              <tr>
+                <td className="px-3 py-2 text-sm">Exhibition (20-22 Nov)</td>
+                <td className="px-3 py-2 text-sm">₹3,500/KW</td>
+                <td className="px-3 py-2">
+                  <input
+                    type="number"
+                    value={electricalLoad.exhibitionLoad}
+                    onChange={(e) => handleElectricalLoadChange('exhibition', e.target.value)}
+                    className="w-20 border border-gray-200 rounded px-2 py-1 text-sm"
+                    placeholder="KW"
+                  />
+                </td>
+                <td className="px-3 py-2 text-sm">₹{electricalLoad.exhibitionTotal.toLocaleString()}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* Important Notes & Electrical Rules */}
+<div className="mt-8 border-t border-gray-200 pt-6 space-y-6">
+
+  {/* General Note */}
+  <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 text-sm text-gray-700 leading-relaxed">
+    <p className="font-semibold text-yellow-800 mb-2">Important Note:</p>
+    <p>
+      All prices are current and subject to change without prior notice.
+      Electrical requirements can be serviced only if the order is placed
+      on or before <span className="font-semibold">7th November 2025</span>.
+      There is no provision for last-minute / onsite requests after
+      7th November 2025.
+    </p>
+    <p className="mt-2">
+      Orders are valid only when accompanied by full remittance along with
+      <span className="font-semibold"> 18% GST</span>.
+    </p>
+  </div>
+
+  {/* Rules Section */}
+  <div className="bg-red-50 border border-red-200 rounded-xl p-5 text-sm text-gray-700 leading-relaxed">
+    <p className="font-semibold text-red-800 mb-3">Rules for Electrical Work</p>
+
+    <p className="mb-3">
+      Exhibitors are required to make payment for electrical work 
+      <span className="font-semibold"> 20 days before the show</span>, 
+      along with the form submission. The cheque or demand draft should be made payable to 
+      <span className="font-semibold"> "Maxx Business Media Pvt. Ltd."</span>
+    </p>
+
+    <ul className="list-decimal pl-5 space-y-2">
+      <li>
+        All exhibitors must hire a licensed electrical contractor to perform
+        internal wiring within their stands and submit a photocopy of the
+        contractor's license to the organizers.
+      </li>
+
+      <li>
+        Only ISI-marked new materials must be used. Wires should be PVC copper
+        insulated with a voltage rating of 1100 V.
+      </li>
+
+      <li>
+        For lighting circuits, 3x2.5 sq mm PVC insulated copper wire must be used.
+        For 16A power points, 3x4 sq mm PVC insulated copper wire is required.
+      </li>
+
+      <li>
+        Wires must be safely routed through conduits or casing capping.
+        No loose hanging wires are allowed. All terminations must use crimping lugs.
+      </li>
+
+      <li>
+        LED lights must be used. If halogen lights are used,
+        they must be equipped with a transformer.
+      </li>
+
+      <li>
+        The load connected to the power point must be appropriate
+        for the socket rating.
+      </li>
+    </ul>
+  </div>
+
+</div>
+      </div>
+    </div>
+  );
+
+  // ============= FORM 9: FURNITURE (WITH IMAGES) =============
+  const renderFurniture = () => {
+    const furnitureTotal = furnitureItems.reduce((sum, item) => sum + item.cost, 0);
+    
+    return (
+      <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+        <div className="flex items-center mb-6">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Furniture</h2>
+        </div>
+
+        <div className="overflow-x-auto max-h-96 overflow-y-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50 sticky top-0">
+              <tr>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Image</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Code</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Size</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Cost (3 Days)</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Qty</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Cost</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {furnitureItems.map((item, index) => (
+                <tr key={item.code} className="hover:bg-gray-50">
+                  <td className="px-2 py-1.5">
+                    <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center">
+                      {item.image ? (
+                        <img 
+                          src={item.image} 
+                          alt={item.description}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = '/furniture/placeholder.jpg';
+                          }}
+                        />
+                      ) : (
+                        <PhotoIcon className="h-6 w-6 text-gray-400" />
+                      )}
+                    </div>
+                  </td>
+                  <td className="px-2 py-1.5 text-xs font-mono text-blue-600">{item.code}</td>
+                  <td className="px-2 py-1.5 text-xs">{item.description}</td>
+                  <td className="px-2 py-1.5 text-xs">{item.size}</td>
+                  <td className="px-2 py-1.5 text-xs">₹{item.cost3Days}</td>
+                  <td className="px-2 py-1.5">
+                    <input
+                      type="number"
+                      min="0"
+                      value={item.quantity || ''}
+                      onChange={(e) => handleFurnitureQuantity(index, parseInt(e.target.value) || 0)}
+                      className="w-16 border border-gray-200 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500"
+                    />
+                  </td>
+                  <td className="px-2 py-1.5 text-xs font-semibold">₹{item.cost}</td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot className="bg-gray-50 sticky bottom-0">
+              <tr>
+                <td colSpan={6} className="px-2 py-2 text-right text-xs font-semibold">Total:</td>
+                <td className="px-2 py-2 text-xs font-bold text-blue-600">₹{furnitureTotal.toLocaleString()}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    );
+  };
+
+  // ============= FORM 10: HOSTESS =============
+const renderHostess = () => {
+  const hostessTotal = hostessRequirements.reduce((sum, h) => sum + h.amount, 0);
+
+  return (
+    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+      <div className="flex items-center mb-6">
+        <div className="bg-blue-100 p-2 rounded-lg">
+          <SparklesIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+        </div>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
+          Temporary Staff / Hostess
+        </h2>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Category</th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Rate/Day</th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Qty</th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Days</th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            {hostessRequirements.map((hostess, index) => (
+              <tr key={hostess.category}>
+                <td className="px-3 py-2 text-sm">Category {hostess.category}</td>
+                <td className="px-3 py-2 text-sm">
+                  ₹{hostess.category === 'A' ? '5,000' : '4,000'}
+                </td>
+                <td className="px-3 py-2">
+                  <input
+                    type="number"
+                    min="0"
+                    value={hostess.quantity || ''}
+                    onChange={(e) =>
+                      handleHostessChange(index, 'quantity', parseInt(e.target.value) || 0)
+                    }
+                    className="w-16 border border-gray-200 rounded px-2 py-1 text-sm"
+                  />
+                </td>
+                <td className="px-3 py-2">
+                  <input
+                    type="number"
+                    min="0"
+                    value={hostess.noOfDays || ''}
+                    onChange={(e) =>
+                      handleHostessChange(index, 'noOfDays', parseInt(e.target.value) || 0)
+                    }
+                    className="w-16 border border-gray-200 rounded px-2 py-1 text-sm"
+                  />
+                </td>
+                <td className="px-3 py-2 text-sm font-semibold">
+                  ₹{hostess.amount.toLocaleString()}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot className="bg-gray-50">
+            <tr>
+              <td colSpan={4} className="px-3 py-2 text-right text-sm font-semibold">
+                Total:
+              </td>
+              <td className="px-3 py-2 text-sm font-bold text-blue-600">
+                ₹{hostessTotal.toLocaleString()}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+
+      {/* Important Notes Section */}
+      <div className="mt-8 border-t border-gray-200 pt-6">
+        <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 text-sm text-gray-700 leading-relaxed">
+          <p className="font-semibold text-yellow-800 mb-3">
+            Please Note:
+          </p>
+
+          <ul className="list-decimal pl-5 space-y-2">
+            <li>All prices are current and subject to change without prior notice.</li>
+            <li>The working hour for service is 8 hrs./person/day.</li>
+            <li>The duration of service is 10:00 - 18:00 hrs.</li>
+            <li>On-site orders MUST be paid immediately via RTGS / UPI along with the order form.</li>
+            <li>No refund for any cancellation once the order is placed.</li>
+            <li>Temporary Staff must not be entrusted with handling of cash or valuables.</li>
+            <li>Exhibitors will be responsible for the temporary staff in their stands during the show.</li>
+            <li>Organiser will not be responsible for any damage caused by temporary staff.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+  // ============= FORM 11: COMPRESSED AIR =============
+  const renderCompressedAir = () => (
+    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+      <div className="flex items-center mb-6">
+        <div className="bg-blue-100 p-2 rounded-lg">
+          <WrenchScrewdriverIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+        </div>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Compressed Air</h2>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase"></th>
+              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">CFM Range</th>
+              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Connection Cost</th>
+              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Power</th>
+              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            {[
+              { cfmRange: 'Upto 10 cfm', costPerConnection: 15000, powerKW: 3 },
+              { cfmRange: '10-20 cfm', costPerConnection: 25000, powerKW: 5 },
+              { cfmRange: '20-30 cfm', costPerConnection: 40000, powerKW: 8 },
+              { cfmRange: '30-40 cfm', costPerConnection: 50000, powerKW: 11 },
+              { cfmRange: 'Above 40 cfm', costPerConnection: 75000, powerKW: 15 },
+            ].map((option) => (
+              <tr key={option.cfmRange} className="hover:bg-gray-50">
+                <td className="px-2 py-2">
+                  <input
+                    type="radio"
+                    name="compressedAir"
+                    onChange={() => handleCompressedAirSelect(option)}
+                    className="h-4 w-4 text-blue-600"
+                  />
+                </td>
+                <td className="px-2 py-2 text-sm">{option.cfmRange}</td>
+                <td className="px-2 py-2 text-sm">₹{option.costPerConnection.toLocaleString()}</td>
+                <td className="px-2 py-2 text-sm">{option.powerKW} KW</td>
+                <td className="px-2 py-2 text-sm">₹{(option.costPerConnection + (option.powerKW * 3500)).toLocaleString()}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {compressedAir.selected && (
+        <div className="mt-6 bg-blue-50 p-4 rounded-lg">
+          <div className="flex justify-between text-sm">
+            <span className="font-semibold">Selected: {compressedAir.cfmRange}</span>
+            <span className="font-bold text-blue-700">₹{compressedAir.totalCost.toLocaleString()}</span>
+          </div>
+          <p className="text-xs text-blue-600 mt-2">Excluding GST (will be added in final summary)</p>
+        </div>
       )}
+    </div>
+  );
+
+  // ============= FORM 12: WATER CONNECTION =============
+  const renderWaterConnection = () => (
+    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+      <div className="flex items-center mb-6">
+        <div className="bg-blue-100 p-2 rounded-lg">
+          <TruckIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+        </div>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Water Connection</h2>
+      </div>
+
+      <div className="max-w-md">
+        <div className="flex items-center gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">No. of Connections</label>
+            <input
+              type="number"
+              min="0"
+              value={waterConnection.connections || ''}
+              onChange={(e) => setWaterConnection({...waterConnection, connections: parseInt(e.target.value) || 0})}
+              className="w-24 border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+          <div className="text-sm">
+            <p className="text-gray-600">Cost per connection: ₹15,000</p>
+            <p className="font-semibold text-blue-600 mt-1">Total: ₹{waterConnection.totalCost.toLocaleString()}</p>
+            <p className="text-xs text-gray-500">Excluding GST (will be added in final summary)</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
+  // ============= FORM 13: SECURITY GUARD =============
+const renderSecurityGuard = () => (
+  <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+    <div className="flex items-center mb-6">
+      <div className="bg-blue-100 p-2 rounded-lg">
+        <ShieldCheckIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+      </div>
+      <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
+        Security Guard
+      </h2>
+    </div>
+
+    <div className="max-w-lg space-y-6">
+
+      <div className="flex flex-col sm:flex-row gap-6">
+
+        {/* Quantity */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            No. of Guards
+          </label>
+          <input
+            type="number"
+            min="0"
+            value={securityGuard.quantity || ''}
+            onChange={(e) =>
+              setSecurityGuard({
+                ...securityGuard,
+                quantity: parseInt(e.target.value) || 0
+              })
+            }
+            className="w-32 border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+            placeholder="Guards"
+          />
+        </div>
+
+        {/* Days */}
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            No. of Days
+          </label>
+          <input
+            type="number"
+            min="0"
+            value={securityGuard.noOfDays || ''}
+            onChange={(e) =>
+              setSecurityGuard({
+                ...securityGuard,
+                noOfDays: parseInt(e.target.value) || 0
+              })
+            }
+            className="w-32 border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+            placeholder="Days"
+          />
+        </div>
+
+      </div>
+
+      {/* Summary */}
+      {securityGuard.quantity > 0 && securityGuard.noOfDays > 0 && (
+        <div className="bg-blue-50 p-4 rounded-lg">
+          <p className="text-sm text-gray-700">
+            Rate per guard per day: <span className="font-semibold">₹2,500</span>
+          </p>
+
+          <div className="mt-3 space-y-1 text-sm">
+            <p>
+              Total Cost: <span className="font-semibold">₹{securityGuard.totalCost.toLocaleString()}</span>
+            </p>
+            <p className="text-xs text-blue-600 mt-2">
+              * GST @ 18% will be added in final summary
+            </p>
+          </div>
+        </div>
+      )}
+
+    </div>
+  </div>
+);
+
+  // ============= FORM 14: RENTAL ITEMS (AV & IT) =============
+  const renderRentalItems = () => {
+    const rentalTotal = Object.values(rentalItems).reduce((sum, item) => sum + item.totalCost, 0);
+    
+    return (
+      <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center">
+            <div className="bg-blue-100 p-2 rounded-lg">
+              <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">AV & IT Rentals</h2>
+          </div>
+          <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1.5 rounded-full">For 3 Days</span>
+        </div>
+
+        <div className="overflow-x-auto border border-gray-200 rounded-lg">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Description of Item</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Cost for 3 Days</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Quantity</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Total Cost</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {Object.entries(rentalItems).map(([key, item], index) => (
+                <tr key={key} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-4 py-3 text-sm text-gray-900">{item.description}</td>
+                  <td className="px-4 py-3 text-sm text-gray-900">₹{item.costFor3Days.toLocaleString()}</td>
+                  <td className="px-4 py-3">
+                    <input
+                      type="number"
+                      min="0"
+                      value={item.quantity || ''}
+                      onChange={(e) => handleRentalQuantity(key as keyof RentalItems, parseInt(e.target.value) || 0)}
+                      className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                      placeholder="0"
+                    />
+                  </td>
+                  <td className="px-4 py-3 text-sm font-semibold text-blue-600">₹{item.totalCost.toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot className="bg-gray-50">
+              <tr>
+                <td colSpan={3} className="px-4 py-3 text-right text-sm font-bold text-gray-900">Total Rental Cost:</td>
+                <td className="px-4 py-3 text-sm font-bold text-blue-600">₹{rentalTotal.toLocaleString()}</td>
+              </tr>
+              <tr>
+                <td colSpan={4} className="px-4 py-2 text-xs text-gray-500 italic">
+                  * GST @ 18% will be applied to the total rental cost in the final summary
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    );
+  };
+
+  // ============= FORM 15: HOUSEKEEPING STAFF =============
+const renderHousekeepingStaff = () => {
+  return (
+    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <SparklesIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
+            Housekeeping Staff
+          </h2>
+        </div>
+        <span className="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1.5 rounded-full">
+          Per Shift (10 Hrs)
+        </span>
+      </div>
+
+      <div className="border border-gray-200 rounded-lg overflow-hidden">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
+                Category
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
+                Charges per Shift
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
+                No. of Staff
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
+                No. of Days
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
+                Total Cost
+              </th>
+            </tr>
+          </thead>
+
+          <tbody className="bg-white divide-y divide-gray-200">
+            <tr className="hover:bg-gray-50 transition-colors">
+              <td className="px-4 py-4 text-sm font-medium text-gray-900">
+                Housekeeping
+              </td>
+
+              <td className="px-4 py-4 text-sm text-gray-900">
+                ₹{housekeepingStaff.chargesPerShift.toLocaleString()}
+              </td>
+
+              {/* Quantity */}
+              <td className="px-4 py-4">
+                <input
+                  type="number"
+                  min="0"
+                  value={housekeepingStaff.quantity || ""}
+                  onChange={(e) =>
+                    setHousekeepingStaff({
+                      ...housekeepingStaff,
+                      quantity: parseInt(e.target.value) || 0,
+                    })
+                  }
+                  className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="0"
+                />
+              </td>
+
+              {/* Days */}
+              <td className="px-4 py-4">
+                <input
+                  type="number"
+                  min="0"
+                  value={housekeepingStaff.noOfDays || ""}
+                  onChange={(e) =>
+                    setHousekeepingStaff({
+                      ...housekeepingStaff,
+                      noOfDays: parseInt(e.target.value) || 0,
+                    })
+                  }
+                  className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="0"
+                />
+              </td>
+
+              <td className="px-4 py-4 text-sm font-semibold text-blue-600">
+                ₹{housekeepingStaff.totalCost.toLocaleString()}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {housekeepingStaff.quantity > 0 && housekeepingStaff.noOfDays > 0 && (
+        <div className="mt-4 bg-blue-50 p-4 rounded-lg">
+          <p className="text-sm text-gray-700">
+            Subtotal: <span className="font-semibold text-blue-700">₹{housekeepingStaff.totalCost.toLocaleString()}</span>
+          </p>
+          <p className="text-xs text-blue-600 mt-1">
+            * GST @ 18% will be added in final summary
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
+
+  // ============= PREVIEW MODAL =============
+  const renderPreviewModal = () => {
+    const totals = calculateTotals();
+    
+    return (
+      <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div className="relative top-10 sm:top-20 mx-3 sm:mx-auto p-4 sm:p-6 border w-full sm:w-11/12 max-w-4xl shadow-lg rounded-lg bg-white">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Preview & Cost Summary</h2>
+            <button
+              onClick={() => setShowPreview(false)}
+              className="text-gray-400 hover:text-gray-600"
+            >
+              <XCircleIcon className="h-6 w-6" />
+            </button>
+          </div>
+
+          <div className="max-h-[70vh] overflow-y-auto p-1">
+            {/* Basic Info Summary */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h3 className="text-sm font-semibold text-gray-800 mb-3 flex items-center">
+                  <UserIcon className="h-4 w-4 mr-2 text-blue-600" />
+                  Exhibitor
+                </h3>
+                <div className="space-y-1 text-xs">
+                  <p><span className="font-medium">Name:</span> {generalInfo.title} {generalInfo.firstName} {generalInfo.lastName}</p>
+                  <p><span className="font-medium">Company:</span> {generalInfo.companyName}</p>
+                  <p><span className="font-medium">Email:</span> {generalInfo.email}</p>
+                  <p><span className="font-medium">Mobile:</span> {generalInfo.mobile}</p>
+                </div>
+              </div>
+
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <h3 className="text-sm font-semibold text-gray-800 mb-3 flex items-center">
+                  <MapPinIcon className="h-4 w-4 mr-2 text-blue-600" />
+                  Location
+                </h3>
+                <div className="space-y-1 text-xs">
+                  <p><span className="font-medium">Booth:</span> {locationDetails.boothNo || boothDetails.boothNo}</p>
+                  <p><span className="font-medium">Hall:</span> {locationDetails.hallNo}</p>
+                  <p><span className="font-medium">Size:</span> {locationDetails.boothSize.area || boothDetails.sqMtrBooked} sq.m</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Cost Summary */}
+            <div className="bg-white border rounded-lg overflow-hidden mb-6">
+              <div className="bg-gray-800 px-4 py-2">
+                <h3 className="text-sm font-semibold text-white">Cost Summary</h3>
+              </div>
+              <table className="min-w-full divide-y divide-gray-200">
+                <tbody className="divide-y divide-gray-200">
+                  <tr>
+                    <td className="px-4 py-2 text-xs">Security Deposit</td>
+                    <td className="px-4 py-2 text-xs text-right">₹{totals.deposit.toLocaleString()}</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-2 text-xs">Furniture</td>
+                    <td className="px-4 py-2 text-xs text-right">₹{totals.furniture.toLocaleString()}</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-2 text-xs">Hostess</td>
+                    <td className="px-4 py-2 text-xs text-right">₹{totals.hostess.toLocaleString()}</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-2 text-xs">Electrical</td>
+                    <td className="px-4 py-2 text-xs text-right">₹{totals.electrical.toLocaleString()}</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-2 text-xs">Compressed Air</td>
+                    <td className="px-4 py-2 text-xs text-right">₹{totals.compressedAir.toLocaleString()}</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-2 text-xs">Water</td>
+                    <td className="px-4 py-2 text-xs text-right">₹{totals.water.toLocaleString()}</td>
+                  </tr>
+                  <tr>
+                    <td className="px-4 py-2 text-xs">Security Guard</td>
+                    <td className="px-4 py-2 text-xs text-right">₹{totals.security.toLocaleString()}</td>
+                  </tr>
+                  <tr className="bg-yellow-50">
+                    <td className="px-4 py-2 text-xs font-semibold">AV & IT Rentals</td>
+                    <td className="px-4 py-2 text-xs font-semibold text-right">₹{totals.rental.toLocaleString()}</td>
+                  </tr>
+                  <tr className="bg-green-50">
+                    <td className="px-4 py-2 text-xs font-semibold">Housekeeping Staff</td>
+                    <td className="px-4 py-2 text-xs font-semibold text-right">₹{totals.housekeeping.toLocaleString()}</td>
+                  </tr>
+                 <tr className="bg-gray-50">
+  <td className="px-4 py-2 text-xs font-semibold">Subtotal (Without GST)</td>
+  <td className="px-4 py-2 text-xs text-right">
+    ₹{totals.subtotal.toLocaleString()}
+  </td>
+</tr>
+
+<tr>
+  <td className="px-4 py-2 text-xs font-semibold">GST (18%)</td>
+  <td className="px-4 py-2 text-xs text-right">
+    ₹{totals.gst.toLocaleString()}
+  </td>
+</tr>
+
+<tr>
+  <td className="px-4 py-2 text-xs font-semibold">Security Deposit</td>
+  <td className="px-4 py-2 text-xs text-right">
+    ₹{totals.deposit.toLocaleString()}
+  </td>
+</tr>
+
+<tr className="bg-blue-50">
+  <td className="px-4 py-2 text-sm font-bold">Grand Total</td>
+  <td className="px-4 py-2 text-sm font-bold text-blue-700 text-right">
+    ₹{totals.total.toLocaleString()}
+  </td>
+</tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div className="mt-6 pt-4 border-t flex flex-col sm:flex-row justify-end gap-3">
+            <button
+              onClick={() => setShowPreview(false)}
+              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 text-sm"
+            >
+              Continue Editing
+            </button>
+            <button
+              onClick={() => {
+                setShowPreview(false);
+                setShowPayment(true);
+              }}
+              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm"
+            >
+              Proceed to Payment
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // ============= PAYMENT MODAL =============
+  const renderPaymentModal = () => {
+    const totals = calculateTotals();
+    
+    return (
+      <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+        <div className="relative top-10 sm:top-20 mx-3 sm:mx-auto p-4 sm:p-6 border w-full sm:w-11/12 max-w-2xl shadow-lg rounded-lg bg-white">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Payment</h2>
+            <button
+              onClick={() => setShowPayment(false)}
+              className="text-gray-400 hover:text-gray-600"
+            >
+              <XCircleIcon className="h-6 w-6" />
+            </button>
+          </div>
+
+          <div className="space-y-6">
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <div className="flex justify-between items-center">
+                <span className="text-sm font-semibold text-blue-900">Total Amount:</span>
+                <span className="text-xl font-bold text-blue-900">₹{totals.total.toLocaleString()}</span>
+              </div>
+              <p className="text-xs text-blue-700 mt-1">Includes 18% GST on services + Security Deposit</p>
+            </div>
+
+            <div className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-sm font-semibold text-gray-800 mb-3">Bank Transfer Details</h3>
+              <div className="grid grid-cols-2 gap-2 text-xs">
+                <div className="text-gray-600">Account Name:</div>
+                <div className="font-medium">Maxx Business Media Pvt. Ltd.</div>
+                <div className="text-gray-600">Account No:</div>
+                <div className="font-medium">272605000632</div>
+                <div className="text-gray-600">IFSC:</div>
+                <div className="font-medium">ICIC0002726</div>
+                <div className="text-gray-600">Bank:</div>
+                <div className="font-medium">ICICI Bank</div>
+                <div className="text-gray-600">Branch:</div>
+                <div className="font-medium">New Delhi</div>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="text-sm font-semibold text-gray-800 mb-3">Payment Details</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Payment Mode</label>
+                  <select
+                    value={paymentDetails.paymentMode}
+                    onChange={(e) => setPaymentDetails({...paymentDetails, paymentMode: e.target.value as any})}
+                    className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="RTGS">RTGS</option>
+                    <option value="NEFT">NEFT</option>
+                    <option value="IMPS">IMPS</option>
+                    <option value="UPI">UPI</option>
+                    <option value="Cheque">Cheque</option>
+                    <option value="DD">DD</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Transaction ID / UTR</label>
+                  <input
+                    type="text"
+                    value={paymentDetails.transactionId}
+                    onChange={(e) => setPaymentDetails({...paymentDetails, transactionId: e.target.value})}
+                    className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                    placeholder="UTR / Transaction ID"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Amount Paid</label>
+                  <input
+                    type="number"
+                    value={paymentDetails.amount || ''}
+                    onChange={(e) => setPaymentDetails({...paymentDetails, amount: parseFloat(e.target.value) || 0})}
+                    className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter amount"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Transaction Date</label>
+                  <input
+                    type="date"
+                    value={paymentDetails.transactionDate}
+                    onChange={(e) => setPaymentDetails({...paymentDetails, transactionDate: e.target.value})}
+                    className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                <div className="sm:col-span-2">
+                  <label className="block text-xs font-medium text-gray-700 mb-1">Upload Payment Receipt</label>
+                  <input
+                    type="file"
+                    onChange={handlePaymentFileUpload}
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    className="w-full border border-gray-200 rounded-lg p-1.5 text-sm"
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Accepted formats: PDF, JPG, PNG (Max 5MB)</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row justify-end gap-3">
+              <button
+                onClick={() => setShowPayment(false)}
+                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 text-sm"
+              >
+                Back
+              </button>
+              <button
+                onClick={handleSubmitApplication}
+                disabled={isSubmitting}
+                className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-semibold disabled:opacity-50 flex items-center justify-center"
+              >
+                {isSubmitting ? (
+                  <>
+                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Submitting...
+                  </>
+                ) : 'Submit Application'}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  // ============= NAVIGATION =============
+  const renderNavigation = () => (
+    <div className="flex flex-col sm:flex-row justify-between items-center gap-3 mb-6">
+      <button
+        onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
+        disabled={currentStep === 1}
+        className="w-full sm:w-auto px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50 flex items-center justify-center text-sm"
+      >
+        <ChevronLeftIcon className="h-4 w-4 mr-1" />
+        Previous
+      </button>
+      
+      <div className="flex gap-3 w-full sm:w-auto">
+        <button
+          onClick={() => setShowPreview(true)}
+          className="flex-1 sm:flex-none px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center justify-center text-sm"
+        >
+          <EyeIcon className="h-4 w-4 sm:mr-2" />
+          <span className="hidden sm:inline">Preview & Totals</span>
+          <span className="sm:hidden">Preview</span>
+        </button>
+        
+        {/* Only show Next button if not on last step (15) */}
+        {currentStep < totalSteps && (
+          <button
+            onClick={() => setCurrentStep(Math.min(totalSteps, currentStep + 1))}
+            disabled={currentStep === totalSteps}
+            className="flex-1 sm:flex-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 flex items-center justify-center text-sm"
+          >
+            <span className="sm:hidden">Next</span>
+            <span className="hidden sm:inline">Next</span>
+            <ChevronRightIcon className="h-4 w-4 ml-1" />
+          </button>
+        )}
+      </div>
+    </div>
+  );
+
+  // ============= PROGRESS TRACKER =============
+  const renderProgressTracker = () => (
+    <div className="mb-6 bg-white rounded-lg shadow p-4">
+      {/* Desktop View */}
+      <div className="hidden sm:block">
+        <div className="flex items-center justify-between">
+          {steps.map((step, idx) => (
+            <div key={step.number} className="flex items-center">
+              <div 
+                className={`
+                  flex items-center justify-center w-8 h-8 rounded-full border-2 text-xs font-medium
+                  ${currentStep > step.number ? 'bg-green-600 border-green-600 text-white' : 
+                    currentStep === step.number ? 'bg-blue-600 border-blue-600 text-white' : 
+                    'border-gray-300 bg-white text-gray-400'}
+                `}
+              >
+                {currentStep > step.number ? '✓' : step.number}
+              </div>
+              {idx < steps.length - 1 && (
+                <div className={`w-6 h-0.5 mx-1 ${currentStep > step.number + 1 ? 'bg-green-600' : 'bg-gray-300'}`} />
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-between mt-2">
+          {steps.map(step => (
+            <span key={step.number} className="text-xs text-gray-600">{step.name}</span>
+          ))}
+        </div>
+      </div>
+
+      {/* Mobile View */}
+      <div className="sm:hidden">
+        <div className="flex items-center justify-between">
+          <button 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="flex items-center text-blue-600"
+          >
+            <MenuIcon className="h-5 w-5 mr-2" />
+            <span className="font-medium text-sm">Step {currentStep}: {steps[currentStep-1]?.mobileName}</span>
+          </button>
+          <div className="text-sm text-gray-600">
+            {currentStep} / {totalSteps}
+          </div>
+        </div>
+        
+        {isMobileMenuOpen && (
+          <div className="mt-4 grid grid-cols-4 gap-2">
+            {steps.map((step) => (
+              <button
+                key={step.number}
+                onClick={() => {
+                  setCurrentStep(step.number);
+                  setIsMobileMenuOpen(false);
+                }}
+                className={`
+                  p-2 rounded-lg text-xs font-medium
+                  ${currentStep === step.number 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-gray-100 text-gray-700'}
+                `}
+              >
+                {step.mobileName}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-4 sm:py-6 md:py-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+          <div className="bg-white shadow-lg rounded-xl p-8">
+            <div className="flex items-center justify-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+              <p className="ml-3 text-gray-600">Loading your profile...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Error state - show login prompt
+  if (error?.includes('log in')) {
+    return (
+      <div className="min-h-screen bg-gray-50 py-4 sm:py-6 md:py-8">
+        <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+          <div className="bg-white shadow-lg rounded-xl p-8 text-center">
+            <XCircleIcon className="h-12 w-12 text-red-500 mx-auto mb-4" />
+            <h2 className="text-xl font-semibold mb-2">Authentication Required</h2>
+            <p className="text-gray-600 mb-4">{error}</p>
+            <button 
+              onClick={() => router.push('/login')}
+              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+            >
+              Go to Login
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ============= MAIN RENDER =============
+  return (
+    <div className="min-h-screen bg-gray-50 py-4 sm:py-6 md:py-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
+        
+        {/* Header */}
+        <div className="mb-6">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Exhibition Registration</h1>
+          <p className="mt-1 text-sm sm:text-base text-gray-600">Complete all sections to register your participation</p>
+          {profile && (
+            <p className="text-xs text-green-600 mt-1">✓ Profile loaded - Your information has been auto-filled</p>
+          )}
+        </div>
+
+        {/* Progress Tracker */}
+        {renderProgressTracker()}
+
+        {/* Navigation - Top */}
+        {renderNavigation()}
+
+        {/* Render Forms Based on Current Step */}
+        <div className="mt-4">
+          {currentStep === 1 && renderGeneralInfo()}
+          {currentStep === 2 && renderLocationDetails()}
+          {currentStep === 3 && renderBoothDetails()}
+          {currentStep === 4 && renderSecurityDeposit()}
+          {currentStep === 5 && renderMachines()}
+          {currentStep === 6 && renderPersonnel()}
+          {currentStep === 7 && renderCompanyDetails()}
+          {currentStep === 8 && renderElectricalLoad()}
+          {currentStep === 9 && renderFurniture()}
+          {currentStep === 10 && renderHostess()}
+          {currentStep === 11 && renderCompressedAir()}
+          {currentStep === 12 && renderWaterConnection()}
+          {currentStep === 13 && renderSecurityGuard()}
+          {currentStep === 14 && renderRentalItems()}
+          {currentStep === 15 && renderHousekeepingStaff()}
+        </div>
+
+        {/* Navigation - Bottom */}
+        {renderNavigation()}
+
+        {/* Modals */}
+        {showPreview && renderPreviewModal()}
+        {showPayment && renderPaymentModal()}
+      </div>
     </div>
   );
 }

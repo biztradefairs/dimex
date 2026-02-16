@@ -15,37 +15,20 @@ import {
   Package,
   Tag,
   FileText,
-  Image as ImageIcon,
   Plus,
   Edit,
   Trash2,
   Download,
-  Eye,
   CheckCircle,
   XCircle,
   AlertCircle,
   Upload,
   Save,
-  ArrowLeft,
-  ChevronRight,
-  Calendar,
-  Clock,
   Award,
-  ExternalLink,
-  HelpCircle,
-  Info,
-  AlertTriangle,
   Building,
-  Receipt,
-  FileText as FileTextIcon,
-  Download as DownloadIcon,
-  Ruler,
   Home,
   Grid,
-  Maximize2,
-  Move
 } from 'lucide-react';
-import Link from 'next/link';
 
 // API Configuration
 const API_BASE_URL = 'https://diemex-backend.onrender.com';
@@ -53,15 +36,12 @@ const API_BASE_URL = 'https://diemex-backend.onrender.com';
 // Types
 interface ExhibitorProfile {
   id: string;
-  // General Information
   companyName: string;
   shortName: string;
   registrationNumber: string;
   yearEstablished: number | string;
   companySize: string;
   companyType: string;
-  
-  // Contact Person
   contactPerson: {
     name: string;
     jobTitle: string;
@@ -69,8 +49,6 @@ interface ExhibitorProfile {
     phone: string;
     alternatePhone: string;
   };
-  
-  // Exhibition Location
   exhibition: {
     pavilion: string;
     hall: string;
@@ -78,8 +56,6 @@ interface ExhibitorProfile {
     floorPlan?: File | string;
     floorPlanUrl?: string;
   };
-  
-  // Company Address
   address: {
     street: string;
     city: string;
@@ -88,14 +64,10 @@ interface ExhibitorProfile {
     countryCode: string;
     postalCode: string;
   };
-  
-  // Business Details
   sector: string[];
   about: string;
   mission: string;
   vision: string;
-  
-  // Social Media
   socialMedia: {
     website: string;
     linkedin: string;
@@ -103,21 +75,11 @@ interface ExhibitorProfile {
     facebook: string;
     instagram: string;
   };
-  
-  // Logo
   logo?: File | string;
   logoUrl?: string;
-  
-  // Products
   products: Product[];
-  
-  // Brands
   brands: Brand[];
-  
-  // Brochures
   brochures: Brochure[];
-  
-  // Booth Details from Admin
   boothNumber?: string;
   boothSize?: string;
   boothType?: string;
@@ -125,8 +87,6 @@ interface ExhibitorProfile {
   boothNotes?: string;
   boothStatus?: string;
   boothPrice?: string;
-  
-  // Additional fields from API
   status: string;
   createdAt: string;
   updatedAt: string;
@@ -163,30 +123,7 @@ interface Brochure {
   publicId?: string;
 }
 
-interface FloorPlan {
-  id: string;
-  name: string;
-  gridSize: {
-    rows: number;
-    cols: number;
-  };
-  imageUrl?: string;
-}
-
-interface BoothDetails {
-  boothNumber: string;
-  position: {
-    x: number;
-    y: number;
-  };
-  size: string;
-  status: string;
-  type?: string;
-  dimensions?: string;
-  notes?: string;
-}
-
-// Country options
+// Options
 const countries = [
   { code: 'TR', name: 'Turkey' },
   { code: 'RU', name: 'Russia' },
@@ -201,105 +138,30 @@ const countries = [
   { code: 'AE', name: 'UAE' },
 ];
 
-// Sector options
 const sectorOptions = [
-  'Logistics',
-  'Supply Chain',
-  'Freight',
-  'Technology',
-  'Manufacturing',
-  'Construction',
-  'Automotive',
-  'Healthcare',
-  'Pharmaceutical',
-  'Food & Beverage',
-  'Textile',
-  'Energy',
-  'Mining',
-  'Agriculture',
-  'Defense',
-  'Aerospace',
-  'Maritime',
-  'Retail',
-  'E-commerce',
-  'Education',
-  'Finance',
-  'Consulting',
-  'Marketing',
-  'Real Estate',
+  'Logistics', 'Supply Chain', 'Freight', 'Technology', 'Manufacturing',
+  'Construction', 'Automotive', 'Healthcare', 'Pharmaceutical', 'Food & Beverage',
+  'Textile', 'Energy', 'Mining', 'Agriculture', 'Defense', 'Aerospace',
+  'Maritime', 'Retail', 'E-commerce', 'Education', 'Finance', 'Consulting',
+  'Marketing', 'Real Estate',
 ];
 
-// Company size options
-const companySizeOptions = [
-  '1-10',
-  '11-50',
-  '51-200',
-  '201-500',
-  '501-1000',
-  '1000+',
-];
-
-// Company type options
-const companyTypeOptions = [
-  'Private',
-  'Public',
-  'Non-Profit',
-  'Government',
-  'Partnership',
-  'Sole Proprietorship',
-];
-
-// Pavilion options
-const pavilionOptions = [
-  'Pavilion 1',
-  'Pavilion 2',
-  'Pavilion 3',
-  'Pavilion 4',
-  'Pavilion 5',
-  'Pavilion 6',
-  'Pavilion 7',
-  'Pavilion 8',
-];
-
-// Hall options
-const hallOptions = [
-  'Hall A',
-  'Hall B',
-  'Hall C',
-  'Hall D',
-  'Hall E',
-  'Hall F',
-  'Hall G',
-  'Hall H',
-];
-
-// Booth type options
-const boothTypeOptions = [
-  { value: 'standard', label: 'Standard Booth (3x3m)' },
-  { value: 'double', label: 'Double Booth (6x3m)' },
-  { value: 'corner', label: 'Corner Booth' },
-  { value: 'island', label: 'Island Booth' },
-  { value: 'custom', label: 'Custom Size' },
-];
+const companySizeOptions = ['1-10', '11-50', '51-200', '201-500', '501-1000', '1000+'];
+const companyTypeOptions = ['Private', 'Public', 'Non-Profit', 'Government', 'Partnership', 'Sole Proprietorship'];
+const pavilionOptions = ['Pavilion 1', 'Pavilion 2', 'Pavilion 3', 'Pavilion 4', 'Pavilion 5', 'Pavilion 6', 'Pavilion 7', 'Pavilion 8'];
+const hallOptions = ['Hall A', 'Hall B', 'Hall C', 'Hall D', 'Hall E', 'Hall F', 'Hall G', 'Hall H'];
 
 export default function ExhibitorDashboard() {
-  const [activeTab, setActiveTab] = useState<'profile' | 'products' | 'brands' | 'brochures' | 'booth' | 'preview' | 'invoices' | 'requirements' | 'manual'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'products' | 'brands' | 'brochures' | 'booth'>('profile');
   const [isEditing, setIsEditing] = useState(false);
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [showAddBrand, setShowAddBrand] = useState(false);
   const [showAddBrochure, setShowAddBrochure] = useState(false);
-  // const [showAddRequirement, setShowAddRequirement] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState<string | null>(null);
-  const [completionScore, setCompletionScore] = useState(0);
-  
-  // Additional state from API
-  const [floorPlan, setFloorPlan] = useState<FloorPlan | null>(null);
-  const [boothDetails, setBoothDetails] = useState<BoothDetails | null>(null);
-  const [manualSections, setManualSections] = useState<any[]>([]);
-  
+  const [requirements, setRequirements] = useState<any[]>([]);
   
   // Profile State
   const [profile, setProfile] = useState<ExhibitorProfile>({
@@ -384,355 +246,176 @@ export default function ExhibitorDashboard() {
     uploadedAt: new Date(),
   });
 
-  // New requirement form state
-  const [newRequirement, setNewRequirement] = useState({
-    type: '',
-    description: '',
-    quantity: 1,
-    price: 0
-  });
-
   // New spec key/value for product
   const [newSpecKey, setNewSpecKey] = useState('');
   const [newSpecValue, setNewSpecValue] = useState('');
-  const [showAddRequirement, setShowAddRequirement] = useState(false);
-const [requirements, setRequirements] = useState<any[]>([]);
-
 
   // Load all exhibitor data
   useEffect(() => {
     fetchAllData();
   }, []);
 
-  const fetchRequirements = async () => {
-  try {
-    const result = await apiCall('/api/exhibitorDashboard/requirements');
-    if (result.success) {
-      setRequirements(result.data);
-    }
-  } catch (error) {
-    console.error('Error fetching requirements:', error);
-  }
-};
-const handleAddRequirement = async () => {
-  if (!newRequirement.type || !newRequirement.description) return;
-  
-  setSaving(true);
-  try {
-    const result = await apiCall('/api/exhibitorDashboard/requirements', {
-      method: 'POST',
-      body: JSON.stringify({
-        ...newRequirement,
-        price: newRequirement.price || 0, // Include price in the request
-      }),
-    });
+  const apiCall = async (endpoint: string, options: RequestInit = {}, isFormData = false) => {
+    const token = localStorage.getItem('exhibitor_token') || localStorage.getItem('token');
     
-    if (result.success) {
-      setRequirements([result.data, ...requirements]);
-      setNewRequirement({ type: '', description: '', quantity: 1, price: 0 }); // Reset with price
-      setShowAddRequirement(false);
-      setShowSuccess(true);
-      setTimeout(() => setShowSuccess(false), 3000);
-    }
-  } catch (error: any) {
-    console.error('Error adding requirement:', error);
-    setShowError(error.message || 'Failed to add requirement');
-  } finally {
-    setSaving(false);
-  }
-};
-const handleDeleteRequirement = async (requirementId: string) => {
-  try {
-    await apiCall(`/api/exhibitorDashboard/requirements/${requirementId}`, {
-      method: 'DELETE',
-    });
+    const headers: HeadersInit = {};
     
-    setRequirements(requirements.filter(req => req.id !== requirementId));
-    setShowSuccess(true);
-    setTimeout(() => setShowSuccess(false), 3000);
-  } catch (error: any) {
-    console.error('Error deleting requirement:', error);
-    setShowError(error.message || 'Failed to delete requirement');
-  }
-};
-
-
-// Add fetchRequirements to fetchAllData
-const fetchAllData = async () => {
-  setLoading(true);
-  setShowError(null);
-  
-  try {
-    await fetchExhibitorProfile();
-    await Promise.all([
-      fetchProducts(),
-      fetchBrands(),
-      fetchBrochures(),
-      fetchDashboardLayout(),
-      fetchManual(),
-      fetchBoothDetailsFromAdmin(),
-      fetchRequirements(), // Add this line
-    ]);
-  } catch (error: any) {
-    console.error('Error fetching data:', error);
-    setShowError(error.message || 'Failed to load data');
-  } finally {
-    setLoading(false);
-  }
-};
-
-  // Calculate profile completion
-  useEffect(() => {
-    calculateCompletionScore();
-  }, [profile]);
-
-const apiCall = async (endpoint: string, options: RequestInit = {}, isFormData = false) => {
-  const token = localStorage.getItem('exhibitor_token') || localStorage.getItem('token');
-  
-  const headers: HeadersInit = {};
-  
-  // Don't set Content-Type for FormData - browser will set it with boundary
-  if (!isFormData) {
-    headers['Content-Type'] = 'application/json';
-  }
-  
-  if (token) {
-    headers['Authorization'] = `Bearer ${token}`;
-  }
-
-  try {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-      ...options,
-      headers: {
-        ...headers,
-        ...options.headers,
-      },
-      credentials: 'include',
-    });
-
-    const responseData = await response.json().catch(() => ({}));
-
-    if (!response.ok) {
-      console.error('API Error Response:', responseData);
-      throw new Error(responseData.error || responseData.message || `HTTP error! status: ${response.status}`);
+    if (!isFormData) {
+      headers['Content-Type'] = 'application/json';
+    }
+    
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
     }
 
-    return responseData;
-  } catch (error) {
-    console.error('API Call Error:', error);
-    throw error;
-  }
-};
+    try {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
+        ...options,
+        headers: {
+          ...headers,
+          ...options.headers,
+        },
+        credentials: 'include',
+      });
 
-  const uploadToCloudinary = async (file: File, folder: string = 'exhibitor-files') => {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('folder', folder);
+      const responseData = await response.json().catch(() => ({}));
 
-    const result = await apiCall('/api/upload', {
-      method: 'POST',
-      body: formData,
-    }, true); // true = isFormData
+      if (!response.ok) {
+        console.error('API Error Response:', responseData);
+        throw new Error(responseData.error || responseData.message || `HTTP error! status: ${response.status}`);
+      }
 
-    return result.data; // Should return { url, publicId, format, etc. }
+      return responseData;
+    } catch (error) {
+      console.error('API Call Error:', error);
+      throw error;
+    }
   };
 
-
-
-const fetchBoothDetailsFromAdmin = async () => {
-  try {
-    const exhibitorId = profile.id;
+  const fetchAllData = async () => {
+    setLoading(true);
+    setShowError(null);
     
-    if (!exhibitorId) {
-      console.log('No exhibitor ID available for booth details');
-      return;
+    try {
+      await fetchExhibitorProfile();
+      await Promise.all([
+        fetchProducts(),
+        fetchBrands(),
+        fetchBrochures(),
+      ]);
+    } catch (error: any) {
+      console.error('Error fetching data:', error);
+      setShowError(error.message || 'Failed to load data');
+    } finally {
+      setLoading(false);
     }
+  };
 
-    console.log('Fetching booth details from admin for exhibitor:', exhibitorId);
-
-    const result = await apiCall(`/api/exhibitors/${exhibitorId}`, {
-      method: 'GET',
-    });
-    
-    if (result.success && result.data) {
-      const adminData = result.data;
+  const fetchExhibitorProfile = async () => {
+    try {
+      const result = await apiCall('/api/exhibitorDashboard/profile');
       
-      // Parse stallDetails if it exists
-      let stallDetails = adminData.stallDetails || {};
-      if (typeof stallDetails === 'string') {
-        try {
-          stallDetails = JSON.parse(stallDetails);
-        } catch {
-          stallDetails = {};
+      if (result.success) {
+        const apiData = result.data;
+        
+        // Parse address if it's a string
+        let addressParts = {
+          street: '',
+          city: '',
+          state: '',
+          country: '',
+          postalCode: ''
+        };
+        
+        if (apiData.address) {
+          const parts = apiData.address.split(',').map((p: string) => p.trim());
+          addressParts.street = parts[0] || '';
+          addressParts.city = parts[1] || '';
+          addressParts.state = parts[2] || '';
+          addressParts.country = parts[3] || '';
+          addressParts.postalCode = parts[4] || '';
         }
-      }
-
-      console.log('Parsed stall details:', stallDetails);
-      console.log('Price from stallDetails:', stallDetails.price);
-
-      // Extract booth details from admin data with proper fallbacks
-      const boothInfo = {
-        boothNumber: adminData.boothNumber || adminData.booth || stallDetails.boothNumber || '',
-        boothSize: adminData.boothSize || stallDetails.size || stallDetails.boothSize || '3m x 3m',
-        boothType: adminData.boothType || stallDetails.type || stallDetails.boothType || 'standard',
-        boothDimensions: adminData.boothDimensions || stallDetails.dimensions || stallDetails.boothDimensions || '',
-        boothNotes: adminData.boothNotes || stallDetails.notes || stallDetails.boothNotes || '',
-        boothPrice: stallDetails.price || adminData.boothPrice || adminData.price || '', // TRY MULTIPLE SOURCES
-        status: adminData.status || 'active'
-      };
-
-      console.log('Booth details fetched from admin:', boothInfo);
-
-      // Update profile with booth details
-      setProfile(prev => ({
-        ...prev,
-        exhibition: {
-          ...prev.exhibition,
-          standNumber: boothInfo.boothNumber || prev.exhibition.standNumber,
-        },
-        boothNumber: boothInfo.boothNumber,
-        boothSize: boothInfo.boothSize,
-        boothType: boothInfo.boothType,
-        boothDimensions: boothInfo.boothDimensions,
-        boothNotes: boothInfo.boothNotes,
-        boothPrice: boothInfo.boothPrice, // THIS WILL NOW BE SET
-        boothStatus: boothInfo.status
-      }));
-    }
-  } catch (error) {
-    console.error('Error fetching booth details from admin:', error);
-  }
-};
-
-const fetchExhibitorProfile = async () => {
-  try {
-    const result = await apiCall('/api/exhibitorDashboard/profile');
-    
-    if (result.success) {
-      const apiData = result.data;
-      
-      // Parse address if it's a string
-      let addressParts = {
-        street: '',
-        city: '',
-        state: '',
-        country: '',
-        postalCode: ''
-      };
-      
-      if (apiData.address) {
-        const parts = apiData.address.split(',').map((p: string) => p.trim());
-        addressParts.street = parts[0] || '';
-        addressParts.city = parts[1] || '';
-        addressParts.state = parts[2] || '';
-        addressParts.country = parts[3] || '';
-        addressParts.postalCode = parts[4] || '';
-      }
-      
-      // Parse social media if it's stored as JSON string or object
-      let socialMedia = {
-        website: '',
-        linkedin: '',
-        twitter: '',
-        facebook: '',
-        instagram: '',
-      };
-      
-      if (apiData.socialMedia) {
-        if (typeof apiData.socialMedia === 'string') {
-          try {
-            socialMedia = JSON.parse(apiData.socialMedia);
-          } catch (e) {
-            console.error('Error parsing social media:', e);
+        
+        // Parse social media
+        let socialMedia = {
+          website: '',
+          linkedin: '',
+          twitter: '',
+          facebook: '',
+          instagram: '',
+        };
+        
+        if (apiData.socialMedia) {
+          if (typeof apiData.socialMedia === 'string') {
+            try {
+              socialMedia = JSON.parse(apiData.socialMedia);
+            } catch (e) {
+              console.error('Error parsing social media:', e);
+            }
+          } else if (typeof apiData.socialMedia === 'object') {
+            socialMedia = {
+              website: apiData.socialMedia.website || apiData.website || '',
+              linkedin: apiData.socialMedia.linkedin || '',
+              twitter: apiData.socialMedia.twitter || '',
+              facebook: apiData.socialMedia.facebook || '',
+              instagram: apiData.socialMedia.instagram || '',
+            };
           }
-        } else if (typeof apiData.socialMedia === 'object') {
-          socialMedia = {
-            website: apiData.socialMedia.website || apiData.website || '',
-            linkedin: apiData.socialMedia.linkedin || '',
-            twitter: apiData.socialMedia.twitter || '',
-            facebook: apiData.socialMedia.facebook || '',
-            instagram: apiData.socialMedia.instagram || '',
-          };
+        } else {
+          socialMedia.website = apiData.website || '';
         }
-      } else {
-        // If no socialMedia object, try to get website directly
-        socialMedia.website = apiData.website || '';
+        
+        setProfile(prev => ({
+          ...prev,
+          id: apiData.id || '',
+          companyName: apiData.company || apiData.name || '',
+          shortName: apiData.shortName || apiData.short_name || '',
+          registrationNumber: apiData.registrationNumber || apiData.registration_number || '',
+          yearEstablished: apiData.yearEstablished || apiData.year_established || '',
+          companySize: apiData.companySize || apiData.company_size || '',
+          companyType: apiData.companyType || apiData.company_type || '',
+          contactPerson: {
+            name: apiData.contactPerson?.name || apiData.contact_name || apiData.name || '',
+            jobTitle: apiData.contactPerson?.jobTitle || apiData.contact_job_title || '',
+            email: apiData.contactPerson?.email || apiData.email || '',
+            phone: apiData.contactPerson?.phone || apiData.phone || '',
+            alternatePhone: apiData.contactPerson?.alternatePhone || apiData.alternate_phone || '',
+          },
+          exhibition: {
+            pavilion: apiData.exhibition?.pavilion || apiData.pavilion || '',
+            hall: apiData.exhibition?.hall || apiData.hall || '',
+            standNumber: apiData.exhibition?.standNumber || apiData.boothNumber || apiData.booth_number || '',
+            floorPlanUrl: apiData.exhibition?.floorPlanUrl || apiData.floor_plan_url || '',
+          },
+          address: {
+            street: addressParts.street || apiData.address_street || '',
+            city: addressParts.city || apiData.address_city || '',
+            state: addressParts.state || apiData.address_state || '',
+            country: addressParts.country || apiData.address_country || '',
+            countryCode: apiData.address_country_code || '',
+            postalCode: addressParts.postalCode || apiData.address_postal_code || '',
+          },
+          sector: apiData.sector ? 
+            (Array.isArray(apiData.sector) ? apiData.sector : apiData.sector.split(',').map((s: string) => s.trim())) 
+            : [],
+          about: apiData.about || apiData.description || '',
+          mission: apiData.mission || '',
+          vision: apiData.vision || '',
+          socialMedia: socialMedia,
+          status: apiData.status || 'active',
+          createdAt: apiData.createdAt || apiData.created_at || '',
+          updatedAt: apiData.updatedAt || apiData.updated_at || '',
+        }));
       }
-      
-      // ===== IMPORTANT: Parse stallDetails to get booth price =====
-      let stallDetails = apiData.stallDetails || {};
-      if (typeof stallDetails === 'string') {
-        try {
-          stallDetails = JSON.parse(stallDetails);
-        } catch (e) {
-          console.error('Error parsing stallDetails:', e);
-          stallDetails = {};
-        }
-      }
-      
-      console.log('📦 Fetched stallDetails:', stallDetails);
-      console.log('💰 Booth price from stallDetails:', stallDetails.price);
-      
-      setProfile(prev => ({
-        ...prev,
-        id: apiData.id || '',
-        companyName: apiData.company || apiData.name || '',
-        shortName: apiData.shortName || apiData.short_name || '',
-        registrationNumber: apiData.registrationNumber || apiData.registration_number || '',
-        yearEstablished: apiData.yearEstablished || apiData.year_established || '',
-        companySize: apiData.companySize || apiData.company_size || '',
-        companyType: apiData.companyType || apiData.company_type || '',
-        contactPerson: {
-          name: apiData.contactPerson?.name || apiData.contact_name || apiData.name || '',
-          jobTitle: apiData.contactPerson?.jobTitle || apiData.contact_job_title || '',
-          email: apiData.contactPerson?.email || apiData.email || '',
-          phone: apiData.contactPerson?.phone || apiData.phone || '',
-          alternatePhone: apiData.contactPerson?.alternatePhone || apiData.alternate_phone || '',
-        },
-        exhibition: {
-          pavilion: apiData.exhibition?.pavilion || apiData.pavilion || '',
-          hall: apiData.exhibition?.hall || apiData.hall || '',
-          standNumber: apiData.exhibition?.standNumber || apiData.boothNumber || apiData.booth_number || '',
-          floorPlanUrl: apiData.exhibition?.floorPlanUrl || apiData.floor_plan_url || '',
-        },
-        address: {
-          street: addressParts.street || apiData.address_street || '',
-          city: addressParts.city || apiData.address_city || '',
-          state: addressParts.state || apiData.address_state || '',
-          country: addressParts.country || apiData.address_country || '',
-          countryCode: apiData.address_country_code || '',
-          postalCode: addressParts.postalCode || apiData.address_postal_code || '',
-        },
-        sector: apiData.sector ? 
-          (Array.isArray(apiData.sector) ? apiData.sector : apiData.sector.split(',').map((s: string) => s.trim())) 
-          : [],
-        about: apiData.about || apiData.description || '',
-        mission: apiData.mission || '',
-        vision: apiData.vision || '',
-        socialMedia: socialMedia,
-        // ===== IMPORTANT: Add booth price from stallDetails =====
-        boothNumber: apiData.boothNumber || stallDetails.boothNumber || '',
-        boothSize: apiData.boothSize || stallDetails.size || '',
-        boothType: apiData.boothType || stallDetails.type || 'standard',
-        boothDimensions: apiData.boothDimensions || stallDetails.dimensions || '',
-        boothNotes: apiData.boothNotes || stallDetails.notes || '',
-        boothPrice: stallDetails.price || apiData.boothPrice || '', // THIS IS THE KEY LINE
-        boothStatus: apiData.status || 'active',
-        status: apiData.status || 'active',
-        createdAt: apiData.createdAt || apiData.created_at || '',
-        updatedAt: apiData.updatedAt || apiData.updated_at || '',
-      }));
+    } catch (error) {
+      console.error('Error fetching profile:', error);
+      throw error;
     }
-  } catch (error) {
-    console.error('Error fetching profile:', error);
-    throw error;
-  }
-};
+  };
 
   const fetchProducts = async () => {
     try {
       const result = await apiCall('/api/exhibitorDashboard/products');
-      
       if (result.success) {
         setProfile(prev => ({
           ...prev,
@@ -747,7 +430,6 @@ const fetchExhibitorProfile = async () => {
   const fetchBrands = async () => {
     try {
       const result = await apiCall('/api/exhibitorDashboard/brands');
-      
       if (result.success) {
         setProfile(prev => ({
           ...prev,
@@ -762,7 +444,6 @@ const fetchExhibitorProfile = async () => {
   const fetchBrochures = async () => {
     try {
       const result = await apiCall('/api/exhibitorDashboard/brochures');
-      
       if (result.success) {
         setProfile(prev => ({
           ...prev,
@@ -774,238 +455,20 @@ const fetchExhibitorProfile = async () => {
     }
   };
 
-  const fetchDashboardLayout = async () => {
-    try {
-      const result = await apiCall('/api/exhibitorDashboard/layout');
-      
-      if (result.success) {
-        const { exhibitor, floorPlan: fp, booth } = result.data;
-        
-        setFloorPlan(fp);
-        
-        // Update booth details if available from layout
-        if (booth) {
-          setBoothDetails(prev => ({
-            ...prev,
-            boothNumber: booth.boothNumber || prev?.boothNumber || '',
-            position: booth.position || { x: 0, y: 0 },
-            size: booth.size || prev?.size || '',
-            status: booth.status || prev?.status || 'active'
-          }));
-        }
-        
-        // Update profile with any additional data from layout
-        if (exhibitor) {
-          setProfile(prev => ({
-            ...prev,
-            companyName: exhibitor.company || exhibitor.name || prev.companyName,
-            exhibition: {
-              ...prev.exhibition,
-              standNumber: exhibitor.boothNumber || prev.exhibition.standNumber,
-            },
-          }));
-        }
-      }
-    } catch (error) {
-      console.error('Error fetching layout:', error);
-      // Don't throw - this is non-critical
-    }
-  };
-
-  const fetchManual = async () => {
-    try {
-      const result = await apiCall('/api/exhibitorDashboard/manual');
-      
-      if (result.success) {
-        setManualSections(result.data.sections || []);
-      }
-    } catch (error) {
-      console.error('Error fetching manual:', error);
-      setManualSections([]);
-    }
-  };
-
-  const calculateCompletionScore = () => {
-    let totalFields = 0;
-    let completedFields = 0;
-
-    // Company Info
-    if (profile.companyName) completedFields++;
-    totalFields++;
-    if (profile.registrationNumber) completedFields++;
-    totalFields++;
-    if (profile.yearEstablished) completedFields++;
-    totalFields++;
-    if (profile.companySize) completedFields++;
-    totalFields++;
-    if (profile.companyType) completedFields++;
-    totalFields++;
-
-    // Contact Person
-    if (profile.contactPerson.name) completedFields++;
-    totalFields++;
-    if (profile.contactPerson.email) completedFields++;
-    totalFields++;
-    if (profile.contactPerson.phone) completedFields++;
-    totalFields++;
-
-    // Exhibition
-    if (profile.exhibition.pavilion) completedFields++;
-    totalFields++;
-    if (profile.exhibition.hall) completedFields++;
-    totalFields++;
-    if (profile.exhibition.standNumber) completedFields++;
-    totalFields++;
-
-    // Address
-    if (profile.address.street) completedFields++;
-    totalFields++;
-    if (profile.address.city) completedFields++;
-    totalFields++;
-    if (profile.address.country) completedFields++;
-    totalFields++;
-
-    // Business
-    if (profile.sector.length > 0) completedFields++;
-    totalFields++;
-    if (profile.about) completedFields++;
-    totalFields++;
-
-    // Products & Brands
-    if (profile.products.length > 0) completedFields++;
-    totalFields++;
-    if (profile.brands.length > 0) completedFields++;
-    totalFields++;
-    if (profile.brochures.length > 0) completedFields++;
-    totalFields++;
-
-    setCompletionScore(Math.round((completedFields / totalFields) * 100));
-  };
-
-const handleSaveProfile = async () => {
-  setSaving(true);
-  setShowError(null);
-  
-  try {
-    // Build address string
-    const addressParts = [
-      profile.address.street,
-      profile.address.city,
-      profile.address.state,
-      profile.address.country,
-      profile.address.postalCode
-    ].filter(part => part.trim() !== '');
-    
-    const addressString = addressParts.join(', ');
-    
-    // Build stall details object - MAKE SURE PRICE IS INCLUDED
-const stallDetails = {
-  size: profile.boothSize || '3m x 3m',
-  type: profile.boothType || 'standard',
-  dimensions: profile.boothDimensions || '',
-  notes: profile.boothNotes || '',
-  price: profile.boothPrice || '', // Price in Indian Rupees (INR)
-  updatedAt: new Date().toISOString()
-};
-    
-    console.log('💾 Saving stall details with price:', stallDetails);
-    
-    const apiData = {
-      // Basic Info
-      company: profile.companyName,
-      name: profile.contactPerson.name,
-      email: profile.contactPerson.email,
-      phone: profile.contactPerson.phone,
-      alternatePhone: profile.contactPerson.alternatePhone,
-      
-      // Exhibition
-      boothNumber: profile.exhibition.standNumber,
-      pavilion: profile.exhibition.pavilion,
-      hall: profile.exhibition.hall,
-      
-      // Address
-      address: addressString || undefined,
-      
-      // Business Details
-      description: profile.about,
-      mission: profile.mission,
-      vision: profile.vision,
-      sector: profile.sector.join(', '),
-      companySize: profile.companySize,
-      companyType: profile.companyType,
-      yearEstablished: profile.yearEstablished,
-      registrationNumber: profile.registrationNumber,
-      shortName: profile.shortName,
-      
-      // Social Media
-      website: profile.socialMedia.website,
-      linkedin: profile.socialMedia.linkedin,
-      twitter: profile.socialMedia.twitter,
-      facebook: profile.socialMedia.facebook,
-      instagram: profile.socialMedia.instagram,
-      
-      // Social media as JSON string
-      socialMedia: JSON.stringify(profile.socialMedia),
-      
-      // === IMPORTANT: Include booth details with price ===
-      stallDetails: JSON.stringify(stallDetails),
-      
-      // Individual booth fields for backward compatibility
-      boothSize: profile.boothSize,
-      boothType: profile.boothType,
-      boothDimensions: profile.boothDimensions,
-      boothNotes: profile.boothNotes,
-      boothPrice: profile.boothPrice // Include this too
-    };
-
-    const result = await apiCall('/api/exhibitorDashboard/profile', {
-      method: 'PUT',
-      body: JSON.stringify(apiData),
-    });
-    
-    if (result.success) {
-      setShowSuccess(true);
-      setIsEditing(false);
-      setTimeout(() => setShowSuccess(false), 3000);
-      
-      // Refresh all data to ensure consistency
-      await fetchAllData();
-    }
-  } catch (error: any) {
-    console.error('Error saving profile:', error);
-    setShowError(error.message || 'Failed to save profile');
-  } finally {
-    setSaving(false);
-  }
-};
   const handleAddProduct = async () => {
     if (!newProduct.name || !newProduct.description) return;
     
     setSaving(true);
     try {
-      let imageUrl = '';
-      let imagePublicId = '';
-      
-      // Upload image to Cloudinary if exists
-      if (newProduct.image) {
-        const uploadResult = await uploadToCloudinary(newProduct.image as File, 'products');
-        imageUrl = uploadResult.url;
-        imagePublicId = uploadResult.publicId;
-      }
-      
       const product: Product = {
         ...newProduct,
         id: `prod-${Date.now()}`,
-        imageUrl,
         specifications: newProduct.specifications || {},
       };
       
       const result = await apiCall('/api/exhibitorDashboard/products', {
         method: 'POST',
-        body: JSON.stringify({
-          ...product,
-          imagePublicId
-        }),
+        body: JSON.stringify(product),
       });
       
       if (result.success) {
@@ -1039,29 +502,14 @@ const stallDetails = {
     
     setSaving(true);
     try {
-      let logoUrl = '';
-      let logoPublicId = '';
-      
-      // Upload logo to Cloudinary if exists
-      if (newBrand.logo) {
-        const uploadResult = await uploadToCloudinary(newBrand.logo as File, 'brands');
-        logoUrl = uploadResult.url;
-        logoPublicId = uploadResult.publicId;
-      }
-      
       const brand: Brand = {
         ...newBrand,
         id: `brand-${Date.now()}`,
-        logoUrl,
       };
       
-      // Save to backend
       const result = await apiCall('/api/exhibitorDashboard/brands', {
         method: 'POST',
-        body: JSON.stringify({
-          ...brand,
-          logoPublicId
-        }),
+        body: JSON.stringify(brand),
       });
       
       if (result.success) {
@@ -1092,28 +540,20 @@ const stallDetails = {
     
     setSaving(true);
     try {
-      // Upload PDF to Cloudinary
-      const uploadResult = await uploadToCloudinary(newBrochure.file as File, 'brochures');
-      
       const brochure: Brochure = {
         ...newBrochure,
         id: `broch-${Date.now()}`,
         fileSize: `${(newBrochure.file.size / (1024 * 1024)).toFixed(1)} MB`,
-        fileUrl: uploadResult.url,
-        publicId: uploadResult.publicId,
         downloads: 0,
         uploadedAt: new Date(),
       };
       
-      // Save to backend
       const result = await apiCall('/api/exhibitorDashboard/brochures', {
         method: 'POST',
         body: JSON.stringify({
           name: brochure.name,
           description: brochure.description,
-          fileUrl: brochure.fileUrl,
           fileSize: brochure.fileSize,
-          publicId: brochure.publicId
         }),
       });
       
@@ -1145,15 +585,8 @@ const stallDetails = {
     }
   };
 
-  const handleDeleteProduct = async (productId: string, imagePublicId?: string) => {
+  const handleDeleteProduct = async (productId: string) => {
     try {
-      // Delete from Cloudinary first if image exists
-      if (imagePublicId) {
-        await apiCall(`/api/upload/${imagePublicId}`, {
-          method: 'DELETE',
-        });
-      }
-      
       await apiCall(`/api/exhibitorDashboard/products/${productId}`, {
         method: 'DELETE',
       });
@@ -1171,14 +604,8 @@ const stallDetails = {
     }
   };
 
-  const handleDeleteBrand = async (brandId: string, logoPublicId?: string) => {
+  const handleDeleteBrand = async (brandId: string) => {
     try {
-      if (logoPublicId) {
-        await apiCall(`/api/upload/${logoPublicId}`, {
-          method: 'DELETE',
-        });
-      }
-      
       await apiCall(`/api/exhibitorDashboard/brands/${brandId}`, {
         method: 'DELETE',
       });
@@ -1196,14 +623,8 @@ const stallDetails = {
     }
   };
 
-  const handleDeleteBrochure = async (brochureId: string, publicId?: string) => {
+  const handleDeleteBrochure = async (brochureId: string) => {
     try {
-      if (publicId) {
-        await apiCall(`/api/upload/${publicId}`, {
-          method: 'DELETE',
-        });
-      }
-      
       await apiCall(`/api/exhibitorDashboard/brochures/${brochureId}`, {
         method: 'DELETE',
       });
@@ -1324,24 +745,16 @@ const stallDetails = {
     }
   };
 
-  const getBoothTypeLabel = (type: string) => {
-    const types: Record<string, string> = {
-      standard: "Standard Booth (3x3m)",
-      double: "Double Booth (6x3m)",
-      corner: "Corner Booth",
-      island: "Island Booth",
-      custom: "Custom Size",
-    };
-    return types[type] || type;
-  };
-
-
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+      });
+    } catch {
+      return 'Invalid date';
+    }
   };
 
   if (loading) {
@@ -1369,38 +782,6 @@ const stallDetails = {
             </div>
             
             <div className="flex items-center gap-3">
-              {/* Preview Button */}
-              <Link
-                href={`/exhibitor/${profile.id}`}
-                target="_blank"
-                className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition-colors"
-              >
-                <Eye size={16} className="mr-2" />
-                Preview
-                <ExternalLink size={14} className="ml-1" />
-              </Link>
-
-              {/* Save Button */}
-              {isEditing && (
-                <button
-                  onClick={handleSaveProfile}
-                  disabled={saving}
-                  className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                  {saving ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-white border-t-transparent mr-2"></div>
-                      Saving...
-                    </>
-                  ) : (
-                    <>
-                      <Save size={16} className="mr-2" />
-                      Save Changes
-                    </>
-                  )}
-                </button>
-              )}
-              
               {!isEditing && (
                 <button
                   onClick={() => setIsEditing(true)}
@@ -1454,9 +835,7 @@ const stallDetails = {
                       <img
                         src={profile.logoUrl}
                         alt={profile.companyName}
-                        width={96}
-                        height={96}
-                        className="object-contain"
+                        className="object-contain w-full h-full"
                       />
                     ) : (
                       <div className="text-3xl font-bold text-gray-400">
@@ -1532,7 +911,6 @@ const stallDetails = {
                 </div>
               </div>
 
-
               {/* Status */}
               <div className="p-4 border-t bg-gray-50">
                 <div className="flex items-center gap-2 text-sm">
@@ -1551,8 +929,7 @@ const stallDetails = {
           {/* Main Content Area */}
           <div className="flex-1">
             <div className="bg-white rounded-xl border shadow-sm overflow-hidden">
-              
-              {/* PROFILE TAB */}
+              {/* Profile Tab */}
               {activeTab === 'profile' && (
                 <div className="divide-y">
                   {/* Company Information */}
@@ -1562,19 +939,9 @@ const stallDetails = {
                         <Building2 size={20} className="text-blue-600" />
                         Company Information
                       </h2>
-                      {!isEditing && (
-                        <button
-                          onClick={() => setIsEditing(true)}
-                          className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1"
-                        >
-                          <Edit size={14} />
-                          Edit
-                        </button>
-                      )}
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      {/* Company Name */}
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Company Name <span className="text-red-500">*</span>
@@ -1592,7 +959,6 @@ const stallDetails = {
                         )}
                       </div>
 
-                      {/* Short Name */}
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Short Name/Acronym
@@ -1610,7 +976,6 @@ const stallDetails = {
                         )}
                       </div>
 
-                      {/* Registration Number */}
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Registration Number
@@ -1628,7 +993,6 @@ const stallDetails = {
                         )}
                       </div>
 
-                      {/* Year Established */}
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Year Established
@@ -1637,7 +1001,7 @@ const stallDetails = {
                           <input
                             type="number"
                             value={profile.yearEstablished}
-                            onChange={(e) => setProfile({...profile, yearEstablished: parseInt(e.target.value)})}
+                            onChange={(e) => setProfile({...profile, yearEstablished: parseInt(e.target.value) || ''})}
                             className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             placeholder="YYYY"
                             min="1900"
@@ -1648,7 +1012,6 @@ const stallDetails = {
                         )}
                       </div>
 
-                      {/* Company Size */}
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Company Size
@@ -1669,7 +1032,6 @@ const stallDetails = {
                         )}
                       </div>
 
-                      {/* Company Type */}
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           Company Type
@@ -2071,42 +1433,6 @@ const stallDetails = {
                         </p>
                       )}
                     </div>
-
-                    {/* Mission & Vision */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Mission
-                        </label>
-                        {isEditing ? (
-                          <textarea
-                            value={profile.mission}
-                            onChange={(e) => setProfile({...profile, mission: e.target.value})}
-                            rows={3}
-                            className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Your company mission..."
-                          />
-                        ) : (
-                          <p className="text-gray-700">{profile.mission || 'Not provided'}</p>
-                        )}
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Vision
-                        </label>
-                        {isEditing ? (
-                          <textarea
-                            value={profile.vision}
-                            onChange={(e) => setProfile({...profile, vision: e.target.value})}
-                            rows={3}
-                            className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Your company vision..."
-                          />
-                        ) : (
-                          <p className="text-gray-700">{profile.vision || 'Not provided'}</p>
-                        )}
-                      </div>
-                    </div>
                   </div>
 
                   {/* Social Media */}
@@ -2227,7 +1553,7 @@ const stallDetails = {
                 </div>
               )}
 
-              {/* PRODUCTS TAB */}
+              {/* Products Tab */}
               {activeTab === 'products' && (
                 <div className="p-6">
                   <div className="flex justify-between items-center mb-6">
@@ -2292,52 +1618,17 @@ const stallDetails = {
                           />
                         </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Price (Optional)
-                            </label>
-                            <input
-                              type="text"
-                              value={newProduct.price}
-                              onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
-                              className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                              placeholder="e.g., Starting from $200"
-                            />
-                          </div>
-                          
-                          <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-1">
-                              Product Image
-                            </label>
-                            <div className="flex items-center gap-3">
-                              <label className="flex-1 cursor-pointer">
-                                <div className="border-2 border-dashed rounded-lg px-4 py-3 text-center hover:border-blue-500 transition-colors">
-                                  <Upload size={20} className="mx-auto text-gray-400 mb-1" />
-                                  <span className="text-xs text-gray-500">
-                                    {newProduct.image ? (newProduct.image as File).name : 'Upload image'}
-                                  </span>
-                                </div>
-                                <input
-                                  type="file"
-                                  accept="image/*"
-                                  onChange={handleProductImageUpload}
-                                  className="hidden"
-                                />
-                              </label>
-                              {newProduct.imageUrl && (
-                                <div className="w-16 h-16 border rounded-lg overflow-hidden shrink-0">
-                                  <img
-                                    src={newProduct.imageUrl}
-                                    alt="Preview"
-                                    width={64}
-                                    height={64}
-                                    className="object-cover w-full h-full"
-                                  />
-                                </div>
-                              )}
-                            </div>
-                          </div>
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-1">
+                            Price (Optional)
+                          </label>
+                          <input
+                            type="text"
+                            value={newProduct.price}
+                            onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
+                            className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="e.g., Starting from $200"
+                          />
                         </div>
 
                         {/* Specifications */}
@@ -2347,10 +1638,10 @@ const stallDetails = {
                           </label>
                           <div className="space-y-3">
                             {/* Existing specs */}
-                            {Object.entries(newProduct.specifications).map(([key, value]) => (
+                            {Object.entries(newProduct.specifications || {}).map(([key, value]) => (
                               <div key={key} className="flex items-center gap-2">
                                 <span className="text-sm font-medium text-gray-700 min-w-30">{key}:</span>
-                                <span className="text-sm text-gray-600">{value}</span>
+                                <span className="text-sm text-gray-600">{value || ''}</span>
                                 <button
                                   onClick={() => handleRemoveSpecification(key)}
                                   className="text-red-500 hover:text-red-700"
@@ -2367,14 +1658,14 @@ const stallDetails = {
                                 value={newSpecKey}
                                 onChange={(e) => setNewSpecKey(e.target.value)}
                                 className="flex-1 border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="Specification name (e.g., Coverage)"
+                                placeholder="Specification name"
                               />
                               <input
                                 type="text"
                                 value={newSpecValue}
                                 onChange={(e) => setNewSpecValue(e.target.value)}
                                 className="flex-1 border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="Value (e.g., Global)"
+                                placeholder="Value"
                               />
                               <button
                                 onClick={handleAddSpecification}
@@ -2407,7 +1698,7 @@ const stallDetails = {
                   )}
 
                   {/* Products List */}
-                  {profile.products.length > 0 ? (
+                  {profile.products && profile.products.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {profile.products.map((product) => (
                         <div key={product.id} className="border rounded-xl p-5 hover:shadow-md transition-shadow">
@@ -2429,14 +1720,14 @@ const stallDetails = {
                                 )}
                               </div>
 
-                              {Object.keys(product.specifications).length > 0 && (
+                              {product.specifications && Object.keys(product.specifications).length > 0 && (
                                 <div className="mt-3 pt-3 border-t">
                                   <p className="text-xs font-semibold text-gray-700 mb-1">Specifications:</p>
                                   <div className="space-y-1">
                                     {Object.entries(product.specifications).map(([key, value]) => (
                                       <div key={key} className="flex justify-between text-xs">
                                         <span className="text-gray-500">{key}:</span>
-                                        <span className="text-gray-700">{value}</span>
+                                        <span className="text-gray-700">{value || ''}</span>
                                       </div>
                                     ))}
                                   </div>
@@ -2471,7 +1762,7 @@ const stallDetails = {
                 </div>
               )}
 
-              {/* BRANDS TAB */}
+              {/* Brands Tab */}
               {activeTab === 'brands' && (
                 <div className="p-6">
                   <div className="flex justify-between items-center mb-6">
@@ -2521,39 +1812,6 @@ const stallDetails = {
                           />
                         </div>
 
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            Brand Logo
-                          </label>
-                          <div className="flex items-center gap-3">
-                            <label className="flex-1 cursor-pointer">
-                              <div className="border-2 border-dashed rounded-lg px-4 py-3 text-center hover:border-blue-500 transition-colors">
-                                <Upload size={20} className="mx-auto text-gray-400 mb-1" />
-                                <span className="text-xs text-gray-500">
-                                  {newBrand.logo ? (newBrand.logo as File).name : 'Upload logo'}
-                                </span>
-                              </div>
-                              <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleBrandLogoUpload}
-                                className="hidden"
-                              />
-                            </label>
-                            {newBrand.logoUrl && (
-                              <div className="w-16 h-16 border rounded-lg overflow-hidden shrink-0">
-                                <img
-                                  src={newBrand.logoUrl}
-                                  alt="Preview"
-                                  width={64}
-                                  height={64}
-                                  className="object-cover w-full h-full"
-                                />
-                              </div>
-                            )}
-                          </div>
-                        </div>
-
                         <div className="flex justify-end gap-3 pt-4">
                           <button
                             onClick={() => setShowAddBrand(false)}
@@ -2574,24 +1832,13 @@ const stallDetails = {
                   )}
 
                   {/* Brands List */}
-                  {profile.brands.length > 0 ? (
+                  {profile.brands && profile.brands.length > 0 ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                       {profile.brands.map((brand) => (
                         <div key={brand.id} className="border rounded-xl p-5 hover:shadow-md transition-shadow">
                           <div className="flex justify-between">
                             <div className="flex-1">
                               <div className="flex items-center gap-3">
-                                {brand.logoUrl && (
-                                  <div className="w-12 h-12 border rounded-lg overflow-hidden shrink-0">
-                                    <img
-                                      src={brand.logoUrl}
-                                      alt={brand.name}
-                                      width={48}
-                                      height={48}
-                                      className="object-cover w-full h-full"
-                                    />
-                                  </div>
-                                )}
                                 <div>
                                   <h3 className="font-semibold text-gray-900">{brand.name}</h3>
                                   <p className="text-sm text-gray-600">{brand.description}</p>
@@ -2626,7 +1873,7 @@ const stallDetails = {
                 </div>
               )}
 
-              {/* BROCHURES TAB */}
+              {/* Brochures Tab */}
               {activeTab === 'brochures' && (
                 <div className="p-6">
                   <div className="flex justify-between items-center mb-6">
@@ -2676,27 +1923,6 @@ const stallDetails = {
                           />
                         </div>
 
-                        <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-1">
-                            PDF File *
-                          </label>
-                          <label className="cursor-pointer block">
-                            <div className="border-2 border-dashed rounded-lg px-6 py-8 text-center hover:border-blue-500 transition-colors">
-                              <Upload size={32} className="mx-auto text-gray-400 mb-2" />
-                              <p className="text-sm text-gray-600 mb-1">
-                                {newBrochure.file ? newBrochure.file.name : 'Click to upload PDF'}
-                              </p>
-                              <p className="text-xs text-gray-500">PDF files only, max 10MB</p>
-                            </div>
-                            <input
-                              type="file"
-                              accept=".pdf"
-                              onChange={handleBrochureUpload}
-                              className="hidden"
-                            />
-                          </label>
-                        </div>
-
                         <div className="flex justify-end gap-3 pt-4">
                           <button
                             onClick={() => setShowAddBrochure(false)}
@@ -2706,7 +1932,7 @@ const stallDetails = {
                           </button>
                           <button
                             onClick={handleAddBrochure}
-                            disabled={!newBrochure.name || !newBrochure.file}
+                            disabled={!newBrochure.name}
                             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             Upload Brochure
@@ -2717,7 +1943,7 @@ const stallDetails = {
                   )}
 
                   {/* Brochures List */}
-                  {profile.brochures.length > 0 ? (
+                  {profile.brochures && profile.brochures.length > 0 ? (
                     <div className="space-y-4">
                       {profile.brochures.map((brochure) => (
                         <div key={brochure.id} className="border rounded-xl p-5 hover:shadow-md transition-shadow">
@@ -2733,24 +1959,15 @@ const stallDetails = {
                                     <span>•</span>
                                     <span>{brochure.downloads} downloads</span>
                                     <span>•</span>
-                                    <span>Uploaded {formatDate(brochure.uploadedAt.toString())}</span>
+                                    <span>Uploaded {brochure.uploadedAt ? formatDate(brochure.uploadedAt.toString()) : 'Recently'}</span>
                                   </div>
                                 </div>
                               </div>
                             </div>
                             
                             <div className="flex items-center gap-2">
-                              <a
-                                href={brochure.fileUrl}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="p-2 text-gray-500 hover:bg-gray-100 rounded-lg transition-colors"
-                                title="Download"
-                              >
-                                <Download size={16} />
-                              </a>
                               <button
-                                onClick={() => handleDeleteBrochure(brochure.id, brochure.publicId)}
+                                onClick={() => handleDeleteBrochure(brochure.id)}
                                 className="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors"
                                 title="Delete"
                               >
@@ -2777,218 +1994,210 @@ const stallDetails = {
                   )}
                 </div>
               )}
-{activeTab === 'booth' && (
-  <div className="p-6">
-    <div className="flex justify-between items-center mb-6">
-      <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
-        <Home size={20} className="text-blue-600" />
-        Booth Details
-      </h2>
-      
-      {!isEditing && (
-        <button
-          onClick={() => setIsEditing(true)}
-          className="text-sm text-blue-600 hover:text-blue-800 flex items-center gap-1"
-        >
-          <Edit size={14} />
-          Edit
-        </button>
-      )}
-    </div>
 
-    {/* Booth Information Card */}
-    <div className="bg-white border rounded-xl overflow-hidden">
-      {/* Header with stand number */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-blue-100 text-sm">Assigned Stand</p>
-            <p className="text-white text-2xl font-bold">
-              {profile.exhibition.standNumber || 'Not assigned'}
-            </p>
-          </div>
-          <div className="bg-white/20 rounded-lg px-4 py-2 text-white text-sm font-medium">
-            {profile.boothStatus || 'Pending'}
-          </div>
-        </div>
-      </div>
+              {/* Booth Tab */}
+              {activeTab === 'booth' && (
+                <div className="p-6">
+                  <div className="flex justify-between items-center mb-6">
+                    <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
+                      <Home size={20} className="text-blue-600" />
+                      Booth Details
+                    </h2>
+                  </div>
 
-      {/* Booth Specifications */}
-      <div className="p-6 space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {/* Booth Type */}
-          <div className="border-b pb-3">
-            <label className="block text-xs text-gray-500 mb-1">Booth Type</label>
-            {isEditing ? (
-              <select
-                value={profile.boothType || 'standard'}
-                onChange={(e) => setProfile({...profile, boothType: e.target.value})}
-                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-              >
-                <option value="standard">Standard</option>
-                <option value="double">Double</option>
-                <option value="corner">Corner</option>
-                <option value="island">Island</option>
-                <option value="custom">Custom</option>
-              </select>
-            ) : (
-              <p className="text-gray-900 font-medium capitalize">
-                {profile.boothType || 'Standard'}
-              </p>
-            )}
-          </div>
+                  {/* Booth Information Card */}
+                  <div className="bg-white border rounded-xl overflow-hidden">
+                    {/* Header with stand number */}
+                    <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-blue-100 text-sm">Assigned Stand</p>
+                          <p className="text-white text-2xl font-bold">
+                            {profile.exhibition.standNumber || 'Not assigned'}
+                          </p>
+                        </div>
+                        <div className="bg-white/20 rounded-lg px-4 py-2 text-white text-sm font-medium">
+                          {profile.boothStatus || 'Pending'}
+                        </div>
+                      </div>
+                    </div>
 
-          {/* Booth Size */}
-          <div className="border-b pb-3">
-            <label className="block text-xs text-gray-500 mb-1">Booth Size</label>
-            {isEditing ? (
-              <input
-                type="text"
-                value={profile.boothSize || ''}
-                onChange={(e) => setProfile({...profile, boothSize: e.target.value})}
-                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="e.g., 3m x 3m"
-              />
-            ) : (
-              <p className="text-gray-900 font-medium">
-                {profile.boothSize || '3m x 3m'}
-              </p>
-            )}
-          </div>
+                    {/* Booth Specifications */}
+                    <div className="p-6 space-y-4">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {/* Booth Type */}
+                        <div className="border-b pb-3">
+                          <label className="block text-xs text-gray-500 mb-1">Booth Type</label>
+                          {isEditing ? (
+                            <select
+                              value={profile.boothType || 'standard'}
+                              onChange={(e) => setProfile({...profile, boothType: e.target.value})}
+                              className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            >
+                              <option value="standard">Standard</option>
+                              <option value="double">Double</option>
+                              <option value="corner">Corner</option>
+                              <option value="island">Island</option>
+                              <option value="custom">Custom</option>
+                            </select>
+                          ) : (
+                            <p className="text-gray-900 font-medium capitalize">
+                              {profile.boothType || 'Standard'}
+                            </p>
+                          )}
+                        </div>
 
-          {/* Dimensions */}
-          <div className="border-b pb-3">
-            <label className="block text-xs text-gray-500 mb-1">Dimensions</label>
-            {isEditing ? (
-              <input
-                type="text"
-                value={profile.boothDimensions || ''}
-                onChange={(e) => setProfile({...profile, boothDimensions: e.target.value})}
-                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="e.g., 3m width x 3m depth"
-              />
-            ) : (
-              <p className="text-gray-900 font-medium">
-                {profile.boothDimensions || 'Standard'}
-              </p>
-            )}
-          </div>
+                        {/* Booth Size */}
+                        <div className="border-b pb-3">
+                          <label className="block text-xs text-gray-500 mb-1">Booth Size</label>
+                          {isEditing ? (
+                            <input
+                              type="text"
+                              value={profile.boothSize || ''}
+                              onChange={(e) => setProfile({...profile, boothSize: e.target.value})}
+                              className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                              placeholder="e.g., 3m x 3m"
+                            />
+                          ) : (
+                            <p className="text-gray-900 font-medium">
+                              {profile.boothSize || '3m x 3m'}
+                            </p>
+                          )}
+                        </div>
 
-          {/* Stand Number */}
-          <div className="border-b pb-3">
-            <label className="block text-xs text-gray-500 mb-1">Stand Number</label>
-            {isEditing ? (
-              <input
-                type="text"
-                value={profile.exhibition.standNumber || ''}
-                onChange={(e) => setProfile({
-                  ...profile,
-                  exhibition: {...profile.exhibition, standNumber: e.target.value}
-                })}
-                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="e.g., A-1111"
-              />
-            ) : (
-              <p className="text-gray-900 font-medium">
-                {profile.exhibition.standNumber || 'Not assigned'}
-              </p>
-            )}
-          </div>
+                        {/* Dimensions */}
+                        <div className="border-b pb-3">
+                          <label className="block text-xs text-gray-500 mb-1">Dimensions</label>
+                          {isEditing ? (
+                            <input
+                              type="text"
+                              value={profile.boothDimensions || ''}
+                              onChange={(e) => setProfile({...profile, boothDimensions: e.target.value})}
+                              className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                              placeholder="e.g., 3m width x 3m depth"
+                            />
+                          ) : (
+                            <p className="text-gray-900 font-medium">
+                              {profile.boothDimensions || 'Standard'}
+                            </p>
+                          )}
+                        </div>
 
-          {/* Pavilion */}
-          <div className="border-b pb-3">
-            <label className="block text-xs text-gray-500 mb-1">Pavilion</label>
-            {isEditing ? (
-              <input
-                type="text"
-                value={profile.exhibition.pavilion || ''}
-                onChange={(e) => setProfile({
-                  ...profile,
-                  exhibition: {...profile.exhibition, pavilion: e.target.value}
-                })}
-                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="e.g., Pavilion 1"
-              />
-            ) : (
-              <p className="text-gray-900 font-medium">
-                {profile.exhibition.pavilion || 'Not specified'}
-              </p>
-            )}
-          </div>
+                        {/* Stand Number */}
+                        <div className="border-b pb-3">
+                          <label className="block text-xs text-gray-500 mb-1">Stand Number</label>
+                          {isEditing ? (
+                            <input
+                              type="text"
+                              value={profile.exhibition.standNumber || ''}
+                              onChange={(e) => setProfile({
+                                ...profile,
+                                exhibition: {...profile.exhibition, standNumber: e.target.value}
+                              })}
+                              className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                              placeholder="e.g., A-1111"
+                            />
+                          ) : (
+                            <p className="text-gray-900 font-medium">
+                              {profile.exhibition.standNumber || 'Not assigned'}
+                            </p>
+                          )}
+                        </div>
 
-          {/* Hall */}
-          <div className="border-b pb-3">
-            <label className="block text-xs text-gray-500 mb-1">Hall</label>
-            {isEditing ? (
-              <input
-                type="text"
-                value={profile.exhibition.hall || ''}
-                onChange={(e) => setProfile({
-                  ...profile,
-                  exhibition: {...profile.exhibition, hall: e.target.value}
-                })}
-                className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                placeholder="e.g., Hall A"
-              />
-            ) : (
-              <p className="text-gray-900 font-medium">
-                {profile.exhibition.hall || 'Not specified'}
-              </p>
-            )}
-          </div>
-        </div>
+                        {/* Pavilion */}
+                        <div className="border-b pb-3">
+                          <label className="block text-xs text-gray-500 mb-1">Pavilion</label>
+                          {isEditing ? (
+                            <input
+                              type="text"
+                              value={profile.exhibition.pavilion || ''}
+                              onChange={(e) => setProfile({
+                                ...profile,
+                                exhibition: {...profile.exhibition, pavilion: e.target.value}
+                              })}
+                              className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                              placeholder="e.g., Pavilion 1"
+                            />
+                          ) : (
+                            <p className="text-gray-900 font-medium">
+                              {profile.exhibition.pavilion || 'Not specified'}
+                            </p>
+                          )}
+                        </div>
 
-        {/* Price Section - Editable by Exhibitor */}
-<div className="mt-6 pt-4 border-t-2 border-dashed">
-  <div className="flex items-center justify-between">
-    <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">
-        Booth Price (₹)
-      </label>
-      <p className="text-xs text-gray-500">
-        Set the price for your booth in Indian Rupees
-      </p>
-    </div>
-    {isEditing ? (
-      <div className="w-48">
-        <div className="relative">
-          <span className="absolute left-3 top-2.5 text-gray-500">₹</span>
-          <input
-            type="number"
-            value={profile.boothPrice || ''}
-            onChange={(e) => setProfile({...profile, boothPrice: e.target.value})}
-            className="w-full border rounded-lg pl-8 pr-4 py-2 text-lg font-medium focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            placeholder="0.00"
-            min="0"
-            step="1"
-          />
-        </div>
-      </div>
-    ) : (
-      <div className="text-right">
-        {profile.boothPrice ? (
-          <p className="text-2xl font-bold text-gray-900">
-            ₹{parseFloat(profile.boothPrice).toLocaleString('en-IN')}
-          </p>
-        ) : (
-          <p className="text-gray-400 italic">Not set</p>
-        )}
-      </div>
-    )}
-  </div>
-</div>
+                        {/* Hall */}
+                        <div className="border-b pb-3">
+                          <label className="block text-xs text-gray-500 mb-1">Hall</label>
+                          {isEditing ? (
+                            <input
+                              type="text"
+                              value={profile.exhibition.hall || ''}
+                              onChange={(e) => setProfile({
+                                ...profile,
+                                exhibition: {...profile.exhibition, hall: e.target.value}
+                              })}
+                              className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                              placeholder="e.g., Hall A"
+                            />
+                          ) : (
+                            <p className="text-gray-900 font-medium">
+                              {profile.exhibition.hall || 'Not specified'}
+                            </p>
+                          )}
+                        </div>
+                      </div>
 
-        {/* Additional Notes - Optional */}
-        {profile.boothNotes && (
-          <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-            <p className="text-xs text-gray-500 mb-1">Additional Notes</p>
-            <p className="text-sm text-gray-700">{profile.boothNotes}</p>
-          </div>
-        )}
-      </div>
-    </div>
-  </div>
-)}
+                      {/* Price Section */}
+                      <div className="mt-6 pt-4 border-t-2 border-dashed">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-1">
+                              Booth Price (₹)
+                            </label>
+                            <p className="text-xs text-gray-500">
+                              Set the price for your booth in Indian Rupees
+                            </p>
+                          </div>
+                          {isEditing ? (
+                            <div className="w-48">
+                              <div className="relative">
+                                <span className="absolute left-3 top-2.5 text-gray-500">₹</span>
+                                <input
+                                  type="number"
+                                  value={profile.boothPrice || ''}
+                                  onChange={(e) => setProfile({...profile, boothPrice: e.target.value})}
+                                  className="w-full border rounded-lg pl-8 pr-4 py-2 text-lg font-medium focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                  placeholder="0.00"
+                                  min="0"
+                                  step="1"
+                                />
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="text-right">
+                              {profile.boothPrice ? (
+                                <p className="text-2xl font-bold text-gray-900">
+                                  ₹{parseFloat(profile.boothPrice).toLocaleString('en-IN')}
+                                </p>
+                              ) : (
+                                <p className="text-gray-400 italic">Not set</p>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Additional Notes */}
+                      {profile.boothNotes && (
+                        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
+                          <p className="text-xs text-gray-500 mb-1">Additional Notes</p>
+                          <p className="text-sm text-gray-700">{profile.boothNotes}</p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>

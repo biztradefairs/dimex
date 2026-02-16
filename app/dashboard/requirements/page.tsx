@@ -405,6 +405,45 @@ export default function RequirementsPage() {
     uploadedReceipt: null
   });
 
+  // ============= AUTO-FILL EFFECT =============
+  useEffect(() => {
+    // Auto-update booth details when general info changes
+    setBoothDetails(prev => ({
+      ...prev,
+      exhibitorName: prev.exhibitorName || `${generalInfo.title} ${generalInfo.firstName} ${generalInfo.lastName}`.trim(),
+      organisation: prev.organisation || generalInfo.companyName,
+      contactPerson: prev.contactPerson || `${generalInfo.firstName} ${generalInfo.lastName}`.trim(),
+      mobile: prev.mobile || generalInfo.mobile,
+      email: prev.email || generalInfo.email,
+      designation: prev.designation || generalInfo.designation
+    }));
+
+    // Auto-update company details when general info changes
+    setCompanyDetails(prev => ({
+      ...prev,
+      companyName: prev.companyName || generalInfo.companyName,
+      mobile: prev.mobile || generalInfo.mobile,
+      email: prev.email || generalInfo.email,
+      contactPerson: prev.contactPerson || `${generalInfo.firstName} ${generalInfo.lastName}`.trim(),
+      designation: prev.designation || generalInfo.designation
+    }));
+
+    // Auto-update first personnel entry
+    setPersonnel(prev => {
+      const updated = [...prev];
+      if (updated.length > 0) {
+        updated[0] = {
+          ...updated[0],
+          name: updated[0].name || `${generalInfo.firstName} ${generalInfo.lastName}`.trim(),
+          designation: updated[0].designation || generalInfo.designation,
+          organisation: updated[0].organisation || generalInfo.companyName
+        };
+      }
+      return updated;
+    });
+
+  }, [generalInfo]);
+
   // ============= CALCULATIONS =============
   
   const calculateTotals = () => {
@@ -1006,11 +1045,14 @@ export default function RequirementsPage() {
               <label className="block text-sm font-medium text-gray-700 mb-1">Exhibitor Name</label>
               <input
                 type="text"
-                value={boothDetails.exhibitorName}
+                value={boothDetails.exhibitorName || `${generalInfo.title} ${generalInfo.firstName} ${generalInfo.lastName}`.trim()}
                 onChange={(e) => setBoothDetails({...boothDetails, exhibitorName: e.target.value})}
                 className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter exhibitor name"
+                placeholder="Auto-filled from basic info"
               />
+              {!boothDetails.exhibitorName && generalInfo.firstName && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from basic info</p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Sq. Mtr Booked</label>
@@ -1026,51 +1068,66 @@ export default function RequirementsPage() {
               <label className="block text-sm font-medium text-gray-700 mb-1">Organisation</label>
               <input
                 type="text"
-                value={boothDetails.organisation}
+                value={boothDetails.organisation || generalInfo.companyName}
                 onChange={(e) => setBoothDetails({...boothDetails, organisation: e.target.value})}
                 className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter organisation name"
+                placeholder="Auto-filled from company name"
               />
+              {!boothDetails.organisation && generalInfo.companyName && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from company name</p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Contact Person</label>
               <input
                 type="text"
-                value={boothDetails.contactPerson}
+                value={boothDetails.contactPerson || `${generalInfo.firstName} ${generalInfo.lastName}`.trim()}
                 onChange={(e) => setBoothDetails({...boothDetails, contactPerson: e.target.value})}
                 className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter contact person name"
+                placeholder="Auto-filled from name"
               />
+              {!boothDetails.contactPerson && generalInfo.firstName && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from name</p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Designation</label>
               <input
                 type="text"
-                value={boothDetails.designation}
+                value={boothDetails.designation || generalInfo.designation}
                 onChange={(e) => setBoothDetails({...boothDetails, designation: e.target.value})}
                 className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter designation"
+                placeholder="Auto-filled from designation"
               />
+              {!boothDetails.designation && generalInfo.designation && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from designation</p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
               <input
                 type="tel"
-                value={boothDetails.mobile}
+                value={boothDetails.mobile || generalInfo.mobile}
                 onChange={(e) => setBoothDetails({...boothDetails, mobile: e.target.value})}
                 className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter mobile number"
+                placeholder="Auto-filled from contact"
               />
+              {!boothDetails.mobile && generalInfo.mobile && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from contact</p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Email ID</label>
               <input
                 type="email"
-                value={boothDetails.email}
+                value={boothDetails.email || generalInfo.email}
                 onChange={(e) => setBoothDetails({...boothDetails, email: e.target.value})}
                 className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-                placeholder="Enter email address"
+                placeholder="Auto-filled from contact"
               />
+              {!boothDetails.email && generalInfo.email && (
+                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from contact</p>
+              )}
             </div>
           </div>
         </div>
@@ -1549,42 +1606,45 @@ DEPOSIT FORM <br /> <span className='text-[#4D4D4D] font-semibold text-[15px]'>F
               <td className="px-3 py-2">
                 <input
                   type="text"
-                  value={person.name}
+                  value={person.name || (index === 0 ? `${generalInfo.firstName} ${generalInfo.lastName}`.trim() : '')}
                   onChange={(e) => {
                     const updated = [...personnel];
                     updated[index].name = e.target.value;
                     setPersonnel(updated);
                   }}
                   className="w-full border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
-                  placeholder="Enter name"
+                  placeholder={index === 0 ? "Auto-filled from basic info" : "Enter name"}
                 />
+                {index === 0 && !person.name && generalInfo.firstName && (
+                  <p className="text-xs text-green-600 mt-1">✓ Auto-filled</p>
+                )}
               </td>
 
               <td className="px-3 py-2">
                 <input
                   type="text"
-                  value={person.designation}
+                  value={person.designation || (index === 0 ? generalInfo.designation : '')}
                   onChange={(e) => {
                     const updated = [...personnel];
                     updated[index].designation = e.target.value;
                     setPersonnel(updated);
                   }}
                   className="w-full border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
-                  placeholder="Designation"
+                  placeholder={index === 0 ? "Auto-filled" : "Designation"}
                 />
               </td>
 
               <td className="px-3 py-2">
                 <input
                   type="text"
-                  value={person.organisation}
+                  value={person.organisation || (index === 0 ? generalInfo.companyName : '')}
                   onChange={(e) => {
                     const updated = [...personnel];
                     updated[index].organisation = e.target.value;
                     setPersonnel(updated);
                   }}
                   className="w-full border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
-                  placeholder="Organisation"
+                  placeholder={index === 0 ? "Auto-filled" : "Organisation"}
                 />
               </td>
 
@@ -1627,8 +1687,6 @@ const renderCompanyDetails = () => (
       </h2>
     </div>
 
-
-
     {/* Form Fields */}
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
       <div className="sm:col-span-2">
@@ -1637,7 +1695,7 @@ const renderCompanyDetails = () => (
         </label>
         <input
           type="text"
-          value={companyDetails.companyName}
+          value={companyDetails.companyName || generalInfo.companyName}
           onChange={(e) =>
             setCompanyDetails({
               ...companyDetails,
@@ -1645,8 +1703,11 @@ const renderCompanyDetails = () => (
             })
           }
           className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-          placeholder="Enter company name"
+          placeholder="Auto-filled from basic info"
         />
+        {!companyDetails.companyName && generalInfo.companyName && (
+          <p className="text-xs text-green-600 mt-1">✓ Auto-filled from basic info</p>
+        )}
       </div>
 
       <div className="sm:col-span-2">
@@ -1691,7 +1752,7 @@ const renderCompanyDetails = () => (
         </label>
         <input
           type="tel"
-          value={companyDetails.mobile}
+          value={companyDetails.mobile || generalInfo.mobile}
           onChange={(e) =>
             setCompanyDetails({
               ...companyDetails,
@@ -1699,8 +1760,11 @@ const renderCompanyDetails = () => (
             })
           }
           className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-          placeholder="Enter mobile"
+          placeholder="Auto-filled from contact"
         />
+        {!companyDetails.mobile && generalInfo.mobile && (
+          <p className="text-xs text-green-600 mt-1">✓ Auto-filled</p>
+        )}
       </div>
 
       <div>
@@ -1709,7 +1773,7 @@ const renderCompanyDetails = () => (
         </label>
         <input
           type="email"
-          value={companyDetails.email}
+          value={companyDetails.email || generalInfo.email}
           onChange={(e) =>
             setCompanyDetails({
               ...companyDetails,
@@ -1717,8 +1781,11 @@ const renderCompanyDetails = () => (
             })
           }
           className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-          placeholder="Enter email"
+          placeholder="Auto-filled from contact"
         />
+        {!companyDetails.email && generalInfo.email && (
+          <p className="text-xs text-green-600 mt-1">✓ Auto-filled</p>
+        )}
       </div>
 
       <div>
@@ -1745,7 +1812,7 @@ const renderCompanyDetails = () => (
         </label>
         <input
           type="text"
-          value={companyDetails.contactPerson}
+          value={companyDetails.contactPerson || `${generalInfo.firstName} ${generalInfo.lastName}`.trim()}
           onChange={(e) =>
             setCompanyDetails({
               ...companyDetails,
@@ -1753,8 +1820,11 @@ const renderCompanyDetails = () => (
             })
           }
           className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-          placeholder="Enter contact person"
+          placeholder="Auto-filled from name"
         />
+        {!companyDetails.contactPerson && generalInfo.firstName && (
+          <p className="text-xs text-green-600 mt-1">✓ Auto-filled</p>
+        )}
       </div>
 
       <div>
@@ -1763,7 +1833,7 @@ const renderCompanyDetails = () => (
         </label>
         <input
           type="text"
-          value={companyDetails.designation}
+          value={companyDetails.designation || generalInfo.designation}
           onChange={(e) =>
             setCompanyDetails({
               ...companyDetails,
@@ -1771,8 +1841,11 @@ const renderCompanyDetails = () => (
             })
           }
           className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-          placeholder="Enter designation"
+          placeholder="Auto-filled from designation"
         />
+        {!companyDetails.designation && generalInfo.designation && (
+          <p className="text-xs text-green-600 mt-1">✓ Auto-filled</p>
+        )}
       </div>
 
       <div className="sm:col-span-2">
@@ -1789,7 +1862,7 @@ const renderCompanyDetails = () => (
           }
           rows={3}
           className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-          placeholder="Enter products or services to be displayed in the Exhibitor’s Guide"
+          placeholder="Enter products or services to be displayed in the Exhibitor's Guide"
         />
       </div>
     </div>
@@ -1797,7 +1870,7 @@ const renderCompanyDetails = () => (
     <div className="mb-8 bg-blue-50 border border-blue-200 rounded-xl p-5 text-sm text-gray-700 leading-relaxed">
       <p>
         <span className="font-semibold">Maxx Business Media Pvt. Ltd.</span> will be publishing an 
-        <span className="font-semibold"> Exhibitor’s Guide </span> for visitors of the Exhibition. 
+        <span className="font-semibold"> Exhibitor's Guide </span> for visitors of the Exhibition. 
         This Guide will contain information about the Exhibitors, their products & services, and 
         other relevant details.
       </p>
@@ -1898,7 +1971,7 @@ const renderCompanyDetails = () => (
       <li>
         All exhibitors must hire a licensed electrical contractor to perform
         internal wiring within their stands and submit a photocopy of the
-        contractor’s license to the organizers.
+        contractor's license to the organizers.
       </li>
 
       <li>
