@@ -714,7 +714,52 @@ export default function ExhibitorDashboard() {
       });
     }
   };
+const handleSaveProfile = async () => {
+  setSaving(true);
+  setShowError(null);
 
+  try {
+    const payload = {
+      companyName: profile.companyName,
+      shortName: profile.shortName,
+      registrationNumber: profile.registrationNumber,
+      yearEstablished: profile.yearEstablished,
+      companySize: profile.companySize,
+      companyType: profile.companyType,
+      contactPerson: profile.contactPerson,
+      exhibition: profile.exhibition,
+      address: profile.address,
+      sector: profile.sector,
+      about: profile.about,
+      mission: profile.mission,
+      vision: profile.vision,
+      socialMedia: profile.socialMedia,
+      boothType: profile.boothType,
+      boothSize: profile.boothSize,
+      boothDimensions: profile.boothDimensions,
+      boothPrice: profile.boothPrice,
+    };
+
+    const result = await apiCall(
+      "/api/exhibitorDashboard/profile",
+      {
+        method: "PUT",
+        body: JSON.stringify(payload),
+      }
+    );
+
+    if (result.success) {
+      setShowSuccess(true);
+      setIsEditing(false);
+      setTimeout(() => setShowSuccess(false), 3000);
+    }
+  } catch (error: any) {
+    console.error("Error saving profile:", error);
+    setShowError(error.message || "Failed to save profile");
+  } finally {
+    setSaving(false);
+  }
+};
   const handleBrandLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
@@ -781,17 +826,35 @@ export default function ExhibitorDashboard() {
               </p>
             </div>
             
-            <div className="flex items-center gap-3">
-              {!isEditing && (
-                <button
-                  onClick={() => setIsEditing(true)}
-                  className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
-                >
-                  <Edit size={16} className="mr-2" />
-                  Edit Profile
-                </button>
-              )}
-            </div>
+         <div className="flex items-center gap-3">
+  {!isEditing ? (
+    <button
+      onClick={() => setIsEditing(true)}
+      className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+    >
+      <Edit size={16} className="mr-2" />
+      Edit Profile
+    </button>
+  ) : (
+    <>
+      <button
+        onClick={() => setIsEditing(false)}
+        className="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+      >
+        Cancel
+      </button>
+
+      <button
+        onClick={handleSaveProfile}
+        disabled={saving}
+        className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors disabled:opacity-50"
+      >
+        <Save size={16} className="mr-2" />
+        {saving ? "Saving..." : "Save Changes"}
+      </button>
+    </>
+  )}
+</div>
           </div>
         </div>
       </div>
