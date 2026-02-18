@@ -1,9 +1,21 @@
-// app/admin/exhibition/manuals/page.tsx
 "use client";
 
 import { useState, useEffect, ChangeEvent } from 'react';
 import { useRouter } from 'next/navigation';
-import { Search, Plus, Edit, Trash2, Download, Upload, FileText, Calendar, User, Eye } from 'lucide-react';
+import { 
+  Search, 
+  Plus, 
+  
+  Trash2, 
+  
+  Upload, 
+  FileText, 
+  Calendar, 
+  User, 
+
+  File,
+  BookOpen
+} from 'lucide-react';
 import manualApi, { Manual, ManualFilters, ManualStatistics, ApiError } from '@/lib/api/manualApi';
 
 export default function ExhibitorManualsPage() {
@@ -20,7 +32,7 @@ export default function ExhibitorManualsPage() {
     categoryStats: []
   });
 
-  const categories: string[] = ['all', 'Setup', 'Safety', 'Marketing', 'Technical', 'Logistics', 'Procedures'];
+  const categories: string[] = ['all', 'Setup', 'Safety', 'Marketing', 'Technical', 'Logistics', 'Procedures', 'General', 'Rules', 'Contact'];
 
   // Fetch manuals on component mount and when filters change
   useEffect(() => {
@@ -36,17 +48,10 @@ export default function ExhibitorManualsPage() {
         search: search || undefined
       };
       const response = await manualApi.getManuals(filters);
-      setManuals(response.data);
+      setManuals(response.data || []);
     } catch (error) {
-      if (error instanceof ApiError) {
-        console.error('Error fetching manuals:', error.message);
-        // Don't show alert on initial load if backend is not ready
-        if (error.message !== 'Request failed with status code 404') {
-          alert(`Failed to fetch manuals: ${error.message}`);
-        }
-      } else {
-        console.error('Error fetching manuals:', error);
-      }
+      console.error('Error fetching manuals:', error);
+      setManuals([]);
     } finally {
       setLoading(false);
     }
@@ -57,76 +62,70 @@ export default function ExhibitorManualsPage() {
       const response = await manualApi.getStatistics();
       setStats(response.data);
     } catch (error) {
-      if (error instanceof ApiError) {
-        console.error('Error fetching statistics:', error.message);
-      } else {
-        console.error('Error fetching statistics:', error);
-      }
+      console.error('Error fetching statistics:', error);
     }
   };
 
-  const handleDelete = async (id: string): Promise<void> => {
-    if (confirm('Are you sure you want to delete this manual?')) {
+  const handleDelete = async (id: string, type?: string): Promise<void> => {
+    if (confirm('Are you sure you want to delete this item?')) {
       try {
-        await manualApi.deleteManual(id);
+        if (type === 'section') {
+          await manualApi.deleteSection(id);
+        } else {
+          await manualApi.deleteManual(id);
+        }
         setManuals(manuals.filter(manual => manual.id !== id));
-        await fetchStatistics(); // Refresh stats
+        await fetchStatistics();
       } catch (error) {
         if (error instanceof ApiError) {
-          alert(`Failed to delete manual: ${error.message}`);
+          alert(`Failed to delete: ${error.message}`);
         } else {
-          alert('Failed to delete manual');
+          alert('Failed to delete');
         }
       }
     }
   };
 
-  const handleDownload = async (id: string): Promise<void> => {
-    try {
-      const result = await manualApi.downloadManual(id);
-      if (result.success) {
-        // Update local state to reflect download count
-        setManuals(manuals.map(m => 
-          m.id === id ? { ...m, downloads: m.downloads + 1 } : m
-        ));
-        await fetchStatistics(); // Refresh stats
+  const handleDownload = async (id: string, type?: string): Promise<void> => {
+    if (type === 'section') {
+      // For text sections, show content in a new window
+      const section = manuals.find(m => m.id === id);
+      if (section) {
+        const win = window.open('', '_blank');
+        if (win) {
+          win.document.write(`
+            <html>
+              <head>
+                <title>${section.title}</title>
+                <style>
+                  body { font-family: Arial, sans-serif; padding: 40px; line-height: 1.6; }
+                  h1 { color: #333; }
+                  .content { white-space: pre-line; }
+                  .meta { color: #666; font-size: 14px; margin-bottom: 20px; }
+                </style>
+              </head>
+              <body>
+                <h1>${section.title}</h1>
+                <div class="meta">Category: ${section.category}</div>
+                <div class="content">${section.description}</div>
+              </body>
+            </html>
+          `);
+        }
       }
-    } catch (error) {
-      if (error instanceof ApiError) {
-        alert(`Failed to download manual: ${error.message}`);
-      } else {
-        alert('Failed to download manual');
-      }
+    } else {
+      await manualApi.downloadManual(id);
     }
   };
 
-  const handleUpload = async (event: ChangeEvent<HTMLInputElement>): Promise<void> => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('title', file.name.replace(/\.[^/.]+$/, ""));
-    formData.append('description', 'New uploaded manual');
-    formData.append('category', 'Setup');
-    formData.append('version', '1.0');
-    formData.append('status', 'draft');
-    formData.append('updated_by', 'Admin');
-
-    try {
-      await manualApi.createManual(formData);
-      await fetchManuals();
-      await fetchStatistics();
-      alert('Manual uploaded successfully!');
-    } catch (error) {
-      if (error instanceof ApiError) {
-        alert(`Failed to upload manual: ${error.message}`);
-      } else {
-        alert('Failed to upload manual');
+  const handlePreview = async (id: string, type?: string): Promise<void> => {
+    if (type === 'section') {
+      const section = manuals.find(m => m.id === id);
+      if (section) {
+        alert(section.description);
       }
-    } finally {
-      // Clear the input
-      event.target.value = '';
+    } else {
+      await manualApi.previewManual(id);
     }
   };
 
@@ -134,13 +133,27 @@ export default function ExhibitorManualsPage() {
     router.push('/admin/exhibition/manuals/add');
   };
 
-  const handleEdit = (id: string): void => {
-    router.push(`/admin/exhibition/manuals/edit/${id}`);
+  const handleEdit = (id: string, type?: string): void => {
+    if (type === 'section') {
+      router.push(`/admin/exhibition/manuals/edit-section/${id}`);
+    } else {
+      router.push(`/admin/exhibition/manuals/edit/${id}`);
+    }
   };
 
-  const handlePreview = (id: string): void => {
-    // You can implement a modal or navigate to preview page
-    window.open(`/api/manuals/${id}/preview`, '_blank');
+  const getCategoryColor = (category: string): string => {
+    const colors: Record<string, string> = {
+      'Setup': 'bg-blue-100 text-blue-800',
+      'Safety': 'bg-red-100 text-red-800',
+      'Marketing': 'bg-purple-100 text-purple-800',
+      'Technical': 'bg-orange-100 text-orange-800',
+      'Logistics': 'bg-yellow-100 text-yellow-800',
+      'Procedures': 'bg-indigo-100 text-indigo-800',
+      'General': 'bg-gray-100 text-gray-800',
+      'Rules': 'bg-pink-100 text-pink-800',
+      'Contact': 'bg-green-100 text-green-800'
+    };
+    return colors[category] || 'bg-gray-100 text-gray-800';
   };
 
   if (loading) {
@@ -155,7 +168,7 @@ export default function ExhibitorManualsPage() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 p-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Exhibitor Manuals</h1>
@@ -169,7 +182,30 @@ export default function ExhibitorManualsPage() {
               type="file"
               className="hidden"
               accept=".pdf,.doc,.docx,.txt"
-              onChange={handleUpload}
+              onChange={async (e) => {
+                const file = e.target.files?.[0];
+                if (!file) return;
+
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('title', file.name.replace(/\.[^/.]+$/, ""));
+                formData.append('description', 'New uploaded manual');
+                formData.append('category', 'Setup');
+                formData.append('version', '1.0');
+                formData.append('status', 'draft');
+                formData.append('updated_by', 'Admin');
+
+                try {
+                  await manualApi.createManual(formData);
+                  await fetchManuals();
+                  await fetchStatistics();
+                  alert('Manual uploaded successfully!');
+                } catch (error) {
+                  alert('Failed to upload manual');
+                } finally {
+                  e.target.value = '';
+                }
+              }}
             />
           </label>
           <button
@@ -177,49 +213,38 @@ export default function ExhibitorManualsPage() {
             className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
           >
             <Plus className="mr-2 h-4 w-4" />
-            New Manual
+            New Manual Section
           </button>
         </div>
       </div>
 
-      {/* Stats - Only show if we have data */}
-      {stats.totalManuals > 0 && (
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white shadow rounded-lg p-6">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 rounded-md p-3 bg-blue-100">
-                <FileText className="h-6 w-6 text-blue-600" />
-              </div>
-              <div className="ml-5">
-                <p className="text-sm font-medium text-gray-500">Total Manuals</p>
-                <p className="text-2xl font-semibold text-gray-900">{stats.totalManuals}</p>
-              </div>
+      {/* Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <div className="bg-white shadow rounded-lg p-6">
+          <div className="flex items-center">
+            <div className="flex-shrink-0 rounded-md p-3 bg-blue-100">
+              <FileText className="h-6 w-6 text-blue-600" />
             </div>
-          </div>
-          <div className="bg-white shadow rounded-lg p-6">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 rounded-md p-3 bg-green-100">
-                <Download className="h-6 w-6 text-green-600" />
-              </div>
-              <div className="ml-5">
-                <p className="text-sm font-medium text-gray-500">Total Downloads</p>
-                <p className="text-2xl font-semibold text-gray-900">{stats.totalDownloads}</p>
-              </div>
-            </div>
-          </div>
-          <div className="bg-white shadow rounded-lg p-6">
-            <div className="flex items-center">
-              <div className="flex-shrink-0 rounded-md p-3 bg-purple-100">
-                <Eye className="h-6 w-6 text-purple-600" />
-              </div>
-              <div className="ml-5">
-                <p className="text-sm font-medium text-gray-500">Published</p>
-                <p className="text-2xl font-semibold text-gray-900">{stats.publishedManuals}</p>
-              </div>
+            <div className="ml-5">
+              <p className="text-sm font-medium text-gray-500">Total Manuals</p>
+              <p className="text-2xl font-semibold text-gray-900">{stats.totalManuals}</p>
             </div>
           </div>
         </div>
-      )}
+
+
+        <div className="bg-white shadow rounded-lg p-6">
+          <div className="flex items-center">
+            <div className="flex-shrink-0 rounded-md p-3 bg-yellow-100">
+              <BookOpen className="h-6 w-6 text-yellow-600" />
+            </div>
+            <div className="ml-5">
+              <p className="text-sm font-medium text-gray-500">Categories</p>
+              <p className="text-2xl font-semibold text-gray-900">{stats.categoryStats.length}</p>
+            </div>
+          </div>
+        </div>
+      </div>
 
       {/* Search and Filter */}
       <div className="bg-white shadow rounded-lg p-4">
@@ -263,31 +288,41 @@ export default function ExhibitorManualsPage() {
               className="mt-4 inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700"
             >
               <Plus className="mr-2 h-4 w-4" />
-              Add Your First Manual
+              Add Your First Manual Section
             </button>
           </div>
         ) : (
           manuals.map((manual) => (
-            <div key={manual.id} className="bg-white shadow rounded-lg overflow-hidden">
+            <div key={manual.id} className="bg-white shadow rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
               <div className="p-6">
                 <div className="flex items-start justify-between mb-4">
-                  <div>
+                  <div className="flex-1">
                     <div className="flex items-center">
-                      <FileText className="h-5 w-5 text-blue-500 mr-2" />
-                      <h3 className="text-lg font-medium text-gray-900">{manual.title}</h3>
+                      {manual.type === 'section' ? (
+                        <BookOpen className="h-5 w-5 text-green-500 mr-2" />
+                      ) : (
+                        <FileText className="h-5 w-5 text-blue-500 mr-2" />
+                      )}
+                      <h3 className="text-lg font-medium text-gray-900 truncate" title={manual.title}>
+                        {manual.title}
+                      </h3>
                     </div>
-                    <p className="mt-1 text-sm text-gray-500">{manual.description}</p>
+                    <p className="mt-1 text-sm text-gray-500 line-clamp-2" title={manual.description}>
+                      {manual.description}
+                    </p>
                   </div>
-                  <span className="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">
+                  <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getCategoryColor(manual.category)}`}>
                     {manual.category}
                   </span>
                 </div>
                 
-                <div className="space-y-3">
-                  <div className="flex items-center text-sm text-gray-600">
-                    <span className="font-medium">Version:</span>
-                    <span className="ml-2 px-2 py-1 bg-gray-100 rounded text-xs">{manual.version}</span>
-                  </div>
+                <div className="space-y-2">
+                  {manual.version && (
+                    <div className="flex items-center text-sm text-gray-600">
+                      <span className="font-medium w-16">Version:</span>
+                      <span className="px-2 py-1 bg-gray-100 rounded text-xs">{manual.version}</span>
+                    </div>
+                  )}
                   <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center text-gray-600">
                       <Calendar className="h-4 w-4 mr-1 text-gray-400" />
@@ -297,11 +332,11 @@ export default function ExhibitorManualsPage() {
                   </div>
                   <div className="flex items-center text-sm text-gray-600">
                     <User className="h-4 w-4 mr-1 text-gray-400" />
-                    <span>Updated by: {manual.updated_by}</span>
+                    <span className="truncate">Updated by: {manual.updated_by}</span>
                   </div>
                   <div className="flex items-center text-sm text-gray-600">
-                    <span className="font-medium">Status:</span>
-                    <span className={`ml-2 px-2 py-1 rounded text-xs ${
+                    <span className="font-medium w-16">Status:</span>
+                    <span className={`px-2 py-1 rounded text-xs ${
                       manual.status === 'published' 
                         ? 'bg-green-100 text-green-800' 
                         : 'bg-yellow-100 text-yellow-800'
@@ -309,38 +344,26 @@ export default function ExhibitorManualsPage() {
                       {manual.status}
                     </span>
                   </div>
+                  {manual.type === 'section' && (
+                    <div className="flex items-center text-sm text-gray-600">
+                      <span className="font-medium w-16">Type:</span>
+                      <span className="px-2 py-1 bg-purple-100 text-purple-800 rounded text-xs">
+                        Text Section
+                      </span>
+                    </div>
+                  )}
                 </div>
                 
                 <div className="mt-4 pt-4 border-t border-gray-200 flex items-center justify-between">
                   <div>
                     <p className="text-sm text-gray-500">Downloads</p>
-                    <p className="text-lg font-semibold text-gray-900">{manual.downloads}</p>
+                    <p className="text-lg font-semibold text-gray-900">{manual.downloads || 0}</p>
                   </div>
                   <div className="flex space-x-2">
+                 
                     <button
-                      onClick={() => handlePreview(manual.id)}
-                      className="text-blue-600 hover:text-blue-900 transition-colors"
-                      title="Preview"
-                    >
-                      <Eye className="h-5 w-5" />
-                    </button>
-                    <button
-                      onClick={() => handleDownload(manual.id)}
-                      className="text-green-600 hover:text-green-900 transition-colors"
-                      title="Download"
-                    >
-                      <Download className="h-5 w-5" />
-                    </button>
-                    <button
-                      onClick={() => handleEdit(manual.id)}
-                      className="text-blue-600 hover:text-blue-900 transition-colors"
-                      title="Edit"
-                    >
-                      <Edit className="h-5 w-5" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(manual.id)}
-                      className="text-red-600 hover:text-red-900 transition-colors"
+                      onClick={() => handleDelete(manual.id, manual.type)}
+                      className="p-2 text-red-600 hover:bg-red-50 rounded-md transition-colors"
                       title="Delete"
                     >
                       <Trash2 className="h-5 w-5" />

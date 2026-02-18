@@ -37,6 +37,7 @@ import {
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import toast from "react-hot-toast";
+import { FaUserNinja } from "react-icons/fa";
 
 // Updated navigation with better icons and structure
 const navigation = [
@@ -67,6 +68,12 @@ const navigation = [
       { name: "Revenue Analytics", href: "/admin/financial/revenue", icon: PieChart },
     ],
   },
+  {
+    name: "Furniture",
+    icon: FaUserNinja,
+    color: "text-amber-500",
+    href:"/admin/furniture"
+  }
   // { 
   //   name: "User Management", 
   //   href: "/admin/users", 

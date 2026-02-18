@@ -150,6 +150,7 @@ const companySizeOptions = ['1-10', '11-50', '51-200', '201-500', '501-1000', '1
 const companyTypeOptions = ['Private', 'Public', 'Non-Profit', 'Government', 'Partnership', 'Sole Proprietorship'];
 const pavilionOptions = ['Pavilion 1', 'Pavilion 2', 'Pavilion 3', 'Pavilion 4', 'Pavilion 5', 'Pavilion 6', 'Pavilion 7', 'Pavilion 8'];
 const hallOptions = ['Hall A', 'Hall B', 'Hall C', 'Hall D', 'Hall E', 'Hall F', 'Hall G', 'Hall H'];
+const boothTypeOptions = ['Standard', 'Double', 'Corner', 'Island', 'Custom'];
 
 export default function ExhibitorDashboard() {
   const [activeTab, setActiveTab] = useState<'profile' | 'products' | 'brands' | 'brochures' | 'booth'>('profile');
@@ -302,6 +303,7 @@ export default function ExhibitorDashboard() {
         fetchProducts(),
         fetchBrands(),
         fetchBrochures(),
+         fetchBoothData(),
       ]);
     } catch (error: any) {
       console.error('Error fetching data:', error);
@@ -311,108 +313,231 @@ export default function ExhibitorDashboard() {
     }
   };
 
-  const fetchExhibitorProfile = async () => {
-    try {
-      const result = await apiCall('/api/exhibitorDashboard/profile');
-      
-      if (result.success) {
-        const apiData = result.data;
-        
-        // Parse address if it's a string
-        let addressParts = {
-          street: '',
-          city: '',
-          state: '',
-          country: '',
-          postalCode: ''
-        };
-        
-        if (apiData.address) {
-          const parts = apiData.address.split(',').map((p: string) => p.trim());
-          addressParts.street = parts[0] || '';
-          addressParts.city = parts[1] || '';
-          addressParts.state = parts[2] || '';
-          addressParts.country = parts[3] || '';
-          addressParts.postalCode = parts[4] || '';
-        }
-        
-        // Parse social media
-        let socialMedia = {
-          website: '',
-          linkedin: '',
-          twitter: '',
-          facebook: '',
-          instagram: '',
-        };
-        
-        if (apiData.socialMedia) {
-          if (typeof apiData.socialMedia === 'string') {
-            try {
-              socialMedia = JSON.parse(apiData.socialMedia);
-            } catch (e) {
-              console.error('Error parsing social media:', e);
-            }
-          } else if (typeof apiData.socialMedia === 'object') {
-            socialMedia = {
-              website: apiData.socialMedia.website || apiData.website || '',
-              linkedin: apiData.socialMedia.linkedin || '',
-              twitter: apiData.socialMedia.twitter || '',
-              facebook: apiData.socialMedia.facebook || '',
-              instagram: apiData.socialMedia.instagram || '',
-            };
-          }
-        } else {
-          socialMedia.website = apiData.website || '';
-        }
-        
-        setProfile(prev => ({
-          ...prev,
-          id: apiData.id || '',
-          companyName: apiData.company || apiData.name || '',
-          shortName: apiData.shortName || apiData.short_name || '',
-          registrationNumber: apiData.registrationNumber || apiData.registration_number || '',
-          yearEstablished: apiData.yearEstablished || apiData.year_established || '',
-          companySize: apiData.companySize || apiData.company_size || '',
-          companyType: apiData.companyType || apiData.company_type || '',
-          contactPerson: {
-            name: apiData.contactPerson?.name || apiData.contact_name || apiData.name || '',
-            jobTitle: apiData.contactPerson?.jobTitle || apiData.contact_job_title || '',
-            email: apiData.contactPerson?.email || apiData.email || '',
-            phone: apiData.contactPerson?.phone || apiData.phone || '',
-            alternatePhone: apiData.contactPerson?.alternatePhone || apiData.alternate_phone || '',
-          },
-          exhibition: {
-            pavilion: apiData.exhibition?.pavilion || apiData.pavilion || '',
-            hall: apiData.exhibition?.hall || apiData.hall || '',
-            standNumber: apiData.exhibition?.standNumber || apiData.boothNumber || apiData.booth_number || '',
-            floorPlanUrl: apiData.exhibition?.floorPlanUrl || apiData.floor_plan_url || '',
-          },
-          address: {
-            street: addressParts.street || apiData.address_street || '',
-            city: addressParts.city || apiData.address_city || '',
-            state: addressParts.state || apiData.address_state || '',
-            country: addressParts.country || apiData.address_country || '',
-            countryCode: apiData.address_country_code || '',
-            postalCode: addressParts.postalCode || apiData.address_postal_code || '',
-          },
-          sector: apiData.sector ? 
-            (Array.isArray(apiData.sector) ? apiData.sector : apiData.sector.split(',').map((s: string) => s.trim())) 
-            : [],
-          about: apiData.about || apiData.description || '',
-          mission: apiData.mission || '',
-          vision: apiData.vision || '',
-          socialMedia: socialMedia,
-          status: apiData.status || 'active',
-          createdAt: apiData.createdAt || apiData.created_at || '',
-          updatedAt: apiData.updatedAt || apiData.updated_at || '',
-        }));
-      }
-    } catch (error) {
-      console.error('Error fetching profile:', error);
-      throw error;
-    }
-  };
+  // Add this temporary debug function at the beginning of your component
+const debugBoothFields = async () => {
+  try {
+    // First, let's check what fields exist in the current profile
+    console.log('Current profile booth fields:', {
+      boothPrice: profile.boothPrice,
+      boothType: profile.boothType,
+      boothSize: profile.boothSize,
+      boothDimensions: profile.boothDimensions,
+      boothStatus: profile.boothStatus,
+      boothNotes: profile.boothNotes,
+      exhibition: profile.exhibition
+    });
 
+    // Let's make a test API call to see what the backend returns
+    const testResult = await apiCall('/api/exhibitorDashboard/profile', {
+      method: 'GET',
+    });
+    
+    if (testResult.success) {
+      console.log('Raw API data from server:', testResult.data);
+      console.log('Server booth fields:', {
+        boothPrice: testResult.data.boothPrice,
+        booth_price: testResult.data.booth_price,
+        price: testResult.data.price,
+        amount: testResult.data.amount
+      });
+    }
+  } catch (error) {
+    console.error('Debug error:', error);
+  }
+};
+
+// Call this after loading
+useEffect(() => {
+  fetchAllData();
+  setTimeout(() => debugBoothFields(), 2000); // Debug after data loads
+}, []);
+// Add this to check if there's a separate booth endpoint
+const checkBoothEndpoint = async () => {
+  try {
+    console.log('Checking for booth endpoint...');
+    
+    // Try common booth endpoints
+    const endpoints = [
+      '/api/exhibitorDashboard/booth',
+      '/api/exhibitorDashboard/booth/details',
+      '/api/exhibitorDashboard/booth-info',
+      '/api/exhibitorDashboard/stall',
+      '/api/exhibitorDashboard/stand'
+    ];
+    
+    for (const endpoint of endpoints) {
+      try {
+        const result = await apiCall(endpoint, { method: 'GET' });
+        console.log(`Endpoint ${endpoint} response:`, result);
+      } catch (e) {
+        console.log(`Endpoint ${endpoint} not available`);
+      }
+    }
+  } catch (error) {
+    console.error('Error checking booth endpoint:', error);
+  }
+};
+
+// Call this after loading
+useEffect(() => {
+  fetchAllData();
+  setTimeout(() => {
+    debugBoothFields();
+    checkBoothEndpoint();
+  }, 2000);
+}, []);
+
+const fetchExhibitorProfile = async () => {
+  try {
+    const result = await apiCall('/api/exhibitorDashboard/profile');
+    
+    console.log('📥 Raw API response:', result);
+    
+    if (result.success) {
+      const apiData = result.data;
+      
+      // Parse address components from separate fields
+      let addressObj = {
+        street: apiData.address_street || '',
+        city: apiData.address_city || '',
+        state: apiData.address_state || '',
+        country: apiData.address_country || '',
+        countryCode: apiData.address_country_code || '',
+        postalCode: apiData.address_postal_code || ''
+      };
+      
+      // If no separate fields, try to parse from combined address
+      if (!addressObj.street && apiData.address && typeof apiData.address === 'string') {
+        const parts = apiData.address.split(',').map((p: string) => p.trim());
+        addressObj = {
+          street: parts[0] || '',
+          city: parts[1] || '',
+          state: parts[2] || '',
+          country: parts[3] || '',
+          countryCode: '',
+          postalCode: parts[4] || ''
+        };
+      }
+      
+      // Parse sector
+      let sectorArray: string[] = [];
+      if (apiData.sector) {
+        if (typeof apiData.sector === 'string') {
+          sectorArray = apiData.sector.split(',').map((s: string) => s.trim()).filter(Boolean);
+        } else if (Array.isArray(apiData.sector)) {
+          sectorArray = apiData.sector;
+        }
+      }
+      
+      // Parse contact person
+      let contactPersonObj = {
+        name: apiData.contact_name || apiData.name || '',
+        jobTitle: apiData.contact_job_title || '',
+        email: apiData.email || '',
+        phone: apiData.phone || '',
+        alternatePhone: apiData.alternate_phone || ''
+      };
+      
+      if (apiData.contactPerson) {
+        if (typeof apiData.contactPerson === 'string') {
+          try {
+            contactPersonObj = { ...contactPersonObj, ...JSON.parse(apiData.contactPerson) };
+          } catch (e) {
+            console.error('Error parsing contact person:', e);
+          }
+        } else if (typeof apiData.contactPerson === 'object') {
+          contactPersonObj = { ...contactPersonObj, ...apiData.contactPerson };
+        }
+      }
+      
+      // Parse social media
+      let socialMediaObj = {
+        website: apiData.website || '',
+        linkedin: apiData.linkedin || '',
+        twitter: apiData.twitter || '',
+        facebook: apiData.facebook || '',
+        instagram: apiData.instagram || ''
+      };
+      
+      if (apiData.socialMedia) {
+        if (typeof apiData.socialMedia === 'string') {
+          try {
+            socialMediaObj = { ...socialMediaObj, ...JSON.parse(apiData.socialMedia) };
+          } catch (e) {
+            console.error('Error parsing social media:', e);
+          }
+        } else if (typeof apiData.socialMedia === 'object') {
+          socialMediaObj = { ...socialMediaObj, ...apiData.socialMedia };
+        }
+      }
+      
+      // Parse exhibition
+      let exhibitionObj = {
+        pavilion: apiData.pavilion || '',
+        hall: apiData.hall || '',
+        standNumber: apiData.boothNumber || apiData.booth_number || '',
+        floorPlanUrl: apiData.floor_plan_url || ''
+      };
+      
+      if (apiData.exhibition) {
+        if (typeof apiData.exhibition === 'string') {
+          try {
+            exhibitionObj = { ...exhibitionObj, ...JSON.parse(apiData.exhibition) };
+          } catch (e) {
+            console.error('Error parsing exhibition:', e);
+          }
+        } else if (typeof apiData.exhibition === 'object') {
+          exhibitionObj = { ...exhibitionObj, ...apiData.exhibition };
+        }
+      }
+      
+      // Parse stall details for booth price
+      let boothPrice = profile.boothPrice || '';
+      if (apiData.stallDetails) {
+        try {
+          const stallDetails = typeof apiData.stallDetails === 'string' 
+            ? JSON.parse(apiData.stallDetails) 
+            : apiData.stallDetails;
+          boothPrice = stallDetails.price || stallDetails.boothPrice || boothPrice;
+        } catch (e) {
+          console.error('Error parsing stall details:', e);
+        }
+      }
+      
+      setProfile(prev => ({
+        ...prev,
+        id: apiData.id || '',
+        companyName: apiData.company || apiData.companyName || '',
+        shortName: apiData.shortName || apiData.short_name || '',
+        registrationNumber: apiData.registrationNumber || apiData.registration_number || '',
+        yearEstablished: apiData.yearEstablished || apiData.year_established || '',
+        companySize: apiData.companySize || apiData.company_size || '',
+        companyType: apiData.companyType || apiData.company_type || '',
+        contactPerson: contactPersonObj,
+        exhibition: exhibitionObj,
+        address: addressObj,
+        sector: sectorArray,
+        about: apiData.about || apiData.description || '',
+        mission: apiData.mission || '',
+        vision: apiData.vision || '',
+        socialMedia: socialMediaObj,
+        status: apiData.status || 'active',
+        createdAt: apiData.createdAt || apiData.created_at || '',
+        updatedAt: apiData.updatedAt || apiData.updated_at || '',
+        boothNumber: apiData.boothNumber || apiData.booth_number || exhibitionObj.standNumber || prev.boothNumber,
+        boothSize: apiData.boothSize || apiData.booth_size || prev.boothSize,
+        boothType: apiData.boothType || apiData.booth_type || prev.boothType,
+        boothDimensions: apiData.boothDimensions || apiData.booth_dimensions || prev.boothDimensions,
+        boothNotes: apiData.boothNotes || apiData.booth_notes || prev.boothNotes,
+        boothStatus: apiData.boothStatus || apiData.booth_status || prev.boothStatus || 'pending',
+        boothPrice: boothPrice || apiData.boothPrice || apiData.booth_price || apiData.price || prev.boothPrice,
+      }));
+    }
+  } catch (error) {
+    console.error('Error fetching profile:', error);
+    throw error;
+  }
+};
   const fetchProducts = async () => {
     try {
       const result = await apiCall('/api/exhibitorDashboard/products');
@@ -426,6 +551,41 @@ export default function ExhibitorDashboard() {
       console.error('Error fetching products:', error);
     }
   };
+const fetchBoothData = async () => {
+  try {
+    // Try to fetch booth data from a separate endpoint
+    const result = await apiCall('/api/exhibitorDashboard/booth', {
+      method: 'GET',
+    }).catch(() => null);
+    
+    if (result && result.success) {
+      const boothData = result.data;
+      console.log('Booth data from separate endpoint:', boothData);
+      
+      // Check if price is in stallDetails
+      let boothPrice = '';
+      if (boothData.stallDetails) {
+        const stallDetails = typeof boothData.stallDetails === 'string'
+          ? JSON.parse(boothData.stallDetails)
+          : boothData.stallDetails;
+        boothPrice = stallDetails.price || stallDetails.boothPrice || '';
+      }
+      
+      setProfile(prev => ({
+        ...prev,
+        boothNumber: boothData.boothNumber || boothData.number || prev.boothNumber,
+        boothSize: boothData.boothSize || boothData.size || prev.boothSize,
+        boothType: boothData.boothType || boothData.type || prev.boothType,
+        boothDimensions: boothData.boothDimensions || boothData.dimensions || prev.boothDimensions,
+        boothNotes: boothData.boothNotes || boothData.notes || prev.boothNotes,
+        boothStatus: boothData.boothStatus || boothData.status || prev.boothStatus,
+        boothPrice: boothPrice || boothData.boothPrice || boothData.price || boothData.amount || prev.boothPrice,
+      }));
+    }
+  } catch (error) {
+    console.log('No separate booth endpoint found');
+  }
+};
 
   const fetchBrands = async () => {
     try {
@@ -714,31 +874,99 @@ export default function ExhibitorDashboard() {
       });
     }
   };
+
 const handleSaveProfile = async () => {
   setSaving(true);
   setShowError(null);
 
   try {
+    // Create a flat object structure that matches database schema
     const payload = {
+      // Basic company info - keep these flat
+      name: profile.contactPerson.name || profile.companyName, // Full name for name field
+      company: profile.companyName, // Company name for company field
+      email: profile.contactPerson.email,
+      phone: profile.contactPerson.phone,
+      
+      // Additional fields that exist in database
       companyName: profile.companyName,
       shortName: profile.shortName,
       registrationNumber: profile.registrationNumber,
-      yearEstablished: profile.yearEstablished,
+      yearEstablished: profile.yearEstablished ? parseInt(profile.yearEstablished.toString()) : null,
       companySize: profile.companySize,
       companyType: profile.companyType,
-      contactPerson: profile.contactPerson,
-      exhibition: profile.exhibition,
-      address: profile.address,
-      sector: profile.sector,
+      
+      // Contact person fields (flattened)
+      contact_name: profile.contactPerson.name,
+      contact_job_title: profile.contactPerson.jobTitle,
+      alternate_phone: profile.contactPerson.alternatePhone,
+      
+      // Booth/exhibition fields
+      boothNumber: profile.exhibition.standNumber || profile.boothNumber,
+      
+      // Address fields - create separate database columns
+      address_street: profile.address.street,
+      address_city: profile.address.city,
+      address_state: profile.address.state,
+      address_country: profile.address.country,
+      address_postal_code: profile.address.postalCode,
+      
+      // Also keep the combined address for backward compatibility
+      address: [
+        profile.address.street,
+        profile.address.city,
+        profile.address.state,
+        profile.address.country,
+        profile.address.postalCode
+      ].filter(Boolean).join(', '),
+      
+      // Sector as comma-separated string
+      sector: profile.sector.join(', '),
+      
+      // Business details
       about: profile.about,
+      description: profile.about,
       mission: profile.mission,
       vision: profile.vision,
-      socialMedia: profile.socialMedia,
+      
+      // Social media (flattened)
+      website: profile.socialMedia.website,
+      linkedin: profile.socialMedia.linkedin,
+      twitter: profile.socialMedia.twitter,
+      facebook: profile.socialMedia.facebook,
+      instagram: profile.socialMedia.instagram,
+      
+      // Keep JSON strings for complex data that must be stored as JSON
+      contactPerson: JSON.stringify(profile.contactPerson),
+      socialMedia: JSON.stringify(profile.socialMedia),
+      exhibition: JSON.stringify({
+        pavilion: profile.exhibition.pavilion,
+        hall: profile.exhibition.hall,
+        standNumber: profile.exhibition.standNumber || profile.boothNumber,
+        floorPlanUrl: profile.exhibition.floorPlanUrl || ''
+      }),
+      
+      // Booth details
+      stallDetails: JSON.stringify({
+        size: profile.boothSize || '',
+        type: profile.boothType || '',
+        dimensions: profile.boothDimensions || '',
+        notes: profile.boothNotes || '',
+        price: profile.boothPrice || ''
+      }),
+      
+      // Individual booth fields
       boothType: profile.boothType,
       boothSize: profile.boothSize,
       boothDimensions: profile.boothDimensions,
-      boothPrice: profile.boothPrice,
+      boothNotes: profile.boothNotes,
+      boothStatus: profile.boothStatus || 'pending',
+      boothPrice: profile.boothPrice ? parseInt(profile.boothPrice.toString()) : null,
+      
+      status: profile.status
     };
+
+    console.log('📤 Sending payload:', payload);
 
     const result = await apiCall(
       "/api/exhibitorDashboard/profile",
@@ -751,11 +979,18 @@ const handleSaveProfile = async () => {
     if (result.success) {
       setShowSuccess(true);
       setIsEditing(false);
-      setTimeout(() => setShowSuccess(false), 3000);
+      
+      // CRITICAL: Wait a moment then refresh the profile data
+      setTimeout(async () => {
+        await fetchExhibitorProfile();
+        setShowSuccess(false);
+      }, 1500);
+    } else {
+      throw new Error(result.message || 'Failed to save profile');
     }
   } catch (error: any) {
-    console.error("Error saving profile:", error);
-    setShowError(error.message || "Failed to save profile");
+    console.error("❌ Error saving profile:", error);
+    setShowError(error.message || "Failed to save profile. Please check your connection and try again.");
   } finally {
     setSaving(false);
   }
@@ -826,35 +1061,35 @@ const handleSaveProfile = async () => {
               </p>
             </div>
             
-         <div className="flex items-center gap-3">
-  {!isEditing ? (
-    <button
-      onClick={() => setIsEditing(true)}
-      className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
-    >
-      <Edit size={16} className="mr-2" />
-      Edit Profile
-    </button>
-  ) : (
-    <>
-      <button
-        onClick={() => setIsEditing(false)}
-        className="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
-      >
-        Cancel
-      </button>
+            <div className="flex items-center gap-3">
+              {!isEditing ? (
+                <button
+                  onClick={() => setIsEditing(true)}
+                  className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
+                >
+                  <Edit size={16} className="mr-2" />
+                  Edit Profile
+                </button>
+              ) : (
+                <>
+                  <button
+                    onClick={() => setIsEditing(false)}
+                    className="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
+                  >
+                    Cancel
+                  </button>
 
-      <button
-        onClick={handleSaveProfile}
-        disabled={saving}
-        className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors disabled:opacity-50"
-      >
-        <Save size={16} className="mr-2" />
-        {saving ? "Saving..." : "Save Changes"}
-      </button>
-    </>
-  )}
-</div>
+                  <button
+                    onClick={handleSaveProfile}
+                    disabled={saving}
+                    className="inline-flex items-center px-4 py-2 bg-green-600 text-white rounded-lg text-sm font-medium hover:bg-green-700 transition-colors disabled:opacity-50"
+                  >
+                    <Save size={16} className="mr-2" />
+                    {saving ? "Saving..." : "Save Changes"}
+                  </button>
+                </>
+              )}
+            </div>
           </div>
         </div>
       </div>
@@ -1288,16 +1523,20 @@ const handleSaveProfile = async () => {
                         {isEditing ? (
                           <input
                             type="text"
-                            value={profile.exhibition.standNumber}
-                            onChange={(e) => setProfile({
-                              ...profile,
-                              exhibition: {...profile.exhibition, standNumber: e.target.value}
-                            })}
+                            value={profile.exhibition.standNumber || profile.boothNumber || ''}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              setProfile({
+                                ...profile,
+                                exhibition: {...profile.exhibition, standNumber: value},
+                                boothNumber: value
+                              });
+                            }}
                             className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             placeholder="e.g., A-42"
                           />
                         ) : (
-                          <p className="text-gray-900 py-2.5">{profile.exhibition.standNumber || 'Not provided'}</p>
+                          <p className="text-gray-900 py-2.5">{profile.exhibition.standNumber || profile.boothNumber || 'Not provided'}</p>
                         )}
                       </div>
                     </div>
@@ -1690,7 +1929,7 @@ const handleSaveProfile = async () => {
                             value={newProduct.price}
                             onChange={(e) => setNewProduct({...newProduct, price: e.target.value})}
                             className="w-full border rounded-lg px-4 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="e.g., Starting from $200"
+                            placeholder="e.g., ₹5000 per unit"
                           />
                         </div>
 
@@ -2076,7 +2315,7 @@ const handleSaveProfile = async () => {
                         <div>
                           <p className="text-blue-100 text-sm">Assigned Stand</p>
                           <p className="text-white text-2xl font-bold">
-                            {profile.exhibition.standNumber || 'Not assigned'}
+                            {profile.exhibition?.standNumber || profile.boothNumber || 'Not assigned'}
                           </p>
                         </div>
                         <div className="bg-white/20 rounded-lg px-4 py-2 text-white text-sm font-medium">
@@ -2093,19 +2332,18 @@ const handleSaveProfile = async () => {
                           <label className="block text-xs text-gray-500 mb-1">Booth Type</label>
                           {isEditing ? (
                             <select
-                              value={profile.boothType || 'standard'}
+                              value={profile.boothType || ''}
                               onChange={(e) => setProfile({...profile, boothType: e.target.value})}
                               className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             >
-                              <option value="standard">Standard</option>
-                              <option value="double">Double</option>
-                              <option value="corner">Corner</option>
-                              <option value="island">Island</option>
-                              <option value="custom">Custom</option>
+                              <option value="">Select Type</option>
+                              {boothTypeOptions.map(type => (
+                                <option key={type} value={type}>{type}</option>
+                              ))}
                             </select>
                           ) : (
-                            <p className="text-gray-900 font-medium capitalize">
-                              {profile.boothType || 'Standard'}
+                            <p className="text-gray-900 font-medium">
+                              {profile.boothType || 'Not specified'}
                             </p>
                           )}
                         </div>
@@ -2123,7 +2361,7 @@ const handleSaveProfile = async () => {
                             />
                           ) : (
                             <p className="text-gray-900 font-medium">
-                              {profile.boothSize || '3m x 3m'}
+                              {profile.boothSize || 'Not specified'}
                             </p>
                           )}
                         </div>
@@ -2141,28 +2379,7 @@ const handleSaveProfile = async () => {
                             />
                           ) : (
                             <p className="text-gray-900 font-medium">
-                              {profile.boothDimensions || 'Standard'}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Stand Number */}
-                        <div className="border-b pb-3">
-                          <label className="block text-xs text-gray-500 mb-1">Stand Number</label>
-                          {isEditing ? (
-                            <input
-                              type="text"
-                              value={profile.exhibition.standNumber || ''}
-                              onChange={(e) => setProfile({
-                                ...profile,
-                                exhibition: {...profile.exhibition, standNumber: e.target.value}
-                              })}
-                              className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                              placeholder="e.g., A-1111"
-                            />
-                          ) : (
-                            <p className="text-gray-900 font-medium">
-                              {profile.exhibition.standNumber || 'Not assigned'}
+                              {profile.boothDimensions || 'Not specified'}
                             </p>
                           )}
                         </div>
@@ -2171,16 +2388,19 @@ const handleSaveProfile = async () => {
                         <div className="border-b pb-3">
                           <label className="block text-xs text-gray-500 mb-1">Pavilion</label>
                           {isEditing ? (
-                            <input
-                              type="text"
+                            <select
                               value={profile.exhibition.pavilion || ''}
                               onChange={(e) => setProfile({
                                 ...profile,
                                 exhibition: {...profile.exhibition, pavilion: e.target.value}
                               })}
                               className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                              placeholder="e.g., Pavilion 1"
-                            />
+                            >
+                              <option value="">Select Pavilion</option>
+                              {pavilionOptions.map(pavilion => (
+                                <option key={pavilion} value={pavilion}>{pavilion}</option>
+                              ))}
+                            </select>
                           ) : (
                             <p className="text-gray-900 font-medium">
                               {profile.exhibition.pavilion || 'Not specified'}
@@ -2192,25 +2412,53 @@ const handleSaveProfile = async () => {
                         <div className="border-b pb-3">
                           <label className="block text-xs text-gray-500 mb-1">Hall</label>
                           {isEditing ? (
-                            <input
-                              type="text"
+                            <select
                               value={profile.exhibition.hall || ''}
                               onChange={(e) => setProfile({
                                 ...profile,
                                 exhibition: {...profile.exhibition, hall: e.target.value}
                               })}
                               className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                              placeholder="e.g., Hall A"
-                            />
+                            >
+                              <option value="">Select Hall</option>
+                              {hallOptions.map(hall => (
+                                <option key={hall} value={hall}>{hall}</option>
+                              ))}
+                            </select>
                           ) : (
                             <p className="text-gray-900 font-medium">
                               {profile.exhibition.hall || 'Not specified'}
                             </p>
                           )}
                         </div>
+
+                        {/* Stand Number (duplicate but keeping for consistency) */}
+                        <div className="border-b pb-3">
+                          <label className="block text-xs text-gray-500 mb-1">Stand Number</label>
+                          {isEditing ? (
+                            <input
+                              type="text"
+                              value={profile.exhibition.standNumber || profile.boothNumber || ''}
+                              onChange={(e) => {
+                                const value = e.target.value;
+                                setProfile({
+                                  ...profile,
+                                  exhibition: {...profile.exhibition, standNumber: value},
+                                  boothNumber: value
+                                });
+                              }}
+                              className="w-full border rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                              placeholder="e.g., A-1111"
+                            />
+                          ) : (
+                            <p className="text-gray-900 font-medium">
+                              {profile.exhibition.standNumber || profile.boothNumber || 'Not assigned'}
+                            </p>
+                          )}
+                        </div>
                       </div>
 
-                      {/* Price Section */}
+                      {/* Price Section - in Rupees */}
                       <div className="mt-6 pt-4 border-t-2 border-dashed">
                         <div className="flex items-center justify-between">
                           <div>
@@ -2230,7 +2478,7 @@ const handleSaveProfile = async () => {
                                   value={profile.boothPrice || ''}
                                   onChange={(e) => setProfile({...profile, boothPrice: e.target.value})}
                                   className="w-full border rounded-lg pl-8 pr-4 py-2 text-lg font-medium focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                  placeholder="0.00"
+                                  placeholder="0"
                                   min="0"
                                   step="1"
                                 />
@@ -2240,7 +2488,7 @@ const handleSaveProfile = async () => {
                             <div className="text-right">
                               {profile.boothPrice ? (
                                 <p className="text-2xl font-bold text-gray-900">
-                                  ₹{parseFloat(profile.boothPrice).toLocaleString('en-IN')}
+                                  ₹{parseInt(profile.boothPrice).toLocaleString('en-IN')}
                                 </p>
                               ) : (
                                 <p className="text-gray-400 italic">Not set</p>
@@ -2250,13 +2498,25 @@ const handleSaveProfile = async () => {
                         </div>
                       </div>
 
-                      {/* Additional Notes */}
-                      {profile.boothNotes && (
-                        <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                          <p className="text-xs text-gray-500 mb-1">Additional Notes</p>
-                          <p className="text-sm text-gray-700">{profile.boothNotes}</p>
-                        </div>
-                      )}
+                      {/* Booth Notes */}
+                      <div className="mt-4">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Additional Notes
+                        </label>
+                        {isEditing ? (
+                          <textarea
+                            value={profile.boothNotes || ''}
+                            onChange={(e) => setProfile({...profile, boothNotes: e.target.value})}
+                            rows={3}
+                            className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                            placeholder="Any special requirements or notes about your booth..."
+                          />
+                        ) : (
+                          <p className="text-gray-700 bg-gray-50 p-4 rounded-lg">
+                            {profile.boothNotes || 'No additional notes'}
+                          </p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

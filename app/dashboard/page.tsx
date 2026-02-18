@@ -135,7 +135,7 @@ export default function EnhancedDashboardPage() {
         icon: BuildingStorefrontIcon,
         color: dashboardData.exhibitor.status === 'active' ? "from-green-500 to-emerald-600" : "from-yellow-500 to-amber-600",
         trend: dashboardData.exhibitor.status === 'active' ? "up" : "warning",
-        href: "/dashboard/profile",
+        href: "/dashboard/exhibitor",
       },
       {
         title: "Stall Location",

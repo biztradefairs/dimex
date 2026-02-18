@@ -12,7 +12,7 @@ const api = axios.create({
     "Content-Type": "application/json",
     Accept: "application/json",
   },
-  timeout: 30000, // ⬅️ Render-safe timeout
+  timeout: 60000, // ⬅️ Render-safe timeout
 });
 
 /* =========================================================

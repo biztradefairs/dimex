@@ -18,7 +18,7 @@ export default function QuickActions() {
       description: "Edit company information",
       icon: PencilSquareIcon,
       color: "bg-blue-50 text-blue-600",
-      onClick: () => router.push('/dashboard/profile')
+      onClick: () => router.push('/dashboard/exhibitor')
     },
     {
       title: "View Invoices",
