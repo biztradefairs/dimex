@@ -123,6 +123,113 @@ interface Brochure {
   publicId?: string;
 }
 
+// Metadata interface for additional fields stored in JSON
+interface Metadata {
+  [x: string]: any;
+  // Company info
+  shortName?: string;
+  short_name?: string;
+  registrationNumber?: string;
+  registration_number?: string;
+  yearEstablished?: string | number;
+  year_established?: string | number;
+  companySize?: string;
+  company_size?: string;
+  companyType?: string;
+  company_type?: string;
+  
+  // Contact person
+  contact_name?: string;
+  contact_job_title?: string;
+  alternate_phone?: string;
+  contactPerson?: {
+    name?: string;
+    jobTitle?: string;
+    email?: string;
+    phone?: string;
+    alternatePhone?: string;
+  };
+  
+  // Email and phone (may be in metadata)
+  email?: string;
+  phone?: string;
+  
+  // Exhibition
+  pavilion?: string;
+  hall?: string;
+  boothNumber?: string;
+  exhibition?: {
+    pavilion?: string;
+    hall?: string;
+    standNumber?: string;
+    floorPlanUrl?: string;
+  };
+  
+  // Address
+  address_street?: string;
+  address_city?: string;
+  address_state?: string;
+  address_country?: string;
+  address_country_code?: string;
+  address_postal_code?: string;
+  address?: {
+    street?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    countryCode?: string;
+    postalCode?: string;
+  };
+  
+  // Business details
+  about?: string;
+  mission?: string;
+  vision?: string;
+  
+  // Social media
+  website?: string;
+  linkedin?: string;
+  twitter?: string;
+  facebook?: string;
+  instagram?: string;
+  socialMedia?: {
+    website?: string;
+    linkedin?: string;
+    twitter?: string;
+    facebook?: string;
+    instagram?: string;
+  };
+  
+  // Booth info
+  boothSize?: string;
+  booth_size?: string;
+  boothType?: string;
+  booth_type?: string;
+  boothDimensions?: string;
+  booth_dimensions?: string;
+  boothNotes?: string;
+  booth_notes?: string;
+  boothStatus?: string;
+  booth_status?: string;
+  boothPrice?: string;
+  booth_price?: string;
+  
+  // Sector
+  sector?: string | string[];
+  
+  // Floor plan
+  floor_plan_url?: string;
+}
+
+interface StallDetails {
+  size?: string;
+  type?: string;
+  dimensions?: string;
+  notes?: string;
+  price?: string;
+  [key: string]: any; // Allow additional properties
+}
+
 // Options
 const countries = [
   { code: 'TR', name: 'Turkey' },
@@ -303,7 +410,7 @@ export default function ExhibitorDashboard() {
         fetchProducts(),
         fetchBrands(),
         fetchBrochures(),
-         fetchBoothData(),
+        fetchBoothData(),
       ]);
     } catch (error: any) {
       console.error('Error fetching data:', error);
@@ -312,80 +419,6 @@ export default function ExhibitorDashboard() {
       setLoading(false);
     }
   };
-
-  // Add this temporary debug function at the beginning of your component
-const debugBoothFields = async () => {
-  try {
-    // First, let's check what fields exist in the current profile
-    console.log('Current profile booth fields:', {
-      boothPrice: profile.boothPrice,
-      boothType: profile.boothType,
-      boothSize: profile.boothSize,
-      boothDimensions: profile.boothDimensions,
-      boothStatus: profile.boothStatus,
-      boothNotes: profile.boothNotes,
-      exhibition: profile.exhibition
-    });
-
-    // Let's make a test API call to see what the backend returns
-    const testResult = await apiCall('/api/exhibitorDashboard/profile', {
-      method: 'GET',
-    });
-    
-    if (testResult.success) {
-      console.log('Raw API data from server:', testResult.data);
-      console.log('Server booth fields:', {
-        boothPrice: testResult.data.boothPrice,
-        booth_price: testResult.data.booth_price,
-        price: testResult.data.price,
-        amount: testResult.data.amount
-      });
-    }
-  } catch (error) {
-    console.error('Debug error:', error);
-  }
-};
-
-// Call this after loading
-useEffect(() => {
-  fetchAllData();
-  setTimeout(() => debugBoothFields(), 2000); // Debug after data loads
-}, []);
-// Add this to check if there's a separate booth endpoint
-const checkBoothEndpoint = async () => {
-  try {
-    console.log('Checking for booth endpoint...');
-    
-    // Try common booth endpoints
-    const endpoints = [
-      '/api/exhibitorDashboard/booth',
-      '/api/exhibitorDashboard/booth/details',
-      '/api/exhibitorDashboard/booth-info',
-      '/api/exhibitorDashboard/stall',
-      '/api/exhibitorDashboard/stand'
-    ];
-    
-    for (const endpoint of endpoints) {
-      try {
-        const result = await apiCall(endpoint, { method: 'GET' });
-        console.log(`Endpoint ${endpoint} response:`, result);
-      } catch (e) {
-        console.log(`Endpoint ${endpoint} not available`);
-      }
-    }
-  } catch (error) {
-    console.error('Error checking booth endpoint:', error);
-  }
-};
-
-// Call this after loading
-useEffect(() => {
-  fetchAllData();
-  setTimeout(() => {
-    debugBoothFields();
-    checkBoothEndpoint();
-  }, 2000);
-}, []);
 
 const fetchExhibitorProfile = async () => {
   try {
@@ -396,26 +429,92 @@ const fetchExhibitorProfile = async () => {
     if (result.success) {
       const apiData = result.data;
       
-      // Parse address components from separate fields
-      let addressObj = {
-        street: apiData.address_street || '',
-        city: apiData.address_city || '',
-        state: apiData.address_state || '',
-        country: apiData.address_country || '',
-        countryCode: apiData.address_country_code || '',
-        postalCode: apiData.address_postal_code || ''
+      // Extract metadata if it exists (this is where your additional fields are stored)
+      let metadata: Metadata = {};
+      if (apiData.metadata) {
+        if (typeof apiData.metadata === 'string') {
+          try {
+            metadata = JSON.parse(apiData.metadata) as Metadata;
+          } catch (e) {
+            console.error('Error parsing metadata:', e);
+          }
+        } else if (typeof apiData.metadata === 'object') {
+          metadata = apiData.metadata as Metadata;
+        }
+      }
+      
+      console.log('📦 Extracted metadata:', metadata);
+      
+      // Parse stallDetails for booth information
+      let stallDetails: StallDetails = {};
+      if (apiData.stallDetails) {
+        if (typeof apiData.stallDetails === 'string') {
+          try {
+            stallDetails = JSON.parse(apiData.stallDetails) as StallDetails;
+          } catch (e) {
+            console.error('Error parsing stallDetails:', e);
+          }
+        } else if (typeof apiData.stallDetails === 'object') {
+          stallDetails = apiData.stallDetails as StallDetails;
+        }
+      }
+      
+      // Build contact person object
+      const contactPersonObj = {
+        name: apiData.contactPerson?.name || metadata.contact_name || apiData.name || '',
+        jobTitle: apiData.contactPerson?.jobTitle || metadata.contact_job_title || '',
+        email: apiData.email || metadata.email || '',
+        phone: apiData.phone || metadata.phone || '',
+        alternatePhone: apiData.contactPerson?.alternatePhone || metadata.alternate_phone || ''
       };
       
-      // If no separate fields, try to parse from combined address
-      if (!addressObj.street && apiData.address && typeof apiData.address === 'string') {
-        const parts = apiData.address.split(',').map((p: string) => p.trim());
+      // Build social media object
+      const socialMediaObj = {
+        website: apiData.website || metadata.website || '',
+        linkedin: apiData.socialMedia?.linkedin || metadata.linkedin || '',
+        twitter: apiData.socialMedia?.twitter || metadata.twitter || '',
+        facebook: apiData.socialMedia?.facebook || metadata.facebook || '',
+        instagram: apiData.socialMedia?.instagram || metadata.instagram || ''
+      };
+      
+      // Build exhibition object
+      const exhibitionObj = {
+        pavilion: apiData.exhibition?.pavilion || metadata.pavilion || '',
+        hall: apiData.exhibition?.hall || metadata.hall || '',
+        standNumber: apiData.boothNumber || metadata.boothNumber || apiData.exhibition?.standNumber || '',
+        floorPlanUrl: apiData.exhibition?.floorPlanUrl || metadata.floor_plan_url || ''
+      };
+      
+      // Build address object - FIXED SECTION
+      let addressObj = {
+        street: '',
+        city: '',
+        state: '',
+        country: '',
+        countryCode: '',
+        postalCode: ''
+      };
+
+      // Check if apiData.address is an object (new structure)
+      if (apiData.address && typeof apiData.address === 'object') {
         addressObj = {
-          street: parts[0] || '',
-          city: parts[1] || '',
-          state: parts[2] || '',
-          country: parts[3] || '',
-          countryCode: '',
-          postalCode: parts[4] || ''
+          street: apiData.address.street || metadata.address_street || '',
+          city: apiData.address.city || metadata.address_city || '',
+          state: apiData.address.state || metadata.address_state || '',
+          country: apiData.address.country || metadata.address_country || '',
+          countryCode: apiData.address.countryCode || metadata.address_country_code || '',
+          postalCode: apiData.address.postalCode || metadata.address_postal_code || ''
+        };
+      } 
+      // Fallback to metadata fields if available
+      else {
+        addressObj = {
+          street: metadata.address_street || metadata.address?.street || '',
+          city: metadata.address_city || metadata.address?.city || '',
+          state: metadata.address_state || metadata.address?.state || '',
+          country: metadata.address_country || metadata.address?.country || '',
+          countryCode: metadata.address_country_code || metadata.address?.countryCode || '',
+          postalCode: metadata.address_postal_code || metadata.address?.postalCode || ''
         };
       }
       
@@ -427,110 +526,60 @@ const fetchExhibitorProfile = async () => {
         } else if (Array.isArray(apiData.sector)) {
           sectorArray = apiData.sector;
         }
-      }
-      
-      // Parse contact person
-      let contactPersonObj = {
-        name: apiData.contact_name || apiData.name || '',
-        jobTitle: apiData.contact_job_title || '',
-        email: apiData.email || '',
-        phone: apiData.phone || '',
-        alternatePhone: apiData.alternate_phone || ''
-      };
-      
-      if (apiData.contactPerson) {
-        if (typeof apiData.contactPerson === 'string') {
-          try {
-            contactPersonObj = { ...contactPersonObj, ...JSON.parse(apiData.contactPerson) };
-          } catch (e) {
-            console.error('Error parsing contact person:', e);
-          }
-        } else if (typeof apiData.contactPerson === 'object') {
-          contactPersonObj = { ...contactPersonObj, ...apiData.contactPerson };
-        }
-      }
-      
-      // Parse social media
-      let socialMediaObj = {
-        website: apiData.website || '',
-        linkedin: apiData.linkedin || '',
-        twitter: apiData.twitter || '',
-        facebook: apiData.facebook || '',
-        instagram: apiData.instagram || ''
-      };
-      
-      if (apiData.socialMedia) {
-        if (typeof apiData.socialMedia === 'string') {
-          try {
-            socialMediaObj = { ...socialMediaObj, ...JSON.parse(apiData.socialMedia) };
-          } catch (e) {
-            console.error('Error parsing social media:', e);
-          }
-        } else if (typeof apiData.socialMedia === 'object') {
-          socialMediaObj = { ...socialMediaObj, ...apiData.socialMedia };
-        }
-      }
-      
-      // Parse exhibition
-      let exhibitionObj = {
-        pavilion: apiData.pavilion || '',
-        hall: apiData.hall || '',
-        standNumber: apiData.boothNumber || apiData.booth_number || '',
-        floorPlanUrl: apiData.floor_plan_url || ''
-      };
-      
-      if (apiData.exhibition) {
-        if (typeof apiData.exhibition === 'string') {
-          try {
-            exhibitionObj = { ...exhibitionObj, ...JSON.parse(apiData.exhibition) };
-          } catch (e) {
-            console.error('Error parsing exhibition:', e);
-          }
-        } else if (typeof apiData.exhibition === 'object') {
-          exhibitionObj = { ...exhibitionObj, ...apiData.exhibition };
-        }
-      }
-      
-      // Parse stall details for booth price
-      let boothPrice = profile.boothPrice || '';
-      if (apiData.stallDetails) {
-        try {
-          const stallDetails = typeof apiData.stallDetails === 'string' 
-            ? JSON.parse(apiData.stallDetails) 
-            : apiData.stallDetails;
-          boothPrice = stallDetails.price || stallDetails.boothPrice || boothPrice;
-        } catch (e) {
-          console.error('Error parsing stall details:', e);
+      } else if (metadata.sector) {
+        if (typeof metadata.sector === 'string') {
+          sectorArray = metadata.sector.split(',').map((s: string) => s.trim()).filter(Boolean);
+        } else if (Array.isArray(metadata.sector)) {
+          sectorArray = metadata.sector;
         }
       }
       
       setProfile(prev => ({
         ...prev,
         id: apiData.id || '',
-        companyName: apiData.company || apiData.companyName || '',
-        shortName: apiData.shortName || apiData.short_name || '',
-        registrationNumber: apiData.registrationNumber || apiData.registration_number || '',
-        yearEstablished: apiData.yearEstablished || apiData.year_established || '',
-        companySize: apiData.companySize || apiData.company_size || '',
-        companyType: apiData.companyType || apiData.company_type || '',
+        // Basic fields from main table
+        companyName: apiData.company || metadata.companyName || '',
+        shortName: apiData.shortName || metadata.shortName || metadata.short_name || '',
+        registrationNumber: apiData.registrationNumber || metadata.registrationNumber || metadata.registration_number || '',
+        yearEstablished: apiData.yearEstablished || metadata.yearEstablished || metadata.year_established || '',
+        companySize: apiData.companySize || metadata.companySize || metadata.company_size || '',
+        companyType: apiData.companyType || metadata.companyType || metadata.company_type || '',
+        
+        // Contact person
         contactPerson: contactPersonObj,
+        
+        // Exhibition
         exhibition: exhibitionObj,
+        
+        // Address
         address: addressObj,
+        
+        // Sector
         sector: sectorArray,
-        about: apiData.about || apiData.description || '',
-        mission: apiData.mission || '',
-        vision: apiData.vision || '',
+        
+        // Business details
+        about: apiData.about || metadata.about || apiData.description || '',
+        mission: apiData.mission || metadata.mission || '',
+        vision: apiData.vision || metadata.vision || '',
+        
+        // Social media
         socialMedia: socialMediaObj,
+        
+        // Status
         status: apiData.status || 'active',
-        createdAt: apiData.createdAt || apiData.created_at || '',
-        updatedAt: apiData.updatedAt || apiData.updated_at || '',
-        boothNumber: apiData.boothNumber || apiData.booth_number || exhibitionObj.standNumber || prev.boothNumber,
-        boothSize: apiData.boothSize || apiData.booth_size || prev.boothSize,
-        boothType: apiData.boothType || apiData.booth_type || prev.boothType,
-        boothDimensions: apiData.boothDimensions || apiData.booth_dimensions || prev.boothDimensions,
-        boothNotes: apiData.boothNotes || apiData.booth_notes || prev.boothNotes,
-        boothStatus: apiData.boothStatus || apiData.booth_status || prev.boothStatus || 'pending',
-        boothPrice: boothPrice || apiData.boothPrice || apiData.booth_price || apiData.price || prev.boothPrice,
+        
+        // Timestamps
+        createdAt: apiData.createdAt || '',
+        updatedAt: apiData.updatedAt || '',
+        
+        // Booth fields
+        boothNumber: apiData.boothNumber || metadata.boothNumber || exhibitionObj.standNumber || prev.boothNumber,
+        boothSize: stallDetails.size || apiData.boothSize || metadata.boothSize || metadata.booth_size || prev.boothSize,
+        boothType: stallDetails.type || apiData.boothType || metadata.boothType || metadata.booth_type || prev.boothType,
+        boothDimensions: stallDetails.dimensions || apiData.boothDimensions || metadata.boothDimensions || metadata.booth_dimensions || prev.boothDimensions,
+        boothNotes: stallDetails.notes || apiData.boothNotes || metadata.boothNotes || metadata.booth_notes || prev.boothNotes,
+        boothStatus: apiData.boothStatus || metadata.boothStatus || metadata.booth_status || stallDetails.status || prev.boothStatus || 'pending',
+        boothPrice: stallDetails.price || apiData.boothPrice || metadata.boothPrice || metadata.booth_price || prev.boothPrice,
       }));
     }
   } catch (error) {
@@ -538,6 +587,7 @@ const fetchExhibitorProfile = async () => {
     throw error;
   }
 };
+
   const fetchProducts = async () => {
     try {
       const result = await apiCall('/api/exhibitorDashboard/products');
@@ -551,41 +601,42 @@ const fetchExhibitorProfile = async () => {
       console.error('Error fetching products:', error);
     }
   };
-const fetchBoothData = async () => {
-  try {
-    // Try to fetch booth data from a separate endpoint
-    const result = await apiCall('/api/exhibitorDashboard/booth', {
-      method: 'GET',
-    }).catch(() => null);
-    
-    if (result && result.success) {
-      const boothData = result.data;
-      console.log('Booth data from separate endpoint:', boothData);
+
+  const fetchBoothData = async () => {
+    try {
+      // Try to fetch booth data from a separate endpoint
+      const result = await apiCall('/api/exhibitorDashboard/booth', {
+        method: 'GET',
+      }).catch(() => null);
       
-      // Check if price is in stallDetails
-      let boothPrice = '';
-      if (boothData.stallDetails) {
-        const stallDetails = typeof boothData.stallDetails === 'string'
-          ? JSON.parse(boothData.stallDetails)
-          : boothData.stallDetails;
-        boothPrice = stallDetails.price || stallDetails.boothPrice || '';
+      if (result && result.success) {
+        const boothData = result.data;
+        console.log('Booth data from separate endpoint:', boothData);
+        
+        // Check if price is in stallDetails
+        let boothPrice = '';
+        if (boothData.stallDetails) {
+          const stallDetails = typeof boothData.stallDetails === 'string'
+            ? JSON.parse(boothData.stallDetails)
+            : boothData.stallDetails;
+          boothPrice = stallDetails.price || stallDetails.boothPrice || '';
+        }
+        
+        setProfile(prev => ({
+          ...prev,
+          boothNumber: boothData.boothNumber || boothData.number || prev.boothNumber,
+          boothSize: boothData.boothSize || boothData.size || prev.boothSize,
+          boothType: boothData.boothType || boothData.type || prev.boothType,
+          boothDimensions: boothData.boothDimensions || boothData.dimensions || prev.boothDimensions,
+          boothNotes: boothData.boothNotes || boothData.notes || prev.boothNotes,
+          boothStatus: boothData.boothStatus || boothData.status || prev.boothStatus,
+          boothPrice: boothPrice || boothData.boothPrice || boothData.price || boothData.amount || prev.boothPrice,
+        }));
       }
-      
-      setProfile(prev => ({
-        ...prev,
-        boothNumber: boothData.boothNumber || boothData.number || prev.boothNumber,
-        boothSize: boothData.boothSize || boothData.size || prev.boothSize,
-        boothType: boothData.boothType || boothData.type || prev.boothType,
-        boothDimensions: boothData.boothDimensions || boothData.dimensions || prev.boothDimensions,
-        boothNotes: boothData.boothNotes || boothData.notes || prev.boothNotes,
-        boothStatus: boothData.boothStatus || boothData.status || prev.boothStatus,
-        boothPrice: boothPrice || boothData.boothPrice || boothData.price || boothData.amount || prev.boothPrice,
-      }));
+    } catch (error) {
+      console.log('No separate booth endpoint found');
     }
-  } catch (error) {
-    console.log('No separate booth endpoint found');
-  }
-};
+  };
 
   const fetchBrands = async () => {
     try {
@@ -880,38 +931,87 @@ const handleSaveProfile = async () => {
   setShowError(null);
 
   try {
-    // Create a flat object structure that matches database schema
-    const payload = {
-      // Basic company info - keep these flat
-      name: profile.contactPerson.name || profile.companyName, // Full name for name field
-      company: profile.companyName, // Company name for company field
-      email: profile.contactPerson.email,
-      phone: profile.contactPerson.phone,
-      
-      // Additional fields that exist in database
-      companyName: profile.companyName,
+    // Create metadata object for all additional fields
+    const metadata: Metadata = {
+      // Company info
       shortName: profile.shortName,
       registrationNumber: profile.registrationNumber,
-      yearEstablished: profile.yearEstablished ? parseInt(profile.yearEstablished.toString()) : null,
+      yearEstablished: profile.yearEstablished,
       companySize: profile.companySize,
       companyType: profile.companyType,
       
-      // Contact person fields (flattened)
+      // Contact person details
       contact_name: profile.contactPerson.name,
       contact_job_title: profile.contactPerson.jobTitle,
       alternate_phone: profile.contactPerson.alternatePhone,
+      contactPerson: profile.contactPerson,
       
-      // Booth/exhibition fields
-      boothNumber: profile.exhibition.standNumber || profile.boothNumber,
+      // Exhibition location
+      pavilion: profile.exhibition.pavilion,
+      hall: profile.exhibition.hall,
+      exhibition: {
+        pavilion: profile.exhibition.pavilion,
+        hall: profile.exhibition.hall,
+        standNumber: profile.exhibition.standNumber || profile.boothNumber,
+        floorPlanUrl: profile.exhibition.floorPlanUrl || ''
+      },
       
-      // Address fields - create separate database columns
+      // Address fields
       address_street: profile.address.street,
       address_city: profile.address.city,
       address_state: profile.address.state,
       address_country: profile.address.country,
+      address_country_code: profile.address.countryCode,
       address_postal_code: profile.address.postalCode,
+      address: {
+        street: profile.address.street,
+        city: profile.address.city,
+        state: profile.address.state,
+        country: profile.address.country,
+        countryCode: profile.address.countryCode,
+        postalCode: profile.address.postalCode
+      },
       
-      // Also keep the combined address for backward compatibility
+      // Business details
+      about: profile.about,
+      mission: profile.mission,
+      vision: profile.vision,
+      
+      // Social media
+      website: profile.socialMedia.website,
+      linkedin: profile.socialMedia.linkedin,
+      twitter: profile.socialMedia.twitter,
+      facebook: profile.socialMedia.facebook,
+      instagram: profile.socialMedia.instagram,
+      socialMedia: profile.socialMedia,
+      
+      // Booth info
+      boothSize: profile.boothSize,
+      boothType: profile.boothType,
+      boothDimensions: profile.boothDimensions,
+      boothNotes: profile.boothNotes,
+      boothStatus: profile.boothStatus,
+      boothPrice: profile.boothPrice
+    };
+
+    // Create stallDetails object with ALL booth information including price
+    const stallDetails: StallDetails = {
+      size: profile.boothSize || '',
+      type: profile.boothType || '',
+      dimensions: profile.boothDimensions || '',
+      notes: profile.boothNotes || '',
+      price: profile.boothPrice || '' // MAKE SURE PRICE IS INCLUDED HERE
+    };
+
+    // Create the payload with all fields
+    const payload = {
+      name: profile.contactPerson.name || profile.companyName,
+      email: profile.contactPerson.email,
+      company: profile.companyName,
+      phone: profile.contactPerson.phone,
+      website: profile.socialMedia.website,
+      sector: profile.sector.join(', '),
+      boothNumber: profile.exhibition.standNumber || profile.boothNumber,
       address: [
         profile.address.street,
         profile.address.city,
@@ -920,48 +1020,11 @@ const handleSaveProfile = async () => {
         profile.address.postalCode
       ].filter(Boolean).join(', '),
       
-      // Sector as comma-separated string
-      sector: profile.sector.join(', '),
+      // Store additional fields in metadata JSON
+      metadata: metadata,
       
-      // Business details
-      about: profile.about,
-      description: profile.about,
-      mission: profile.mission,
-      vision: profile.vision,
-      
-      // Social media (flattened)
-      website: profile.socialMedia.website,
-      linkedin: profile.socialMedia.linkedin,
-      twitter: profile.socialMedia.twitter,
-      facebook: profile.socialMedia.facebook,
-      instagram: profile.socialMedia.instagram,
-      
-      // Keep JSON strings for complex data that must be stored as JSON
-      contactPerson: JSON.stringify(profile.contactPerson),
-      socialMedia: JSON.stringify(profile.socialMedia),
-      exhibition: JSON.stringify({
-        pavilion: profile.exhibition.pavilion,
-        hall: profile.exhibition.hall,
-        standNumber: profile.exhibition.standNumber || profile.boothNumber,
-        floorPlanUrl: profile.exhibition.floorPlanUrl || ''
-      }),
-      
-      // Booth details
-      stallDetails: JSON.stringify({
-        size: profile.boothSize || '',
-        type: profile.boothType || '',
-        dimensions: profile.boothDimensions || '',
-        notes: profile.boothNotes || '',
-        price: profile.boothPrice || ''
-      }),
-      
-      // Individual booth fields
-      boothType: profile.boothType,
-      boothSize: profile.boothSize,
-      boothDimensions: profile.boothDimensions,
-      boothNotes: profile.boothNotes,
-      boothStatus: profile.boothStatus || 'pending',
-      boothPrice: profile.boothPrice ? parseInt(profile.boothPrice.toString()) : null,
+      // Store booth details in stallDetails JSON
+      stallDetails: stallDetails,
       
       status: profile.status
     };
@@ -980,9 +1043,10 @@ const handleSaveProfile = async () => {
       setShowSuccess(true);
       setIsEditing(false);
       
-      // CRITICAL: Wait a moment then refresh the profile data
+      // IMPORTANT: Wait a moment then refresh the profile data
       setTimeout(async () => {
         await fetchExhibitorProfile();
+        await fetchBoothData(); // Also fetch booth data separately
         setShowSuccess(false);
       }, 1500);
     } else {
@@ -995,6 +1059,7 @@ const handleSaveProfile = async () => {
     setSaving(false);
   }
 };
+
   const handleBrandLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
