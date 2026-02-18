@@ -1606,128 +1606,127 @@ const handleSaveProfile = async () => {
                       </div>
                     </div>
                   </div>
+              {/* Company Address */}
+<div className="p-6">
+  <h2 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
+    <Building size={20} className="text-blue-600" />
+    Company Address
+  </h2>
 
-                  {/* Company Address */}
-                  <div className="p-6">
-                    <h2 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
-                      <Building size={20} className="text-blue-600" />
-                      Company Address
-                    </h2>
+  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <div className="md:col-span-2">
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Street Address <span className="text-red-500">*</span>
+      </label>
+      {isEditing ? (
+        <input
+          type="text"
+          value={profile.address.street}
+          onChange={(e) => setProfile({
+            ...profile,
+            address: {...profile.address, street: e.target.value}
+          })}
+          className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="Street address"
+        />
+      ) : (
+        <p className="text-gray-900 py-2.5">{profile.address.street || 'Not provided'}</p>
+      )}
+    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="md:col-span-2">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Street Address <span className="text-red-500">*</span>
-                        </label>
-                        {isEditing ? (
-                          <input
-                            type="text"
-                            value={profile.address.street}
-                            onChange={(e) => setProfile({
-                              ...profile,
-                              address: {...profile.address, street: e.target.value}
-                            })}
-                            className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Street address"
-                          />
-                        ) : (
-                          <p className="text-gray-900 py-2.5">{profile.address.street || 'Not provided'}</p>
-                        )}
-                      </div>
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        City <span className="text-red-500">*</span>
+      </label>
+      {isEditing ? (
+        <input
+          type="text"
+          value={profile.address.city}
+          onChange={(e) => setProfile({
+            ...profile,
+            address: {...profile.address, city: e.target.value}
+          })}
+          className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="City"
+        />
+      ) : (
+        <p className="text-gray-900 py-2.5">{profile.address.city || 'Not provided'}</p>
+      )}
+    </div>
 
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          City <span className="text-red-500">*</span>
-                        </label>
-                        {isEditing ? (
-                          <input
-                            type="text"
-                            value={profile.address.city}
-                            onChange={(e) => setProfile({
-                              ...profile,
-                              address: {...profile.address, city: e.target.value}
-                            })}
-                            className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="City"
-                          />
-                        ) : (
-                          <p className="text-gray-900 py-2.5">{profile.address.city || 'Not provided'}</p>
-                        )}
-                      </div>
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        State/Province
+      </label>
+      {isEditing ? (
+        <input
+          type="text"
+          value={profile.address.state}
+          onChange={(e) => setProfile({
+            ...profile,
+            address: {...profile.address, state: e.target.value}
+          })}
+          className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="State/Province"
+        />
+      ) : (
+        <p className="text-gray-900 py-2.5">{profile.address.state || 'Not provided'}</p>
+      )}
+    </div>
 
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          State/Province
-                        </label>
-                        {isEditing ? (
-                          <input
-                            type="text"
-                            value={profile.address.state}
-                            onChange={(e) => setProfile({
-                              ...profile,
-                              address: {...profile.address, state: e.target.value}
-                            })}
-                            className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="State/Province"
-                          />
-                        ) : (
-                          <p className="text-gray-900 py-2.5">{profile.address.state || 'Not provided'}</p>
-                        )}
-                      </div>
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Country <span className="text-red-500">*</span>
+      </label>
+      {isEditing ? (
+        <select
+          value={profile.address.countryCode}
+          onChange={(e) => {
+            const country = countries.find(c => c.code === e.target.value);
+            setProfile({
+              ...profile,
+              address: {
+                ...profile.address,
+                countryCode: e.target.value,
+                country: country?.name || ''
+              }
+            });
+          }}
+          className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+        >
+          <option value="">Select Country</option>
+          {countries.map(country => (
+            <option key={country.code} value={country.code}>
+              {country.name}
+            </option>
+          ))}
+        </select>
+      ) : (
+        <p className="text-gray-900 py-2.5">{profile.address.country || 'Not provided'}</p>
+      )}
+    </div>
 
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Country <span className="text-red-500">*</span>
-                        </label>
-                        {isEditing ? (
-                          <select
-                            value={profile.address.countryCode}
-                            onChange={(e) => {
-                              const country = countries.find(c => c.code === e.target.value);
-                              setProfile({
-                                ...profile,
-                                address: {
-                                  ...profile.address,
-                                  countryCode: e.target.value,
-                                  country: country?.name || ''
-                                }
-                              });
-                            }}
-                            className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                          >
-                            <option value="">Select Country</option>
-                            {countries.map(country => (
-                              <option key={country.code} value={country.code}>
-                                {country.name}
-                              </option>
-                            ))}
-                          </select>
-                        ) : (
-                          <p className="text-gray-900 py-2.5">{profile.address.country || 'Not provided'}</p>
-                        )}
-                      </div>
-
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Postal Code
-                        </label>
-                        {isEditing ? (
-                          <input
-                            type="text"
-                            value={profile.address.postalCode}
-                            onChange={(e) => setProfile({
-                              ...profile,
-                              address: {...profile.address, postalCode: e.target.value}
-                            })}
-                            className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Postal code"
-                          />
-                        ) : (
-                          <p className="text-gray-900 py-2.5">{profile.address.postalCode || 'Not provided'}</p>
-                        )}
-                      </div>
-                    </div>
-                  </div>
+    <div>
+      <label className="block text-sm font-medium text-gray-700 mb-2">
+        Postal Code
+      </label>
+      {isEditing ? (
+        <input
+          type="text"
+          value={profile.address.postalCode}
+          onChange={(e) => setProfile({
+            ...profile,
+            address: {...profile.address, postalCode: e.target.value}
+          })}
+          className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          placeholder="Postal code"
+        />
+      ) : (
+        <p className="text-gray-900 py-2.5">{profile.address.postalCode || 'Not provided'}</p>
+      )}
+    </div>
+  </div>
+</div>
 
                   {/* Business Details */}
                   <div className="p-6">
