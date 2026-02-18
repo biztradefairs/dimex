@@ -1606,7 +1606,7 @@ const handleSaveProfile = async () => {
                       </div>
                     </div>
                   </div>
-              {/* Company Address */}
+{/* Company Address */}
 <div className="p-6">
   <h2 className="text-lg font-semibold text-gray-900 mb-6 flex items-center gap-2">
     <Building size={20} className="text-blue-600" />
