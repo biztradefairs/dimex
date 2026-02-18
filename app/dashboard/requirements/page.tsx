@@ -232,7 +232,6 @@ export default function RequirementsPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [apiError, setApiError] = useState<string | null>(null);
-  const [validationError, setValidationError] = useState<string | null>(null);
 
   // Form 1 - General Information
   const [generalInfo, setGeneralInfo] = useState<GeneralInfo>({
@@ -376,144 +375,6 @@ export default function RequirementsPage() {
     amount: 0,
     uploadedReceipt: null
   });
-
-  // ============= VALIDATION FUNCTIONS =============
-  const validateStep = (step: number): { isValid: boolean; message: string } => {
-    switch (step) {
-      case 1: // Basic Info
-        if (!generalInfo.firstName?.trim()) {
-          return { isValid: false, message: 'Please enter your first name' };
-        }
-        if (!generalInfo.lastName?.trim()) {
-          return { isValid: false, message: 'Please enter your last name' };
-        }
-        if (!generalInfo.mobile?.trim()) {
-          return { isValid: false, message: 'Please enter your mobile number' };
-        }
-        if (!generalInfo.email?.trim()) {
-          return { isValid: false, message: 'Please enter your email address' };
-        }
-        if (!generalInfo.companyName?.trim()) {
-          return { isValid: false, message: 'Please enter your company name' };
-        }
-        return { isValid: true, message: '' };
-
-      case 2: // Booth Details
-        if (!boothDetails.boothNo?.trim()) {
-          return { isValid: false, message: 'Please enter booth number' };
-        }
-        if (!boothDetails.exhibitorName?.trim()) {
-          return { isValid: false, message: 'Please enter exhibitor name' };
-        }
-        if (!boothDetails.sqMtrBooked?.trim()) {
-          return { isValid: false, message: 'Please enter square meters booked' };
-        }
-        if (!boothDetails.organisation?.trim()) {
-          return { isValid: false, message: 'Please enter organisation name' };
-        }
-        if (!boothDetails.contactPerson?.trim()) {
-          return { isValid: false, message: 'Please enter contact person name' };
-        }
-        if (!boothDetails.designation?.trim()) {
-          return { isValid: false, message: 'Please enter designation' };
-        }
-        if (!boothDetails.mobile?.trim()) {
-          return { isValid: false, message: 'Please enter mobile number' };
-        }
-        if (!boothDetails.email?.trim()) {
-          return { isValid: false, message: 'Please enter email address' };
-        }
-        if (!boothDetails.contractorCompany?.trim()) {
-          return { isValid: false, message: 'Please enter contractor company name' };
-        }
-        if (!boothDetails.contractorPerson?.trim()) {
-          return { isValid: false, message: 'Please enter contractor person name' };
-        }
-        if (!boothDetails.contractorMobile?.trim()) {
-          return { isValid: false, message: 'Please enter contractor mobile number' };
-        }
-        if (!boothDetails.contractorEmail?.trim()) {
-          return { isValid: false, message: 'Please enter contractor email' };
-        }
-        if (!boothDetails.contractorGST?.trim()) {
-          return { isValid: false, message: 'Please enter contractor GST number' };
-        }
-        return { isValid: true, message: '' };
-
-      case 3: // Security Deposit
-        if (!securityDeposit.boothSq) {
-          return { isValid: false, message: 'Please select a security deposit amount' };
-        }
-        return { isValid: true, message: '' };
-
-      case 4: // Machines (Optional)
-        return { isValid: true, message: '' };
-
-      case 5: // Personnel (Required)
-        // At least one personnel with name is required
-        const hasValidPersonnel = personnel.some(p => p.name?.trim());
-        if (!hasValidPersonnel) {
-          return { isValid: false, message: 'Please add at least one personnel/exhibitor' };
-        }
-        return { isValid: true, message: '' };
-
-      case 6: // Company Details (Required)
-        if (!companyDetails.companyName?.trim()) {
-          return { isValid: false, message: 'Please enter company name' };
-        }
-        if (!companyDetails.address?.trim()) {
-          return { isValid: false, message: 'Please enter company address' };
-        }
-        if (!companyDetails.productsServices?.trim()) {
-          return { isValid: false, message: 'Please enter products/services for exhibitor guide' };
-        }
-        return { isValid: true, message: '' };
-
-      case 7: // Electrical Load (Optional)
-        return { isValid: true, message: '' };
-
-      case 8: // Furniture (Optional)
-        return { isValid: true, message: '' };
-
-      case 9: // Hostess (Optional)
-        return { isValid: true, message: '' };
-
-      case 10: // Compressed Air (Optional)
-        return { isValid: true, message: '' };
-
-      case 11: // Water Connection (Optional)
-        return { isValid: true, message: '' };
-
-      case 12: // Security Guard (Optional)
-        return { isValid: true, message: '' };
-
-      case 13: // Rental Items (Optional)
-        return { isValid: true, message: '' };
-
-      case 14: // Housekeeping (Optional)
-        return { isValid: true, message: '' };
-
-      default:
-        return { isValid: true, message: '' };
-    }
-  };
-
-  const handleNextStep = () => {
-    const validation = validateStep(currentStep);
-    if (!validation.isValid) {
-      setValidationError(validation.message);
-      // Auto-hide error after 5 seconds
-      setTimeout(() => setValidationError(null), 5000);
-      return;
-    }
-    setValidationError(null);
-    setCurrentStep(Math.min(totalSteps, currentStep + 1));
-  };
-
-  const handlePreviousStep = () => {
-    setValidationError(null);
-    setCurrentStep(Math.max(1, currentStep - 1));
-  };
 
   // ============= API FUNCTIONS =============
   const apiCall = async (endpoint: string, options: RequestInit = {}) => {
@@ -1066,22 +927,21 @@ export default function RequirementsPage() {
 
   // ============= RENDER FUNCTIONS =============
 
-  // UPDATED STEPS - REMOVED LOCATION (STEP 2) AND RENUMBERED
   const steps = [
-    { number: 1, name: 'Basic Info', icon: UserIcon, mobileName: 'Basic', required: true },
-    { number: 2, name: 'Booth', icon: BuildingOfficeIcon, mobileName: 'Booth', required: true },
-    { number: 3, name: 'Security', icon: BanknotesIcon, mobileName: 'Deposit', required: true },
-    { number: 4, name: 'Machines', icon: CubeIcon, mobileName: 'Mach', required: false },
-    { number: 5, name: 'Personnel', icon: UserIcon, mobileName: 'Staff', required: true },
-    { number: 6, name: 'Company', icon: BuildingOfficeIcon, mobileName: 'Co', required: true },
-    { number: 7, name: 'Electrical', icon: BoltIcon, mobileName: 'Elec', required: false },
-    { number: 8, name: 'Furniture', icon: ComputerDesktopIcon, mobileName: 'Furn', required: false },
-    { number: 9, name: 'Hostess', icon: SparklesIcon, mobileName: 'Host', required: false },
-    { number: 10, name: 'Air', icon: WrenchScrewdriverIcon, mobileName: 'Air', required: false },
-    { number: 11, name: 'Water', icon: TruckIcon, mobileName: 'Water', required: false },
-    { number: 12, name: 'Security', icon: ShieldCheckIcon, mobileName: 'Guard', required: false },
-    { number: 13, name: 'AV Rentals', icon: ComputerDesktopIcon, mobileName: 'Rentals', required: false },
-    { number: 14, name: 'Housekeeping', icon: SparklesIcon, mobileName: 'House', required: false }
+    { number: 1, name: 'Basic Info', icon: UserIcon, mobileName: 'Basic' },
+    { number: 2, name: 'Booth', icon: BuildingOfficeIcon, mobileName: 'Booth' },
+    { number: 3, name: 'Security', icon: BanknotesIcon, mobileName: 'Deposit' },
+    { number: 4, name: 'Machines', icon: CubeIcon, mobileName: 'Mach' },
+    { number: 5, name: 'Personnel', icon: UserIcon, mobileName: 'Staff' },
+    { number: 6, name: 'Company', icon: BuildingOfficeIcon, mobileName: 'Co' },
+    { number: 7, name: 'Electrical', icon: BoltIcon, mobileName: 'Elec' },
+    { number: 8, name: 'Furniture', icon: ComputerDesktopIcon, mobileName: 'Furn' },
+    { number: 9, name: 'Hostess', icon: SparklesIcon, mobileName: 'Host' },
+    { number: 10, name: 'Air', icon: WrenchScrewdriverIcon, mobileName: 'Air' },
+    { number: 11, name: 'Water', icon: TruckIcon, mobileName: 'Water' },
+    { number: 12, name: 'Security', icon: ShieldCheckIcon, mobileName: 'Guard' },
+    { number: 13, name: 'AV Rentals', icon: ComputerDesktopIcon, mobileName: 'Rentals' },
+    { number: 14, name: 'Housekeeping', icon: SparklesIcon, mobileName: 'House' }
   ];
 
   const totalSteps = steps.length;
@@ -1125,9 +985,6 @@ export default function RequirementsPage() {
           <UserIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
         </div>
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Basic Information</h2>
-        {steps[0].required && (
-          <span className="ml-3 bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">Required</span>
-        )}
       </div>
 
       <div className="space-y-6">
@@ -1153,7 +1010,7 @@ export default function RequirementsPage() {
               </select>
             </div>
             <div className="col-span-1">
-              <label className="block text-xs font-medium text-gray-600 mb-1">First Name *</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">First Name</label>
               <input
                 type="text"
                 value={generalInfo.firstName}
@@ -1163,7 +1020,7 @@ export default function RequirementsPage() {
               />
             </div>
             <div className="col-span-1">
-              <label className="block text-xs font-medium text-gray-600 mb-1">Last Name *</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">Last Name</label>
               <input
                 type="text"
                 value={generalInfo.lastName}
@@ -1173,7 +1030,7 @@ export default function RequirementsPage() {
               />
             </div>
             <div className="col-span-2 lg:col-span-2">
-              <label className="block text-xs font-medium text-gray-600 mb-1">Designation *</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">Designation</label>
               <input
                 type="text"
                 value={generalInfo.designation}
@@ -1194,7 +1051,7 @@ export default function RequirementsPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Mobile *</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">Mobile</label>
                 <input
                   type="tel"
                   value={generalInfo.mobile}
@@ -1204,7 +1061,7 @@ export default function RequirementsPage() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">Email *</label>
+                <label className="block text-xs font-medium text-gray-600 mb-1">Email</label>
                 <input
                   type="email"
                   value={generalInfo.email}
@@ -1225,7 +1082,7 @@ export default function RequirementsPage() {
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="sm:col-span-2">
-              <label className="block text-xs font-medium text-gray-600 mb-1">Company Name *</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">Company Name</label>
               <input
                 type="text"
                 value={generalInfo.companyName}
@@ -1235,7 +1092,7 @@ export default function RequirementsPage() {
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">GST (Optional)</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">GST</label>
               <input
                 type="text"
                 value={generalInfo.gstNumber}
@@ -1272,11 +1129,8 @@ export default function RequirementsPage() {
           <BuildingOfficeIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
         </div>
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">REGISTRATION OF CONTRACTOR
-          <br /> <span className='text-[#4D4D4D] font-semibold text-[15px]'>FOR BARE SPACE EXHIBITORS (MANDATORY)</span>
+          <br /> <span className='text-[#4D4D4D] font-semibold text-[15px]'>FOR BARE SPACE EXHIBITORS</span>
         </h2>
-        {steps[1].required && (
-          <span className="ml-3 bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">Required</span>
-        )}
       </div>
 
       <div className="space-y-6">
@@ -1284,7 +1138,7 @@ export default function RequirementsPage() {
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Booth Details</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Booth No. *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Booth No.</label>
               <input
                 type="text"
                 value={boothDetails.boothNo}
@@ -1294,7 +1148,7 @@ export default function RequirementsPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Exhibitor Name *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Exhibitor Name</label>
               <input
                 type="text"
                 value={boothDetails.exhibitorName}
@@ -1307,7 +1161,7 @@ export default function RequirementsPage() {
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Sq. Mtr Booked *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Sq. Mtr Booked</label>
               <input
                 type="text"
                 value={boothDetails.sqMtrBooked}
@@ -1317,7 +1171,7 @@ export default function RequirementsPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Organisation *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Organisation</label>
               <input
                 type="text"
                 value={boothDetails.organisation}
@@ -1330,7 +1184,7 @@ export default function RequirementsPage() {
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Contact Person *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contact Person</label>
               <input
                 type="text"
                 value={boothDetails.contactPerson}
@@ -1343,7 +1197,7 @@ export default function RequirementsPage() {
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Designation *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Designation</label>
               <input
                 type="text"
                 value={boothDetails.designation}
@@ -1356,7 +1210,7 @@ export default function RequirementsPage() {
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Mobile Number *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Mobile Number</label>
               <input
                 type="tel"
                 value={boothDetails.mobile}
@@ -1369,7 +1223,7 @@ export default function RequirementsPage() {
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Email ID *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Email ID</label>
               <input
                 type="email"
                 value={boothDetails.email}
@@ -1388,7 +1242,7 @@ export default function RequirementsPage() {
           <h3 className="text-lg font-semibold text-gray-800 mb-4">Contractor Details</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Contractor Company *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contractor Company</label>
               <input
                 type="text"
                 value={boothDetails.contractorCompany}
@@ -1398,7 +1252,7 @@ export default function RequirementsPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Contractor Person *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contractor Person</label>
               <input
                 type="text"
                 value={boothDetails.contractorPerson}
@@ -1408,7 +1262,7 @@ export default function RequirementsPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Contractor Mobile *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contractor Mobile</label>
               <input
                 type="tel"
                 value={boothDetails.contractorMobile}
@@ -1418,7 +1272,7 @@ export default function RequirementsPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Contractor Email *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contractor Email</label>
               <input
                 type="email"
                 value={boothDetails.contractorEmail}
@@ -1428,7 +1282,7 @@ export default function RequirementsPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Contractor GST *</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contractor GST</label>
               <input
                 type="text"
                 value={boothDetails.contractorGST}
@@ -1542,17 +1396,13 @@ export default function RequirementsPage() {
           <BanknotesIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
         </div>
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">CONTRACTOR SECURITY
-          DEPOSIT FORM <br /> <span className='text-[#4D4D4D] font-semibold text-[15px]'>FORM 2 FOR BARE SPACE EXHIBITORS
-            (MANDATORY)</span>
+          DEPOSIT FORM <br /> <span className='text-[#4D4D4D] font-semibold text-[15px]'>FORM 2 FOR BARE SPACE EXHIBITORS</span>
         </h2>
-        {steps[2].required && (
-          <span className="ml-3 bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">Required</span>
-        )}
       </div>
 
       <div className="space-y-6">
         <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Security Deposit Amount *</h3>
+          <h3 className="text-lg font-semibold text-gray-800 mb-4">Security Deposit Amount</h3>
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead>
@@ -1685,9 +1535,6 @@ export default function RequirementsPage() {
               (OPTIONAL)
             </span>
           </h2>
-          {!steps[3].required && (
-            <span className="ml-3 bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Optional</span>
-          )}
         </div>
 
         <button
@@ -1818,7 +1665,7 @@ export default function RequirementsPage() {
     </div>
   );
 
-  // ============= FORM 5: PERSONNEL (REQUIRED) =============
+  // ============= FORM 5: PERSONNEL =============
   const renderPersonnel = () => (
     <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
       <div className="flex items-center justify-between mb-6">
@@ -1830,12 +1677,9 @@ export default function RequirementsPage() {
             EXHIBITOR PASSES
             <br />
             <span className="text-[#4D4D4D] font-semibold text-[15px]">
-              (MANDATORY)
+              (OPTIONAL)
             </span>
           </h2>
-          {steps[4].required && (
-            <span className="ml-3 bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">Required</span>
-          )}
         </div>
 
         <button
@@ -1853,7 +1697,7 @@ export default function RequirementsPage() {
           <thead className="bg-gray-50">
             <tr>
               <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Sr.</th>
-              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Name *</th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
               <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Designation</th>
               <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Organisation</th>
               <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
@@ -1930,12 +1774,12 @@ export default function RequirementsPage() {
       </div>
 
       <p className="text-xs text-gray-500 mt-4 italic">
-        * Please enter all representatives who require exhibitor passes. At least one person is required.
+        * Please enter all representatives who require exhibitor passes. (Optional)
       </p>
     </div>
   );
 
-  // ============= FORM 6: COMPANY DETAILS (REQUIRED) =============
+  // ============= FORM 6: COMPANY DETAILS =============
   const renderCompanyDetails = () => (
     <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
       <div className="flex items-center mb-6">
@@ -1946,19 +1790,16 @@ export default function RequirementsPage() {
           DATA FOR EXHIBITOR'S GUIDE
           <br />
           <span className="text-[#4D4D4D] font-semibold text-[15px]">
-            (MANDATORY)
+            (OPTIONAL)
           </span>
         </h2>
-        {steps[5].required && (
-          <span className="ml-3 bg-red-100 text-red-600 text-xs px-2 py-1 rounded-full">Required</span>
-        )}
       </div>
 
       {/* Form Fields */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="sm:col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Company Name *
+            Company Name
           </label>
           <input
             type="text"
@@ -1979,7 +1820,7 @@ export default function RequirementsPage() {
 
         <div className="sm:col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Address *
+            Address
           </label>
           <textarea
             value={companyDetails.address}
@@ -2117,7 +1958,7 @@ export default function RequirementsPage() {
 
         <div className="sm:col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-1">
-            Products / Services *
+            Products / Services
           </label>
           <textarea
             value={companyDetails.productsServices}
@@ -2158,9 +1999,6 @@ export default function RequirementsPage() {
           <BoltIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
         </div>
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Electrical Load</h2>
-        {!steps[6].required && (
-          <span className="ml-3 bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Optional</span>
-        )}
       </div>
 
       <div className="space-y-6">
@@ -2287,9 +2125,6 @@ export default function RequirementsPage() {
             <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
           </div>
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Furniture</h2>
-          {!steps[7].required && (
-            <span className="ml-3 bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Optional</span>
-          )}
         </div>
 
         <div className="overflow-x-auto max-h-96 overflow-y-auto">
@@ -2366,9 +2201,6 @@ export default function RequirementsPage() {
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
             Temporary Staff / Hostess
           </h2>
-          {!steps[8].required && (
-            <span className="ml-3 bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Optional</span>
-          )}
         </div>
 
         <div className="overflow-x-auto">
@@ -2461,9 +2293,6 @@ export default function RequirementsPage() {
           <WrenchScrewdriverIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
         </div>
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Compressed Air</h2>
-        {!steps[9].required && (
-          <span className="ml-3 bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Optional</span>
-        )}
       </div>
 
       <div className="overflow-x-auto">
@@ -2525,9 +2354,6 @@ export default function RequirementsPage() {
           <TruckIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
         </div>
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Water Connection</h2>
-        {!steps[10].required && (
-          <span className="ml-3 bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Optional</span>
-        )}
       </div>
 
       <div className="max-w-md">
@@ -2562,9 +2388,6 @@ export default function RequirementsPage() {
         <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
           Security Guard
         </h2>
-        {!steps[11].required && (
-          <span className="ml-3 bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Optional</span>
-        )}
       </div>
 
       <div className="max-w-lg space-y-6">
@@ -2647,9 +2470,6 @@ export default function RequirementsPage() {
               <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
             </div>
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">AV & IT Rentals</h2>
-            {!steps[12].required && (
-              <span className="ml-3 bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Optional</span>
-            )}
           </div>
           <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1.5 rounded-full">For 3 Days</span>
         </div>
@@ -2712,9 +2532,6 @@ export default function RequirementsPage() {
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
               Housekeeping Staff
             </h2>
-            {!steps[13].required && (
-              <span className="ml-3 bg-green-100 text-green-600 text-xs px-2 py-1 rounded-full">Optional</span>
-            )}
           </div>
           <span className="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1.5 rounded-full">
             Per Shift (10 Hrs)
@@ -3147,7 +2964,7 @@ export default function RequirementsPage() {
   const renderNavigation = () => (
     <div className="flex flex-col sm:flex-row justify-between items-center gap-3 mb-6">
       <button
-        onClick={handlePreviousStep}
+        onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
         disabled={currentStep === 1}
         className="w-full sm:w-auto px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50 flex items-center justify-center text-sm"
       >
@@ -3168,7 +2985,7 @@ export default function RequirementsPage() {
         {/* Show Next button if not on last step */}
         {currentStep < totalSteps && (
           <button
-            onClick={handleNextStep}
+            onClick={() => setCurrentStep(currentStep + 1)}
             className="flex-1 sm:flex-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center text-sm"
           >
             <span className="sm:hidden">Next</span>
@@ -3204,7 +3021,6 @@ export default function RequirementsPage() {
                   ${currentStep > step.number ? 'bg-green-600 border-green-600 text-white' :
                     currentStep === step.number ? 'bg-blue-600 border-blue-600 text-white' :
                       'border-gray-300 bg-white text-gray-400'}
-                  ${step.required && currentStep <= step.number ? 'ring-2 ring-red-200' : ''}
                 `}
               >
                 {currentStep > step.number ? '✓' : step.number}
@@ -3219,7 +3035,6 @@ export default function RequirementsPage() {
           {steps.map(step => (
             <span key={step.number} className="text-xs text-gray-600">
               {step.name}
-              {step.required && <span className="text-red-500 ml-1">*</span>}
             </span>
           ))}
         </div>
@@ -3235,7 +3050,6 @@ export default function RequirementsPage() {
             <MenuIcon className="h-5 w-5 mr-2" />
             <span className="font-medium text-sm">
               Step {currentStep}: {steps[currentStep - 1]?.mobileName}
-              {steps[currentStep - 1]?.required && <span className="text-red-500 ml-1">*</span>}
             </span>
           </button>
           <div className="text-sm text-gray-600">
@@ -3260,9 +3074,6 @@ export default function RequirementsPage() {
                 `}
               >
                 {step.mobileName}
-                {step.required && (
-                  <span className="absolute -top-1 -right-1 text-red-500">*</span>
-                )}
               </button>
             ))}
           </div>
@@ -3280,18 +3091,9 @@ export default function RequirementsPage() {
         <div className="mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Exhibition Registration</h1>
           <p className="mt-1 text-sm sm:text-base text-gray-600">
-            Complete all required sections to register your participation.
-            <span className="text-red-500 ml-1">*</span> = Required
+            Complete all sections to register your participation. All sections are optional.
           </p>
         </div>
-
-        {/* Validation Error Message */}
-        {validationError && (
-          <div className="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg flex items-center">
-            <ExclamationCircleIcon className="h-5 w-5 mr-2 text-red-500" />
-            <span className="text-sm font-medium">{validationError}</span>
-          </div>
-        )}
 
         {/* Progress Tracker */}
         {renderProgressTracker()}
