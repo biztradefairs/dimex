@@ -146,7 +146,7 @@ export default function StallPage() {
     }
   };
 
-  // Map API data to Stall type - FIXED: NO USD CONVERSION
+  // Map API data to Stall type - FIXED: No object rendering issues
   const mapToStall = (data: any): Stall | null => {
     if (!data) return null;
 
@@ -179,10 +179,8 @@ export default function StallPage() {
       type = boothType;
     }
 
-    // IMPORTANT: Get price directly in INR - NO CONVERSION NEEDED
+    // Get price in INR
     let priceInINR = 0;
-    
-    // Try to get price from various fields (all values are already in INR)
     if (stallDetails.price) {
       priceInINR = parseFloat(stallDetails.price.toString()) || 0;
     } else if (data.boothPrice) {
@@ -193,19 +191,51 @@ export default function StallPage() {
       priceInINR = parseFloat(data.boothCost.toString()) || 0;
     }
 
+    // FIXED: Ensure location is ALWAYS a string, never an object
+    let location = 'Main Exhibition Hall';
+    
+    // Handle location safely - check if it's a string first
+    if (data.location) {
+      if (typeof data.location === 'string') {
+        location = data.location;
+      } else if (typeof data.location === 'object') {
+        // If it's an object, don't try to render it directly
+        location = 'Exhibition Hall'; // Default fallback
+      }
+    } 
+    // Handle address if it exists
+    else if (data.address) {
+      if (typeof data.address === 'string') {
+        location = data.address;
+      } else if (typeof data.address === 'object' && data.address !== null) {
+        // Safely build a string from address object
+        const addressParts = [];
+        if (data.address.street) addressParts.push(data.address.street);
+        if (data.address.city) addressParts.push(data.address.city);
+        if (data.address.state) addressParts.push(data.address.state);
+        if (data.address.country) addressParts.push(data.address.country);
+        
+        location = addressParts.length > 0 ? addressParts.join(', ') : 'Exhibition Hall';
+      }
+    }
+    // Handle pavilion/hall combination
+    else if (data.pavilion || data.hall) {
+      location = `${data.pavilion || ''} ${data.hall || ''}`.trim() || 'Exhibition Hall';
+    }
+
     // Registration date
     const bookedDate = data.registrationDate || data.createdAt || new Date().toISOString();
 
-    // Amenities based on booth type and price (price is already in INR)
+    // Amenities based on booth type and price
     const amenities = getAmenitiesForBoothType(type, priceInINR);
 
     return {
       id: data.id || `stall-${Date.now()}`,
       stallNumber,
-      location: data.location || data.address || 'Main Exhibition Hall',
+      location, // Now guaranteed to be a string
       size: data.boothSize || stallDetails?.size || 'Standard',
       type,
-      price: priceInINR, // This is already in INR
+      price: priceInINR,
       bookedDate: new Date(bookedDate),
       status,
       amenities,
@@ -417,6 +447,7 @@ export default function StallPage() {
                 <div className="flex justify-between items-center">
                   <div>
                     <h2 className="text-xl font-bold text-white">{stall.stallNumber}</h2>
+                    {/* FIXED: location is always a string now */}
                     <p className="text-blue-100 text-sm mt-1">{stall.location}</p>
                   </div>
                   <div className={`px-3 py-1 rounded-full text-sm font-medium flex items-center gap-1 ${getStatusColor(stall.status)}`}>
@@ -556,7 +587,7 @@ export default function StallPage() {
                   </div>
                 </div>
 
-                {/* Location Details */}
+                {/* Location Details - FIXED: location is always a string */}
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h3 className="font-medium text-gray-900 mb-3 flex items-center gap-2">
                     <MapPinIcon className="h-5 w-5 text-gray-500" />
