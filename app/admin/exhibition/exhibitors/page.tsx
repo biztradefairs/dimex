@@ -385,13 +385,7 @@ export default function ExhibitorsPage() {
                         >
                           <Edit className="h-5 w-5" />
                         </button>
-                          <button
-      onClick={() => router.push(`/admin/exhibition/exhibitors/${exhibitor.id}/manage`)}
-      className="p-2 text-purple-600 hover:text-purple-800 hover:bg-purple-50 rounded-lg transition-colors"
-      title="Full Management"
-    >
-      <Settings className="h-5 w-5" /> {/* You'll need to import Settings */}
-    </button>
+     
                         <button
                           onClick={() => deleteExhibitor(exhibitor.id, exhibitor.email)}
                           disabled={deletingId === exhibitor.id}
