@@ -115,13 +115,21 @@ interface ElectricalLoad {
 }
 
 interface FurnitureItem {
+  id?: string;
   code: string;
   description: string;
-  size: string;
+  size: string | null;  // Allow null
   cost3Days: number;
   quantity: number;
   cost: number;
-  image: string;
+  image: string;  // You're using 'image' but API returns 'imageUrl'
+  category?: string;
+  inStock?: boolean;
+  // Add these to match API response
+  imageUrl?: string;  // API returns this
+  cloudinaryPublicId?: string | null;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface HostessRequirement {
@@ -129,9 +137,11 @@ interface HostessRequirement {
   quantity: number;
   noOfDays: number;
   amount: number;
+  ratePerDay?: number;
 }
 
 interface CompressedAir {
+  id?: string;
   selected: string;
   cfmRange: string;
   costPerConnection: number;
@@ -163,21 +173,19 @@ interface PaymentDetails {
 }
 
 interface RentalItem {
+  id?: string;
   description: string;
   costFor3Days: number;
   quantity: number;
   totalCost: number;
+  image?: string;
+  imageUrl?: string;
+  category?: string;
+  inStock?: boolean;
 }
 
 interface RentalItems {
-  lcdProjector: RentalItem;
-  laptop: RentalItem;
-  laserPrinter: RentalItem;
-  paSystem: RentalItem;
-  cordlessMike: RentalItem;
-  tv42: RentalItem;
-  tv50: RentalItem;
-  tv55: RentalItem;
+  [key: string]: RentalItem;
 }
 
 interface HousekeepingStaff {
@@ -188,42 +196,187 @@ interface HousekeepingStaff {
   totalCost: number;
 }
 
-// Furniture catalog with image paths
-const furnitureCatalog: FurnitureItem[] = [
-  { code: 'PI-01', description: 'Executive Chair', size: 'Black/red', cost3Days: 2000, quantity: 0, cost: 0, image: '/furniture/executive-chair.jpg' },
-  { code: 'PI-02', description: 'VIP Sofa (1 Seater)', size: 'Black', cost3Days: 2000, quantity: 0, cost: 0, image: '/furniture/vip-sofa-1.jpg' },
-  { code: 'PI-03', description: 'VIP Sofa (2 Seater)', size: 'Black', cost3Days: 3500, quantity: 0, cost: 0, image: '/furniture/vip-sofa-2.jpg' },
-  { code: 'PI-04', description: 'Visitor Chair', size: 'Black', cost3Days: 800, quantity: 0, cost: 0, image: '/furniture/visitor-chair.jpg' },
-  { code: 'PI-05', description: 'Fibre Chair', size: 'Black', cost3Days: 400, quantity: 0, cost: 0, image: '/furniture/fibre-chair.jpg' },
-  { code: 'PI-07', description: 'Round Table (Wooden Top)', size: '70CM (dia) x 75CM (H)', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/round-table-wooden.jpg' },
-  { code: 'PI-08', description: 'Round Table Cross Leg (Glass Top)', size: '90CM (dia) x 75CM (H)', cost3Days: 2000, quantity: 0, cost: 0, image: '/furniture/round-table-glass.jpg' },
-  { code: 'PI-09', description: 'Bar Stool (Adjustable Chrome leg with Cup)', size: '50CM (H)', cost3Days: 2000, quantity: 0, cost: 0, image: '/furniture/bar-stool.jpg' },
-  { code: 'PI-10', description: 'Glass Showcase (Big with 2 downlights)', size: '1M x 50CM x 2M (H)', cost3Days: 5000, quantity: 0, cost: 0, image: '/furniture/glass-showcase-big.jpg' },
-  { code: 'PI-11', description: 'Glass Showcase (Small)', size: '50CM X 50CM X 2M (H)', cost3Days: 4000, quantity: 0, cost: 0, image: '/furniture/glass-showcase-small.jpg' },
-  { code: 'PI-12', description: 'Glass Counter', size: '1M X 50CM X 1M (H)', cost3Days: 3500, quantity: 0, cost: 0, image: '/furniture/glass-counter.jpg' },
-  { code: 'PI-13', description: 'Centre Table (Black Glass Top)', size: '1.20M (L) x 45CM (W)', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/centre-table.jpg' },
-  { code: 'PI-14', description: 'Standing Discussion Table', size: '1.0M (H) x 70CM (Dia)', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/standing-table.jpg' },
-  { code: 'PI-15', description: 'System Counter (Table)', size: '1.05M X 60CM X 75CM', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/system-counter.jpg' },
-  { code: 'PI-16', description: 'Side Rack (Lockable)', size: '40CM X 1M X 60CM (H)', cost3Days: 3600, quantity: 0, cost: 0, image: '/furniture/side-rack.jpg' },
-  { code: 'PI-17', description: 'System Podium', size: '50CM X 50CM X 1M (H)', cost3Days: 1000, quantity: 0, cost: 0, image: '/furniture/podium-1m.jpg' },
-  { code: 'PI-18', description: 'System Podium', size: '50CM X 50CM X 70CM (H)', cost3Days: 1000, quantity: 0, cost: 0, image: '/furniture/podium-70cm.jpg' },
-  { code: 'PI-19', description: 'System Podium', size: '50CM x 50CM x 50CM (H)', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/podium-50cm.jpg' },
-  { code: 'PI-20', description: 'Brochure Rack', size: '', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/brochure-rack.jpg' },
-  { code: 'PI-21', description: 'Round Table (White Top)', size: '80CM (dia) x 75CM (H)', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/round-table-white.jpg' },
-  { code: 'PI-22', description: 'Square Table', size: '1.2M X 45CM', cost3Days: 1200, quantity: 0, cost: 0, image: '/furniture/square-table.jpg' },
-  { code: 'PI-23', description: 'Lockable Door', size: '', cost3Days: 4000, quantity: 0, cost: 0, image: '/furniture/lockable-door.jpg' },
-  { code: 'PI-24', description: 'System Panel', size: '1M x 2.5M (H) - White', cost3Days: 1500, quantity: 0, cost: 0, image: '/furniture/system-panel.jpg' },
-  { code: 'PI-25', description: 'Glass Shelf (each)', size: '30CM x 1M', cost3Days: 1000, quantity: 0, cost: 0, image: '/furniture/glass-shelf.jpg' },
-  { code: 'PI-26', description: 'Wooden Shelf Flat / Adjustable (each)', size: '30CM x 1M', cost3Days: 750, quantity: 0, cost: 0, image: '/furniture/wooden-shelf.jpg' },
-  { code: 'PI-27', description: 'Long Arm Halogen Light', size: '150W', cost3Days: 1000, quantity: 0, cost: 0, image: '/furniture/halogen-light.jpg' },
-  { code: 'PI-28', description: 'Spot Lights', size: '75W', cost3Days: 750, quantity: 0, cost: 0, image: '/furniture/spot-light.jpg' },
-  { code: 'PI-29', description: 'Metal Halide', size: '150W', cost3Days: 2000, quantity: 0, cost: 0, image: '/furniture/metal-halide.jpg' },
-  { code: 'PI-30', description: '5A/13A Power Socket', size: '', cost3Days: 500, quantity: 0, cost: 0, image: '/furniture/power-socket.jpg' },
-  { code: 'PI-31', description: 'Photo Clip / T-Bolt', size: '', cost3Days: 100, quantity: 0, cost: 0, image: '/furniture/photo-clip.jpg' },
-  { code: 'PI-32', description: 'Waste Basket', size: '', cost3Days: 150, quantity: 0, cost: 0, image: '/furniture/waste-basket.jpg' },
-];
+interface CompressedAirOption {
+  id: string;
+  cfmRange: string;
+  costPerConnection: number;
+  powerKW: number;
+  isActive: boolean;
+  displayOrder: number;
+}
+
+interface ElectricalRate {
+  id: string;
+  type: 'temporary' | 'exhibition';
+  ratePerKW: number;
+  description: string;
+  isActive: boolean;
+}
+
+interface SecurityGuardConfig {
+  ratePerGuardPerDay: number;
+}
+
+interface WaterConnectionConfig {
+  costPerConnection: number;
+  ratePerConnection: number;
+}
+
+interface HousekeepingConfig {
+  ratePerShift: number;
+}
+
+interface HostessCategory {
+  id: string;
+  category: 'A' | 'B';
+  ratePerDay: number;
+  description: string;
+  isActive: boolean;
+}
+
+// ============= API SERVICE CLASS =============
+class ApiService {
+  private baseUrl: string;
+  private token: string | null;
+
+  constructor() {
+    this.baseUrl = API_BASE_URL;
+    this.token = typeof window !== 'undefined' ? 
+      localStorage.getItem('exhibitor_token') || localStorage.getItem('token') : null;
+  }
+
+  private async request<T>(endpoint: string, options: RequestInit = {}): Promise<T> {
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+    };
+
+    if (this.token) {
+      headers['Authorization'] = `Bearer ${this.token}`;
+    }
+
+    try {
+      const response = await fetch(`${this.baseUrl}${endpoint}`, {
+        ...options,
+        headers: {
+          ...headers,
+          ...options.headers,
+        },
+        credentials: 'include',
+      });
+
+      const responseData = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        console.error('API Error Response:', responseData);
+        throw new Error(responseData.error || responseData.message || `HTTP error! status: ${response.status}`);
+      }
+
+      return responseData as T;
+    } catch (error) {
+      console.error('API Call Error:', error);
+      throw error;
+    }
+  }
+  async getExhibitorProfile(): Promise<{ success: boolean; data: any }> {
+  return this.request<{ success: boolean; data: any }>(
+    '/api/exhibitorDashboard/profile'
+  );
+}
+
+  // Furniture API
+  async getFurniture(): Promise<{ success: boolean; data: FurnitureItem[] }> {
+    return this.request('/api/admin/furniture');
+  }
+
+  // Compressed Air API
+  async getCompressedAirOptions(): Promise<{ success: boolean; data: CompressedAirOption[] }> {
+    return this.request('/api/admin/compressed-air');
+  }
+
+  // Electrical Rates API
+  async getElectricalRates(): Promise<{ success: boolean; data: ElectricalRate[] }> {
+    return this.request('/api/admin/electrical-rates');
+  }
+
+  // Rental Items API
+  async getRentalItems(): Promise<{ success: boolean; data: RentalItem[] }> {
+    return this.request('/api/admin/rental-items');
+  }
+
+  // Hostess Categories API
+  async getHostessCategories(): Promise<{ success: boolean; data: HostessCategory[] }> {
+    return this.request('/api/admin/hostess-rates');
+  }
+
+  // Security Guard API
+  async getSecurityGuardConfig(): Promise<{ success: boolean; data: SecurityGuardConfig }> {
+    return this.request('/api/admin/security-guard/config');
+  }
+
+  // Water Connection API
+  async getWaterConnectionConfig(): Promise<{ success: boolean; data: WaterConnectionConfig }> {
+    return this.request('/api/admin/water-connection/config');
+  }
+
+  // Housekeeping API
+  async getHousekeepingConfig(): Promise<{ success: boolean; data: HousekeepingConfig }> {
+    return this.request('/api/admin/housekeeping/config');
+  }
+
+  // Calculate costs
+  async calculateWaterCost(connections: number): Promise<{ success: boolean; data: { totalCost: number } }> {
+    return this.request('/api/admin/water-connection/calculate', {
+      method: 'POST',
+      body: JSON.stringify({ connections }),
+    });
+  }
+
+  async calculateSecurityGuardCost(quantity: number, days: number): Promise<{ success: boolean; data: { totalCost: number } }> {
+    return this.request('/api/admin/security-guard/calculate', {
+      method: 'POST',
+      body: JSON.stringify({ quantity, days }),
+    });
+  }
+
+  async calculateHousekeepingCost(quantity: number, days: number): Promise<{ success: boolean; data: { totalCost: number } }> {
+    return this.request('/api/admin/housekeeping/calculate', {
+      method: 'POST',
+      body: JSON.stringify({ quantity, days, category: 'Housekeeping' }),
+    });
+  }
+
+  async calculateHostessCost(category: string, quantity: number, days: number): Promise<{ success: boolean; data: { totalCost: number } }> {
+    return this.request('/api/admin/hostess-rates/calculate', {
+      method: 'POST',
+      body: JSON.stringify({ category, quantity, days }),
+    });
+  }
+
+  // Submit application
+  async submitApplication(formData: FormData): Promise<{ success: boolean; message: string }> {
+    const headers: HeadersInit = {};
+    if (this.token) {
+      headers['Authorization'] = `Bearer ${this.token}`;
+    }
+
+    const response = await fetch(`${this.baseUrl}/api/exhibitorDashboard/requirements`, {
+      method: 'POST',
+      headers,
+      body: formData,
+      credentials: 'include',
+    });
+
+    const data = await response.json();
+    if (!response.ok) {
+      throw new Error(data.error || data.message || 'Submission failed');
+    }
+    return data;
+  }
+}
 
 export default function RequirementsPage() {
+  const apiService = new ApiService();
+
   // ============= FORM STATES =============
   const [currentStep, setCurrentStep] = useState(1);
   const [showPreview, setShowPreview] = useState(false);
@@ -232,6 +385,7 @@ export default function RequirementsPage() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [apiError, setApiError] = useState<string | null>(null);
+  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
 
   // Form 1 - General Information
   const [generalInfo, setGeneralInfo] = useState<GeneralInfo>({
@@ -312,20 +466,21 @@ export default function RequirementsPage() {
   });
 
   // Form 8 - Furniture (Optional)
-  const [furnitureItems, setFurnitureItems] = useState<FurnitureItem[]>(furnitureCatalog);
+  const [furnitureItems, setFurnitureItems] = useState<FurnitureItem[]>([]);
 
   // Form 9 - Hostess (Optional)
   const [hostessRequirements, setHostessRequirements] = useState<HostessRequirement[]>([
-    { category: 'A', quantity: 0, noOfDays: 0, amount: 0 },
-    { category: 'B', quantity: 0, noOfDays: 0, amount: 0 }
+    { category: 'A', quantity: 0, noOfDays: 0, amount: 0, ratePerDay: 5000 },
+    { category: 'B', quantity: 0, noOfDays: 0, amount: 0, ratePerDay: 4000 }
   ]);
 
   // Form 10 - Compressed Air (Optional)
+  const [compressedAirOptions, setCompressedAirOptions] = useState<CompressedAirOption[]>([]);
   const [compressedAir, setCompressedAir] = useState<CompressedAir>({
     selected: '',
     cfmRange: '',
     costPerConnection: 0,
-    qty: 0,
+    qty: 1,
     powerKW: 0,
     costPerKW: 3500,
     totalCost: 0
@@ -346,25 +501,16 @@ export default function RequirementsPage() {
   });
 
   // Form 13 - Rental Items (AV & IT) (Optional)
-  const [rentalItems, setRentalItems] = useState<RentalItems>({
-    lcdProjector: { description: 'LCD Projector (XGA 3000 ASNI Lumens)', costFor3Days: 20000, quantity: 0, totalCost: 0 },
-    laptop: { description: 'Laptop with Accessories', costFor3Days: 4000, quantity: 0, totalCost: 0 },
-    laserPrinter: { description: 'Laser Jet B & W Printer / Scanner (Without Cartridges)', costFor3Days: 10000, quantity: 0, totalCost: 0 },
-    paSystem: { description: 'PA Systems (150 w Speaker 2 nos., 400 w Amplifier 1 no)', costFor3Days: 10000, quantity: 0, totalCost: 0 },
-    cordlessMike: { description: 'Cordless Hand Mike', costFor3Days: 2000, quantity: 0, totalCost: 0 },
-    tv42: { description: 'LCD / LED TV 42"', costFor3Days: 12000, quantity: 0, totalCost: 0 },
-    tv50: { description: 'LCD / LED TV 50"', costFor3Days: 16000, quantity: 0, totalCost: 0 },
-    tv55: { description: 'LCD / LED TV 55"', costFor3Days: 25000, quantity: 0, totalCost: 0 }
-  });
+  const [rentalItems, setRentalItems] = useState<RentalItems>({});
 
   // Form 14 - Housekeeping Staff (Optional)
-  const [housekeepingStaff, setHousekeepingStaff] = useState<HousekeepingStaff>({
-    quantity: 0,
-    category: 'Housekeeping',
-    chargesPerShift: 2000,
-    noOfDays: 0,
-    totalCost: 0
-  });
+const [housekeepingStaff, setHousekeepingStaff] = useState<HousekeepingStaff>({
+  quantity: 0,
+  category: 'Housekeeping',
+  chargesPerShift: 2000,  // Default value
+  noOfDays: 0,
+  totalCost: 0
+});
 
   // Payment Details
   const [paymentDetails, setPaymentDetails] = useState<PaymentDetails>({
@@ -376,281 +522,324 @@ export default function RequirementsPage() {
     uploadedReceipt: null
   });
 
-  // ============= API FUNCTIONS =============
-  const apiCall = async (endpoint: string, options: RequestInit = {}) => {
-    const token = localStorage.getItem('exhibitor_token') || localStorage.getItem('token');
+  // Electrical rates from API
+  const [electricalRates, setElectricalRates] = useState<ElectricalRate[]>([]);
 
-    const headers: HeadersInit = {
-      'Content-Type': 'application/json',
-    };
+  // ============= FETCH ALL DATA =============
+  useEffect(() => {
+    const fetchAllData = async () => {
+      try {
+        setLoading(true);
+        setApiError(null);
 
-    if (token) {
-      headers['Authorization'] = `Bearer ${token}`;
-    }
+        // Fetch all data in parallel
+        const [
+          furnitureRes,
+          compressedAirRes,
+          electricalRatesRes,
+          rentalItemsRes,
+          hostessCategoriesRes,
+          securityGuardConfigRes,
+          waterConnectionConfigRes,
+          housekeepingConfigRes
+        ] = await Promise.allSettled([
+          apiService.getFurniture(),
+          apiService.getCompressedAirOptions(),
+          apiService.getElectricalRates(),
+          apiService.getRentalItems(),
+          apiService.getHostessCategories(),
+          apiService.getSecurityGuardConfig(),
+          apiService.getWaterConnectionConfig(),
+          apiService.getHousekeepingConfig()
+        ]);
 
-    try {
-      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
-        ...options,
-        headers: {
-          ...headers,
-          ...options.headers,
-        },
-        credentials: 'include',
-      });
+        // Process Furniture
+if (furnitureRes.status === 'fulfilled' && furnitureRes.value.success) {
+  console.log('Furniture API Response:', furnitureRes.value.data);
+  setFurnitureItems(furnitureRes.value.data.map((item: any) => ({
+    ...item,
+    // Map API fields to your interface fields
+    image: item.imageUrl || '',  // Map imageUrl to image
+    size: item.size || 'N/A',     // Handle null/empty size
+    quantity: 0,
+    cost: 0
+  })));
+}    // Process Compressed Air Options
+        if (compressedAirRes.status === 'fulfilled' && compressedAirRes.value.success) {
+          setCompressedAirOptions(compressedAirRes.value.data);
+        }
 
-      const responseData = await response.json().catch(() => ({}));
+        // Process Electrical Rates
+     if (electricalRatesRes.status === 'fulfilled' && electricalRatesRes.value.success) {
+  console.log('Electrical Rates API Response:', electricalRatesRes.value.data);
+  setElectricalRates(electricalRatesRes.value.data);
+}
 
-      if (!response.ok) {
-        console.error('API Error Response:', responseData);
-        throw new Error(responseData.error || responseData.message || `HTTP error! status: ${response.status}`);
+        // Process Rental Items
+ // Process Rental Items
+if (rentalItemsRes.status === 'fulfilled' && rentalItemsRes.value.success) {
+  console.log('Rental Items API Response:', rentalItemsRes.value.data);
+  const items = rentalItemsRes.value.data;
+  const rentalItemsMap: RentalItems = {};
+  
+  items.forEach(item => {
+    if (item.id) {
+      // Construct full image URL if imageUrl exists
+      let imageUrl = '';
+      if (item.imageUrl) {
+        // If it's already a full URL, use it as is, otherwise prepend the base URL
+        imageUrl = item.imageUrl.startsWith('http') 
+          ? item.imageUrl 
+          : `${API_BASE_URL}${item.imageUrl}`;
       }
-
-      return responseData;
-    } catch (error) {
-      console.error('API Call Error:', error);
-      throw error;
+      
+      rentalItemsMap[item.id] = {
+        id: item.id,
+        description: item.description,
+        costFor3Days: item.costFor3Days,
+        category: item.category,
+        image: imageUrl,  // Map imageUrl to image
+        quantity: 0,
+        totalCost: 0
+      };
     }
-  };
-
-  // Fetch exhibitor profile data
-  const fetchExhibitorProfile = async () => {
-    try {
-      setLoading(true);
-      setApiError(null);
-
-      const result = await apiCall('/api/exhibitorDashboard/profile');
-
-      console.log('Raw API response:', result);
-
-      if (result.success) {
-        const apiData = result.data;
-
-        console.log('API Data contactPerson:', apiData.contactPerson);
-
-        // Initialize contact person object
-        let contactPersonObj = {
-          name: '',
-          jobTitle: '',
-          email: '',
-          phone: '',
-          alternatePhone: ''
-        };
-
-        // Parse contact person data
-        if (apiData.contactPerson) {
-          if (typeof apiData.contactPerson === 'string') {
-            try {
-              contactPersonObj = JSON.parse(apiData.contactPerson);
-            } catch (e) {
-              console.error('Error parsing contact person:', e);
-            }
-          } else if (typeof apiData.contactPerson === 'object') {
-            contactPersonObj = apiData.contactPerson;
-          }
-        }
-
-        // Also check for direct fields if contactPerson is empty
-        if (!contactPersonObj.name && apiData.name) {
-          contactPersonObj.name = apiData.name;
-        }
-        if (!contactPersonObj.email && apiData.email) {
-          contactPersonObj.email = apiData.email;
-        }
-        if (!contactPersonObj.phone && apiData.phone) {
-          contactPersonObj.phone = apiData.phone;
-        }
-        if (!contactPersonObj.jobTitle && apiData.contact_job_title) {
-          contactPersonObj.jobTitle = apiData.contact_job_title;
-        }
-
-        console.log('Parsed contact person:', contactPersonObj);
-
-        // Parse name into title, first name, last name
-        let title: 'Mr' | 'Mrs' | 'Ms' | 'Dr' | 'Prof' = 'Mr';
-        let firstName = '';
-        let lastName = '';
-
-        if (contactPersonObj.name) {
-          const fullName = contactPersonObj.name;
-          console.log('Full name from contact person:', fullName);
-
-          // Try to detect title
-          if (fullName.includes('Dr.')) title = 'Dr';
-          else if (fullName.includes('Prof.')) title = 'Prof';
-          else if (fullName.includes('Mrs.')) title = 'Mrs';
-          else if (fullName.includes('Ms.')) title = 'Ms';
-
-          // Remove title from name if present
-          let nameWithoutTitle = fullName
-            .replace(/^(Dr\.|Prof\.|Mrs\.|Ms\.|Mr\.)\s*/i, '')
-            .trim();
-
-          const nameParts = nameWithoutTitle.split(' ');
-          if (nameParts.length > 0) {
-            firstName = nameParts[0] || '';
-            lastName = nameParts.slice(1).join(' ') || '';
-          }
-        }
-
-        // If we still don't have first name, try to use exhibitor name from company
-        if (!firstName && apiData.name) {
-          const nameParts = apiData.name.split(' ');
-          firstName = nameParts[0] || '';
-          lastName = nameParts.slice(1).join(' ') || '';
-        }
-
-        console.log('Parsed name - Title:', title, 'First:', firstName, 'Last:', lastName);
-
-        // Update general info with ALL contact person details
-        setGeneralInfo(prev => ({
-          ...prev,
-          title,
-          firstName,
-          lastName,
-          designation: contactPersonObj.jobTitle || prev.designation || '',
-          mobile: contactPersonObj.phone || apiData.phone || prev.mobile || '',
-          email: contactPersonObj.email || apiData.email || prev.email || '',
-          companyName: apiData.company || apiData.companyName || prev.companyName || '',
-          businessNature: apiData.sector ?
-            (typeof apiData.sector === 'string' ? apiData.sector.split(',')[0] : apiData.sector[0]) :
-            prev.businessNature,
-          gstNumber: apiData.registrationNumber || apiData.gstNumber || prev.gstNumber || ''
-        }));
-
-        // Parse address
-        let addressObj = {
-          street: '',
-          city: '',
-          state: '',
-          country: '',
-          countryCode: '',
-          postalCode: ''
-        };
-
-        if (apiData.address) {
-          if (typeof apiData.address === 'string') {
-            const parts = apiData.address.split(',').map((p: string) => p.trim());
-            addressObj = {
-              street: parts[0] || '',
-              city: parts[1] || '',
-              state: parts[2] || '',
-              country: parts[3] || '',
-              countryCode: '',
-              postalCode: parts[4] || ''
-            };
-          }
-        }
-
-        // Parse sector string back into array
-        let sectorArray: string[] = [];
-        if (apiData.sector) {
-          if (typeof apiData.sector === 'string') {
-            sectorArray = apiData.sector.split(',').map((s: string) => s.trim()).filter(Boolean);
-          } else if (Array.isArray(apiData.sector)) {
-            sectorArray = apiData.sector;
-          }
-        }
-
-        // Parse exhibition JSON string
-        let exhibitionObj = {
-          pavilion: '',
-          hall: '',
-          standNumber: '',
-          floorPlanUrl: ''
-        };
-
-        if (apiData.exhibition) {
-          if (typeof apiData.exhibition === 'string') {
-            try {
-              exhibitionObj = JSON.parse(apiData.exhibition);
-            } catch (e) {
-              console.error('Error parsing exhibition:', e);
-              exhibitionObj = {
-                pavilion: apiData.pavilion || '',
-                hall: apiData.hall || '',
-                standNumber: apiData.boothNumber || apiData.booth_number || '',
-                floorPlanUrl: apiData.floor_plan_url || ''
+  });
+  
+  setRentalItems(rentalItemsMap);
+}
+        // Process Hostess Categories
+        if (hostessCategoriesRes.status === 'fulfilled' && hostessCategoriesRes.value.success) {
+          const categories = hostessCategoriesRes.value.data;
+          const updatedHostess = [...hostessRequirements];
+          
+          categories.forEach(cat => {
+            const index = updatedHostess.findIndex(h => h.category === cat.category);
+            if (index !== -1) {
+              updatedHostess[index] = {
+                ...updatedHostess[index],
+                ratePerDay: cat.ratePerDay
               };
             }
-          } else if (typeof apiData.exhibition === 'object') {
-            exhibitionObj = apiData.exhibition;
-          }
+          });
+          
+          setHostessRequirements(updatedHostess);
         }
 
-        // Parse stallDetails for booth info
-        let boothSize = '';
-        let boothType = '';
-        let boothDimensions = '';
-        let boothPrice = '';
-
-        if (apiData.stallDetails) {
-          const stallDetails = typeof apiData.stallDetails === 'string'
-            ? JSON.parse(apiData.stallDetails)
-            : apiData.stallDetails;
-
-          boothSize = stallDetails.size || '';
-          boothType = stallDetails.type || '';
-          boothDimensions = stallDetails.dimensions || '';
-          boothPrice = stallDetails.price || '';
+        // Process Security Guard Config
+        if (securityGuardConfigRes.status === 'fulfilled' && securityGuardConfigRes.value.success) {
+          // Update rate if needed
         }
 
-        // Update booth details with all contact info
-        setBoothDetails(prev => ({
-          ...prev,
-          boothNo: exhibitionObj.standNumber || apiData.boothNumber || prev.boothNo,
-          exhibitorName: contactPersonObj.name || `${title} ${firstName} ${lastName}`.trim() || prev.exhibitorName,
-          sqMtrBooked: boothSize || prev.sqMtrBooked,
-          organisation: apiData.company || apiData.companyName || prev.organisation,
-          contactPerson: contactPersonObj.name || `${firstName} ${lastName}`.trim() || prev.contactPerson,
-          designation: contactPersonObj.jobTitle || prev.designation,
-          mobile: contactPersonObj.phone || apiData.phone || prev.mobile,
-          email: contactPersonObj.email || apiData.email || prev.email
-        }));
+// Process Water Connection Config
+if (waterConnectionConfigRes.status === 'fulfilled' && waterConnectionConfigRes.value.success) {
+  console.log('Water Connection Config Response:', waterConnectionConfigRes.value.data);
+  
+  // Check if data exists and has costPerConnection
+  const configData = waterConnectionConfigRes.value.data;
+  const ratePerConnection = configData?.costPerConnection || 15000;
+  
+  setWaterConnection(prev => ({
+    ...prev,
+    costPerConnection: ratePerConnection
+  }));
+}
 
-        // Update company details
-        setCompanyDetails(prev => ({
-          ...prev,
-          companyName: apiData.company || apiData.companyName || prev.companyName,
-          address: addressObj.street || prev.address,
-          telephone: apiData.telephone || prev.telephone,
-          mobile: contactPersonObj.phone || apiData.phone || prev.mobile,
-          email: contactPersonObj.email || apiData.email || prev.email,
-          website: apiData.website || prev.website,
-          contactPerson: contactPersonObj.name || `${firstName} ${lastName}`.trim() || prev.contactPerson,
-          designation: contactPersonObj.jobTitle || prev.designation,
-          productsServices: sectorArray.join(', ') || prev.productsServices
-        }));
+        // Process Housekeeping Config
+        if (housekeepingConfigRes.status === 'fulfilled' && housekeepingConfigRes.value.success) {
+          setHousekeepingStaff(prev => ({
+            ...prev,
+            chargesPerShift: housekeepingConfigRes.value.data.ratePerShift
+          }));
+        }
 
-        // Update first personnel entry
-        setPersonnel(prev => {
-          const updated = [...prev];
-          if (updated.length > 0) {
-            updated[0] = {
-              ...updated[0],
-              name: contactPersonObj.name || `${firstName} ${lastName}`.trim() || updated[0].name,
-              designation: contactPersonObj.jobTitle || updated[0].designation,
-              organisation: apiData.company || apiData.companyName || updated[0].organisation
-            };
-          }
-          return updated;
-        });
+        // Now fetch exhibitor profile data
+        await fetchExhibitorProfile();
+
+      } catch (error: any) {
+        console.error('Error fetching data:', error);
+        setApiError(error.message || 'Failed to load data');
+      } finally {
+        setLoading(false);
       }
-    } catch (error: any) {
-      console.error('Error fetching exhibitor profile:', error);
-      setApiError(error.message || 'Failed to load profile data');
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // Fetch all data on component mount
-  useEffect(() => {
-    const loadAllData = async () => {
-      await fetchExhibitorProfile();
     };
 
-    loadAllData();
+    fetchAllData();
   }, []);
+
+  
+
+const fetchExhibitorProfile = async () => {
+  try {
+    const result = await apiService.getExhibitorProfile();
+
+    if (!result?.success || !result?.data) {
+      return;
+    }
+
+    const apiData = result.data;
+
+    // -----------------------------
+    // Parse Contact Person
+    // -----------------------------
+    let contactPersonObj = {
+      name: '',
+      jobTitle: '',
+      email: '',
+      phone: '',
+      alternatePhone: ''
+    };
+
+    if (apiData.contactPerson) {
+      if (typeof apiData.contactPerson === 'string') {
+        try {
+          contactPersonObj = JSON.parse(apiData.contactPerson);
+        } catch (e) {
+          console.error('Error parsing contactPerson JSON:', e);
+        }
+      } else if (typeof apiData.contactPerson === 'object') {
+        contactPersonObj = apiData.contactPerson;
+      }
+    }
+
+    // Fallback values
+    contactPersonObj.name = contactPersonObj.name || apiData.name || '';
+    contactPersonObj.email = contactPersonObj.email || apiData.email || '';
+    contactPersonObj.phone = contactPersonObj.phone || apiData.phone || '';
+    contactPersonObj.jobTitle =
+      contactPersonObj.jobTitle || apiData.contact_job_title || '';
+
+    // -----------------------------
+    // Parse Name (Title + First + Last)
+    // -----------------------------
+    let title: 'Mr' | 'Mrs' | 'Ms' | 'Dr' | 'Prof' = 'Mr';
+    let firstName = '';
+    let lastName = '';
+
+    if (contactPersonObj.name) {
+      const fullName = contactPersonObj.name;
+
+      if (/^Dr\./i.test(fullName)) title = 'Dr';
+      else if (/^Prof\./i.test(fullName)) title = 'Prof';
+      else if (/^Mrs\./i.test(fullName)) title = 'Mrs';
+      else if (/^Ms\./i.test(fullName)) title = 'Ms';
+
+      const nameWithoutTitle = fullName
+        .replace(/^(Dr\.|Prof\.|Mrs\.|Ms\.|Mr\.)\s*/i, '')
+        .trim();
+
+      const parts = nameWithoutTitle.split(' ');
+      firstName = parts[0] || '';
+      lastName = parts.slice(1).join(' ') || '';
+    }
+
+    // -----------------------------
+    // Update General Info
+    // -----------------------------
+    setGeneralInfo(prev => ({
+      ...prev,
+      title,
+      firstName,
+      lastName,
+      designation: contactPersonObj.jobTitle || prev.designation,
+      mobile: contactPersonObj.phone || prev.mobile,
+      email: contactPersonObj.email || prev.email,
+      companyName: apiData.company || apiData.companyName || prev.companyName,
+      businessNature:
+        typeof apiData.sector === 'string'
+          ? apiData.sector.split(',')[0]
+          : Array.isArray(apiData.sector)
+          ? apiData.sector[0]
+          : prev.businessNature,
+      gstNumber:
+        apiData.registrationNumber || apiData.gstNumber || prev.gstNumber
+    }));
+
+    // -----------------------------
+    // Parse Address
+    // -----------------------------
+    let street = '';
+
+    if (apiData.address && typeof apiData.address === 'string') {
+      const parts = apiData.address.split(',').map((p: string) => p.trim());
+      street = parts[0] || '';
+    }
+
+    // -----------------------------
+    // Update Booth Details
+    // -----------------------------
+    setBoothDetails(prev => ({
+      ...prev,
+      boothNo:
+        apiData.boothNumber ||
+        apiData.booth_number ||
+        prev.boothNo,
+      exhibitorName:
+        contactPersonObj.name ||
+        `${title} ${firstName} ${lastName}`.trim(),
+      organisation:
+        apiData.company || apiData.companyName || prev.organisation,
+      contactPerson:
+        contactPersonObj.name ||
+        `${firstName} ${lastName}`.trim(),
+      designation:
+        contactPersonObj.jobTitle || prev.designation,
+      mobile:
+        contactPersonObj.phone || prev.mobile,
+      email:
+        contactPersonObj.email || prev.email
+    }));
+
+    // -----------------------------
+    // Update Company Details
+    // -----------------------------
+    setCompanyDetails(prev => ({
+      ...prev,
+      companyName:
+        apiData.company || apiData.companyName || prev.companyName,
+      address: street || prev.address,
+      telephone: apiData.telephone || prev.telephone,
+      mobile: contactPersonObj.phone || prev.mobile,
+      email: contactPersonObj.email || prev.email,
+      website: apiData.website || prev.website,
+      contactPerson:
+        contactPersonObj.name ||
+        `${firstName} ${lastName}`.trim(),
+      designation:
+        contactPersonObj.jobTitle || prev.designation,
+      productsServices:
+        typeof apiData.sector === 'string'
+          ? apiData.sector
+          : Array.isArray(apiData.sector)
+          ? apiData.sector.join(', ')
+          : prev.productsServices
+    }));
+
+    // -----------------------------
+    // Update First Personnel Row
+    // -----------------------------
+    setPersonnel(prev => {
+      if (prev.length === 0) return prev;
+
+      const updated = [...prev];
+      updated[0] = {
+        ...updated[0],
+        name:
+          contactPersonObj.name ||
+          `${firstName} ${lastName}`.trim(),
+        designation:
+          contactPersonObj.jobTitle || updated[0].designation,
+        organisation:
+          apiData.company || updated[0].organisation
+      };
+
+      return updated;
+    });
+
+  } catch (error) {
+    console.error('Error fetching exhibitor profile:', error);
+  }
+};
+
 
   // ============= AUTO-FILL EFFECT =============
   useEffect(() => {
@@ -749,17 +938,20 @@ export default function RequirementsPage() {
     setGeneralInfo(prev => ({ ...prev, [field]: value }));
   };
 
-  const handleFurnitureQuantity = (index: number, quantity: number) => {
-    const updated = [...furnitureItems];
+const handleFurnitureQuantity = (index: number, quantity: number) => {
+  const updated = [...furnitureItems];
+  if (updated[index]) {
     updated[index].quantity = quantity;
-    updated[index].cost = quantity * updated[index].cost3Days;
+    // Safely calculate cost with null check
+    updated[index].cost = quantity * (updated[index].cost3Days || 0);
     setFurnitureItems(updated);
-  };
+  }
+};
 
   const handleHostessChange = (index: number, field: string, value: number) => {
     const updated = [...hostessRequirements];
     updated[index] = { ...updated[index], [field]: value };
-    const rate = updated[index].category === 'A' ? 5000 : 4000;
+    const rate = updated[index].ratePerDay || (updated[index].category === 'A' ? 5000 : 4000);
     updated[index].amount = updated[index].quantity * updated[index].noOfDays * rate;
     setHostessRequirements(updated);
   };
@@ -787,23 +979,37 @@ export default function RequirementsPage() {
     setMachines(reIndexed);
   };
 
-  const handleCompressedAirSelect = (option: any) => {
-    const totalCost = option.costPerConnection + (option.powerKW * 3500);
+  const handleCompressedAirSelect = (option: CompressedAirOption) => {
+    const totalCost = (option.costPerConnection * compressedAir.qty) + (option.powerKW * 3500 * compressedAir.qty);
 
     setCompressedAir({
       ...compressedAir,
+      id: option.id,
       selected: option.cfmRange,
       cfmRange: option.cfmRange,
       costPerConnection: option.costPerConnection,
-      qty: option.qty,
       powerKW: option.powerKW,
       totalCost
     });
   };
 
+  const handleCompressedAirQuantity = (qty: number) => {
+    setCompressedAir(prev => {
+      const selectedOption = compressedAirOptions.find(opt => opt.cfmRange === prev.selected);
+      if (selectedOption) {
+        const totalCost = (selectedOption.costPerConnection * qty) + (selectedOption.powerKW * 3500 * qty);
+        return { ...prev, qty, totalCost };
+      }
+      return { ...prev, qty };
+    });
+  };
+
   const handleElectricalLoadChange = (type: 'temporary' | 'exhibition', value: string) => {
     const loadValue = parseFloat(value) || 0;
-    const total = loadValue * 3500;
+    
+    // Find the active rate for this type
+    const rate = electricalRates.find(r => r.type === type && r.isActive)?.ratePerKW || 3500;
+    const total = loadValue * rate;
 
     if (type === 'temporary') {
       setElectricalLoad(prev => ({
@@ -820,11 +1026,13 @@ export default function RequirementsPage() {
     }
   };
 
-  const handleRentalQuantity = (itemKey: keyof RentalItems, quantity: number) => {
+  const handleRentalQuantity = (itemKey: string, quantity: number) => {
     setRentalItems(prev => {
       const updated = { ...prev };
-      updated[itemKey].quantity = quantity;
-      updated[itemKey].totalCost = quantity * updated[itemKey].costFor3Days;
+      if (updated[itemKey]) {
+        updated[itemKey].quantity = quantity;
+        updated[itemKey].totalCost = quantity * updated[itemKey].costFor3Days;
+      }
       return updated;
     });
   };
@@ -862,42 +1070,51 @@ export default function RequirementsPage() {
 
     try {
       const formData = new FormData();
+      
+      // Add all form data
       formData.append('generalInfo', JSON.stringify(generalInfo));
       formData.append('boothDetails', JSON.stringify(boothDetails));
       formData.append('securityDeposit', JSON.stringify(securityDeposit));
       formData.append('machines', JSON.stringify(machines.filter(m => m.machineName)));
-      formData.append('Exhibitor Passes', JSON.stringify(personnel.filter(p => p.name)));
+      formData.append('personnel', JSON.stringify(personnel.filter(p => p.name)));
       formData.append('companyDetails', JSON.stringify(companyDetails));
       formData.append('electricalLoad', JSON.stringify(electricalLoad));
       formData.append('furnitureItems', JSON.stringify(furnitureItems.filter(f => f.quantity > 0)));
-      formData.append('hostessRequirements', JSON.stringify(hostessRequirements));
+      formData.append('hostessRequirements', JSON.stringify(hostessRequirements.filter(h => h.quantity > 0)));
       formData.append('compressedAir', JSON.stringify(compressedAir));
       formData.append('waterConnection', JSON.stringify(waterConnection));
       formData.append('securityGuard', JSON.stringify(securityGuard));
-      formData.append('rentalItems', JSON.stringify(rentalItems));
+      formData.append('rentalItems', JSON.stringify(
+        Object.values(rentalItems).filter(item => item.quantity > 0)
+      ));
       formData.append('housekeepingStaff', JSON.stringify(housekeepingStaff));
-      formData.append('paymentDetails', JSON.stringify({ ...paymentDetails, uploadedReceipt: null }));
+      formData.append('paymentDetails', JSON.stringify({ 
+        ...paymentDetails, 
+        uploadedReceipt: null 
+      }));
 
       if (paymentDetails.uploadedReceipt) {
         formData.append('receipt', paymentDetails.uploadedReceipt);
       }
 
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Submit to API
+      const result = await apiService.submitApplication(formData);
 
-      console.log('Application submitted successfully');
+      console.log('Application submitted successfully', result);
       alert('Your exhibition registration has been submitted successfully!');
 
+      // Redirect to success page
       window.location.href = '/dashboard/requirements/success';
 
-    } catch (error) {
+    } catch (error: any) {
       console.error('Submission failed:', error);
-      alert('Failed to submit application. Please try again.');
+      alert(error.message || 'Failed to submit application. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  // Effects
+  // Effects for calculations
   useEffect(() => {
     if (waterConnection.connections > 0) {
       const total = waterConnection.connections * waterConnection.costPerConnection;
@@ -905,7 +1122,7 @@ export default function RequirementsPage() {
     } else {
       setWaterConnection(prev => ({ ...prev, totalCost: 0 }));
     }
-  }, [waterConnection.connections]);
+  }, [waterConnection.connections, waterConnection.costPerConnection]);
 
   useEffect(() => {
     if (securityGuard.quantity > 0 && securityGuard.noOfDays > 0) {
@@ -916,14 +1133,15 @@ export default function RequirementsPage() {
     }
   }, [securityGuard.quantity, securityGuard.noOfDays]);
 
-  useEffect(() => {
-    if (housekeepingStaff.quantity > 0 && housekeepingStaff.noOfDays > 0) {
-      const total = housekeepingStaff.quantity * housekeepingStaff.noOfDays * housekeepingStaff.chargesPerShift;
-      setHousekeepingStaff(prev => ({ ...prev, totalCost: total }));
-    } else {
-      setHousekeepingStaff(prev => ({ ...prev, totalCost: 0 }));
-    }
-  }, [housekeepingStaff.quantity, housekeepingStaff.noOfDays]);
+// Effects for calculations - UPDATE THIS SECTION
+useEffect(() => {
+  if (housekeepingStaff?.quantity > 0 && housekeepingStaff?.noOfDays > 0 && housekeepingStaff?.chargesPerShift) {
+    const total = housekeepingStaff.quantity * housekeepingStaff.noOfDays * housekeepingStaff.chargesPerShift;
+    setHousekeepingStaff(prev => ({ ...prev, totalCost: total }));
+  } else {
+    setHousekeepingStaff(prev => ({ ...prev, totalCost: 0 }));
+  }
+}, [housekeepingStaff?.quantity, housekeepingStaff?.noOfDays, housekeepingStaff?.chargesPerShift]);
 
   // ============= RENDER FUNCTIONS =============
 
@@ -952,7 +1170,7 @@ export default function RequirementsPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-4 border-gray-200 border-t-blue-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600 font-medium">Loading your profile...</p>
+          <p className="mt-4 text-gray-600 font-medium">Loading your profile and available services...</p>
         </div>
       </div>
     );
@@ -1529,7 +1747,7 @@ export default function RequirementsPage() {
             <CubeIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
           </div>
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
-            NAME ON FASCIA
+            MACHINE DISPLAY
             <br />
             <span className="text-[#4D4D4D] font-semibold text-[15px]">
               (OPTIONAL)
@@ -1586,6 +1804,7 @@ export default function RequirementsPage() {
                   <input
                     type="number"
                     min="0"
+                    step="0.01"
                     value={machine.width}
                     onChange={(e) => {
                       const updated = [...machines];
@@ -1601,6 +1820,7 @@ export default function RequirementsPage() {
                   <input
                     type="number"
                     min="0"
+                    step="0.01"
                     value={machine.length}
                     onChange={(e) => {
                       const updated = [...machines];
@@ -1616,6 +1836,7 @@ export default function RequirementsPage() {
                   <input
                     type="number"
                     min="0"
+                    step="0.01"
                     value={machine.height}
                     onChange={(e) => {
                       const updated = [...machines];
@@ -1631,6 +1852,7 @@ export default function RequirementsPage() {
                   <input
                     type="number"
                     min="0"
+                    step="0.01"
                     value={machine.weight}
                     onChange={(e) => {
                       const updated = [...machines];
@@ -1992,132 +2214,142 @@ export default function RequirementsPage() {
   );
 
   // ============= FORM 7: ELECTRICAL LOAD (OPTIONAL) =============
-  const renderElectricalLoad = () => (
-    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
-      <div className="flex items-center mb-6">
-        <div className="bg-blue-100 p-2 rounded-lg">
-          <BoltIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
-        </div>
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Electrical Load</h2>
-      </div>
+  const renderElectricalLoad = () => {
+    const tempRate = electricalRates.find(r => r.type === 'temporary' && r.isActive)?.ratePerKW || 3500;
+    const exhRate = electricalRates.find(r => r.type === 'exhibition' && r.isActive)?.ratePerKW || 3500;
 
-      <div className="space-y-6">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Unit Cost</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Load (KW)</th>
-                <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td className="px-3 py-2 text-sm">Temporary (18-19 Nov)</td>
-                <td className="px-3 py-2 text-sm">₹3,500/KW</td>
-                <td className="px-3 py-2">
-                  <input
-                    type="number"
-                    value={electricalLoad.temporaryLoad}
-                    onChange={(e) => handleElectricalLoadChange('temporary', e.target.value)}
-                    className="w-20 border border-gray-200 rounded px-2 py-1 text-sm"
-                    placeholder="KW"
-                  />
-                </td>
-                <td className="px-3 py-2 text-sm">₹{electricalLoad.temporaryTotal.toLocaleString()}</td>
-              </tr>
-              <tr>
-                <td className="px-3 py-2 text-sm">Exhibition (20-22 Nov)</td>
-                <td className="px-3 py-2 text-sm">₹3,500/KW</td>
-                <td className="px-3 py-2">
-                  <input
-                    type="number"
-                    value={electricalLoad.exhibitionLoad}
-                    onChange={(e) => handleElectricalLoadChange('exhibition', e.target.value)}
-                    className="w-20 border border-gray-200 rounded px-2 py-1 text-sm"
-                    placeholder="KW"
-                  />
-                </td>
-                <td className="px-3 py-2 text-sm">₹{electricalLoad.exhibitionTotal.toLocaleString()}</td>
-              </tr>
-            </tbody>
-          </table>
+    return (
+      <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+        <div className="flex items-center mb-6">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <BoltIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Electrical Load</h2>
         </div>
 
-        {/* Important Notes & Electrical Rules */}
-        <div className="mt-8 border-t border-gray-200 pt-6 space-y-6">
-
-          {/* General Note */}
-          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 text-sm text-gray-700 leading-relaxed">
-            <p className="font-semibold text-yellow-800 mb-2">Important Note:</p>
-            <p>
-              All prices are current and subject to change without prior notice.
-              Electrical requirements can be serviced only if the order is placed
-              on or before <span className="font-semibold">7th November 2025</span>.
-              There is no provision for last-minute / onsite requests after
-              7th November 2025.
-            </p>
-            <p className="mt-2">
-              Orders are valid only when accompanied by full remittance along with
-              <span className="font-semibold"> 18% GST</span>.
-            </p>
+        <div className="space-y-6">
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                <tr>
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Type</th>
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Unit Cost</th>
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Load (KW)</th>
+                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td className="px-3 py-2 text-sm">Temporary (18-19 Nov)</td>
+                  <td className="px-3 py-2 text-sm">₹{tempRate.toLocaleString()}/KW</td>
+                  <td className="px-3 py-2">
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.1"
+                      value={electricalLoad.temporaryLoad}
+                      onChange={(e) => handleElectricalLoadChange('temporary', e.target.value)}
+                      className="w-20 border border-gray-200 rounded px-2 py-1 text-sm"
+                      placeholder="KW"
+                    />
+                  </td>
+                  <td className="px-3 py-2 text-sm">₹{electricalLoad.temporaryTotal.toLocaleString()}</td>
+                </tr>
+                <tr>
+                  <td className="px-3 py-2 text-sm">Exhibition (20-22 Nov)</td>
+                  <td className="px-3 py-2 text-sm">₹{exhRate.toLocaleString()}/KW</td>
+                  <td className="px-3 py-2">
+                    <input
+                      type="number"
+                      min="0"
+                      step="0.1"
+                      value={electricalLoad.exhibitionLoad}
+                      onChange={(e) => handleElectricalLoadChange('exhibition', e.target.value)}
+                      className="w-20 border border-gray-200 rounded px-2 py-1 text-sm"
+                      placeholder="KW"
+                    />
+                  </td>
+                  <td className="px-3 py-2 text-sm">₹{electricalLoad.exhibitionTotal.toLocaleString()}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
 
-          {/* Rules Section */}
-          <div className="bg-red-50 border border-red-200 rounded-xl p-5 text-sm text-gray-700 leading-relaxed">
-            <p className="font-semibold text-red-800 mb-3">Rules for Electrical Work</p>
+          {/* Important Notes & Electrical Rules */}
+          <div className="mt-8 border-t border-gray-200 pt-6 space-y-6">
 
-            <p className="mb-3">
-              Exhibitors are required to make payment for electrical work
-              <span className="font-semibold"> 20 days before the show</span>,
-              along with the form submission. The cheque or demand draft should be made payable to
-              <span className="font-semibold"> "Maxx Business Media Pvt. Ltd."</span>
-            </p>
+            {/* General Note */}
+            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 text-sm text-gray-700 leading-relaxed">
+              <p className="font-semibold text-yellow-800 mb-2">Important Note:</p>
+              <p>
+                All prices are current and subject to change without prior notice.
+                Electrical requirements can be serviced only if the order is placed
+                on or before <span className="font-semibold">7th November 2025</span>.
+                There is no provision for last-minute / onsite requests after
+                7th November 2025.
+              </p>
+              <p className="mt-2">
+                Orders are valid only when accompanied by full remittance along with
+                <span className="font-semibold"> 18% GST</span>.
+              </p>
+            </div>
 
-            <ul className="list-decimal pl-5 space-y-2">
-              <li>
-                All exhibitors must hire a licensed electrical contractor to perform
-                internal wiring within their stands and submit a photocopy of the
-                contractor's license to the organizers.
-              </li>
+            {/* Rules Section */}
+            <div className="bg-red-50 border border-red-200 rounded-xl p-5 text-sm text-gray-700 leading-relaxed">
+              <p className="font-semibold text-red-800 mb-3">Rules for Electrical Work</p>
 
-              <li>
-                Only ISI-marked new materials must be used. Wires should be PVC copper
-                insulated with a voltage rating of 1100 V.
-              </li>
+              <p className="mb-3">
+                Exhibitors are required to make payment for electrical work
+                <span className="font-semibold"> 20 days before the show</span>,
+                along with the form submission. The cheque or demand draft should be made payable to
+                <span className="font-semibold"> "Maxx Business Media Pvt. Ltd."</span>
+              </p>
 
-              <li>
-                For lighting circuits, 3x2.5 sq mm PVC insulated copper wire must be used.
-                For 16A power points, 3x4 sq mm PVC insulated copper wire is required.
-              </li>
+              <ul className="list-decimal pl-5 space-y-2">
+                <li>
+                  All exhibitors must hire a licensed electrical contractor to perform
+                  internal wiring within their stands and submit a photocopy of the
+                  contractor's license to the organizers.
+                </li>
 
-              <li>
-                Wires must be safely routed through conduits or casing capping.
-                No loose hanging wires are allowed. All terminations must use crimping lugs.
-              </li>
+                <li>
+                  Only ISI-marked new materials must be used. Wires should be PVC copper
+                  insulated with a voltage rating of 1100 V.
+                </li>
 
-              <li>
-                LED lights must be used. If halogen lights are used,
-                they must be equipped with a transformer.
-              </li>
+                <li>
+                  For lighting circuits, 3x2.5 sq mm PVC insulated copper wire must be used.
+                  For 16A power points, 3x4 sq mm PVC insulated copper wire is required.
+                </li>
 
-              <li>
-                The load connected to the power point must be appropriate
-                for the socket rating.
-              </li>
-            </ul>
+                <li>
+                  Wires must be safely routed through conduits or casing capping.
+                  No loose hanging wires are allowed. All terminations must use crimping lugs.
+                </li>
+
+                <li>
+                  LED lights must be used. If halogen lights are used,
+                  they must be equipped with a transformer.
+                </li>
+
+                <li>
+                  The load connected to the power point must be appropriate
+                  for the socket rating.
+                </li>
+              </ul>
+            </div>
+
           </div>
-
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   // ============= FORM 8: FURNITURE (OPTIONAL) =============
-  const renderFurniture = () => {
-    const furnitureTotal = furnitureItems.reduce((sum, item) => sum + item.cost, 0);
+const renderFurniture = () => {
+  const furnitureTotal = furnitureItems.reduce((sum, item) => sum + (item.cost || 0), 0);
 
+  if (furnitureItems.length === 0) {
     return (
       <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
         <div className="flex items-center mb-6">
@@ -2126,67 +2358,103 @@ export default function RequirementsPage() {
           </div>
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Furniture</h2>
         </div>
-
-        <div className="overflow-x-auto max-h-96 overflow-y-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50 sticky top-0">
-              <tr>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Image</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Code</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Size</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Cost (3 Days)</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Qty</th>
-                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Cost</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {furnitureItems.map((item, index) => (
-                <tr key={item.code} className="hover:bg-gray-50">
-                  <td className="px-2 py-1.5">
-                    <div className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center">
-                      {item.image ? (
-                        <img
-                          src={item.image}
-                          alt={item.description}
-                          className="w-full h-full object-cover"
-                          onError={(e) => {
-                            (e.target as HTMLImageElement).src = '/furniture/placeholder.jpg';
-                          }}
-                        />
-                      ) : (
-                        <PhotoIcon className="h-6 w-6 text-gray-400" />
-                      )}
-                    </div>
-                  </td>
-                  <td className="px-2 py-1.5 text-xs font-mono text-blue-600">{item.code}</td>
-                  <td className="px-2 py-1.5 text-xs">{item.description}</td>
-                  <td className="px-2 py-1.5 text-xs">{item.size}</td>
-                  <td className="px-2 py-1.5 text-xs">₹{item.cost3Days}</td>
-                  <td className="px-2 py-1.5">
-                    <input
-                      type="number"
-                      min="0"
-                      value={item.quantity || ''}
-                      onChange={(e) => handleFurnitureQuantity(index, parseInt(e.target.value) || 0)}
-                      className="w-16 border border-gray-200 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500"
-                    />
-                  </td>
-                  <td className="px-2 py-1.5 text-xs font-semibold">₹{item.cost}</td>
-                </tr>
-              ))}
-            </tbody>
-            <tfoot className="bg-gray-50 sticky bottom-0">
-              <tr>
-                <td colSpan={6} className="px-2 py-2 text-right text-xs font-semibold">Total:</td>
-                <td className="px-2 py-2 text-xs font-bold text-blue-600">₹{furnitureTotal.toLocaleString()}</td>
-              </tr>
-            </tfoot>
-          </table>
+        <div className="text-center py-8 text-gray-500">
+          No furniture items available at the moment.
         </div>
       </div>
     );
-  };
+  }
+
+  return (
+    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+      <div className="flex items-center mb-6">
+        <div className="bg-blue-100 p-2 rounded-lg">
+          <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+        </div>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Furniture</h2>
+      </div>
+
+      <div className="overflow-x-auto max-h-96 overflow-y-auto">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-50 sticky top-0">
+            <tr>
+              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Image</th>
+              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Code</th>
+              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Size</th>
+              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Cost (3 Days)</th>
+              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Qty</th>
+              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Cost</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {furnitureItems.map((item, index) => (
+              <tr key={item.code || index} className="hover:bg-gray-50">
+               <td className="px-2 py-1.5">
+  <div 
+    className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity"
+    onClick={() => {
+      const imageUrl = item.image || item.imageUrl;
+      if (imageUrl) {
+        setSelectedImage({
+          src: imageUrl,
+          alt: item.description || 'Furniture item'
+        });
+      }
+    }}
+  >
+    {(item.image || item.imageUrl) ? (
+      <img
+        src={item.image || item.imageUrl || ''}
+        alt={item.description || 'Furniture item'}
+        className="w-full h-full object-cover"
+        onError={(e) => {
+          (e.target as HTMLImageElement).src = '/furniture/placeholder.jpg';
+        }}
+      />
+    ) : (
+      <PhotoIcon className="h-6 w-6 text-gray-400" />
+    )}
+  </div>
+</td>
+                <td className="px-2 py-1.5 text-xs font-mono text-blue-600">{item.code || 'N/A'}</td>
+                <td className="px-2 py-1.5 text-xs">{item.description || 'No description'}</td>
+                <td className="px-2 py-1.5 text-xs">
+                  {/* Handle null/empty size */}
+                  {item.size && item.size !== 'null' ? item.size : 'N/A'}
+                </td>
+                <td className="px-2 py-1.5 text-xs">
+                  {/* Handle cost3Days safely */}
+                  ₹{item.cost3Days?.toLocaleString() ?? '0'}
+                </td>
+                <td className="px-2 py-1.5">
+                  <input
+                    type="number"
+                    min="0"
+                    value={item.quantity || ''}
+                    onChange={(e) => handleFurnitureQuantity(index, parseInt(e.target.value) || 0)}
+                    className="w-16 border border-gray-200 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500"
+                  />
+                </td>
+                <td className="px-2 py-1.5 text-xs font-semibold">
+                  ₹{item.cost?.toLocaleString() ?? '0'}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot className="bg-gray-50 sticky bottom-0">
+            <tr>
+              <td colSpan={6} className="px-2 py-2 text-right text-xs font-semibold">Total:</td>
+              <td className="px-2 py-2 text-xs font-bold text-blue-600">
+                ₹{furnitureTotal?.toLocaleString() ?? '0'}
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  );
+};
 
   // ============= FORM 9: HOSTESS (OPTIONAL) =============
   const renderHostess = () => {
@@ -2219,7 +2487,7 @@ export default function RequirementsPage() {
                 <tr key={hostess.category}>
                   <td className="px-3 py-2 text-sm">Category {hostess.category}</td>
                   <td className="px-3 py-2 text-sm">
-                    ₹{hostess.category === 'A' ? '5,000' : '4,000'}
+                    ₹{(hostess.ratePerDay || (hostess.category === 'A' ? 5000 : 4000)).toLocaleString()}
                   </td>
                   <td className="px-3 py-2">
                     <input
@@ -2286,97 +2554,149 @@ export default function RequirementsPage() {
   };
 
   // ============= FORM 10: COMPRESSED AIR (OPTIONAL) =============
-  const renderCompressedAir = () => (
-    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
-      <div className="flex items-center mb-6">
-        <div className="bg-blue-100 p-2 rounded-lg">
-          <WrenchScrewdriverIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
-        </div>
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Compressed Air</h2>
-      </div>
-
-      <div className="overflow-x-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50">
-            <tr>
-              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase"></th>
-              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">CFM Range</th>
-              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Connection Cost</th>
-              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Power</th>
-              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
-            </tr>
-          </thead>
-          <tbody>
-            {[
-              { cfmRange: 'Upto 10 cfm', costPerConnection: 15000, powerKW: 3 },
-              { cfmRange: '10-20 cfm', costPerConnection: 25000, powerKW: 5 },
-              { cfmRange: '20-30 cfm', costPerConnection: 40000, powerKW: 8 },
-              { cfmRange: '30-40 cfm', costPerConnection: 50000, powerKW: 11 },
-              { cfmRange: 'Above 40 cfm', costPerConnection: 75000, powerKW: 15 },
-            ].map((option) => (
-              <tr key={option.cfmRange} className="hover:bg-gray-50">
-                <td className="px-2 py-2">
-                  <input
-                    type="radio"
-                    name="compressedAir"
-                    checked={compressedAir.selected === option.cfmRange}
-                    onChange={() => handleCompressedAirSelect(option)}
-                    className="h-4 w-4 text-blue-600"
-                  />
-                </td>
-                <td className="px-2 py-2 text-sm">{option.cfmRange}</td>
-                <td className="px-2 py-2 text-sm">₹{option.costPerConnection.toLocaleString()}</td>
-                <td className="px-2 py-2 text-sm">{option.powerKW} KW</td>
-                <td className="px-2 py-2 text-sm">₹{(option.costPerConnection + (option.powerKW * 3500)).toLocaleString()}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-
-      {compressedAir.selected && (
-        <div className="mt-6 bg-blue-50 p-4 rounded-lg">
-          <div className="flex justify-between text-sm">
-            <span className="font-semibold">Selected: {compressedAir.cfmRange}</span>
-            <span className="font-bold text-blue-700">₹{compressedAir.totalCost.toLocaleString()}</span>
+  const renderCompressedAir = () => {
+    if (compressedAirOptions.length === 0) {
+      return (
+        <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+          <div className="flex items-center mb-6">
+            <div className="bg-blue-100 p-2 rounded-lg">
+              <WrenchScrewdriverIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Compressed Air</h2>
           </div>
-          <p className="text-xs text-blue-600 mt-2">Excluding GST (will be added in final summary)</p>
+          <div className="text-center py-8 text-gray-500">
+            No compressed air options available at the moment.
+          </div>
         </div>
-      )}
-    </div>
-  );
+      );
+    }
+
+    return (
+      <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+        <div className="flex items-center mb-6">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <WrenchScrewdriverIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Compressed Air</h2>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase"></th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">CFM Range</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Connection Cost</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Power</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total per Unit</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Qty</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {compressedAirOptions.map((option) => (
+                <tr key={option.id} className="hover:bg-gray-50">
+                  <td className="px-2 py-2">
+                    <input
+                      type="radio"
+                      name="compressedAir"
+                      checked={compressedAir.selected === option.cfmRange}
+                      onChange={() => handleCompressedAirSelect(option)}
+                      className="h-4 w-4 text-blue-600"
+                    />
+                  </td>
+                  <td className="px-2 py-2 text-sm">{option.cfmRange}</td>
+                  <td className="px-2 py-2 text-sm">₹{option.costPerConnection.toLocaleString()}</td>
+                  <td className="px-2 py-2 text-sm">{option.powerKW} KW</td>
+                  <td className="px-2 py-2 text-sm">₹{(option.costPerConnection + (option.powerKW * 3500)).toLocaleString()}</td>
+                  <td className="px-2 py-2">
+                    {compressedAir.selected === option.cfmRange && (
+                      <input
+                        type="number"
+                        min="1"
+                        value={compressedAir.qty}
+                        onChange={(e) => handleCompressedAirQuantity(parseInt(e.target.value) || 1)}
+                        className="w-16 border border-gray-200 rounded px-2 py-1 text-sm"
+                      />
+                    )}
+                  </td>
+                  <td className="px-2 py-2 text-sm">
+                    {compressedAir.selected === option.cfmRange && (
+                      <span className="font-semibold">₹{compressedAir.totalCost.toLocaleString()}</span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {compressedAir.selected && (
+          <div className="mt-6 bg-blue-50 p-4 rounded-lg">
+            <div className="flex justify-between text-sm">
+              <span className="font-semibold">Selected: {compressedAir.cfmRange} (Qty: {compressedAir.qty})</span>
+              <span className="font-bold text-blue-700">₹{compressedAir.totalCost.toLocaleString()}</span>
+            </div>
+            <p className="text-xs text-blue-600 mt-2">Excluding GST (will be added in final summary)</p>
+          </div>
+        )}
+      </div>
+    );
+  };
 
   // ============= FORM 11: WATER CONNECTION (OPTIONAL) =============
-  const renderWaterConnection = () => (
+const renderWaterConnection = () => {
+  const connections = waterConnection?.connections ?? 0;
+  const costPerConnection = waterConnection?.costPerConnection ?? 0;
+  const totalCost = waterConnection?.totalCost ?? 0;
+
+  return (
     <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
       <div className="flex items-center mb-6">
         <div className="bg-blue-100 p-2 rounded-lg">
           <TruckIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
         </div>
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Water Connection</h2>
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
+          Water Connection
+        </h2>
       </div>
 
       <div className="max-w-md">
         <div className="flex items-center gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">No. of Connections</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              No. of Connections
+            </label>
             <input
               type="number"
               min="0"
-              value={waterConnection.connections || ''}
-              onChange={(e) => setWaterConnection({ ...waterConnection, connections: parseInt(e.target.value) || 0 })}
+              value={connections || ''}
+              onChange={(e) =>
+                setWaterConnection({
+                  ...waterConnection,
+                  connections: parseInt(e.target.value) || 0
+                })
+              }
               className="w-24 border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
             />
           </div>
+
           <div className="text-sm">
-            <p className="text-gray-600">Cost per connection: ₹15,000</p>
-            <p className="font-semibold text-blue-600 mt-1">Total: ₹{waterConnection.totalCost.toLocaleString()}</p>
-            <p className="text-xs text-gray-500">Excluding GST (will be added in final summary)</p>
+            <p className="text-gray-600">
+              Cost per connection: ₹{costPerConnection.toLocaleString()}
+            </p>
+            <p className="font-semibold text-blue-600 mt-1">
+              Total: ₹{totalCost.toLocaleString()}
+            </p>
+            <p className="text-xs text-gray-500">
+              Excluding GST (will be added in final summary)
+            </p>
           </div>
         </div>
       </div>
     </div>
   );
+};
 
   // ============= FORM 12: SECURITY GUARD (OPTIONAL) =============
   const renderSecurityGuard = () => (
@@ -2457,175 +2777,264 @@ export default function RequirementsPage() {
       </div>
     </div>
   );
+  const renderImageModal = () => {
+  if (!selectedImage) return null;
 
+  return (
+    <div 
+      className="fixed inset-0 bg-black bg-opacity-90 z-[100] flex items-center justify-center p-4"
+      onClick={() => setSelectedImage(null)}
+    >
+      <button
+        onClick={() => setSelectedImage(null)}
+        className="absolute top-4 right-4 text-white hover:text-gray-300 z-10"
+      >
+        <XCircleIcon className="h-8 w-8" />
+      </button>
+      
+      <div 
+        className="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <img
+          src={selectedImage.src}
+          alt={selectedImage.alt}
+          className="max-w-full max-h-full object-contain"
+          onError={(e) => {
+            (e.target as HTMLImageElement).src = '/furniture/placeholder.jpg';
+          }}
+        />
+        
+        {/* Image info */}
+        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white px-4 py-2 rounded-lg text-sm">
+          {selectedImage.alt}
+        </div>
+      </div>
+    </div>
+  );
+};
   // ============= FORM 13: RENTAL ITEMS (AV & IT) (OPTIONAL) =============
-  const renderRentalItems = () => {
-    const rentalTotal = Object.values(rentalItems).reduce((sum, item) => sum + item.totalCost, 0);
+const renderRentalItems = () => {
+  const rentalTotal = Object.values(rentalItems).reduce((sum, item) => sum + (item.totalCost || 0), 0);
 
+  if (Object.keys(rentalItems).length === 0) {
     return (
       <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center">
-            <div className="bg-blue-100 p-2 rounded-lg">
-              <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
-            </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">AV & IT Rentals</h2>
+        <div className="flex items-center mb-6">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
           </div>
-          <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1.5 rounded-full">For 3 Days</span>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">AV & IT Rentals</h2>
         </div>
-
-        <div className="overflow-x-auto border border-gray-200 rounded-lg">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Description of Item</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Cost for 3 Days</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Quantity</th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase tracking-wider">Total Cost</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {Object.entries(rentalItems).map(([key, item], index) => (
-                <tr key={key} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-3 text-sm text-gray-900">{item.description}</td>
-                  <td className="px-4 py-3 text-sm text-gray-900">₹{item.costFor3Days.toLocaleString()}</td>
-                  <td className="px-4 py-3">
-                    <input
-                      type="number"
-                      min="0"
-                      value={item.quantity || ''}
-                      onChange={(e) => handleRentalQuantity(key as keyof RentalItems, parseInt(e.target.value) || 0)}
-                      className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                      placeholder="0"
-                    />
-                  </td>
-                  <td className="px-4 py-3 text-sm font-semibold text-blue-600">₹{item.totalCost.toLocaleString()}</td>
-                </tr>
-              ))}
-            </tbody>
-            <tfoot className="bg-gray-50">
-              <tr>
-                <td colSpan={3} className="px-4 py-3 text-right text-sm font-bold text-gray-900">Total Rental Cost:</td>
-                <td className="px-4 py-3 text-sm font-bold text-blue-600">₹{rentalTotal.toLocaleString()}</td>
-              </tr>
-              <tr>
-                <td colSpan={4} className="px-4 py-2 text-xs text-gray-500 italic">
-                  * GST @ 18% will be applied to the total rental cost in the final summary
-                </td>
-              </tr>
-            </tfoot>
-          </table>
+        <div className="text-center py-8 text-gray-500">
+          No rental items available at the moment.
         </div>
       </div>
     );
-  };
+  }
+
+  return (
+    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">AV & IT Rentals</h2>
+        </div>
+        <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1.5 rounded-full">For 3 Days</span>
+      </div>
+
+      <div className="overflow-x-auto border border-gray-200 rounded-lg">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Image</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Description</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Cost for 3 Days</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Quantity</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Total Cost</th>
+            </tr>
+          </thead>
+          <tbody className="bg-white divide-y divide-gray-200">
+            {Object.entries(rentalItems).map(([key, item]) => (
+              <tr key={key} className="hover:bg-gray-50 transition-colors">
+               <td className="px-4 py-3">
+  <div 
+    className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity"
+    onClick={() => {
+      if (item.image) {
+        setSelectedImage({
+          src: item.image,
+          alt: item.description
+        });
+      }
+    }}
+  >
+    {item.image ? (
+      <img
+        src={item.image}
+        alt={item.description}
+        className="w-full h-full object-cover"
+        onError={(e) => {
+          console.log('Failed to load image:', item.image);
+          (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23999\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Crect x=\'2\' y=\'2\' width=\'20\' height=\'20\' rx=\'2.18\' ry=\'2.18\'%3E%3C/rect%3E%3Cline x1=\'9\' y1=\'2\' x2=\'9\' y2=\'22\'%3E%3C/line%3E%3Cline x1=\'15\' y1=\'2\' x2=\'15\' y2=\'22\'%3E%3C/line%3E%3C/svg%3E';
+        }}
+      />
+    ) : (
+      <PhotoIcon className="h-6 w-6 text-gray-400" />
+    )}
+  </div>
+</td>
+                <td className="px-4 py-3 text-sm text-gray-900">{item.description}</td>
+                <td className="px-4 py-3 text-sm text-gray-900">₹{(item.costFor3Days || 0).toLocaleString()}</td>
+                <td className="px-4 py-3">
+                  <input
+                    type="number"
+                    min="0"
+                    value={item.quantity || ''}
+                    onChange={(e) => handleRentalQuantity(key, parseInt(e.target.value) || 0)}
+                    className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
+                    placeholder="0"
+                  />
+                </td>
+                <td className="px-4 py-3 text-sm font-semibold text-blue-600">
+                  ₹{(item.totalCost || 0).toLocaleString()}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot className="bg-gray-50">
+            <tr>
+              <td colSpan={4} className="px-4 py-3 text-right text-sm font-bold text-gray-900">Total Rental Cost:</td>
+              <td className="px-4 py-3 text-sm font-bold text-blue-600">₹{(rentalTotal || 0).toLocaleString()}</td>
+            </tr>
+            <tr>
+              <td colSpan={5} className="px-4 py-2 text-xs text-gray-500 italic">
+                * GST @ 18% will be applied to the total rental cost in the final summary
+              </td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  );
+};
 
   // ============= FORM 14: HOUSEKEEPING STAFF (OPTIONAL) =============
-  const renderHousekeepingStaff = () => {
-    return (
-      <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center">
-            <div className="bg-blue-100 p-2 rounded-lg">
-              <SparklesIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
-            </div>
-            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
-              Housekeeping Staff
-            </h2>
+// ============= FORM 14: HOUSEKEEPING STAFF (OPTIONAL) =============
+const renderHousekeepingStaff = () => {
+  // Add null check with default value
+  const chargesPerShift = housekeepingStaff?.chargesPerShift ?? 2000;
+  const quantity = housekeepingStaff?.quantity ?? 0;
+  const noOfDays = housekeepingStaff?.noOfDays ?? 0;
+  const totalCost = housekeepingStaff?.totalCost ?? 0;
+
+  return (
+    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <SparklesIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
           </div>
-          <span className="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1.5 rounded-full">
-            Per Shift (10 Hrs)
-          </span>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
+            Housekeeping Staff
+          </h2>
         </div>
-
-        <div className="border border-gray-200 rounded-lg overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
-                  Category
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
-                  Charges per Shift
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
-                  No. of Staff
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
-                  No. of Days
-                </th>
-                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
-                  Total Cost
-                </th>
-              </tr>
-            </thead>
-
-            <tbody className="bg-white divide-y divide-gray-200">
-              <tr className="hover:bg-gray-50 transition-colors">
-                <td className="px-4 py-4 text-sm font-medium text-gray-900">
-                  Housekeeping
-                </td>
-
-                <td className="px-4 py-4 text-sm text-gray-900">
-                  ₹{housekeepingStaff.chargesPerShift.toLocaleString()}
-                </td>
-
-                {/* Quantity */}
-                <td className="px-4 py-4">
-                  <input
-                    type="number"
-                    min="0"
-                    value={housekeepingStaff.quantity || ""}
-                    onChange={(e) =>
-                      setHousekeepingStaff({
-                        ...housekeepingStaff,
-                        quantity: parseInt(e.target.value) || 0,
-                      })
-                    }
-                    className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="0"
-                  />
-                </td>
-
-                {/* Days */}
-                <td className="px-4 py-4">
-                  <input
-                    type="number"
-                    min="0"
-                    value={housekeepingStaff.noOfDays || ""}
-                    onChange={(e) =>
-                      setHousekeepingStaff({
-                        ...housekeepingStaff,
-                        noOfDays: parseInt(e.target.value) || 0,
-                      })
-                    }
-                    className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="0"
-                  />
-                </td>
-
-                <td className="px-4 py-4 text-sm font-semibold text-blue-600">
-                  ₹{housekeepingStaff.totalCost.toLocaleString()}
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        {housekeepingStaff.quantity > 0 && housekeepingStaff.noOfDays > 0 && (
-          <div className="mt-4 bg-blue-50 p-4 rounded-lg">
-            <p className="text-sm text-gray-700">
-              Subtotal: <span className="font-semibold text-blue-700">₹{housekeepingStaff.totalCost.toLocaleString()}</span>
-            </p>
-            <p className="text-xs text-blue-600 mt-1">
-              * GST @ 18% will be added in final summary
-            </p>
-          </div>
-        )}
+        <span className="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1.5 rounded-full">
+          Per Shift (10 Hrs)
+        </span>
       </div>
-    );
-  };
 
+      <div className="border border-gray-200 rounded-lg overflow-hidden">
+        <table className="min-w-full divide-y divide-gray-200">
+          <thead className="bg-gray-100">
+            <tr>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
+                Category
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
+                Charges per Shift
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
+                No. of Staff
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
+                No. of Days
+              </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
+                Total Cost
+              </th>
+            </tr>
+          </thead>
+
+          <tbody className="bg-white divide-y divide-gray-200">
+            <tr className="hover:bg-gray-50 transition-colors">
+              <td className="px-4 py-4 text-sm font-medium text-gray-900">
+                Housekeeping
+              </td>
+
+              <td className="px-4 py-4 text-sm text-gray-900">
+                {/* FIXED: Added null check with optional chaining and nullish coalescing */}
+                ₹{(chargesPerShift)?.toLocaleString() ?? '2,000'}
+              </td>
+
+              {/* Quantity */}
+              <td className="px-4 py-4">
+                <input
+                  type="number"
+                  min="0"
+                  value={quantity || ""}
+                  onChange={(e) =>
+                    setHousekeepingStaff({
+                      ...housekeepingStaff,
+                      quantity: parseInt(e.target.value) || 0,
+                    })
+                  }
+                  className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
+                  placeholder="0"
+                />
+              </td>
+
+              {/* Days */}
+              <td className="px-4 py-4">
+                <input
+                  type="number"
+                  min="0"
+                  value={noOfDays || ""}
+                  onChange={(e) =>
+                    setHousekeepingStaff({
+                      ...housekeepingStaff,
+                      noOfDays: parseInt(e.target.value) || 0,
+                    })
+                  }
+                  className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
+                  placeholder="0"
+                />
+              </td>
+
+              <td className="px-4 py-4 text-sm font-semibold text-blue-600">
+                {/* FIXED: Added null check */}
+                ₹{(totalCost)?.toLocaleString() ?? '0'}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      {quantity > 0 && noOfDays > 0 && (
+        <div className="mt-4 bg-blue-50 p-4 rounded-lg">
+          <p className="text-sm text-gray-700">
+            Subtotal: <span className="font-semibold text-blue-700">₹{(totalCost)?.toLocaleString() ?? '0'}</span>
+          </p>
+          <p className="text-xs text-blue-600 mt-1">
+            * GST @ 18% will be added in final summary
+          </p>
+        </div>
+      )}
+    </div>
+  );
+};
   // ============= PREVIEW MODAL =============
   const renderPreviewModal = () => {
     const totals = calculateTotals();
@@ -3100,6 +3509,7 @@ export default function RequirementsPage() {
 
         {/* Navigation - Top */}
         {renderNavigation()}
+        {renderImageModal()}
 
         {/* Render Forms Based on Current Step */}
         <div className="mt-4">

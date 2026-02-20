@@ -95,7 +95,7 @@ const navigation = [
     subItems: [
       { name: "Hostess Rates", href: "/admin/hostess-rates", icon: SparklesIcon },
       { name: "Compressed Air", href: "/admin/compressed-air", icon: Cable },
-      { name: "Water Connection", href: "/admin/water-connection", icon: Droplet },
+      { name: "Water Connection", href: "/admin/water", icon: Droplet },
       { name: "Security Guard", href: "/admin/security-guard", icon: ShieldCheck },
       { name: "Housekeeping", href: "/admin/housekeeping", icon: Sparkles },
       // { name: "Electrical Load", href: "/admin/electrical-rates", icon: Zap },
