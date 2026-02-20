@@ -43,6 +43,7 @@ import {
   Sofa,
   SparklesIcon,
   Wrench,
+  ServerCrash,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import toast from "react-hot-toast";
@@ -78,29 +79,22 @@ const navigation = [
     ],
   },
   {
-    name: "Rental Items",
+    name: "Extra Requirements",
     icon: Sofa,
     color: "text-emerald-500",
     subItems: [
       { name: "Furniture", href: "/admin/furniture", icon: FaUserNinja },
       { name: "AV & IT Rentals", href: "/admin/rental-items", icon: Monitor },
       { name: "Electrical Load", href: "/admin/electrical-rates", icon: Power },
-      // { name: "Lighting", href: "/admin/lighting", icon: Lamp },
-    ],
-  },
-  {
-    name: "Services",
-    icon: Wrench,
-    color: "text-orange-500",
-    subItems: [
       { name: "Hostess Rates", href: "/admin/hostess-rates", icon: SparklesIcon },
       { name: "Compressed Air", href: "/admin/compressed-air", icon: Cable },
       { name: "Water Connection", href: "/admin/water", icon: Droplet },
       { name: "Security Guard", href: "/admin/security-guard", icon: ShieldCheck },
       { name: "Housekeeping", href: "/admin/housekeeping", icon: Sparkles },
-      // { name: "Electrical Load", href: "/admin/electrical-rates", icon: Zap },
+      {name: "Security Deposit", href: "/admin/security-deposit", icon: ServerCrash}
+      // { name: "Lighting", href: "/admin/lighting", icon: Lamp },
     ],
-  },
+  }
   // { 
   //   name: "User Management", 
   //   href: "/admin/users", 

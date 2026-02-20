@@ -30,7 +30,8 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
   PhotoIcon,
-  ExclamationCircleIcon
+  ExclamationCircleIcon,
+  MagnifyingGlassPlusIcon
 } from '@heroicons/react/24/outline';
 import { MenuIcon } from 'lucide-react';
 import Image from 'next/image';
@@ -118,15 +119,12 @@ interface FurnitureItem {
   id?: string;
   code: string;
   description: string;
-  size: string | null;  // Allow null
+  size: string | null;
   cost3Days: number;
   quantity: number;
   cost: number;
-  image: string;  // You're using 'image' but API returns 'imageUrl'
-  category?: string;
-  inStock?: boolean;
-  // Add these to match API response
-  imageUrl?: string;  // API returns this
+  image: string;
+  imageUrl?: string;
   cloudinaryPublicId?: string | null;
   createdAt?: string;
   updatedAt?: string;
@@ -234,6 +232,17 @@ interface HostessCategory {
   isActive: boolean;
 }
 
+interface SecurityDepositTier {
+  id: string;
+  category: '0-36' | '37-100' | '101+';
+  minSqMtr: number;
+  maxSqMtr: number;
+  amountINR: number;
+  amountUSD: number;
+  displayOrder: number;
+  isActive: boolean;
+}
+
 // ============= API SERVICE CLASS =============
 class ApiService {
   private baseUrl: string;
@@ -277,53 +286,49 @@ class ApiService {
       throw error;
     }
   }
-  async getExhibitorProfile(): Promise<{ success: boolean; data: any }> {
-  return this.request<{ success: boolean; data: any }>(
-    '/api/exhibitorDashboard/profile'
-  );
-}
 
-  // Furniture API
+  async getExhibitorProfile(): Promise<{ success: boolean; data: any }> {
+    return this.request<{ success: boolean; data: any }>(
+      '/api/exhibitorDashboard/profile'
+    );
+  }
+
   async getFurniture(): Promise<{ success: boolean; data: FurnitureItem[] }> {
     return this.request('/api/admin/furniture');
   }
 
-  // Compressed Air API
   async getCompressedAirOptions(): Promise<{ success: boolean; data: CompressedAirOption[] }> {
     return this.request('/api/admin/compressed-air');
   }
 
-  // Electrical Rates API
   async getElectricalRates(): Promise<{ success: boolean; data: ElectricalRate[] }> {
     return this.request('/api/admin/electrical-rates');
   }
 
-  // Rental Items API
   async getRentalItems(): Promise<{ success: boolean; data: RentalItem[] }> {
     return this.request('/api/admin/rental-items');
   }
 
-  // Hostess Categories API
   async getHostessCategories(): Promise<{ success: boolean; data: HostessCategory[] }> {
     return this.request('/api/admin/hostess-rates');
   }
 
-  // Security Guard API
   async getSecurityGuardConfig(): Promise<{ success: boolean; data: SecurityGuardConfig }> {
     return this.request('/api/admin/security-guard/config');
   }
 
-  // Water Connection API
   async getWaterConnectionConfig(): Promise<{ success: boolean; data: WaterConnectionConfig }> {
     return this.request('/api/admin/water-connection/config');
   }
 
-  // Housekeeping API
   async getHousekeepingConfig(): Promise<{ success: boolean; data: HousekeepingConfig }> {
     return this.request('/api/admin/housekeeping/config');
   }
 
-  // Calculate costs
+  async getSecurityDepositConfig(): Promise<{ success: boolean; data: SecurityDepositTier[] }> {
+    return this.request('/api/admin/security-deposit/active');
+  }
+
   async calculateWaterCost(connections: number): Promise<{ success: boolean; data: { totalCost: number } }> {
     return this.request('/api/admin/water-connection/calculate', {
       method: 'POST',
@@ -352,7 +357,6 @@ class ApiService {
     });
   }
 
-  // Submit application
   async submitApplication(formData: FormData): Promise<{ success: boolean; message: string }> {
     const headers: HeadersInit = {};
     if (this.token) {
@@ -504,13 +508,13 @@ export default function RequirementsPage() {
   const [rentalItems, setRentalItems] = useState<RentalItems>({});
 
   // Form 14 - Housekeeping Staff (Optional)
-const [housekeepingStaff, setHousekeepingStaff] = useState<HousekeepingStaff>({
-  quantity: 0,
-  category: 'Housekeeping',
-  chargesPerShift: 2000,  // Default value
-  noOfDays: 0,
-  totalCost: 0
-});
+  const [housekeepingStaff, setHousekeepingStaff] = useState<HousekeepingStaff>({
+    quantity: 0,
+    category: 'Housekeeping',
+    chargesPerShift: 2000,
+    noOfDays: 0,
+    totalCost: 0
+  });
 
   // Payment Details
   const [paymentDetails, setPaymentDetails] = useState<PaymentDetails>({
@@ -524,6 +528,9 @@ const [housekeepingStaff, setHousekeepingStaff] = useState<HousekeepingStaff>({
 
   // Electrical rates from API
   const [electricalRates, setElectricalRates] = useState<ElectricalRate[]>([]);
+  
+  // Security Deposit Tiers from API
+  const [securityDepositTiers, setSecurityDepositTiers] = useState<SecurityDepositTier[]>([]);
 
   // ============= FETCH ALL DATA =============
   useEffect(() => {
@@ -541,7 +548,8 @@ const [housekeepingStaff, setHousekeepingStaff] = useState<HousekeepingStaff>({
           hostessCategoriesRes,
           securityGuardConfigRes,
           waterConnectionConfigRes,
-          housekeepingConfigRes
+          housekeepingConfigRes,
+          securityDepositRes
         ] = await Promise.allSettled([
           apiService.getFurniture(),
           apiService.getCompressedAirOptions(),
@@ -550,63 +558,63 @@ const [housekeepingStaff, setHousekeepingStaff] = useState<HousekeepingStaff>({
           apiService.getHostessCategories(),
           apiService.getSecurityGuardConfig(),
           apiService.getWaterConnectionConfig(),
-          apiService.getHousekeepingConfig()
+          apiService.getHousekeepingConfig(),
+          apiService.getSecurityDepositConfig()
         ]);
 
         // Process Furniture
-if (furnitureRes.status === 'fulfilled' && furnitureRes.value.success) {
-  console.log('Furniture API Response:', furnitureRes.value.data);
-  setFurnitureItems(furnitureRes.value.data.map((item: any) => ({
-    ...item,
-    // Map API fields to your interface fields
-    image: item.imageUrl || '',  // Map imageUrl to image
-    size: item.size || 'N/A',     // Handle null/empty size
-    quantity: 0,
-    cost: 0
-  })));
-}    // Process Compressed Air Options
+        if (furnitureRes.status === 'fulfilled' && furnitureRes.value.success) {
+          console.log('Furniture API Response:', furnitureRes.value.data);
+          setFurnitureItems(furnitureRes.value.data.map((item: any) => ({
+            ...item,
+            image: item.imageUrl || '',
+            size: item.size || 'N/A',
+            quantity: 0,
+            cost: 0
+          })));
+        }
+
+        // Process Compressed Air Options
         if (compressedAirRes.status === 'fulfilled' && compressedAirRes.value.success) {
           setCompressedAirOptions(compressedAirRes.value.data);
         }
 
         // Process Electrical Rates
-     if (electricalRatesRes.status === 'fulfilled' && electricalRatesRes.value.success) {
-  console.log('Electrical Rates API Response:', electricalRatesRes.value.data);
-  setElectricalRates(electricalRatesRes.value.data);
-}
+        if (electricalRatesRes.status === 'fulfilled' && electricalRatesRes.value.success) {
+          console.log('Electrical Rates API Response:', electricalRatesRes.value.data);
+          setElectricalRates(electricalRatesRes.value.data);
+        }
 
         // Process Rental Items
- // Process Rental Items
-if (rentalItemsRes.status === 'fulfilled' && rentalItemsRes.value.success) {
-  console.log('Rental Items API Response:', rentalItemsRes.value.data);
-  const items = rentalItemsRes.value.data;
-  const rentalItemsMap: RentalItems = {};
-  
-  items.forEach(item => {
-    if (item.id) {
-      // Construct full image URL if imageUrl exists
-      let imageUrl = '';
-      if (item.imageUrl) {
-        // If it's already a full URL, use it as is, otherwise prepend the base URL
-        imageUrl = item.imageUrl.startsWith('http') 
-          ? item.imageUrl 
-          : `${API_BASE_URL}${item.imageUrl}`;
-      }
-      
-      rentalItemsMap[item.id] = {
-        id: item.id,
-        description: item.description,
-        costFor3Days: item.costFor3Days,
-        category: item.category,
-        image: imageUrl,  // Map imageUrl to image
-        quantity: 0,
-        totalCost: 0
-      };
-    }
-  });
-  
-  setRentalItems(rentalItemsMap);
-}
+        if (rentalItemsRes.status === 'fulfilled' && rentalItemsRes.value.success) {
+          console.log('Rental Items API Response:', rentalItemsRes.value.data);
+          const items = rentalItemsRes.value.data;
+          const rentalItemsMap: RentalItems = {};
+          
+          items.forEach(item => {
+            if (item.id) {
+              let imageUrl = '';
+              if (item.imageUrl) {
+                imageUrl = item.imageUrl.startsWith('http') 
+                  ? item.imageUrl 
+                  : `${API_BASE_URL}${item.imageUrl}`;
+              }
+              
+              rentalItemsMap[item.id] = {
+                id: item.id,
+                description: item.description,
+                costFor3Days: item.costFor3Days,
+                category: item.category,
+                image: imageUrl,
+                quantity: 0,
+                totalCost: 0
+              };
+            }
+          });
+          
+          setRentalItems(rentalItemsMap);
+        }
+
         // Process Hostess Categories
         if (hostessCategoriesRes.status === 'fulfilled' && hostessCategoriesRes.value.success) {
           const categories = hostessCategoriesRes.value.data;
@@ -625,24 +633,17 @@ if (rentalItemsRes.status === 'fulfilled' && rentalItemsRes.value.success) {
           setHostessRequirements(updatedHostess);
         }
 
-        // Process Security Guard Config
-        if (securityGuardConfigRes.status === 'fulfilled' && securityGuardConfigRes.value.success) {
-          // Update rate if needed
+        // Process Water Connection Config
+        if (waterConnectionConfigRes.status === 'fulfilled' && waterConnectionConfigRes.value.success) {
+          console.log('Water Connection Config Response:', waterConnectionConfigRes.value.data);
+          const configData = waterConnectionConfigRes.value.data;
+          const ratePerConnection = configData?.costPerConnection || 15000;
+          
+          setWaterConnection(prev => ({
+            ...prev,
+            costPerConnection: ratePerConnection
+          }));
         }
-
-// Process Water Connection Config
-if (waterConnectionConfigRes.status === 'fulfilled' && waterConnectionConfigRes.value.success) {
-  console.log('Water Connection Config Response:', waterConnectionConfigRes.value.data);
-  
-  // Check if data exists and has costPerConnection
-  const configData = waterConnectionConfigRes.value.data;
-  const ratePerConnection = configData?.costPerConnection || 15000;
-  
-  setWaterConnection(prev => ({
-    ...prev,
-    costPerConnection: ratePerConnection
-  }));
-}
 
         // Process Housekeeping Config
         if (housekeepingConfigRes.status === 'fulfilled' && housekeepingConfigRes.value.success) {
@@ -650,6 +651,12 @@ if (waterConnectionConfigRes.status === 'fulfilled' && waterConnectionConfigRes.
             ...prev,
             chargesPerShift: housekeepingConfigRes.value.data.ratePerShift
           }));
+        }
+
+        // Process Security Deposit Tiers
+        if (securityDepositRes.status === 'fulfilled' && securityDepositRes.value.success) {
+          console.log('Security Deposit Tiers:', securityDepositRes.value.data);
+          setSecurityDepositTiers(securityDepositRes.value.data);
         }
 
         // Now fetch exhibitor profile data
@@ -666,180 +673,139 @@ if (waterConnectionConfigRes.status === 'fulfilled' && waterConnectionConfigRes.
     fetchAllData();
   }, []);
 
-  
+  const fetchExhibitorProfile = async () => {
+    try {
+      const result = await apiService.getExhibitorProfile();
 
-const fetchExhibitorProfile = async () => {
-  try {
-    const result = await apiService.getExhibitorProfile();
-
-    if (!result?.success || !result?.data) {
-      return;
-    }
-
-    const apiData = result.data;
-
-    // -----------------------------
-    // Parse Contact Person
-    // -----------------------------
-    let contactPersonObj = {
-      name: '',
-      jobTitle: '',
-      email: '',
-      phone: '',
-      alternatePhone: ''
-    };
-
-    if (apiData.contactPerson) {
-      if (typeof apiData.contactPerson === 'string') {
-        try {
-          contactPersonObj = JSON.parse(apiData.contactPerson);
-        } catch (e) {
-          console.error('Error parsing contactPerson JSON:', e);
-        }
-      } else if (typeof apiData.contactPerson === 'object') {
-        contactPersonObj = apiData.contactPerson;
+      if (!result?.success || !result?.data) {
+        return;
       }
-    }
 
-    // Fallback values
-    contactPersonObj.name = contactPersonObj.name || apiData.name || '';
-    contactPersonObj.email = contactPersonObj.email || apiData.email || '';
-    contactPersonObj.phone = contactPersonObj.phone || apiData.phone || '';
-    contactPersonObj.jobTitle =
-      contactPersonObj.jobTitle || apiData.contact_job_title || '';
+      const apiData = result.data;
 
-    // -----------------------------
-    // Parse Name (Title + First + Last)
-    // -----------------------------
-    let title: 'Mr' | 'Mrs' | 'Ms' | 'Dr' | 'Prof' = 'Mr';
-    let firstName = '';
-    let lastName = '';
+      // Parse Contact Person
+      let contactPersonObj = {
+        name: '',
+        jobTitle: '',
+        email: '',
+        phone: '',
+        alternatePhone: ''
+      };
 
-    if (contactPersonObj.name) {
-      const fullName = contactPersonObj.name;
+      if (apiData.contactPerson) {
+        if (typeof apiData.contactPerson === 'string') {
+          try {
+            contactPersonObj = JSON.parse(apiData.contactPerson);
+          } catch (e) {
+            console.error('Error parsing contactPerson JSON:', e);
+          }
+        } else if (typeof apiData.contactPerson === 'object') {
+          contactPersonObj = apiData.contactPerson;
+        }
+      }
 
-      if (/^Dr\./i.test(fullName)) title = 'Dr';
-      else if (/^Prof\./i.test(fullName)) title = 'Prof';
-      else if (/^Mrs\./i.test(fullName)) title = 'Mrs';
-      else if (/^Ms\./i.test(fullName)) title = 'Ms';
+      contactPersonObj.name = contactPersonObj.name || apiData.name || '';
+      contactPersonObj.email = contactPersonObj.email || apiData.email || '';
+      contactPersonObj.phone = contactPersonObj.phone || apiData.phone || '';
+      contactPersonObj.jobTitle = contactPersonObj.jobTitle || apiData.contact_job_title || '';
 
-      const nameWithoutTitle = fullName
-        .replace(/^(Dr\.|Prof\.|Mrs\.|Ms\.|Mr\.)\s*/i, '')
-        .trim();
+      // Parse Name
+      let title: 'Mr' | 'Mrs' | 'Ms' | 'Dr' | 'Prof' = 'Mr';
+      let firstName = '';
+      let lastName = '';
 
-      const parts = nameWithoutTitle.split(' ');
-      firstName = parts[0] || '';
-      lastName = parts.slice(1).join(' ') || '';
-    }
+      if (contactPersonObj.name) {
+        const fullName = contactPersonObj.name;
 
-    // -----------------------------
-    // Update General Info
-    // -----------------------------
-    setGeneralInfo(prev => ({
-      ...prev,
-      title,
-      firstName,
-      lastName,
-      designation: contactPersonObj.jobTitle || prev.designation,
-      mobile: contactPersonObj.phone || prev.mobile,
-      email: contactPersonObj.email || prev.email,
-      companyName: apiData.company || apiData.companyName || prev.companyName,
-      businessNature:
-        typeof apiData.sector === 'string'
+        if (/^Dr\./i.test(fullName)) title = 'Dr';
+        else if (/^Prof\./i.test(fullName)) title = 'Prof';
+        else if (/^Mrs\./i.test(fullName)) title = 'Mrs';
+        else if (/^Ms\./i.test(fullName)) title = 'Ms';
+
+        const nameWithoutTitle = fullName
+          .replace(/^(Dr\.|Prof\.|Mrs\.|Ms\.|Mr\.)\s*/i, '')
+          .trim();
+
+        const parts = nameWithoutTitle.split(' ');
+        firstName = parts[0] || '';
+        lastName = parts.slice(1).join(' ') || '';
+      }
+
+      // Update General Info
+      setGeneralInfo(prev => ({
+        ...prev,
+        title,
+        firstName,
+        lastName,
+        designation: contactPersonObj.jobTitle || prev.designation,
+        mobile: contactPersonObj.phone || prev.mobile,
+        email: contactPersonObj.email || prev.email,
+        companyName: apiData.company || apiData.companyName || prev.companyName,
+        businessNature: typeof apiData.sector === 'string'
           ? apiData.sector.split(',')[0]
           : Array.isArray(apiData.sector)
           ? apiData.sector[0]
           : prev.businessNature,
-      gstNumber:
-        apiData.registrationNumber || apiData.gstNumber || prev.gstNumber
-    }));
+        gstNumber: apiData.registrationNumber || apiData.gstNumber || prev.gstNumber
+      }));
 
-    // -----------------------------
-    // Parse Address
-    // -----------------------------
-    let street = '';
+      // Parse Address
+      let street = '';
 
-    if (apiData.address && typeof apiData.address === 'string') {
-      const parts = apiData.address.split(',').map((p: string) => p.trim());
-      street = parts[0] || '';
-    }
+      if (apiData.address && typeof apiData.address === 'string') {
+        const parts = apiData.address.split(',').map((p: string) => p.trim());
+        street = parts[0] || '';
+      }
 
-    // -----------------------------
-    // Update Booth Details
-    // -----------------------------
-    setBoothDetails(prev => ({
-      ...prev,
-      boothNo:
-        apiData.boothNumber ||
-        apiData.booth_number ||
-        prev.boothNo,
-      exhibitorName:
-        contactPersonObj.name ||
-        `${title} ${firstName} ${lastName}`.trim(),
-      organisation:
-        apiData.company || apiData.companyName || prev.organisation,
-      contactPerson:
-        contactPersonObj.name ||
-        `${firstName} ${lastName}`.trim(),
-      designation:
-        contactPersonObj.jobTitle || prev.designation,
-      mobile:
-        contactPersonObj.phone || prev.mobile,
-      email:
-        contactPersonObj.email || prev.email
-    }));
+      // Update Booth Details - AUTO FILL FROM GENERAL INFO
+      setBoothDetails(prev => ({
+        ...prev,
+        boothNo: apiData.boothNumber || apiData.booth_number || prev.boothNo,
+        exhibitorName: contactPersonObj.name || `${title} ${firstName} ${lastName}`.trim(),
+        organisation: apiData.company || apiData.companyName || prev.organisation,
+        contactPerson: contactPersonObj.name || `${firstName} ${lastName}`.trim(),
+        designation: contactPersonObj.jobTitle || prev.designation,
+        mobile: contactPersonObj.phone || prev.mobile,
+        email: contactPersonObj.email || prev.email
+      }));
 
-    // -----------------------------
-    // Update Company Details
-    // -----------------------------
-    setCompanyDetails(prev => ({
-      ...prev,
-      companyName:
-        apiData.company || apiData.companyName || prev.companyName,
-      address: street || prev.address,
-      telephone: apiData.telephone || prev.telephone,
-      mobile: contactPersonObj.phone || prev.mobile,
-      email: contactPersonObj.email || prev.email,
-      website: apiData.website || prev.website,
-      contactPerson:
-        contactPersonObj.name ||
-        `${firstName} ${lastName}`.trim(),
-      designation:
-        contactPersonObj.jobTitle || prev.designation,
-      productsServices:
-        typeof apiData.sector === 'string'
+      // Update Company Details - AUTO FILL FROM GENERAL INFO
+      setCompanyDetails(prev => ({
+        ...prev,
+        companyName: apiData.company || apiData.companyName || prev.companyName,
+        address: street || prev.address,
+        telephone: apiData.telephone || prev.telephone,
+        mobile: contactPersonObj.phone || prev.mobile,
+        email: contactPersonObj.email || prev.email,
+        website: apiData.website || prev.website,
+        contactPerson: contactPersonObj.name || `${firstName} ${lastName}`.trim(),
+        designation: contactPersonObj.jobTitle || prev.designation,
+        productsServices: typeof apiData.sector === 'string'
           ? apiData.sector
           : Array.isArray(apiData.sector)
           ? apiData.sector.join(', ')
           : prev.productsServices
-    }));
+      }));
 
-    // -----------------------------
-    // Update First Personnel Row
-    // -----------------------------
-    setPersonnel(prev => {
-      if (prev.length === 0) return prev;
+      // Update First Personnel Row - AUTO FILL FROM GENERAL INFO
+      setPersonnel(prev => {
+        if (prev.length === 0) return prev;
 
-      const updated = [...prev];
-      updated[0] = {
-        ...updated[0],
-        name:
-          contactPersonObj.name ||
-          `${firstName} ${lastName}`.trim(),
-        designation:
-          contactPersonObj.jobTitle || updated[0].designation,
-        organisation:
-          apiData.company || updated[0].organisation
-      };
+        const updated = [...prev];
+        updated[0] = {
+          ...updated[0],
+          name: contactPersonObj.name || `${firstName} ${lastName}`.trim(),
+          designation: contactPersonObj.jobTitle || updated[0].designation,
+          organisation: apiData.company || updated[0].organisation
+        };
 
-      return updated;
-    });
+        return updated;
+      });
 
-  } catch (error) {
-    console.error('Error fetching exhibitor profile:', error);
-  }
-};
-
+    } catch (error) {
+      console.error('Error fetching exhibitor profile:', error);
+    }
+  };
 
   // ============= AUTO-FILL EFFECT =============
   useEffect(() => {
@@ -885,9 +851,7 @@ const fetchExhibitorProfile = async () => {
   const calculateTotals = () => {
     const furnitureTotal = furnitureItems.reduce((sum, item) => sum + item.cost, 0);
     const hostessTotal = hostessRequirements.reduce((sum, h) => sum + h.amount, 0);
-
     const electricalTotal = electricalLoad.temporaryTotal + electricalLoad.exhibitionTotal;
-
     const compressedAirTotal = compressedAir.totalCost || 0;
     const waterTotal = waterConnection.totalCost || 0;
     const securityTotal = securityGuard.totalCost || 0;
@@ -895,7 +859,6 @@ const fetchExhibitorProfile = async () => {
     const rentalTotal = Object.values(rentalItems).reduce((sum, item) => sum + item.totalCost, 0);
     const depositAmount = securityDeposit.amountINR || 0;
 
-    // Subtotal (WITHOUT GST)
     const servicesTotal =
       furnitureTotal +
       hostessTotal +
@@ -906,13 +869,8 @@ const fetchExhibitorProfile = async () => {
       rentalTotal +
       housekeepingTotal;
 
-    // GST @ 18%
     const gst = servicesTotal * 0.18;
-
-    // Subtotal INCLUDING GST
     const subtotal = servicesTotal + gst;
-
-    // Final Grand Total (Add Security Deposit)
     const grandTotal = subtotal + depositAmount;
 
     return {
@@ -938,15 +896,14 @@ const fetchExhibitorProfile = async () => {
     setGeneralInfo(prev => ({ ...prev, [field]: value }));
   };
 
-const handleFurnitureQuantity = (index: number, quantity: number) => {
-  const updated = [...furnitureItems];
-  if (updated[index]) {
-    updated[index].quantity = quantity;
-    // Safely calculate cost with null check
-    updated[index].cost = quantity * (updated[index].cost3Days || 0);
-    setFurnitureItems(updated);
-  }
-};
+  const handleFurnitureQuantity = (index: number, quantity: number) => {
+    const updated = [...furnitureItems];
+    if (updated[index]) {
+      updated[index].quantity = quantity;
+      updated[index].cost = quantity * (updated[index].cost3Days || 0);
+      setFurnitureItems(updated);
+    }
+  };
 
   const handleHostessChange = (index: number, field: string, value: number) => {
     const updated = [...hostessRequirements];
@@ -1006,8 +963,6 @@ const handleFurnitureQuantity = (index: number, quantity: number) => {
 
   const handleElectricalLoadChange = (type: 'temporary' | 'exhibition', value: string) => {
     const loadValue = parseFloat(value) || 0;
-    
-    // Find the active rate for this type
     const rate = electricalRates.find(r => r.type === type && r.isActive)?.ratePerKW || 3500;
     const total = loadValue * rate;
 
@@ -1071,7 +1026,6 @@ const handleFurnitureQuantity = (index: number, quantity: number) => {
     try {
       const formData = new FormData();
       
-      // Add all form data
       formData.append('generalInfo', JSON.stringify(generalInfo));
       formData.append('boothDetails', JSON.stringify(boothDetails));
       formData.append('securityDeposit', JSON.stringify(securityDeposit));
@@ -1097,13 +1051,10 @@ const handleFurnitureQuantity = (index: number, quantity: number) => {
         formData.append('receipt', paymentDetails.uploadedReceipt);
       }
 
-      // Submit to API
       const result = await apiService.submitApplication(formData);
 
       console.log('Application submitted successfully', result);
       alert('Your exhibition registration has been submitted successfully!');
-
-      // Redirect to success page
       window.location.href = '/dashboard/requirements/success';
 
     } catch (error: any) {
@@ -1133,15 +1084,52 @@ const handleFurnitureQuantity = (index: number, quantity: number) => {
     }
   }, [securityGuard.quantity, securityGuard.noOfDays]);
 
-// Effects for calculations - UPDATE THIS SECTION
-useEffect(() => {
-  if (housekeepingStaff?.quantity > 0 && housekeepingStaff?.noOfDays > 0 && housekeepingStaff?.chargesPerShift) {
-    const total = housekeepingStaff.quantity * housekeepingStaff.noOfDays * housekeepingStaff.chargesPerShift;
-    setHousekeepingStaff(prev => ({ ...prev, totalCost: total }));
-  } else {
-    setHousekeepingStaff(prev => ({ ...prev, totalCost: 0 }));
-  }
-}, [housekeepingStaff?.quantity, housekeepingStaff?.noOfDays, housekeepingStaff?.chargesPerShift]);
+  useEffect(() => {
+    if (housekeepingStaff?.quantity > 0 && housekeepingStaff?.noOfDays > 0 && housekeepingStaff?.chargesPerShift) {
+      const total = housekeepingStaff.quantity * housekeepingStaff.noOfDays * housekeepingStaff.chargesPerShift;
+      setHousekeepingStaff(prev => ({ ...prev, totalCost: total }));
+    } else {
+      setHousekeepingStaff(prev => ({ ...prev, totalCost: 0 }));
+    }
+  }, [housekeepingStaff?.quantity, housekeepingStaff?.noOfDays, housekeepingStaff?.chargesPerShift]);
+
+  // ============= IMAGE MODAL =============
+  const renderImageModal = () => {
+    if (!selectedImage) return null;
+
+    return (
+      <div 
+        className="fixed inset-0 bg-black/70 z-[100] flex items-center justify-center p-4"
+        onClick={() => setSelectedImage(null)}
+      >
+        <div 
+          className="relative max-w-4xl max-h-[90vh] bg-white rounded-lg overflow-hidden"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <button
+            onClick={() => setSelectedImage(null)}
+            className="absolute top-2 right-2 text-gray-600 hover:text-gray-900 bg-white rounded-full p-1 shadow-lg z-10"
+          >
+            <XCircleIcon className="h-8 w-8" />
+          </button>
+          
+          <div className="p-4 bg-white">
+            <img
+              src={selectedImage.src}
+              alt={selectedImage.alt}
+              className="max-w-full max-h-[70vh] object-contain mx-auto"
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = '/placeholder.jpg';
+              }}
+            />
+            <p className="text-center mt-2 text-sm font-medium text-gray-700">
+              {selectedImage.alt}
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  };
 
   // ============= RENDER FUNCTIONS =============
 
@@ -1206,7 +1194,6 @@ useEffect(() => {
       </div>
 
       <div className="space-y-6">
-        {/* Personal Details */}
         <div className="bg-gray-50 p-4 sm:p-5 rounded-xl">
           <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center">
             <UserIcon className="h-4 w-4 mr-2 text-gray-500" />
@@ -1260,7 +1247,6 @@ useEffect(() => {
           </div>
         </div>
 
-        {/* Contact Details */}
         <div className="bg-gray-50 p-4 sm:p-5 rounded-xl">
           <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center">
             <DevicePhoneMobileIcon className="h-4 w-4 mr-2 text-gray-500" />
@@ -1292,7 +1278,6 @@ useEffect(() => {
           </div>
         </div>
 
-        {/* Company Details */}
         <div className="bg-gray-50 p-4 sm:p-5 rounded-xl">
           <h3 className="text-sm font-semibold text-gray-700 mb-3 flex items-center">
             <BuildingOfficeIcon className="h-4 w-4 mr-2 text-gray-500" />
@@ -1375,7 +1360,9 @@ useEffect(() => {
                 placeholder="Auto-filled from basic info"
               />
               {!boothDetails.exhibitorName && generalInfo.firstName && (
-                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from basic info</p>
+                <p className="text-xs text-green-600 mt-1 flex items-center">
+                  <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled from basic info
+                </p>
               )}
             </div>
             <div>
@@ -1398,7 +1385,9 @@ useEffect(() => {
                 placeholder="Auto-filled from company name"
               />
               {!boothDetails.organisation && generalInfo.companyName && (
-                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from company name</p>
+                <p className="text-xs text-green-600 mt-1 flex items-center">
+                  <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled from company name
+                </p>
               )}
             </div>
             <div>
@@ -1411,7 +1400,9 @@ useEffect(() => {
                 placeholder="Auto-filled from name"
               />
               {!boothDetails.contactPerson && generalInfo.firstName && (
-                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from name</p>
+                <p className="text-xs text-green-600 mt-1 flex items-center">
+                  <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled from name
+                </p>
               )}
             </div>
             <div>
@@ -1424,7 +1415,9 @@ useEffect(() => {
                 placeholder="Auto-filled from designation"
               />
               {!boothDetails.designation && generalInfo.designation && (
-                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from designation</p>
+                <p className="text-xs text-green-600 mt-1 flex items-center">
+                  <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled from designation
+                </p>
               )}
             </div>
             <div>
@@ -1437,7 +1430,9 @@ useEffect(() => {
                 placeholder="Auto-filled from contact"
               />
               {!boothDetails.mobile && generalInfo.mobile && (
-                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from contact</p>
+                <p className="text-xs text-green-600 mt-1 flex items-center">
+                  <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled from contact
+                </p>
               )}
             </div>
             <div>
@@ -1450,7 +1445,9 @@ useEffect(() => {
                 placeholder="Auto-filled from contact"
               />
               {!boothDetails.email && generalInfo.email && (
-                <p className="text-xs text-green-600 mt-1">✓ Auto-filled from contact</p>
+                <p className="text-xs text-green-600 mt-1 flex items-center">
+                  <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled from contact
+                </p>
               )}
             </div>
           </div>
@@ -1522,37 +1519,31 @@ useEffect(() => {
           </div>
         </div>
       </div>
-      {/* Booth Fabrication Guidelines */}
+
       <div className="mt-10 border-t border-gray-200 pt-8">
         <h3 className="text-lg font-semibold text-gray-800 mb-4">
           Booth Fabrication Guidelines & Regulations
         </h3>
-
         <div className="bg-gray-50 rounded-xl p-5 space-y-4 text-sm text-gray-700 leading-relaxed">
-
           <ul className="list-disc pl-5 space-y-2">
             <li>
               <span className="font-semibold">Height Limit:</span> The maximum allowable height for fabricated booths,
               including platform height, is 4 meters.
             </li>
-
             <li>
               <span className="font-semibold">Carpet Requirement:</span> Fabricators must lay a single-use carpet
               over the entire booth area before starting construction. Failure to comply will result
               in forfeiture of the refundable security deposit.
             </li>
-
             <li>
               <span className="font-semibold">No Storage Space:</span> Storing or retaining materials behind
               the booth is prohibited. Violating this rule will result in forfeiture of the performance bond.
             </li>
-
             <li>
               <span className="font-semibold">Housekeeping:</span> Organizers will not provide booth cleaning
               services during setup or show days. Fabricators must arrange their own housekeeping personnel
               to ensure final booth cleaning.
             </li>
-
             <li>
               <span className="font-semibold">Fire Extinguishers:</span> Each booth must have fire extinguishers.
               This requirement must be incorporated into the booth design for approval.
@@ -1561,44 +1552,33 @@ useEffect(() => {
         </div>
       </div>
 
-      {/* Damage & Performance Bond */}
       <div className="mt-8">
         <h3 className="text-lg font-semibold text-gray-800 mb-4">
           Damage & Performance Bond
         </h3>
-
         <div className="bg-red-50 border border-red-100 rounded-xl p-5 space-y-4 text-sm text-gray-700 leading-relaxed">
-
           <ul className="list-disc pl-5 space-y-2">
             <li>
               <span className="font-semibold">Payment:</span> Booth contractors must pay a Damage & Performance
               Bond via demand draft to the organizers, <span className="font-medium">“Maxx Business Media Pvt. Ltd.”</span>,
-              upon registering at the exhibition site. The bond covers potential venue damages and
-              disposal of booth construction waste. Any breach may result in forfeiture of the bond.
+              upon registering at the exhibition site.
             </li>
-
             <li>
               <span className="font-semibold">Waste Removal:</span> Contractors are responsible for removing
-              all packing and waste materials during move-in and move-out. Decoration waste must not be
-              discarded into aisles. All materials must be safely removed. Non-compliance will result
-              in forfeiture of the bond.
+              all packing and waste materials during move-in and move-out.
             </li>
-
             <li>
               <span className="font-semibold">Refund of Security Deposit:</span> The Security Deposit DD will
               be refunded upon presentation of the receipt after the exhibition, provided the site
-              is cleared without damage or garbage recorded by the exhibition centre management.
+              is cleared without damage.
             </li>
-
             <li>
               <span className="font-semibold">Deductions:</span> Organizers reserve the right to deduct amounts
-              for damages caused during build-up, show days, or dismantling. Additional claims may be
-              made if damages exceed the bond amount.
+              for damages caused during build-up, show days, or dismantling.
             </li>
-
             <li>
               <span className="font-semibold">Contractor Access:</span> Upon submission of the form and deposit,
-              CONTRACTOR BANDS will be issued. Only individuals with CONTRACTOR BANDS will be granted access.
+              CONTRACTOR BANDS will be issued.
             </li>
           </ul>
         </div>
@@ -1607,136 +1587,93 @@ useEffect(() => {
   );
 
   // ============= FORM 3: SECURITY DEPOSIT =============
-  const renderSecurityDeposit = () => (
-    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
-      <div className="flex items-center mb-6">
-        <div className="bg-blue-100 p-2 rounded-lg">
-          <BanknotesIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
-        </div>
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">CONTRACTOR SECURITY
-          DEPOSIT FORM <br /> <span className='text-[#4D4D4D] font-semibold text-[15px]'>FORM 2 FOR BARE SPACE EXHIBITORS</span>
-        </h2>
-      </div>
+  const renderSecurityDeposit = () => {
+    const sortedTiers = [...securityDepositTiers].sort((a, b) => a.displayOrder - b.displayOrder);
 
-      <div className="space-y-6">
-        <div className="bg-gray-50 p-4 rounded-lg">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Security Deposit Amount</h3>
-          <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-200">
-              <thead>
-                <tr>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">No.</th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Booth Sq.</th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Amount (INR)</th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Amount (USD)</th>
-                  <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Select</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr className="hover:bg-gray-100">
-                  <td className="px-3 py-2 text-sm">1</td>
-                  <td className="px-3 py-2 text-sm">0 - 36</td>
-                  <td className="px-3 py-2 text-sm">₹25,000</td>
-                  <td className="px-3 py-2 text-sm">USD 3</td>
-                  <td className="px-3 py-2">
-                    <input
-                      type="radio"
-                      name="securityDeposit"
-                      checked={securityDeposit.boothSq === '0-36'}
-                      onChange={() => setSecurityDeposit({ ...securityDeposit, boothSq: '0-36', amountINR: 25000, amountUSD: 3 })}
-                      className="h-4 w-4 text-blue-600"
-                    />
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-100">
-                  <td className="px-3 py-2 text-sm">2</td>
-                  <td className="px-3 py-2 text-sm">37 - 100</td>
-                  <td className="px-3 py-2 text-sm">₹50,000</td>
-                  <td className="px-3 py-2 text-sm">USD 6</td>
-                  <td className="px-3 py-2">
-                    <input
-                      type="radio"
-                      name="securityDeposit"
-                      checked={securityDeposit.boothSq === '37-100'}
-                      onChange={() => setSecurityDeposit({ ...securityDeposit, boothSq: '37-100', amountINR: 50000, amountUSD: 6 })}
-                      className="h-4 w-4 text-blue-600"
-                    />
-                  </td>
-                </tr>
-                <tr className="hover:bg-gray-100">
-                  <td className="px-3 py-2 text-sm">3</td>
-                  <td className="px-3 py-2 text-sm">101 and above</td>
-                  <td className="px-3 py-2 text-sm">₹75,000</td>
-                  <td className="px-3 py-2 text-sm">USD 9</td>
-                  <td className="px-3 py-2">
-                    <input
-                      type="radio"
-                      name="securityDeposit"
-                      checked={securityDeposit.boothSq === '101+'}
-                      onChange={() => setSecurityDeposit({ ...securityDeposit, boothSq: '101+', amountINR: 75000, amountUSD: 9 })}
-                      className="h-4 w-4 text-blue-600"
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+    return (
+      <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+        <div className="flex items-center mb-6">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <BanknotesIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
           </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">CONTRACTOR SECURITY
+            DEPOSIT FORM <br /> <span className='text-[#4D4D4D] font-semibold text-[15px]'>FORM 2 FOR BARE SPACE EXHIBITORS</span>
+          </h2>
         </div>
 
-        {/* Important Notes Section */}
-        <div className="mt-8 border-t border-gray-200 pt-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">
-            Important Notes
-          </h3>
+        <div className="space-y-6">
+          <div className="bg-gray-50 p-4 rounded-lg">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">Security Deposit Amount</h3>
+            
+            {sortedTiers.length === 0 ? (
+              <div className="text-center py-8 text-gray-500">
+                <p>Loading security deposit options...</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead>
+                    <tr>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">No.</th>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Booth Sq.</th>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Amount (INR)</th>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Amount (USD)</th>
+                      <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Select</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {sortedTiers.map((tier, index) => {
+                      let boothSqDisplay = '';
+                      if (tier.category === '0-36') boothSqDisplay = '0 - 36';
+                      else if (tier.category === '37-100') boothSqDisplay = '37 - 100';
+                      else if (tier.category === '101+') boothSqDisplay = '101 and above';
 
-          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 text-sm text-gray-700 leading-relaxed">
-            <ul className="list-disc pl-5 space-y-3">
+                      return (
+                        <tr key={tier.id} className="hover:bg-gray-100">
+                          <td className="px-3 py-2 text-sm">{index + 1}</td>
+                          <td className="px-3 py-2 text-sm">{boothSqDisplay}</td>
+                          <td className="px-3 py-2 text-sm">₹{tier.amountINR.toLocaleString()}</td>
+                          <td className="px-3 py-2 text-sm">USD {tier.amountUSD}</td>
+                          <td className="px-3 py-2">
+                            <input
+                              type="radio"
+                              name="securityDeposit"
+                              checked={securityDeposit.boothSq === tier.category}
+                              onChange={() => setSecurityDeposit({ 
+                                ...securityDeposit, 
+                                boothSq: tier.category, 
+                                amountINR: tier.amountINR, 
+                                amountUSD: tier.amountUSD 
+                              })}
+                              className="h-4 w-4 text-blue-600"
+                            />
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            )}
+          </div>
 
-              <li>
-                The Security Deposit should be submitted only by <span className="font-semibold">Demand Draft</span>.
-                No other mode of payment will be accepted.
-              </li>
-
-              <li>
-                Refundable Security Deposit must be paid by Demand Draft in the name of
-                <span className="font-semibold"> “Maxx Business Media Pvt. Ltd.”</span>.
-              </li>
-
-              <li>
-                If the contractor fails to submit the Security Deposit by Demand Draft,
-                booth possession will not be given. No cash will be accepted as Security Deposit.
-                In exceptional cases, if cash is accepted, a service charge of
-                <span className="font-semibold"> INR 5,000 / USD 63 + 18% GST </span>
-                will be applicable and deducted from the Security Deposit.
-              </li>
-
-              <li>
-                The Security Deposit must be paid by the <span className="font-semibold">booth contractor</span>
-                and NOT the exhibitor, unless the exhibitor is undertaking their own stand fabrication.
-              </li>
-
-              <li>
-                If the booth contractor fails to meet the deadline for final completion of booth
-                building or dismantling, the complete Security Deposit will be
-                <span className="font-semibold text-red-600"> fully forfeited </span>
-                as penalty charges for non-completion on time.
-              </li>
-
-              <li>
-                Kindly bring <span className="font-semibold">2 copies</span> of this form at the time of possession
-                with authorized signature and company stamp.
-              </li>
-
-              <li>
-                Submit the signed copy of this form while collecting your Security Deposit.
-              </li>
-
-            </ul>
+          <div className="mt-8 border-t border-gray-200 pt-6">
+            <h3 className="text-lg font-semibold text-gray-800 mb-4">Important Notes</h3>
+            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 text-sm text-gray-700 leading-relaxed">
+              <ul className="list-disc pl-5 space-y-3">
+                <li>The Security Deposit should be submitted only by <span className="font-semibold">Demand Draft</span>.</li>
+                <li>Refundable Security Deposit must be paid by Demand Draft in the name of <span className="font-semibold">“Maxx Business Media Pvt. Ltd.”</span>.</li>
+                <li>If the contractor fails to submit the Security Deposit by Demand Draft, booth possession will not be given.</li>
+                <li>The Security Deposit must be paid by the <span className="font-semibold">booth contractor</span>.</li>
+                <li>If the booth contractor fails to meet the deadline, the complete Security Deposit will be <span className="font-semibold text-red-600">fully forfeited</span>.</li>
+                <li>Kindly bring <span className="font-semibold">2 copies</span> of this form at the time of possession.</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  };
 
   // ============= FORM 4: MACHINES (OPTIONAL) =============
   const renderMachines = () => (
@@ -1785,7 +1722,6 @@ useEffect(() => {
                 <td className="px-3 py-2 text-sm text-gray-900 font-medium">
                   {machine.srNo}
                 </td>
-
                 <td className="px-3 py-2">
                   <input
                     type="text"
@@ -1799,7 +1735,6 @@ useEffect(() => {
                     placeholder="Enter machine name"
                   />
                 </td>
-
                 <td className="px-3 py-2">
                   <input
                     type="number"
@@ -1811,11 +1746,10 @@ useEffect(() => {
                       updated[index].width = e.target.value;
                       setMachines(updated);
                     }}
-                    className="w-24 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
+                    className="w-20 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
                     placeholder="W"
                   />
                 </td>
-
                 <td className="px-3 py-2">
                   <input
                     type="number"
@@ -1827,11 +1761,10 @@ useEffect(() => {
                       updated[index].length = e.target.value;
                       setMachines(updated);
                     }}
-                    className="w-24 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
+                    className="w-20 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
                     placeholder="L"
                   />
                 </td>
-
                 <td className="px-3 py-2">
                   <input
                     type="number"
@@ -1843,11 +1776,10 @@ useEffect(() => {
                       updated[index].height = e.target.value;
                       setMachines(updated);
                     }}
-                    className="w-24 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
+                    className="w-20 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
                     placeholder="H"
                   />
                 </td>
-
                 <td className="px-3 py-2">
                   <input
                     type="number"
@@ -1859,11 +1791,10 @@ useEffect(() => {
                       updated[index].weight = e.target.value;
                       setMachines(updated);
                     }}
-                    className="w-24 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
+                    className="w-20 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
                     placeholder="Tons"
                   />
                 </td>
-
                 <td className="px-3 py-2">
                   {machines.length > 1 && (
                     <button
@@ -1932,7 +1863,6 @@ useEffect(() => {
                 <td className="px-3 py-2 text-sm font-medium text-gray-900">
                   {person.srNo}
                 </td>
-
                 <td className="px-3 py-2">
                   <input
                     type="text"
@@ -1946,10 +1876,11 @@ useEffect(() => {
                     placeholder={index === 0 ? "Auto-filled from basic info" : "Enter name"}
                   />
                   {index === 0 && !person.name && generalInfo.firstName && (
-                    <p className="text-xs text-green-600 mt-1">✓ Auto-filled</p>
+                    <p className="text-xs text-green-600 mt-1 flex items-center">
+                      <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled
+                    </p>
                   )}
                 </td>
-
                 <td className="px-3 py-2">
                   <input
                     type="text"
@@ -1963,7 +1894,6 @@ useEffect(() => {
                     placeholder={index === 0 ? "Auto-filled" : "Designation"}
                   />
                 </td>
-
                 <td className="px-3 py-2">
                   <input
                     type="text"
@@ -1977,7 +1907,6 @@ useEffect(() => {
                     placeholder={index === 0 ? "Auto-filled" : "Organisation"}
                   />
                 </td>
-
                 <td className="px-3 py-2">
                   {personnel.length > 1 && (
                     <button
@@ -2017,7 +1946,6 @@ useEffect(() => {
         </h2>
       </div>
 
-      {/* Form Fields */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="sm:col-span-2">
           <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -2036,7 +1964,9 @@ useEffect(() => {
             placeholder="Auto-filled from basic info"
           />
           {!companyDetails.companyName && generalInfo.companyName && (
-            <p className="text-xs text-green-600 mt-1">✓ Auto-filled from basic info</p>
+            <p className="text-xs text-green-600 mt-1 flex items-center">
+              <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled from basic info
+            </p>
           )}
         </div>
 
@@ -2093,7 +2023,9 @@ useEffect(() => {
             placeholder="Auto-filled from contact"
           />
           {!companyDetails.mobile && generalInfo.mobile && (
-            <p className="text-xs text-green-600 mt-1">✓ Auto-filled</p>
+            <p className="text-xs text-green-600 mt-1 flex items-center">
+              <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled
+            </p>
           )}
         </div>
 
@@ -2114,7 +2046,9 @@ useEffect(() => {
             placeholder="Auto-filled from contact"
           />
           {!companyDetails.email && generalInfo.email && (
-            <p className="text-xs text-green-600 mt-1">✓ Auto-filled</p>
+            <p className="text-xs text-green-600 mt-1 flex items-center">
+              <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled
+            </p>
           )}
         </div>
 
@@ -2153,7 +2087,9 @@ useEffect(() => {
             placeholder="Auto-filled from name"
           />
           {!companyDetails.contactPerson && generalInfo.firstName && (
-            <p className="text-xs text-green-600 mt-1">✓ Auto-filled</p>
+            <p className="text-xs text-green-600 mt-1 flex items-center">
+              <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled
+            </p>
           )}
         </div>
 
@@ -2174,7 +2110,9 @@ useEffect(() => {
             placeholder="Auto-filled from designation"
           />
           {!companyDetails.designation && generalInfo.designation && (
-            <p className="text-xs text-green-600 mt-1">✓ Auto-filled</p>
+            <p className="text-xs text-green-600 mt-1 flex items-center">
+              <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled
+            </p>
           )}
         </div>
 
@@ -2192,23 +2130,14 @@ useEffect(() => {
             }
             rows={3}
             className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
-            placeholder="Enter products or services to be displayed in the Exhibitor's Guide"
+            placeholder="Enter products or services"
           />
         </div>
       </div>
-      {/* Exhibitor Guide Information Notice */}
-      <div className="mb-8 bg-blue-50 border border-blue-200 rounded-xl p-5 text-sm text-gray-700 leading-relaxed">
-        <p>
-          <span className="font-semibold">Maxx Business Media Pvt. Ltd.</span> will be publishing an
-          <span className="font-semibold"> Exhibitor's Guide </span> for visitors of the Exhibition.
-          This Guide will contain information about the Exhibitors, their products & services, and
-          other relevant details.
-        </p>
-        <p className="mt-2">
-          These Guides will be made available to the visitors for their reference.
-          Kindly ensure that the information provided below is accurate and complete,
-          as it will be used for publication.
-        </p>
+
+      <div className="mt-8 bg-blue-50 border border-blue-200 rounded-xl p-5 text-sm text-gray-700">
+        <p className="font-semibold">Maxx Business Media Pvt. Ltd.</p>
+        <p className="mt-2">This information will be published in the Exhibitor's Guide for visitors.</p>
       </div>
     </div>
   );
@@ -2275,70 +2204,11 @@ useEffect(() => {
             </table>
           </div>
 
-          {/* Important Notes & Electrical Rules */}
-          <div className="mt-8 border-t border-gray-200 pt-6 space-y-6">
-
-            {/* General Note */}
-            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 text-sm text-gray-700 leading-relaxed">
+          <div className="mt-8 border-t border-gray-200 pt-6">
+            <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 text-sm">
               <p className="font-semibold text-yellow-800 mb-2">Important Note:</p>
-              <p>
-                All prices are current and subject to change without prior notice.
-                Electrical requirements can be serviced only if the order is placed
-                on or before <span className="font-semibold">7th November 2025</span>.
-                There is no provision for last-minute / onsite requests after
-                7th November 2025.
-              </p>
-              <p className="mt-2">
-                Orders are valid only when accompanied by full remittance along with
-                <span className="font-semibold"> 18% GST</span>.
-              </p>
+              <p>All prices are current and subject to change without prior notice. Orders must be placed by 7th November 2025.</p>
             </div>
-
-            {/* Rules Section */}
-            <div className="bg-red-50 border border-red-200 rounded-xl p-5 text-sm text-gray-700 leading-relaxed">
-              <p className="font-semibold text-red-800 mb-3">Rules for Electrical Work</p>
-
-              <p className="mb-3">
-                Exhibitors are required to make payment for electrical work
-                <span className="font-semibold"> 20 days before the show</span>,
-                along with the form submission. The cheque or demand draft should be made payable to
-                <span className="font-semibold"> "Maxx Business Media Pvt. Ltd."</span>
-              </p>
-
-              <ul className="list-decimal pl-5 space-y-2">
-                <li>
-                  All exhibitors must hire a licensed electrical contractor to perform
-                  internal wiring within their stands and submit a photocopy of the
-                  contractor's license to the organizers.
-                </li>
-
-                <li>
-                  Only ISI-marked new materials must be used. Wires should be PVC copper
-                  insulated with a voltage rating of 1100 V.
-                </li>
-
-                <li>
-                  For lighting circuits, 3x2.5 sq mm PVC insulated copper wire must be used.
-                  For 16A power points, 3x4 sq mm PVC insulated copper wire is required.
-                </li>
-
-                <li>
-                  Wires must be safely routed through conduits or casing capping.
-                  No loose hanging wires are allowed. All terminations must use crimping lugs.
-                </li>
-
-                <li>
-                  LED lights must be used. If halogen lights are used,
-                  they must be equipped with a transformer.
-                </li>
-
-                <li>
-                  The load connected to the power point must be appropriate
-                  for the socket rating.
-                </li>
-              </ul>
-            </div>
-
           </div>
         </div>
       </div>
@@ -2346,10 +2216,25 @@ useEffect(() => {
   };
 
   // ============= FORM 8: FURNITURE (OPTIONAL) =============
-const renderFurniture = () => {
-  const furnitureTotal = furnitureItems.reduce((sum, item) => sum + (item.cost || 0), 0);
+  const renderFurniture = () => {
+    const furnitureTotal = furnitureItems.reduce((sum, item) => sum + (item.cost || 0), 0);
 
-  if (furnitureItems.length === 0) {
+    if (furnitureItems.length === 0) {
+      return (
+        <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+          <div className="flex items-center mb-6">
+            <div className="bg-blue-100 p-2 rounded-lg">
+              <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Furniture</h2>
+          </div>
+          <div className="text-center py-8 text-gray-500">
+            No furniture items available at the moment.
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
         <div className="flex items-center mb-6">
@@ -2358,103 +2243,82 @@ const renderFurniture = () => {
           </div>
           <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Furniture</h2>
         </div>
-        <div className="text-center py-8 text-gray-500">
-          No furniture items available at the moment.
+
+        <div className="overflow-x-auto max-h-96 overflow-y-auto">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-50 sticky top-0">
+              <tr>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Image</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Code</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Size</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Cost (3 Days)</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Qty</th>
+                <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Cost</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {furnitureItems.map((item, index) => (
+                <tr key={item.code || index} className="hover:bg-gray-50">
+                  <td className="px-2 py-1.5">
+                    <div 
+                      className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity"
+                      onClick={() => {
+                        const imageUrl = item.image || item.imageUrl;
+                        if (imageUrl) {
+                          setSelectedImage({
+                            src: imageUrl,
+                            alt: item.description || 'Furniture item'
+                          });
+                        }
+                      }}
+                    >
+                      {(item.image || item.imageUrl) ? (
+                        <img
+                          src={item.image || item.imageUrl || ''}
+                          alt={item.description || 'Furniture item'}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = '/placeholder.jpg';
+                          }}
+                        />
+                      ) : (
+                        <PhotoIcon className="h-6 w-6 text-gray-400" />
+                      )}
+                    </div>
+                  </td>
+                  <td className="px-2 py-1.5 text-xs font-mono text-blue-600">{item.code || 'N/A'}</td>
+                  <td className="px-2 py-1.5 text-xs">{item.description || 'No description'}</td>
+                  <td className="px-2 py-1.5 text-xs">{item.size && item.size !== 'null' ? item.size : 'N/A'}</td>
+                  <td className="px-2 py-1.5 text-xs">₹{item.cost3Days?.toLocaleString() ?? '0'}</td>
+                  <td className="px-2 py-1.5">
+                    <input
+                      type="number"
+                      min="0"
+                      value={item.quantity || ''}
+                      onChange={(e) => handleFurnitureQuantity(index, parseInt(e.target.value) || 0)}
+                      className="w-16 border border-gray-200 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500"
+                    />
+                  </td>
+                  <td className="px-2 py-1.5 text-xs font-semibold">
+                    ₹{item.cost?.toLocaleString() ?? '0'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot className="bg-gray-50 sticky bottom-0">
+              <tr>
+                <td colSpan={6} className="px-2 py-2 text-right text-xs font-semibold">Total:</td>
+                <td className="px-2 py-2 text-xs font-bold text-blue-600">
+                  ₹{furnitureTotal?.toLocaleString() ?? '0'}
+                </td>
+              </tr>
+            </tfoot>
+          </table>
         </div>
       </div>
     );
-  }
-
-  return (
-    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
-      <div className="flex items-center mb-6">
-        <div className="bg-blue-100 p-2 rounded-lg">
-          <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
-        </div>
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Furniture</h2>
-      </div>
-
-      <div className="overflow-x-auto max-h-96 overflow-y-auto">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-50 sticky top-0">
-            <tr>
-              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Image</th>
-              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Code</th>
-              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Description</th>
-              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Size</th>
-              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Cost (3 Days)</th>
-              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Qty</th>
-              <th className="px-2 py-2 text-left text-xs font-medium text-gray-500 uppercase">Cost</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {furnitureItems.map((item, index) => (
-              <tr key={item.code || index} className="hover:bg-gray-50">
-               <td className="px-2 py-1.5">
-  <div 
-    className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity"
-    onClick={() => {
-      const imageUrl = item.image || item.imageUrl;
-      if (imageUrl) {
-        setSelectedImage({
-          src: imageUrl,
-          alt: item.description || 'Furniture item'
-        });
-      }
-    }}
-  >
-    {(item.image || item.imageUrl) ? (
-      <img
-        src={item.image || item.imageUrl || ''}
-        alt={item.description || 'Furniture item'}
-        className="w-full h-full object-cover"
-        onError={(e) => {
-          (e.target as HTMLImageElement).src = '/furniture/placeholder.jpg';
-        }}
-      />
-    ) : (
-      <PhotoIcon className="h-6 w-6 text-gray-400" />
-    )}
-  </div>
-</td>
-                <td className="px-2 py-1.5 text-xs font-mono text-blue-600">{item.code || 'N/A'}</td>
-                <td className="px-2 py-1.5 text-xs">{item.description || 'No description'}</td>
-                <td className="px-2 py-1.5 text-xs">
-                  {/* Handle null/empty size */}
-                  {item.size && item.size !== 'null' ? item.size : 'N/A'}
-                </td>
-                <td className="px-2 py-1.5 text-xs">
-                  {/* Handle cost3Days safely */}
-                  ₹{item.cost3Days?.toLocaleString() ?? '0'}
-                </td>
-                <td className="px-2 py-1.5">
-                  <input
-                    type="number"
-                    min="0"
-                    value={item.quantity || ''}
-                    onChange={(e) => handleFurnitureQuantity(index, parseInt(e.target.value) || 0)}
-                    className="w-16 border border-gray-200 rounded px-2 py-1 text-xs focus:ring-1 focus:ring-blue-500"
-                  />
-                </td>
-                <td className="px-2 py-1.5 text-xs font-semibold">
-                  ₹{item.cost?.toLocaleString() ?? '0'}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-          <tfoot className="bg-gray-50 sticky bottom-0">
-            <tr>
-              <td colSpan={6} className="px-2 py-2 text-right text-xs font-semibold">Total:</td>
-              <td className="px-2 py-2 text-xs font-bold text-blue-600">
-                ₹{furnitureTotal?.toLocaleString() ?? '0'}
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    </div>
-  );
-};
+  };
 
   // ============= FORM 9: HOSTESS (OPTIONAL) =============
   const renderHostess = () => {
@@ -2519,33 +2383,20 @@ const renderFurniture = () => {
             </tbody>
             <tfoot className="bg-gray-50">
               <tr>
-                <td colSpan={4} className="px-3 py-2 text-right text-sm font-semibold">
-                  Total:
-                </td>
-                <td className="px-3 py-2 text-sm font-bold text-blue-600">
-                  ₹{hostessTotal.toLocaleString()}
-                </td>
+                <td colSpan={4} className="px-3 py-2 text-right text-sm font-semibold">Total:</td>
+                <td className="px-3 py-2 text-sm font-bold text-blue-600">₹{hostessTotal.toLocaleString()}</td>
               </tr>
             </tfoot>
           </table>
         </div>
 
-        {/* Important Notes Section */}
         <div className="mt-8 border-t border-gray-200 pt-6">
-          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 text-sm text-gray-700 leading-relaxed">
-            <p className="font-semibold text-yellow-800 mb-3">
-              Please Note:
-            </p>
-
+          <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-5 text-sm">
+            <p className="font-semibold mb-3">Please Note:</p>
             <ul className="list-decimal pl-5 space-y-2">
               <li>All prices are current and subject to change without prior notice.</li>
               <li>The working hour for service is 8 hrs./person/day.</li>
-              <li>The duration of service is 10:00 - 18:00 hrs.</li>
-              <li>On-site orders MUST be paid immediately via RTGS / UPI along with the order form.</li>
               <li>No refund for any cancellation once the order is placed.</li>
-              <li>Temporary Staff must not be entrusted with handling of cash or valuables.</li>
-              <li>Exhibitors will be responsible for the temporary staff in their stands during the show.</li>
-              <li>Organiser will not be responsible for any damage caused by temporary staff.</li>
             </ul>
           </div>
         </div>
@@ -2630,73 +2481,55 @@ const renderFurniture = () => {
             </tbody>
           </table>
         </div>
-
-        {compressedAir.selected && (
-          <div className="mt-6 bg-blue-50 p-4 rounded-lg">
-            <div className="flex justify-between text-sm">
-              <span className="font-semibold">Selected: {compressedAir.cfmRange} (Qty: {compressedAir.qty})</span>
-              <span className="font-bold text-blue-700">₹{compressedAir.totalCost.toLocaleString()}</span>
-            </div>
-            <p className="text-xs text-blue-600 mt-2">Excluding GST (will be added in final summary)</p>
-          </div>
-        )}
       </div>
     );
   };
 
   // ============= FORM 11: WATER CONNECTION (OPTIONAL) =============
-const renderWaterConnection = () => {
-  const connections = waterConnection?.connections ?? 0;
-  const costPerConnection = waterConnection?.costPerConnection ?? 0;
-  const totalCost = waterConnection?.totalCost ?? 0;
+  const renderWaterConnection = () => {
+    const connections = waterConnection?.connections ?? 0;
+    const costPerConnection = waterConnection?.costPerConnection ?? 0;
+    const totalCost = waterConnection?.totalCost ?? 0;
 
-  return (
-    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
-      <div className="flex items-center mb-6">
-        <div className="bg-blue-100 p-2 rounded-lg">
-          <TruckIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
-        </div>
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
-          Water Connection
-        </h2>
-      </div>
-
-      <div className="max-w-md">
-        <div className="flex items-center gap-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              No. of Connections
-            </label>
-            <input
-              type="number"
-              min="0"
-              value={connections || ''}
-              onChange={(e) =>
-                setWaterConnection({
-                  ...waterConnection,
-                  connections: parseInt(e.target.value) || 0
-                })
-              }
-              className="w-24 border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
-            />
+    return (
+      <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+        <div className="flex items-center mb-6">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <TruckIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
           </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
+            Water Connection
+          </h2>
+        </div>
 
-          <div className="text-sm">
-            <p className="text-gray-600">
-              Cost per connection: ₹{costPerConnection.toLocaleString()}
-            </p>
-            <p className="font-semibold text-blue-600 mt-1">
-              Total: ₹{totalCost.toLocaleString()}
-            </p>
-            <p className="text-xs text-gray-500">
-              Excluding GST (will be added in final summary)
-            </p>
+        <div className="max-w-md">
+          <div className="flex items-center gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                No. of Connections
+              </label>
+              <input
+                type="number"
+                min="0"
+                value={connections || ''}
+                onChange={(e) =>
+                  setWaterConnection({
+                    ...waterConnection,
+                    connections: parseInt(e.target.value) || 0
+                  })
+                }
+                className="w-24 border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+            <div className="text-sm">
+              <p className="text-gray-600">Cost per connection: ₹{costPerConnection.toLocaleString()}</p>
+              <p className="font-semibold text-blue-600 mt-1">Total: ₹{totalCost.toLocaleString()}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    );
+  };
 
   // ============= FORM 12: SECURITY GUARD (OPTIONAL) =============
   const renderSecurityGuard = () => (
@@ -2711,10 +2544,7 @@ const renderWaterConnection = () => {
       </div>
 
       <div className="max-w-lg space-y-6">
-
         <div className="flex flex-col sm:flex-row gap-6">
-
-          {/* Quantity */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               No. of Guards
@@ -2733,8 +2563,6 @@ const renderWaterConnection = () => {
               placeholder="Guards"
             />
           </div>
-
-          {/* Days */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
               No. of Days
@@ -2753,288 +2581,201 @@ const renderWaterConnection = () => {
               placeholder="Days"
             />
           </div>
-
         </div>
 
-        {/* Summary */}
         {securityGuard.quantity > 0 && securityGuard.noOfDays > 0 && (
           <div className="bg-blue-50 p-4 rounded-lg">
             <p className="text-sm text-gray-700">
               Rate per guard per day: <span className="font-semibold">₹2,500</span>
             </p>
-
-            <div className="mt-3 space-y-1 text-sm">
-              <p>
-                Total Cost: <span className="font-semibold">₹{securityGuard.totalCost.toLocaleString()}</span>
-              </p>
-              <p className="text-xs text-blue-600 mt-2">
-                * GST @ 18% will be added in final summary
-              </p>
-            </div>
+            <p className="mt-2 text-sm font-semibold">Total Cost: ₹{securityGuard.totalCost.toLocaleString()}</p>
           </div>
         )}
-
       </div>
     </div>
   );
-  const renderImageModal = () => {
-  if (!selectedImage) return null;
 
-  return (
-    <div 
-      className="fixed inset-0 bg-black bg-opacity-90 z-[100] flex items-center justify-center p-4"
-      onClick={() => setSelectedImage(null)}
-    >
-      <button
-        onClick={() => setSelectedImage(null)}
-        className="absolute top-4 right-4 text-white hover:text-gray-300 z-10"
-      >
-        <XCircleIcon className="h-8 w-8" />
-      </button>
-      
-      <div 
-        className="relative max-w-7xl max-h-[90vh] w-full h-full flex items-center justify-center"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <img
-          src={selectedImage.src}
-          alt={selectedImage.alt}
-          className="max-w-full max-h-full object-contain"
-          onError={(e) => {
-            (e.target as HTMLImageElement).src = '/furniture/placeholder.jpg';
-          }}
-        />
-        
-        {/* Image info */}
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-black bg-opacity-50 text-white px-4 py-2 rounded-lg text-sm">
-          {selectedImage.alt}
-        </div>
-      </div>
-    </div>
-  );
-};
   // ============= FORM 13: RENTAL ITEMS (AV & IT) (OPTIONAL) =============
-const renderRentalItems = () => {
-  const rentalTotal = Object.values(rentalItems).reduce((sum, item) => sum + (item.totalCost || 0), 0);
+  const renderRentalItems = () => {
+    const rentalTotal = Object.values(rentalItems).reduce((sum, item) => sum + (item.totalCost || 0), 0);
 
-  if (Object.keys(rentalItems).length === 0) {
+    if (Object.keys(rentalItems).length === 0) {
+      return (
+        <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+          <div className="flex items-center mb-6">
+            <div className="bg-blue-100 p-2 rounded-lg">
+              <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">AV & IT Rentals</h2>
+          </div>
+          <div className="text-center py-8 text-gray-500">
+            No rental items available at the moment.
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
-        <div className="flex items-center mb-6">
-          <div className="bg-blue-100 p-2 rounded-lg">
-            <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center">
+            <div className="bg-blue-100 p-2 rounded-lg">
+              <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">AV & IT Rentals</h2>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">AV & IT Rentals</h2>
+          <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1.5 rounded-full">For 3 Days</span>
         </div>
-        <div className="text-center py-8 text-gray-500">
-          No rental items available at the moment.
+
+        <div className="overflow-x-auto border border-gray-200 rounded-lg">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Image</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Description</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Cost for 3 Days</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Quantity</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Total Cost</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {Object.entries(rentalItems).map(([key, item]) => (
+                <tr key={key} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-4 py-3">
+                    <div 
+                      className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity"
+                      onClick={() => {
+                        if (item.image) {
+                          setSelectedImage({
+                            src: item.image,
+                            alt: item.description
+                          });
+                        }
+                      }}
+                    >
+                      {item.image ? (
+                        <img
+                          src={item.image}
+                          alt={item.description}
+                          className="w-full h-full object-cover"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).src = '/placeholder.jpg';
+                          }}
+                        />
+                      ) : (
+                        <PhotoIcon className="h-6 w-6 text-gray-400" />
+                      )}
+                    </div>
+                  </td>
+                  <td className="px-4 py-3 text-sm text-gray-900">{item.description}</td>
+                  <td className="px-4 py-3 text-sm text-gray-900">₹{(item.costFor3Days || 0).toLocaleString()}</td>
+                  <td className="px-4 py-3">
+                    <input
+                      type="number"
+                      min="0"
+                      value={item.quantity || ''}
+                      onChange={(e) => handleRentalQuantity(key, parseInt(e.target.value) || 0)}
+                      className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
+                      placeholder="0"
+                    />
+                  </td>
+                  <td className="px-4 py-3 text-sm font-semibold text-blue-600">
+                    ₹{(item.totalCost || 0).toLocaleString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+            <tfoot className="bg-gray-50">
+              <tr>
+                <td colSpan={4} className="px-4 py-3 text-right text-sm font-bold text-gray-900">Total:</td>
+                <td className="px-4 py-3 text-sm font-bold text-blue-600">₹{(rentalTotal || 0).toLocaleString()}</td>
+              </tr>
+            </tfoot>
+          </table>
         </div>
       </div>
     );
-  }
+  };
 
-  return (
-    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center">
-          <div className="bg-blue-100 p-2 rounded-lg">
-            <ComputerDesktopIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+  // ============= FORM 14: HOUSEKEEPING STAFF (OPTIONAL) =============
+  const renderHousekeepingStaff = () => {
+    const chargesPerShift = housekeepingStaff?.chargesPerShift ?? 2000;
+    const quantity = housekeepingStaff?.quantity ?? 0;
+    const noOfDays = housekeepingStaff?.noOfDays ?? 0;
+    const totalCost = housekeepingStaff?.totalCost ?? 0;
+
+    return (
+      <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center">
+            <div className="bg-blue-100 p-2 rounded-lg">
+              <SparklesIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+            </div>
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
+              Housekeeping Staff
+            </h2>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">AV & IT Rentals</h2>
+          <span className="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1.5 rounded-full">
+            Per Shift (10 Hrs)
+          </span>
         </div>
-        <span className="bg-yellow-100 text-yellow-800 text-xs font-semibold px-3 py-1.5 rounded-full">For 3 Days</span>
-      </div>
 
-      <div className="overflow-x-auto border border-gray-200 rounded-lg">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Image</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Description</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Cost for 3 Days</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Quantity</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Total Cost</th>
-            </tr>
-          </thead>
-          <tbody className="bg-white divide-y divide-gray-200">
-            {Object.entries(rentalItems).map(([key, item]) => (
-              <tr key={key} className="hover:bg-gray-50 transition-colors">
-               <td className="px-4 py-3">
-  <div 
-    className="w-12 h-12 bg-gray-100 rounded-lg overflow-hidden border border-gray-200 flex items-center justify-center cursor-pointer hover:opacity-80 transition-opacity"
-    onClick={() => {
-      if (item.image) {
-        setSelectedImage({
-          src: item.image,
-          alt: item.description
-        });
-      }
-    }}
-  >
-    {item.image ? (
-      <img
-        src={item.image}
-        alt={item.description}
-        className="w-full h-full object-cover"
-        onError={(e) => {
-          console.log('Failed to load image:', item.image);
-          (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'24\' height=\'24\' viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'%23999\' stroke-width=\'2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'%3E%3Crect x=\'2\' y=\'2\' width=\'20\' height=\'20\' rx=\'2.18\' ry=\'2.18\'%3E%3C/rect%3E%3Cline x1=\'9\' y1=\'2\' x2=\'9\' y2=\'22\'%3E%3C/line%3E%3Cline x1=\'15\' y1=\'2\' x2=\'15\' y2=\'22\'%3E%3C/line%3E%3C/svg%3E';
-        }}
-      />
-    ) : (
-      <PhotoIcon className="h-6 w-6 text-gray-400" />
-    )}
-  </div>
-</td>
-                <td className="px-4 py-3 text-sm text-gray-900">{item.description}</td>
-                <td className="px-4 py-3 text-sm text-gray-900">₹{(item.costFor3Days || 0).toLocaleString()}</td>
-                <td className="px-4 py-3">
+        <div className="border border-gray-200 rounded-lg overflow-hidden">
+          <table className="min-w-full divide-y divide-gray-200">
+            <thead className="bg-gray-100">
+              <tr>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Category</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Charges per Shift</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">No. of Staff</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">No. of Days</th>
+                <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">Total Cost</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              <tr className="hover:bg-gray-50 transition-colors">
+                <td className="px-4 py-4 text-sm font-medium text-gray-900">Housekeeping</td>
+                <td className="px-4 py-4 text-sm text-gray-900">₹{(chargesPerShift)?.toLocaleString() ?? '2,000'}</td>
+                <td className="px-4 py-4">
                   <input
                     type="number"
                     min="0"
-                    value={item.quantity || ''}
-                    onChange={(e) => handleRentalQuantity(key, parseInt(e.target.value) || 0)}
+                    value={quantity || ""}
+                    onChange={(e) =>
+                      setHousekeepingStaff({
+                        ...housekeepingStaff,
+                        quantity: parseInt(e.target.value) || 0,
+                      })
+                    }
                     className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
                     placeholder="0"
                   />
                 </td>
-                <td className="px-4 py-3 text-sm font-semibold text-blue-600">
-                  ₹{(item.totalCost || 0).toLocaleString()}
+                <td className="px-4 py-4">
+                  <input
+                    type="number"
+                    min="0"
+                    value={noOfDays || ""}
+                    onChange={(e) =>
+                      setHousekeepingStaff({
+                        ...housekeepingStaff,
+                        noOfDays: parseInt(e.target.value) || 0,
+                      })
+                    }
+                    className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
+                    placeholder="0"
+                  />
+                </td>
+                <td className="px-4 py-4 text-sm font-semibold text-blue-600">
+                  ₹{(totalCost)?.toLocaleString() ?? '0'}
                 </td>
               </tr>
-            ))}
-          </tbody>
-          <tfoot className="bg-gray-50">
-            <tr>
-              <td colSpan={4} className="px-4 py-3 text-right text-sm font-bold text-gray-900">Total Rental Cost:</td>
-              <td className="px-4 py-3 text-sm font-bold text-blue-600">₹{(rentalTotal || 0).toLocaleString()}</td>
-            </tr>
-            <tr>
-              <td colSpan={5} className="px-4 py-2 text-xs text-gray-500 italic">
-                * GST @ 18% will be applied to the total rental cost in the final summary
-              </td>
-            </tr>
-          </tfoot>
-        </table>
-      </div>
-    </div>
-  );
-};
-
-  // ============= FORM 14: HOUSEKEEPING STAFF (OPTIONAL) =============
-// ============= FORM 14: HOUSEKEEPING STAFF (OPTIONAL) =============
-const renderHousekeepingStaff = () => {
-  // Add null check with default value
-  const chargesPerShift = housekeepingStaff?.chargesPerShift ?? 2000;
-  const quantity = housekeepingStaff?.quantity ?? 0;
-  const noOfDays = housekeepingStaff?.noOfDays ?? 0;
-  const totalCost = housekeepingStaff?.totalCost ?? 0;
-
-  return (
-    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
-      <div className="flex items-center justify-between mb-6">
-        <div className="flex items-center">
-          <div className="bg-blue-100 p-2 rounded-lg">
-            <SparklesIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
-          </div>
-          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
-            Housekeeping Staff
-          </h2>
+            </tbody>
+          </table>
         </div>
-        <span className="bg-green-100 text-green-800 text-xs font-semibold px-3 py-1.5 rounded-full">
-          Per Shift (10 Hrs)
-        </span>
       </div>
+    );
+  };
 
-      <div className="border border-gray-200 rounded-lg overflow-hidden">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
-                Category
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
-                Charges per Shift
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
-                No. of Staff
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
-                No. of Days
-              </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-700 uppercase">
-                Total Cost
-              </th>
-            </tr>
-          </thead>
-
-          <tbody className="bg-white divide-y divide-gray-200">
-            <tr className="hover:bg-gray-50 transition-colors">
-              <td className="px-4 py-4 text-sm font-medium text-gray-900">
-                Housekeeping
-              </td>
-
-              <td className="px-4 py-4 text-sm text-gray-900">
-                {/* FIXED: Added null check with optional chaining and nullish coalescing */}
-                ₹{(chargesPerShift)?.toLocaleString() ?? '2,000'}
-              </td>
-
-              {/* Quantity */}
-              <td className="px-4 py-4">
-                <input
-                  type="number"
-                  min="0"
-                  value={quantity || ""}
-                  onChange={(e) =>
-                    setHousekeepingStaff({
-                      ...housekeepingStaff,
-                      quantity: parseInt(e.target.value) || 0,
-                    })
-                  }
-                  className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
-                  placeholder="0"
-                />
-              </td>
-
-              {/* Days */}
-              <td className="px-4 py-4">
-                <input
-                  type="number"
-                  min="0"
-                  value={noOfDays || ""}
-                  onChange={(e) =>
-                    setHousekeepingStaff({
-                      ...housekeepingStaff,
-                      noOfDays: parseInt(e.target.value) || 0,
-                    })
-                  }
-                  className="w-20 border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
-                  placeholder="0"
-                />
-              </td>
-
-              <td className="px-4 py-4 text-sm font-semibold text-blue-600">
-                {/* FIXED: Added null check */}
-                ₹{(totalCost)?.toLocaleString() ?? '0'}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      {quantity > 0 && noOfDays > 0 && (
-        <div className="mt-4 bg-blue-50 p-4 rounded-lg">
-          <p className="text-sm text-gray-700">
-            Subtotal: <span className="font-semibold text-blue-700">₹{(totalCost)?.toLocaleString() ?? '0'}</span>
-          </p>
-          <p className="text-xs text-blue-600 mt-1">
-            * GST @ 18% will be added in final summary
-          </p>
-        </div>
-      )}
-    </div>
-  );
-};
   // ============= PREVIEW MODAL =============
   const renderPreviewModal = () => {
     const totals = calculateTotals();
@@ -3053,7 +2794,6 @@ const renderHousekeepingStaff = () => {
           </div>
 
           <div className="max-h-[70vh] overflow-y-auto p-1">
-            {/* Basic Info Summary */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               <div className="bg-gray-50 p-4 rounded-lg">
                 <h3 className="text-sm font-semibold text-gray-800 mb-3 flex items-center">
@@ -3061,26 +2801,10 @@ const renderHousekeepingStaff = () => {
                   Exhibitor
                 </h3>
                 <div className="space-y-1 text-xs">
-                  <p>
-                    <span className="font-medium">Name:</span>{" "}
-                    {`${generalInfo.title || ""} ${generalInfo.firstName || ""} ${generalInfo.lastName || ""}`.trim() || "—"}
-                  </p>
-
-                  <p>
-                    <span className="font-medium">Company:</span>{" "}
-                    {generalInfo.companyName || "—"}
-                  </p>
-
-                  <p>
-                    <span className="font-medium">Email:</span>{" "}
-                    {generalInfo.email || "—"}
-                  </p>
-
-                  <p>
-                    <span className="font-medium">Mobile:</span>{" "}
-                    {generalInfo.mobile || "—"}
-                  </p>
-
+                  <p><span className="font-medium">Name:</span> {`${generalInfo.title || ""} ${generalInfo.firstName || ""} ${generalInfo.lastName || ""}`.trim() || "—"}</p>
+                  <p><span className="font-medium">Company:</span> {generalInfo.companyName || "—"}</p>
+                  <p><span className="font-medium">Email:</span> {generalInfo.email || "—"}</p>
+                  <p><span className="font-medium">Mobile:</span> {generalInfo.mobile || "—"}</p>
                 </div>
               </div>
 
@@ -3089,149 +2813,41 @@ const renderHousekeepingStaff = () => {
                   <MapPinIcon className="h-4 w-4 mr-2 text-blue-600" />
                   Booth Details
                 </h3>
-
                 <div className="space-y-1 text-xs">
-                  <p>
-                    <span className="font-medium">Booth No:</span>{" "}
-                    {boothDetails.boothNo || "—"}
-                  </p>
-
-                  <p>
-                    <span className="font-medium">Size:</span>{" "}
-                    {boothDetails.sqMtrBooked ? `${boothDetails.sqMtrBooked} sq.m` : "—"}
-                  </p>
-
-                  <p>
-                    <span className="font-medium">Exhibitor Name:</span>{" "}
-                    {boothDetails.exhibitorName || "—"}
-                  </p>
-
-                  <p>
-                    <span className="font-medium">Organisation:</span>{" "}
-                    {boothDetails.organisation || "—"}
-                  </p>
-
-                  <p>
-                    <span className="font-medium">Contact Person:</span>{" "}
-                    {boothDetails.contactPerson || "—"}
-                  </p>
-
-                  <p>
-                    <span className="font-medium">Designation:</span>{" "}
-                    {boothDetails.designation || "—"}
-                  </p>
-
-                  <p>
-                    <span className="font-medium">Mobile:</span>{" "}
-                    {boothDetails.mobile || "—"}
-                  </p>
-
-                  <p>
-                    <span className="font-medium">Email:</span>{" "}
-                    {boothDetails.email || "—"}
-                  </p>
+                  <p><span className="font-medium">Booth No:</span> {boothDetails.boothNo || "—"}</p>
+                  <p><span className="font-medium">Size:</span> {boothDetails.sqMtrBooked ? `${boothDetails.sqMtrBooked} sq.m` : "—"}</p>
+                  <p><span className="font-medium">Exhibitor:</span> {boothDetails.exhibitorName || "—"}</p>
                 </div>
               </div>
-
             </div>
 
-            {/* Cost Summary */}
             <div className="bg-white border rounded-lg overflow-hidden mb-6">
               <div className="bg-gray-800 px-4 py-2">
                 <h3 className="text-sm font-semibold text-white">Cost Summary</h3>
               </div>
               <table className="min-w-full divide-y divide-gray-200">
                 <tbody className="divide-y divide-gray-200">
-                  <tr>
-                    <td className="px-4 py-2 text-xs">Furniture</td>
-                    <td className="px-4 py-2 text-xs text-right">₹{totals.furniture.toLocaleString()}</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-2 text-xs">Hostess</td>
-                    <td className="px-4 py-2 text-xs text-right">₹{totals.hostess.toLocaleString()}</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-2 text-xs">Electrical</td>
-                    <td className="px-4 py-2 text-xs text-right">₹{totals.electrical.toLocaleString()}</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-2 text-xs">Compressed Air</td>
-                    <td className="px-4 py-2 text-xs text-right">₹{totals.compressedAir.toLocaleString()}</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-2 text-xs">Water</td>
-                    <td className="px-4 py-2 text-xs text-right">₹{totals.water.toLocaleString()}</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-2 text-xs">Security Guard</td>
-                    <td className="px-4 py-2 text-xs text-right">₹{totals.security.toLocaleString()}</td>
-                  </tr>
-                  <tr className="bg-yellow-50">
-                    <td className="px-4 py-2 text-xs font-semibold">AV & IT Rentals</td>
-                    <td className="px-4 py-2 text-xs font-semibold text-right">₹{totals.rental.toLocaleString()}</td>
-                  </tr>
-                  <tr className="bg-green-50">
-                    <td className="px-4 py-2 text-xs font-semibold">Housekeeping Staff</td>
-                    <td className="px-4 py-2 text-xs font-semibold text-right">₹{totals.housekeeping.toLocaleString()}</td>
-                  </tr>
-                  <tr>
-                    <td className="px-4 py-2 text-xs">Services Total</td>
-                    <td className="px-4 py-2 text-xs text-right">
-                      ₹{totals.servicesTotal.toLocaleString()}
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td className="px-4 py-2 text-xs">GST (18%)</td>
-                    <td className="px-4 py-2 text-xs text-right">
-                      ₹{totals.gst.toLocaleString()}
-                    </td>
-                  </tr>
-
-                  <tr className="bg-gray-50">
-                    <td className="px-4 py-2 text-xs font-semibold">
-                      Subtotal (Including GST)
-                    </td>
-                    <td className="px-4 py-2 text-xs text-right">
-                      ₹{totals.subtotal.toLocaleString()}
-                    </td>
-                  </tr>
-
-                  <tr>
-                    <td className="px-4 py-2 text-xs font-semibold">Security Deposit</td>
-                    <td className="px-4 py-2 text-xs text-right">
-                      ₹{totals.deposit.toLocaleString()}
-                    </td>
-                  </tr>
-
-                  <tr className="bg-blue-50">
-                    <td className="px-4 py-2 text-sm font-bold">Grand Total</td>
-                    <td className="px-4 py-2 text-sm font-bold text-blue-700 text-right">
-                      ₹{totals.total.toLocaleString()}
-                    </td>
-                  </tr>
-
+                  <tr><td className="px-4 py-2 text-xs">Furniture</td><td className="px-4 py-2 text-xs text-right">₹{totals.furniture.toLocaleString()}</td></tr>
+                  <tr><td className="px-4 py-2 text-xs">Hostess</td><td className="px-4 py-2 text-xs text-right">₹{totals.hostess.toLocaleString()}</td></tr>
+                  <tr><td className="px-4 py-2 text-xs">Electrical</td><td className="px-4 py-2 text-xs text-right">₹{totals.electrical.toLocaleString()}</td></tr>
+                  <tr><td className="px-4 py-2 text-xs">Compressed Air</td><td className="px-4 py-2 text-xs text-right">₹{totals.compressedAir.toLocaleString()}</td></tr>
+                  <tr><td className="px-4 py-2 text-xs">Water</td><td className="px-4 py-2 text-xs text-right">₹{totals.water.toLocaleString()}</td></tr>
+                  <tr><td className="px-4 py-2 text-xs">Security Guard</td><td className="px-4 py-2 text-xs text-right">₹{totals.security.toLocaleString()}</td></tr>
+                  <tr className="bg-yellow-50"><td className="px-4 py-2 text-xs font-semibold">AV & IT Rentals</td><td className="px-4 py-2 text-xs font-semibold text-right">₹{totals.rental.toLocaleString()}</td></tr>
+                  <tr className="bg-green-50"><td className="px-4 py-2 text-xs font-semibold">Housekeeping Staff</td><td className="px-4 py-2 text-xs font-semibold text-right">₹{totals.housekeeping.toLocaleString()}</td></tr>
+                  <tr><td className="px-4 py-2 text-xs">Services Total</td><td className="px-4 py-2 text-xs text-right">₹{totals.servicesTotal.toLocaleString()}</td></tr>
+                  <tr><td className="px-4 py-2 text-xs">GST (18%)</td><td className="px-4 py-2 text-xs text-right">₹{totals.gst.toLocaleString()}</td></tr>
+                  <tr className="bg-gray-50"><td className="px-4 py-2 text-xs font-semibold">Subtotal (Including GST)</td><td className="px-4 py-2 text-xs text-right">₹{totals.subtotal.toLocaleString()}</td></tr>
+                  <tr><td className="px-4 py-2 text-xs font-semibold">Security Deposit</td><td className="px-4 py-2 text-xs text-right">₹{totals.deposit.toLocaleString()}</td></tr>
+                  <tr className="bg-blue-50"><td className="px-4 py-2 text-sm font-bold">Grand Total</td><td className="px-4 py-2 text-sm font-bold text-blue-700 text-right">₹{totals.total.toLocaleString()}</td></tr>
                 </tbody>
               </table>
             </div>
           </div>
 
           <div className="mt-6 pt-4 border-t flex flex-col sm:flex-row justify-end gap-3">
-            <button
-              onClick={() => setShowPreview(false)}
-              className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 text-sm"
-            >
-              Continue Editing
-            </button>
-            <button
-              onClick={() => {
-                setShowPreview(false);
-                setShowPayment(true);
-              }}
-              className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm"
-            >
-              Proceed to Payment
-            </button>
+            <button onClick={() => setShowPreview(false)} className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 text-sm">Continue Editing</button>
+            <button onClick={() => { setShowPreview(false); setShowPayment(true); }} className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm">Proceed to Payment</button>
           </div>
         </div>
       </div>
@@ -3247,12 +2863,7 @@ const renderHousekeepingStaff = () => {
         <div className="relative top-10 sm:top-20 mx-3 sm:mx-auto p-4 sm:p-6 border w-full sm:w-11/12 max-w-2xl shadow-lg rounded-lg bg-white">
           <div className="flex justify-between items-center mb-4">
             <h2 className="text-xl sm:text-2xl font-bold text-gray-900">Payment</h2>
-            <button
-              onClick={() => setShowPayment(false)}
-              className="text-gray-400 hover:text-gray-600"
-            >
-              <XCircleIcon className="h-6 w-6" />
-            </button>
+            <button onClick={() => setShowPayment(false)} className="text-gray-400 hover:text-gray-600"><XCircleIcon className="h-6 w-6" /></button>
           </div>
 
           <div className="space-y-6">
@@ -3267,16 +2878,11 @@ const renderHousekeepingStaff = () => {
             <div className="bg-gray-50 p-4 rounded-lg">
               <h3 className="text-sm font-semibold text-gray-800 mb-3">Bank Transfer Details</h3>
               <div className="grid grid-cols-2 gap-2 text-xs">
-                <div className="text-gray-600">Account Name:</div>
-                <div className="font-medium">Maxx Business Media Pvt. Ltd.</div>
-                <div className="text-gray-600">Account No:</div>
-                <div className="font-medium">272605000632</div>
-                <div className="text-gray-600">IFSC:</div>
-                <div className="font-medium">ICIC0002726</div>
-                <div className="text-gray-600">Bank:</div>
-                <div className="font-medium">ICICI Bank</div>
-                <div className="text-gray-600">Branch:</div>
-                <div className="font-medium">New Delhi</div>
+                <div className="text-gray-600">Account Name:</div><div className="font-medium">Maxx Business Media Pvt. Ltd.</div>
+                <div className="text-gray-600">Account No:</div><div className="font-medium">272605000632</div>
+                <div className="text-gray-600">IFSC:</div><div className="font-medium">ICIC0002726</div>
+                <div className="text-gray-600">Bank:</div><div className="font-medium">ICICI Bank</div>
+                <div className="text-gray-600">Branch:</div><div className="font-medium">New Delhi</div>
               </div>
             </div>
 
@@ -3285,82 +2891,34 @@ const renderHousekeepingStaff = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">Payment Mode</label>
-                  <select
-                    value={paymentDetails.paymentMode}
-                    onChange={(e) => setPaymentDetails({ ...paymentDetails, paymentMode: e.target.value as any })}
-                    className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="RTGS">RTGS</option>
-                    <option value="NEFT">NEFT</option>
-                    <option value="IMPS">IMPS</option>
-                    <option value="UPI">UPI</option>
-                    <option value="Cheque">Cheque</option>
-                    <option value="DD">DD</option>
+                  <select value={paymentDetails.paymentMode} onChange={(e) => setPaymentDetails({ ...paymentDetails, paymentMode: e.target.value as any })} className="w-full border border-gray-200 rounded-lg p-2 text-sm">
+                    <option value="RTGS">RTGS</option><option value="NEFT">NEFT</option><option value="IMPS">IMPS</option>
+                    <option value="UPI">UPI</option><option value="Cheque">Cheque</option><option value="DD">DD</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">Transaction ID / UTR</label>
-                  <input
-                    type="text"
-                    value={paymentDetails.transactionId}
-                    onChange={(e) => setPaymentDetails({ ...paymentDetails, transactionId: e.target.value })}
-                    className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
-                    placeholder="UTR / Transaction ID"
-                  />
+                  <input type="text" value={paymentDetails.transactionId} onChange={(e) => setPaymentDetails({ ...paymentDetails, transactionId: e.target.value })} className="w-full border border-gray-200 rounded-lg p-2 text-sm" placeholder="UTR / Transaction ID" />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">Amount Paid</label>
-                  <input
-                    type="number"
-                    value={paymentDetails.amount || ''}
-                    onChange={(e) => setPaymentDetails({ ...paymentDetails, amount: parseFloat(e.target.value) || 0 })}
-                    className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
-                    placeholder="Enter amount"
-                  />
+                  <input type="number" value={paymentDetails.amount || ''} onChange={(e) => setPaymentDetails({ ...paymentDetails, amount: parseFloat(e.target.value) || 0 })} className="w-full border border-gray-200 rounded-lg p-2 text-sm" placeholder="Enter amount" />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">Transaction Date</label>
-                  <input
-                    type="date"
-                    value={paymentDetails.transactionDate}
-                    onChange={(e) => setPaymentDetails({ ...paymentDetails, transactionDate: e.target.value })}
-                    className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
-                  />
+                  <input type="date" value={paymentDetails.transactionDate} onChange={(e) => setPaymentDetails({ ...paymentDetails, transactionDate: e.target.value })} className="w-full border border-gray-200 rounded-lg p-2 text-sm" />
                 </div>
                 <div className="sm:col-span-2">
                   <label className="block text-xs font-medium text-gray-700 mb-1">Upload Payment Receipt</label>
-                  <input
-                    type="file"
-                    onChange={handlePaymentFileUpload}
-                    accept=".pdf,.jpg,.jpeg,.png"
-                    className="w-full border border-gray-200 rounded-lg p-1.5 text-sm"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">Accepted formats: PDF, JPG, PNG (Max 5MB)</p>
+                  <input type="file" onChange={handlePaymentFileUpload} accept=".pdf,.jpg,.jpeg,.png" className="w-full border border-gray-200 rounded-lg p-1.5 text-sm" />
                 </div>
               </div>
             </div>
 
             <div className="flex flex-col sm:flex-row justify-end gap-3">
-              <button
-                onClick={() => setShowPayment(false)}
-                className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 text-sm"
-              >
-                Back
-              </button>
-              <button
-                onClick={handleSubmitApplication}
-                disabled={isSubmitting}
-                className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-semibold disabled:opacity-50 flex items-center justify-center"
-              >
-                {isSubmitting ? (
-                  <>
-                    <svg className="animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                    </svg>
-                    Submitting...
-                  </>
-                ) : 'Submit Application'}
+              <button onClick={() => setShowPayment(false)} className="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 text-sm">Back</button>
+              <button onClick={handleSubmitApplication} disabled={isSubmitting} className="px-6 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-semibold disabled:opacity-50">
+                {isSubmitting ? 'Submitting...' : 'Submit Application'}
               </button>
             </div>
           </div>
@@ -3372,43 +2930,23 @@ const renderHousekeepingStaff = () => {
   // ============= NAVIGATION =============
   const renderNavigation = () => (
     <div className="flex flex-col sm:flex-row justify-between items-center gap-3 mb-6">
-      <button
-        onClick={() => setCurrentStep(Math.max(1, currentStep - 1))}
-        disabled={currentStep === 1}
-        className="w-full sm:w-auto px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50 flex items-center justify-center text-sm"
-      >
-        <ChevronLeftIcon className="h-4 w-4 mr-1" />
-        Previous
+      <button onClick={() => setCurrentStep(Math.max(1, currentStep - 1))} disabled={currentStep === 1} className="w-full sm:w-auto px-4 py-2 bg-white border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 disabled:opacity-50 flex items-center justify-center text-sm">
+        <ChevronLeftIcon className="h-4 w-4 mr-1" /> Previous
       </button>
 
       <div className="flex gap-3 w-full sm:w-auto">
-        <button
-          onClick={() => setShowPreview(true)}
-          className="flex-1 sm:flex-none px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center justify-center text-sm"
-        >
-          <EyeIcon className="h-4 w-4 sm:mr-2" />
-          <span className="hidden sm:inline">Preview & Totals</span>
-          <span className="sm:hidden">Preview</span>
+        <button onClick={() => setShowPreview(true)} className="flex-1 sm:flex-none px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center justify-center text-sm">
+          <EyeIcon className="h-4 w-4 sm:mr-2" /><span className="hidden sm:inline">Preview & Totals</span><span className="sm:hidden">Preview</span>
         </button>
 
-        {/* Show Next button if not on last step */}
         {currentStep < totalSteps && (
-          <button
-            onClick={() => setCurrentStep(currentStep + 1)}
-            className="flex-1 sm:flex-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center text-sm"
-          >
-            <span className="sm:hidden">Next</span>
-            <span className="hidden sm:inline">Next</span>
-            <ChevronRightIcon className="h-4 w-4 ml-1" />
+          <button onClick={() => setCurrentStep(currentStep + 1)} className="flex-1 sm:flex-none px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 flex items-center justify-center text-sm">
+            <span className="sm:hidden">Next</span><span className="hidden sm:inline">Next</span><ChevronRightIcon className="h-4 w-4 ml-1" />
           </button>
         )}
 
-        {/* Show Submit button on last step */}
         {currentStep === totalSteps && (
-          <button
-            onClick={() => setShowPreview(true)}
-            className="flex-1 sm:flex-none px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center justify-center text-sm font-semibold"
-          >
+          <button onClick={() => setShowPreview(true)} className="flex-1 sm:flex-none px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center justify-center text-sm font-semibold">
             Review & Submit
           </button>
         )}
@@ -3419,69 +2957,36 @@ const renderHousekeepingStaff = () => {
   // ============= PROGRESS TRACKER =============
   const renderProgressTracker = () => (
     <div className="mb-6 bg-white rounded-lg shadow p-4">
-      {/* Desktop View */}
       <div className="hidden sm:block">
         <div className="flex items-center justify-between">
           {steps.map((step, idx) => (
             <div key={step.number} className="flex items-center">
-              <div
-                className={`
-                  flex items-center justify-center w-8 h-8 rounded-full border-2 text-xs font-medium
-                  ${currentStep > step.number ? 'bg-green-600 border-green-600 text-white' :
-                    currentStep === step.number ? 'bg-blue-600 border-blue-600 text-white' :
-                      'border-gray-300 bg-white text-gray-400'}
-                `}
-              >
+              <div className={`flex items-center justify-center w-8 h-8 rounded-full border-2 text-xs font-medium ${
+                currentStep > step.number ? 'bg-green-600 border-green-600 text-white' :
+                currentStep === step.number ? 'bg-blue-600 border-blue-600 text-white' :
+                'border-gray-300 bg-white text-gray-400'}`}>
                 {currentStep > step.number ? '✓' : step.number}
               </div>
-              {idx < steps.length - 1 && (
-                <div className={`w-6 h-0.5 mx-1 ${currentStep > step.number + 1 ? 'bg-green-600' : 'bg-gray-300'}`} />
-              )}
+              {idx < steps.length - 1 && <div className={`w-6 h-0.5 mx-1 ${currentStep > step.number + 1 ? 'bg-green-600' : 'bg-gray-300'}`} />}
             </div>
           ))}
         </div>
         <div className="flex justify-between mt-2">
-          {steps.map(step => (
-            <span key={step.number} className="text-xs text-gray-600">
-              {step.name}
-            </span>
-          ))}
+          {steps.map(step => <span key={step.number} className="text-xs text-gray-600">{step.name}</span>)}
         </div>
       </div>
 
-      {/* Mobile View */}
       <div className="sm:hidden">
         <div className="flex items-center justify-between">
-          <button
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="flex items-center text-blue-600"
-          >
-            <MenuIcon className="h-5 w-5 mr-2" />
-            <span className="font-medium text-sm">
-              Step {currentStep}: {steps[currentStep - 1]?.mobileName}
-            </span>
+          <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="flex items-center text-blue-600">
+            <MenuIcon className="h-5 w-5 mr-2" /><span className="font-medium text-sm">Step {currentStep}: {steps[currentStep - 1]?.mobileName}</span>
           </button>
-          <div className="text-sm text-gray-600">
-            {currentStep} / {totalSteps}
-          </div>
+          <div className="text-sm text-gray-600">{currentStep} / {totalSteps}</div>
         </div>
-
         {isMobileMenuOpen && (
           <div className="mt-4 grid grid-cols-4 gap-2">
             {steps.map((step) => (
-              <button
-                key={step.number}
-                onClick={() => {
-                  setCurrentStep(step.number);
-                  setIsMobileMenuOpen(false);
-                }}
-                className={`
-                  p-2 rounded-lg text-xs font-medium relative
-                  ${currentStep === step.number
-                    ? 'bg-blue-600 text-white'
-                    : 'bg-gray-100 text-gray-700'}
-                `}
-              >
+              <button key={step.number} onClick={() => { setCurrentStep(step.number); setIsMobileMenuOpen(false); }} className={`p-2 rounded-lg text-xs font-medium relative ${currentStep === step.number ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-700'}`}>
                 {step.mobileName}
               </button>
             ))}
@@ -3495,23 +3000,15 @@ const renderHousekeepingStaff = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-4 sm:py-6 md:py-8">
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
-
-        {/* Header */}
         <div className="mb-6">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">Exhibition Registration</h1>
-          <p className="mt-1 text-sm sm:text-base text-gray-600">
-            Complete all sections to register your participation. All sections are optional.
-          </p>
+          <p className="mt-1 text-sm sm:text-base text-gray-600">Complete all sections to register your participation. All sections are optional.</p>
         </div>
 
-        {/* Progress Tracker */}
         {renderProgressTracker()}
-
-        {/* Navigation - Top */}
         {renderNavigation()}
         {renderImageModal()}
 
-        {/* Render Forms Based on Current Step */}
         <div className="mt-4">
           {currentStep === 1 && renderGeneralInfo()}
           {currentStep === 2 && renderBoothDetails()}
@@ -3529,10 +3026,7 @@ const renderHousekeepingStaff = () => {
           {currentStep === 14 && renderHousekeepingStaff()}
         </div>
 
-        {/* Navigation - Bottom */}
         {renderNavigation()}
-
-        {/* Modals */}
         {showPreview && renderPreviewModal()}
         {showPayment && renderPaymentModal()}
       </div>
