@@ -75,31 +75,28 @@ export default function LayoutPage() {
   }, []);
 
 // app/dashboard/layout/page.tsx - Update the fetch function
+// app/dashboard/layout/page.tsx - Updated fetch function
 const fetchMasterFloorPlan = async (silent = false) => {
   try {
     if (!silent) setLoading(true);
     setError(null);
 
+    // For public access, you might not need a token
+    // But if you're using exhibitor_token, keep it
     const token = localStorage.getItem('exhibitor_token');
     console.log("TOKEN:", token);
     
-    if (!token) {
-      throw new Error('No authentication token found');
-    }
-
-    // Add timestamp to prevent caching
-    const timestamp = new Date().getTime();
-    
-const response = await fetch(
-  "https://diemex-backend.onrender.com/api/booths/floor-plan",
-  {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/json"
-    }
-  }
-);
+    // Use the correct public endpoint
+    const response = await fetch(
+      "https://diemex-backend.onrender.com/api/floor-plan", // Changed from /api/booths/floor-plan
+      {
+        method: "GET",
+        headers: {
+          ...(token && { Authorization: `Bearer ${token}` }), // Only add if token exists
+          "Content-Type": "application/json"
+        }
+      }
+    );
 
     if (!response.ok) {
       if (response.status === 404) {
@@ -110,39 +107,46 @@ const response = await fetch(
     }
 
     const result = await response.json();
-
-    if (!result.success) {
-      throw new Error(result.error || 'Failed to load floor plan');
+    
+    // The response structure might be different from /api/booths/floor-plan
+    // Adjust based on actual response
+    let planData;
+    
+    // Handle different response structures
+    if (result.success && result.data) {
+      planData = result.data;
+    } else if (result.data) {
+      planData = result.data;
+    } else {
+      planData = result; // Assume result is the plan itself
     }
-
-    const plan = result.data;
 
     // Transform the data to match your FloorPlanRenderer props
     const transformedPlan = {
-      id: plan.id,
-      name: plan.name || 'Exhibition Floor Plan',
-      image: plan.baseImageUrl,
-      scale: 0.1, // You might want to store this in your floor plan
+      id: planData.id || 'floor-plan-1',
+      name: planData.name || 'Exhibition Floor Plan',
+      image: planData.imageUrl || planData.baseImageUrl || planData.image,
+      scale: 0.1,
       gridSize: 20,
       showGrid: true,
-      shapes: (plan.booths || []).map((booth: any) => ({
-        id: booth.id,
+      shapes: (planData.booths || []).map((booth: any) => ({
+        id: booth.id || `booth-${Math.random()}`,
         type: 'booth',
-        x: (booth.xPercent / 100) * (plan.imageWidth || 1000),
-        y: (booth.yPercent / 100) * (plan.imageHeight || 800),
-        width: (booth.widthPercent / 100) * (plan.imageWidth || 1000),
-        height: (booth.heightPercent / 100) * (plan.imageHeight || 800),
+        x: booth.position?.x || booth.x || 0,
+        y: booth.position?.y || booth.y || 0,
+        width: booth.position?.width || booth.width || 50,
+        height: booth.position?.height || booth.height || 50,
         metadata: {
-          ...booth.metadata,
           boothNumber: booth.boothNumber,
           companyName: booth.companyName,
           status: booth.status,
-          amenities: booth.metadata?.amenities || [],
-          restrictions: booth.metadata?.restrictions || []
+          amenities: booth.amenities || [],
+          restrictions: booth.restrictions || [],
+          ...booth.metadata
         }
       })),
-      createdAt: plan.createdAt || new Date().toISOString(),
-      updatedAt: plan.updatedAt || new Date().toISOString()
+      createdAt: planData.createdAt || new Date().toISOString(),
+      updatedAt: planData.updatedAt || new Date().toISOString()
     };
 
     setMasterFloorPlan(transformedPlan);

@@ -24,7 +24,8 @@ const navItems: NavItem[] = [
       { text: "Plan your travel", href: "/plan-your-travel" },
       { text: "Exhibitor List", href: "/exhibition-directory" },
       { text: "Exhibitor Resource Center", href: "/exhibitor-resource-center" },
-      { text: "Exhibitor Promotions", href: "/free-promo" }
+      { text: "Exhibitor Promotions", href: "/free-promo" },
+      { text: "Layout", href: "/layout"}
     ],
   },
   {

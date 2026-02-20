@@ -87,16 +87,24 @@ export interface Exhibitor {
   phone: string;
   company: string;
   sector: string;
-  booth: string;        // For frontend display (maps from boothNumber)
-  boothNumber?: string; // Original from backend
+
+  address?: string;       // optional
+  website?: string;       // optional
+
+  booth: string;
+  boothNumber?: string;
   boothSize?: string;
   boothType?: string;
   boothDimensions?: string;
   boothNotes?: string;
+
   status: string;
   originalPassword?: string;
   createdAt: string;
+
   stallDetails?: {
+    hall?: string;
+    pavilion?: string;
     size?: string;
     type?: string;
     dimensions?: string;

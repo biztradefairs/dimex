@@ -746,55 +746,46 @@ const fetchExhibitorProfile = async () => {
     }
   };
 
-  const handleAddBrochure = async () => {
-    if (!newBrochure.name || !newBrochure.file) return;
-    
-    setSaving(true);
-    try {
-      const brochure: Brochure = {
-        ...newBrochure,
-        id: `broch-${Date.now()}`,
-        fileSize: `${(newBrochure.file.size / (1024 * 1024)).toFixed(1)} MB`,
-        downloads: 0,
-        uploadedAt: new Date(),
-      };
-      
-      const result = await apiCall('/api/exhibitorDashboard/brochures', {
-        method: 'POST',
-        body: JSON.stringify({
-          name: brochure.name,
-          description: brochure.description,
-          fileSize: brochure.fileSize,
-        }),
-      });
-      
-      if (result.success) {
-        setProfile({
-          ...profile,
-          brochures: [...profile.brochures, result.data],
-        });
-        
-        setNewBrochure({
-          id: '',
-          name: '',
-          description: '',
-          file: undefined,
-          fileUrl: '',
-          fileSize: '',
-          downloads: 0,
-          uploadedAt: new Date(),
-        });
-        setShowAddBrochure(false);
-        setShowSuccess(true);
-        setTimeout(() => setShowSuccess(false), 3000);
-      }
-    } catch (error: any) {
-      console.error('Error adding brochure:', error);
-      setShowError(error.message || 'Failed to upload brochure');
-    } finally {
-      setSaving(false);
+const handleAddBrochure = async () => {
+  if (!newBrochure.name || !newBrochure.file) {
+    setShowError("Please select a PDF file");
+    return;
+  }
+
+  setSaving(true);
+
+  try {
+    const formData = new FormData();
+    formData.append("file", newBrochure.file);
+    formData.append("title", newBrochure.name); // ✅ FIXED
+    formData.append("description", newBrochure.description);
+
+    const result = await apiCall(
+      "/api/exhibitorDashboard/brochures",
+      {
+        method: "POST",
+        body: formData,
+      },
+      true
+    );
+
+    if (result.success) {
+      setProfile(prev => ({
+        ...prev,
+        brochures: [...prev.brochures, result.data],
+      }));
+
+      setShowAddBrochure(false);
+      setShowSuccess(true);
+      setTimeout(() => setShowSuccess(false), 3000);
     }
-  };
+
+  } catch (error: any) {
+    setShowError(error.message || "Failed to upload brochure");
+  } finally {
+    setSaving(false);
+  }
+};
 
   const handleDeleteProduct = async (productId: string) => {
     try {
@@ -2288,6 +2279,24 @@ const handleSaveProfile = async () => {
                             placeholder="Brief description of the document..."
                           />
                         </div>
+                        <div>
+  <label className="block text-sm font-medium text-gray-700 mb-1">
+    Upload PDF File *
+  </label>
+
+  <input
+    type="file"
+    accept="application/pdf"
+    onChange={handleBrochureUpload}
+    className="w-full border rounded-lg px-4 py-2"
+  />
+
+  {newBrochure.file && (
+    <p className="text-sm text-green-600 mt-2">
+      Selected: {newBrochure.file.name}
+    </p>
+  )}
+</div>
 
                         <div className="flex justify-end gap-3 pt-4">
                           <button

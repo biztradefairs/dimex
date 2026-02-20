@@ -1,4 +1,4 @@
-// app/api/boothsAPI.js
+// app/api/boothsAPI.ts
 import api from "@/lib/api";
 
 export interface FloorPlanData {
@@ -6,6 +6,8 @@ export interface FloorPlanData {
   baseImageUrl: string | null;
   imageWidth?: number | null;
   imageHeight?: number | null;
+  name?: string;
+  description?: string;
 }
 
 export interface ApiResponse<T = any> {
@@ -16,11 +18,19 @@ export interface ApiResponse<T = any> {
 }
 
 const handleApiError = (error: any, defaultMessage: string): ApiResponse => {
-  console.error('API Error:', error);
+  console.error('API Error Details:', {
+    url: error.config?.url,
+    method: error.config?.method,
+    status: error.response?.status,
+    statusText: error.response?.statusText,
+    data: error.response?.data
+  });
   
   let errorMessage = defaultMessage;
   
-  if (error.response?.data?.error) {
+  if (error.response?.status === 401) {
+    errorMessage = 'Authentication required. Please log in.';
+  } else if (error.response?.data?.error) {
     errorMessage = error.response.data.error;
   } else if (error.response?.data?.message) {
     errorMessage = error.response.data.message;
@@ -35,12 +45,35 @@ const handleApiError = (error: any, defaultMessage: string): ApiResponse => {
 };
 
 export const boothsAPI = {
-  // Get floor plan
+  // Get floor plan - Use ONLY the correct endpoint
   getFloorPlan: async (): Promise<ApiResponse<FloorPlanData>> => {
     try {
-      const response = await api.get('/booths/floor-plan');
+      // Log what we're about to do
+      console.log('Fetching floor plan from: /floor-plan/floor-plan');
+      
+      // Try ONLY the correct endpoint
+      const response = await api.get('/floor-plan');
+      console.log('Floor plan response:', response.data);
       return response.data;
     } catch (error: any) {
+      console.error('Get floor plan error:', {
+        status: error.response?.status,
+        url: error.config?.url,
+        data: error.response?.data
+      });
+      
+      // If unauthorized, clear token and maybe redirect
+      if (error.response?.status === 401) {
+        // Clear invalid token
+        localStorage.removeItem('admin_token');
+        localStorage.removeItem('exhibitor_token');
+        
+        // Optionally redirect to login
+        if (typeof window !== 'undefined') {
+          window.location.href = '/login';
+        }
+      }
+      
       return handleApiError(error, 'Failed to load floor plan');
     }
   },
@@ -48,7 +81,8 @@ export const boothsAPI = {
   // Upload image
   uploadImage: async (formData: FormData): Promise<ApiResponse<FloorPlanData>> => {
     try {
-      const response = await api.post('/booths/upload-image', formData, {
+      console.log('Uploading to: /floor-plan/upload-image');
+      const response = await api.post('/floor-plan/upload-image', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -59,27 +93,31 @@ export const boothsAPI = {
     }
   },
 
-  // Reset/Delete floor plan
+  // Reset floor plan
   reset: async (): Promise<ApiResponse> => {
     try {
-      const response = await api.post('/booths/reset');
+      console.log('Resetting at: /floor-plan/reset');
+      const response = await api.post('/floor-plan/reset');
       return response.data;
     } catch (error: any) {
       return handleApiError(error, 'Failed to reset floor plan');
     }
   },
-saveFloorPlan: async (data: {
-  baseImageUrl?: string | null;
-  booths?: any[];
-}) => {
-  try {
-    const response = await api.post("/booths/save-floor-plan", data);
-    return response.data;
-  } catch (error: any) {
-    return {
-      success: false,
-      error: error.response?.data?.error || "Save failed"
-    };
-  }
-}
+
+  // Save floor plan
+  saveFloorPlan: async (data: {
+    baseImageUrl?: string | null;
+    booths?: any[];
+  }): Promise<ApiResponse> => {
+    try {
+      console.log('Saving to: /floor-plan/save-floor-plan');
+      const response = await api.post("/floor-plan/save-floor-plan", data);
+      return response.data;
+    } catch (error: any) {
+      return {
+        success: false,
+        error: error.response?.data?.error || "Save failed"
+      };
+    }
+  },
 };

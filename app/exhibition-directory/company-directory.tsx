@@ -1,23 +1,26 @@
-// app/exhibition-directory/page.tsx
 'use client'
 
 import { useState, useEffect } from 'react'
 import CompanyGrid from './company-grid'
-import { mockCompanies } from '@/lib/mock-data'
 import { useRouter } from 'next/navigation'
-import { Search, ChevronDown, Filter, X } from 'lucide-react'
+import { Search, ChevronDown, Filter, X, Loader2 } from 'lucide-react'
 import BackToTop from '../exhibitor-resource-center/component/BackToTop'
+import { fetchExhibitionCompanies, ExhibitionCompany } from './api'
 
 export default function CompanyDirectory() {
   const router = useRouter()
+  const [companies, setCompanies] = useState<ExhibitionCompany[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
   const [viewMode, setViewMode] = useState<'grid' | 'gallery' | 'list'>('grid')
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [isMobile, setIsMobile] = useState(false)
   const [showMobileFilters, setShowMobileFilters] = useState(false)
 
-  const companiesPerPage = isMobile ? 12 : 24
+  const companiesPerPage = 24
 
   // Detect mobile
   useEffect(() => {
@@ -29,43 +32,50 @@ export default function CompanyDirectory() {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // Filter by search and alphabet
-  const filteredCompanies = mockCompanies.filter((company) => {
-    const matchesSearch = searchQuery === '' || 
-      company.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      company.country.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      company.pavilion.toLowerCase().includes(searchQuery.toLowerCase())
-    
-    const matchesLetter = !selectedLetter || 
-      company.name?.toUpperCase().startsWith(selectedLetter)
-    
-    return matchesSearch && matchesLetter
-  })
+  // Fetch companies
+  useEffect(() => {
+    const loadCompanies = async () => {
+      setLoading(true)
+      setError(null)
+      try {
+        const result = await fetchExhibitionCompanies(currentPage, companiesPerPage, searchQuery)
+        setCompanies(result.companies)
+        setTotalPages(result.totalPages)
+      } catch (err) {
+        setError('Failed to load exhibitors. Please try again.')
+        console.error(err)
+      } finally {
+        setLoading(false)
+      }
+    }
 
-  // Pagination Logic
-  const totalCompanies = filteredCompanies.length
-  const totalPages = Math.ceil(totalCompanies / companiesPerPage)
-  const startIndex = (currentPage - 1) * companiesPerPage
+    // Debounce search
+    const timeoutId = setTimeout(() => {
+      loadCompanies()
+    }, 300)
 
-  const displayedCompanies = filteredCompanies.slice(
-    startIndex,
-    startIndex + companiesPerPage
-  )
+    return () => clearTimeout(timeoutId)
+  }, [currentPage, searchQuery])
 
-  const handleProductBrochure = (companyId: number, companyName: string) => {
+  // Filter by letter (client-side filtering)
+  const filteredCompanies = selectedLetter
+    ? companies.filter(company => 
+        company.name?.toUpperCase().startsWith(selectedLetter)
+      )
+    : companies
+
+  const handleProductBrochure = (companyId: string, companyName: string) => {
     const slug = companyName.toLowerCase().replace(/\s+/g, '-')
-    router.push(`/exhibitor/${companyId}/brochures/${slug}`)
+    router.push(`/exhibition-directory/${companyId}`)
   }
 
   // Pagination range
   const getPaginationRange = () => {
     if (isMobile) {
-      // Show only 2 pages on mobile
       const start = Math.max(1, currentPage - 1)
       const end = Math.min(totalPages, start + 1)
       return Array.from({ length: end - start + 1 }, (_, i) => start + i)
     } else {
-      // Show up to 5 pages on desktop
       const maxPages = 5
       let start = Math.max(1, currentPage - Math.floor(maxPages / 2))
       let end = Math.min(totalPages, start + maxPages - 1)
@@ -78,13 +88,23 @@ export default function CompanyDirectory() {
     }
   }
 
+  if (loading && companies.length === 0) {
+    return (
+      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="w-12 h-12 animate-spin text-slate-600 mx-auto mb-4" />
+          <p className="text-slate-600">Loading exhibitors...</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* Top Navigation and View Toggle - Fixed for mobile */}
+      {/* Top Navigation - same as before */}
       <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-slate-200 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 sm:py-3 md:py-4">
           <div className="flex items-center justify-between">
-            {/* Mobile menu button */}
             <button
               onClick={() => setShowMobileFilters(!showMobileFilters)}
               className="md:hidden p-2 rounded-lg hover:bg-slate-100"
@@ -93,7 +113,6 @@ export default function CompanyDirectory() {
               <Filter size={20} />
             </button>
 
-            {/* View Toggles */}
             <div className="flex items-center gap-1 sm:gap-2">
               <button
                 onClick={() => setViewMode('grid')}
@@ -106,7 +125,6 @@ export default function CompanyDirectory() {
               >
                 <GridIcon />
               </button>
-
               <button
                 onClick={() => setViewMode('gallery')}
                 className={`p-2 rounded-lg transition-colors ${
@@ -118,7 +136,6 @@ export default function CompanyDirectory() {
               >
                 <GalleryIcon />
               </button>
-
               <button
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded-lg transition-colors ${
@@ -132,7 +149,6 @@ export default function CompanyDirectory() {
               </button>
             </div>
 
-            {/* Search on desktop */}
             <div className="hidden md:flex flex-1 max-w-xs ml-6">
               <div className="relative w-full">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
@@ -150,7 +166,6 @@ export default function CompanyDirectory() {
             </div>
           </div>
 
-          {/* Mobile search */}
           <div className="mt-3 md:hidden">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-5 h-5" />
@@ -169,24 +184,11 @@ export default function CompanyDirectory() {
         </div>
       </div>
 
-      {/* Mobile Filters Overlay */}
-      {showMobileFilters && (
-        <div className="fixed inset-0 z-40 bg-black bg-opacity-50 md:hidden">
-          <div className="absolute right-0 top-0 bottom-0 w-80 bg-white p-6 shadow-xl overflow-y-auto">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-lg font-semibold">Filters</h3>
-              <button
-                onClick={() => setShowMobileFilters(false)}
-                className="p-2 hover:bg-slate-100 rounded-lg"
-              >
-                <X size={20} />
-              </button>
-            </div>
-            
-            {/* Filter content */}
-            <div className="space-y-6">
-             
-            </div>
+      {/* Error display */}
+      {error && (
+        <div className="fixed top-20 left-0 right-0 z-40 max-w-7xl mx-auto px-4">
+          <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg">
+            {error}
           </div>
         </div>
       )}
@@ -194,8 +196,6 @@ export default function CompanyDirectory() {
       <main className="pt-24 sm:pt-28 md:pt-32 pb-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Alphabetical Filter */}
         <div className="mb-6 md:mb-8 mt-10">
-       
-
           <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
             <button
               onClick={() => {
@@ -232,29 +232,32 @@ export default function CompanyDirectory() {
           </div>
 
           <div className="text-sm text-slate-600 mt-4">
-            Showing {totalCompanies} companies {selectedLetter && `starting with "${selectedLetter}"`}
+            Showing {filteredCompanies.length} companies {selectedLetter && `starting with "${selectedLetter}"`}
           </div>
         </div>
 
         {/* Companies Grid */}
-        <CompanyGrid 
-          companies={displayedCompanies} 
-          viewMode={viewMode}
-          onProductBrochureClick={handleProductBrochure}
-        />
+        {loading ? (
+          <div className="flex justify-center py-12">
+            <Loader2 className="w-8 h-8 animate-spin text-slate-600" />
+          </div>
+        ) : (
+          <CompanyGrid 
+            companies={filteredCompanies} 
+            viewMode={viewMode}
+            onProductBrochureClick={handleProductBrochure}
+          />
+        )}
 
-        {/* Pagination - Enhanced for mobile */}
-        {totalCompanies > 0 && (
+        {/* Pagination */}
+        {!loading && filteredCompanies.length > 0 && (
           <div className="mt-8 md:mt-12">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="text-sm text-slate-600">
-                Showing {Math.min(startIndex + 1, totalCompanies)} to{' '}
-                {Math.min(startIndex + companiesPerPage, totalCompanies)} of{' '}
-                {totalCompanies} companies
+                Page {currentPage} of {totalPages}
               </div>
 
               <div className="flex items-center gap-2">
-                {/* Previous Button */}
                 <button
                   onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                   disabled={currentPage === 1}
@@ -264,11 +267,10 @@ export default function CompanyDirectory() {
                       : 'text-slate-700 hover:bg-slate-100'
                   }`}
                 >
-                  <ChevronLeft  />
+                  <ChevronLeft />
                   <span className="hidden sm:inline">Previous</span>
                 </button>
 
-                {/* Page Numbers */}
                 <div className="flex items-center gap-1">
                   {getPaginationRange().map((page) => (
                     <button
@@ -285,7 +287,6 @@ export default function CompanyDirectory() {
                   ))}
                 </div>
 
-                {/* Next Button */}
                 <button
                   onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                   disabled={currentPage === totalPages}
@@ -296,26 +297,15 @@ export default function CompanyDirectory() {
                   }`}
                 >
                   <span className="hidden sm:inline">Next</span>
-                  <ChevronRight  />
+                  <ChevronRight />
                 </button>
               </div>
             </div>
-
-            {/* Mobile quick navigation */}
-            {isMobile && totalPages > 2 && (
-              <div className="mt-4 flex justify-center">
-                <div className="flex items-center gap-2">
-                  <span className="text-sm text-slate-600">
-                    Page {currentPage} of {totalPages}
-                  </span>
-                </div>
-              </div>
-            )}
           </div>
         )}
 
         {/* Empty state */}
-        {totalCompanies === 0 && (
+        {!loading && filteredCompanies.length === 0 && (
           <div className="text-center py-12">
             <div className="text-slate-400 mb-4">
               <Search size={48} className="mx-auto" />
@@ -342,7 +332,7 @@ export default function CompanyDirectory() {
   )
 }
 
-// Update the icons to be responsive
+// Icons remain the same...
 function GridIcon() {
   return (
     <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="currentColor" viewBox="0 0 24 24">
