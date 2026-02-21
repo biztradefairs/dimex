@@ -351,18 +351,6 @@ export default function ExhibitorDetailPage() {
                         <span className="truncate">Visit Website</span>
                       </a>
                     )}
-                    <div className="flex items-center gap-3">
-                      {company.phone && (
-                        <a href={`tel:${company.phone}`} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                          <Phone size={18} />
-                        </a>
-                      )}
-                      {company.email && (
-                        <a href={`mailto:${company.email}`} className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                          <Mail size={18} />
-                        </a>
-                      )}
-                    </div>
                   </div>
                 </div>
               </div>

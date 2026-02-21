@@ -1,5 +1,6 @@
 // app/api/boothsAPI.ts
 import api from "@/lib/api";
+import axios from "axios";
 
 export interface FloorPlanData {
   id?: number;
@@ -8,6 +9,8 @@ export interface FloorPlanData {
   imageHeight?: number | null;
   name?: string;
   description?: string;
+  cloudinaryPublicId?: string;
+  booths?: any[];
 }
 
 export interface ApiResponse<T = any> {
@@ -17,107 +20,177 @@ export interface ApiResponse<T = any> {
   message?: string;
 }
 
+const API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_URL ||
+  "https://diemex-backend.onrender.com/api";
+
 const handleApiError = (error: any, defaultMessage: string): ApiResponse => {
-  console.error('API Error Details:', {
+  console.error("API Error Details:", {
     url: error.config?.url,
     method: error.config?.method,
     status: error.response?.status,
-    statusText: error.response?.statusText,
-    data: error.response?.data
+    data: error.response?.data,
+    message: error.message
   });
-  
-  let errorMessage = defaultMessage;
-  
-  if (error.response?.status === 401) {
-    errorMessage = 'Authentication required. Please log in.';
-  } else if (error.response?.data?.error) {
-    errorMessage = error.response.data.error;
-  } else if (error.response?.data?.message) {
-    errorMessage = error.response.data.message;
-  } else if (error.message) {
-    errorMessage = error.message;
-  }
-  
+
   return {
     success: false,
-    error: errorMessage,
+    error:
+      error.response?.data?.error ||
+      error.response?.data?.message ||
+      error.message ||
+      defaultMessage,
   };
 };
 
 export const boothsAPI = {
-  // Get floor plan - Use ONLY the correct endpoint
+  // ==========================
+  // GET FLOOR PLAN
+  // ==========================
   getFloorPlan: async (): Promise<ApiResponse<FloorPlanData>> => {
     try {
-      // Log what we're about to do
-      console.log('Fetching floor plan from: /floor-plan/floor-plan');
-      
-      // Try ONLY the correct endpoint
-      const response = await api.get('/floor-plan');
-      console.log('Floor plan response:', response.data);
+      const response = await api.get("/floor-plan");
       return response.data;
     } catch (error: any) {
-      console.error('Get floor plan error:', {
-        status: error.response?.status,
-        url: error.config?.url,
-        data: error.response?.data
-      });
-      
-      // If unauthorized, clear token and maybe redirect
-      if (error.response?.status === 401) {
-        // Clear invalid token
-        localStorage.removeItem('admin_token');
-        localStorage.removeItem('exhibitor_token');
-        
-        // Optionally redirect to login
-        if (typeof window !== 'undefined') {
-          window.location.href = '/login';
-        }
-      }
-      
-      return handleApiError(error, 'Failed to load floor plan');
+      return handleApiError(error, "Failed to load floor plan");
     }
   },
 
-  // Upload image
-  uploadImage: async (formData: FormData): Promise<ApiResponse<FloorPlanData>> => {
-    try {
-      console.log('Uploading to: /floor-plan/upload-image');
-      const response = await api.post('/floor-plan/upload-image', formData, {
+  // ==========================
+  // UPLOAD IMAGE - FIXED VERSION
+  // ==========================
+uploadImage: async (formData: FormData) => {
+  try {
+    const token =
+      localStorage.getItem("admin_token") ||
+      localStorage.getItem("token");
+
+    if (!token) {
+      throw new Error("Authentication required");
+    }
+
+    const response = await axios.post(
+      `${API_BASE_URL}/floor-plan/upload-image`,
+      formData,
+      {
         headers: {
-          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
         },
+      }
+    );
+
+    return response.data;
+  } catch (error: any) {
+    console.error("UPLOAD ERROR FULL:", error.response?.data);
+    throw error;
+  }
+},
+
+  // Alternative upload method using direct fetch
+  uploadImageFetch: async (
+    formData: FormData
+  ): Promise<ApiResponse<FloorPlanData>> => {
+    try {
+      const token =
+        localStorage.getItem("admin_token") ||
+        localStorage.getItem("token");
+
+      const response = await fetch(`${API_BASE_URL}/floor-plan/upload-image`, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Authorization': token ? `Bearer ${token}` : '',
+          // Do NOT set Content-Type header
+        }
       });
-      return response.data;
+
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Upload failed');
+      }
+
+      return data;
     } catch (error: any) {
-      return handleApiError(error, 'Failed to upload image');
+      return handleApiError(error, "Failed to upload image");
     }
   },
 
-  // Reset floor plan
+  // ==========================
+  // RESET FLOOR PLAN
+  // ==========================
   reset: async (): Promise<ApiResponse> => {
     try {
-      console.log('Resetting at: /floor-plan/reset');
-      const response = await api.post('/floor-plan/reset');
+      const response = await api.post("/floor-plan/reset");
       return response.data;
     } catch (error: any) {
-      return handleApiError(error, 'Failed to reset floor plan');
+      return handleApiError(error, "Failed to reset floor plan");
     }
   },
 
-  // Save floor plan
+  // ==========================
+  // SAVE FLOOR PLAN
+  // ==========================
   saveFloorPlan: async (data: {
     baseImageUrl?: string | null;
     booths?: any[];
   }): Promise<ApiResponse> => {
     try {
-      console.log('Saving to: /floor-plan/save-floor-plan');
-      const response = await api.post("/floor-plan/save-floor-plan", data);
+      const response = await api.post(
+        "/floor-plan/save-floor-plan",
+        data
+      );
       return response.data;
     } catch (error: any) {
-      return {
-        success: false,
-        error: error.response?.data?.error || "Save failed"
-      };
+      return handleApiError(error, "Save failed");
     }
   },
+
+  // ==========================
+  // ADD BOOTH
+  // ==========================
+  addBooth: async (boothData: any): Promise<ApiResponse> => {
+    try {
+      const response = await api.post("/floor-plan/booth", boothData);
+      return response.data;
+    } catch (error: any) {
+      return handleApiError(error, "Failed to add booth");
+    }
+  },
+
+  // ==========================
+  // UPDATE BOOTH
+  // ==========================
+  updateBooth: async (boothId: string, updateData: any): Promise<ApiResponse> => {
+    try {
+      const response = await api.put(`/floor-plan/booth/${boothId}`, updateData);
+      return response.data;
+    } catch (error: any) {
+      return handleApiError(error, "Failed to update booth");
+    }
+  },
+
+  // ==========================
+  // DELETE BOOTH
+  // ==========================
+  deleteBooth: async (boothId: string): Promise<ApiResponse> => {
+    try {
+      const response = await api.delete(`/floor-plan/booth/${boothId}`);
+      return response.data;
+    } catch (error: any) {
+      return handleApiError(error, "Failed to delete booth");
+    }
+  },
+
+  // ==========================
+  // GET STATISTICS
+  // ==========================
+  getStatistics: async (): Promise<ApiResponse> => {
+    try {
+      const response = await api.get("/floor-plan/statistics");
+      return response.data;
+    } catch (error: any) {
+      return handleApiError(error, "Failed to get statistics");
+    }
+  }
 };
