@@ -58,26 +58,26 @@ export default async function SectorPage({ params }: PageProps) {
       {/* LEFT CONTENT */}
       <div>
         <h2 className="text-3xl font-bold text-gray-900 mb-6">
-          {slug === 'ports-and-terminals-freight-handling-services-in-ports' 
-            ? "Power Seamless Cargo Movement with Eurasia's Port & Terminal Logistics"
-            : `Power Your Business with ${sectorData.title.split(' ')[0]} Solutions`}
-        </h2>
+        {slug === 'die-mould-tooling-precision-manufacturing'
+  ? "Power Precision Manufacturing with Advanced Die & Mould Solutions"
+  : `Drive Manufacturing Excellence with ${sectorData.title.split(' ')[0]} Solutions`}
+</h2>
 
         <div className="space-y-6 text-gray-700 leading-relaxed text-[17px]">
           <p>
-            {slug === 'ports-and-terminals-freight-handling-services-in-ports' 
-              ? <>As Eurasia expands its role in global trade, ports and maritime terminals are becoming strategic logistics hubs—facilitating efficient import/export flows across Eurasia. The country's port logistics market is projected to surpass <strong>$61 billion USD by 2028</strong>.</>
-              : <>The {sectorData.title} sector is experiencing rapid growth across Eurasia, with increasing demand for specialized solutions. The market is projected to grow significantly in the coming years.</>}
-          </p>
+            {slug === 'die-mould-tooling-precision-manufacturing'
+          ? <>As India strengthens its position as a global manufacturing hub, the die & mould industry is playing a critical role in supporting automotive, aerospace, electronics, EV, and plastics sectors. The Indian die & mould market is projected to witness strong double-digit growth in the coming years, driven by Make in India, localisation, and rising precision engineering demand.</>
+: <>The {sectorData.title} segment is experiencing rapid expansion across India, with increasing demand for high-precision tooling, advanced machining, automation, and smart manufacturing solutions.</>}
+</p>
 
           <p>
-            {slug === 'ports-and-terminals-freight-handling-services-in-ports'
-              ? <>At <strong>TransRussia</strong>, the ports & maritime terminals sector brings together leading stevedores, port operators, and cargo handling specialists showcasing vessel docking, transshipment, storage, and customs support.</>
-              : <>At <strong>TransRussia</strong>, the {sectorData.title} sector brings together industry leaders showcasing innovative solutions, technologies, and services.</>}
-          </p>
+            {slug === 'die-mould-tooling-precision-manufacturing'
+          ? <>At <strong>DIEMEX</strong>, the die & mould and tooling sector brings together leading tool makers, mould manufacturers, precision machining experts, and technology providers showcasing advanced CNC systems, tooling solutions, mould components, automation, and smart manufacturing innovations.</>
+: <>At <strong>DIEMEX</strong>, the {sectorData.title} segment brings together industry leaders presenting cutting-edge manufacturing technologies, high-precision solutions, and engineering services.</>}
+</p>
 
           <p>
-            {slug === 'ports-and-terminals-freight-handling-services-in-ports'
+            {slug === 'die-mould-tooling-precision-manufacturing'
               ? "Whether managing bulk, container, or project cargo, this sector connects you to the infrastructure, technology, and services powering modern port logistics."
               : "Whether you're looking for cutting-edge technology or reliable service providers, this sector connects you with the expertise needed to optimize your operations."}
           </p>
@@ -217,10 +217,10 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
   
   return {
-    title: `${sectorData.title} | TransRussia 2026`,
+    title: `${sectorData.title} | Diemex 2026`,
     description: sectorData.description,
     openGraph: {
-      title: `${sectorData.title} | TransRussia 2026`,
+      title: `${sectorData.title} | Diemex  2026`,
       description: sectorData.description,
       images: [sectorData.heroImage]
     }

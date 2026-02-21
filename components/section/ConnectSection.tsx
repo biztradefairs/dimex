@@ -14,13 +14,13 @@ export default function ConnectSection() {
               
               <div className="space-y-6 max-w-3xl">
                 <p className="text-lg md:text-xl leading-relaxed">
-                  Experience year-round networking and collaboration with TransRussia Connect, our exclusive app designed for logistics professionals. Connect and collaborate seamlessly, 365 days a year, using this dedicated platform.
+                  Experience year-round networking and collaboration with Tooling Trends, our exclusive website designed for tooling professionals. Connect and collaborate seamlessly, 365 days a year, using this dedicated platform.
                 </p>
               </div>
               
               <a href="https://app.transrussia-connect.com/public/post?id=3f91096c0eb34ab0bf2a55762da78caa&vendorId=edce6a84-ed2f-455a-afd7-d7fbb0d16c00" className="block mt-8">
                 <button className="flex items-center justify-center group gap-2 overflow-hidden rounded-full px-10 py-4 font-jakarta text-[16px] font-semibold transition-all duration-300 bg-white text-[#0092D7] hover:bg-[#0092D7] hover:text-white w-fit">
-                  Join TransRussia Connect
+                  Join Toolingtrends.com
                 </button>
               </a>
             </div>

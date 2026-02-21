@@ -6,9 +6,9 @@ export const sectorDatabase = {
     description: 'Comprehensive logistics solutions including freight forwarding, customs clearance, and supply chain management services.',
     heroImage: '/images/image.png',
     stats: {
-      visitors: '30,400+',
-      exhibitors: '590+',
-      countries: '50+'
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -60,9 +60,9 @@ export const sectorDatabase = {
     description: 'Ocean and river transport services, shipping lines, and inland waterway logistics solutions.',
     heroImage: '/images/image.png',
     stats: {
-      visitors: '30,400+',
-      exhibitors: '590+',
-      countries: '50+'
+     visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -114,9 +114,9 @@ export const sectorDatabase = {
     description: 'Air cargo services, express logistics, and aviation freight solutions.',
     heroImage: '/images/image.png',
     stats: {
-      visitors: '30,400+',
-      exhibitors: '590+',
-      countries: '50+'
+    visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -168,9 +168,9 @@ export const sectorDatabase = {
   description: 'Rail transportation, intermodal solutions, and rail logistics across Eurasia.',
   heroImage: '/images/image.png',
   stats: {
-    visitors: '30,400+',
-    exhibitors: '590+',
-    countries: '50+'
+   visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
   },
   whyExhibit: [
     {
@@ -222,9 +222,9 @@ export const sectorDatabase = {
   description: 'Trucking, LTL, FTL services, and road transport logistics.',
   heroImage: '/images/image.png',
   stats: {
-    visitors: '30,400+',
-    exhibitors: '590+',
-    countries: '50+'
+   visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
   },
   whyExhibit: [
     {
@@ -276,9 +276,9 @@ export const sectorDatabase = {
   description: 'Warehouse management systems, automation, and storage technology solutions.',
   heroImage: '/images/image.png',
   stats: {
-    visitors: '30,400+',
-    exhibitors: '590+',
-    countries: '50+'
+    visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
   },
   whyExhibit: [
     {
@@ -330,9 +330,9 @@ export const sectorDatabase = {
   description: 'Logistics software, tracking systems, and digital supply chain solutions.',
   heroImage: '/images/image.png',
   stats: {
-    visitors: '30,400+',
-    exhibitors: '590+',
-    countries: '50+'
+    visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
   },
   whyExhibit: [
     {
@@ -384,9 +384,9 @@ export const sectorDatabase = {
   description: 'Fulfillment, last-mile delivery, and e-commerce supply chain services.',
   heroImage: '/images/image.png',
   stats: {
-    visitors: '30,400+',
-    exhibitors: '590+',
-    countries: '50+'
+   visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
   },
   whyExhibit: [
     {
@@ -438,9 +438,9 @@ export const sectorDatabase = {
   description: 'Oversized cargo transport, project logistics, and specialized heavy haulage.',
   heroImage: '/images/image.png',
   stats: {
-    visitors: '30,400+',
-    exhibitors: '590+',
-    countries: '50+'
+    visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
   },
   whyExhibit: [
     {
@@ -493,9 +493,9 @@ export const sectorDatabase = {
     description: 'Discover expert stevedoring, logistics, and storage solutions for seamless port operations at TransRussia.',
     heroImage: '/images/image.png',
     stats: {
-      visitors: '30,400+',
-      exhibitors: '590+',
-      countries: '50+'
+     visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -528,7 +528,7 @@ export const sectorDatabase = {
     ],
     faqs: [
       {
-        question: "Who exhibits at TransRussia?",
+        question: "Who exhibits at Diemex?",
         answer: "Logistics companies, freight forwarders, carriers (road, rail, sea, air), 3PLs, terminals, IT and customs service providers."
       },
       {
@@ -548,9 +548,9 @@ export const sectorDatabase = {
     description: 'Comprehensive die & mould manufacturing, tooling systems, design engineering, and end-to-end production solutions supporting high-precision industrial applications.',
     heroImage: 'https://cdn.itegroupnews.com/Untitled_design_16_ff2396a005.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -602,9 +602,9 @@ export const sectorDatabase = {
     description: 'High-quality mould bases, precision components, hot runner systems, and standard tooling elements supporting efficient and reliable die & mould production.',
     heroImage: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_5_46a97403ad.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -656,9 +656,9 @@ export const sectorDatabase = {
     description: 'High-precision CNC machining, EDM, wire-cut, surface finishing, and polishing solutions for toolroom operations.',
     heroImage: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_4_b89e6f82a3.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -710,9 +710,9 @@ export const sectorDatabase = {
     description: 'Smart automation, robotics, digital manufacturing, and smart factory technologies for modern die & mould production.',
     heroImage: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_3_9089d75ec1.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+     visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -764,9 +764,9 @@ export const sectorDatabase = {
     description: 'Advanced design, simulation, and manufacturing software enabling accurate tooling development and reduced time-to-market.',
     heroImage: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_7_c75137da32.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+    visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -818,9 +818,9 @@ export const sectorDatabase = {
     description: 'High-performance tool steels, alloy steels, special metals, and advanced materials engineered for durability, precision, and long tool life in die & mould applications.',
     heroImage: 'https://cdn.itegroupnews.com/httpstransrussia_preview_prismetic_comterms_of_visiting_1200_x_490_px_a78a81f1aa.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -873,9 +873,9 @@ export const sectorDatabase = {
     description: 'Storage systems, racking, and warehouse infrastructure solutions.',
     heroImage: '/images/image.png',
     stats: {
-      visitors: '15,200+',
-      exhibitors: '280+',
-      countries: '35+'
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -909,9 +909,9 @@ export const sectorDatabase = {
     description: 'Injection moulds, die casting dies, press tools, blow moulds, extrusion dies and comprehensive manufacturing solutions.',
     heroImage: '/images/image.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+     visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -963,9 +963,9 @@ export const sectorDatabase = {
     description: 'Cutting tools, jigs & fixtures, gauges, tool holders, and comprehensive tool room solutions for precision manufacturing.',
     heroImage: '/images/image.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+     visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -1017,9 +1017,9 @@ export const sectorDatabase = {
     description: 'Industrial automation, robotics, Industry 4.0 solutions, and smart manufacturing technologies for modern production.',
     heroImage: '/images/image.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+     visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -1071,9 +1071,9 @@ export const sectorDatabase = {
     description: 'Machining centres, turning, grinding, EDM, VMCs & HMCs, and comprehensive precision engineering solutions.',
     heroImage: '/images/image.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -1125,9 +1125,9 @@ export const sectorDatabase = {
     description: 'Coatings, finishing, hardening, thermal processes, and surface enhancement technologies for extended component life.',
     heroImage: '/images/image.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+    visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -1179,9 +1179,9 @@ export const sectorDatabase = {
     description: 'Tool steels, special alloys, polymers, consumables, and advanced materials for demanding manufacturing applications.',
     heroImage: '/images/image.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -1235,9 +1235,9 @@ export const sectorDatabase = {
     description: 'Plastics, rubber, die casting, metal forming solutions, and comprehensive moulding technologies for production.',
     heroImage: '/images/image.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+     visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
