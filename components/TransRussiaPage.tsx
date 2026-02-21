@@ -502,7 +502,7 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                   <p className="text-sm">
                     Need assistance with registration? Contact us at{' '}
                     <a href="mailto:pad@diemex.in" className="text-blue-600 hover:underline">
-                      info@transrussia.ru
+                      pad@diemex.in
                     </a>
                   </p>
                 </div>
