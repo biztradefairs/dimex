@@ -31,7 +31,8 @@ import {
   ChevronRightIcon,
   PhotoIcon,
   ExclamationCircleIcon,
-  MagnifyingGlassPlusIcon
+  MagnifyingGlassPlusIcon,
+  LockClosedIcon
 } from '@heroicons/react/24/outline';
 import { MenuIcon } from 'lucide-react';
 import Image from 'next/image';
@@ -391,6 +392,48 @@ export default function RequirementsPage() {
   const [apiError, setApiError] = useState<string | null>(null);
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
 
+  // ============= FIELD-LEVEL READ-ONLY STATES =============
+  const [readOnlyFields, setReadOnlyFields] = useState({
+    // General Info
+    generalInfo_title: false,
+    generalInfo_firstName: false,
+    generalInfo_lastName: false,
+    generalInfo_designation: false,
+    generalInfo_mobile: false,
+    generalInfo_email: false,
+    generalInfo_companyName: false,
+    generalInfo_businessNature: false,
+    generalInfo_gstNumber: false,
+    
+    // Booth Details - Exhibitor fields (auto-filled)
+    boothDetails_boothNo: false,
+    boothDetails_exhibitorName: false,
+    boothDetails_sqMtrBooked: false,
+    boothDetails_organisation: false,
+    boothDetails_contactPerson: false,
+    boothDetails_designation: false,
+    boothDetails_mobile: false,
+    boothDetails_email: false,
+    
+    // Booth Details - Contractor fields (always editable - no read-only flags needed)
+    
+    // Company Details
+    companyDetails_companyName: false,
+    companyDetails_address: false,
+    companyDetails_telephone: false,
+    companyDetails_mobile: false,
+    companyDetails_email: false,
+    companyDetails_website: false,
+    companyDetails_contactPerson: false,
+    companyDetails_designation: false,
+    companyDetails_productsServices: false,
+    
+    // Personnel - First row
+    personnel_0_name: false,
+    personnel_0_designation: false,
+    personnel_0_organisation: false,
+  });
+
   // Form 1 - General Information
   const [generalInfo, setGeneralInfo] = useState<GeneralInfo>({
     title: 'Mr',
@@ -531,6 +574,14 @@ export default function RequirementsPage() {
   
   // Security Deposit Tiers from API
   const [securityDepositTiers, setSecurityDepositTiers] = useState<SecurityDepositTier[]>([]);
+
+  // ============= HELPER FUNCTION =============
+  const hasData = (value: any): boolean => {
+    if (value === null || value === undefined) return false;
+    if (typeof value === 'string') return value.trim() !== '';
+    if (typeof value === 'number') return value !== 0;
+    return true;
+  };
 
   // ============= FETCH ALL DATA =============
   useEffect(() => {
@@ -731,23 +782,41 @@ export default function RequirementsPage() {
         lastName = parts.slice(1).join(' ') || '';
       }
 
-      // Update General Info
-      setGeneralInfo(prev => ({
-        ...prev,
-        title,
-        firstName,
-        lastName,
-        designation: contactPersonObj.jobTitle || prev.designation,
-        mobile: contactPersonObj.phone || prev.mobile,
-        email: contactPersonObj.email || prev.email,
-        companyName: apiData.company || apiData.companyName || prev.companyName,
-        businessNature: typeof apiData.sector === 'string'
-          ? apiData.sector.split(',')[0]
-          : Array.isArray(apiData.sector)
-          ? apiData.sector[0]
-          : prev.businessNature,
-        gstNumber: apiData.registrationNumber || apiData.gstNumber || prev.gstNumber
-      }));
+      // Update General Info and set read-only only for fields with data
+      setGeneralInfo(prev => {
+        const newState = {
+          ...prev,
+          title: hasData(title) ? title : prev.title,
+          firstName: hasData(firstName) ? firstName : prev.firstName,
+          lastName: hasData(lastName) ? lastName : prev.lastName,
+          designation: contactPersonObj.jobTitle || prev.designation,
+          mobile: contactPersonObj.phone || prev.mobile,
+          email: contactPersonObj.email || prev.email,
+          companyName: apiData.company || apiData.companyName || prev.companyName,
+          businessNature: typeof apiData.sector === 'string'
+            ? apiData.sector.split(',')[0]
+            : Array.isArray(apiData.sector)
+            ? apiData.sector[0]
+            : prev.businessNature,
+          gstNumber: apiData.registrationNumber || apiData.gstNumber || prev.gstNumber
+        };
+        
+        // Set read-only flags for fields that have data
+        setReadOnlyFields(prevFlags => ({
+          ...prevFlags,
+          generalInfo_title: hasData(title),
+          generalInfo_firstName: hasData(firstName),
+          generalInfo_lastName: hasData(lastName),
+          generalInfo_designation: hasData(contactPersonObj.jobTitle),
+          generalInfo_mobile: hasData(contactPersonObj.phone),
+          generalInfo_email: hasData(contactPersonObj.email),
+          generalInfo_companyName: hasData(apiData.company || apiData.companyName),
+          generalInfo_businessNature: hasData(apiData.sector),
+          generalInfo_gstNumber: hasData(apiData.registrationNumber || apiData.gstNumber)
+        }));
+        
+        return newState;
+      });
 
       // Parse Address
       let street = '';
@@ -757,47 +826,91 @@ export default function RequirementsPage() {
         street = parts[0] || '';
       }
 
-      // Update Booth Details - AUTO FILL FROM GENERAL INFO
-      setBoothDetails(prev => ({
-        ...prev,
-        boothNo: apiData.boothNumber || apiData.booth_number || prev.boothNo,
-        exhibitorName: contactPersonObj.name || `${title} ${firstName} ${lastName}`.trim(),
-        organisation: apiData.company || apiData.companyName || prev.organisation,
-        contactPerson: contactPersonObj.name || `${firstName} ${lastName}`.trim(),
-        designation: contactPersonObj.jobTitle || prev.designation,
-        mobile: contactPersonObj.phone || prev.mobile,
-        email: contactPersonObj.email || prev.email
-      }));
+      // Update Booth Details and set read-only only for fields with data
+      setBoothDetails(prev => {
+        const newState = {
+          ...prev,
+          boothNo: apiData.boothNumber || apiData.booth_number || prev.boothNo,
+          exhibitorName: contactPersonObj.name || `${title} ${firstName} ${lastName}`.trim(),
+          organisation: apiData.company || apiData.companyName || prev.organisation,
+          contactPerson: contactPersonObj.name || `${firstName} ${lastName}`.trim(),
+          designation: contactPersonObj.jobTitle || prev.designation,
+          mobile: contactPersonObj.phone || prev.mobile,
+          email: contactPersonObj.email || prev.email
+        };
 
-      // Update Company Details - AUTO FILL FROM GENERAL INFO
-      setCompanyDetails(prev => ({
-        ...prev,
-        companyName: apiData.company || apiData.companyName || prev.companyName,
-        address: street || prev.address,
-        telephone: apiData.telephone || prev.telephone,
-        mobile: contactPersonObj.phone || prev.mobile,
-        email: contactPersonObj.email || prev.email,
-        website: apiData.website || prev.website,
-        contactPerson: contactPersonObj.name || `${firstName} ${lastName}`.trim(),
-        designation: contactPersonObj.jobTitle || prev.designation,
-        productsServices: typeof apiData.sector === 'string'
-          ? apiData.sector
-          : Array.isArray(apiData.sector)
-          ? apiData.sector.join(', ')
-          : prev.productsServices
-      }));
+        // Set read-only flags for fields that have data (exhibitor fields only)
+        setReadOnlyFields(prevFlags => ({
+          ...prevFlags,
+          boothDetails_boothNo: hasData(apiData.boothNumber || apiData.booth_number),
+          boothDetails_exhibitorName: hasData(contactPersonObj.name || `${title} ${firstName} ${lastName}`.trim()),
+          boothDetails_organisation: hasData(apiData.company || apiData.companyName),
+          boothDetails_contactPerson: hasData(contactPersonObj.name || `${firstName} ${lastName}`.trim()),
+          boothDetails_designation: hasData(contactPersonObj.jobTitle),
+          boothDetails_mobile: hasData(contactPersonObj.phone),
+          boothDetails_email: hasData(contactPersonObj.email)
+        }));
 
-      // Update First Personnel Row - AUTO FILL FROM GENERAL INFO
+        return newState;
+      });
+
+      // Update Company Details and set read-only only for fields with data
+      setCompanyDetails(prev => {
+        const newState = {
+          ...prev,
+          companyName: apiData.company || apiData.companyName || prev.companyName,
+          address: street || prev.address,
+          telephone: apiData.telephone || prev.telephone,
+          mobile: contactPersonObj.phone || prev.mobile,
+          email: contactPersonObj.email || prev.email,
+          website: apiData.website || prev.website,
+          contactPerson: contactPersonObj.name || `${firstName} ${lastName}`.trim(),
+          designation: contactPersonObj.jobTitle || prev.designation,
+          productsServices: typeof apiData.sector === 'string'
+            ? apiData.sector
+            : Array.isArray(apiData.sector)
+            ? apiData.sector.join(', ')
+            : prev.productsServices
+        };
+
+        setReadOnlyFields(prevFlags => ({
+          ...prevFlags,
+          companyDetails_companyName: hasData(apiData.company || apiData.companyName),
+          companyDetails_address: hasData(street),
+          companyDetails_telephone: hasData(apiData.telephone),
+          companyDetails_mobile: hasData(contactPersonObj.phone),
+          companyDetails_email: hasData(contactPersonObj.email),
+          companyDetails_website: hasData(apiData.website),
+          companyDetails_contactPerson: hasData(contactPersonObj.name || `${firstName} ${lastName}`.trim()),
+          companyDetails_designation: hasData(contactPersonObj.jobTitle),
+          companyDetails_productsServices: hasData(apiData.sector)
+        }));
+
+        return newState;
+      });
+
+      // Update First Personnel Row and set read-only only for fields with data
       setPersonnel(prev => {
         if (prev.length === 0) return prev;
 
         const updated = [...prev];
+        const name = contactPersonObj.name || `${firstName} ${lastName}`.trim();
+        const designation = contactPersonObj.jobTitle || updated[0].designation;
+        const organisation = apiData.company || updated[0].organisation;
+
         updated[0] = {
           ...updated[0],
-          name: contactPersonObj.name || `${firstName} ${lastName}`.trim(),
-          designation: contactPersonObj.jobTitle || updated[0].designation,
-          organisation: apiData.company || updated[0].organisation
+          name: name,
+          designation: designation,
+          organisation: organisation
         };
+
+        setReadOnlyFields(prevFlags => ({
+          ...prevFlags,
+          personnel_0_name: hasData(name),
+          personnel_0_designation: hasData(designation),
+          personnel_0_organisation: hasData(organisation)
+        }));
 
         return updated;
       });
@@ -809,42 +922,40 @@ export default function RequirementsPage() {
 
   // ============= AUTO-FILL EFFECT =============
   useEffect(() => {
-    // Auto-update booth details when general info changes
+    // Only auto-fill if fields are empty (not read-only)
     setBoothDetails(prev => ({
       ...prev,
-      exhibitorName: prev.exhibitorName || `${generalInfo.title} ${generalInfo.firstName} ${generalInfo.lastName}`.trim(),
-      organisation: prev.organisation || generalInfo.companyName,
-      contactPerson: prev.contactPerson || `${generalInfo.firstName} ${generalInfo.lastName}`.trim(),
-      mobile: prev.mobile || generalInfo.mobile,
-      email: prev.email || generalInfo.email,
-      designation: prev.designation || generalInfo.designation
+      exhibitorName: (!readOnlyFields.boothDetails_exhibitorName && !prev.exhibitorName) ? `${generalInfo.title} ${generalInfo.firstName} ${generalInfo.lastName}`.trim() : prev.exhibitorName,
+      organisation: (!readOnlyFields.boothDetails_organisation && !prev.organisation) ? generalInfo.companyName : prev.organisation,
+      contactPerson: (!readOnlyFields.boothDetails_contactPerson && !prev.contactPerson) ? `${generalInfo.firstName} ${generalInfo.lastName}`.trim() : prev.contactPerson,
+      mobile: (!readOnlyFields.boothDetails_mobile && !prev.mobile) ? generalInfo.mobile : prev.mobile,
+      email: (!readOnlyFields.boothDetails_email && !prev.email) ? generalInfo.email : prev.email,
+      designation: (!readOnlyFields.boothDetails_designation && !prev.designation) ? generalInfo.designation : prev.designation
     }));
 
-    // Auto-update company details when general info changes
     setCompanyDetails(prev => ({
       ...prev,
-      companyName: prev.companyName || generalInfo.companyName,
-      mobile: prev.mobile || generalInfo.mobile,
-      email: prev.email || generalInfo.email,
-      contactPerson: prev.contactPerson || `${generalInfo.firstName} ${generalInfo.lastName}`.trim(),
-      designation: prev.designation || generalInfo.designation
+      companyName: (!readOnlyFields.companyDetails_companyName && !prev.companyName) ? generalInfo.companyName : prev.companyName,
+      mobile: (!readOnlyFields.companyDetails_mobile && !prev.mobile) ? generalInfo.mobile : prev.mobile,
+      email: (!readOnlyFields.companyDetails_email && !prev.email) ? generalInfo.email : prev.email,
+      contactPerson: (!readOnlyFields.companyDetails_contactPerson && !prev.contactPerson) ? `${generalInfo.firstName} ${generalInfo.lastName}`.trim() : prev.contactPerson,
+      designation: (!readOnlyFields.companyDetails_designation && !prev.designation) ? generalInfo.designation : prev.designation
     }));
 
-    // Auto-update first personnel entry
     setPersonnel(prev => {
       const updated = [...prev];
       if (updated.length > 0) {
         updated[0] = {
           ...updated[0],
-          name: updated[0].name || `${generalInfo.firstName} ${generalInfo.lastName}`.trim(),
-          designation: updated[0].designation || generalInfo.designation,
-          organisation: updated[0].organisation || generalInfo.companyName
+          name: (!readOnlyFields.personnel_0_name && !updated[0].name) ? `${generalInfo.firstName} ${generalInfo.lastName}`.trim() : updated[0].name,
+          designation: (!readOnlyFields.personnel_0_designation && !updated[0].designation) ? generalInfo.designation : updated[0].designation,
+          organisation: (!readOnlyFields.personnel_0_organisation && !updated[0].organisation) ? generalInfo.companyName : updated[0].organisation
         };
       }
       return updated;
     });
 
-  }, [generalInfo]);
+  }, [generalInfo, readOnlyFields]);
 
   // ============= CALCULATIONS =============
 
@@ -893,7 +1004,40 @@ export default function RequirementsPage() {
   // ============= HANDLERS =============
 
   const handleGeneralInfoChange = (field: keyof GeneralInfo, value: any) => {
+    const readOnlyKey = `generalInfo_${field}` as keyof typeof readOnlyFields;
+    if (readOnlyFields[readOnlyKey]) return; // Prevent changes if field is read-only
     setGeneralInfo(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleBoothDetailsChange = (field: keyof BoothDetails, value: any) => {
+    // Contractor fields are always editable
+    const contractorFields = ['contractorCompany', 'contractorPerson', 'contractorMobile', 'contractorEmail', 'contractorGST', 'contractorPAN'];
+    if (contractorFields.includes(field)) {
+      setBoothDetails(prev => ({ ...prev, [field]: value }));
+      return;
+    }
+    
+    // Check if exhibitor field is read-only
+    const readOnlyKey = `boothDetails_${field}` as keyof typeof readOnlyFields;
+    if (readOnlyFields[readOnlyKey]) return; // Prevent changes if field is read-only
+    
+    setBoothDetails(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleCompanyDetailsChange = (field: keyof CompanyDetails, value: any) => {
+    const readOnlyKey = `companyDetails_${field}` as keyof typeof readOnlyFields;
+    if (readOnlyFields[readOnlyKey]) return; // Prevent changes if field is read-only
+    setCompanyDetails(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handlePersonnelChange = (index: number, field: keyof Personnel, value: string) => {
+    if (index === 0) {
+      const readOnlyKey = `personnel_0_${field}` as keyof typeof readOnlyFields;
+      if (readOnlyFields[readOnlyKey]) return; // Prevent changes to first row if field is read-only
+    }
+    const updated = [...personnel];
+    updated[index] = { ...updated[index], [field]: value };
+    setPersonnel(updated);
   };
 
   const handleFurnitureQuantity = (index: number, quantity: number) => {
@@ -1005,6 +1149,12 @@ export default function RequirementsPage() {
   };
 
   const handleRemovePersonnel = (index: number) => {
+    if (index === 0) {
+      // Check if any field in first row has data and is read-only
+      if (readOnlyFields.personnel_0_name || readOnlyFields.personnel_0_designation || readOnlyFields.personnel_0_organisation) {
+        return; // Prevent removing first row if it has read-only data
+      }
+    }
     const updated = personnel.filter((_, i) => i !== index);
     const reIndexed = updated.map((person, i) => ({
       ...person,
@@ -1186,11 +1336,19 @@ export default function RequirementsPage() {
   // ============= FORM 1: GENERAL INFO =============
   const renderGeneralInfo = () => (
     <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
-      <div className="flex items-center mb-6">
-        <div className="bg-blue-100 p-2 rounded-lg">
-          <UserIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <UserIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Basic Information</h2>
         </div>
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">Basic Information</h2>
+        {Object.values(readOnlyFields).some(v => v) && (
+          <div className="flex items-center text-green-600 bg-green-50 px-3 py-1 rounded-full">
+            <LockClosedIcon className="h-4 w-4 mr-1" />
+            <span className="text-xs font-medium">Some fields auto-filled</span>
+          </div>
+        )}
       </div>
 
       <div className="space-y-6">
@@ -1205,7 +1363,10 @@ export default function RequirementsPage() {
               <select
                 value={generalInfo.title}
                 onChange={(e) => handleGeneralInfoChange('title', e.target.value as any)}
-                className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 bg-white"
+                disabled={readOnlyFields.generalInfo_title}
+                className={`w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 bg-white ${
+                  readOnlyFields.generalInfo_title ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
               >
                 <option value="Mr">Mr.</option>
                 <option value="Mrs">Mrs.</option>
@@ -1220,9 +1381,17 @@ export default function RequirementsPage() {
                 type="text"
                 value={generalInfo.firstName}
                 onChange={(e) => handleGeneralInfoChange('firstName', e.target.value)}
-                className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                disabled={readOnlyFields.generalInfo_firstName}
+                className={`w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 ${
+                  readOnlyFields.generalInfo_firstName ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
                 placeholder="First"
               />
+              {readOnlyFields.generalInfo_firstName && (
+                <p className="text-xs text-green-600 mt-1 flex items-center">
+                  <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
+                </p>
+              )}
             </div>
             <div className="col-span-1">
               <label className="block text-xs font-medium text-gray-600 mb-1">Last Name</label>
@@ -1230,9 +1399,17 @@ export default function RequirementsPage() {
                 type="text"
                 value={generalInfo.lastName}
                 onChange={(e) => handleGeneralInfoChange('lastName', e.target.value)}
-                className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                disabled={readOnlyFields.generalInfo_lastName}
+                className={`w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 ${
+                  readOnlyFields.generalInfo_lastName ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
                 placeholder="Last"
               />
+              {readOnlyFields.generalInfo_lastName && (
+                <p className="text-xs text-green-600 mt-1 flex items-center">
+                  <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
+                </p>
+              )}
             </div>
             <div className="col-span-2 lg:col-span-2">
               <label className="block text-xs font-medium text-gray-600 mb-1">Designation</label>
@@ -1240,9 +1417,17 @@ export default function RequirementsPage() {
                 type="text"
                 value={generalInfo.designation}
                 onChange={(e) => handleGeneralInfoChange('designation', e.target.value)}
-                className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                disabled={readOnlyFields.generalInfo_designation}
+                className={`w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 ${
+                  readOnlyFields.generalInfo_designation ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
                 placeholder="e.g. Manager"
               />
+              {readOnlyFields.generalInfo_designation && (
+                <p className="text-xs text-green-600 mt-1 flex items-center">
+                  <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -1260,9 +1445,17 @@ export default function RequirementsPage() {
                   type="tel"
                   value={generalInfo.mobile}
                   onChange={(e) => handleGeneralInfoChange('mobile', e.target.value)}
-                  className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                  disabled={readOnlyFields.generalInfo_mobile}
+                  className={`w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 ${
+                    readOnlyFields.generalInfo_mobile ? 'bg-gray-100 cursor-not-allowed' : ''
+                  }`}
                   placeholder="98765 43210"
                 />
+                {readOnlyFields.generalInfo_mobile && (
+                  <p className="text-xs text-green-600 mt-1 flex items-center">
+                    <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
+                  </p>
+                )}
               </div>
               <div>
                 <label className="block text-xs font-medium text-gray-600 mb-1">Email</label>
@@ -1270,9 +1463,17 @@ export default function RequirementsPage() {
                   type="email"
                   value={generalInfo.email}
                   onChange={(e) => handleGeneralInfoChange('email', e.target.value)}
-                  className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                  disabled={readOnlyFields.generalInfo_email}
+                  className={`w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 ${
+                    readOnlyFields.generalInfo_email ? 'bg-gray-100 cursor-not-allowed' : ''
+                  }`}
                   placeholder="name@company.com"
                 />
+                {readOnlyFields.generalInfo_email && (
+                  <p className="text-xs text-green-600 mt-1 flex items-center">
+                    <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -1290,9 +1491,17 @@ export default function RequirementsPage() {
                 type="text"
                 value={generalInfo.companyName}
                 onChange={(e) => handleGeneralInfoChange('companyName', e.target.value)}
-                className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                disabled={readOnlyFields.generalInfo_companyName}
+                className={`w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 ${
+                  readOnlyFields.generalInfo_companyName ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
                 placeholder="Enter company name"
               />
+              {readOnlyFields.generalInfo_companyName && (
+                <p className="text-xs text-green-600 mt-1 flex items-center">
+                  <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
+                </p>
+              )}
             </div>
             <div>
               <label className="block text-xs font-medium text-gray-600 mb-1">GST</label>
@@ -1300,9 +1509,17 @@ export default function RequirementsPage() {
                 type="text"
                 value={generalInfo.gstNumber}
                 onChange={(e) => handleGeneralInfoChange('gstNumber', e.target.value)}
-                className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                disabled={readOnlyFields.generalInfo_gstNumber}
+                className={`w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 ${
+                  readOnlyFields.generalInfo_gstNumber ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
                 placeholder="22AAAAA0000A1Z5"
               />
+              {readOnlyFields.generalInfo_gstNumber && (
+                <p className="text-xs text-green-600 mt-1 flex items-center">
+                  <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
+                </p>
+              )}
             </div>
             <div className="sm:col-span-3">
               <label className="block text-xs font-medium text-gray-600 mb-1">Nature of Business</label>
@@ -1310,9 +1527,17 @@ export default function RequirementsPage() {
                 type="text"
                 value={generalInfo.businessNature}
                 onChange={(e) => handleGeneralInfoChange('businessNature', e.target.value)}
-                className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
+                disabled={readOnlyFields.generalInfo_businessNature}
+                className={`w-full border border-gray-200 rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500 ${
+                  readOnlyFields.generalInfo_businessNature ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
                 placeholder="e.g. Manufacturing, Trading, Services"
               />
+              {readOnlyFields.generalInfo_businessNature && (
+                <p className="text-xs text-green-600 mt-1 flex items-center">
+                  <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
+                </p>
+              )}
             </div>
           </div>
         </div>
@@ -1327,13 +1552,21 @@ export default function RequirementsPage() {
   // ============= FORM 2: BOOTH & CONTRACTOR DETAILS =============
   const renderBoothDetails = () => (
     <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
-      <div className="flex items-center mb-6">
-        <div className="bg-blue-100 p-2 rounded-lg">
-          <BuildingOfficeIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <BuildingOfficeIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">REGISTRATION OF CONTRACTOR
+            <br /> <span className='text-[#4D4D4D] font-semibold text-[15px]'>FOR BARE SPACE EXHIBITORS</span>
+          </h2>
         </div>
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">REGISTRATION OF CONTRACTOR
-          <br /> <span className='text-[#4D4D4D] font-semibold text-[15px]'>FOR BARE SPACE EXHIBITORS</span>
-        </h2>
+        {Object.values(readOnlyFields).some(v => v) && (
+          <div className="flex items-center text-green-600 bg-green-50 px-3 py-1 rounded-full">
+            <LockClosedIcon className="h-4 w-4 mr-1" />
+            <span className="text-xs font-medium">Some fields auto-filled</span>
+          </div>
+        )}
       </div>
 
       <div className="space-y-6">
@@ -1345,23 +1578,34 @@ export default function RequirementsPage() {
               <input
                 type="text"
                 value={boothDetails.boothNo}
-                onChange={(e) => setBoothDetails({ ...boothDetails, boothNo: e.target.value })}
-                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                onChange={(e) => handleBoothDetailsChange('boothNo', e.target.value)}
+                disabled={readOnlyFields.boothDetails_boothNo}
+                className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+                  readOnlyFields.boothDetails_boothNo ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
                 placeholder="Enter booth number"
               />
+              {readOnlyFields.boothDetails_boothNo && (
+                <p className="text-xs text-green-600 mt-1 flex items-center">
+                  <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
+                </p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Exhibitor Name</label>
               <input
                 type="text"
                 value={boothDetails.exhibitorName}
-                onChange={(e) => setBoothDetails({ ...boothDetails, exhibitorName: e.target.value })}
-                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                onChange={(e) => handleBoothDetailsChange('exhibitorName', e.target.value)}
+                disabled={readOnlyFields.boothDetails_exhibitorName}
+                className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+                  readOnlyFields.boothDetails_exhibitorName ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
                 placeholder="Auto-filled from basic info"
               />
-              {!boothDetails.exhibitorName && generalInfo.firstName && (
+              {readOnlyFields.boothDetails_exhibitorName && (
                 <p className="text-xs text-green-600 mt-1 flex items-center">
-                  <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled from basic info
+                  <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
                 </p>
               )}
             </div>
@@ -1370,23 +1614,34 @@ export default function RequirementsPage() {
               <input
                 type="text"
                 value={boothDetails.sqMtrBooked}
-                onChange={(e) => setBoothDetails({ ...boothDetails, sqMtrBooked: e.target.value })}
-                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                onChange={(e) => handleBoothDetailsChange('sqMtrBooked', e.target.value)}
+                disabled={readOnlyFields.boothDetails_sqMtrBooked}
+                className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+                  readOnlyFields.boothDetails_sqMtrBooked ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
                 placeholder="Enter square meters"
               />
+              {readOnlyFields.boothDetails_sqMtrBooked && (
+                <p className="text-xs text-green-600 mt-1 flex items-center">
+                  <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
+                </p>
+              )}
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Organisation</label>
               <input
                 type="text"
                 value={boothDetails.organisation}
-                onChange={(e) => setBoothDetails({ ...boothDetails, organisation: e.target.value })}
-                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                onChange={(e) => handleBoothDetailsChange('organisation', e.target.value)}
+                disabled={readOnlyFields.boothDetails_organisation}
+                className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+                  readOnlyFields.boothDetails_organisation ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
                 placeholder="Auto-filled from company name"
               />
-              {!boothDetails.organisation && generalInfo.companyName && (
+              {readOnlyFields.boothDetails_organisation && (
                 <p className="text-xs text-green-600 mt-1 flex items-center">
-                  <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled from company name
+                  <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
                 </p>
               )}
             </div>
@@ -1395,13 +1650,16 @@ export default function RequirementsPage() {
               <input
                 type="text"
                 value={boothDetails.contactPerson}
-                onChange={(e) => setBoothDetails({ ...boothDetails, contactPerson: e.target.value })}
-                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                onChange={(e) => handleBoothDetailsChange('contactPerson', e.target.value)}
+                disabled={readOnlyFields.boothDetails_contactPerson}
+                className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+                  readOnlyFields.boothDetails_contactPerson ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
                 placeholder="Auto-filled from name"
               />
-              {!boothDetails.contactPerson && generalInfo.firstName && (
+              {readOnlyFields.boothDetails_contactPerson && (
                 <p className="text-xs text-green-600 mt-1 flex items-center">
-                  <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled from name
+                  <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
                 </p>
               )}
             </div>
@@ -1410,13 +1668,16 @@ export default function RequirementsPage() {
               <input
                 type="text"
                 value={boothDetails.designation}
-                onChange={(e) => setBoothDetails({ ...boothDetails, designation: e.target.value })}
-                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                onChange={(e) => handleBoothDetailsChange('designation', e.target.value)}
+                disabled={readOnlyFields.boothDetails_designation}
+                className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+                  readOnlyFields.boothDetails_designation ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
                 placeholder="Auto-filled from designation"
               />
-              {!boothDetails.designation && generalInfo.designation && (
+              {readOnlyFields.boothDetails_designation && (
                 <p className="text-xs text-green-600 mt-1 flex items-center">
-                  <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled from designation
+                  <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
                 </p>
               )}
             </div>
@@ -1425,13 +1686,16 @@ export default function RequirementsPage() {
               <input
                 type="tel"
                 value={boothDetails.mobile}
-                onChange={(e) => setBoothDetails({ ...boothDetails, mobile: e.target.value })}
-                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                onChange={(e) => handleBoothDetailsChange('mobile', e.target.value)}
+                disabled={readOnlyFields.boothDetails_mobile}
+                className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+                  readOnlyFields.boothDetails_mobile ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
                 placeholder="Auto-filled from contact"
               />
-              {!boothDetails.mobile && generalInfo.mobile && (
+              {readOnlyFields.boothDetails_mobile && (
                 <p className="text-xs text-green-600 mt-1 flex items-center">
-                  <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled from contact
+                  <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
                 </p>
               )}
             </div>
@@ -1440,13 +1704,16 @@ export default function RequirementsPage() {
               <input
                 type="email"
                 value={boothDetails.email}
-                onChange={(e) => setBoothDetails({ ...boothDetails, email: e.target.value })}
-                className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+                onChange={(e) => handleBoothDetailsChange('email', e.target.value)}
+                disabled={readOnlyFields.boothDetails_email}
+                className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+                  readOnlyFields.boothDetails_email ? 'bg-gray-100 cursor-not-allowed' : ''
+                }`}
                 placeholder="Auto-filled from contact"
               />
-              {!boothDetails.email && generalInfo.email && (
+              {readOnlyFields.boothDetails_email && (
                 <p className="text-xs text-green-600 mt-1 flex items-center">
-                  <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled from contact
+                  <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
                 </p>
               )}
             </div>
@@ -1834,6 +2101,12 @@ export default function RequirementsPage() {
             </span>
           </h2>
         </div>
+        {(readOnlyFields.personnel_0_name || readOnlyFields.personnel_0_designation || readOnlyFields.personnel_0_organisation) && (
+          <div className="flex items-center text-green-600 bg-green-50 px-3 py-1 rounded-full">
+            <LockClosedIcon className="h-4 w-4 mr-1" />
+            <span className="text-xs font-medium">Primary contact auto-filled</span>
+          </div>
+        )}
 
         <button
           type="button"
@@ -1867,17 +2140,16 @@ export default function RequirementsPage() {
                   <input
                     type="text"
                     value={person.name}
-                    onChange={(e) => {
-                      const updated = [...personnel];
-                      updated[index].name = e.target.value;
-                      setPersonnel(updated);
-                    }}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
+                    onChange={(e) => handlePersonnelChange(index, 'name', e.target.value)}
+                    disabled={index === 0 && readOnlyFields.personnel_0_name}
+                    className={`w-full border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+                      (index === 0 && readOnlyFields.personnel_0_name) ? 'bg-gray-100 cursor-not-allowed' : ''
+                    }`}
                     placeholder={index === 0 ? "Auto-filled from basic info" : "Enter name"}
                   />
-                  {index === 0 && !person.name && generalInfo.firstName && (
+                  {index === 0 && readOnlyFields.personnel_0_name && (
                     <p className="text-xs text-green-600 mt-1 flex items-center">
-                      <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled
+                      <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
                     </p>
                   )}
                 </td>
@@ -1885,30 +2157,38 @@ export default function RequirementsPage() {
                   <input
                     type="text"
                     value={person.designation}
-                    onChange={(e) => {
-                      const updated = [...personnel];
-                      updated[index].designation = e.target.value;
-                      setPersonnel(updated);
-                    }}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
+                    onChange={(e) => handlePersonnelChange(index, 'designation', e.target.value)}
+                    disabled={index === 0 && readOnlyFields.personnel_0_designation}
+                    className={`w-full border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+                      (index === 0 && readOnlyFields.personnel_0_designation) ? 'bg-gray-100 cursor-not-allowed' : ''
+                    }`}
                     placeholder={index === 0 ? "Auto-filled" : "Designation"}
                   />
+                  {index === 0 && readOnlyFields.personnel_0_designation && (
+                    <p className="text-xs text-green-600 mt-1 flex items-center">
+                      <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
+                    </p>
+                  )}
                 </td>
                 <td className="px-3 py-2">
                   <input
                     type="text"
                     value={person.organisation}
-                    onChange={(e) => {
-                      const updated = [...personnel];
-                      updated[index].organisation = e.target.value;
-                      setPersonnel(updated);
-                    }}
-                    className="w-full border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
+                    onChange={(e) => handlePersonnelChange(index, 'organisation', e.target.value)}
+                    disabled={index === 0 && readOnlyFields.personnel_0_organisation}
+                    className={`w-full border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+                      (index === 0 && readOnlyFields.personnel_0_organisation) ? 'bg-gray-100 cursor-not-allowed' : ''
+                    }`}
                     placeholder={index === 0 ? "Auto-filled" : "Organisation"}
                   />
+                  {index === 0 && readOnlyFields.personnel_0_organisation && (
+                    <p className="text-xs text-green-600 mt-1 flex items-center">
+                      <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
+                    </p>
+                  )}
                 </td>
                 <td className="px-3 py-2">
-                  {personnel.length > 1 && (
+                  {personnel.length > 1 && (!readOnlyFields.personnel_0_name || index !== 0) && (
                     <button
                       type="button"
                       onClick={() => handleRemovePersonnel(index)}
@@ -1933,17 +2213,25 @@ export default function RequirementsPage() {
   // ============= FORM 6: COMPANY DETAILS =============
   const renderCompanyDetails = () => (
     <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
-      <div className="flex items-center mb-6">
-        <div className="bg-blue-100 p-2 rounded-lg">
-          <BuildingOfficeIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <BuildingOfficeIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
+            DATA FOR EXHIBITOR'S GUIDE
+            <br />
+            <span className="text-[#4D4D4D] font-semibold text-[15px]">
+              (OPTIONAL)
+            </span>
+          </h2>
         </div>
-        <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
-          DATA FOR EXHIBITOR'S GUIDE
-          <br />
-          <span className="text-[#4D4D4D] font-semibold text-[15px]">
-            (OPTIONAL)
-          </span>
-        </h2>
+        {Object.values(readOnlyFields).some(v => v) && (
+          <div className="flex items-center text-green-600 bg-green-50 px-3 py-1 rounded-full">
+            <LockClosedIcon className="h-4 w-4 mr-1" />
+            <span className="text-xs font-medium">Some fields auto-filled</span>
+          </div>
+        )}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -1954,18 +2242,16 @@ export default function RequirementsPage() {
           <input
             type="text"
             value={companyDetails.companyName}
-            onChange={(e) =>
-              setCompanyDetails({
-                ...companyDetails,
-                companyName: e.target.value,
-              })
-            }
-            className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+            onChange={(e) => handleCompanyDetailsChange('companyName', e.target.value)}
+            disabled={readOnlyFields.companyDetails_companyName}
+            className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+              readOnlyFields.companyDetails_companyName ? 'bg-gray-100 cursor-not-allowed' : ''
+            }`}
             placeholder="Auto-filled from basic info"
           />
-          {!companyDetails.companyName && generalInfo.companyName && (
+          {readOnlyFields.companyDetails_companyName && (
             <p className="text-xs text-green-600 mt-1 flex items-center">
-              <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled from basic info
+              <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
             </p>
           )}
         </div>
@@ -1977,15 +2263,20 @@ export default function RequirementsPage() {
           <textarea
             value={companyDetails.address}
             onChange={(e) =>
-              setCompanyDetails({
-                ...companyDetails,
-                address: e.target.value,
-              })
+              handleCompanyDetailsChange('address', e.target.value)
             }
+            disabled={readOnlyFields.companyDetails_address}
             rows={2}
-            className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+            className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+              readOnlyFields.companyDetails_address ? 'bg-gray-100 cursor-not-allowed' : ''
+            }`}
             placeholder="Enter complete address"
           />
+          {readOnlyFields.companyDetails_address && (
+            <p className="text-xs text-green-600 mt-1 flex items-center">
+              <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
+            </p>
+          )}
         </div>
 
         <div>
@@ -1996,14 +2287,19 @@ export default function RequirementsPage() {
             type="tel"
             value={companyDetails.telephone}
             onChange={(e) =>
-              setCompanyDetails({
-                ...companyDetails,
-                telephone: e.target.value,
-              })
+              handleCompanyDetailsChange('telephone', e.target.value)
             }
-            className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+            disabled={readOnlyFields.companyDetails_telephone}
+            className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+              readOnlyFields.companyDetails_telephone ? 'bg-gray-100 cursor-not-allowed' : ''
+            }`}
             placeholder="Enter telephone"
           />
+          {readOnlyFields.companyDetails_telephone && (
+            <p className="text-xs text-green-600 mt-1 flex items-center">
+              <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
+            </p>
+          )}
         </div>
 
         <div>
@@ -2014,17 +2310,17 @@ export default function RequirementsPage() {
             type="tel"
             value={companyDetails.mobile}
             onChange={(e) =>
-              setCompanyDetails({
-                ...companyDetails,
-                mobile: e.target.value,
-              })
+              handleCompanyDetailsChange('mobile', e.target.value)
             }
-            className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+            disabled={readOnlyFields.companyDetails_mobile}
+            className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+              readOnlyFields.companyDetails_mobile ? 'bg-gray-100 cursor-not-allowed' : ''
+            }`}
             placeholder="Auto-filled from contact"
           />
-          {!companyDetails.mobile && generalInfo.mobile && (
+          {readOnlyFields.companyDetails_mobile && (
             <p className="text-xs text-green-600 mt-1 flex items-center">
-              <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled
+              <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
             </p>
           )}
         </div>
@@ -2037,17 +2333,17 @@ export default function RequirementsPage() {
             type="email"
             value={companyDetails.email}
             onChange={(e) =>
-              setCompanyDetails({
-                ...companyDetails,
-                email: e.target.value,
-              })
+              handleCompanyDetailsChange('email', e.target.value)
             }
-            className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+            disabled={readOnlyFields.companyDetails_email}
+            className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+              readOnlyFields.companyDetails_email ? 'bg-gray-100 cursor-not-allowed' : ''
+            }`}
             placeholder="Auto-filled from contact"
           />
-          {!companyDetails.email && generalInfo.email && (
+          {readOnlyFields.companyDetails_email && (
             <p className="text-xs text-green-600 mt-1 flex items-center">
-              <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled
+              <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
             </p>
           )}
         </div>
@@ -2060,14 +2356,19 @@ export default function RequirementsPage() {
             type="url"
             value={companyDetails.website}
             onChange={(e) =>
-              setCompanyDetails({
-                ...companyDetails,
-                website: e.target.value,
-              })
+              handleCompanyDetailsChange('website', e.target.value)
             }
-            className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+            disabled={readOnlyFields.companyDetails_website}
+            className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+              readOnlyFields.companyDetails_website ? 'bg-gray-100 cursor-not-allowed' : ''
+            }`}
             placeholder="www.example.com"
           />
+          {readOnlyFields.companyDetails_website && (
+            <p className="text-xs text-green-600 mt-1 flex items-center">
+              <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
+            </p>
+          )}
         </div>
 
         <div>
@@ -2078,17 +2379,17 @@ export default function RequirementsPage() {
             type="text"
             value={companyDetails.contactPerson}
             onChange={(e) =>
-              setCompanyDetails({
-                ...companyDetails,
-                contactPerson: e.target.value,
-              })
+              handleCompanyDetailsChange('contactPerson', e.target.value)
             }
-            className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+            disabled={readOnlyFields.companyDetails_contactPerson}
+            className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+              readOnlyFields.companyDetails_contactPerson ? 'bg-gray-100 cursor-not-allowed' : ''
+            }`}
             placeholder="Auto-filled from name"
           />
-          {!companyDetails.contactPerson && generalInfo.firstName && (
+          {readOnlyFields.companyDetails_contactPerson && (
             <p className="text-xs text-green-600 mt-1 flex items-center">
-              <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled
+              <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
             </p>
           )}
         </div>
@@ -2101,17 +2402,17 @@ export default function RequirementsPage() {
             type="text"
             value={companyDetails.designation}
             onChange={(e) =>
-              setCompanyDetails({
-                ...companyDetails,
-                designation: e.target.value,
-              })
+              handleCompanyDetailsChange('designation', e.target.value)
             }
-            className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+            disabled={readOnlyFields.companyDetails_designation}
+            className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+              readOnlyFields.companyDetails_designation ? 'bg-gray-100 cursor-not-allowed' : ''
+            }`}
             placeholder="Auto-filled from designation"
           />
-          {!companyDetails.designation && generalInfo.designation && (
+          {readOnlyFields.companyDetails_designation && (
             <p className="text-xs text-green-600 mt-1 flex items-center">
-              <CheckCircleIcon className="h-3 w-3 mr-1" /> Auto-filled
+              <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
             </p>
           )}
         </div>
@@ -2123,15 +2424,20 @@ export default function RequirementsPage() {
           <textarea
             value={companyDetails.productsServices}
             onChange={(e) =>
-              setCompanyDetails({
-                ...companyDetails,
-                productsServices: e.target.value,
-              })
+              handleCompanyDetailsChange('productsServices', e.target.value)
             }
+            disabled={readOnlyFields.companyDetails_productsServices}
             rows={3}
-            className="w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500"
+            className={`w-full border border-gray-200 rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-blue-500 ${
+              readOnlyFields.companyDetails_productsServices ? 'bg-gray-100 cursor-not-allowed' : ''
+            }`}
             placeholder="Enter products or services"
           />
+          {readOnlyFields.companyDetails_productsServices && (
+            <p className="text-xs text-green-600 mt-1 flex items-center">
+              <LockClosedIcon className="h-3 w-3 mr-1" /> Auto-filled
+            </p>
+          )}
         </div>
       </div>
 
