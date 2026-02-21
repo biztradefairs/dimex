@@ -4,7 +4,8 @@ import {
   FaInstagram,
   FaFacebookF,
   FaYoutube,
-  FaTwitter
+  FaTwitter,
+  FaFacebook
 } from "react-icons/fa"
 import Image from "next/image"
 
@@ -159,6 +160,18 @@ export default function Footer() {
                 >
                   <FaFacebook className="h-5 w-5 text-white" />
                 </a>
+
+<a
+                  href="https://x.com/Diemex_India"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-yellow-400 hover:opacity-90 transition-all duration-300 hover:scale-110"
+                  aria-label="Facebook"
+                >
+                  <FaTwitter className="h-5 w-5 text-white" />
+                </a>
+
+
 
               </div>
 
