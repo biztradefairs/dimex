@@ -41,7 +41,7 @@ export default function AboutSection() {
                       </td>
                       <td className="py-2 md:py-0 px-4 md:px-0">
                         <span className="text-sm md:text-base lg:text-[19px]">
-                          <strong>30+ speakers</strong> - ndustry leaders, tool room heads, manufacturing strategists, and technology specialists
+                          <strong>30+ speakers</strong> - Industry leaders, tool room heads, manufacturing strategists, and technology specialists
                         </span>
                       </td>
                     </tr>
@@ -83,7 +83,7 @@ export default function AboutSection() {
                       </td>
                       <td className="py-2 md:py-0 px-4 md:px-0">
                         <span className="text-sm md:text-base lg:text-[19px]">
-                          <strong>8+ hours of focused networking</strong>with die makers, mould manufacturers, CNC specialists, automation providers, and procurement heads  
+                          <strong>8+ hours of focused networking</strong> with die makers, mould manufacturers, CNC specialists, automation providers, and procurement heads  
                         </span>
                       </td>
                     </tr>
