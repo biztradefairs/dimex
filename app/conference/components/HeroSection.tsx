@@ -137,8 +137,7 @@ export default function HeroSection() {
               </h2>
 
               <p className="text-xs sm:text-sm md:text-base lg:text-lg">
-                3rd Edition of the International Exhibition for Die & Mould,
-                Tooling, and Precision Manufacturing Technologies
+               Global Conference on Advanced Die & Mould Engineering and Precision Manufacturing Technologies
               </p>
             </div>
 
