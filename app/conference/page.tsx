@@ -20,11 +20,11 @@ import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 import TransRussiaSummitProgram from './components/TransRussiaSummitProgram';
 
 export const metadata: Metadata = {
-  title: 'TransRussia Summit | October 19-21, 2026, Moscow',
-  description: 'Annual conference for professionals in the transport and logistics market.',
+  title: 'Diemex Conference | October 08-10, 2026, Pune',
+  description: 'Annual conference for professionals in the tooling industry.',
   openGraph: {
-    title: 'TransRussia Summit | October 19-21, 2026, Moscow',
-    description: 'Annual conference for professionals in the transport and logistics market.',
+    title: 'Diemex Conference | October 08-10, 2026, Pune',
+    ddescription: 'Annual conference for professionals in the tooling industry.',
     images: ['https://regional-cdn.itegroupnews.com/10_2c986396fa.jpg'],
   },
 };
