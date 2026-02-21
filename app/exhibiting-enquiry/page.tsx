@@ -196,7 +196,7 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                   ["10,000", "Visitors"],
                   ["200+", "Exhibitors"],
                   ["20+", "Speakers"],
-                  ["5+", "Countries"],
+                  ["10+", "Countries"],
                 ].map(([n, l]) => (
                   <div key={l}>
                     <p className="text-5xl font-bold text-mainColor1">{n}</p>
