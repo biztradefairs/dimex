@@ -151,13 +151,13 @@ export default function Footer() {
                 </a>
 
   <a
-                  href="https://www.instagram.com/diemex_india"
+                  href="https://www.facebook.com/DiemexIndia/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-yellow-400 hover:opacity-90 transition-all duration-300 hover:scale-110"
-                  aria-label="Instagram"
+                  aria-label="Facebook"
                 >
-                  <FaInstagram className="h-5 w-5 text-white" />
+                  <FaFacebook className="h-5 w-5 text-white" />
                 </a>
 
               </div>
