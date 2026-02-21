@@ -10,17 +10,13 @@ export default function OrganizerSection() {
                The DIEMEX Conference is held alongside DIEMEX – International Exhibition for Die & Mould, Tooling, and Precision Manufacturing Technologies, one of India’s focused platforms for the tooling and precision engineering industry.{' '}
                 <a href="https://transrussia.ru/ru/">
                   <span className="text-gray-700">
-                    international exhibition of transport and logistics services TransRussia
-                  </span>
-                </a>{' '}
-                in Russia and CIS countries. In 2025, the exhibition was visited by{' '}
-                <strong>over 30,000 people</strong>, with <strong>597 companies from 20 countries</strong> participating.
+                The exhibition brings together leading die & mould manufacturers, tooling solution providers, OEMs, technology suppliers, and manufacturing decision-makers from across India and international markets.
               </span>
             </p>
             <p className="mb-4 hidden md:block">&nbsp;</p>
             <p>
               <span className="text-base md:text-lg lg:text-[27px]">
-                TransRussia Summit is organized by <strong>ITE Group</strong>, which has been organizing major industry exhibitions and business events since 1991. Currently, ITE Group organizes over 30 major industry events, including exhibitions, summits, and conferences. Thanks to the Connect digital platform, the ITE ecosystem offers unique hybrid solutions for industry communities in Russia, CIS countries, and beyond.
+                DIEMEX is organised by <strong>Maxx Business Meia</strong>,an experienced exhibition team with a strong portfolio of industrial trade fairs, conferences, and business forums across key manufacturing sectors. Through integrated digital outreach and on-ground engagement, the DIEMEX platform delivers powerful networking, knowledge exchange, and business development opportunities for the die & mould and precision manufacturing community.
               </span>
             </p>
           </div>
