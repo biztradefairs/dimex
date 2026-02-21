@@ -30,21 +30,7 @@ const BecomeDelegate = () => {
       ],
       cardLink: "/summit-business-form/",
       invoiceLink: "/summit-invoice-form/"
-    },
-    {
-      id: 3,
-      title: "VIP",
-      price: "18,000 INR",
-      features: [
-        "All GROUP 3 benefits",
-        "Front row seating",
-        "Speaker networking access",
-        "Exclusive VIP lounge access"
-      ],
-      cardLink: "/summit-vip-form/",
-      invoiceLink: "/summit-invoice-form/"
     }
-  ];
 
   return (
     <>
@@ -56,7 +42,7 @@ const BecomeDelegate = () => {
               Become a Delegate
             </h2>
             <div className="rte-style text-sm md:text-base lg:text-lg">
-              <p>Prices include VAT</p>
+              <p>Prices include GST</p>
             </div>
           </div>
         </div>
