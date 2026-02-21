@@ -149,6 +149,17 @@ export default function Footer() {
                 >
                   <FaInstagram className="h-5 w-5 text-white" />
                 </a>
+
+  <a
+                  href="https://www.instagram.com/diemex_india"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-yellow-400 hover:opacity-90 transition-all duration-300 hover:scale-110"
+                  aria-label="Instagram"
+                >
+                  <FaInstagram className="h-5 w-5 text-white" />
+                </a>
+
               </div>
 
               <p className="mt-3 text-sm text-white/60">
