@@ -218,7 +218,7 @@ export default function WhyExhibit() {
                       whileHover={{ scale: 1.02, x: 5 }}
                       className="text-[#4D4D4D] text-[30px] cursor-pointer"
                     >
-                      <strong>10+ Countries</strong>
+                      <strong>1+ Countries</strong>
                     </motion.span>
                   </li>
                 </ul>
@@ -442,36 +442,46 @@ export default function WhyExhibit() {
       className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
     >
       {[
-        { 
-          title: "Complex Logistics Services & Freight Forwarding", 
-          slug: "complex-logistics", 
-          image:"https://cdn.itegroupnews.com/Untitled_design_16_ff2396a005.png"
-        },
-        { 
-          title: "Maritime & Inland Waterway Transport", 
-          slug: "maritime-and-inland-waterway-transport" ,
-          image:"https://cdn.itegroupnews.com/TRU_Sectors_Images_7_c75137da32.png"
-        },
-        { 
-          title: "Air Freight", 
-          slug: "air-freight" ,
-          image: "https://cdn.itegroupnews.com/TRU_Sectors_Images_3_9089d75ec1.png"
-        },
-        { 
-          title: "Rail Freight", 
-          slug: "rail-freight" ,
-          image: "https://cdn.itegroupnews.com/httpstransrussia_preview_prismetic_comterms_of_visiting_1200_x_490_px_a78a81f1aa.png"
-        },
-        { 
-          title: "Road Freight Transportation", 
-          slug: "road-freight-transportation" ,
-          image:"https://cdn.itegroupnews.com/TRU_Sectors_Images_5_46a97403ad.png"
-        },
-        { 
-          title: "Warehouse Technology", 
-          slug: "warehouse-technology" ,
-          image:"https://cdn.itegroupnews.com/TRU_Sectors_Images_4_b89e6f82a3.png"
-        },
+         { 
+      title: 'Precision Die & Mould Solutions',
+
+      slug: 'precision-moulds', 
+      image: 'https://cdn.itegroupnews.com/Untitled_design_16_ff2396a005.png',
+      description: 'Comprehensive die & mould manufacturing, tooling systems, design engineering, and end-to-end production solutions supporting high-precision industrial applications.'
+    },
+    { 
+      title: 'Tooling, Mould Bases & Standard Components',
+
+      slug: 'tooling-mould-base', 
+      image: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_5_46a97403ad.png',
+      description: 'High-quality mould bases, precision components, hot runner systems, and standard tooling elements supporting efficient and reliable die & mould production.'
+    },
+    { 
+      title: 'Machining & Finishing Technologies',
+
+      slug: 'machining-finishing', 
+      image: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_4_b89e6f82a3.png',
+      description: 'High-precision CNC machining, EDM, wire-cut, surface finishing, and polishing solutions for toolroom operations.'
+    },
+    { 
+      title: 'Automation & Industry 4.0 Solutions',
+
+      slug: 'automation-industry', 
+      image: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_3_9089d75ec1.png',
+      description: 'Smart automation, robotics, digital manufacturing, and smart factory technologies for modern die & mould production.'
+    },
+    { 
+      title: 'Design, CAD/CAM & Engineering Software', 
+      slug: 'cad-cam', 
+      image: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_7_c75137da32.png',
+      description: 'Advanced design, simulation, and manufacturing software enabling accurate tooling development and reduced time-to-market.'
+    },
+    { 
+      title: 'Tool Steel & Advanced Materials', 
+      slug: 'tool-steel', 
+      image: 'https://cdn.itegroupnews.com/httpstransrussia_preview_prismetic_comterms_of_visiting_1200_x_490_px_a78a81f1aa.png',
+      description: 'High-performance tool steels, alloy steels, special metals, and advanced materials engineered for durability, precision, and long tool life in die & mould applications.'
+    },
       ].map((sector, index) => (
         <Link
           key={index}
