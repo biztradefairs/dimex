@@ -31,6 +31,7 @@ const BecomeDelegate = () => {
       cardLink: "/summit-business-form/",
       invoiceLink: "/summit-invoice-form/"
     }
+  ]; // ✅ ARRAY CLOSED HERE
 
   return (
     <>
@@ -107,6 +108,7 @@ const BecomeDelegate = () => {
                           </button>
                         </Link>
                       </div>
+
                     </div>
                   </div>
                 </div>
