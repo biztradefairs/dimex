@@ -76,7 +76,7 @@ const Contacts = () => {
                     <div className="flex-1">
                       <p className="text-lg md:text-xl lg:text-27 font-bold">Padmanabham R</p>
                       <p className="text-mainColor6 font-proxima text-base md:text-lg lg:text-27">
-                        Diemex Conference Director 
+                        Conference Director 
                       </p>
                     </div>
                   </div>
