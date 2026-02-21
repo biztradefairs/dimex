@@ -46,12 +46,7 @@ const Contacts = () => {
                   >
                     +91 6363936470 
                   </a>
-                  <a 
-                    href="tel:+916363936470 "
-                    className="block text-base md:text-lg lg:text-27 font-bold hover:text-mainColor2 transition-colors"
-                  >
-                    +91 6363936470 
-                  </a>
+                 
                 </div>
               </div>
             </div>
