@@ -12,9 +12,7 @@ export default function OrganizerSection() {
             <p className="mb-4">
               <span className="text-base md:text-lg lg:text-[27px]">
                 The DIEMEX Conference is held alongside DIEMEX – International Exhibition for Die & Mould, Tooling, and Precision Manufacturing Technologies, one of India’s focused platforms for the tooling and precision engineering industry.{" "}
-                    The exhibition brings together leading die & mould manufacturers, tooling solution providers, OEMs, technology suppliers, and manufacturing decision-makers from across India and international markets.
-                  </span>
-                </a>
+                The exhibition brings together leading die & mould manufacturers, tooling solution providers, OEMs, technology suppliers, and manufacturing decision-makers from across India and international markets.
               </span>
             </p>
 
