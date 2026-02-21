@@ -155,7 +155,7 @@ export default function Footer() {
                   href="https://www.facebook.com/DiemexIndia/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white hover:opacity-90 transition-all duration-300 hover:scale-110"
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white hover:bg-blue-600 transition-all duration-300 hover:scale-110"
                   aria-label="Facebook"
                 >
                   <FaFacebook className="h-5 w-5 text-white" />
