@@ -26,31 +26,31 @@ const Contacts = () => {
                       />
                     </div>
                     <div className="flex-1">
-                      <p className="text-lg md:text-xl lg:text-27 font-bold">Irina Kachalova</p>
+                      <p className="text-lg md:text-xl lg:text-27 font-bold">Bhoomika</p>
                       <p className="text-mainColor6 font-proxima text-base md:text-lg lg:text-27">
-                        Conference Sales Director
+                        Conference Sales Manager
                       </p>
                     </div>
                   </div>
                 </div>
                 <div className="mt-4 md:mt-6 space-y-1 md:space-y-2">
                   <a 
-                    href="mailto:Irina.Kachalova@ite.group"
+                    href="mailto:bhoomika@diemex.in."
                     className="block text-base md:text-lg lg:text-27 font-bold hover:text-mainColor2 transition-colors break-words"
                   >
-                    Irina.Kachalova@ite.group
+                    bhoomika@diemex.in
                   </a>
                   <a 
-                    href="tel:+74951363984"
+                    href="tel:+91 6364936470"
                     className="block text-base md:text-lg lg:text-27 font-bold hover:text-mainColor2 transition-colors"
                   >
-                    +7 (495) 136-39-84
+                    +91 6363936470 
                   </a>
                   <a 
-                    href="tel:+79684435122"
+                    href="tel:+916363936470 "
                     className="block text-base md:text-lg lg:text-27 font-bold hover:text-mainColor2 transition-colors"
                   >
-                    +7 (968) 443-51-22
+                    +91 6363936470 
                   </a>
                 </div>
               </div>
@@ -74,9 +74,9 @@ const Contacts = () => {
                       />
                     </div>
                     <div className="flex-1">
-                      <p className="text-lg md:text-xl lg:text-27 font-bold">Olga Senicheva</p>
+                      <p className="text-lg md:text-xl lg:text-27 font-bold">Padmanabham R</p>
                       <p className="text-mainColor6 font-proxima text-base md:text-lg lg:text-27">
-                        TransRussia Summit Project Manager
+                        Diemex Conference Director 
                       </p>
                     </div>
                   </div>
@@ -86,13 +86,13 @@ const Contacts = () => {
                     href="mailto:Olga.Senicheva@ite.group"
                     className="block text-base md:text-lg lg:text-27 font-bold hover:text-mainColor2 transition-colors break-words"
                   >
-                    Olga.Senicheva@ite.group
+                    pad@diemex.in
                   </a>
                   <a 
-                    href="tel:+79256501379"
+                    href="tel:+919148319993"
                     className="block text-base md:text-lg lg:text-27 font-bold hover:text-mainColor2 transition-colors"
                   >
-                    +7 925 650-13-79
+                    +91 9148319993
                   </a>
                 </div>
               </div>
