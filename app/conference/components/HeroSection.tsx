@@ -126,7 +126,7 @@ export default function HeroSection() {
 
           {/* Heading */}
           <h1 className="font-parabolica text-[32px] font-bold leading-[0.85] tracking-tight sm:text-[48px] md:text-[80px] lg:text-[100px] xl:text-[160px]">
-            Diemex <span className="text-[#82C6EB]">Conference</span>
+            Conference 
           </h1>
 
           {/* Sub content */}
