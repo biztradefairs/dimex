@@ -6,7 +6,7 @@ const BecomeDelegate = () => {
     {
       id: 1,
       title: "BASIC",
-      price: "75,000 RUB",
+      price: "5,000 INR",
       features: [
         "Participation in the conference program",
         "Access to coffee breaks and lunches",
@@ -18,8 +18,8 @@ const BecomeDelegate = () => {
     },
     {
       id: 2,
-      title: "BUSINESS",
-      price: "105,000 RUB",
+      title: "GROUP 3",
+      price: "12,000 INR",
       features: [
         "Participation in the conference program",
         "Access to coffee breaks and lunches",
@@ -31,22 +31,7 @@ const BecomeDelegate = () => {
       cardLink: "/summit-business-form/",
       invoiceLink: "/summit-invoice-form/"
     },
-    {
-      id: 3,
-      title: "VIP",
-      price: "135,000 RUB",
-      features: [
-        "Participation in the conference program",
-        "Access to coffee breaks and lunches",
-        "Access to the closed conference participants group",
-        "Participation in the evening cocktail on October 20",
-        "Presentation materials",
-        "Participation in the VIP reception on October 19",
-        "Seating in the VIP section with speakers",
-        "Access to the VIP lounge with speakers",
-        "Lunch in the VIP lounge",
-        "Individual parking space",
-        "Separate registration desk"
+    
       ],
       cardLink: "/summit-vip-form/",
       invoiceLink: "/summit-invoice-form/"
