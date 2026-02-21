@@ -27,11 +27,11 @@ export default function VenueSection() {
                     </td>
                     <td className="py-2 md:py-4 pl-2 md:pl-4 align-top">
                       <span style={{ fontFamily: 'Proxima, "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif', fontSize: '18px', lineHeight: '1.4' }} className="md:text-[22px] lg:text-[27px]">
-                        <strong>Hyatt Regency Moscow Petrovsky Park</strong>
+                        <strong>Auto Cluster Exhibition Centre</strong>
                       </span>
                       <br />
                       <span style={{ fontFamily: 'Proxima, "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif', fontSize: '16px', lineHeight: '1.4' }} className="md:text-[20px] lg:text-[27px]">
-                        Moscow, Leningradsky Prospekt, 36 bldg. 33
+                        Chinchwad East, Old Mumbai - Pune Hwy, MIDC, Chinchwad, Pimpri-Chinchwad, Maharashtra 411019
                       </span>
                     </td>
                   </tr>
