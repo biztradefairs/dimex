@@ -24,7 +24,7 @@ export default function AboutSection() {
                       </td>
                       <td className="py-2 md:py-0 px-4 md:px-0">
                         <span className="text-sm md:text-base lg:text-[19px]">
-                          <strong>300+ top-level delegates</strong> from leading logistics companies and cargo-owning companies
+                          <strong>300+ top-level delegates</strong> from leading die & mould manufacturers, automotive OEMs, tier suppliers, and precision engineering companies
                         </span>
                       </td>
                       <td className="py-2 md:py-0">
@@ -41,7 +41,7 @@ export default function AboutSection() {
                       </td>
                       <td className="py-2 md:py-0 px-4 md:px-0">
                         <span className="text-sm md:text-base lg:text-[19px]">
-                          <strong>30+ speakers</strong> - logistics managers of major cargo-owning companies and leading analysts
+                          <strong>30+ speakers</strong> - ndustry leaders, tool room heads, manufacturing strategists, and technology specialists
                         </span>
                       </td>
                     </tr>
@@ -66,7 +66,7 @@ export default function AboutSection() {
                       </td>
                       <td className="py-2 md:py-0 px-4 md:px-0">
                         <span className="text-sm md:text-base lg:text-[19px]">
-                          <strong>15+ hours of reliable analytics</strong> and diverse information from authoritative managers in cargo transportation
+                          <strong>15+ hours of high-value technical sessions</strong> featuring market insights, manufacturing trends, automation advancements, and tooling innovations
                         </span>
                       </td>
                       <td className="py-2 md:py-0">
@@ -83,7 +83,7 @@ export default function AboutSection() {
                       </td>
                       <td className="py-2 md:py-0 px-4 md:px-0">
                         <span className="text-sm md:text-base lg:text-[19px]">
-                          <strong>8+ hours of networking</strong> for maintaining and developing business connections with professionals from transport companies, logistics organizations, and cargo-owning companies
+                          <strong>8+ hours of focused networking</strong>with die makers, mould manufacturers, CNC specialists, automation providers, and procurement heads  
                         </span>
                       </td>
                     </tr>
