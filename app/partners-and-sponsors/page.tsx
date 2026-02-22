@@ -179,7 +179,7 @@ const PartnersSponsorsPage: React.FC = () => {
       key: "official-media"
     },
     {
-      title: "TransRussia Official Bank",
+      title: "",
       partners: partnersData.transRussiaOfficialBank,
       key: "official-bank"
     },
@@ -189,12 +189,12 @@ const PartnersSponsorsPage: React.FC = () => {
       key: "wifi"
     },
     {
-      title: "Co-organizer of the TransRussia International Conference",
+      title: "",
       partners: partnersData.coOrganizer,
       key: "co-organizer"
     },
     {
-      title: "Business Programme Partner",
+      title: "",
       partners: partnersData.businessProgramPartner,
       key: "business-program"
     },
