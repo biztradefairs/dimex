@@ -31,20 +31,20 @@ const TransRussiaSummitProgram: React.FC = () => {
   const programData: DayProgram[] = [
     {
       day: "VIP Reception",
-      date: "October 20, 2025",
-      description: "*Only for Business, VIP and Speaker category delegates",
+      date: "October 08, 2026",
+      description: "*Only for Exhibitors,Speakers,VIP's and Delegates",
       sessions: [
         {
           time: "18:00 – 21:00",
-          title: "TRANSRUSSIA SUMMIT VIP RECEPTION",
-          description: "A special event at the FSO Special Purpose Garage Museum"
+          title: "DIEMEX VIP RECEPTION",
+          description: "A special event at the Auto Cluter Exhibition Centre, Pune"
         }
       ]
     },
     {
       day: "Day 1",
-      date: "October 21, 2025",
-      description: "*For delegates of all categories",
+      date: "October 08, 2026",
+      description: "*For delegates",
       sessions: [
         {
           time: "09:00 – 09:40",
