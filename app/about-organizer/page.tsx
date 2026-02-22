@@ -244,17 +244,17 @@ At Maxx Business Media, our mission is to create powerful B2B platforms that acc
                 {
                   title: "Our Mission",
                   description: "To create high-impact B2B platforms that drive business success, accelerate industry growth, and contribute to the development of strong and sustainable economies.",
-                  image: "/images/image.png"
+                  image: "/images/mission.jpg"
                 },
                 {
                   title: "Our Vision",
                   description: "To be a trusted global connector, enabling businesses to engage, collaborate, and build long-term partnerships year-round—through both physical events and digital platforms.",
-                  image: "/images/image.png"
+                  image: "/images/vision.jpg"
                 },
                 {
                   title: "Our Values",
                   description: "Entrepreneurship, Integrity, Excellence, Positive Thinking, Commitment to Result",
-                  image: "/images/image.png"
+                  image: "/images/values.png"
                 }
               ].map((card, index) => (
                 <motion.div
