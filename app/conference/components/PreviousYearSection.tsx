@@ -15,7 +15,7 @@ export default function PreviousYearSection() {
           />
           <div className="container flex max-w-[1300px] flex-col items-center justify-center gap-5 text-center text-white">
             <h2 className="title-72 text-white">How It Was</h2>
-            <p className="whitespace-pre-line">TransRussia Summit 2025</p>
+            <p className="whitespace-pre-line">Diemex Confernce 2023</p>
             <Link href="/postrelease/" className="block">
               <button className="flex-center group w-fit gap-2 overflow-hidden rounded-full bg-white px-10 py-3 font-jakarta text-sm font-semibold text-mainColor2 hover:bg-mainColor2 hover:text-white md:text-base">
                 Learn More
