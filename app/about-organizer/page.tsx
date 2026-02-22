@@ -64,7 +64,7 @@ const slideInFromRight: Variants = {
                 transition={{ duration: 0.8, delay: 0.1 }}
               >
                 <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold text-black mb-4">
-                  Maxx Business Media
+                  Maxx Business Media Pvt. Ltd.
                 </h1>
               </motion.div>
               
@@ -186,7 +186,7 @@ Our events drive industrial development, support export growth, and provide unma
                 <div className="flex w-1/2 flex-col gap-10">
                   {[
                     { number: "1,700+", label: "Media in Attendance" },
-                    { number: "30", label: "Events" },
+                    { number: "10", label: "Events" },
                     { number: "20+", label: "Industry Sectors" }
                   ].map((stat, index) => (
                     <motion.div
