@@ -17,7 +17,7 @@ import DownloadLinks from './components/DownloadLinks';
 import Contacts from './components/Contacts';
 import BecomeDelegate from './components/BecomeDelegate';
 import BackToTop from '../exhibitor-resource-center/component/BackToTop';
-import TransRussiaSummitProgram from './components/TransRussiaSummitProgram';
+import TransRussiaSummitProgram from './components/ConferenceProgramme';
 
 export const metadata: Metadata = {
   title: 'Diemex Conference | October 08-10, 2026, Pune',
