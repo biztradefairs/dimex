@@ -4,7 +4,7 @@
 import React from 'react';
 import SectionContainer from "@/components/UI/SectionContainer";
 import { motion, Variants } from "framer-motion";
-import ExhibitionsGlance from './ExhibitionsGlance';
+// import ExhibitionsGlance from './ExhibitionsGlance';
 import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 
 const AboutITEPage: React.FC = () => {
@@ -295,7 +295,7 @@ At Maxx Business Media, our mission is to create powerful B2B platforms that acc
             </motion.div>
           </SectionContainer>
         </section>
-        <ExhibitionsGlance/>
+        {/* <ExhibitionsGlance/> */}
 
         {/* Exhibitions Section */}
         <section className="py-16 lg:py-24 bg-gray-50">
