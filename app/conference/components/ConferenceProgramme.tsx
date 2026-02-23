@@ -42,17 +42,47 @@ const TransRussiaSummitProgram: React.FC = () => {
       ]
     },
     {
-      day: "Day 1",
+      day: "Day 1 Theme : Future-ready Manufacturing – Precision & Productivity
+",
       date: "October 08, 2026",
       description: "*For delegates",
       sessions: [
         {
-          time: "09:00 – 09:40",
-          title: "Registration, welcome coffee"
+          time: "09:00 – 09:35",
+          title: "Registration & Hi Tea"
         },
         {
-          time: "09:40 – 11:30",
-          title: 'PLENARY ANALYTICAL SESSION "MAP OF RISKS AND OPPORTUNITIES: STRATEGIC NAVIGATION FOR GLOBAL MARKET PLAYERS"',
+          time: "09:35 – 9:40",
+          title: 'Lamp Lighting"',
+          topics: [
+            { id: 1, title: "Navigating the Flow of Change: Where to Focus Resources Today?" },
+            { id: 2, title: "Container Market Forecast to 2026 and Key Trends" },
+            { id: 3, title: "Eurasian Transport Links: Global Trends and Key Challenges" },
+            { id: 4, title: "Road and rail transport: situation, challenges, forecasts" },
+            { id: 5, title: "China–Russia Air Channel: Players, Cargo, and Economy" },
+            {
+              id: 6,
+              title: "Regulatory challenges in the near future: what should businesses prepare for?",
+            },
+          ],
+          moderator: {
+            name: "Igor Kuznetsov",
+            position: "Director of the Infrastructure and Project Finance Practice at TRUST TECHNOLOGIES",
+          },
+          speakers: [
+            { name: "Mikhail Goncharov", position: "Secretary General of the KSTP" },
+            {
+              name: "Ksenia Klimko",
+              position: "Director of the Infrastructure and Project Finance Practice, Strategic Marketing Group, TRUST TECHNOLOGIES",
+            },
+            { name: "Maxim Shishkov", position: "Director of Strategic Marketing, DELO Group" },
+            { name: "Olga Mironova", position: "Head of the Air Freight Sales Department, ATC GLOBAL LOGISTICS" },
+            { name: "Olga Fedotkina", position: "Executive Director of the National Union of Experts in Transport and Logistics" },
+          ],
+        },
+        {
+          time: "09:35 – 9:40",
+          title: 'Lamp Lighting"',
           topics: [
             { id: 1, title: "Navigating the Flow of Change: Where to Focus Resources Today?" },
             { id: 2, title: "Container Market Forecast to 2026 and Key Trends" },
