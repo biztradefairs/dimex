@@ -42,16 +42,17 @@ const TransRussiaSummitProgram: React.FC = () => {
       ]
     },
     {
-      day: "Day 1",
+      day: "Day 1 Theme : Future-ready Manufacturing – Precision & Productivity
+",
       date: "October 08, 2026",
       description: "*For delegates",
       sessions: [
         {
-          time: "09:00 – 09:40",
-          title: "Registration, welcome coffee"
+          time: "09:00 – 09:35",
+          title: "Registration & Hi Tea"
         },
         {
-          time: "09:40 – 11:30",
+          time: "09:35 – 9:40",
           title: 'PLENARY ANALYTICAL SESSION "MAP OF RISKS AND OPPORTUNITIES: STRATEGIC NAVIGATION FOR GLOBAL MARKET PLAYERS"',
           topics: [
             { id: 1, title: "Navigating the Flow of Change: Where to Focus Resources Today?" },
