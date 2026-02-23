@@ -34,7 +34,7 @@ const TransRussiaSummitProgram: React.FC = () => {
   const programData: DayProgram[] = [
   {
     day: "Day 1 Theme : Future-ready Manufacturing – Precision & Productivity",
-    date: "Thursday, 20 November 2025",
+    date: "Thursday, 8 October 2026",
     description: "",
     sessions: [
       {
@@ -174,7 +174,7 @@ const TransRussiaSummitProgram: React.FC = () => {
 
   {
     day: "Day 2 Theme : Sustainability & Innovation in Manufacturing",
-    date: "Friday, 21 November 2025",
+    date: "Friday, 9 October 2026",
     description: "",
     sessions: [
       {
