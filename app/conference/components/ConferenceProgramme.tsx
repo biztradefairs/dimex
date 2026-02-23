@@ -29,268 +29,259 @@ interface DayProgram {
 
 const TransRussiaSummitProgram: React.FC = () => {
   const programData: DayProgram[] = [
-    {
-      day: "VIP Reception",
-      date: "October 08, 2026",
-      description: "*Only for Exhibitors,Speakers,VIP's and Delegates",
-      sessions: [
-        {
-          time: "18:00 – 21:00",
-          title: "DIEMEX VIP RECEPTION",
-          description: "A special event at the Auto Cluter Exhibition Centre, Pune"
-        }
-      ]
-    },
-    {
-      day: "Day 1 Theme : Future-ready Manufacturing – Precision & Productivity
-",
-      date: "October 08, 2026",
-      description: "*For delegates",
-      sessions: [
-        {
-          time: "09:00 – 09:35",
-          title: "Registration & Hi Tea"
-        },
-        {
-          time: "09:35 – 9:40",
-          title: 'PLENARY ANALYTICAL SESSION "MAP OF RISKS AND OPPORTUNITIES: STRATEGIC NAVIGATION FOR GLOBAL MARKET PLAYERS"',
-          topics: [
-            { id: 1, title: "Navigating the Flow of Change: Where to Focus Resources Today?" },
-            { id: 2, title: "Container Market Forecast to 2026 and Key Trends" },
-            { id: 3, title: "Eurasian Transport Links: Global Trends and Key Challenges" },
-            { id: 4, title: "Road and rail transport: situation, challenges, forecasts" },
-            { id: 5, title: "China–Russia Air Channel: Players, Cargo, and Economy" },
-            {
-              id: 6,
-              title: "Regulatory challenges in the near future: what should businesses prepare for?",
-            },
-          ],
-          moderator: {
-            name: "Igor Kuznetsov",
-            position: "Director of the Infrastructure and Project Finance Practice at TRUST TECHNOLOGIES",
+  {
+    day: "Day 1 Theme : Future-ready Manufacturing – Precision & Productivity",
+    date: "Thursday, 20 November 2025",
+    description: "",
+    sessions: [
+      {
+        time: "09:00 – 09:35",
+        title: "Registration & Hi Tea",
+      },
+      {
+        time: "09:35 – 09:40",
+        title: "Lamp Lighting",
+      },
+      {
+        time: "09:40 – 09:45",
+        title: "Welcome Address",
+        speakers: [
+          {
+            name: "MD, Maxx Business Media Pvt. Ltd.",
+            position: "Speaker",
           },
-          speakers: [
-            { name: "Mikhail Goncharov", position: "Secretary General of the KSTP" },
-            {
-              name: "Ksenia Klimko",
-              position: "Director of the Infrastructure and Project Finance Practice, Strategic Marketing Group, TRUST TECHNOLOGIES",
-            },
-            { name: "Maxim Shishkov", position: "Director of Strategic Marketing, DELO Group" },
-            { name: "Olga Mironova", position: "Head of the Air Freight Sales Department, ATC GLOBAL LOGISTICS" },
-            { name: "Olga Fedotkina", position: "Executive Director of the National Union of Experts in Transport and Logistics" },
-          ],
-        },
-        {
-          time: "11:30 – 12:00",
-          title: "Break"
-        },
-        {
-          time: "12:00 – 13:45",
-          title: 'PLENARY SESSION OF THE LARGEST CARGO OWNERS "LOGISTICS MANAGEMENT STRATEGY IN THE CONTEXT OF GEOPOLITICAL AND ECONOMIC CHANGES"',
-          description: "Session Topics:",
-          topics: [
-            { id: 1, title: "Strategic Navigation: Russia's Logistics in the New Macro-Reality" },
-            { id: 2, title: "Operational management of the transport and logistics function in modern realities: the company's goals for the next 3 years" },
-            { id: 3, title: "Logistics Budgeting Strategies: Current Financial Sustainability Models" },
-            { id: 4, title: "International Logistics: Risk Management When Working with Foreign Players" },
-            { id: 5, title: "Complex logistics during turbulent times: access to specialized transport, rising insurance rates, and legal restrictions" },
-            { id: 6, title: "Infrastructure and Equipment Shortages: Strategies for Managing Limited Resources" },
-            { id: 7, title: "Digital Transformation of Logistics: From Rhetoric to ROI" },
-            { id: 8, title: "Effective HR policies: finding and retaining qualified personnel in the context of the transformation of professional competencies" },
-          ],
-          moderator: {
-            name: "Mikhail Bazhenov",
-            position: "Partner, Head of Business Consulting Practice, TRUST TECHNOLOGIES",
-          },
-          speakers: [
-            { name: "Dmitry Yalov", position: "Head of the Project Office of the National Center for Testing and Manufacturing of Products" },
-            { name: "Fyodor Pavlovsky", position: "Deputy General Director and Director of Supply Chain and Logistics at Magnit, member of the company's management board" },
-            { name: "Igor Kudryavtsev", position: "Managing Director of Logistics at SIBUR" },
-            { name: "Vasily Berezhnoy", position: "Director of Transport Logistics at EFKO" },
-            { name: "Alexander Pistun", position: "Director of the Logistics Department at MTS" },
-            { name: "Anna Buzova", position: "Vice President of Procurement and Logistics at MILK LOGIC (ex. DANONE)" },
-            { name: "Marat Avetisov", position: "Director of Logistics at SIBUR" },
-            { name: "Ilya Ilyin", position: "Head of the Banking and Financial Markets Analysis Department at the Center for Analysis and Expertise at PSB" },
-          ],
-        },
-        {
-          time: "13:45 – 14:00",
-          title: "Q&A SESSION"
-        },
-        {
-          time: "14:00 – 15:00",
-          title: "Dinner"
-        },
-        {
-          time: "15:00 – 16:30",
-          title: 'PANEL SESSION: "TRANSPARENCY, PREDICTABILITY, AUTOMATION: DIGITAL PRIORITIES FOR SHIPPERS"',
-          description: "Session Topics:",
-          topics: [
-            { id: 1, title: "Online transportation contracting: route selection, price negotiation, deal making" },
-            { id: 2, title: "Electronic document management (EDM), including electronic shipping documents recognized by third parties, smart contracts" },
-            { id: 3, title: "Cargo movement traceability" },
-            { id: 4, title: "A unified environment for data exchange between transport participants: a single window, interaction with government agencies, import and export" },
-            { id: 5, title: "The Applicability of Latest AI Tools for Shippers" },
-            { id: 6, title: "Other digital services that are important to shippers" },
-          ],
-          moderator: {
-            name: "Anton Tochin",
-            position: "Director, KEPT Strategic Consulting and Transformation Group",
-          },
-          speakers: [
-            { name: "Polina Davydova", position: "Director of the DIGITAL TRANSPORT AND LOGISTICS Association" },
-            { name: "Alexander Pistun", position: "Director of the Logistics Department at MTS" },
-            { name: "Mikhail Platonov", position: "Senior Director of the Supply Chain Management and Planning Platform at PEPSIKO" },
-            { name: "Elena Ermakova", position: "Deputy General Director for Commercial Activities at MOSCOW CARGO" },
-            { name: "Elena Kondratva", position: "Development Director at FESCO" },
-            { name: "Dmitry Udaltsov", position: "Department of Logistics and Foreign Economic Activity, Head of the Transport Logistics Group at BIOCAD" },
-            { name: "Maria Popova", position: "General Director at WEVED" },
-            { name: "Anton Shevchenko", position: "Head of Development of the EPD Division at SKB KONTUR" },
-          ],
-        },
-        {
-          time: "16:30 – 16:45",
-          title: "Break"
-        },
-        {
-          time: "16:45 – 17:30",
-          title: 'FORESIGHT VISION "THE FUTURE OF LOGISTICS: SCENARIOS, RISKS, AND OPPORTUNITIES FOR GROWTH"',
-          description: "Global and national trends shaping the logistics of the future: a 360-degree look at opportunities and threats through the lens of global foresight and big data analysis",
-          speakers: [
-            {
-              name: "Alexander Chulok",
-              position: "Russian forecaster, international foresight expert at the United Nations Development Programme, Doctor of Economics, professor, and director of the Center for Scientific and Technological Forecasting at the ISSEK, National Research University Higher School of Economics"
-            }
-          ],
-        },
-        {
-          time: "17:30 – 19:00",
-          title: "Evening cocktail: an informal gathering to wrap up the day",
-          description: "• Networking with leaders in the logistics industry • Prize draw from summit partners • Exclusive gifts from a special speaker with an autograph • Delicious buffet and live music"
-        },
-      ],
-    },
-    {
-      day: "Day 2",
-      date: "October 22, 2025",
-      description: "*For delegates of all categories",
-      sessions: [
-        {
-          time: "09:00 – 10:00",
-          title: "Welcome coffee"
-        },
-        {
-          time: "10:00 – 11:00",
-          title: "HOW TO TURN ANY CONTACT INTO A LONG-TERM PARTNERSHIP",
-          description: "Topics of the speech:",
-          topics: [
-            { id: 1, title: "Strategic approach to working with people: intelligence methods" },
-            { id: 2, title: "Ways to reach key business players" },
-            { id: 3, title: "Customer acquisition and retention" },
-            { id: 4, title: "Ability to understand and convince any person" },
-            { id: 5, title: "Techniques for conducting successful negotiations" },
-            { id: 6, title: "Master professional networking skills for business success!" },
-          ],
-          speakers: [
-            {
-              name: "Elena Vavilova",
-              position: "retired colonel of the Foreign Intelligence Service, expert on interpersonal communication"
-            }
-          ],
-        },
-        {
-          time: "11:00 – 11:30",
-          title: "Break"
-        },
-        {
-          time: "11:30 – 13:00",
-          title: 'PANEL SESSION FOR LEADERS OF ONLINE STORES AND MARKETPLACES "E-COM LOGISTICS: BALANCE BETWEEN OPERATIONAL EFFICIENCY AND CUSTOMER EXPERIENCE"',
-          description: "Session Topics:",
-          topics: [
-            { id: 1, title: "The Evolution of E-Commerce Logistics: Trends and Forecasts for 2026" },
-            { id: 2, title: "Optimizing Delivery Speed and Cost: Digital and Technological Solutions" },
-            { id: 3, title: "Supply Chain Risk Management: From Losses to Returns" },
-            { id: 4, title: "Business Resilience During Growth: Effective Operational Process Strategies" },
-            { id: 5, title: "Last Mile Economy: Balancing Price and Service" },
-            { id: 6, title: "Premium service in logistics: who is willing to pay for it?" },
-          ],
-          moderator: {
-            name: "Ekaterina Antsiferova",
-            position: "Deputy General Director for Commerce, DALLI Delivery Service",
-          },
-          speakers: [
-            { name: "Anastasia Sorokoumova", position: "Director of Logistics at PODRUZHKA" },
-            { name: "Alexey Nikonov", position: "Founder of the BRENDOSS Furniture Factory" },
-            { name: "Maria Trifonova", position: "Head of B2B at LAMODA" },
-            { name: "Sergey Manukyan", position: "Founder of the BUREAU MODERN RETAIL PROJECT" },
-            { name: "Vadim Kuzmin", position: "Head of the E-Commerce Department at HTS RUSSIA" },
-            { name: "Oleg Proposhin", position: "General Director of MPZ BOGORODSKY LLC, OKRAINA TM" },
-            { name: "Alexander Semenov", position: "Senior Client Manager, Development Department at YANDEX ROUTING" },
-          ],
-        },
-        {
-          time: "13:00 – 14:00",
-          title: "Dinner"
-        },
-        {
-          time: "14:00 – 15:30",
-          title: 'LOGISTICS DIRECTORS PANEL SESSION "WAREHOUSE AS AN ASSET: SOLUTIONS IN THE EVENT OF A SHORTAGE OF WAREHOUSE SPACE"',
-          description: "Session Topics:",
-          topics: [
-            { id: 1, title: "Russian Warehouse Real Estate Market, Q3 2025 Results. Observed Market Trends" },
-            { id: 2, title: "Investing in warehouse real estate: the right strategy or a necessary measure?" },
-            { id: 3, title: "How has the role of the warehouse in the supply chain of cargo owners changed in the current market conditions?" },
-            { id: 4, title: "Shortage of quality premises: scaling strategies and alternative models" },
-            { id: 5, title: "Optimizing Inventory Management: How Accurate Forecasting Can Reduce Warehouse Space Needs" },
-          ],
-          moderator: {
-            name: "Alexander Perfiliev",
-            position: "Partner and Director of the Warehouse and Industrial Real Estate Department at INVEST7, author of the @Skladexpert Telegram channel",
-          },
-          speakers: [
-            { name: "Viktor Afanasenko", position: "Regional Director of the Warehouse and Industrial Real Estate Department at Nikoliers" },
-            { name: "Ruslan Yashkanov", position: "Federal Logistics Manager at DNS" },
-            { name: "Alexander Shultz", position: "Director of Logistics at PETROVICH" },
-            { name: "Sergey Vereshchagin", position: "General Director of LogLab Group" },
-            { name: "Alexander Shamaev", position: "Head of Development and Projects at ASCON" },
-            { name: "Natalia Khazova", position: "Director of Procurement and Logistics at SYMRISE" },
-          ],
-        },
-        {
-          time: "15:30 – 16:00",
-          title: "Break"
-        },
-        {
-          time: "16:00 – 17:30",
-          title: 'PANEL SESSION FOR LOGISTICS DIRECTORS OF RETAIL COMPANIES "LOGISTICS MANAGEMENT IN RETAIL: STRATEGIES, TECHNOLOGIES, EFFICIENCY"',
-          description: "Session Topics:",
-          topics: [
-            { id: 1, title: "How can retailers balance cost and reliability in the face of rising tariffs?" },
-            { id: 2, title: "Which technological solutions (AI, WMS, TMS) provide the greatest impact in optimizing supply chains?" },
-            { id: 3, title: "How to build partnerships with suppliers to reduce risks?" },
-            { id: 4, title: "Fulfillment as a Service for Retail: Is It Worth Outsourcing Key Operations?" },
-            { id: 5, title: "How to measure the ROI of digital transformation in logistics?" },
-            { id: 6, title: "How to Avoid Empty Shelves Due to Labeling Errors: Best Practices" },
-            { id: 7, title: "How to choose and compare forecasting, planning, and promotional tools for large chains?" },
-          ],
-          moderator: {
-            name: "Igor Shatsky",
-            position: "Director of Logistics at O'KEY",
-          },
-          speakers: [
-            { name: "Denis Gurov", position: "Director of the Logistics Department, DETSKY MIR" },
-            { name: "Mikhail Smirnov", position: "Director of the Logistics Department, BEELINE" },
-            { name: "Alexey Kazennov", position: "Director of Integrated Planning, HOFF" },
-            { name: "Denis Shashkov", position: "Head of Supplier Development and Supply Chain Management, AUCHAN" },
-            { name: "Olga Tolmacheva", position: "Head of the Operational Logistics Division, METRO" },
-          ],
-        },
-        {
-          time: "17:30 – 18:30",
-          title: "Networking over a glass of sparkling wine"
-        },
-      ],
-    },
+        ],
+      },
+      {
+        time: "09:45 – 09:55",
+        title: "Chief Guest Address",
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "09:55 – 10:05",
+        title: "Guest of Honour Address",
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "10:05 – 10:15",
+        title: "Guest of Honour Address",
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "10:15 – 10:25",
+        title: "Inaugural Keynote – India’s Roadmap for Advanced Manufacturing 2030",
+      },
+      {
+        time: "10:25 – 10:30",
+        title: "Vote of Thanks",
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "10:30 – 11:30",
+        title:
+          "Panel Discussion : Digital Transformation in Die, Mould & Plastic Processing",
+        topics: [
+          { id: 1, title: "Integrating CAD/CAM, AI, IoT & Robotics" },
+          { id: 2, title: "Digital twin applications for faster prototyping" },
+          { id: 3, title: "Predictive maintenance in high-volume production" },
+        ],
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "11:30 – 12:00",
+        title:
+          "Technical Session 1 : High-Performance Materials for Tooling & Moulding",
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "12:00 – 12:30",
+        title:
+          "Technical Session 2 : Precision Machining for Complex Geometries",
+        topics: [
+          { id: 1, title: "High-speed milling, EDM, micro-machining" },
+          { id: 2, title: "Accuracy & repeatability in mould inserts" },
+        ],
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "12:30 – 13:00",
+        title:
+          "Fireside Chat : Designing for Fun and Safety: Mold Innovations in the Toy Industry",
+        description:
+          "Breakthroughs and challenges unique to toy mold design, including safety regulations, rapid product cycles, and creative flexibility.",
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "13:00 – 14:00",
+        title: "Networking Lunch",
+      },
+      {
+        time: "14:00 – 14:30",
+        title:
+          "Technical Session 3 : Surface Finishing, Coatings & Wear Protection",
+        topics: [
+          { id: 1, title: "PVD, CVD, DLC coatings" },
+          { id: 2, title: "Improving mould surface quality" },
+        ],
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "14:30 – 15:30",
+        title:
+          "Panel Discussion : Automation & Industry 4.0 in Moulding and Tool Rooms",
+        topics: [
+          { id: 1, title: "Robotics in injection moulding" },
+          { id: 2, title: "Lights-out manufacturing for tool shops" },
+          { id: 3, title: "Reducing cycle times through smart automation" },
+        ],
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "15:30 – 16:00",
+        title: "Networking Hi Tea",
+      },
+      {
+        time: "16:00 – 16:30",
+        title:
+          "Fireside Chat : AI, Simulation & Smart Manufacturing – Digitalizing the Mold Shop",
+        topics: [
+          { id: 1, title: "AI-driven mold flow and simulation for zero-defect molding" },
+          { id: 2, title: "Digital twins & predictive maintenance in tool rooms" },
+          { id: 3, title: "Knowledge-driven digital workflows" },
+        ],
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "16:30 – 17:00",
+        title:
+          "Technical Session 4 : Design for Manufacturability (DFM) in Tooling & Plastic Parts",
+        topics: [
+          { id: 1, title: "Optimising part geometry for efficiency" },
+          { id: 2, title: "Reducing rework & scrap" },
+        ],
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "17:00 – 17:10",
+        title: "Closing Remarks",
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+    ],
+  },
+
+  {
+    day: "Day 2 Theme : Sustainability & Innovation in Manufacturing",
+    date: "Friday, 21 November 2025",
+    description: "",
+    sessions: [
+      {
+        time: "09:30 – 10:00",
+        title: "Networking Hi Tea",
+      },
+      {
+        time: "10:00 – 11:00",
+        title:
+          "Panel Discussion : Sustainable Materials & Circular Economy in Plastics",
+        topics: [
+          { id: 1, title: "Biodegradable polymers" },
+          { id: 2, title: "Recycling technologies" },
+          { id: 3, title: "Regulatory compliance & EPR norms" },
+        ],
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "11:00 – 11:30",
+        title:
+          "Technical Session 5 : Conformal Cooling in Mould Design",
+        topics: [
+          { id: 1, title: "3D printing for optimised cooling channels" },
+          { id: 2, title: "Energy savings & cycle time reduction" },
+        ],
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "11:30 – 12:00",
+        title:
+          "Fireside Chat : Material Evolution: Navigating New Plastics and Sustainability Demands",
+        description:
+          "Recycled & high-performance polymers, global supply chains, and circular economy pilots across sectors.",
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "12:00 – 12:30",
+        title:
+          "Technical Session 6 : Advanced Simulation & Flow Analysis",
+        topics: [
+          { id: 1, title: "Reducing warpage & shrinkage in moulded parts" },
+          { id: 2, title: "Case studies from automotive & electronics" },
+        ],
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "12:30 – 13:00",
+        title:
+          "Technical Session 7 : AI-Driven Process Optimisation in Moulding",
+        topics: [
+          { id: 1, title: "Data-driven cycle time reduction" },
+          { id: 2, title: "Predictive defect prevention" },
+        ],
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "13:00 – 14:00",
+        title: "Networking Lunch",
+      },
+      {
+        time: "14:00 – 15:00",
+        title:
+          "Panel Discussion : Global Trends in Die & Mould Manufacturing",
+        topics: [
+          { id: 1, title: "Competing with China & Europe" },
+          { id: 2, title: "Export opportunities & standards compliance" },
+        ],
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "15:00 – 15:30",
+        title: "Networking Hi Tea",
+      },
+      {
+        time: "15:30 – 16:00",
+        title:
+          "Fireside Chat : The Future is Collaborative: Cross-Industry Lessons in Mold Use",
+        topics: [
+          { id: 1, title: "Best practices in tooling partnerships" },
+          { id: 2, title: "Open innovation across industries" },
+          { id: 3, title: "Workforce & upskilling for converging technologies" },
+        ],
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "16:00 – 16:30",
+        title:
+          "Technical Session 8 : Hot Runner vs Cold Runner Technologies",
+        topics: [
+          { id: 1, title: "Performance, cost & waste considerations" },
+        ],
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "16:30 – 17:00",
+        title:
+          "Technical Session 9 : Automation in Quality Inspection",
+        topics: [
+          { id: 1, title: "CMM, laser scanning & AI-based defect detection" },
+        ],
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+      {
+        time: "17:00 – 17:10",
+        title: "Closing Remarks",
+        speakers: [{ name: "TBD", position: "Speaker" }],
+      },
+    ],
+  },
+
   ];
 
   return (
