@@ -1,4 +1,6 @@
-import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import SectionContainer from "@/components/UI/SectionContainer";
 
 interface SessionTopic {
@@ -28,6 +30,7 @@ interface DayProgram {
 }
 
 const TransRussiaSummitProgram: React.FC = () => {
+  const [activeDay, setActiveDay] = useState(0);
   const programData: DayProgram[] = [
   {
     day: "Day 1 Theme : Future-ready Manufacturing – Precision & Productivity",
@@ -197,7 +200,7 @@ const TransRussiaSummitProgram: React.FC = () => {
           { id: 1, title: "3D printing for optimised cooling channels" },
           { id: 2, title: "Energy savings & cycle time reduction" },
         ],
-        speakers: [{ name: "TBD", position: "Speaker" }],
+        speakers: [{ position: "Speaker", name: "TBD" }],
       },
       {
         time: "11:30 – 12:00",
@@ -284,109 +287,96 @@ const TransRussiaSummitProgram: React.FC = () => {
 
   ];
 
+const selectedDay = programData[activeDay];
+
   return (
-    <SectionContainer bgColor="bg-white" className="">
+    <SectionContainer bgColor="bg-white">
       <div className="w-full">
-        {/* Header */}
-        <h1 className="text-6xl font-bold text-black mb-4">
-          Program TransRussia Summit 2025
+
+        {/* Heading */}
+        <h1 className="text-5xl font-bold text-black mb-10">
+          Driving Precision, Performance & Sustainability in Tooling and Plastics
         </h1>
-        
-        {/* All Program Days */}
-        <div className="space-y-20">
-          {programData.map((dayProgram, dayIndex) => (
-            <div key={dayIndex} className="border-t border-gray-300 pt-10">
-              {/* Day Header */}
-              <div className="mb-12">
-                <p className="text-[#4D4D4D] text-xl mb-3">
-                  {dayProgram.day} • {dayProgram.date}
-                </p>
-                <p className="text-[#4D4D4D] text-base italic">
-                  {dayProgram.description}
-                </p>
-              </div>
 
-              {/* Sessions for this day */}
-              <div className="space-y-16">
-                {dayProgram.sessions.map((session, index) => (
-                  <div
-                    key={index}
-                    className="grid grid-cols-1 md:grid-cols-[140px_1fr] gap-8"
-                  >
-                    {/* Time */}
-                    <div className="text-[#4D4D4D] text-lg font-medium">
-                      {session.time}
-                    </div>
-
-                    {/* Content */}
-                    <div>
-                      <h2 className="text-2xl font-bold text-black mb-6">
-                        {session.title}
-                      </h2>
-
-                      {/* Description */}
-                      {session.description && (
-                        <p className="text-[#4D4D4D] text-lg mb-6">
-                          {session.description}
-                        </p>
-                      )}
-
-                      {/* Topics */}
-                      {session.topics && (
-                        <ul className="list-disc pl-6 space-y-3 text-[#4D4D4D] text-lg mb-8">
-                          {session.topics.map((topic) => (
-                            <li key={topic.id}>{topic.title}</li>
-                          ))}
-                        </ul>
-                      )}
-
-                      {/* Moderator */}
-                      {session.moderator && (
-                        <div className="mb-8">
-                          <p className="font-bold text-black text-lg mb-1">Moderator:</p>
-                          <p className="text-[#4D4D4D] text-lg">{session.moderator.name}</p>
-                          <p className="text-[#4D4D4D] text-base">
-                            {session.moderator.position}
-                          </p>
-                        </div>
-                      )}
-
-                      {/* Speakers - Only show label if there are multiple speakers */}
-                      {session.speakers && session.speakers.length > 1 && (
-                        <div className="mb-6">
-                          <p className="font-bold text-black text-lg mb-3">Speakers:</p>
-                          <div className="space-y-3">
-                            {session.speakers.map((speaker, i) => (
-                              <div key={i}>
-                                <p className="text-[#4D4D4D] text-lg">{speaker.name}</p>
-                                <p className="text-[#4D4D4D] text-base">
-                                  {speaker.position}
-                                </p>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Single Speaker (no "Speakers:" label) */}
-                      {session.speakers && session.speakers.length === 1 && (
-                        <div className="space-y-3">
-                          {session.speakers.map((speaker, i) => (
-                            <div key={i}>
-                              <p className="text-[#4D4D4D] text-lg">{speaker.name}</p>
-                              <p className="text-[#4D4D4D] text-base">
-                                {speaker.position}
-                              </p>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+        {/* Day Toggle Buttons */}
+        <div className="flex gap-6 mb-16">
+          {programData.map((day, index) => (
+            <button
+              key={index}
+              onClick={() => setActiveDay(index)}
+              className={`px-8 py-4 rounded-lg text-lg font-medium transition-all duration-300
+                ${
+                  activeDay === index
+                    ? "bg-[#0B3B75] text-white"
+                    : "bg-[#1E63B5] text-white hover:opacity-90"
+                }
+              `}
+            >
+              {day.date.replace("Thursday, ", "").replace("Friday, ", "")}
+            </button>
           ))}
+        </div>
+
+        {/* Selected Day Content */}
+        <div className="border-t border-gray-300 pt-10">
+
+          {/* Day Header */}
+          <div className="mb-12">
+            <p className="text-[#4D4D4D] font-semibold text-2xl mb-3">
+              {selectedDay.day} • {selectedDay.date}
+            </p>
+          </div>
+
+          {/* Sessions */}
+          <div className="space-y-14">
+            {selectedDay.sessions.map((session, index) => (
+              <div
+                key={index}
+                className="grid grid-cols-1 md:grid-cols-[160px_1fr] gap-8"
+              >
+                {/* Time */}
+                <div className="text-[#4D4D4D] text-lg font-medium">
+                  {session.time}
+                </div>
+
+                {/* Content */}
+                <div>
+                  <h2 className="text-2xl font-bold text-black mb-4">
+                    {session.title}
+                  </h2>
+
+                  {session.description && (
+                    <p className="text-[#4D4D4D] text-lg mb-4">
+                      {session.description}
+                    </p>
+                  )}
+
+                  {session.topics && (
+                    <ul className="list-disc pl-6 space-y-2 text-[#4D4D4D] text-lg mb-4">
+                      {session.topics.map((topic) => (
+                        <li key={topic.id}>{topic.title}</li>
+                      ))}
+                    </ul>
+                  )}
+
+                  {session.speakers && (
+                    <div className="space-y-2">
+                      {session.speakers.map((speaker, i) => (
+                        <div key={i}>
+                          <p className="text-[#4D4D4D] text-base">
+                            {speaker.position}
+                          </p>
+                          <p className="text-[#4D4D4D] text-lg">{speaker.name}</p>
+                          
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
         </div>
       </div>
     </SectionContainer>
