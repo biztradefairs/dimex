@@ -95,7 +95,7 @@ const PartnerCard: React.FC<PartnerCardProps> = ({ partner, index }) => {
           <motion.a 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            href={`/partner/${partner.slug}`}
+            // href={`/partner/${partner.slug}`}
           >
             <button className="rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-blue-600 hover:bg-[#004D9F] hover:text-white transition-all duration-300 hover:shadow-lg">
               Explore
