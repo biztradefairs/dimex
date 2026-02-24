@@ -26,8 +26,8 @@ export default function DelegateForm() {
     state: '',
     city: '',
     package: '',
-    dietaryRestrictions: '',
-    specialRequirements: '',
+    // dietaryRestrictions: '',
+    // specialRequirements: '',
     notRobot: false
   });
 
@@ -83,8 +83,8 @@ export default function DelegateForm() {
           state: '',
           city: '',
           package: '',
-          dietaryRestrictions: '',
-          specialRequirements: '',
+          // dietaryRestrictions: '',
+          // specialRequirements: '',
           notRobot: false
         });
         setCaptchaToken(null);
@@ -297,15 +297,15 @@ export default function DelegateForm() {
                        outline-none transition hover:border-blue-300 bg-white cursor-pointer"
           >
             <option value="">Choose a package</option>
-            <option value="basic">BASIC - 75,000 RUB</option>
-            <option value="business">BUSINESS - 105,000 RUB</option>
-            <option value="vip">VIP - 135,000 RUB</option>
+            <option value="basic">STUDENT - 75,000 RUB</option>
+            <option value="business">GENERAL - 105,000 RUB</option>
+            <option value="vip">GROUP 3 - 135,000 RUB</option>
           </select>
         </div>
 
         {/* Dietary Restrictions */}
-        <div>
-          <label className="mb-1 block text-sm font-medium">
+        {/* <div>
+          {/* <label className="mb-1 block text-sm font-medium">
             Dietary Restrictions
           </label>
           <input
@@ -317,10 +317,10 @@ export default function DelegateForm() {
             className="w-full rounded border border-gray-300 px-3 py-2 text-sm 
                        focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
-        </div>
+        </div> */} 
 
         {/* Special Requirements */}
-        <div>
+        {/* <div>
           <label className="mb-1 block text-sm font-medium">
             Special Requirements
           </label>
@@ -333,7 +333,7 @@ export default function DelegateForm() {
             className="w-full rounded border border-gray-300 px-3 py-2 text-sm 
                        focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
           />
-        </div>
+        </div> */}
 
         {/* Checkbox */}
         <div className="flex items-start gap-2">

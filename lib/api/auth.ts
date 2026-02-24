@@ -1,3 +1,4 @@
+// lib/api/auth.ts
 import api from '../api';
 
 export interface LoginCredentials {
@@ -29,16 +30,40 @@ export interface ApiResponse<T = any> {
 }
 
 export const authAPI = {
-  // Admin login
+  // Admin login with debugging
   login: async (email: string, password: string): Promise<ApiResponse<AuthData>> => {
     try {
-      const response = await api.post('/auth/login', { email, password });
+      console.log('🔐 Attempting login with:', { email, passwordLength: password.length });
+      
+      // Log the full URL being called
+      console.log('🌐 Full URL:', `${api.defaults.baseURL}/api/auth/login`);
+      
+      // Make the request
+      const response = await api.post('/api/auth/login', { email, password });
+      
+      console.log('✅ Login response:', response.data);
       return response.data;
+      
     } catch (error: any) {
-      console.error('Login API error:', error);
+      console.error('❌ Login API error details:', {
+        message: error.message,
+        status: error.response?.status,
+        statusText: error.response?.statusText,
+        data: error.response?.data,
+        config: {
+          url: error.config?.url,
+          method: error.config?.method,
+          baseURL: error.config?.baseURL,
+        }
+      });
+      
+      // Return a formatted error response
       return {
         success: false,
-        error: error.response?.data?.error || 'Login failed. Please check your credentials.'
+        error: error.response?.data?.error || 
+               error.response?.data?.message || 
+               error.message || 
+               'Login failed. Please check your credentials.'
       };
     }
   },
@@ -46,7 +71,7 @@ export const authAPI = {
   // Admin logout
   logout: async (): Promise<ApiResponse> => {
     try {
-      const response = await api.post('/auth/logout');
+      const response = await api.post('/api/auth/logout');
       return response.data;
     } catch (error: any) {
       console.error('Logout API error:', error);
@@ -60,7 +85,7 @@ export const authAPI = {
   // Refresh token
   refreshToken: async (): Promise<ApiResponse<{ token: string }>> => {
     try {
-      const response = await api.post('/auth/refresh-token');
+      const response = await api.post('/api/auth/refresh-token');
       return response.data;
     } catch (error: any) {
       console.error('Refresh token API error:', error);
@@ -74,7 +99,7 @@ export const authAPI = {
   // Get current user profile
   getProfile: async (): Promise<ApiResponse<User>> => {
     try {
-      const response = await api.get('/users/profile/me');
+      const response = await api.get('/api/auth/profile');
       return response.data;
     } catch (error: any) {
       console.error('Get profile API error:', error);
@@ -85,44 +110,44 @@ export const authAPI = {
     }
   },
 
-  // Update profile
-  updateProfile: async (data: Partial<User>): Promise<ApiResponse<User>> => {
+  // Debug: Check admin user
+  checkAdmin: async (): Promise<ApiResponse> => {
     try {
-      const response = await api.put('/users/profile/me', data);
+      const response = await api.get('/api/debug/check-admin');
       return response.data;
     } catch (error: any) {
-      console.error('Update profile API error:', error);
+      console.error('Check admin error:', error);
       return {
         success: false,
-        error: error.response?.data?.error || 'Failed to update profile'
+        error: error.response?.data?.error || 'Failed to check admin'
       };
     }
   },
 
-  // Test API connection
-  testConnection: async (): Promise<ApiResponse> => {
+  // Debug: Reset admin password
+  resetAdmin: async (): Promise<ApiResponse> => {
     try {
-      const response = await api.get('/test');
+      const response = await api.post('/api/debug/reset-admin');
       return response.data;
     } catch (error: any) {
-      console.error('Test connection error:', error);
+      console.error('Reset admin error:', error);
       return {
         success: false,
-        error: error.response?.data?.error || 'API connection failed'
+        error: error.response?.data?.error || 'Failed to reset admin'
       };
     }
   },
 
-  // Test users API
-  testUsersAPI: async (): Promise<ApiResponse> => {
+  // Debug: Get all routes
+  getRoutes: async (): Promise<ApiResponse> => {
     try {
-      const response = await api.get('/users/test');
+      const response = await api.get('/api/debug/routes');
       return response.data;
     } catch (error: any) {
-      console.error('Test users API error:', error);
+      console.error('Get routes error:', error);
       return {
         success: false,
-        error: error.response?.data?.error || 'Users API connection failed'
+        error: error.response?.data?.error || 'Failed to get routes'
       };
     }
   }
