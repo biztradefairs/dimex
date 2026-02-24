@@ -714,11 +714,11 @@ export default function WhyVisit() {
                     external:true
                   },
                   {
-                    title: "MOLDING TRENDS Summit",
-                    text: "A knowledge-driven platform bringing industry professionals and leading experts together to share insights, helping the die & mould and tooling community stay ahead in a rapidly evolving manufacturing landscape.",
-                    image: "https://cdn.itegroupnews.com/18_6c90079699.jpg",
-                    link: "https://mouldingtrends.com",
-                    external:true
+                   title: "ToolingTrends.com",
+                text: "A premier knowledge-sharing platform by ToolingTrends.com, bringing together industry leaders, innovators, and manufacturing professionals to exchange insights and drive growth across the tooling, die & mould, and precision engineering sectors.",
+                image: "https://cdn.itegroupnews.com/18_6c90079699.jpg",
+                link: "https://toolingtrends.com",
+                external: true
                   }
                 ].map((card, index) => {
   const Wrapper = card.external ? 'a' : Link
