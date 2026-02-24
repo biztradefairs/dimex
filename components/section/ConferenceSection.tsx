@@ -6,7 +6,7 @@ const ConferenceSection = () => {
   const stats = [
     "200+ Delegates",
     "20+ Speakers",
-    "10 Sessions",
+    "20 Sessions",
     "2 Days",
   ];
 
