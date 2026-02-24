@@ -22,6 +22,9 @@ export default async function SectorPage({ params }: PageProps) {
     notFound();
   }
 
+  // Format sector name for display
+  const sectorName = sectorData.title.split(' ')[0];
+
   return (
     <>
     <main className="bg-white">
@@ -40,9 +43,7 @@ export default async function SectorPage({ params }: PageProps) {
             <img
               src={sectorData.heroImage}
               alt={sectorData.title}
-              
-              
-              className="object-cover"
+              className="object-cover w-full h-full"
             />
           </div>
         </div>
@@ -53,35 +54,24 @@ export default async function SectorPage({ params }: PageProps) {
   <div className="max-w-7xl mx-auto">
     
     {/* GRID */}
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-start">
       
       {/* LEFT CONTENT */}
       <div>
         <h2 className="text-3xl font-bold text-gray-900 mb-6">
-        {slug === 'die-mould-tooling-precision-manufacturing'
-  ? "Power Precision Manufacturing with Advanced Die & Mould Solutions"
-  : `Drive Manufacturing Excellence with ${sectorData.title.split(' ')[0]} Solutions`}
-</h2>
+          {slug === 'die-mould-tooling-precision-manufacturing'
+            ? "Power Precision Manufacturing with Advanced Die & Mould Solutions"
+            : `Drive Manufacturing Excellence with ${sectorName} Solutions`}
+        </h2>
 
-        <div className="space-y-6 text-gray-700 leading-relaxed text-[17px]">
-          <p>
-            {slug === 'die-mould-tooling-precision-manufacturing'
-          ? <>As India strengthens its position as a global manufacturing hub, the die & mould industry is playing a critical role in supporting automotive, aerospace, electronics, EV, and plastics sectors. The Indian die & mould market is projected to witness strong double-digit growth in the coming years, driven by Make in India, localisation, and rising precision engineering demand.</>
-: <>The {sectorData.title} segment is experiencing rapid expansion across India, with increasing demand for high-precision tooling, advanced machining, automation, and smart manufacturing solutions.</>}
-</p>
-
-          <p>
-            {slug === 'die-mould-tooling-precision-manufacturing'
-          ? <>At <strong>DIEMEX</strong>, the die & mould and tooling sector brings together leading tool makers, mould manufacturers, precision machining experts, and technology providers showcasing advanced CNC systems, tooling solutions, mould components, automation, and smart manufacturing innovations.</>
-: <>At <strong>DIEMEX</strong>, the {sectorData.title} segment brings together industry leaders presenting cutting-edge manufacturing technologies, high-precision solutions, and engineering services.</>}
-</p>
-
-          <p>
-            {slug === 'die-mould-tooling-precision-manufacturing'
-              ? "Whether managing bulk, container, or project cargo, this sector connects you to the infrastructure, technology, and services powering modern port logistics."
-              : "Whether you're looking for cutting-edge technology or reliable service providers, this sector connects you with the expertise needed to optimize your operations."}
-          </p>
-        </div>
+       <div className="space-y-6 text-gray-700 leading-relaxed text-[17px]">
+  {/* Only show mainDescription if it exists - otherwise show nothing */}
+  {sectorData.mainDescription && 
+    sectorData.mainDescription.split('\n\n').map((paragraph, index) => (
+      <p key={index}>{paragraph}</p>
+    ))
+  }
+</div>
 
         {/* STATS */}
         <div className="flex gap-14 mt-14">
@@ -120,7 +110,7 @@ export default async function SectorPage({ params }: PageProps) {
       <section className="py-16 md:py-24 px-4 md:px-6 lg:px-8 bg-gray-50">
         <SectionContainer>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-16 text-center">
-            Why Exhibit in {sectorData.title.split(' ')[0]} Sector?
+            Why Exhibit in {sectorName} Sector?
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             {sectorData.whyExhibit.map((item, index) => (
@@ -152,7 +142,7 @@ export default async function SectorPage({ params }: PageProps) {
       {/* FAQ Section */}
       <section className="py-16 md:py-24 px-4 md:px-6 lg:px-8 bg-white">
         <SectionContainer>
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-16 text-center">FAQs for {sectorData.title.split(' ')[0]} Sector</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-16 text-center">FAQs for {sectorName} Sector</h2>
           <div className="grid md:grid-cols-3 gap-8 mb-16">
             {sectorData.faqs.map((faq, index) => (
               <FAQCard key={index} question={faq.question} answer={faq.answer} index={index} />
@@ -172,7 +162,7 @@ export default async function SectorPage({ params }: PageProps) {
 
           <div className="relative z-10 flex flex-col md:flex-row items-center justify-center h-full gap-6 text-center">
             <h2 className="text-3xl md:text-4xl font-bold text-white">
-              Ready to Exhibit in {sectorData.title.split(' ')[0]}?
+              Ready to Exhibit in {sectorName}?
             </h2>
             <Link href='/visitor-registration'>
               <button className="flex items-center gap-2 bg-[#004D9F] hover:bg-blue-600 transition text-white font-semibold px-8 py-3 rounded-md">
@@ -191,6 +181,7 @@ export default async function SectorPage({ params }: PageProps) {
     </>
   );
 }
+
 // Add this CSS for the clip-arrow effect
 const styles = `
   .clip-arrow {
@@ -220,7 +211,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     title: `${sectorData.title} | Diemex 2026`,
     description: sectorData.description,
     openGraph: {
-      title: `${sectorData.title} | Diemex  2026`,
+      title: `${sectorData.title} | Diemex 2026`,
       description: sectorData.description,
       images: [sectorData.heroImage]
     }
