@@ -1,3 +1,4 @@
+// hooks/useAuth.ts
 import { useState, useEffect, useCallback } from 'react';
 import { authAPI, User, ApiResponse, AuthData } from '@/lib/api/auth';
 
@@ -52,17 +53,23 @@ export const useAuth = () => {
   ): Promise<ApiResponse<AuthData>> => {
     try {
       setLoading(true);
+      setError(null);
+      
       const response = await authAPI.login(email, password);
 
       if (response.success && response.data) {
         localStorage.setItem('admin_token', response.data.token);
         localStorage.setItem('admin_user', JSON.stringify(response.data.user));
         setUser(response.data.user);
+      } else {
+        setError(response.error || 'Login failed');
       }
 
       return response;
     } catch (err: any) {
-      return { success: false, error: err.message };
+      const errorMessage = err.message || 'Login failed';
+      setError(errorMessage);
+      return { success: false, error: errorMessage };
     } finally {
       setLoading(false);
     }
@@ -78,6 +85,28 @@ export const useAuth = () => {
     }
   };
 
+  // Debug function to check admin status
+  const debugAdmin = async () => {
+    try {
+      const response = await authAPI.checkAdmin();
+      console.log('🔍 Admin check:', response);
+      return response;
+    } catch (error) {
+      console.error('Debug admin error:', error);
+    }
+  };
+
+  // Debug function to reset admin
+  const resetAdmin = async () => {
+    try {
+      const response = await authAPI.resetAdmin();
+      console.log('🔄 Admin reset:', response);
+      return response;
+    } catch (error) {
+      console.error('Reset admin error:', error);
+    }
+  };
+
   return {
     user,
     loading,
@@ -85,6 +114,8 @@ export const useAuth = () => {
     login,
     logout,
     fetchUser,
+    debugAdmin,
+    resetAdmin,
     isAuthenticated: typeof window !== 'undefined'
       ? !!localStorage.getItem('admin_token')
       : false,

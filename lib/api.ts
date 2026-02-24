@@ -1,15 +1,16 @@
+// lib/api.ts
 import axios, { AxiosRequestConfig } from 'axios';
 
 // Get the API URL from environment or use default
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com';
 
-// Create axios instance with minimal headers to avoid CORS issues
+// Create axios instance
 const api = axios.create({
   baseURL: API_BASE_URL,
   headers: {
     'Content-Type': 'application/json',
   },
-  withCredentials: false, // Set to false to avoid CORS issues with credentials
+  withCredentials: false,
   timeout: 30000,
 });
 
@@ -25,18 +26,13 @@ api.interceptors.request.use(
       }
     }
     
-    // Add cache-busting parameter for GET requests
-    if (config.method?.toLowerCase() === 'get') {
-      config.params = {
-        ...config.params,
-        _t: Date.now(), // Cache buster
-      };
+    // Log requests in development
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`🌐 ${config.method?.toUpperCase()} ${config.baseURL}${config.url}`, {
+        params: config.params,
+        hasData: !!config.data
+      });
     }
-    
-    console.log(`🌐 ${config.method?.toUpperCase()} ${config.url}`, {
-      params: config.params,
-      data: config.data ? '...' : 'none'
-    });
     
     return config;
   },
@@ -49,7 +45,9 @@ api.interceptors.request.use(
 // Response interceptor
 api.interceptors.response.use(
   (response) => {
-    console.log(`✅ ${response.status} ${response.config.url}`);
+    if (process.env.NODE_ENV === 'development') {
+      console.log(`✅ ${response.status} ${response.config.url}`);
+    }
     return response;
   },
   (error) => {
@@ -64,10 +62,11 @@ api.interceptors.response.use(
     // Handle 401 Unauthorized
     if (error.response?.status === 401) {
       if (typeof window !== 'undefined') {
-        localStorage.removeItem('admin_token');
-        localStorage.removeItem('token');
-        // Redirect to login
+        // Don't redirect if we're already on login page
         if (!window.location.pathname.includes('/login')) {
+          localStorage.removeItem('admin_token');
+          localStorage.removeItem('token');
+          localStorage.removeItem('admin_user');
           window.location.href = '/admin/login';
         }
       }
