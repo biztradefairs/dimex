@@ -6,7 +6,7 @@ export default function HeroSection() {
       {/* BACKGROUND IMAGE */}
       <img
         src="https://cdn.itegroupnews.com/Exhibitor_Resource_Center_5ee614ab47.webp"
-        alt="TransRussia©24"
+        alt="Diemex 2026"
         className="absolute inset-0 h-full w-full object-cover"
       />
 

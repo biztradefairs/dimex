@@ -26,7 +26,7 @@ export default function ContactInformation() {
                 href="tel:+79684421480"
                 className="underline font-medium hover:text-mainColor2"
               >
-                +7 968 442 14 80
+                +91 9148319993
               </a>
             </p>
           </div>
@@ -40,7 +40,7 @@ export default function ContactInformation() {
               </p>
 
               <p className="text-xl font-semibold text-black">
-                Dmitry Shishanov
+                Satish
               </p>
 
               <p className="text-base text-black/70 mb-5">
@@ -52,7 +52,7 @@ export default function ContactInformation() {
                   href="mailto:Dmitry.Shishanov@ite.group"
                   className="underline hover:text-mainColor2"
                 >
-                  Dmitry.Shishanov@ite.group
+                  info@diemex.in
                 </a>
               </p>
 
@@ -61,7 +61,7 @@ export default function ContactInformation() {
                   href="tel:+74957995585"
                   className="underline text-[#4D4D4D]"
                 >
-                  +7 495 799 55 85
+                  +91 91483 19993
                 </a>
               </p>
             </div>
