@@ -1,14 +1,16 @@
 // Database of all sectors with their specific content
 export const sectorDatabase = {
   // TransRussia Sectors
-  'complex-logistics': {
-    title: 'Complex Logistics Services & Freight Forwarding',
-    description: 'Comprehensive logistics solutions including freight forwarding, customs clearance, and supply chain management services.',
-    mainDescription: `As global supply chains become increasingly complex, businesses need partners who can navigate the intricacies of modern logistics. The Complex Logistics & Freight Forwarding sector at DIEMEX brings together the world's leading logistics providers, freight forwarders, and supply chain solution experts.
+  'die & mould manufacturing': {
+    title: 'Comprehensive die, mould, and precision tooling solutions powering modern manufacturing industries.',
+    description: 'Die & Mould Manufacturing',
+    mainDescription: `As industries demand lighter components, tighter tolerances, and faster production cycles, the role of advanced die & mould manufacturing becomes increasingly critical. The Die & Mould Manufacturing sector at DIEMEX brings together leading tool rooms, mould makers, die manufacturers, and precision engineering companies driving innovation across automotive, aerospace, electronics, packaging, and medical industries..
 
-From multimodal transport coordination to customs compliance and warehousing integration, this sector showcases comprehensive solutions that help businesses optimize their logistics operations. Visitors can explore innovative approaches to supply chain visibility, risk management, and cost optimization.
+From high-precision injection moulds and progressive dies to die-casting tools and multi-cavity mould systems, this sector showcases cutting-edge manufacturing capabilities designed for durability, repeatability, and cost efficiency.
 
-Whether you're a manufacturer seeking to streamline your import/export processes or a retailer looking for reliable distribution partners, this sector connects you with the expertise needed to build resilient, efficient supply chains in today's dynamic global market.`,
+Visitors can explore innovations in high-speed machining, 5-axis tool manufacturing, conformal cooling, advanced tool steels, and CAD/CAM-driven design optimization that reduce lead times and enhance part quality.
+
+Whether you are an OEM seeking reliable tooling partners or a manufacturer aiming to scale production capabilities, this sector connects you with experts shaping the next generation of precision manufacturing..`,
     heroImage: '/images/image.png',
     stats: {
       visitors: '10,000+',
@@ -17,57 +19,56 @@ Whether you're a manufacturer seeking to streamline your import/export processes
     },
     whyExhibit: [
       {
-        title: "Connect with Major Shippers & Importers",
+        title: "Connect with OEM & Tier Manufacturers",
         icon: "🤝",
-        description: "Meet decision-makers from manufacturing, retail, and trade sectors seeking end-to-end logistics partners."
+        description: "Engage with automotive, aerospace, consumer goods, and electronics manufacturers actively sourcing tooling partners."
       },
       {
-        title: "Showcase Integrated Supply Chain Solutions",
+        title: "Showcase Advanced Manufacturing Capabilities",
         icon: "🔗",
-        description: "Present your capabilities in multi-modal transport, warehousing, customs brokerage, and last-mile delivery."
+        description: "Demonstrate multi-cavity mould systems, progressive tooling, and precision die solutions."
       },
       {
-        title: "Capitalize on Growing Cross-Border Trade",
+        title: "Capitalize on India’s Manufacturing Growth",
         icon: "🌍",
-        description: "With Eurasian trade corridors expanding, demand for sophisticated logistics services is at an all-time high."
+        description: "Benefit from rising domestic production and global supply chain diversification."
       }
     ],
     services: [
-      "Freight Forwarding Services",
-      "Customs Clearance & Documentation",
-      "Supply Chain Consulting",
-      "Inventory Management",
-      "Multi-modal Transportation",
-      "Cross-border Logistics",
-      "Distribution Network Design",
-      "Logistics Outsourcing",
-      "Risk Management",
-      "Compliance & Regulatory Services"
-    ],
+      "Injection Moulds",
+      "Blow Moulds",
+      "Compression & Transfer Moulds",
+      "Progressive & Compound Dies",
+      "Die Casting Dies",
+      "Jigs & Fixtures",
+      "Prototype & Development Tooling",
+      "Tool Room Services",
+      "Reverse Engineering",
+        ],
     faqs: [
       {
         question: "What types of companies exhibit in this sector?",
-        answer: "Global freight forwarders, 3PL/4PL providers, customs brokers, supply chain consultants, and integrated logistics service providers."
+        answer: "Tool rooms, mould makers, die manufacturers, precision engineering firms, and design solution providers."
       },
       {
         question: "Who visits this sector?",
-        answer: "Manufacturers, retailers, import/export managers, supply chain directors, and businesses seeking comprehensive logistics solutions."
+        answer: "OEMs, plant heads, tool room managers, R&D engineers, and procurement teams."
       },
       {
-        question: "What are the key trends in complex logistics?",
-        answer: "Digital transformation, sustainability, nearshoring, supply chain resilience, and integrated technology platforms."
+        question: "What are the key trends?",
+        answer: "Automation integration, conformal cooling, additive tooling, lightweight materials, and digital simulation."
       }
     ]
   },
   
-  'maritime-and-inland-waterway-transport': {
-    title: 'Maritime & Inland Waterway Transport',
-    description: 'Ocean and river transport services, shipping lines, and inland waterway logistics solutions.',
-    mainDescription: `The Maritime & Inland Waterway Transport sector at DIEMEX serves as a vital meeting point for shipping lines, port operators, and logistics professionals. With global trade heavily dependent on maritime routes and growing recognition of inland waterways as sustainable transport alternatives, this sector showcases the full spectrum of waterborne logistics solutions.
+  'tooling & cutting tools': {
+    title: 'Tooling & Cutting Tools',
+    description: 'Enhancing Productivity Through Advanced Tooling Solutions',
+    mainDescription: `In high-speed, high-precision production environments, tooling performance directly impacts efficiency and profitability. The Tooling & Cutting Tools sector at DIEMEX features manufacturers and suppliers of carbide inserts, end mills, drills, reamers, tool holders, and special-purpose tooling systems.
 
-From container shipping and bulk carriers to river barge operations and port services, exhibitors demonstrate how water transport continues to evolve with digitalization, environmental regulations, and changing trade patterns. Visitors can explore new shipping routes, compare vessel capabilities, and discover integrated solutions that combine water transport with other modes.
+This sector highlights advancements in coating technologies, optimized geometries, micro-machining tools, and long-life cutting solutions designed to improve surface finish and reduce downtime.
 
-Whether you're managing international supply chains or developing regional distribution networks, this sector provides insights into how maritime and inland waterway transport can offer cost-effective, scalable, and increasingly sustainable options for moving goods across borders and continents.`,
+Visitors can explore innovative tooling strategies that support hard machining, high-speed milling, and complex component production across automotive, aerospace, and die & mould industries.`,
     heroImage: '/images/image.png',
     stats: {
      visitors: '10,000+',
@@ -76,57 +77,55 @@ Whether you're managing international supply chains or developing regional distr
     },
     whyExhibit: [
       {
-        title: "Connect with Major Shippers & Exporters",
+        title: "Meet High-Volume Manufacturers",
         icon: "🚢",
-        description: "Meet cargo owners moving bulk, containerized, and project cargo across global shipping lanes."
+        description: "Connect with companies seeking performance-driven cutting solutions."
       },
       {
-        title: "Showcase Port-to-Port & Door-to-Door Solutions",
+        title: "Showcase New Tooling Technologies",
         icon: "⚓",
-        description: "Present your shipping routes, vessel capabilities, intermodal connections, and value-added services."
+        description: "Present next-generation coatings, carbide grades, and optimized geometries."
       },
       {
-        title: "Tap into Growing Container & Bulk Trade",
+        title: "Drive Productivity-Focused Partnerships",
         icon: "📈",
-        description: "With new port infrastructure and trade agreements, maritime transport demand continues to expand across Eurasia."
+        description: "Demonstrate measurable cost-per-component improvements."
       }
     ],
     services: [
-      "Container Shipping Services",
-      "Bulk Carrier Operations",
-      "Liner & Tramper Services",
-      "Inland Waterway Transport",
-      "Chartering & Brokerage",
-      "Port Agency Services",
-      "Marine Insurance",
-      "Bunker Fuel Supply",
-      "Vessel Operations Management",
-      "Shipping Documentation"
-    ],
+      "Carbide Inserts",
+      "End Mills",
+      "Drills & Reamers",
+      "Tool Holders",
+      "Special Purpose Tools",
+      "Coating Technologies",
+      "Micro Machining Tools",
+      "Tool Presetting Systems",
+          ],
     faqs: [
       {
-        question: "What shipping services are featured?",
-        answer: "Container lines, bulk carriers, ro-ro services, specialized vessels, and inland waterway operators."
+        question: "Who should exhibit?",
+        answer: "Cutting tool manufacturers, tool holder suppliers, carbide producers, and coating specialists."
       },
       {
-        question: "Who are the key visitors?",
-        answer: "Exporters, importers, freight forwarders, port operators, and supply chain managers sourcing ocean transport."
+        question: "Who visits?",
+        answer: "Production engineers, machining supervisors, tool room heads, and procurement managers."
       },
       {
-        question: "What are the market opportunities?",
-        answer: "Growth in containerized trade, new shipping routes, Arctic shipping development, and sustainable shipping initiatives."
+        question: "Key trends?",
+        answer: "High-speed machining, advanced coatings, automation-compatible tooling, and sustainable manufacturing."
       }
     ]
   },
   
-  'air-freight': {
-    title: 'Air Freight',
-    description: 'Air cargo services, express logistics, and aviation freight solutions.',
-    mainDescription: `In an era where speed and reliability are paramount, the Air Freight sector at DIEMEX showcases the fastest route to global markets. This sector brings together cargo airlines, freight forwarders, ground handlers, and specialized air logistics providers who enable time-sensitive and high-value shipments to reach destinations worldwide.
+  'machine tools & advanced machining': {
+    title: 'Machine Tools & Advanced Machining',
+    description: 'CNC systems, EDM, multi-axis machining, and high-precision production technologies.',
+    mainDescription: `The backbone of die & mould and precision engineering industries, advanced machining technologies continue to evolve rapidly. The Machine Tools sector at DIEMEX features CNC machining centers, 5-axis systems, EDM, wire-cut EDM, grinding machines, and high-speed milling solutions.
 
-From dedicated freighter operations and commercial belly cargo to express courier services and charter solutions, exhibitors demonstrate how air freight continues to adapt to changing market demands. Special attention is given to pharmaceutical logistics, perishable goods transport, e-commerce fulfillment, and emergency response capabilities.
+Exhibitors present automation-ready machines integrated with IoT monitoring, AI-driven diagnostics, and high-accuracy control systems designed for complex geometries and tight tolerances.
 
-For businesses requiring just-in-time delivery, temperature-controlled transport, or access to remote markets, this sector offers insights into how air freight can provide competitive advantages. Visitors can explore new routes, compare service levels, and discover innovative solutions that make air cargo more accessible and efficient than ever before.`,
+Visitors can experience live demonstrations, production simulations, and smart machining solutions that increase throughput while maintaining precision.`,
     heroImage: '/images/image.png',
     stats: {
     visitors: '10,000+',
@@ -135,57 +134,55 @@ For businesses requiring just-in-time delivery, temperature-controlled transport
     },
     whyExhibit: [
       {
-        title: "Connect with Time-Sensitive Shippers",
+        title: "Demonstrate Live Machining Capabilities",
         icon: "✈️",
-        description: "Meet pharmaceutical, e-commerce, automotive, and high-tech companies requiring urgent air cargo solutions."
+        description: "Engage buyers through real-time performance demonstrations."
       },
       {
-        title: "Showcase Specialized Air Logistics",
+        title: "Target Expanding Manufacturing Investments",
         icon: "📦",
-        description: "Present your capabilities in perishables, dangerous goods, live animals, and oversized cargo handling."
+        description: "Connect with companies upgrading production facilities."
       },
       {
-        title: "Capitalize on E-commerce & Pharma Growth",
+        title: "Build Long-Term Equipment Partnerships",
         icon: "💊",
-        description: "With rapid growth in online retail and temperature-sensitive shipments, air freight demand continues to soar."
+        description: "Position your machines as long-term productivity assets."
       }
     ],
     services: [
-      "Air Cargo Charter Services",
-      "Scheduled Freight Services",
-      "Express & Courier Logistics",
-      "Perishables Handling",
-      "Dangerous Goods Transport",
-      "Oversized & Heavy Cargo",
-      "Airport Ground Handling",
-      "Customs Clearance at Airports",
-      "Temperature-controlled Transport",
-      "Air Freight Consolidation"
-    ],
+      "CNC Machining Centers",
+      "5-Axis Machines",
+      "EDM & Wire Cut EDM",
+      "Grinding Machines",
+      "High-Speed Milling Systems",
+      "Automation-Integrated Machines",
+      "IoT Monitoring Systems",
+      "Smart Controls",
+          ],
     faqs: [
       {
-        question: "What types of air freight services are featured?",
-        answer: "Cargo airlines, freight forwarders, charter brokers, ground handlers, and specialized air logistics providers."
+        question: "Who should exhibit?",
+        answer: "CNC manufacturers, EDM providers, grinding machine suppliers, and automation integrators."
       },
       {
-        question: "Who visits the air freight sector?",
-        answer: "Manufacturers, e-commerce platforms, pharmaceutical companies, and businesses requiring fast, reliable transport."
+        question: "Who visits?",
+        answer: "Plant managers, production engineers, operations heads, and capital equipment buyers."
       },
       {
-        question: "What are the key market drivers?",
-        answer: "E-commerce growth, pharmaceutical supply chains, just-in-time manufacturing, and global emergency logistics."
+        question: "Key trends?",
+        answer: "Smart factories, automation integration, predictive maintenance, and energy-efficient machines."
       }
     ]
   },
   
-  'rail-freight': {
-    title: 'Rail Freight',
-    description: 'Rail transportation, intermodal solutions, and rail logistics across Eurasia.',
-    mainDescription: `The Rail Freight sector at DIEMEX highlights the growing importance of rail as a sustainable, efficient, and reliable mode of transport for both containerized and bulk cargo across the Eurasian landmass. As the modern Silk Road continues to develop, rail freight offers a compelling alternative to ocean and air transport with competitive transit times and costs.
+  'automation & robotics': {
+    title: 'Automation & Robotics',
+    description: 'Industrial automation, robotics, and smart production systems driving next-generation manufacturing efficiency.',
+    mainDescription: `As manufacturers strive for higher productivity, consistency, and safety, automation has become a strategic necessity. The Automation & Robotics sector at DIEMEX showcases industrial robots, cobots, automated material handling systems, vision-guided inspection, and AI-driven production technologies.
 
-This sector brings together railway operators, intermodal service providers, wagon leasing companies, and infrastructure developers who are shaping the future of overland freight transport. Visitors can explore block train services, intermodal connections, and specialized rail solutions for everything from consumer goods to heavy industrial equipment.
+From robotic tool loading and automated mould change systems to fully integrated smart assembly lines, this sector highlights solutions that reduce human error, improve precision, and enhance production throughput.
 
-With the China-Europe rail corridor handling hundreds of thousands of TEUs annually and new routes opening across Central Asia and the Middle East, this sector provides essential insights for businesses looking to optimize their supply chain strategies through rail-based logistics solutions.`,
+Visitors can explore scalable automation models suitable for tool rooms, die & mould shops, and high-volume manufacturing plants.`,
     heroImage: '/images/image.png',
     stats: {
    visitors: '10,000+',
@@ -194,45 +191,42 @@ With the China-Europe rail corridor handling hundreds of thousands of TEUs annua
     },
     whyExhibit: [
       {
-        title: "Connect with Cross-Continent Shippers",
+        title: "Engage Digital-Ready Manufacturers,
         icon: "🚂",
-        description: "Meet businesses moving bulk commodities, containers, and project cargo across Eurasian rail corridors."
+        description: "Connect with companies investing in smart factory upgrades."
       },
       {
-        title: "Showcase Intermodal Rail Solutions",
+        title: "Demonstrate Efficiency Gains",
         icon: "🔄",
-        description: "Present your rail freight services, block train operations, wagon leasing, and rail-port connectivity."
+        description: "Showcase automation solutions that reduce downtime and labor dependency."
       },
       {
-        title: "Capitalize on New Silk Road Growth",
+        title: "Support Industry 4.0 Adoption",
         icon: "🌐",
-        description: "With China-Europe rail traffic expanding, demand for efficient rail logistics solutions is at record levels."
+        description: "Position your systems as enablers of connected manufacturing."
       }
     ],
     services: [
-      "Container Rail Services",
-      "Bulk Commodity Transport",
-      "Intermodal Terminal Operations",
-      "Wagon Leasing & Management",
-      "Railcar Maintenance & Repair",
-      "Railway Infrastructure Services",
-      "Cross-border Rail Logistics",
-      "Rail Freight Documentation",
-      "Dangerous Goods Transport by Rail",
-      "Temperature-controlled Rail Services"
-    ],
+      "Industrial Robots & Cobots",
+      "Automated Tool Loading Systems",
+      "Vision Inspection Systems",
+      "Material Handling Automation",
+      "Smart Assembly Systems",
+      "Robotic Welding & Machining Cells",
+      "AI-Based Process Monitoring",
+          ],
     faqs: [
       {
-        question: "What rail services are featured?",
-        answer: "Container trains, bulk cargo services, intermodal solutions, wagon management, and rail logistics consulting."
+        question: "Who should exhibit?",
+        answer: "Robot manufacturers, automation integrators, AI solution providers, and smart factory consultants."
       },
       {
-        question: "Who are the key rail freight users?",
-        answer: "Manufacturers, mining companies, agricultural exporters, container shippers, and cross-border traders."
+        question: "Who visits?",
+        answer: "Plant heads, production managers, automation engineers, and OEM decision-makers."
       },
       {
-        question: "What are the advantages of rail freight?",
-        answer: "Cost-effective for long distances, eco-friendly, reliable schedules, and high capacity for bulk commodities."
+        question: "Key trends?",
+        answer: "Collaborative robotics, AI analytics, predictive maintenance, and fully connected production lines."
       }
     ]
   },
