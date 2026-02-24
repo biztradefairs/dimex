@@ -5,7 +5,7 @@ const BecomeDelegate = () => {
   const delegatePackages = [
     {
       id: 1,
-      title: "BASIC",
+      title: "Student",
       price: "5,000 INR",
       features: [
         "Participation in the conference program",
@@ -13,11 +13,24 @@ const BecomeDelegate = () => {
         "Access to the closed conference participants group",
         "Participation in the evening cocktail on October 20"
       ],
-      cardLink: "/summit-basic-form/",
+      cardLink: "/became-delegate",
       invoiceLink: "/summit-invoice-form/"
     },
     {
-      id: 2,
+      id: 1,
+      title: "General",
+      price: "5,000 INR",
+      features: [
+        "Participation in the conference program",
+        "Access to coffee breaks and lunches",
+        "Access to the closed conference participants group",
+        "Participation in the evening cocktail on October 20"
+      ],
+      cardLink: "/became-delegate",
+      invoiceLink: "/summit-invoice-form/"
+    },
+    {
+      id: 3,
       title: "GROUP 3",
       price: "12,000 INR",
       features: [
@@ -28,7 +41,7 @@ const BecomeDelegate = () => {
         "Presentation materials",
         "Participation in the VIP reception on October 19"
       ],
-      cardLink: "/summit-business-form/",
+      cardLink: "/became-delegate",
       invoiceLink: "/summit-invoice-form/"
     }
   ]; // ✅ ARRAY CLOSED HERE
@@ -39,12 +52,12 @@ const BecomeDelegate = () => {
       <div className="animated-block">
         <div className="animated-block-target">
           <div className="container">
-            <h2 className="title-40 md:title-48 lg:title-72 text-black mb-6 md:mb-10">
-              Become a Delegate
-            </h2>
-            <div className="rte-style text-sm md:text-base lg:text-lg">
-              <p>Prices include GST</p>
-            </div>
+            <h2 className="text-5xl md:text-6xl lg:text-8xl font-bold text-black mb-6 md:mb-10">
+  Become a Delegate
+</h2>
+    <div className="w-full text-3xl text-gray-600 font-semibold">
+  <p>Prices include GST</p>
+</div>
           </div>
         </div>
       </div>
@@ -98,15 +111,15 @@ const BecomeDelegate = () => {
                       <div className="flex flex-col sm:flex-row flex-wrap gap-2 md:gap-3">
                         <Link href={pkg.cardLink} className="flex-1 min-w-[120px]">
                           <button className="w-full rounded-full bg-[#004D9F] px-4 py-2 md:px-6 md:py-3 text-xs md:text-sm font-semibold text-white transition-all hover:bg-mainColor4">
-                            PAY BY CARD
+                            Register
                           </button>
                         </Link>
 
-                        <Link href={pkg.invoiceLink} className="flex-1 min-w-[120px]">
+                        {/* <Link href={pkg.invoiceLink} className="flex-1 min-w-[120px]">
                           <button className="w-full rounded-full bg-[#004D9F] px-4 py-2 md:px-6 md:py-3 text-xs md:text-sm font-semibold text-white transition-all hover:bg-mainColor4">
                             PAY BY INVOICE
                           </button>
-                        </Link>
+                        </Link> */}
                       </div>
 
                     </div>
