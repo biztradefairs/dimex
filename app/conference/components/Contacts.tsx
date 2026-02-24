@@ -5,7 +5,9 @@ const Contacts = () => {
     <div className="animated-block">
       <div className="animated-block-target">
         <div className="container flex flex-col items-start gap-4 md:gap-5 py-6 md:py-8 lg:py-10 text-black">
-          <h2 className="title-40 md:title-48 lg:title-72 text-black mb-3 md:mb-5">Contacts</h2>
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold text-black mb-3 md:mb-5">
+  Contacts
+</h2>
           <div className="grid w-full gap-4 md:gap-5 lg:grid-cols-2">
             
             {/* First Contact */}

@@ -106,10 +106,15 @@ export default function SpeakersSection({
       <div className="animated-block-target">
         <div className="container">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 md:gap-8 lg:gap-20">
-            <div className="space-y-3 md:space-y-5">
-              <h2 className="title-40 md:title-48 lg:title-72 text-black">{title}</h2>
-              <p className="whitespace-pre-line text-sm md:text-base">{subtitle}</p>
-            </div>
+           <div className="space-y-4 md:space-y-6">
+  <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight text-black">
+    {title}
+  </h2>
+
+  <p className="whitespace-pre-line text-base md:text-lg text-gray-500 font-medium max-w-3xl">
+    {subtitle}
+  </p>
+</div>
           </div>
 
           <div className="relative mt-8 md:mt-12 lg:mt-20 w-full overflow-hidden">

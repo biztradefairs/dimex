@@ -144,7 +144,7 @@ export default function HeroSection() {
             {/* Buttons */}
             <div className="mt-4 lg:mt-0 lg:ml-auto flex flex-col sm:flex-row gap-3 md:gap-4">
               <Button
-                onClick={() => window.location.href = '/delegates-packages2026'}
+                onClick={() => window.location.href = '/became-delegate'}
                 className="text-sm md:text-base px-4 py-2 md:px-6 md:py-3 lg:px-10 lg:py-4"
               >
                 Become a delegate
