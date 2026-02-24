@@ -20,6 +20,7 @@ const HeroSection = () => {
           <div className="pb-25 text-white">
             <h2 className="title-72">About DIEMEX 2026</h2>
             <p className="mt-4 max-w-6xl text-lg">
+              
               Shaping the Future of Die & Mould Manufacturing.
             </p>
           </div>

@@ -8,7 +8,7 @@ export default function VideoSection() {
           <iframe
             className="absolute inset-0 w-full h-full"
             src="https://www.youtube.com/embed/sC_vmTk98eI?start=25&autoplay=1&mute=1&playsinline=1&rel=0&modestbranding=1&controls=0"
-            title="TransRussia 2026"
+            title="Diemex 2026"
             frameBorder="0"
             allow="autoplay; accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen

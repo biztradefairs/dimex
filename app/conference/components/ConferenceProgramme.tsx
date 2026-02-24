@@ -42,8 +42,7 @@ const TransRussiaSummitProgram: React.FC = () => {
       ]
     },
     {
-      day: "Day 1 Theme : Future-ready Manufacturing – Precision & Productivity
-",
+      day: "Day 1 Theme : Future-ready Manufacturing – Precision & Productivity",
       date: "October 08, 2026",
       description: "*For delegates",
       sessions: [
