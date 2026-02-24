@@ -7,7 +7,7 @@ import { X, Loader2, CheckCircle, AlertCircle } from 'lucide-react'
 interface VisitorRegistrationFormProps {
   isOpen: boolean
   onClose: () => void
-  companyName?: string
+  companyName?: string // This will come from the exhibitor
 }
 
 const COUNTRIES = [
@@ -44,24 +44,22 @@ const COUNTRIES = [
   'Venezuela', 'Vietnam', 'Yemen', 'Zambia', 'Zimbabwe',
 ]
 
-// API Base URL - Change this to your deployed backend URL
+// API Base URL
 const API_BASE_URL = 'https://diemex-backend.onrender.com/api';
 
 export default function VisitorRegistrationForm({
   isOpen,
   onClose,
-  companyName,
+  companyName, // This comes from the exhibitor
 }: VisitorRegistrationFormProps) {
   const [step, setStep] = useState<'form' | 'otp' | 'success'>('form')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
   const [successMessage, setSuccessMessage] = useState('')
-  const [otpSent, setOtpSent] = useState(false)
   const [resendTimer, setResendTimer] = useState(0)
   const [formData, setFormData] = useState({
     name: '',
     designation: '',
-    company: companyName || '',
     address: '',
     country: '',
     state: '',
@@ -80,7 +78,6 @@ export default function VisitorRegistrationForm({
         setFormData({
           name: '',
           designation: '',
-          company: companyName || '',
           address: '',
           country: '',
           state: '',
@@ -90,20 +87,12 @@ export default function VisitorRegistrationForm({
           mobile: '',
         })
         setOtp('')
-        setOtpSent(false)
         setError('')
         setSuccessMessage('')
         setResendTimer(0)
       }, 300)
     }
-  }, [isOpen, companyName])
-
-  // Update company name when prop changes
-  useEffect(() => {
-    if (companyName) {
-      setFormData(prev => ({ ...prev, company: companyName }))
-    }
-  }, [companyName])
+  }, [isOpen])
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -144,6 +133,12 @@ export default function VisitorRegistrationForm({
       return
     }
 
+    // Make sure we have a company name
+    if (!companyName) {
+      setError('Company information is missing. Please refresh and try again.')
+      return
+    }
+
     setLoading(true)
     setError('')
 
@@ -157,7 +152,7 @@ export default function VisitorRegistrationForm({
           email: formData.email,
           name: formData.name,
           mobile: formData.mobile,
-          company: formData.company
+          company: companyName // Use the companyName from props
         }),
       })
 
@@ -167,7 +162,6 @@ export default function VisitorRegistrationForm({
         throw new Error(data.error || data.message || 'Failed to send OTP')
       }
 
-      setOtpSent(true)
       setStep('otp')
       setSuccessMessage(`Verification code sent to ${formData.email}`)
       
@@ -253,6 +247,7 @@ export default function VisitorRegistrationForm({
         },
         body: JSON.stringify({
           ...formData,
+          company: companyName, // Include company from props
           otp: otp
         }),
       })
@@ -309,6 +304,15 @@ export default function VisitorRegistrationForm({
           </button>
         </div>
 
+        {/* Company Info Banner - Shows which company they're registering for */}
+        {companyName && step === 'form' && (
+          <div className="mx-4 md:mx-6 mt-4 p-3 bg-blue-50 border border-blue-200 rounded">
+            <p className="text-sm text-blue-700">
+              <span className="font-medium">Registering for:</span> {companyName}
+            </p>
+          </div>
+        )}
+
         {/* Messages */}
         {error && (
           <div className="mx-4 md:mx-6 mt-4 p-3 bg-red-50 border border-red-200 rounded flex items-start gap-2">
@@ -360,23 +364,6 @@ export default function VisitorRegistrationForm({
                   disabled={loading}
                   className="w-full px-3 py-2 md:px-4 md:py-2.5 bg-white border border-slate-300 rounded text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent disabled:bg-slate-100 disabled:cursor-not-allowed"
                   placeholder="Enter your designation"
-                />
-              </div>
-
-              {/* Company Name */}
-              <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1 md:mb-2">
-                  Company Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  name="company"
-                  value={formData.company}
-                  onChange={handleInputChange}
-                  required
-                  disabled={loading || !!companyName}
-                  className="w-full px-3 py-2 md:px-4 md:py-2.5 bg-white border border-slate-300 rounded text-slate-900 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent disabled:bg-slate-100 disabled:cursor-not-allowed"
-                  placeholder="Enter company name"
                 />
               </div>
 
@@ -525,7 +512,7 @@ export default function VisitorRegistrationForm({
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !companyName}
                 className="w-full px-4 py-3 bg-slate-900 text-white font-medium rounded hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm md:text-base flex items-center justify-center gap-2"
               >
                 {loading ? (
@@ -558,6 +545,11 @@ export default function VisitorRegistrationForm({
                 <p className="text-sm font-medium text-slate-900 mb-4">
                   {formData.email}
                 </p>
+                {companyName && (
+                  <p className="text-xs text-slate-500 mb-4">
+                    Registering for: <span className="font-medium">{companyName}</span>
+                  </p>
+                )}
               </div>
 
               <div>
@@ -627,12 +619,12 @@ export default function VisitorRegistrationForm({
                 Registration Successful!
               </h3>
               <p className="text-slate-600 mb-6">
-                Thank you for registering. A confirmation email has been sent to {formData.email}
+                Thank you for registering for {companyName}. A confirmation email has been sent to {formData.email}
               </p>
               <div className="bg-slate-50 rounded-lg p-4 mb-6 text-left">
                 <h4 className="font-medium text-slate-900 mb-2">Registration Details:</h4>
                 <p className="text-sm text-slate-600"><span className="font-medium">Name:</span> {formData.name}</p>
-                <p className="text-sm text-slate-600"><span className="font-medium">Company:</span> {formData.company}</p>
+                <p className="text-sm text-slate-600"><span className="font-medium">Company:</span> {companyName}</p>
                 <p className="text-sm text-slate-600"><span className="font-medium">Email:</span> {formData.email}</p>
                 <p className="text-sm text-slate-600"><span className="font-medium">Mobile:</span> {formData.mobile}</p>
               </div>
