@@ -6,11 +6,11 @@ import SectionContainer from "../UI/SectionContainer"
 const SectorsSection = () => {
   const sectors = [
     {
-      title: "Air Freight",
+      title: "Die,Mould & Tooling Solutions",
       description:
-        "Air transportation is crucial for fast delivery of time-sensitive cargo like perishables, medicines, and e-commerce, overcoming topographical limitations that affect road or rail.",
+        "Advanced die manufacturing, injection moulding solutions, precision machining systems, and smart tooling technologies.",
       image: "/images/image.png",
-      link: "/sectors/air-freight",
+      link: "/sectors/die-mould",
     },
     {
       title: "Maritime & Inland Waterway Transport",
