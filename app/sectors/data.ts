@@ -191,7 +191,7 @@ Visitors can explore scalable automation models suitable for tool rooms, die & m
     },
     whyExhibit: [
       {
-        title: "Engage Digital-Ready Manufacturers,
+        title: "Engage Digital-Ready Manufacturers",
         icon: "🚂",
         description: "Connect with companies investing in smart factory upgrades."
       },
