@@ -218,7 +218,7 @@ export default function WhyExhibit() {
                       whileHover={{ scale: 1.02, x: 5 }}
                       className="text-[#4D4D4D] text-[30px] cursor-pointer"
                     >
-                      <strong>1+ Countries</strong>
+                      <strong>10+ Countries</strong>
                     </motion.span>
                   </li>
                 </ul>
@@ -689,16 +689,16 @@ export default function WhyExhibit() {
         </section>
 
         {/* A SNAPSHOT OF EXHIBITORS */}
-      <section className="py-16 lg:py-24 font-parabolica">
-  <SectionContainer>
-    <motion.h2
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="text-3xl lg:text-4xl font-bold mb-8"
-    >
-      A Snapshot of Our Exhibitors
-    </motion.h2>
+        <section className="py-16 lg:py-24 font-parabolica">
+          <SectionContainer>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-3xl lg:text-4xl font-bold mb-8"
+            >
+              A Snapshot of Our Exhibitors
+            </motion.h2>
 
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -719,19 +719,19 @@ export default function WhyExhibit() {
       </div>
     </motion.div>
 
-    <motion.button
-      whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
-      whileTap={{ scale: 0.95 }}
-    >
-      <Link 
-        href="/exhibition-directory" 
-        className="inline-block bg-[#004D9F] hover:bg-blue-700 text-white px-6 py-3 rounded-full text-base font-medium"
-      >
-        View Top 2025 Exhibitor List
-      </Link>
-    </motion.button>
-  </SectionContainer>
-</section>
+           <motion.button
+  whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
+  whileTap={{ scale: 0.95 }}
+>
+  <Link 
+    href="/exhibition-directory" 
+    className="inline-block bg-[#004D9F] hover:bg-blue-700 text-white px-6 py-3 rounded-full text-base font-medium"
+  >
+    View Top 2025 Exhibitor List
+  </Link>
+</motion.button>
+          </SectionContainer>
+        </section>
 
     {/* JOURNEY CTA */}
 <section
