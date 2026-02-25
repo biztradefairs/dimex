@@ -105,62 +105,24 @@ From injection moulds and progressive press tools to die casting dies and multi-
     ]
   },
      'die-mould': {
-    title: 'Die Mould Solution',
-    description: 'Die & Mould Manufacturing',
-    mainDescription: `As industries demand lighter components, tighter tolerances, and faster production cycles, the role of advanced die & mould manufacturing becomes increasingly critical. The Die & Mould Manufacturing sector at DIEMEX brings together leading tool rooms, mould makers, die manufacturers, and precision engineering companies driving innovation across automotive, aerospace, electronics, packaging, and medical industries..
-
-From high-precision injection moulds and progressive dies to die-casting tools and multi-cavity mould systems, this sector showcases cutting-edge manufacturing capabilities designed for durability, repeatability, and cost efficiency.
-
-Visitors can explore innovations in high-speed machining, 5-axis tool manufacturing, conformal cooling, advanced tool steels, and CAD/CAM-driven design optimization that reduce lead times and enhance part quality.
-
-Whether you are an OEM seeking reliable tooling partners or a manufacturer aiming to scale production capabilities, this sector connects you with experts shaping the next generation of precision manufacturing..`,
-    heroImage: '/images/image.png',
-    stats: {
-      visitors: '10,000+',
-      exhibitors: '200+',
-      countries: '10+'
-    },
+     title: 'Machine Tools & Advanced Machining',
+    description: 'CNC systems, EDM, multi-axis machining, and high-precision manufacturing technologies.',
+    mainDescription: `Modern manufacturing depends on advanced machining capabilities. This sector features CNC machining centers, EDM systems, 5-axis machines, grinding solutions, and IoT-enabled production equipment designed for precision and efficiency.`,
+    heroImage: '/images/sectors/machine-tools.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
     whyExhibit: [
-      {
-        title: "Connect with OEM & Tier Manufacturers",
-        icon: "🤝",
-        description: "Engage with automotive, aerospace, consumer goods, and electronics manufacturers actively sourcing tooling partners."
-      },
-      {
-        title: "Showcase Advanced Manufacturing Capabilities",
-        icon: "🔗",
-        description: "Demonstrate multi-cavity mould systems, progressive tooling, and precision die solutions."
-      },
-      {
-        title: "Capitalize on India’s Manufacturing Growth",
-        icon: "🌍",
-        description: "Benefit from rising domestic production and global supply chain diversification."
-      }
+      { title: "Demonstrate Live Capabilities", icon: "🏭", description: "Show real-time machining performance." },
+      { title: "Target Expanding Investments", icon: "📈", description: "Connect with companies upgrading production facilities." },
+      { title: "Build Long-Term Partnerships", icon: "🤝", description: "Position your machines as productivity assets." }
     ],
     services: [
-      "Injection Moulds",
-      "Blow Moulds",
-      "Compression & Transfer Moulds",
-      "Progressive & Compound Dies",
-      "Die Casting Dies",
-      "Jigs & Fixtures",
-      "Prototype & Development Tooling",
-      "Tool Room Services",
-      "Reverse Engineering",
-        ],
+      "CNC Machines","5-Axis Systems","EDM & Wire Cut",
+      "Grinding Machines","High-Speed Milling","Smart Controls"
+    ],
     faqs: [
-      {
-        question: "What types of companies exhibit in this sector?",
-        answer: "Tool rooms, mould makers, die manufacturers, precision engineering firms, and design solution providers."
-      },
-      {
-        question: "Who visits this sector?",
-        answer: "OEMs, plant heads, tool room managers, R&D engineers, and procurement teams."
-      },
-      {
-        question: "What are the key trends?",
-        answer: "Automation integration, conformal cooling, additive tooling, lightweight materials, and digital simulation."
-      }
+      { question: "Who should exhibit?", answer: "CNC and EDM manufacturers." },
+      { question: "Who visits?", answer: "Plant heads and capital equipment buyers." },
+      { question: "Key trends?", answer: "Automation integration and predictive maintenance." }
     ]
   },
       'rail-freight': {
