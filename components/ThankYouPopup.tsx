@@ -23,7 +23,7 @@ export default function ThankYouPopup({
         setCountdown(prev => {
           if (prev <= 1) {
             clearInterval(timer);
-            handleRedirect();
+            // Don't redirect automatically
             return 0;
           }
           return prev - 1;
@@ -33,11 +33,6 @@ export default function ThankYouPopup({
       return () => clearInterval(timer);
     }
   }, [isVisible]);
-
-  const handleRedirect = () => {
-    onClose();
-    window.location.href = '/';
-  };
 
   if (!isVisible) return null;
 
@@ -79,37 +74,26 @@ export default function ThankYouPopup({
 
         {/* Message */}
         <p className="mb-6 text-center text-gray-600">
-          Your form has been submitted successfully. We've sent a confirmation email to your inbox.
+          Your {formType === 'post-show-report' ? 'report request' : 'form'} has been submitted successfully. 
+          We've sent a confirmation email to your inbox.
         </p>
 
-        {/* Countdown */}
+        {/* Optional countdown display (non-redirecting) */}
         <div className="mb-8 rounded-xl bg-blue-50 p-4 text-center">
-          <div className="inline-flex items-center gap-2 text-blue-700">
-            <span className="h-2 w-2 animate-ping rounded-full bg-blue-500"></span>
-            <span className="font-medium">Redirecting in</span>
-            <span className="font-mono text-2xl font-bold text-blue-600">{countdown}</span>
+          <div className="text-blue-700">
+            <span className="font-medium">This popup will auto-close in</span>
+            <span className="font-mono text-2xl font-bold text-blue-600 mx-2">{countdown}</span>
             <span className="font-medium">seconds</span>
           </div>
-          <p className="mt-2 text-sm text-blue-600">
-            You will be automatically redirected to homepage
-          </p>
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-col gap-3 sm:flex-row">
-          <button
-            onClick={onClose}
-            className="flex-1 rounded-lg border border-gray-300 px-4 py-3 font-medium text-gray-700 hover:bg-gray-50"
-          >
-            Stay Here
-          </button>
-          <button
-            onClick={handleRedirect}
-            className="flex-1 rounded-lg bg-blue-600 px-4 py-3 font-medium text-white hover:bg-blue-700"
-          >
-            Go to Homepage Now
-          </button>
-        </div>
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="w-full rounded-lg bg-blue-600 px-4 py-3 font-medium text-white hover:bg-blue-700 transition-colors"
+        >
+          Close
+        </button>
       </div>
     </div>
   );
