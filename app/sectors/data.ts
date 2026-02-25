@@ -83,25 +83,63 @@ From injection moulds and progressive press tools to die casting dies and multi-
       { question: "Key trends?", answer: "5-axis machining, conformal cooling, additive inserts, and smart tooling." }
     ]
   },
-    'tooling-cutting-tools': {
-    title: 'Tooling & Cutting Tools',
-    description: 'High-performance cutting tools and precision tooling systems for advanced machining.',
-    mainDescription: `Tooling performance directly impacts productivity and profitability. This sector features carbide inserts, end mills, drills, reamers, and tool holders designed for high-speed and high-precision machining applications across industries.`,
-    heroImage: '/images/sectors/tooling.jpg',
-    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
+   'maritime-and-inland-waterway-transport': {
+    title: 'Maritime Transport Solutions',
+    description: 'Die & Mould Manufacturing',
+    mainDescription: `As industries demand lighter components, tighter tolerances, and faster production cycles, the role of advanced die & mould manufacturing becomes increasingly critical. The Die & Mould Manufacturing sector at DIEMEX brings together leading tool rooms, mould makers, die manufacturers, and precision engineering companies driving innovation across automotive, aerospace, electronics, packaging, and medical industries..
+
+From high-precision injection moulds and progressive dies to die-casting tools and multi-cavity mould systems, this sector showcases cutting-edge manufacturing capabilities designed for durability, repeatability, and cost efficiency.
+
+Visitors can explore innovations in high-speed machining, 5-axis tool manufacturing, conformal cooling, advanced tool steels, and CAD/CAM-driven design optimization that reduce lead times and enhance part quality.
+
+Whether you are an OEM seeking reliable tooling partners or a manufacturer aiming to scale production capabilities, this sector connects you with experts shaping the next generation of precision manufacturing..`,
+    heroImage: '/images/image.png',
+    stats: {
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
+    },
     whyExhibit: [
-      { title: "Meet High-Volume Manufacturers", icon: "🔧", description: "Connect with production-driven companies seeking efficiency." },
-      { title: "Showcase Tool Innovations", icon: "🛠️", description: "Present advanced coatings and optimized geometries." },
-      { title: "Drive Productivity Partnerships", icon: "📊", description: "Demonstrate cost-per-component improvements." }
+      {
+        title: "Connect with OEM & Tier Manufacturers",
+        icon: "🤝",
+        description: "Engage with automotive, aerospace, consumer goods, and electronics manufacturers actively sourcing tooling partners."
+      },
+      {
+        title: "Showcase Advanced Manufacturing Capabilities",
+        icon: "🔗",
+        description: "Demonstrate multi-cavity mould systems, progressive tooling, and precision die solutions."
+      },
+      {
+        title: "Capitalize on India’s Manufacturing Growth",
+        icon: "🌍",
+        description: "Benefit from rising domestic production and global supply chain diversification."
+      }
     ],
     services: [
-      "Carbide Inserts","End Mills","Drills & Reamers",
-      "Tool Holders","Special Purpose Tools","Coating Technologies"
-    ],
+      "Injection Moulds",
+      "Blow Moulds",
+      "Compression & Transfer Moulds",
+      "Progressive & Compound Dies",
+      "Die Casting Dies",
+      "Jigs & Fixtures",
+      "Prototype & Development Tooling",
+      "Tool Room Services",
+      "Reverse Engineering",
+        ],
     faqs: [
-      { question: "Who should exhibit?", answer: "Cutting tool manufacturers and carbide producers." },
-      { question: "Who visits?", answer: "Machining supervisors, tool room heads, and engineers." },
-      { question: "Key trends?", answer: "Advanced coatings, automation-compatible tooling, and micro-machining." }
+      {
+        question: "What types of companies exhibit in this sector?",
+        answer: "Tool rooms, mould makers, die manufacturers, precision engineering firms, and design solution providers."
+      },
+      {
+        question: "Who visits this sector?",
+        answer: "OEMs, plant heads, tool room managers, R&D engineers, and procurement teams."
+      },
+      {
+        question: "What are the key trends?",
+        answer: "Automation integration, conformal cooling, additive tooling, lightweight materials, and digital simulation."
+      }
     ]
   },
      'die-mould': {
@@ -1715,10 +1753,10 @@ export const transRussiaSectors = [
   },
   { 
     id: 2, 
-    title: 'Tooling-Cutting-Tools',
-    slug: 'Tooling & Cutting Tools',
+    title: 'Maritime & Inland Waterway Transport', 
+    slug: 'maritime-and-inland-waterway-transport', 
     image: '/images/image.png',
-    description: 'High-performance cutting tools and precision tooling systems for advanced machining.',
+    description: 'Ocean and river transport services, shipping lines, and inland waterway logistics solutions.'
   },
   { 
     id: 3, 
