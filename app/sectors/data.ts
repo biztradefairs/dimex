@@ -1715,7 +1715,7 @@ export const transRussiaSectors = [
   },
   { 
     id: 2, 
-    title: 'tooling-cutting-tools': {
+    title: 'Tooling-Cutting-Tools',
     slug: 'Tooling & Cutting Tools',
     image: '/images/image.png',
     description: 'High-performance cutting tools and precision tooling systems for advanced machining.',
