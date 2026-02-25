@@ -482,76 +482,48 @@ export default function WhyVisit() {
           </section>
 
           {/* A SNAPSHOT OF EXHIBITORS */}
-          <section className="py-12 sm:py-16 lg:py-24">
-            <SectionContainer>
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-center sm:text-left"
-              >
-                Who You Will Meet
-              </motion.h2>
+        <section className="py-12 sm:py-16 lg:py-24">
+  <SectionContainer>
+    <motion.h2
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-center sm:text-left"
+    >
+      Who You Will Meet
+    </motion.h2>
 
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={staggerContainer}
-                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 sm:gap-4 mb-4 sm:mb-6"
-              >
-                {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                  <motion.div
-                    key={i}
-                    variants={scaleIn}
-                    whileHover={{ 
-                      scale: 1.1,
-                      backgroundColor: "#f8fafc",
-                      boxShadow: "0 10px 20px rgba(0,0,0,0.1)"
-                    }}
-                    className="bg-gray-100 p-3 sm:p-4 rounded-lg h-16 sm:h-20 flex items-center justify-center transition-all duration-300 cursor-pointer"
-                  >
-                    <div className="text-xs text-gray-500">Logo {i}</div>
-                  </motion.div>
-                ))}
-              </motion.div>
-              
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={staggerContainer}
-                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 sm:gap-4 mb-6 sm:mb-8"
-              >
-                {[9, 10, 11, 12, 13, 14, 15, 16].map((i) => (
-                  <motion.div
-                    key={i}
-                    variants={scaleIn}
-                    whileHover={{ 
-                      scale: 1.1,
-                      backgroundColor: "#f8fafc",
-                      boxShadow: "0 10px 20px rgba(0,0,0,0.1)"
-                    }}
-                    className="bg-gray-100 p-3 sm:p-4 rounded-lg h-16 sm:h-20 flex items-center justify-center transition-all duration-300 cursor-pointer"
-                  >
-                    <div className="text-xs text-gray-500">Logo {i}</div>
-                  </motion.div>
-                ))}
-              </motion.div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="mb-6 sm:mb-8"
+    >
+      <div className="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] rounded-lg overflow-hidden shadow-lg">
+        <Image
+          src="/images/image.png" // Replace with your image path
+          alt="Who you will meet at the exhibition"
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
+    </motion.div>
 
-              <div className="text-center sm:text-left">
-                <Link href="/exhibition-directory">
-                <motion.button
-                  whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-[#004D9F] hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 w-full sm:w-auto"
-                >
-                  View 2026 Exhibitor List
-                </motion.button>
-                </Link>
-              </div>
-            </SectionContainer>
-          </section>
+    <div className="text-center sm:text-left">
+      <Link href="/exhibition-directory">
+        <motion.button
+          whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
+          whileTap={{ scale: 0.95 }}
+          className="bg-[#004D9F] hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 w-full sm:w-auto"
+        >
+          View 2026 Exhibitor List
+        </motion.button>
+      </Link>
+    </div>
+  </SectionContainer>
+</section>
 
           {/* EVENT SECTORS ON DISPLAY */}
           <section className="py-12 sm:py-16 lg:py-28 bg-white">

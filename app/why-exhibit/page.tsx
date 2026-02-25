@@ -697,54 +697,27 @@ export default function WhyExhibit() {
               viewport={{ once: true }}
               className="text-3xl lg:text-4xl font-bold mb-8"
             >
-              A Snapshot of Our Past Exhibitors
+              A Snapshot of Our Exhibitors
             </motion.h2>
 
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={staggerContainer}
-              className="grid grid-cols-4 md:grid-cols-8 gap-4 mb-6"
-            >
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                <motion.div
-                  key={i}
-                  variants={scaleIn}
-                  whileHover={{ 
-                    scale: 1.1,
-                    backgroundColor: "#f8fafc",
-                    boxShadow: "0 10px 20px rgba(0,0,0,0.1)"
-                  }}
-                  className="bg-gray-100 p-4 rounded-lg h-16 flex items-center justify-center transition-all duration-300 cursor-pointer"
-                >
-                  <div className="text-xs text-gray-500">Logo {i}</div>
-                </motion.div>
-              ))}
-            </motion.div>
-            
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={staggerContainer}
-              className="grid grid-cols-4 md:grid-cols-8 gap-4 mb-8"
-            >
-              {[9, 10, 11, 12, 13, 14, 15, 16].map((i) => (
-                <motion.div
-                  key={i}
-                  variants={scaleIn}
-                  whileHover={{ 
-                    scale: 1.1,
-                    backgroundColor: "#f8fafc",
-                    boxShadow: "0 10px 20px rgba(0,0,0,0.1)"
-                  }}
-                  className="bg-gray-100 p-4 rounded-lg h-16 flex items-center justify-center transition-all duration-300 cursor-pointer"
-                >
-                  <div className="text-xs text-gray-500">Logo {i}</div>
-                </motion.div>
-              ))}
-            </motion.div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="mb-8"
+    >
+      <div className="relative w-full h-auto rounded-lg overflow-hidden shadow-lg">
+        <Image
+          src="/images/image.png" // Replace with your image path
+          alt="Exhibitors showcase"
+          width={1200} // Adjust based on your image dimensions
+          height={600} // Adjust based on your image dimensions
+          className="w-full h-auto object-cover"
+          priority // Optional: if this image is above the fold
+        />
+      </div>
+    </motion.div>
 
            <motion.button
   whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
@@ -754,7 +727,7 @@ export default function WhyExhibit() {
     href="/exhibition-directory" 
     className="inline-block bg-[#004D9F] hover:bg-blue-700 text-white px-6 py-3 rounded-full text-base font-medium"
   >
-    View 2026 Exhibitor List
+    View Top 2025 Exhibitor List
   </Link>
 </motion.button>
           </SectionContainer>

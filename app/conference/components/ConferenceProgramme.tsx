@@ -32,18 +32,18 @@ interface DayProgram {
 const TransRussiaSummitProgram: React.FC = () => {
   const [activeDay, setActiveDay] = useState(0);
   const programData: DayProgram[] = [
-    {
-      day: "VIP Reception",
-      date: "October 08, 2026",
-      description: "*Only for Exhibitors,Speakers,VIP's and Delegates",
-      sessions: [
-        {
-          time: "18:00 – 21:00",
-          title: "DIEMEX VIP RECEPTION",
-          description: "A special event at the Auto Cluter Exhibition Centre, Pune"
-        }
-      ]
-    },
+    // {
+    //   day: "VIP Reception",
+    //   date: "October 08, 2026",
+    //   description: "*Only for Exhibitors,Speakers,VIP's and Delegates",
+    //   sessions: [
+    //     {
+    //       time: "18:00 – 21:00",
+    //       title: "DIEMEX VIP RECEPTION",
+    //       description: "A special event at the Auto Cluter Exhibition Centre, Pune"
+    //     }
+    //   ]
+    // },
     {
       day: "Day 1 Theme : Future-ready Manufacturing – Precision & Productivity",
       date: "October 08, 2026",
@@ -174,7 +174,7 @@ const TransRussiaSummitProgram: React.FC = () => {
     },
     {
       day: "Day 2",
-      date: "October 22, 2025",
+      date: "October 9, 2026",
       description: "*For delegates of all categories",
       sessions: [
         {
