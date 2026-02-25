@@ -8,7 +8,7 @@ import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 const transRussiaSectors = [
   { 
     id: 1, 
-    title: 'Complex Logistics Services & Freight Forwarding', 
+    title: 'Die & Mould Manufacturing', 
     slug: 'complex-logistics', 
     image: '/images/image.png',
     description: 'Comprehensive logistics solutions including freight forwarding, customs clearance, and supply chain management services.'
