@@ -308,7 +308,7 @@ export default async function SectorPage({ params }: PageProps) {
         </section>
 
         <QuickNavigation />
-        {/* <PartnersSection /> */}
+        <PartnersSection />
       </main>
 
       <BackToTop />
