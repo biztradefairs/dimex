@@ -8,70 +8,70 @@ import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 const transRussiaSectors = [
   { 
     id: 1, 
-    title: 'Complex Logistics Services & Freight Forwarding', 
+    title: 'Die & Mould Manufacturing', 
     slug: 'complex-logistics', 
     image: '/images/image.png',
     description: 'Comprehensive logistics solutions including freight forwarding, customs clearance, and supply chain management services.'
   },
   { 
     id: 2, 
-    title: 'Maritime & Inland Waterway Transport', 
+    title: 'Tooling & Cutting Tools', 
     slug: 'maritime-and-inland-waterway-transport', 
     image: '/images/image.png',
     description: 'Ocean and river transport services, shipping lines, and inland waterway logistics solutions.'
   },
   { 
     id: 3, 
-    title: 'Die , Mould & Tooling Solutions', 
+    title: 'Machine Tools & Advanced Machining', 
     slug: 'die-mould', 
     image: '/images/image.png',
     description: 'Air cargo services, express logistics, and aviation freight solutions.'
   },
   { 
     id: 4, 
-    title: 'Rail Freight', 
+    title: 'Automation & Robotics', 
     slug: 'rail-freight', 
     image: '/images/image.png',
     description: 'Rail transportation, intermodal solutions, and rail logistics across Eurasia.'
   },
   { 
     id: 5, 
-    title: 'Road Freight Transportation', 
+    title: 'Additive Manufacturing & 3D Printing', 
     slug: 'road-freight-transportation', 
     image: '/images/image.png',
     description: 'Trucking, LTL, FTL services, and road transport logistics.'
   },
   { 
     id: 6, 
-    title: 'Ports & Terminals, Freight Handling Services In Ports', 
+    title: 'Metrology & Quality Control', 
     slug: 'ports-and-terminals-freight-handling-services-in-ports', 
     image: '/images/image.png',
     description: 'Port operations, terminal services, stevedoring, and maritime infrastructure solutions.'
   },
   { 
     id: 7, 
-    title: 'Warehouse Technology', 
+    title: 'Raw Materials & Tool Steel', 
     slug: 'warehouse-technology', 
     image: '/images/image.png',
     description: 'Warehouse management systems, automation, and storage technology solutions.'
   },
   { 
     id: 8, 
-    title: 'IT Solutions', 
+    title: 'Surface Treatment & Finishing', 
     slug: 'it-solutions', 
     image: '/images/image.png',
     description: 'Logistics software, tracking systems, and digital supply chain solutions.'
   },
   { 
     id: 9, 
-    title: 'E-commerce Logistics', 
+    title: 'Smart Manufacturing & Industry 4.0', 
     slug: 'ecommerce-logistics', 
     image: '/images/image.png',
     description: 'Fulfillment, last-mile delivery, and e-commerce supply chain services.'
   },
   { 
     id: 10, 
-    title: 'Heavy Lift Carriage', 
+    title: 'Industrial Services & Engineering Solutions', 
     slug: 'heavy-lift-carriage', 
     image: '/images/image.png',
     description: 'Oversized cargo transport, project logistics, and specialized heavy haulage.'
