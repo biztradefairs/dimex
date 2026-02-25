@@ -6,7 +6,7 @@ const quickNavItems = [
   {
     id: 1,
     title: 'Become an Exhibitor',
-    description: 'Connect with 30,000+ logistics professionals across 3 days for unparalleled networking opportunities.',
+    description: 'Connect with 10,000+ manufacturing professionals, OEMs, and decision-makers over 3 power-packed days of business, networking, and technology showcase at DIEMEX 2026.',
     image: '/images/exhibitor.jpg',
     cta: {
       text: 'Book A Stand',
@@ -16,8 +16,8 @@ const quickNavItems = [
   },
   {
     id: 2,
-    title: 'Download Your Event Brochure',
-    description: 'Find out who we are, what we do, and how best we can help you achieve your strategic business goals all wrapped up in our concise event brochure.',
+    title: 'Download Diemex 2026 Event Brochure',
+    description: 'Discover who we are, the industries we serve, visitor profiles, sector highlights, and how DIEMEX can help you expand your footprint in India’s rapidly growing die, mould, and precision engineering market — all in one comprehensive brochure.',
     image: '/images/brochure.jpg',
     cta: {
       text: 'Download Now',
@@ -28,7 +28,7 @@ const quickNavItems = [
   {
     id: 3,
     title: 'Become a Visitor',
-    description: 'Not ready to become an exhibitor? Why not visit the exhibition for free and find out what to expect for the following edition',
+    description: 'Not ready to exhibit? Register as a visitor and explore cutting-edge machine tools, tooling innovations, automation technologies, and advanced manufacturing solutions — all under one roof.',
     image: '/images/visitor.jpg',
     cta: {
       text: 'Register Now',
