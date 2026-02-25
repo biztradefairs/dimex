@@ -59,7 +59,7 @@ export default function LogisticsMarketing() {
                   rel="noopener noreferrer"
                 >
                   <button className="inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[#004D9F] px-10 py-3 font-jakarta text-[16px] font-semibold text-white transition-all duration-300 hover:bg-mainColor4">
-                    DMW Expo
+                    Contact
                   </button>
                 </Link>
               </div>
