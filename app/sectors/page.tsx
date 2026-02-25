@@ -22,7 +22,7 @@ const transRussiaSectors = [
   },
   { 
     id: 3, 
-    title: 'Die,Mould & Tooling Solutions', 
+    title: 'Die , Mould & Tooling Solutions', 
     slug: 'die-mould', 
     image: '/images/image.png',
     description: 'Air cargo services, express logistics, and aviation freight solutions.'
