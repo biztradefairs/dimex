@@ -297,9 +297,9 @@ export default function DelegateForm() {
                        outline-none transition hover:border-blue-300 bg-white cursor-pointer"
           >
             <option value="">Choose a package</option>
-            <option value="basic">STUDENT - 75,000 RUB</option>
-            <option value="business">GENERAL - 105,000 RUB</option>
-            <option value="vip">GROUP 3 - 135,000 RUB</option>
+            <option value="basic">STUDENT - ₹3,500</option>
+            <option value="business">GENERAL - ₹ 6,000</option>
+            <option value="vip">GROUP 3 - 15,000</option>
           </select>
         </div>
 

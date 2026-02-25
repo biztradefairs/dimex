@@ -18,7 +18,7 @@ export default function DelegatesPackagesPage() {
             Become a Delegate
           </h1>
           <p className="mt-4 max-w-4xl text-lg text-gray-600">
-            Prices are inclusive of VAT
+            Prices are inclusive of GST
           </p>
         </SectionContainer>
       </div>
@@ -52,7 +52,7 @@ export default function DelegatesPackagesPage() {
                     <p className="mt-2 text-xl text-gray-700">Industry Professionals</p>
                   </div>
                   <div>
-                    <p className="text-5xl font-bold text-[#4D4D4D]">50+</p>
+                    <p className="text-5xl font-bold text-[#4D4D4D]">20+</p>
                     <p className="mt-2 text-xl text-gray-700">Expert Speakers</p>
                   </div>
                   <div>
