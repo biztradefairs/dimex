@@ -70,7 +70,7 @@ export default function RegistrationForm() {
               <span className="text-gray-700 font-medium">+7</span>
               <img
                 src="https://flagcdn.com/w40/ru.png"
-                alt="RU"
+                alt="IND"
                 className="h-4 w-6 object-cover rounded"
               />
             </div>
@@ -78,7 +78,7 @@ export default function RegistrationForm() {
               type="tel"
               required
               className="flex-1 px-4 py-3 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
-              placeholder="900 000 00 00"
+              placeholder="9800000000"
             />
           </div>
         </div>
@@ -101,7 +101,7 @@ export default function RegistrationForm() {
           {/* Tax ID */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
-              Tax ID
+              GSTIN
             </label>
             <input 
               type="text" 
@@ -135,20 +135,7 @@ export default function RegistrationForm() {
             />
           </div>
 
-          {/* Promo Code */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Promo Code
-            </label>
-            <input 
-              type="text" 
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
-              placeholder="Enter promo code if any"
-            />
-          </div>
-        </div>
-
-        {/* Checkboxes */}
+                 {/* Checkboxes */}
         <div className="space-y-6 pt-4">
           {/* Checkbox 1 */}
           <div className="flex items-start gap-3 p-4 bg-white rounded-lg border border-gray-200">
