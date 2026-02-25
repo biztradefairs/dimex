@@ -1715,10 +1715,10 @@ export const transRussiaSectors = [
   },
   { 
     id: 2, 
-    title: 'Maritime & Inland Waterway Transport', 
-    slug: 'maritime-and-inland-waterway-transport', 
+    title: 'tooling-cutting-tools': {
+    slug: 'Tooling & Cutting Tools',
     image: '/images/image.png',
-    description: 'Ocean and river transport services, shipping lines, and inland waterway logistics solutions.'
+    description: 'High-performance cutting tools and precision tooling systems for advanced machining.',
   },
   { 
     id: 3, 
