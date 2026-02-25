@@ -1,21 +1,10 @@
 // components/TransRussiaPage.tsx
 "use client"
+
 import React, { useState, useEffect } from 'react';
 import SectionContainer from './UI/SectionContainer';
 import dynamic from 'next/dynamic';
-// import PartnersSection from './section/PartnersSection';
-
-
-
-type TransRussiaPageProps = {
-  navbarData?: any;
-  pageData: {
-    Header: {
-      Title: string;
-    };
-  };
-  footerData?: any;
-};
+import toast, { Toaster } from 'react-hot-toast';
 
 // Dynamically import ReCAPTCHA to avoid SSR issues
 const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), {
@@ -23,22 +12,27 @@ const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), {
   loading: () => <div className="h-20 w-full bg-gray-100 rounded-lg animate-pulse"></div>
 });
 
-// Types (keep your existing types)
+interface TransRussiaPageProps {
+  navbarData?: any;
+  pageData: {
+    Header: {
+      Title: string;
+    };
+  };
+  footerData?: any;
+}
+
+interface Country {
+  name: string;
+}
 
 const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
   navbarData,
   pageData,
   footerData,
 }) => {
-
-  type Country = {
-  name: string;
-};
-
-const [countries, setCountries] = useState<Country[]>([]);
-const [countriesLoading, setCountriesLoading] = useState(false);
-
-
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [countriesLoading, setCountriesLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showBackToTop, setShowBackToTop] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
@@ -60,7 +54,8 @@ const [countriesLoading, setCountriesLoading] = useState(false);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  // Handle back to top button visibility
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com';
+
   useEffect(() => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 300);
@@ -69,17 +64,34 @@ const [countriesLoading, setCountriesLoading] = useState(false);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Handle back to top
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        setCountriesLoading(true);
+        const res = await fetch("https://restcountries.com/v3.1/all?fields=name");
+        const data = await res.json();
+        const sortedCountries = data
+          .map((c: any) => ({ name: c.name.common }))
+          .sort((a: Country, b: Country) => a.name.localeCompare(b.name));
+        setCountries(sortedCountries);
+      } catch (error) {
+        console.error("Failed to fetch countries", error);
+        toast.error("Failed to load countries");
+      } finally {
+        setCountriesLoading(false);
+      }
+    };
+    fetchCountries();
+  }, []);
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Toggle dropdown
   const toggleDropdown = (id: string) => {
     setActiveDropdown(activeDropdown === id ? null : id);
   };
 
-  // Handle form input changes
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -87,77 +99,85 @@ const [countriesLoading, setCountriesLoading] = useState(false);
       [name]: value
     }));
   };
-  useEffect(() => {
-  const fetchCountries = async () => {
-    try {
-      setCountriesLoading(true);
-
-      const res = await fetch("https://restcountries.com/v3.1/all?fields=name");
-      const data = await res.json();
-
-      // Sort alphabetically
-      const sortedCountries = data
-        .map((c: any) => ({ name: c.name.common }))
-        .sort((a: Country, b: Country) =>
-          a.name.localeCompare(b.name)
-        );
-
-      setCountries(sortedCountries);
-    } catch (error) {
-      console.error("Failed to fetch countries", error);
-    } finally {
-      setCountriesLoading(false);
-    }
-  };
-
-  fetchCountries();
-}, []);
-
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Validate form
     if (!termsAccepted) {
-      alert("Please accept the terms and conditions");
+      toast.error("Please accept the terms and conditions");
       return;
     }
     
-    // Validate CAPTCHA if site key exists
     if (process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && !captchaToken) {
-      alert("Please complete the CAPTCHA verification");
+      toast.error("Please complete the CAPTCHA verification");
       return;
     }
     
     setLoading(true);
 
-    // 🔗 API integration later
-    setTimeout(() => {
-      alert("Registration submitted successfully!");
-      setLoading(false);
-      // Reset form
-      setFormData({
-        name: '',
-        designation: '',
-        company: '',
-        address: '',
-        country: '',
-        state: '',
-        city: '',
-        pincode: '',
-        email: '',
-        mobile: '',
-        profile: '',
-        promocode: ''
+    try {
+      const response = await fetch(`${API_URL}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          firstName: formData.name.split(' ')[0] || '',
+          lastName: formData.name.split(' ').slice(1).join(' ') || '',
+          formType: 'visitor-registration',
+          captchaToken,
+          submittedAt: new Date().toISOString(),
+        }),
       });
-      setTermsAccepted(false);
-      setCaptchaToken(null);
-    }, 1500);
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast.success("Registration submitted successfully!");
+        setFormData({
+          name: '',
+          designation: '',
+          company: '',
+          address: '',
+          country: '',
+          state: '',
+          city: '',
+          pincode: '',
+          email: '',
+          mobile: '',
+          profile: '',
+          promocode: ''
+        });
+        setTermsAccepted(false);
+        setCaptchaToken(null);
+      } else {
+        toast.error(result.message || 'Failed to submit. Please try again.');
+      }
+    } catch (error) {
+      toast.error('Network error. Please check your connection.');
+      console.error('Submission error:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <div id="__next">
-      {/* ... (keep existing JSX for intro loader, back to top button, etc.) ... */}
+      <Toaster position="top-right" />
+      
+      {/* Back to Top Button */}
+      {showBackToTop && (
+        <button
+          onClick={scrollToTop}
+          className="fixed bottom-8 right-8 z-50 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all"
+          aria-label="Back to top"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+          </svg>
+        </button>
+      )}
 
       {/* Main Content */}
       <div>
@@ -167,7 +187,7 @@ const [countriesLoading, setCountriesLoading] = useState(false);
             <SectionContainer>
               <div className="flex flex-col justify-end !pt-0 !pb-16">
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 mt-15">
-                  {pageData.Header.Title}
+                  {pageData?.Header?.Title || 'TransRussia 2026'}
                 </h1>
                 <p className="text-lg text-gray-600 max-w-8xl">
                   Register now to access Eurasia's premier transport and logistics exhibition. Connect with industry leaders, discover innovations, and expand your network.
@@ -196,7 +216,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                   <h3 className="text-xl font-semibold text-gray-900 mb-6">Visitor Registration Form</h3>
                   
                   <form onSubmit={handleSubmit} className="space-y-6">
-                    {/* Name */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Name <span className="text-red-500">*</span>
@@ -212,7 +231,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                       />
                     </div>
 
-                    {/* Designation */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Designation <span className="text-red-500">*</span>
@@ -228,7 +246,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                       />
                     </div>
 
-                    {/* Company Name */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Company Name <span className="text-red-500">*</span>
@@ -244,7 +261,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                       />
                     </div>
 
-                    {/* Address */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Address <span className="text-red-500">*</span>
@@ -260,76 +276,59 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                       />
                     </div>
 
-                    {/* Country */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Country <span className="text-red-500">*</span>
                       </label>
-                     <select
-  name="country"
-  value={formData.country}
-  onChange={handleInputChange}
-  required
-  className="w-full px-4 py-3 border border-gray-300 rounded-lg 
-             focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
-             outline-none transition hover:border-blue-300 bg-white cursor-pointer"
->
-  <option value="">
-    {countriesLoading ? "Loading countries..." : "Select Country"}
-  </option>
-
-  {countries.map((country) => (
-    <option key={country.name} value={country.name}>
-      {country.name}
-    </option>
-  ))}
-</select>
-
+                      <select
+                        name="country"
+                        value={formData.country}
+                        onChange={handleInputChange}
+                        required
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer"
+                      >
+                        <option value="">
+                          {countriesLoading ? "Loading countries..." : "Select Country"}
+                        </option>
+                        {countries.map((country) => (
+                          <option key={country.name} value={country.name}>
+                            {country.name}
+                          </option>
+                        ))}
+                      </select>
                     </div>
 
-                    {/* State and City Row */}
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-  
-  {/* State */}
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-2">
-      State <span className="text-red-500">*</span>
-    </label>
-    <input
-      type="text"
-      name="state"
-      value={formData.state}
-      onChange={handleInputChange}
-      required
-      placeholder="Enter your state"
-      className="w-full px-4 py-3 border border-gray-300 rounded-lg 
-                 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
-                 outline-none transition hover:border-blue-300"
-    />
-  </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          State <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="state"
+                          value={formData.state}
+                          onChange={handleInputChange}
+                          required
+                          placeholder="Enter your state"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          City <span className="text-red-500">*</span>
+                        </label>
+                        <input
+                          type="text"
+                          name="city"
+                          value={formData.city}
+                          onChange={handleInputChange}
+                          required
+                          placeholder="Enter your city"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300"
+                        />
+                      </div>
+                    </div>
 
-  {/* City */}
-  <div>
-    <label className="block text-sm font-medium text-gray-700 mb-2">
-      City <span className="text-red-500">*</span>
-    </label>
-    <input
-      type="text"
-      name="city"
-      value={formData.city}
-      onChange={handleInputChange}
-      required
-      placeholder="Enter your city"
-      className="w-full px-4 py-3 border border-gray-300 rounded-lg 
-                 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
-                 outline-none transition hover:border-blue-300"
-    />
-  </div>
-
-</div>
-
-
-                    {/* Pin Code */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Pin Code / Zip Code <span className="text-red-500">*</span>
@@ -345,7 +344,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                       />
                     </div>
 
-                    {/* Email */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Email <span className="text-red-500">*</span>
@@ -364,7 +362,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                       </p>
                     </div>
 
-                    {/* Mobile Number */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Mobile Number <span className="text-red-500">*</span>
@@ -385,7 +382,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                       </div>
                     </div>
 
-                    {/* Profile Selection */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Please choose your Profile <span className="text-red-500">*</span>
@@ -415,7 +411,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                       </select>
                     </div>
 
-                    {/* Promo Code */}
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-2">
                         Promo Code (Optional)
@@ -433,7 +428,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                       </p>
                     </div>
 
-                    {/* Terms & Conditions */}
                     <div className="flex items-start">
                       <input
                         type="checkbox"
@@ -458,7 +452,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                       </label>
                     </div>
 
-                    {/* CAPTCHA */}
                     <div className="py-4">
                       {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
                         <ReCAPTCHA
@@ -470,7 +463,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                       )}
                     </div>
 
-                    {/* Submit Button */}
                     <div className="pt-4">
                       <button
                         type="submit"
@@ -497,7 +489,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                   </form>
                 </div>
 
-                {/* Additional Info */}
                 <div className="mt-8 text-center text-gray-600">
                   <p className="text-sm">
                     Need assistance with registration? Contact us at{' '}
@@ -508,7 +499,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
                 </div>
               </div>
             </SectionContainer>
-            {/* <PartnersSection /> */}
           </section>
         </div>
       </div>

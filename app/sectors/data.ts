@@ -60,6 +60,242 @@ Whether you are an OEM seeking reliable tooling partners or a manufacturer aimin
       }
     ]
   },
+   'complex-logistics': {
+    title: 'Complex logistics Solution',
+    description: 'Die & Mould Manufacturing',
+    mainDescription: `As industries demand lighter components, tighter tolerances, and faster production cycles, the role of advanced die & mould manufacturing becomes increasingly critical. The Die & Mould Manufacturing sector at DIEMEX brings together leading tool rooms, mould makers, die manufacturers, and precision engineering companies driving innovation across automotive, aerospace, electronics, packaging, and medical industries..
+
+From high-precision injection moulds and progressive dies to die-casting tools and multi-cavity mould systems, this sector showcases cutting-edge manufacturing capabilities designed for durability, repeatability, and cost efficiency.
+
+Visitors can explore innovations in high-speed machining, 5-axis tool manufacturing, conformal cooling, advanced tool steels, and CAD/CAM-driven design optimization that reduce lead times and enhance part quality.
+
+Whether you are an OEM seeking reliable tooling partners or a manufacturer aiming to scale production capabilities, this sector connects you with experts shaping the next generation of precision manufacturing..`,
+    heroImage: '/images/image.png',
+    stats: {
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
+    },
+    whyExhibit: [
+      {
+        title: "Connect with OEM & Tier Manufacturers",
+        icon: "🤝",
+        description: "Engage with automotive, aerospace, consumer goods, and electronics manufacturers actively sourcing tooling partners."
+      },
+      {
+        title: "Showcase Advanced Manufacturing Capabilities",
+        icon: "🔗",
+        description: "Demonstrate multi-cavity mould systems, progressive tooling, and precision die solutions."
+      },
+      {
+        title: "Capitalize on India’s Manufacturing Growth",
+        icon: "🌍",
+        description: "Benefit from rising domestic production and global supply chain diversification."
+      }
+    ],
+    services: [
+      "Injection Moulds",
+      "Blow Moulds",
+      "Compression & Transfer Moulds",
+      "Progressive & Compound Dies",
+      "Die Casting Dies",
+      "Jigs & Fixtures",
+      "Prototype & Development Tooling",
+      "Tool Room Services",
+      "Reverse Engineering",
+        ],
+    faqs: [
+      {
+        question: "What types of companies exhibit in this sector?",
+        answer: "Tool rooms, mould makers, die manufacturers, precision engineering firms, and design solution providers."
+      },
+      {
+        question: "Who visits this sector?",
+        answer: "OEMs, plant heads, tool room managers, R&D engineers, and procurement teams."
+      },
+      {
+        question: "What are the key trends?",
+        answer: "Automation integration, conformal cooling, additive tooling, lightweight materials, and digital simulation."
+      }
+    ]
+  },
+   'maritime-and-inland-waterway-transport': {
+    title: 'Maritime Transport Solutions',
+    description: 'Die & Mould Manufacturing',
+    mainDescription: `As industries demand lighter components, tighter tolerances, and faster production cycles, the role of advanced die & mould manufacturing becomes increasingly critical. The Die & Mould Manufacturing sector at DIEMEX brings together leading tool rooms, mould makers, die manufacturers, and precision engineering companies driving innovation across automotive, aerospace, electronics, packaging, and medical industries..
+
+From high-precision injection moulds and progressive dies to die-casting tools and multi-cavity mould systems, this sector showcases cutting-edge manufacturing capabilities designed for durability, repeatability, and cost efficiency.
+
+Visitors can explore innovations in high-speed machining, 5-axis tool manufacturing, conformal cooling, advanced tool steels, and CAD/CAM-driven design optimization that reduce lead times and enhance part quality.
+
+Whether you are an OEM seeking reliable tooling partners or a manufacturer aiming to scale production capabilities, this sector connects you with experts shaping the next generation of precision manufacturing..`,
+    heroImage: '/images/image.png',
+    stats: {
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
+    },
+    whyExhibit: [
+      {
+        title: "Connect with OEM & Tier Manufacturers",
+        icon: "🤝",
+        description: "Engage with automotive, aerospace, consumer goods, and electronics manufacturers actively sourcing tooling partners."
+      },
+      {
+        title: "Showcase Advanced Manufacturing Capabilities",
+        icon: "🔗",
+        description: "Demonstrate multi-cavity mould systems, progressive tooling, and precision die solutions."
+      },
+      {
+        title: "Capitalize on India’s Manufacturing Growth",
+        icon: "🌍",
+        description: "Benefit from rising domestic production and global supply chain diversification."
+      }
+    ],
+    services: [
+      "Injection Moulds",
+      "Blow Moulds",
+      "Compression & Transfer Moulds",
+      "Progressive & Compound Dies",
+      "Die Casting Dies",
+      "Jigs & Fixtures",
+      "Prototype & Development Tooling",
+      "Tool Room Services",
+      "Reverse Engineering",
+        ],
+    faqs: [
+      {
+        question: "What types of companies exhibit in this sector?",
+        answer: "Tool rooms, mould makers, die manufacturers, precision engineering firms, and design solution providers."
+      },
+      {
+        question: "Who visits this sector?",
+        answer: "OEMs, plant heads, tool room managers, R&D engineers, and procurement teams."
+      },
+      {
+        question: "What are the key trends?",
+        answer: "Automation integration, conformal cooling, additive tooling, lightweight materials, and digital simulation."
+      }
+    ]
+  },
+     'die-mould': {
+    title: 'Die Mould Solution',
+    description: 'Die & Mould Manufacturing',
+    mainDescription: `As industries demand lighter components, tighter tolerances, and faster production cycles, the role of advanced die & mould manufacturing becomes increasingly critical. The Die & Mould Manufacturing sector at DIEMEX brings together leading tool rooms, mould makers, die manufacturers, and precision engineering companies driving innovation across automotive, aerospace, electronics, packaging, and medical industries..
+
+From high-precision injection moulds and progressive dies to die-casting tools and multi-cavity mould systems, this sector showcases cutting-edge manufacturing capabilities designed for durability, repeatability, and cost efficiency.
+
+Visitors can explore innovations in high-speed machining, 5-axis tool manufacturing, conformal cooling, advanced tool steels, and CAD/CAM-driven design optimization that reduce lead times and enhance part quality.
+
+Whether you are an OEM seeking reliable tooling partners or a manufacturer aiming to scale production capabilities, this sector connects you with experts shaping the next generation of precision manufacturing..`,
+    heroImage: '/images/image.png',
+    stats: {
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
+    },
+    whyExhibit: [
+      {
+        title: "Connect with OEM & Tier Manufacturers",
+        icon: "🤝",
+        description: "Engage with automotive, aerospace, consumer goods, and electronics manufacturers actively sourcing tooling partners."
+      },
+      {
+        title: "Showcase Advanced Manufacturing Capabilities",
+        icon: "🔗",
+        description: "Demonstrate multi-cavity mould systems, progressive tooling, and precision die solutions."
+      },
+      {
+        title: "Capitalize on India’s Manufacturing Growth",
+        icon: "🌍",
+        description: "Benefit from rising domestic production and global supply chain diversification."
+      }
+    ],
+    services: [
+      "Injection Moulds",
+      "Blow Moulds",
+      "Compression & Transfer Moulds",
+      "Progressive & Compound Dies",
+      "Die Casting Dies",
+      "Jigs & Fixtures",
+      "Prototype & Development Tooling",
+      "Tool Room Services",
+      "Reverse Engineering",
+        ],
+    faqs: [
+      {
+        question: "What types of companies exhibit in this sector?",
+        answer: "Tool rooms, mould makers, die manufacturers, precision engineering firms, and design solution providers."
+      },
+      {
+        question: "Who visits this sector?",
+        answer: "OEMs, plant heads, tool room managers, R&D engineers, and procurement teams."
+      },
+      {
+        question: "What are the key trends?",
+        answer: "Automation integration, conformal cooling, additive tooling, lightweight materials, and digital simulation."
+      }
+    ]
+  },
+      'rail-freight': {
+    title: 'Rail Freight Solutions',
+    description: 'Die & Mould Manufacturing',
+    mainDescription: `As industries demand lighter components, tighter tolerances, and faster production cycles, the role of advanced die & mould manufacturing becomes increasingly critical. The Die & Mould Manufacturing sector at DIEMEX brings together leading tool rooms, mould makers, die manufacturers, and precision engineering companies driving innovation across automotive, aerospace, electronics, packaging, and medical industries..
+
+From high-precision injection moulds and progressive dies to die-casting tools and multi-cavity mould systems, this sector showcases cutting-edge manufacturing capabilities designed for durability, repeatability, and cost efficiency.
+
+Visitors can explore innovations in high-speed machining, 5-axis tool manufacturing, conformal cooling, advanced tool steels, and CAD/CAM-driven design optimization that reduce lead times and enhance part quality.
+
+Whether you are an OEM seeking reliable tooling partners or a manufacturer aiming to scale production capabilities, this sector connects you with experts shaping the next generation of precision manufacturing..`,
+    heroImage: '/images/image.png',
+    stats: {
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
+    },
+    whyExhibit: [
+      {
+        title: "Connect with OEM & Tier Manufacturers",
+        icon: "🤝",
+        description: "Engage with automotive, aerospace, consumer goods, and electronics manufacturers actively sourcing tooling partners."
+      },
+      {
+        title: "Showcase Advanced Manufacturing Capabilities",
+        icon: "🔗",
+        description: "Demonstrate multi-cavity mould systems, progressive tooling, and precision die solutions."
+      },
+      {
+        title: "Capitalize on India’s Manufacturing Growth",
+        icon: "🌍",
+        description: "Benefit from rising domestic production and global supply chain diversification."
+      }
+    ],
+    services: [
+      "Injection Moulds",
+      "Blow Moulds",
+      "Compression & Transfer Moulds",
+      "Progressive & Compound Dies",
+      "Die Casting Dies",
+      "Jigs & Fixtures",
+      "Prototype & Development Tooling",
+      "Tool Room Services",
+      "Reverse Engineering",
+        ],
+    faqs: [
+      {
+        question: "What types of companies exhibit in this sector?",
+        answer: "Tool rooms, mould makers, die manufacturers, precision engineering firms, and design solution providers."
+      },
+      {
+        question: "Who visits this sector?",
+        answer: "OEMs, plant heads, tool room managers, R&D engineers, and procurement teams."
+      },
+      {
+        question: "What are the key trends?",
+        answer: "Automation integration, conformal cooling, additive tooling, lightweight materials, and digital simulation."
+      }
+    ]
+  },
   
   'tooling & cutting tools': {
     title: 'Tooling & Cutting Tools',

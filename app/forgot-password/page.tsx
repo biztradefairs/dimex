@@ -3,17 +3,25 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { CheckCircleIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
+import ReCAPTCHA from 'react-google-recaptcha';
 
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:5000';
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL || 'https://diemex-backend.onrender.com';
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!captchaToken) {
+      setError('Please complete the CAPTCHA verification');
+      return;
+    }
+
     setLoading(true);
     setError('');
 
@@ -23,7 +31,10 @@ export default function ForgotPasswordPage() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ 
+          email,
+          captchaToken 
+        }),
       });
 
       const data = await response.json();
@@ -51,14 +62,21 @@ export default function ForgotPasswordPage() {
           <p className="text-gray-600 mb-6">
             If an account exists with <strong>{email}</strong>, you will receive password reset instructions.
           </p>
-          <div className="flex items-center justify-center space-x-4">
-            <Link
-              href="/login"
-              className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
+          <p className="text-sm text-gray-500 mb-4">
+            Didn't receive the email? Check your spam folder or{' '}
+            <button 
+              onClick={() => setSuccess(false)} 
+              className="text-blue-600 hover:underline"
             >
-              Back to Login
-            </Link>
-          </div>
+              try again
+            </button>
+          </p>
+          <Link
+            href="/login"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
+          >
+            Back to Login
+          </Link>
         </div>
       </div>
     );
@@ -104,10 +122,18 @@ export default function ForgotPasswordPage() {
               </div>
             </div>
 
+            <div className="flex justify-center">
+              <ReCAPTCHA
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                onChange={(token) => setCaptchaToken(token)}
+                onExpired={() => setCaptchaToken(null)}
+              />
+            </div>
+
             <div>
               <button
                 type="submit"
-                disabled={loading}
+                disabled={loading || !captchaToken}
                 className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Sending...' : 'Send Reset Link'}
