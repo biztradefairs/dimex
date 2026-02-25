@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { authAPI } from "@/lib/api/exhibitors";
+import Link from "next/link";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -190,6 +191,13 @@ export default function LoginPage() {
               {loading ? "Signing in..." : "Sign In"}
             </button>
           </form>
+          <div className="flex items-center justify-between mt-4">
+  <div className="text-sm">
+    <Link href="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500">
+      Forgot your password?
+    </Link>
+  </div>
+</div>
         </div>
 
         {/* Footer */}
