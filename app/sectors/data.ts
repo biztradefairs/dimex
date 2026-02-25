@@ -60,7 +60,7 @@ Whether you are an OEM seeking reliable tooling partners or a manufacturer aimin
       }
     ]
   },
-   'die-mould-manufacturing': {
+     'die-mould-manufacturing': {
     title: 'Die & Mould Manufacturing',
     description: 'Comprehensive die, mould, and precision tooling solutions powering modern manufacturing industries.',
     mainDescription: `As industries demand higher precision, faster production cycles, and lightweight components, advanced die & mould solutions have become essential. This sector at DIEMEX brings together leading tool rooms, mould makers, and die manufacturers serving automotive, aerospace, electronics, medical, and consumer industries.
@@ -80,8 +80,7 @@ From injection moulds and progressive press tools to die casting dies and multi-
     faqs: [
       { question: "Who should exhibit?", answer: "Tool rooms, die makers, mould manufacturers, and precision engineering firms." },
       { question: "Who visits?", answer: "OEMs, production heads, R&D engineers, and procurement teams." },
-      { question: "Key trends?", answer: "5-axis machining, conformal cooling, additive inserts,
-      }
+      { question: "Key trends?", answer: "5-axis machining, conformal cooling, additive inserts, and smart tooling." }
     ]
   },
    'maritime-and-inland-waterway-transport': {
