@@ -134,8 +134,8 @@ export default function SectorsPage() {
               Event Sectors
             </h1>
             <p className="text-lg lg:text-xl max-w-full text-white/90">
-              TransRussia and SkladTech showcase the full spectrum of logistics and warehouse innovation.
-            </p>
+  DIEMEX 2026 showcases the complete spectrum of die & mould manufacturing, tooling technologies, advanced machine tools, automation, additive manufacturing, and smart factory innovations.
+</p>
           </div>
         </SectionContainer>
       </section>
@@ -144,10 +144,13 @@ export default function SectorsPage() {
       <section className="py-16 lg:py-24">
         <SectionContainer>
           <div className="mb-6 lg:mb-8">
-            <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-3 w-full">TransRussia Event Sectors</h2>
-            <p className="text-gray-600 text-lg lg:text-xl w-full">
-              Covers freight forwarding, transport services, warehousing, and logistics IT.
-            </p>
+            <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-3 w-full">
+  DIEMEX 2026 Event Sectors
+</h2>
+
+<p className="text-gray-600 text-lg lg:text-xl w-full">
+  Covers die & mould manufacturing, tooling & cutting tools, machine tools, automation & robotics, additive manufacturing, metrology, smart manufacturing, surface engineering, raw materials, and industrial engineering solutions.
+</p>
           </div>
           <SectorGrid sectors={transRussiaSectors} />
         </SectionContainer>
