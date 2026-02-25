@@ -317,358 +317,157 @@ Visitors can explore scalable automation models suitable for tool rooms, die & m
   },
 
   'road-freight-transportation': {
-    title: 'Road Freight Transportation',
-    description: 'Trucking, LTL, FTL services, and road transport logistics.',
-    mainDescription: `The Road Freight Transportation sector at DIEMEX represents the backbone of domestic and regional logistics, connecting manufacturers with markets and enabling the just-in-time delivery that modern commerce demands. This sector showcases the full spectrum of road transport solutions, from small parcel delivery to heavy haulage and specialized transport services.
-
-Exhibitors include trucking companies, fleet operators, logistics providers, and technology partners who are transforming road transport through digitalization, route optimization, and sustainable practices. Visitors can explore everything from temperature-controlled transport for perishables to secure handling of high-value cargo and dangerous goods.
-
-With e-commerce driving demand for faster, more reliable delivery and supply chains requiring greater flexibility, this sector provides essential connections for businesses seeking road transport partners who can meet the challenges of today's fast-paced logistics environment.`,
-    heroImage: '/images/image.png',
-    stats: {
-   visitors: '10,000+',
-      exhibitors: '200+',
-      countries: '10+'
-    },
+    title: 'Additive Manufacturing & 3D Printing',
+    description: 'Advanced 3D printing technologies for tooling and production innovation.',
+    mainDescription: `Additive manufacturing accelerates prototyping and tooling development. This sector showcases metal 3D printing, hybrid manufacturing, and conformal cooling solutions that reduce lead times and enable complex designs.`,
+    heroImage: '/images/sectors/additive.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
     whyExhibit: [
-      {
-        title: "Connect with Regional & Long-Haul Shippers",
-        icon: "🚚",
-        description: "Meet manufacturers, distributors, and retailers requiring flexible road transport solutions."
-      },
-      {
-        title: "Showcase Comprehensive Trucking Services",
-        icon: "📦",
-        description: "Present your fleet capabilities, LTL/FTL services, temperature-controlled transport, and last-mile delivery."
-      },
-      {
-        title: "Address E-commerce & Just-in-Time Demands",
-        icon: "⚡",
-        description: "With online retail growing, reliable and flexible road transport is more critical than ever."
-      }
+      { title: "Promote Rapid Innovation", icon: "🚀", description: "Highlight faster time-to-market capabilities." },
+      { title: "Showcase Complex Geometries", icon: "🧩", description: "Demonstrate design flexibility." }
     ],
     services: [
-      "Full Truckload (FTL) Services",
-      "Less Than Truckload (LTL) Solutions",
-      "Temperature-controlled Transport",
-      "Dangerous Goods by Road",
-      "Express & Urgent Delivery",
-      "Last-Mile Delivery Services",
-      "Fleet Management Solutions",
-      "Cross-border Road Transport",
-      "Vehicle Leasing & Rental",
-      "Road Transport Insurance"
+      "Metal 3D Printers","Polymer 3D Printing","Hybrid Systems","Rapid Prototyping"
     ],
     faqs: [
-      {
-        question: "What types of road transport services are featured?",
-        answer: "FTL/LTL services, specialized transport, express delivery, fleet management, and cross-border trucking."
-      },
-      {
-        question: "Who uses road freight services?",
-        answer: "Manufacturers, retailers, distributors, e-commerce companies, and businesses requiring flexible transport."
-      },
-      {
-        question: "What are the key challenges in road transport?",
-        answer: "Border crossing efficiency, driver shortages, fuel costs, regulatory compliance, and infrastructure constraints."
-      }
+      { question: "Key trends?", answer: "Conformal cooling and hybrid machining integration." }
     ]
   },
+
 
   'ports-and-terminals-freight-handling-services-in-ports': {
-    title: 'Ports & Terminals, Freight Handling Services In Ports',
-    description: 'Discover expert stevedoring, logistics, and storage solutions for seamless port operations.',
-    mainDescription: `The Ports & Terminals sector at DIEMEX serves as the gateway for global trade, showcasing the critical infrastructure and services that enable efficient cargo movement between land and sea. This sector brings together port authorities, terminal operators, stevedoring companies, and service providers who ensure that goods flow smoothly through the world's busiest maritime hubs.
-
-From container handling and bulk cargo operations to specialized facilities for project cargo and perishables, exhibitors demonstrate how modern ports are evolving to meet the demands of increasingly complex supply chains. Visitors can explore innovations in terminal automation, digital documentation systems, and sustainable port operations that are transforming the maritime interface.
-
-For importers, exporters, and logistics providers, this sector offers insights into port capabilities, service levels, and development plans that can influence routing decisions and supply chain strategies. Whether you're shipping containers, bulk commodities, or oversized project cargo, understanding port operations is essential for efficient international trade.`,
-    heroImage: '/images/image.png',
-    stats: {
-     visitors: '10,000+',
-      exhibitors: '200+',
-      countries: '10+'
-    },
+   title: 'Metrology & Quality Control',
+    description: 'Precision measurement systems ensuring zero-defect production.',
+    mainDescription: `Quality defines competitiveness. This sector features CMM machines, optical inspection systems, and advanced metrology technologies ensuring dimensional accuracy and compliance with global standards.`,
+    heroImage: '/images/sectors/metrology.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
     whyExhibit: [
-      {
-        title: "Meet Buyers Managing Complex Seaborne Cargo Operations",
-        icon: "🔧",
-        description: "Engage with shippers, forwarders, and manufacturers sourcing reliable port services for smooth cross-border logistics."
-      },
-      {
-        title: "Showcase Expertise in Cargo Handling, Transshipment & Storage",
-        icon: "⚓",
-        description: "Present port operations, container unloading/loading, warehousing, and support services to decision-makers."
-      },
-      {
-        title: "Capitalise on Investment in Eurasia's Coastal & Inland Port Infrastructure",
-        icon: "💰",
-        description: "With modernisation efforts and new trade routes emerging, demand is growing for agile, full-service port logistics solutions."
-      }
+      { title: "Support Zero-Defect Manufacturing", icon: "📏", description: "Showcase precision measurement technologies." }
     ],
     services: [
-      "Stevedoring & Vessel Docking Services",
-      "Container Handling & Transshipment",
-      "Port-Based Warehousing & Temporary Storage",
-      "Cargo Consolidation & Deconsolidation",
-      "Breakbulk & Project Cargo Handling",
-      "Refrigerated & Hazardous Goods Management",
-      "Port Infrastructure Development & Modernization",
-      "Terminal Automation & Tracking Systems",
-      "Customs Clearance & Port Documentation Support",
-      "Inland Waterway & River Port Logistics"
+      "CMM Machines","Laser Scanners","Surface Testers","Inspection Software"
     ],
     faqs: [
-      {
-        question: "Who exhibits at Diemex?",
-        answer: "Logistics companies, freight forwarders, carriers (road, rail, sea, air), 3PLs, terminals, IT and customs service providers."
-      },
-      {
-        question: "Who visits the show?",
-        answer: "Logistics and supply chain managers, manufacturers, retailers, wholesalers, import/export professionals, and infrastructure developers."
-      },
-      {
-        question: "What sectors can I exhibit under?",
-        answer: "Air, road, rail, and sea transport; freight forwarding; IT & automation; warehousing; customs and insurance. Please check out our sectors page for more details."
-      }
+      { question: "Who visits?", answer: "Quality managers and inspection engineers." }
     ]
   },
 
+
   'warehouse-technology': {
-    title: 'Warehouse Technology',
-    description: 'Warehouse management systems, automation, and storage technology solutions.',
-    mainDescription: `The Warehouse Technology sector at DIEMEX showcases the digital and automated solutions transforming how goods are stored, picked, packed, and shipped. As e-commerce accelerates and labor becomes scarce, warehouses are evolving from static storage facilities into dynamic fulfillment centers powered by sophisticated software and robotics.
-
-Exhibitors include providers of Warehouse Management Systems (WMS), automated storage and retrieval systems (AS/RS), robotic picking solutions, and the sensors and IoT devices that enable real-time visibility into inventory and operations. Visitors can explore how these technologies work together to improve accuracy, increase throughput, and reduce operating costs.
-
-For distribution center managers, 3PL operators, and manufacturing logistics teams, this sector offers hands-on exposure to the technologies that are defining the future of warehousing. From small parts storage to pallet handling and everything in between, the solutions showcased here address the full spectrum of warehouse challenges.`,
-    heroImage: '/images/image.png',
-    stats: {
-      visitors: '10,000+',
-      exhibitors: '200+',
-      countries: '10+'
-    },
+    title: 'Raw Materials & Tool Steel',
+    description: 'High-performance materials engineered for durability and precision.',
+    mainDescription: `Premium tool steels, carbides, coatings, and specialty alloys form the backbone of die & mould performance. This sector highlights materials engineered for strength, wear resistance, and thermal stability.`,
+    heroImage: '/images/sectors/materials.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
     whyExhibit: [
-      {
-        title: "Connect with Warehouse & DC Managers",
-        icon: "🏭",
-        description: "Meet logistics managers, 3PLs, and distribution center operators seeking efficiency improvements."
-      },
-      {
-        title: "Showcase Smart Warehouse Solutions",
-        icon: "🤖",
-        description: "Present your WMS software, automation systems, robotics, and warehouse optimization technologies."
-      },
-      {
-        title: "Address Labor Shortages & Efficiency Goals",
-        icon: "📊",
-        description: "With e-commerce driving warehouse volume, automation and technology adoption are accelerating."
-      }
+      { title: "Target Tool Manufacturers", icon: "🔩", description: "Connect with die & mould producers seeking advanced materials." }
     ],
     services: [
-      "Warehouse Management Systems (WMS)",
-      "Inventory Management Software",
-      "Automated Storage & Retrieval",
-      "Pick-to-Light & Put-to-Light Systems",
-      "RFID & Barcode Technology",
-      "Warehouse Robotics & Automation",
-      "Voice Picking Systems",
-      "Yard Management Systems",
-      "Labor Management Software",
-      "Warehouse Analytics & Reporting"
+      "Tool Steels","Carbide Materials","Special Alloys","Heat Treatment"
     ],
     faqs: [
-      {
-        question: "What warehouse technologies are featured?",
-        answer: "WMS software, automation systems, robotics, scanning technology, and warehouse optimization solutions."
-      },
-      {
-        question: "Who implements warehouse technology?",
-        answer: "3PLs, distribution centers, manufacturers, retailers, and logistics companies with storage operations."
-      },
-      {
-        question: "What ROI can warehouse technology provide?",
-        answer: "Reduced labor costs, improved accuracy, faster order processing, better space utilization, and enhanced visibility."
-      }
+      { question: "Key trends?", answer: "Lightweight alloys and advanced surface coatings." }
     ]
   },
 
   'it-solutions': {
-    title: 'IT Solutions',
-    description: 'Logistics software, tracking systems, and digital supply chain solutions.',
-    mainDescription: `The IT Solutions sector at DIEMEX is where technology meets logistics, showcasing the software platforms and digital tools that enable end-to-end supply chain visibility, optimization, and collaboration. In an era where data is as valuable as physical assets, this sector brings together the innovators who are digitizing every aspect of logistics.
-
-Exhibitors range from Transportation Management System (TMS) providers and visibility platform developers to IoT solution specialists and blockchain pioneers. Visitors can explore how these technologies address real-world challenges: reducing empty miles, predicting disruptions, automating documentation, and providing customers with real-time shipment tracking.
-
-For logistics companies seeking competitive advantage through technology, and for shippers looking to gain better control over their supply chains, this sector provides a comprehensive view of the IT solutions available today. Whether you're just beginning your digital transformation journey or looking to upgrade existing systems, the expertise gathered here can guide your technology decisions.`,
-    heroImage: '/images/image.png',
-    stats: {
-      visitors: '10,000+',
-      exhibitors: '200+',
-      countries: '10+'
-    },
+     title: 'Surface Treatment & Finishing',
+    description: 'Surface engineering solutions enhancing durability and performance.',
+    mainDescription: `Surface treatment technologies such as PVD/CVD coatings, nitriding, polishing, and texturing significantly extend tool life and performance.`,
+    heroImage: '/images/sectors/surface.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
     whyExhibit: [
-      {
-        title: "Connect with Digital Transformation Teams",
-        icon: "💻",
-        description: "Meet CIOs, logistics managers, and operations directors seeking to digitize their supply chains."
-      },
-      {
-        title: "Showcase End-to-End Supply Chain Visibility",
-        icon: "👁️",
-        description: "Present your TMS, visibility platforms, IoT solutions, and digital logistics ecosystems."
-      },
-      {
-        title: "Capitalize on Supply Chain Digitization",
-        icon: "🚀",
-        description: "With supply chain complexity increasing, demand for digital solutions is growing exponentially."
-      }
+      { title: "Enhance Tool Performance", icon: "✨", description: "Showcase coatings and hardening technologies." }
     ],
     services: [
-      "Transportation Management Systems (TMS)",
-      "Supply Chain Visibility Platforms",
-      "Fleet Management Software",
-      "IoT & Telematics Solutions",
-      "Blockchain for Logistics",
-      "Digital Freight Marketplaces",
-      "Route Optimization Software",
-      "Document Management Systems",
-      "EDI & API Integration",
-      "Cloud Logistics Platforms"
+      "PVD/CVD Coatings","Laser Texturing","Heat Treatment","Polishing Systems"
     ],
     faqs: [
-      {
-        question: "What IT solutions are featured?",
-        answer: "TMS, visibility platforms, fleet management software, IoT solutions, and digital logistics platforms."
-      },
-      {
-        question: "Who implements logistics IT solutions?",
-        answer: "Logistics companies, manufacturers, retailers, 3PLs, and businesses with complex supply chains."
-      },
-      {
-        question: "What are the benefits of logistics IT?",
-        answer: "Improved visibility, reduced costs, better customer service, enhanced efficiency, and data-driven decision making."
-      }
+      { question: "Who visits?", answer: "Tool rooms and production engineers." }
     ]
   },
 
+
   'ecommerce-logistics': {
-    title: 'E-commerce Logistics',
-    description: 'Fulfillment, last-mile delivery, and e-commerce supply chain services.',
-    mainDescription: `The E-commerce Logistics sector at DIEMEX addresses the unique challenges and opportunities of serving online retailers and their customers. With e-commerce growing at double-digit rates and consumer expectations for fast, free delivery constantly rising, this sector showcases the specialized capabilities required to succeed in the digital marketplace.
-
-Exhibitors include fulfillment providers, last-mile delivery specialists, returns management experts, and cross-border e-commerce logistics partners. Visitors can explore solutions for same-day delivery, subscription box fulfillment, marketplace integration, and the complex logistics of handling returns efficiently and cost-effectively.
-
-For online retailers, D2C brands, and marketplace sellers, this sector provides access to logistics partners who understand the unique demands of e-commerce. From warehouse design optimized for e-fulfillment to delivery networks capable of reaching every address, the solutions showcased here help businesses deliver the experiences that customers expect.`,
-    heroImage: '/images/image.png',
-    stats: {
-   visitors: '10,000+',
-      exhibitors: '200+',
-      countries: '10+'
-    },
+   title: 'Smart Manufacturing & Industry 4.0',
+    description: 'Connected, data-driven factory technologies.',
+    mainDescription: `Industry 4.0 is transforming production with IoT-enabled machines, AI analytics, ERP/MES integration, and predictive maintenance platforms that improve efficiency and visibility.`,
+    heroImage: '/images/sectors/smart.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
     whyExhibit: [
-      {
-        title: "Connect with Online Retailers & Marketplaces",
-        icon: "🛒",
-        description: "Meet e-commerce businesses, D2C brands, and marketplace sellers seeking fulfillment solutions."
-      },
-      {
-        title: "Showcase End-to-End E-commerce Solutions",
-        icon: "📦",
-        description: "Present your fulfillment services, last-mile delivery, returns management, and cross-border e-commerce."
-      },
-      {
-        title: "Tap into Explosive E-commerce Growth",
-        icon: "📈",
-        description: "With online retail continuing to expand, specialized e-commerce logistics services are in high demand."
-      }
+      { title: "Enable Digital Transformation", icon: "🌐", description: "Showcase IoT and AI-driven solutions." }
     ],
     services: [
-      "E-commerce Fulfillment Services",
-      "Last-Mile Delivery Solutions",
-      "Returns Management & Reverse Logistics",
-      "Cross-border E-commerce Logistics",
-      "Multi-channel Fulfillment",
-      "Subscription Box Logistics",
-      "Same-Day & Next-Day Delivery",
-      "Parcel Consolidation",
-      "E-commerce Warehouse Solutions",
-      "Customs Clearance for E-commerce"
+      "IoT Platforms","MES Systems","ERP Integration","Predictive Maintenance"
     ],
     faqs: [
-      {
-        question: "What e-commerce logistics services are featured?",
-        answer: "Fulfillment, last-mile delivery, returns management, cross-border solutions, and specialized e-commerce services."
-      },
-      {
-        question: "Who uses e-commerce logistics?",
-        answer: "Online retailers, marketplace sellers, D2C brands, subscription services, and e-commerce platforms."
-      },
-      {
-        question: "What are the key challenges in e-commerce logistics?",
-        answer: "Last-mile delivery costs, returns management, peak season capacity, cross-border complexity, and customer expectations."
-      }
+      { question: "Key trends?", answer: "Connected machines and AI-based analytics." }
     ]
   },
 
   'heavy-lift-carriage': {
-    title: 'Heavy Lift Carriage',
-    description: 'Oversized cargo transport, project logistics, and specialized heavy haulage.',
-    mainDescription: `The Heavy Lift Carriage sector at DIEMEX showcases the specialized expertise and equipment required to move the world's largest and heaviest cargoes. From power generation equipment and industrial machinery to wind turbine components and construction materials, this sector brings together the project logistics professionals who make impossible moves possible.
+   title: 'Industrial Services & Engineering Solutions',
+  description: 'Specialized engineering expertise and industrial services supporting scalable manufacturing growth.',
+  mainDescription: `As manufacturing ecosystems become more specialized and globally integrated, companies increasingly rely on external expertise to enhance efficiency, reduce costs, and accelerate innovation. The Industrial Services & Engineering Solutions sector at DIEMEX brings together contract manufacturers, engineering consultants, reverse engineering specialists, maintenance providers, and technical service companies.
 
-Exhibitors include heavy transport companies, crane and rigging specialists, engineering consultants, and project logistics providers who plan and execute complex moves involving oversized and overweight cargo. Visitors can explore the specialized equipment—from multi-axle trailers to heavy lift vessels—and the engineering expertise required to transport loads that push the boundaries of what's possible.
+This sector focuses on delivering end-to-end industrial support — from product design optimization and process consulting to plant maintenance, retrofitting, and turnkey project execution. Exhibitors present scalable solutions that help manufacturers improve operational performance without heavy capital investments.
 
-For energy companies, infrastructure developers, and industrial project managers, this sector provides access to partners who understand the unique challenges of project logistics. Route surveys, permit acquisition, escort coordination, and risk management are just some of the capabilities on display from companies that specialize in moving the extraordinary.`,
-    heroImage: '/images/image.png',
-    stats: {
+Visitors can explore partnerships that strengthen production capabilities, enhance technical expertise, and ensure long-term operational sustainability.
+
+Whether you are an OEM seeking outsourced engineering support or a growing manufacturer requiring technical collaboration, this sector connects you with trusted industrial solution providers ready to support your expansion journey.`,
+  
+  heroImage: '/images/sectors/industrial-services.jpg',
+
+  stats: {
     visitors: '10,000+',
-      exhibitors: '200+',
-      countries: '10+'
-    },
-    whyExhibit: [
-      {
-        title: "Connect with Energy & Infrastructure Projects",
-        icon: "⚡",
-        description: "Meet oil & gas, renewable energy, construction, and industrial project managers moving oversized equipment."
-      },
-      {
-        title: "Showcase Specialized Heavy Transport Capabilities",
-        icon: "🏗️",
-        description: "Present your heavy lift equipment, specialized transport solutions, engineering capabilities, and project logistics."
-      },
-      {
-        title: "Capitalize on Infrastructure Development",
-        icon: "🔨",
-        description: "With major infrastructure projects underway across Eurasia, demand for heavy lift expertise is growing."
-      }
-    ],
-    services: [
-      "Oversized & Overweight Cargo Transport",
-      "Project Logistics Management",
-      "Heavy Lift Equipment & Cranes",
-      "Specialized Transport Vehicles",
-      "Engineering & Route Surveys",
-      "Permitting & Regulatory Compliance",
-      "Off-road & Remote Area Transport",
-      "Marine Heavy Lift Services",
-      "Industrial Relocation",
-      "Risk Management & Insurance"
-    ],
-    faqs: [
-      {
-        question: "What types of heavy lift services are featured?",
-        answer: "Oversized cargo transport, project logistics, specialized equipment, engineering services, and permit management."
-      },
-      {
-        question: "Who requires heavy lift services?",
-        answer: "Energy companies, construction firms, manufacturers, mining operations, and infrastructure developers."
-      },
-      {
-        question: "What makes heavy lift logistics complex?",
-        answer: "Route planning, permitting, specialized equipment, engineering requirements, and coordination with multiple authorities."
-      }
-    ]
+    exhibitors: '200+',
+    countries: '10+'
   },
+
+  whyExhibit: [
+    {
+      title: "Position as a Strategic Manufacturing Partner",
+      icon: "🤝",
+      description: "Engage OEMs and manufacturers seeking outsourced engineering and industrial expertise."
+    },
+    {
+      title: "Showcase Specialized Technical Capabilities",
+      icon: "🛠️",
+      description: "Demonstrate consulting, maintenance, reverse engineering, and turnkey project solutions."
+    },
+    {
+      title: "Expand Long-Term Business Relationships",
+      icon: "📈",
+      description: "Build recurring revenue opportunities through industrial service partnerships."
+    }
+  ],
+
+  services: [
+    "Contract Manufacturing Services",
+    "Engineering Design & Consulting",
+    "Reverse Engineering",
+    "Plant Maintenance & Retrofitting",
+    "Turnkey Project Solutions",
+    "Process Optimization",
+    "Technical Outsourcing",
+    "Installation & Commissioning Services"
+  ],
+
+  faqs: [
+    {
+      question: "What types of companies exhibit in this sector?",
+      answer: "Contract manufacturers, engineering consultants, maintenance service providers, reverse engineering firms, and turnkey project specialists."
+    },
+    {
+      question: "Who visits this sector?",
+      answer: "OEMs, plant heads, operations managers, technical directors, and businesses seeking scalable industrial support solutions."
+    },
+    {
+      question: "What are the key trends in industrial services?",
+      answer: "Outsourced engineering, predictive maintenance, plant modernization, turnkey automation integration, and cost-optimized manufacturing support."
+    }
+  ]
+},
 
   // SkladTech Sectors
   'warehousing-systems': {
