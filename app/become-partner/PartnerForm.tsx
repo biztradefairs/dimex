@@ -98,7 +98,7 @@ export default function RegistrationForm() {
             />
           </div>
 
-          {/* Tax ID */}
+          {/* GSTIN */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               GSTIN
@@ -135,7 +135,10 @@ export default function RegistrationForm() {
             />
           </div>
 
-                 {/* Checkboxes */}
+          
+        </div>
+
+        {/* Checkboxes */}
         <div className="space-y-6 pt-4">
           {/* Checkbox 1 */}
           <div className="flex items-start gap-3 p-4 bg-white rounded-lg border border-gray-200">
