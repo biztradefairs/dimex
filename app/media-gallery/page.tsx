@@ -9,91 +9,91 @@ import SectionContainer from '@/components/UI/SectionContainer';
 const mediaItems = [
   {
     id: 1,
-    title: "TransRussia 2025 Conference Program",
+    title: "Diemex2025 Conference Program",
     href: "/media-gallery/transrussia-2025-conference-program/",
     image: "https://cdn.itegroupnews.com/DSC_6960_retouched_d7ae158197.webp"
   },
   {
     id: 2,
-    title: "TransRussia 2025. Exhibition",
+    title: "Diemex2025. Exhibition",
     href: "/media-gallery/trans-russia-2025-exhibition/",
     image: "https://cdn.itegroupnews.com/TR_2025_337_e76336212a.webp"
   },
   {
     id: 3,
-    title: "TransRussia 2024 Exhibition",
+    title: "Diemex 2023 Exhibition",
     href: "/media-gallery/trans-russia-2024-exhibition/",
     image: "https://cdn.itegroupnews.com/TR_24_IMG_2499i_dc444c9640.webp"
   },
   {
     id: 4,
-    title: "TransRussia Summit 4-5 December 2024",
+    title: "Diemex Conference 2023",
     href: "/media-gallery/trans-russia-summit-4-5-december-2024/",
     image: "https://cdn.itegroupnews.com/19_32d833764b.webp"
   },
   {
     id: 5,
-    title: "TransRussia 2024 Conference Programme",
+    title: "Diemex 2023 Conference Programme",
     href: "/media-gallery/trans-russia-2024-conference-programme/",
     image: "https://cdn.itegroupnews.com/tr24_15_194638d1ef.webp"
   },
   {
     id: 6,
-    title: "TransRussia 2024 Awards Ceremony",
+    title: "Diemex 2023 Awards Ceremony",
     href: "/media-gallery/trans-russia-2024-awards-ceremony/",
     image: "https://cdn.itegroupnews.com/TR_24_IMG_3023i_cbdb39d5ea.webp"
   },
   {
     id: 7,
-    title: "TransRussia 2023 Exhibition",
+    title: "Diemex2023 Exhibition",
     href: "/media-gallery/trans-russia-2023-exhibition/",
     image: "https://cdn.itegroupnews.com/TR_23_MUH_2553i_bcf08a1176.webp"
   },
   {
     id: 8,
-    title: "TransRussia 2023 Conference Programme",
+    title: "Diemex2023 Conference Programme",
     href: "/media-gallery/trans-russia-2023-conference-programme/",
     image: "https://cdn.itegroupnews.com/TR_23_IMG_3094i_f602090d20.webp"
   },
   {
     id: 9,
-    title: "TransRussia 2022 Exhibition",
+    title: "Diemex2023 Exhibition",
     href: "/media-gallery/trans-russia-2022-exhibition/",
     image: "https://cdn.itegroupnews.com/tr2022_022_f714843e07.webp"
   },
   {
     id: 10,
-    title: "TransRussia 2022 Conference Programme",
+    title: "Diemex2023 Conference Programme",
     href: "/media-gallery/trans-russia-2022-conference-programme/",
     image: "https://cdn.itegroupnews.com/transrussia22_bp_33_73e55dcf6a.webp"
   },
   {
     id: 11,
-    title: "TransRussia 2022 Awards Ceremony",
+    title: "Diemex2023 Awards Ceremony",
     href: "/media-gallery/trans-russia-2022-awards-ceremony/",
     image: "https://cdn.itegroupnews.com/1_196c1de625.webp"
   },
   {
     id: 12,
-    title: "TransRussia 2021 Exhibition",
+    title: "Diemex2023 Exhibition",
     href: "/media-gallery/trans-russia-2021-exhibition/",
     image: "https://cdn.itegroupnews.com/108_d40b77d3a3.webp"
   },
   {
     id: 13,
-    title: "TransRussia 2021 Conference Programme",
+    title: "Diemex2023 Conference Programme",
     href: "/media-gallery/trans-russia-2021-conference-programme/",
     image: "https://cdn.itegroupnews.com/bp049_790eb559dc.webp"
   },
   {
     id: 14,
-    title: "TransRussia 2019",
+    title: "Diemex2025",
     href: "/media-gallery/trans-russia-2019/",
     image: "https://cdn.itegroupnews.com/2019_36_d7d12ee1e5.webp"
   },
   {
     id: 15,
-    title: "TransRussia 2018",
+    title: "Diemex2023",
     href: "/media-gallery/trans-russia-2018/",
     image: "https://cdn.itegroupnews.com/photo_49_011f89357e.webp"
   }
@@ -176,9 +176,9 @@ export default function MediaGalleryPage() {
         <div className="bg-[#F0F9FF] py-20">
           <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8 mt-15">
             <div className="flex flex-col justify-end">
-              <h2 className="title-72 text-black">Explore TransRussia Over the Years</h2>
+              <h2 className="title-72 text-black">Explore DiemexOver the Years</h2>
               <p className="max-w-6xl whitespace-pre-line py-5">
-                Discover TransRussia through our curated gallery, featuring moments from the opening ceremony, awards, exhibition showcases, and dynamic conference sessions.
+                Discover Diemex through our curated gallery, featuring moments from the opening ceremony, awards, exhibition showcases, and dynamic conference sessions.
               </p>
             </div>
           </div>
