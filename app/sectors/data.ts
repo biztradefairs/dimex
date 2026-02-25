@@ -1507,7 +1507,64 @@ For manufacturers investing in new capabilities or replacing aging equipment, th
       }
     ]
   },
+  'complex-logistics': {
+    title: 'Complex Logistics Services & Freight Forwarding',
+    description: 'Plastics, rubber, die casting, metal forming solutions, and comprehensive moulding technologies for production.',
+    mainDescription: `The Injection Moulding & Casting Technologies sector at DIEMEX focuses on the production processes that shape materials into finished products—from plastic injection molding to metal die casting and forming. This sector brings together machinery manufacturers, process specialists, and technology providers who enable high-volume production of precision components.
 
+Exhibitors showcase injection molding machines of all sizes, die casting equipment for non-ferrous metals, and the auxiliary equipment that supports efficient production. Visitors can explore process control technologies that ensure consistency, automation solutions that reduce labor, and quality monitoring systems that catch defects before they reach customers.
+
+For production managers, process engineers, and manufacturing executives, this sector provides insights into the equipment and technologies that determine production efficiency and part quality. Whether you're launching a new product line or optimizing existing operations, the solutions showcased here represent the latest in molding and casting technology.`,
+    heroImage: '/images/image.png',
+    stats: {
+     visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
+    },
+    whyExhibit: [
+      {
+        title: "Connect with Production & Process Engineers",
+        icon: "🏭",
+        description: "Meet professionals operating injection moulding, die casting, and metal forming production lines."
+      },
+      {
+        title: "Showcase Moulding & Casting Solutions",
+        icon: "🔥",
+        description: "Present your injection moulding machines, die casting equipment, ancillary systems, and process technologies."
+      },
+      {
+        title: "Address Production Efficiency Challenges",
+        icon: "⚡",
+        description: "With increasing production volumes, manufacturers seek more efficient and reliable moulding solutions."
+      }
+    ],
+    services: [
+      "Injection Moulding Machines",
+      "Die Casting Equipment",
+      "Metal Forming Solutions",
+      "Auxiliary Equipment",
+      "Process Control Systems",
+      "Material Handling Solutions",
+      "Tooling & Mould Services",
+      "Quality Control Systems",
+      "Maintenance & Support",
+      "Process Optimization"
+    ],
+    faqs: [
+      {
+        question: "What equipment is featured in this sector?",
+        answer: "Injection moulding machines, die casting machines, auxiliary equipment, process controls, and material handling systems."
+      },
+      {
+        question: "Who operates moulding and casting equipment?",
+        answer: "Production engineers, process technicians, maintenance teams, and manufacturing supervisors."
+      },
+      {
+        question: "What are key considerations for moulding equipment?",
+        answer: "Production capacity, precision, energy efficiency, reliability, compatibility with materials, and total cost of ownership."
+      }
+    ]
+  },
   'surface-treatment': {
     title: 'Surface Treatment & Heat Treatment',
     description: 'Coatings, finishing, hardening, thermal processes, and surface enhancement technologies for extended component life.',
