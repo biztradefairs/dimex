@@ -44,8 +44,7 @@ export default function ContactInformation() {
               </p>
 
               <p className="text-base text-black/70 mb-5">
-                Technical Manager on suspended works
-              </p>
+                Technical Manager              </p>
 
               <p className="text-lg mb-3">
                 <a

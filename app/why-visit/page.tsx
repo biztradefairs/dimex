@@ -546,7 +546,7 @@ export default function WhyVisit() {
                   whileTap={{ scale: 0.95 }}
                   className="bg-[#004D9F] hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 w-full sm:w-auto"
                 >
-                  View Top 2025 Exhibitor List
+                  View 2026 Exhibitor List
                 </motion.button>
                 </Link>
               </div>
