@@ -1508,7 +1508,7 @@ For manufacturers investing in new capabilities or replacing aging equipment, th
     ]
   },
   'complex-logistics': {
-    title: 'Complex Logistics Services & Freight Forwarding',
+    title: 'Complex 33 Logistics Services & Freight Forwarding',
     description: 'Plastics, rubber, die casting, metal forming solutions, and comprehensive moulding technologies for production.',
     mainDescription: `The Injection Moulding & Casting Technologies sector at DIEMEX focuses on the production processes that shape materials into finished products—from plastic injection molding to metal die casting and forming. This sector brings together machinery manufacturers, process specialists, and technology providers who enable high-volume production of precision components.
 
