@@ -159,7 +159,7 @@ export default function RegistrationForm() {
             />
             <label htmlFor="marketing" className="text-sm text-gray-600 leading-relaxed cursor-pointer">
               I want to stay informed about exhibitions organized by
-              <strong> ITE Expo International LLC</strong>, and be the first to
+              <strong> Maxx Business Media Pvt. Ltd.</strong>, and be the first to
               receive information about exhibition stand sales, business program
               events, advertising and sponsorship opportunities.
             </label>
@@ -174,7 +174,7 @@ export default function RegistrationForm() {
               className="mt-1 h-5 w-5 border-gray-300 rounded focus:ring-blue-500 text-blue-600"
             />
             <label htmlFor="consent" className="text-sm text-gray-600 leading-relaxed cursor-pointer">
-              I hereby give consent to <strong>ITE Expo International LLC</strong>
+              I hereby give consent to <strong>Maxx Business Media Pvt. Ltd.</strong>
               for automated and mixed processing of my personal data in accordance
               with the <a href="#" className="text-blue-600 hover:text-blue-800 underline font-medium">Personal Data Policy</a>.
             </label>
