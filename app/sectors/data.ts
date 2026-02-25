@@ -1331,7 +1331,7 @@ For tool designers and manufacturing engineers, this sector provides essential i
     ]
   },
 
-  'die-mould-manufacturing': {
+  'die-mould-2': {
     title: 'Die & Mould Manufacturing',
     description: 'Injection moulds, die casting dies, press tools, blow moulds, extrusion dies and comprehensive manufacturing solutions.',
     mainDescription: `The Die & Mould Manufacturing sector at DIEMEX encompasses the complete spectrum of tooling production, from concept to finished tool ready for production. This sector brings together specialized manufacturers who create the injection moulds, die casting dies, press tools, and other production tooling that enable mass manufacturing across industries.
