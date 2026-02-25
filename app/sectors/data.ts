@@ -1508,61 +1508,26 @@ For manufacturers investing in new capabilities or replacing aging equipment, th
     ]
   },
   'complex-logistics': {
-    title: 'Complex 33 Logistics Services & Freight Forwarding',
-    description: 'Plastics, rubber, die casting, metal forming solutions, and comprehensive moulding technologies for production.',
-    mainDescription: `The Injection Moulding & Casting Technologies sector at DIEMEX focuses on the production processes that shape materials into finished products—from plastic injection molding to metal die casting and forming. This sector brings together machinery manufacturers, process specialists, and technology providers who enable high-volume production of precision components.
+    title: 'Die & Mould Manufacturing',
+    description: 'Comprehensive die, mould, and precision tooling solutions powering modern manufacturing industries.',
+    mainDescription: `As industries demand higher precision, faster production cycles, and lightweight components, advanced die & mould solutions have become essential. This sector at DIEMEX brings together leading tool rooms, mould makers, and die manufacturers serving automotive, aerospace, electronics, medical, and consumer industries.
 
-Exhibitors showcase injection molding machines of all sizes, die casting equipment for non-ferrous metals, and the auxiliary equipment that supports efficient production. Visitors can explore process control technologies that ensure consistency, automation solutions that reduce labor, and quality monitoring systems that catch defects before they reach customers.
-
-For production managers, process engineers, and manufacturing executives, this sector provides insights into the equipment and technologies that determine production efficiency and part quality. Whether you're launching a new product line or optimizing existing operations, the solutions showcased here represent the latest in molding and casting technology.`,
-    heroImage: '/images/image.png',
-    stats: {
-     visitors: '10,000+',
-      exhibitors: '200+',
-      countries: '10+'
-    },
+From injection moulds and progressive press tools to die casting dies and multi-cavity systems, exhibitors showcase durable, repeatable, and cost-efficient manufacturing capabilities enhanced by CAD/CAM integration and high-speed machining technologies.`,
+    heroImage: '/images/sectors/die-mould.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
     whyExhibit: [
-      {
-        title: "Connect with Production & Process Engineers",
-        icon: "🏭",
-        description: "Meet professionals operating injection moulding, die casting, and metal forming production lines."
-      },
-      {
-        title: "Showcase Moulding & Casting Solutions",
-        icon: "🔥",
-        description: "Present your injection moulding machines, die casting equipment, ancillary systems, and process technologies."
-      },
-      {
-        title: "Address Production Efficiency Challenges",
-        icon: "⚡",
-        description: "With increasing production volumes, manufacturers seek more efficient and reliable moulding solutions."
-      }
+      { title: "Connect with OEMs & Tier Manufacturers", icon: "🤝", description: "Engage decision-makers sourcing precision tooling partners." },
+      { title: "Showcase Advanced Tooling Capabilities", icon: "⚙️", description: "Demonstrate injection moulds, progressive dies, and precision die systems." },
+      { title: "Capitalize on Manufacturing Growth", icon: "📈", description: "Leverage India's rapidly expanding industrial ecosystem." }
     ],
     services: [
-      "Injection Moulding Machines",
-      "Die Casting Equipment",
-      "Metal Forming Solutions",
-      "Auxiliary Equipment",
-      "Process Control Systems",
-      "Material Handling Solutions",
-      "Tooling & Mould Services",
-      "Quality Control Systems",
-      "Maintenance & Support",
-      "Process Optimization"
+      "Injection Moulds","Blow Moulds","Progressive & Compound Dies",
+      "Die Casting Dies","Jigs & Fixtures","Prototype Tooling"
     ],
     faqs: [
-      {
-        question: "What equipment is featured in this sector?",
-        answer: "Injection moulding machines, die casting machines, auxiliary equipment, process controls, and material handling systems."
-      },
-      {
-        question: "Who operates moulding and casting equipment?",
-        answer: "Production engineers, process technicians, maintenance teams, and manufacturing supervisors."
-      },
-      {
-        question: "What are key considerations for moulding equipment?",
-        answer: "Production capacity, precision, energy efficiency, reliability, compatibility with materials, and total cost of ownership."
-      }
+      { question: "Who should exhibit?", answer: "Tool rooms, die makers, mould manufacturers, and precision engineering firms." },
+      { question: "Who visits?", answer: "OEMs, production heads, R&D engineers, and procurement teams." },
+      { question: "Key trends?", answer: "5-axis machining, conformal cooling, additive inserts, and smart tooling." }
     ]
   },
   'surface-treatment': {
