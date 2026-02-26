@@ -423,6 +423,7 @@ export default function PublicFloorPlanPage() {
               </svg>
             </div>
             <div>
+          
               <h4 className="text-lg font-semibold text-gray-800 mb-2">Need Assistance?</h4>
               <p className="text-gray-600">
                 If you need help locating your booth or have questions about the layout, 

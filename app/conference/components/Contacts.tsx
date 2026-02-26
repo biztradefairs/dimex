@@ -20,8 +20,8 @@ const Contacts = () => {
                   <div className="flex flex-col sm:flex-row items-start gap-3 md:gap-4">
                     <div className="w-20 sm:w-1/5 min-w-[60px] md:min-w-[80px]">
                       <img
-                        src="https://regional-cdn.itegroupnews.com/Irina_Kachalova_d1d70a6546.png"
-                        alt="Irina Kachalova"
+                        src="/images/conference/contacts/bhoomika.jpg"
+                        alt="Bhoomika"
                         width={80}
                         height={80}
                         className="rounded-lg object-cover w-full h-auto"
@@ -30,7 +30,7 @@ const Contacts = () => {
                     <div className="flex-1">
                       <p className="text-lg md:text-xl lg:text-27 font-bold">Bhoomika</p>
                       <p className="text-mainColor6 font-proxima text-base md:text-lg lg:text-27">
-                        Conference Sales Manager
+                        Conference Sales 
                       </p>
                     </div>
                   </div>
@@ -63,8 +63,8 @@ const Contacts = () => {
                   <div className="flex flex-col sm:flex-row items-start gap-3 md:gap-4">
                     <div className="w-20 sm:w-1/5 min-w-[60px] md:min-w-[80px]">
                       <img
-                        src="https://regional-cdn.itegroupnews.com/20250714_140451615_i_OS_1_38486b167f.jpg"
-                        alt="Olga Senicheva"
+                        src="/images/conference/contacts/pad.jpg"
+                        alt="Padmanabham R"
                         width={80}
                         height={80}
                         className="rounded-lg object-cover w-full h-auto"
