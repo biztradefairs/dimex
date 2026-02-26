@@ -128,14 +128,14 @@ const TransRussiaSummitProgram: React.FC = () => {
             { id: 3, title: "Predictive maintenance in high-volume production" },
                      ],
           moderator: {
-            name: "TBD",
+            name: "",
             position: "",
           },
           speakers: [
-            { name: "TBD", position: "" },
-            { name: "TBD", position: "" },
-            { name: "TBD", position: "" },
-            { name: "TBD", position: "" },
+            { name: "", position: "" },
+            { name: "", position: "" },
+            { name: "", position: "" },
+            { name: "", position: "" },
        
           ],
         },
