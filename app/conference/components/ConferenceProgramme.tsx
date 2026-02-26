@@ -115,7 +115,7 @@ const TransRussiaSummitProgram: React.FC = () => {
           time: "10:25 – 10:30",
           title: 'Vote of Thanks"',
           speakers: [
-            { name: "TBD", position: "" },
+            { name: "Director", position: "Maxx Business Media Pvt.Ltd.," },
                  ],
         },
             {
