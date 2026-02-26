@@ -151,13 +151,34 @@ const TransRussiaSummitProgram: React.FC = () => {
           ],
         },
         {
-          time: "12:30 – 12:30",
+          time: "12:00 – 12:30",
           title: "Technical Session 2 : Precision Machining for Complex Geometries",
           description: "• High-speed milling, EDM, micro-machining • Accuracy & repeatability in mould inserts"
+        },
+         {
+          time: "11:30 – 12:00",
+          title: 'Technical Session 1 : High-Performance Materials for Tooling & Moulding"',
+          description: "",
+          speakers: [
+            {
+              name: "",
+              position: ""
+            }
+          ],
+        },
+        {
+          time: "12:30 – 13:00",
+          title: "Fireside Chat : Designing for Fun and Safety: Mold Innovations in the Toy Industry",
+          description: "• This session can cover breakthroughs and challenges unique to toy mold design, • tability in mould inserts"
+        },
+        {
+          time: "13:00 – 14:00",
+          title: "Networking Lunch"
         },
       ],
     },
     {
+
       day: "Day 2 Theme : Sustainability & Innovation in Manufacturing",
       date: "October 9, 2026",
       description: "*For delegates of all categories",
