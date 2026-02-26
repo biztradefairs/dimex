@@ -79,6 +79,30 @@ const TransRussiaSummitProgram: React.FC = () => {
             },
               ],
         },
+ {
+                    time: "09:55 – 10:05",
+          title: 'Guest of Honour Address"',
+                   
+          speakers: [
+        {
+              name: "TBD",
+              position: "",
+            },
+              ],
+        },
+
+         {
+                    time: "10:05 – 10:15",
+          title: 'Guest of Honour Address"',
+                   
+          speakers: [
+        {
+              name: "TBD",
+              position: "",
+            },
+              ],
+        },
+
         {
           time: "11:30 – 12:00",
           title: "Break"
