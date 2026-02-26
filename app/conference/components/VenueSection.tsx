@@ -54,7 +54,7 @@ export default function VenueSection() {
                       <figure className="image image_resized w-full">
                         <img
                           style={{ aspectRatio: '940/627' }}
-                          src="https://regional-cdn.itegroupnews.com/hyatt_a33630c7be.jpg"
+                          src="/images/conference/venue/autocluster.jpg"
                           alt="hyatt.jpg"
                           width={940}
                           height={627}
@@ -66,7 +66,7 @@ export default function VenueSection() {
                       <figure className="image image_resized w-full mt-4 md:mt-0">
                         <img
                           style={{ aspectRatio: '4000/2667' }}
-                          src="https://regional-cdn.itegroupnews.com/02_6deba748f3.jpg"
+                          src="/images/conference/venue/conference.jpg"
                           alt="02.jpg"
                           width={4000}
                           height={2667}
@@ -78,7 +78,7 @@ export default function VenueSection() {
                       <figure className="image image_resized w-full mt-4 md:mt-0">
                         <img
                           style={{ aspectRatio: '4000/2667' }}
-                          src="https://regional-cdn.itegroupnews.com/VAO_03626_f5adfc79ac.jpg"
+                          src="/images/conference/venue/registration.webp"
                           alt="VAO03626.jpg"
                           width={4000}
                           height={2667}
