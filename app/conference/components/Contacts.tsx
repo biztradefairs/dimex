@@ -43,10 +43,10 @@ const Contacts = () => {
                     bhoomika@diemex.in
                   </a>
                   <a 
-                    href="tel:+91 6364936470"
+                    href="tel:+91 9980241366"
                     className="block text-base md:text-lg lg:text-27 font-bold hover:text-mainColor2 transition-colors"
                   >
-                    +91 6363936470 
+                    +91 9980241366 
                   </a>
                  
                 </div>
