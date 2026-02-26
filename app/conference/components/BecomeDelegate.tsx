@@ -6,12 +6,16 @@ const BecomeDelegate = () => {
     {
       id: 1,
       title: "Student",
-      price: "5,000 INR",
+      price: "₹ 3,500",
       features: [
-        "Participation in the conference program",
-        "Access to coffee breaks and lunches",
-        "Access to the closed conference participants group",
-        "Participation in the evening cocktail on October 20"
+        "Access to all technical conference sessions",
+      "Entry to exhibition area (all 3 days)",
+      "Interaction with industry experts & speakers",
+      "Certificate of Participation",
+      "Career guidance & mentorship interaction",
+      "Internship & placement opportunity connect",
+      "Digital access to conference presentation summaries",
+      "Lunch & refreshments",
       ],
       cardLink: "/became-delegate",
       invoiceLink: "/summit-invoice-form/"
@@ -19,27 +23,36 @@ const BecomeDelegate = () => {
     {
       id: 1,
       title: "General",
-      price: "5,000 INR",
+      price: "₹ 6,000",
       features: [
-        "Participation in the conference program",
-        "Access to coffee breaks and lunches",
-        "Access to the closed conference participants group",
-        "Participation in the evening cocktail on October 20"
+        "Full access to all conference sessions",
+        "Priority seating in technical sessions",
+        "Entry to exhibition area (all 3 days)",
+        "Conference kit (Badge, Folder, Notepad, Pen)",
+        "Access to networking lunch & tea breaks",
+        "B2B networking opportunity",
+        "Access to speakers’ presentation (digital copy post event)",
+        "Certificate of Participation",
+        "Entry to Business Networking Meet",
+        "Access to post-event report & industry insights summary",
       ],
       cardLink: "/became-delegate",
       invoiceLink: "/summit-invoice-form/"
     },
     {
       id: 3,
-      title: "GROUP 3",
-      price: "12,000 INR",
+      title: "GROUP of 3",
+      price: "₹ 15,000",
       features: [
-        "Participation in the conference program",
-        "Access to coffee breaks and lunches",
-        "Access to the closed conference participants group",
-        "Participation in the evening cocktail on October 20",
-        "Presentation materials",
-        "Participation in the VIP reception on October 19"
+        "Full conference access (all sessions)",
+"Exhibition entry (all 3 days)Reserved group seating",
+"Company name recognition on delegate list",
+"Access to networking lunch & tea breaks",
+"Digital presentations access",
+"Participation certificates for all 3",
+"Group networking badge recognition",
+"One complimentary company profile mention in delegate e-book",
+"Priority B2B meeting assistance (pre-scheduled on request)",
       ],
       cardLink: "/became-delegate",
       invoiceLink: "/summit-invoice-form/"
