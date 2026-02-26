@@ -169,12 +169,48 @@ const TransRussiaSummitProgram: React.FC = () => {
         {
           time: "12:30 – 13:00",
           title: "Fireside Chat : Designing for Fun and Safety: Mold Innovations in the Toy Industry",
-          description: "• This session can cover breakthroughs and challenges unique to toy mold design, • tability in mould inserts"
+          description: "•This session can cover breakthroughs and challenges unique to toy mold design, including safety regulations, rapid product cycles, and creative flexibility"
         },
         {
           time: "13:00 – 14:00",
           title: "Networking Lunch"
         },
+
+{
+          time: "14:00 – 14:30",
+          title: 'Technical Session 3 : Surface Finishing, Coatings & Wear Protection"',
+          description: "PVD, CVD, DLC coatings",
+          description: "Improving mould surface quality",
+          speakers: [
+            {
+              name: "",
+              position: ""
+            }
+          ],
+        },
+
+        {
+          time: "14:30 – 15:30",
+          title: 'Panel Discussion : Automation & Industry 4.0 in Moulding and Tool Rooms"',
+          description: "Session Topics:",
+          topics: [
+            { id: 1, title: "Robotics in injection moulding" },
+            { id: 2, title: "Lights-out manufacturing for tool shops" },
+            { id: 3, title: "Reducing cycle times through smart automation" },
+                     ],
+          moderator: {
+            name: "",
+            position: "",
+          },
+          speakers: [
+            { name: "", position: "" },
+            { name: "", position: "" },
+            { name: "", position: "" },
+            { name: "", position: "" },
+       
+          ],
+        },
+
       ],
     },
     {
