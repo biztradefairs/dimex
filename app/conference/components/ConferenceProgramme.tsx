@@ -107,7 +107,7 @@ const TransRussiaSummitProgram: React.FC = () => {
           time: "10:15 – 10:25",
           title: 'Inaugural Keynote – India’s Roadmap for Advanced Manufacturing 2030"',
           speakers: [
-            { name: "TBD", position: "" },
+            { name: "", position: "" },
                  ],
         },
 
@@ -139,25 +139,21 @@ const TransRussiaSummitProgram: React.FC = () => {
        
           ],
         },
-        {
-          time: "16:30 – 16:45",
-          title: "Break"
-        },
-        {
-          time: "16:45 – 17:30",
-          title: 'FORESIGHT VISION "THE FUTURE OF LOGISTICS: SCENARIOS, RISKS, AND OPPORTUNITIES FOR GROWTH"',
-          description: "Global and national trends shaping the logistics of the future: a 360-degree look at opportunities and threats through the lens of global foresight and big data analysis",
+               {
+          time: "11:30 – 12:00",
+          title: 'Technical Session 1 : High-Performance Materials for Tooling & Moulding"',
+          description: "",
           speakers: [
             {
-              name: "Alexander Chulok",
-              position: "Russian forecaster, international foresight expert at the United Nations Development Programme, Doctor of Economics, professor, and director of the Center for Scientific and Technological Forecasting at the ISSEK, National Research University Higher School of Economics"
+              name: "",
+              position: ""
             }
           ],
         },
         {
-          time: "17:30 – 19:00",
-          title: "Evening cocktail: an informal gathering to wrap up the day",
-          description: "• Networking with leaders in the logistics industry • Prize draw from summit partners • Exclusive gifts from a special speaker with an autograph • Delicious buffet and live music"
+          time: "12:30 – 12:30",
+          title: "Technical Session 2 : Precision Machining for Complex Geometries",
+          description: "• High-speed milling, EDM, micro-machining • Accuracy & repeatability in mould inserts"
         },
       ],
     },
