@@ -102,39 +102,21 @@ const TransRussiaSummitProgram: React.FC = () => {
             },
               ],
         },
+      
+        {
+          time: "10:15 – 10:25",
+          title: 'Inaugural Keynote – India’s Roadmap for Advanced Manufacturing 2030"',
+          speakers: [
+            { name: "TBD", position: "" },
+                 ],
+        },
 
         {
-          time: "11:30 – 12:00",
-          title: "Break"
-        },
-        {
-          time: "12:00 – 13:45",
-          title: 'PLENARY SESSION OF THE LARGEST CARGO OWNERS "LOGISTICS MANAGEMENT STRATEGY IN THE CONTEXT OF GEOPOLITICAL AND ECONOMIC CHANGES"',
-          description: "Session Topics:",
-          topics: [
-            { id: 1, title: "Strategic Navigation: Russia's Logistics in the New Macro-Reality" },
-            { id: 2, title: "Operational management of the transport and logistics function in modern realities: the company's goals for the next 3 years" },
-            { id: 3, title: "Logistics Budgeting Strategies: Current Financial Sustainability Models" },
-            { id: 4, title: "International Logistics: Risk Management When Working with Foreign Players" },
-            { id: 5, title: "Complex logistics during turbulent times: access to specialized transport, rising insurance rates, and legal restrictions" },
-            { id: 6, title: "Infrastructure and Equipment Shortages: Strategies for Managing Limited Resources" },
-            { id: 7, title: "Digital Transformation of Logistics: From Rhetoric to ROI" },
-            { id: 8, title: "Effective HR policies: finding and retaining qualified personnel in the context of the transformation of professional competencies" },
-          ],
-          moderator: {
-            name: "Mikhail Bazhenov",
-            position: "Partner, Head of Business Consulting Practice, TRUST TECHNOLOGIES",
-          },
+          time: "10:25 – 10:30",
+          title: 'Vote of Thanks"',
           speakers: [
-            { name: "Dmitry Yalov", position: "Head of the Project Office of the National Center for Testing and Manufacturing of Products" },
-            { name: "Fyodor Pavlovsky", position: "Deputy General Director and Director of Supply Chain and Logistics at Magnit, member of the company's management board" },
-            { name: "Igor Kudryavtsev", position: "Managing Director of Logistics at SIBUR" },
-            { name: "Vasily Berezhnoy", position: "Director of Transport Logistics at EFKO" },
-            { name: "Alexander Pistun", position: "Director of the Logistics Department at MTS" },
-            { name: "Anna Buzova", position: "Vice President of Procurement and Logistics at MILK LOGIC (ex. DANONE)" },
-            { name: "Marat Avetisov", position: "Director of Logistics at SIBUR" },
-            { name: "Ilya Ilyin", position: "Head of the Banking and Financial Markets Analysis Department at the Center for Analysis and Expertise at PSB" },
-          ],
+            { name: "TBD", position: "" },
+                 ],
         },
         {
           time: "13:45 – 14:00",
