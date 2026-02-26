@@ -173,7 +173,7 @@ const TransRussiaSummitProgram: React.FC = () => {
       ],
     },
     {
-      day: "Day 2",
+      day: "Day 2 Theme : Sustainability & Innovation in Manufacturing",
       date: "October 9, 2026",
       description: "*For delegates of all categories",
       sessions: [
