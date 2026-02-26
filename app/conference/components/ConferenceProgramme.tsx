@@ -118,39 +118,25 @@ const TransRussiaSummitProgram: React.FC = () => {
             { name: "TBD", position: "" },
                  ],
         },
-        {
-          time: "13:45 – 14:00",
-          title: "Q&A SESSION"
-        },
-        {
-          time: "14:00 – 15:00",
-          title: "Dinner"
-        },
-        {
-          time: "15:00 – 16:30",
-          title: 'PANEL SESSION: "TRANSPARENCY, PREDICTABILITY, AUTOMATION: DIGITAL PRIORITIES FOR SHIPPERS"',
+            {
+          time: "10:30 – 11:30",
+          title: 'Panel Discussion : Digital Transformation in Die, Mould & Plastic Processing"',
           description: "Session Topics:",
           topics: [
-            { id: 1, title: "Online transportation contracting: route selection, price negotiation, deal making" },
-            { id: 2, title: "Electronic document management (EDM), including electronic shipping documents recognized by third parties, smart contracts" },
-            { id: 3, title: "Cargo movement traceability" },
-            { id: 4, title: "A unified environment for data exchange between transport participants: a single window, interaction with government agencies, import and export" },
-            { id: 5, title: "The Applicability of Latest AI Tools for Shippers" },
-            { id: 6, title: "Other digital services that are important to shippers" },
-          ],
+            { id: 1, title: "Integrating CAD/CAM, AI, IoT & Robotics" },
+            { id: 2, title: "Digital twin applications for faster prototyping" },
+            { id: 3, title: "Predictive maintenance in high-volume production" },
+                     ],
           moderator: {
-            name: "Anton Tochin",
-            position: "Director, KEPT Strategic Consulting and Transformation Group",
+            name: "TBD",
+            position: "",
           },
           speakers: [
-            { name: "Polina Davydova", position: "Director of the DIGITAL TRANSPORT AND LOGISTICS Association" },
-            { name: "Alexander Pistun", position: "Director of the Logistics Department at MTS" },
-            { name: "Mikhail Platonov", position: "Senior Director of the Supply Chain Management and Planning Platform at PEPSIKO" },
-            { name: "Elena Ermakova", position: "Deputy General Director for Commercial Activities at MOSCOW CARGO" },
-            { name: "Elena Kondratva", position: "Development Director at FESCO" },
-            { name: "Dmitry Udaltsov", position: "Department of Logistics and Foreign Economic Activity, Head of the Transport Logistics Group at BIOCAD" },
-            { name: "Maria Popova", position: "General Director at WEVED" },
-            { name: "Anton Shevchenko", position: "Head of Development of the EPD Division at SKB KONTUR" },
+            { name: "TBD", position: "" },
+            { name: "TBD", position: "" },
+            { name: "TBD", position: "" },
+            { name: "TBD", position: "" },
+       
           ],
         },
         {
