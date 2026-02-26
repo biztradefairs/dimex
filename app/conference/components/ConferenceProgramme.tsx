@@ -105,7 +105,7 @@ const TransRussiaSummitProgram: React.FC = () => {
       
         {
           time: "10:15 – 10:25",
-          title: 'Inaugural Keynote – India’s Roadmap for Advanced Manufacturing 2030"',
+          title: 'Inaugural Keynote – India’s Roadmap for Advanced Manufacturing 2030',
           speakers: [
             { name: "", position: "" },
                  ],
@@ -120,7 +120,7 @@ const TransRussiaSummitProgram: React.FC = () => {
         },
             {
           time: "10:30 – 11:30",
-          title: 'Panel Discussion : Digital Transformation in Die, Mould & Plastic Processing"',
+          title: 'Panel Discussion : Digital Transformation in Die, Mould & Plastic Processing',
           description: "Session Topics:",
           topics: [
             { id: 1, title: "Integrating CAD/CAM, AI, IoT & Robotics" },
@@ -141,7 +141,7 @@ const TransRussiaSummitProgram: React.FC = () => {
         },
                {
           time: "11:30 – 12:00",
-          title: 'Technical Session 1 : High-Performance Materials for Tooling & Moulding"',
+          title: 'Technical Session 1 : High-Performance Materials for Tooling & Moulding',
           description: "",
           speakers: [
             {
@@ -157,7 +157,7 @@ const TransRussiaSummitProgram: React.FC = () => {
         },
          {
           time: "11:30 – 12:00",
-          title: 'Technical Session 1 : High-Performance Materials for Tooling & Moulding"',
+          title: 'Technical Session 1 : High-Performance Materials for Tooling & Moulding',
           description: "",
           speakers: [
             {
@@ -190,7 +190,7 @@ const TransRussiaSummitProgram: React.FC = () => {
 
         {
           time: "14:30 – 15:30",
-          title: 'Panel Discussion : Automation & Industry 4.0 in Moulding and Tool Rooms"',
+          title: 'Panel Discussion : Automation & Industry 4.0 in Moulding and Tool Rooms',
           description: "Session Topics:",
           topics: [
             { id: 1, title: "Robotics in injection moulding" },
@@ -220,7 +220,7 @@ const TransRussiaSummitProgram: React.FC = () => {
         },
 {
           time: "16:30 – 17:00",
-          title: 'Technical Session 4 : Design for Manufacturability (DFM) in Tooling & Plastic Parts"',
+          title: 'Technical Session 4 : Design for Manufacturability (DFM) in Tooling & Plastic Parts',
           description: "• Optimising part geometry for efficiency  • Reducing rework & scrap",
           speakers: [
             {
