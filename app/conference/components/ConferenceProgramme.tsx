@@ -209,6 +209,35 @@ const TransRussiaSummitProgram: React.FC = () => {
        
           ],
         },
+        {
+          time: "15:30 – 16:00",
+          title: "Networking Hi Tea"
+        },
+{
+          time: "16:30 – 16:30",
+          title: "Fireside Chat : AI, Simulation & Smart Manufacturing – Digitalizing the Mold Shop",
+          description: "• AI-driven mold flow and simulation for zero-defect molding.• Use of digital twins & predictive maintenance in tool rooms • From manual know-how to knowledge-driven digital workflows"
+        },
+{
+          time: "16:30 – 17:00",
+          title: 'Technical Session 4 : Design for Manufacturability (DFM) in Tooling & Plastic Parts"',
+          description: "• Optimising part geometry for efficiency  • Reducing rework & scrap",
+          speakers: [
+            {
+              name: "",
+              position: ""
+            }
+          ],
+        },
+{
+          time: "17:00 – 17:10",
+          title: 'Closing Remarks"',
+          speakers: [
+            { name: "", position: "" },
+                 ],
+        },
+
+
 
       ],
     },
