@@ -10,18 +10,13 @@ const ConferenceOverview = () => {
           Innovate Through Knowledge
         </h2>
 
-        <p className="max-w-9xl text-base leading-relaxed text-black/80 mb-10">
-          Transport and Logistics Congress “TransRussia 2025” – 6 industry
-          conferences featuring only the most useful and relevant information
-          to solve your business problems. Trends and prospects for the
-          development of the transport and logistics industry, best practices,
-          exchange of real experience, Russian and international speakers and
-          experts.
-          <br /><br />
-          Attendance at all events of the conference programme is free with a
-          ticket to the exhibition, which can be obtained with the promo code
-          <strong> “tr25CDPTR”</strong>.
-        </p>
+       <p className="max-w-9xl text-base leading-relaxed text-black/80 mb-10">
+  The <strong>DIEMEX 2026 Conference</strong> features a series of high-impact industry sessions delivering practical insights and forward-looking strategies for the die & mould, tooling, and precision manufacturing sectors. 
+
+  Industry leaders, technology innovators, and international experts will share trends, best practices, case studies, and real-world applications shaping the future of advanced manufacturing in India and globally.
+  <br /><br />
+  Attendance to all conference sessions is complimentary for registered exhibition visitors.
+</p>
 
         {/* <Link
           href="/conference-programme/download"
