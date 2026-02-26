@@ -179,8 +179,7 @@ const TransRussiaSummitProgram: React.FC = () => {
 {
           time: "14:00 – 14:30",
           title: 'Technical Session 3 : Surface Finishing, Coatings & Wear Protection"',
-          description: "PVD, CVD, DLC coatings",
-          description: "Improving mould surface quality",
+          description: "1. PVD, CVD, DLC coatings 2. Improving mould surface quality",
           speakers: [
             {
               name: "",
