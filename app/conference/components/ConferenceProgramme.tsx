@@ -74,7 +74,7 @@ const TransRussiaSummitProgram: React.FC = () => {
                    
           speakers: [
         {
-              name: "TBD",
+              name: "",
               position: "",
             },
               ],
@@ -85,7 +85,7 @@ const TransRussiaSummitProgram: React.FC = () => {
                    
           speakers: [
         {
-              name: "TBD",
+              name: "",
               position: "",
             },
               ],
@@ -97,7 +97,7 @@ const TransRussiaSummitProgram: React.FC = () => {
                    
           speakers: [
         {
-              name: "TBD",
+              name: "",
               position: "",
             },
               ],
