@@ -69,7 +69,7 @@ export default function LogisticsMarketing() {
 <div className="relative h-[500px] lg:h-[540px] rounded-2xl overflow-hidden">
   {/* Background Image */}
   <img
-    src="https://cdn.itegroupnews.com/TR_23_IMG_0029i_54b0b0806d.jpg"
+    src="/images/exhibitor-resource-center/image3.jpg"
     alt="Diemex Exhibition"
     className="absolute inset-0 h-full w-full object-cover"
   />
