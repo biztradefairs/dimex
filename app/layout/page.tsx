@@ -319,8 +319,8 @@ export default function PublicFloorPlanPage() {
             </p>
             <ul className="list-disc pl-6 space-y-2">
               
-              Allotment of booths is made on a first-come, first-served basis,
-<li>based on the date of receiving the 25% advance payment.</li>
+             <li> Allotment of booths is made on a first-come, first-served basis,
+based on the date of receiving the 25% advance payment.</li>
 
 <li>This is a tentative plan and may be modified in the future as per
 circumstances.</li>
@@ -330,11 +330,7 @@ on the tariff rate and not on the discounted rate.</li>
 
 <li>For 2 side open 10%, for 3 side open 15% & for island booth 20%.</li>
             </ul>
-            <p className="mt-4">
-              <strong className="text-[#004D9F]">Privacy & Data Protection:</strong> We respect your privacy. 
-              Any information collected during booth registration or inquiries is handled in accordance 
-              with our privacy policy and applicable data protection laws.
-            </p>
+            
           </div>
         </motion.div>
 
