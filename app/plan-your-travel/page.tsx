@@ -176,7 +176,7 @@ const HeroSection: React.FC = () => {
         >
           <div className="absolute inset-0 bg-gradient-to-t from-black"></div>
           <img
-            src="https://cdn.itegroupnews.com/Untitled_design_14_8a27b98e95.jpg"
+            src="/images/plan-your-travel/home.jpg"
             alt="Diemex"
             className="size-full object-cover"
           />
