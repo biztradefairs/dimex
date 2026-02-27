@@ -26,7 +26,7 @@ export default function HeroSection() {
         <div className="mx-auto w-full max-w-[1440px] pb-6 md:pb-10 lg:pb-16">
           {/* Heading */}
           <h1 className="font-parabolica text-[32px] font-bold leading-[0.85] tracking-tight sm:text-[48px] md:text-[80px] lg:text-[100px] xl:text-[160px]">
-            Conference
+            CONFERENCE
           </h1>
 
           {/* Sub content */}
