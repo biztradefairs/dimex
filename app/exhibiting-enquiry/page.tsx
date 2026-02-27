@@ -448,7 +448,7 @@ const TransRussiaExhibitPage: React.FC = () => {
 
                 <p className="text-xs text-gray-500 mt-4">
                   By submitting this form, you agree to our{' '}
-                  <a href="https://ite.group/en/privacy/" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                  <a href="/privacy-policy" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                     Privacy Policy
                   </a>
                 </p>

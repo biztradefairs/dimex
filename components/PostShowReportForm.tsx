@@ -378,7 +378,7 @@ export default function PostShowReportForm() {
           By submitting this form, you agree to receive marketing communications.
           You can unsubscribe anytime. Read our{' '}
           <a
-            href="https://ite.group/en/privacy/"
+            href="/privacy-policy"
             target="_blank"
             className="font-semibold text-blue-600 hover:underline"
             rel="noopener noreferrer"
