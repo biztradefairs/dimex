@@ -8,7 +8,10 @@ export default function ContactInformation() {
           Contact Information
         </h2>
 
-                  {/* Right Card */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Left Card */}
+          
+          {/* Right Card */}
           <div className="rounded-2xl bg-[#F3F9FC] p-8 flex flex-col justify-between">
             <div>
               <p className="text-lg leading-relaxed text-black/80 mb-6">
