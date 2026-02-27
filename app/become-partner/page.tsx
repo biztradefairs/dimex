@@ -55,7 +55,7 @@ For any questions regarding participation, partnership, or additional advertisin
 
                     <img
                       alt="Diemex Conference 2026"
-                      src="/images/become-parter/conf2.jpg"
+                      src="/images/become-partner/conf2.jpg"
                       className="my-10 size-auto object-contain"
                       width={500}
                       height={500}
