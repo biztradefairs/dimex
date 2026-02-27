@@ -1,4 +1,5 @@
 // components/CountriesSection.tsx
+import { Flag } from 'lucide-react'
 import SectionContainer from './UI/SectionContainer'
 
 export default function CountriesSection() {
