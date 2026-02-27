@@ -250,7 +250,7 @@ export default function ExhibitorPromotionPage() {
                   </p>
 
                   <img
-                    src="https://storage.yandexcloud.net/assets.ite.group/sites/transrussia.ru/pages/ru/exhibit/free-promo/logo_transrussia.png"
+                    src="/images/exhibitor-promo/logo-diemex.png"
                     alt="TransRussia logo"
                     className="max-w-[260px]"
                   />
