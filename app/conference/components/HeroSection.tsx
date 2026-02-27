@@ -33,12 +33,12 @@ export default function HeroSection() {
           <div className="mt-4 md:mt-6 flex flex-col gap-4 md:gap-6 lg:flex-row lg:items-end">
             <div className="max-w-4xl">
               <h2 className="mb-2 md:mb-3 text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-semibold">
-            
+                Driving Precision, Performance & Sustainability in Tooling and Plastics
 
               </h2>
 
               <p className="text-xs sm:text-sm md:text-base lg:text-lg">
-                Driving Precision, Performance & Sustainability in Tooling and Plastics
+                Global Conference on Advanced Die & Mould Engineering and Precision Manufacturing Technologies
               </p>
             </div>
 
