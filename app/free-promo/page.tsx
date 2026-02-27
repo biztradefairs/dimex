@@ -106,7 +106,7 @@ export default function ExhibitorPromotionPage() {
           {/* IMAGE */}
           <div>
             <img
-              src="https://cdn.itegroupnews.com/TR_23_IMG_0029i_54b0b0806d.jpg"
+              src="/images/exhibitor-promo/exhibitor.jpg"
               alt=""
               className="w-full h-[400px] lg:h-[520px] object-cover"
             />
