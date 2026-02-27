@@ -40,7 +40,7 @@ export default function ContactInformation() {
                   href="tel:+74957995585"
                   className="underline text-[#4D4D4D]"
                 >
-                  +91 91483 19993
+                  +91 63649 36468
                 </a>
               </p>
             </div>
