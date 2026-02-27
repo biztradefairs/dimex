@@ -66,8 +66,8 @@ export default function ContactInformation() {
             </div>
 
             <img
-              src="/images/exhibitor-resource-center/satish.png"
-              alt="Dmitry Shishanov"
+              src=""
+              alt=""
               className="mt-6 w-32 rounded-md object-cover"
             />
           </div>
