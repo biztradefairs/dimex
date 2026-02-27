@@ -310,19 +310,19 @@ const GuideSection: React.FC = () => {
     {
       title: "Visa",
       content: "A standard business visa is appropriate for international visitors travelling to India to attend exhibitions, conferences, business meetings, and related professional events.",
-      imageSrc: "/images/image.png",
+      imageSrc: "/images/visa.jpg",
       link: "/visa"
     },
     {
       title: "Freight, Handling & Customs",
       content: "The officially appointed Clearing & Forwarding (C&F) Agent for DIEMEX 2026 will handle the shipment of exhibits, equipment, materials, and stand components. Exhibitors are strongly advised to coordinate with the official C&F agent to ensure timely, secure, and smooth delivery to the venue.",
-      imageSrc: "/images/image.png",
+      imageSrc: "/images/freight.jpg",
       link: "/exhibitor-resource-center"
     },
     {
       title: "Preparation Checklist",
       content: "To make your experience as seamless as possible, we have put together a checklist for you, to keep track of all the necessary requirements you will need to keep note of leading up to the event.",
-      imageSrc: "/images/image.png",
+      imageSrc: "/images/checklist.jpg",
       link: "/exhibitor-resource-center",
       linkText: "Checklist"
     }
