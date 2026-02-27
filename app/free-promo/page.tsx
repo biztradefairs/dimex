@@ -106,7 +106,7 @@ export default function ExhibitorPromotionPage() {
           {/* IMAGE */}
           <div>
             <img
-              src="/images/exhibitor-promo/exhibitor.jpg"
+              src="/images/exhibitor-promo/exhibitor.JPG"
               alt=""
               className="w-full h-[400px] lg:h-[520px] object-cover"
             />
