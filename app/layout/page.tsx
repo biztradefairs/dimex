@@ -315,14 +315,20 @@ export default function PublicFloorPlanPage() {
               Our floor plan ensures easy navigation and optimal exposure for all participants.
             </p>
             <p>
-              <strong className="text-[#004D9F]">Hall Features:</strong>
+              <strong className="text-[#004D9F]">Pleae Note:</strong>
             </p>
             <ul className="list-disc pl-6 space-y-2">
-              <li>Wide aisles for comfortable visitor movement</li>
-              <li>Strategic placement of food courts and rest areas</li>
-              <li>Easy access to loading docks for exhibitor materials</li>
-              <li>Clear signage and information kiosks throughout the hall</li>
-              <li>Accessible facilities for differently-abled attendees</li>
+              
+              Allotment of booths is made on a first-come, first-served basis,
+<li>based on the date of receiving the 25% advance payment.</li>
+
+<li>This is a tentative plan and may be modified in the future as per
+circumstances.</li>
+
+<li>The premium for open sides will be extra and applicable
+on the tariff rate and not on the discounted rate.</li>
+
+<li>For 2 side open 10%, for 3 side open 15% & for island booth 20%.</li>
             </ul>
             <p className="mt-4">
               <strong className="text-[#004D9F]">Privacy & Data Protection:</strong> We respect your privacy. 

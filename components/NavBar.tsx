@@ -25,7 +25,7 @@ const navItems: NavItem[] = [
       { text: "Exhibitor List", href: "/exhibition-directory" },
       { text: "Exhibitor Resource Center", href: "/exhibitor-resource-center" },
       { text: "Exhibitor Promotions", href: "/free-promo" },
-      { text: "Layout", href: "/layout"}
+      { text: "Floor Plan", href: "/layout"}
     ],
   },
   {
