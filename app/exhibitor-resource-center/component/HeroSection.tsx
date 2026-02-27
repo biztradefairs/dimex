@@ -5,7 +5,7 @@ export default function HeroSection() {
     <section className="relative h-[55vh] md:h-[65vh] flex items-end overflow-hidden">
       {/* BACKGROUND IMAGE */}
       <img
-        src="https://cdn.itegroupnews.com/Exhibitor_Resource_Center_5ee614ab47.webp"
+        src="/images/exbibitor-resource-center/image1.png"
         alt="Diemex 2026"
         className="absolute inset-0 h-full w-full object-cover"
       />
