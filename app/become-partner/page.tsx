@@ -54,8 +54,8 @@ For any questions regarding participation, partnership, or additional advertisin
                     </div>
 
                     <img
-                      alt="TransRussiaSummit©25"
-                      src="https://regional-cdn.itegroupnews.com/AVO_03904_4eff397158.JPG"
+                      alt="Diemex Conference 2026"
+                      src="/images/become=parter/conf2.jpg"
                       className="my-10 size-auto object-contain"
                       width={500}
                       height={500}
