@@ -9,28 +9,6 @@ import DelegateForm from "./DelegateForm"
 import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 
 export default function DelegatesPackagesPage() {
-  interface ExpandedPackages {
-    [key: number]: boolean;
-  }
-
-  const [expandedPackages, setExpandedPackages] = useState<ExpandedPackages>({});
-
-  interface DelegatePackage {
-    id: number;
-    title: string;
-    price: string;
-    features: string[];
-    cardLink: string;
-    invoiceLink: string;
-  }
-
-  const toggleExpand = (packageId: number): void => {
-    setExpandedPackages((prev: ExpandedPackages) => ({
-      ...prev,
-      [packageId]: !prev[packageId]
-    }));
-  };
-
   const delegatePackages = [
     {
       id: 1,
@@ -121,98 +99,47 @@ export default function DelegatesPackagesPage() {
 
                 <hr className="my-10 border-gray-300" />
 
-                {/* PACKAGE CARDS - SMALLER VERSION */}
+                {/* PACKAGE CARDS - ORIGINAL DESIGN WITH PRICE ADDED */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {delegatePackages.map((pkg) => {
-                    const isExpanded = expandedPackages[pkg.id];
-                    const displayedFeatures = isExpanded ? pkg.features : pkg.features.slice(0, 4);
-                    const hiddenCount = pkg.features.length - 4;
+                  {delegatePackages.map((pkg) => (
+                    <div
+                      key={pkg.id}
+                      className="flex flex-col bg-sky-50 p-4 rounded-lg"
+                    >
+                      <h3 className="text-xl font-semibold mb-2">{pkg.title}</h3>
+                      
+                      {/* All features shown */}
+                      <ul className="space-y-2 mb-4">
+                        {pkg.features.map((feature, index) => (
+                          <li key={index} className="flex items-start text-sm text-gray-700">
+                            <svg
+                              className="mr-2 mt-0.5 flex-shrink-0"
+                              width="14"
+                              height="14"
+                              viewBox="0 0 20 20"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                            >
+                              <path
+                                d="M16.6667 5L7.50004 14.1667L3.33337 10"
+                                stroke="#003771"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                              />
+                            </svg>
+                            <span>{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
 
-                    return (
-                      <div
-                        key={pkg.id}
-                        className="flex flex-col bg-sky-50 p-3 rounded-lg"
-                      >
-                        <h3 className="text-lg font-semibold mb-2">{pkg.title}</h3>
-                        
-                        <ul className="space-y-1 mb-3">
-                          {displayedFeatures.map((feature, index) => (
-                            <li key={index} className="flex items-start text-xs">
-                              <svg
-                                className="mr-1 mt-0.5 flex-shrink-0"
-                                width="12"
-                                height="12"
-                                viewBox="0 0 20 20"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                              >
-                                <path
-                                  d="M16.6667 5L7.50004 14.1667L3.33337 10"
-                                  stroke="#003771"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                />
-                              </svg>
-                              <span>{feature}</span>
-                            </li>
-                          ))}
-                          
-                          {!isExpanded && hiddenCount > 0 && (
-                            <li>
-                              <button 
-                                onClick={() => toggleExpand(pkg.id)}
-                                className="text-xs text-[#004D9F] hover:underline font-medium flex items-center gap-1 mt-1"
-                              >
-                                +{hiddenCount} more features
-                                <svg 
-                                  width="12" 
-                                  height="12" 
-                                  viewBox="0 0 20 20" 
-                                  fill="none"
-                                  className="transition-transform"
-                                >
-                                  <path 
-                                    d="M5 7.5L10 12.5L15 7.5" 
-                                    stroke="currentColor" 
-                                    strokeWidth="2" 
-                                    strokeLinecap="round" 
-                                    strokeLinejoin="round"
-                                  />
-                                </svg>
-                              </button>
-                            </li>
-                          )}
-                          
-                          {isExpanded && (
-                            <li>
-                              <button 
-                                onClick={() => toggleExpand(pkg.id)}
-                                className="text-xs text-[#004D9F] hover:underline font-medium flex items-center gap-1 mt-1"
-                              >
-                                Show less
-                                <svg 
-                                  width="12" 
-                                  height="12" 
-                                  viewBox="0 0 20 20" 
-                                  fill="none"
-                                  className="rotate-180 transition-transform"
-                                >
-                                  <path 
-                                    d="M5 7.5L10 12.5L15 7.5" 
-                                    stroke="currentColor" 
-                                    strokeWidth="2" 
-                                    strokeLinecap="round" 
-                                    strokeLinejoin="round"
-                                  />
-                                </svg>
-                              </button>
-                            </li>
-                          )}
-                        </ul>
+                      {/* Price added at the bottom */}
+                      <div className="mt-auto pt-3 border-t border-gray-200">
+                        <div className="text-xl font-bold text-[#004D9F]">{pkg.price}</div>
+                        {/* <p className="text-xs text-gray-500 mt-1">Inclusive of GST</p> */}
                       </div>
-                    );
-                  })}
+                    </div>
+                  ))}
                 </div>
 
                 <hr className="my-10 border-gray-300" />
@@ -240,17 +167,7 @@ export default function DelegatesPackagesPage() {
                   </div>
                 </div>
 
-                <div className="mt-20 flex justify-center">
-                  <div className="relative">
-                    <img
-                      src="https://cdn.itegroupnews.com/summit_event_mockup.png"
-                      alt="Summit Event Preview"
-                      width={420}
-                      height={420}
-                      className="rotate-[-8deg] transform shadow-2xl rounded-lg"
-                    />
-                  </div>
-                </div>
+                {/* Removed the image section */}
               </div>
             </div>
 
