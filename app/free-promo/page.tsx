@@ -250,8 +250,8 @@ export default function ExhibitorPromotionPage() {
                   </p>
 
                   <img
-                    src="/images/exhibitor-promo/logo-diemex.png"
-                    alt="TransRussia logo"
+                    src="/images/exhibitor-promo/logo_diemex.png"
+                    alt="Diemex logo"
                     className="max-w-[260px]"
                   />
 
