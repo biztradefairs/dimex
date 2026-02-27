@@ -106,7 +106,7 @@ export default function ExhibitorPromotionPage() {
           {/* IMAGE */}
           <div>
             <img
-              src="https://cdn.itegroupnews.com/TR_23_IMG_0029i_54b0b0806d.jpg"
+              src="/images/exhibitor-promo/exhibitor.JPG"
               alt=""
               className="w-full h-[400px] lg:h-[520px] object-cover"
             />
@@ -250,8 +250,8 @@ export default function ExhibitorPromotionPage() {
                   </p>
 
                   <img
-                    src="https://storage.yandexcloud.net/assets.ite.group/sites/transrussia.ru/pages/ru/exhibit/free-promo/logo_transrussia.png"
-                    alt="TransRussia logo"
+                    src="/images/exhibitor-promo/logo_diemex.png"
+                    alt="Diemex logo"
                     className="max-w-[260px]"
                   />
 
