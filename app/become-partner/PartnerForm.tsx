@@ -60,16 +60,16 @@ export default function RegistrationForm() {
           </div>
         </div>
 
-        {/* Mobile Phone */}
+        {/* Mobile Phone - Updated to +91 India */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">
             Mobile Phone <span className="text-red-500">*</span>
           </label>
           <div className="flex">
             <div className="flex items-center gap-2 border border-gray-300 bg-white px-4 py-3 rounded-l-lg border-r-0">
-              <span className="text-gray-700 font-medium">+7</span>
+              <span className="text-gray-700 font-medium">+91</span>
               <img
-                src="https://flagcdn.com/w40/ru.png"
+                src="https://flagcdn.com/w40/in.png"
                 alt="IND"
                 className="h-4 w-6 object-cover rounded"
               />
@@ -78,9 +78,10 @@ export default function RegistrationForm() {
               type="tel"
               required
               className="flex-1 px-4 py-3 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
-              placeholder="9800000000"
+              placeholder="9876543210"
             />
           </div>
+          <p className="text-xs text-gray-500 mt-1">Enter 10-digit mobile number</p>
         </div>
 
         {/* Company Info Grid */}
@@ -106,7 +107,7 @@ export default function RegistrationForm() {
             <input 
               type="text" 
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
-              placeholder="Optional"
+              placeholder="22AAAAA0000A1Z5 (Optional)"
             />
           </div>
 
@@ -134,8 +135,6 @@ export default function RegistrationForm() {
               placeholder="https://example.com"
             />
           </div>
-
-          
         </div>
 
         {/* Checkboxes */}
@@ -166,7 +165,7 @@ export default function RegistrationForm() {
             <label htmlFor="consent" className="text-sm text-gray-600 leading-relaxed cursor-pointer">
               I hereby give consent to <strong>Maxx Business Media Pvt. Ltd.</strong>
               for automated and mixed processing of my personal data in accordance
-              with the <a href="#" className="text-blue-600 hover:text-blue-800 underline font-medium">Personal Data Policy</a>.
+              with the <a href="/privacy-policy" className="text-blue-600 hover:text-blue-800 underline font-medium">Personal Data Policy</a>.
             </label>
           </div>
         </div>
