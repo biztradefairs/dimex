@@ -34,7 +34,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
   const [countries, setCountries] = useState<Country[]>([]);
   const [countriesLoading, setCountriesLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [showBackToTop, setShowBackToTop] = useState(false);
+  // const [showBackToTop, setShowBackToTop] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [formData, setFormData] = useState({
@@ -56,13 +56,13 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com';
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setShowBackToTop(window.scrollY > 300);
-    };
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     setShowBackToTop(window.scrollY > 300);
+  //   };
+  //   window.addEventListener('scroll', handleScroll);
+  //   return () => window.removeEventListener('scroll', handleScroll);
+  // }, []);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -166,18 +166,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
     <div id="__next">
       <Toaster position="top-right" />
       
-      {/* Back to Top Button */}
-      {showBackToTop && (
-        <button
-          onClick={scrollToTop}
-          className="fixed bottom-8 right-8 z-50 bg-blue-600 text-white p-3 rounded-full shadow-lg hover:bg-blue-700 transition-all"
-          aria-label="Back to top"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-          </svg>
-        </button>
-      )}
+
 
       {/* Main Content */}
       <div>

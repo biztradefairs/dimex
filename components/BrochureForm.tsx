@@ -285,7 +285,7 @@ export default function BrochureForm() {
           By submitting this form, you agree to receive marketing
           communications. You can unsubscribe anytime. Read our{' '}
           <a
-            href="https://ite.group/en/privacy/"
+            href="/privacy-policy"
             className="text-blue-600 underline"
             target="_blank"
             rel="noopener noreferrer"
