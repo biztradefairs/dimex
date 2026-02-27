@@ -8,30 +8,7 @@ export default function ContactInformation() {
           Contact Information
         </h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left Card */}
-          <div className="rounded-2xl bg-[#F3F9FC] p-8">
-            <p className="text-lg leading-relaxed text-black/80 mb-6">
-              For questions related to ordering technical services, please
-              contact the technical manager of the exhibition:
-            </p>
-
-            <p className="text-xl font-semibold text-black mb-4">
-              Technical Manager
-            </p>
-
-            <p className="text-lg text-black">
-              Tel:{' '}
-              <a
-                href="tel:+79684421480"
-                className="underline font-medium hover:text-mainColor2"
-              >
-                +91 9148319993
-              </a>
-            </p>
-          </div>
-
-          {/* Right Card */}
+                  {/* Right Card */}
           <div className="rounded-2xl bg-[#F3F9FC] p-8 flex flex-col justify-between">
             <div>
               <p className="text-lg leading-relaxed text-black/80 mb-6">
