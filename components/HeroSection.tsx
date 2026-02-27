@@ -9,7 +9,7 @@ import {
 } from '@heroicons/react/24/outline'
 
 export default function HeroSection() {
-  const VIDEO_ID = 'eRisU7tEOWU'
+  const VIDEO_ID = '3P-hRFrsXIs&t=3s'
   const [isMuted, setIsMuted] = useState(true)
   const [isPlaying, setIsPlaying] = useState(true)
   const iframeRef = useRef<HTMLIFrameElement>(null)
