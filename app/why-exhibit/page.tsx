@@ -114,7 +114,7 @@ export default function WhyExhibit() {
     className="absolute inset-0 bg-cover bg-center"
     style={{
       backgroundImage:
-        "/images/Why-Exhibit/header.jpg",
+        "url(https://cdn.itegroupnews.com/Trans_Russia_heading_c711a6e7b3.webp)",
     }}
   />
 
