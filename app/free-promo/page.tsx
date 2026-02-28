@@ -273,7 +273,7 @@ export default function ExhibitorPromotionPage() {
 
                 {/* BUTTON */}
                 <a
-                  href="https://cdn-ite.prismetic.com/Trans_Russia_Sklad_Tech_logos_2992e07778.zip"
+                  href="/images/exhibitor-promo/exhibitor.JPG"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-6 inline-flex w-fit rounded-full bg-[#004D9F] px-12 py-4 text-lg font-semibold text-white hover:bg-mainColor4 transition"
