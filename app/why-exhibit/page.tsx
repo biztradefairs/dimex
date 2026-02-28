@@ -239,7 +239,7 @@ export default function WhyExhibit() {
                 className="relative h-120 overflow-hidden transition-all duration-300"
               >
                 <img
-                  src="https://cdn.itegroupnews.com/Trans_Russia_670_x_500_4_86ec0c31db.webp"
+                  src="/images/image.png"
                   alt="Conference"
                   className="w-full h-full object-cover"
                 />
