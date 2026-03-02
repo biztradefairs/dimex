@@ -60,7 +60,7 @@ export default function ArticleClient({ article }: ArticleClientProps) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
-          className="relative h-[60vh] min-h-[500px] w-full overflow-hidden"
+          className="relative h-[60vh] min-h-[500px] w-full overflow-hidden pt-32 md:pt-36 lg:pt-40"
         >
           <motion.div
             initial={{ scale: 1.1 }}
@@ -111,6 +111,7 @@ export default function ArticleClient({ article }: ArticleClientProps) {
         <article className="py-16 md:py-20">
           <div className="w-full px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto">
+              
               <Link
                 href="/articles"
                 className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-10 group"
@@ -123,39 +124,10 @@ export default function ArticleClient({ article }: ArticleClientProps) {
 
               <div className="w-full">
                 {article.attributes.Content ? (
-                  <div
-                    className="article-content max-w-none"
+                  <div 
+                    className="article-content"
                     dangerouslySetInnerHTML={{
-                      __html: (() => {
-                        // Convert markdown-style text to HTML
-                        let content = article.attributes.Content;
-
-                        // Convert double line breaks to paragraph ends and starts
-                        content = content.replace(/\n\n/g, "</p><p>");
-
-                        // Single line breaks to <br>
-                        content = content.replace(/\n/g, "<br />");
-
-                        // Bold markdown **text** or *text** to <strong>
-                        content = content.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-                        content = content.replace(/\*(.*?)\*\*/g, "<strong>$1</strong>");
-
-                        // Italic markdown *text* to <em>
-                        content = content.replace(/\*(.*?)\*/g, "<em>$1</em>");
-
-                        // Convert markdown list items starting with - or • to <li>
-                        const listItems = content.match(/(?:- |• )(.*?)(?:<br \/>|<\/p>)/g);
-                        if (listItems && listItems.length) {
-                          // Wrap list items in <ul> and replace each with <li>
-                          content = content.replace(
-                            /(?:- |• )(.*?)(?:<br \/>|<\/p>)/g,
-                            (_, item) => `<li>${item.trim()}</li>`
-                          );
-                          content = `<ul>${content}</ul>`;
-                        }
-
-                        return `<p>${content}</p>`;
-                      })(),
+                      __html: article.attributes.Content,
                     }}
                   />
                 ) : (
@@ -168,12 +140,11 @@ export default function ArticleClient({ article }: ArticleClientProps) {
                   Share this article
                 </h3>
 
-                <div className="flex gap-4">
-                  {["facebook", "twitter", "linkedin", "email"].map((platform) => (
+                <div className="flex flex-wrap gap-3">
+                  {["Facebook", "Twitter", "LinkedIn", "Email"].map((platform) => (
                     <button
                       key={platform}
-                      className="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-300 capitalize font-medium"
-                      aria-label={`Share on ${platform}`}
+                      className="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-300 capitalize font-medium text-sm"
                     >
                       {platform}
                     </button>
@@ -243,6 +214,98 @@ export default function ArticleClient({ article }: ArticleClientProps) {
       </main>
 
       <BackToTop />
+
+ <style jsx global>{`
+  .article-content {
+    font-family: 'Parabolica', sans-serif;
+    color: #4D4D4D;
+    line-height: 1.5; /* reduced */
+    font-size: 1.125rem;
+    width: 100%;
+  }
+
+  .article-content p {
+    margin-bottom: 0.8rem; /* reduced */
+    color: #4D4D4D;
+    line-height: 1.5;
+    font-size: 1.125rem;
+  }
+
+  .article-content h1 {
+    font-size: 2.25rem;
+    font-weight: 600;
+    margin-top: 1.5rem; /* reduced */
+    margin-bottom: 0.6rem; /* reduced */
+    color: #4D4D4D;
+    line-height: 1.3;
+  }
+
+  .article-content h2 {
+    font-size: 1.875rem;
+    font-weight: 600;
+    margin-top: 1.3rem; /* reduced */
+    margin-bottom: 0.5rem; /* reduced */
+    color: #4D4D4D;
+    line-height: 1.3;
+  }
+
+  .article-content h3 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    margin-top: 1.2rem; /* reduced */
+    margin-bottom: 0.4rem; /* reduced */
+    color: #4D4D4D;
+    line-height: 1.4;
+  }
+
+  .article-content ul,
+  .article-content ol {
+    margin: 0.8rem 0; /* reduced */
+    padding-left: 1.5rem;
+  }
+
+  .article-content li {
+    margin-bottom: 0.3rem; /* reduced */
+    line-height: 1.5;
+  }
+
+  .article-content img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+    margin: 1rem 0; /* reduced */
+  }
+
+.article-content figure.table {
+  display: flex;
+  justify-content: center;
+  mrgin: 1.5rem;
+}
+}
+  @media (max-width: 768px) {
+    .article-content {
+      font-size: 1rem;
+      line-height: 1.5;
+    }
+
+    .article-content p {
+      font-size: 1rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .article-content h1 {
+      font-size: 1.9rem;
+    }
+
+    .article-content h2 {
+      font-size: 1.5rem;
+    }
+
+    .article-content h3 {
+      font-size: 1.25rem;
+    }
+  }
+`}</style>
     </div>
   );
 }
