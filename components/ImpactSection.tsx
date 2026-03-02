@@ -11,7 +11,7 @@ export default function ImpactSection() {
 
       content:
         'DIEMEX offers a powerful opportunity for visitors to discover new die & mould suppliers, tooling partners, and advanced manufacturing solutions—all under one roof.',
-      image: '/images/image.png',
+      image: '/images/tooling.JPG',
       stat: {
         value: '76%',
         label: 'of visitors attend DIEMEX to identify new suppliers and sourcing partners',
@@ -21,7 +21,7 @@ export default function ImpactSection() {
       title: 'Expand your business with the right partners',
       content:
         'Visitors to DIEMEX gain actionable insights, qualified leads, and direct connections with trusted die & mould manufacturers, tooling specialists, and precision engineering solution providers.',
-      image: '/images/image.png',
+      image: '/images/raj.JPG',
       stat: {
         value: '72%',
         label: 'of visitors plan to purchase products or services after visiting DIEMEX',
@@ -31,7 +31,7 @@ export default function ImpactSection() {
       title: 'Build long-term business connections',
       content:
         'Meet decision-makers and industry leaders to create long-term partnerships.',
-      image: '/images/image.png',
+      image: '/images/japan.JPG',
       stat: {
         value: '68%',
         label: 'Of visitors establish new business connections',
@@ -41,7 +41,7 @@ export default function ImpactSection() {
       title: 'Showcase innovation to the right audience',
       content:
         'Present your latest solutions to a highly targeted professional audience.',
-      image: '/images/image.png',
+      image: '/images/hottip.JPG',
       stat: {
         value: '81%',
         label: 'Of exhibitors achieve key business goals',

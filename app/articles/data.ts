@@ -218,73 +218,23 @@ export const articles: Article[] = [
   {
     id: "83",
     attributes: {
-      Title: "Why Is Rail Freight Becoming a Stronger Alternative for Long-Haul Cargo in 2026?",
+      Title: "The Rise of India as a Global Die & Mould Manufacturing Hub",
       Slug: "why-is-rail-freight-becoming-a-stronger-alternative-for-long-haul-cargo-in-2026",
-      Excerpt:
-        "Rail freight offers reliability, sustainability, and cost efficiency for long-haul cargo across Eurasia.",
-      Content: `<p><strong>Rail freight</strong> is experiencing a renaissance as shippers seek reliable, sustainable, and cost-effective alternatives for long-haul cargo movements. In 2026, rail has emerged as a compelling option for many supply chains, particularly across the Eurasian landmass.</p>
-
-<p>&nbsp;</p>
-
-<h2>Key Drivers of Rail Freight Growth</h2>
-
-<p>&nbsp;</p>
-
-<p>Several factors are contributing to the increasing attractiveness of rail freight:</p>
-
-<ul>
-<li><strong>Infrastructure investments</strong> - Modernization of rail networks, including double-tracking, electrification, and improved terminal facilities, has enhanced capacity and reliability.</li>
-<li><strong>Predictable transit times</strong> - Rail offers consistent schedules less affected by weather and road congestion, enabling more reliable supply chain planning.</li>
-<li><strong>Sustainability benefits</strong> - Rail produces significantly lower carbon emissions per ton-kilometer compared to road or air freight, helping companies meet ESG targets.</li>
-<li><strong>Cost competitiveness</strong> - For distances over 500 kilometers, rail often provides lower costs than road transport, with particularly strong economics on major corridors.</li>
-</ul>
-
-<p>&nbsp;</p>
-
-<h2>Eurasian Rail Corridors</h2>
-
-<p>&nbsp;</p>
-
-<p>The Eurasian landmass offers particularly strong rail opportunities:</p>
-
-<ul>
-<li><strong>China-Europe rail services</strong> have matured into reliable alternatives to ocean and air freight, offering transit times of 15-20 days.</li>
-<li><strong>North-South corridors</strong> connecting Russia, Central Asia, and the Persian Gulf are seeing increased investment and utilization.</li>
-<li><strong>Domestic Russian rail networks</strong> provide essential connectivity across the world's largest country, moving everything from raw materials to consumer goods.</li>
-</ul>
-
-<p>&nbsp;</p>
-
-<h2>Technological Advancements</h2>
-
-<p>&nbsp;</p>
-
-<p>Technology is enhancing rail freight competitiveness:</p>
-
-<ul>
-<li><strong>Real-time tracking</strong> provides shippers with visibility throughout the rail journey</li>
-<li><strong>Automated terminals</strong> reduce handling times and improve transfer efficiency</li>
-<li><strong>Digital platforms</strong> simplify booking, documentation, and rate comparison</li>
-<li><strong>Predictive maintenance</strong> minimizes disruptions and improves reliability</li>
-</ul>
-
-<p>&nbsp;</p>
-
-<h2>Intermodal Integration</h2>
-
-<p>&nbsp;</p>
-
-<p>The growth of rail freight is closely tied to effective intermodal integration:</p>
-
-<ul>
-<li><strong>First and last mile connectivity</strong> via road transport extends rail's reach</li>
-<li><strong>Containerized solutions</strong> enable seamless transfers between modes</li>
-<li><strong>Dedicated intermodal terminals</strong> facilitate efficient mode changes</li>
-</ul>
-
-<p>&nbsp;</p>
-
-<p>As shippers increasingly prioritize supply chain resilience and sustainability, rail freight's combination of reliability, environmental performance, and cost efficiency positions it as an increasingly important component of multimodal logistics strategies.</p>`,
+      Excerpt: "Rail freight for long-haul cargo offers reliable schedules, lower emissions, and optimized corridor operations.",
+      Content: `
+        <h2>The Rise of Rail Freight in 2026</h2>
+        <p>Rail freight is experiencing a significant resurgence as a viable alternative for long-haul cargo transportation. With increasing pressure on supply chains and growing environmental concerns, many logistics companies are turning to rail as a sustainable and efficient solution.</p>
+        
+        <h3>Key Advantages</h3>
+        <ul>
+          <li><strong>Environmental Sustainability:</strong> Rail transport produces significantly fewer emissions compared to road transport.</li>
+          <li><strong>Cost Efficiency:</strong> Lower fuel consumption and higher capacity make rail more economical for long distances.</li>
+          <li><strong>Reliability:</strong> Less affected by traffic congestion and weather conditions.</li>
+          <li><strong>Capacity:</strong> Ability to move large volumes of goods in single journeys.</li>
+        </ul>
+        
+        <p>As we move through 2026, we expect to see even greater adoption of rail freight solutions across Eurasia and other major trade corridors.</p>
+      `,
       PublishedDate: "2025-11-20T03:30:00.000Z",
       Image: {
         data: {
