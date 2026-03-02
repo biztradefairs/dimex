@@ -68,7 +68,7 @@ export const mockArticles: Record<string, Article> = {
     id: "83",
     attributes: {
       Title: "The Rise of India as a Global Die & Mould Manufacturing Hub",
-      Slug: "insights/india-global-die-mould-hub",
+      Slug: "india-global-die-mould-hub",
       Excerpt: "How India is emerging as a competitive force in precision tooling and mould manufacturing.",
       Content: `
              <h2>India’s Transformation in Tooling Excellence</h2>
