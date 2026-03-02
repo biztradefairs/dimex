@@ -21,7 +21,7 @@ export default function ImpactSection() {
       title: 'Expand your business with the right partners',
       content:
         'Visitors to DIEMEX gain actionable insights, qualified leads, and direct connections with trusted die & mould manufacturers, tooling specialists, and precision engineering solution providers.',
-      image: '/images/image.png',
+      image: '/images/raj.JPG',
       stat: {
         value: '72%',
         label: 'of visitors plan to purchase products or services after visiting DIEMEX',
