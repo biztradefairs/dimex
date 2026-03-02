@@ -64,7 +64,7 @@ export interface PageData {
 
 // Mock data for individual articles
 export const mockArticles: Record<string, Article> = {
-  "why-is-rail-freight-becoming-a-stronger-alternative-for-long-haul-cargo-in-2026": {
+  "india-global-die-mould-hub": {
     id: "83",
     attributes: {
       Title: "The Rise of India as a Global Die & Mould Manufacturing Hub",
