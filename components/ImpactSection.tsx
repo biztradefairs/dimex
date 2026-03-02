@@ -31,7 +31,7 @@ export default function ImpactSection() {
       title: 'Build long-term business connections',
       content:
         'Meet decision-makers and industry leaders to create long-term partnerships.',
-      image: '/images/image.png',
+      image: '/images/japan.JPG',
       stat: {
         value: '68%',
         label: 'Of visitors establish new business connections',
@@ -41,7 +41,7 @@ export default function ImpactSection() {
       title: 'Showcase innovation to the right audience',
       content:
         'Present your latest solutions to a highly targeted professional audience.',
-      image: '/images/image.png',
+      image: '/images/hottip.JPG',
       stat: {
         value: '81%',
         label: 'Of exhibitors achieve key business goals',
