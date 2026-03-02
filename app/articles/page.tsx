@@ -8,6 +8,7 @@ import { motion } from 'framer-motion';
 import { mockPageData } from './data';
 // import PartnersSection from '@/components/section/PartnersSection';
 import BackToTop from '../exhibitor-resource-center/component/BackToTop';
+import SectionContainer from '@/components/UI/SectionContainer';
 
 // Safe Image component that handles missing config - FIXED
 const SafeImage = ({ src, alt, fill, ...props }: any) => {
@@ -81,111 +82,113 @@ export default function ArticlesPage() {
   const partnersSection = pageData.Sections?.find(section => section.__typename === 'ComponentTransRussiaPartnersSection');
 
   return (
-    <div className="min-h-screen bg-white ">
+    <div className="min-h-screen bg-white">
       <main className='font-parabolica'>
         {/* Hero Section */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          className="bg-gradient-to-r from-blue-50 to-gray-50 py-12 md:py-20"
-        >
-          <div className="mx-auto max-w-[1240px] lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1600px] px-4 sm:px-6 lg:px-8">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mt-15 mb-5 "
-            >
-              {pageData.Header?.Title || "Industry Insights"}
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-lg md:text-xl text-gray-700 max-w-3xl"
-            >
-              {pageData.Header?.Content || "Latest news and insights from the logistics industry"}
-            </motion.p>
-          </div>
-        </motion.section>
+      <motion.section
+  initial={{ opacity: 0, y: 20 }}
+  animate={{ opacity: 1, y: 0 }}
+  transition={{ duration: 0.8 }}
+  className="bg-gradient-to-r from-blue-50 to-gray-50 py-6 sm:py-8 md:py-22"
+>
+  <div className="mx-auto max-w-[1240px] lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1600px] px-4 sm:px-6 lg:px-8">
+    <motion.h1
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.2 }}
+      className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mt-4 sm:mt-6 md:mt-8 mb-3 sm:mb-4"
+    >
+      {pageData.Header?.Title || "Industry Insights"}
+    </motion.h1>
+    <motion.p
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.3 }}
+      className="text-base sm:text-lg md:text-xl text-gray-700 max-w-3xl"
+    >
+      {pageData.Header?.Content || "Latest news and insights from the logistics industry"}
+    </motion.p>
+  </div>
+</motion.section>
 
-        {/* Articles Grid */}
-        <section className="py-12 md:py-16">
-          <div className="mx-auto max-w-[1240px] lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1600px] px-4 sm:px-6 lg:px-8">
-            <motion.div
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true }}
-              variants={staggerContainer}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              {articles.map((article, index) => (
-                <motion.article
-                  key={article.id}
-                  variants={scaleIn}
-                  whileHover={{ 
-                    y: -10,
-                    scale: 1.02,
-                    boxShadow: "0 25px 50px rgba(0,0,0,0.15)",
-                    transition: { duration: 0.3 }
-                  }}
-                  className="bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300"
-                  custom={index}
-                >
-                  <Link href={`/articles/${article.attributes.Slug}`} className="block">
-                    <div className="relative h-56 w-full overflow-hidden bg-gray-100">
-                      <motion.div
-                        whileHover={{ scale: 1.1 }}
-                        transition={{ duration: 0.5 }}
-                        className="absolute inset-0"
-                      >
-                        <SafeImage
-                          src={article.attributes.Image?.data?.attributes?.url}
-                          alt={article.attributes.Title}
-                          className="w-full h-full object-cover"
-                          fill
-                        />
-                      </motion.div>
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500" />
-                    </div>
-                    <div className="p-6">
-                      <div className="flex items-center gap-2 mb-3">
-                        <time className="text-sm text-[#4D4D4D]">
-                          {new Date(article.attributes.PublishedDate).toLocaleDateString('en-US', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric'
-                          })}
-                        </time>
-                       
-                      </div>
-                      <h3 className="text-xl font-bold text-[#4D4D4D] mb-3 line-clamp-2 hover:text-blue-600 transition-colors duration-300">
-                        {article.attributes.Title}
-                      </h3>
-                      <p className="text-gray-600 line-clamp-3 mb-4">
-                        {article.attributes.Excerpt}
-                      </p>
-                      <div className="flex items-center text-[#4D4D4D] font-semibold group">
-                        <span>Read Article</span>
-                        <motion.svg 
-                          animate={{ x: [0, 5, 0] }}
-                          transition={{ repeat: Infinity, duration: 1.5 }}
-                          className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" 
-                          fill="none" 
-                          stroke="currentColor" 
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                        </motion.svg>
-                      </div>
-                    </div>
-                  </Link>
-                </motion.article>
-              ))}
-            </motion.div>
+        <SectionContainer className="mt-10 sm:mt-14 md:mt-16">
+          <div className="animated-block">
+            <div className="animated-block-target">
+              {/* Container with proper padding for left and right gaps */}
+              <div className="container mx-auto max-w-[1240px] lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1600px] px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-30">
+                {/* Responsive Grid with gaps between cards - increased top padding */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+                  {articles.map((article) => (
+                    <Link 
+                      key={article.id} 
+                      href={`/articles/${article.attributes.Slug}`}
+                      className="group block h-full"
+                    >
+                      <article className="bg-white overflow-hidden transition-all duration-300 hover:shadow-xl h-full flex flex-col">
+                        {/* Image container with no border */}
+                        <div className="relative h-48 sm:h-52 md:h-56 lg:h-60 w-full overflow-hidden flex-shrink-0">
+                          <SafeImage
+                            src={article.attributes.Image?.data?.attributes?.url}
+                            alt={article.attributes.Title}
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                        </div>
+                        
+                        {/* Content container with no border */}
+                        <div className="p-4 sm:p-5 md:p-6 flex flex-col flex-grow">
+                          <div className="flex items-center gap-2 mb-2 sm:mb-3">
+                            <time className="text-xs sm:text-sm text-gray-500">
+                              {new Date(article.attributes.PublishedDate).toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric'
+                              })}
+                            </time>
+                          </div>
+                          
+                          <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800 mb-2 sm:mb-3 line-clamp-2">
+                            {article.attributes.Title}
+                          </h3>
+                          
+                          <p className="text-sm sm:text-base text-gray-600 line-clamp-3 mb-3 sm:mb-4 flex-grow">
+                            {article.attributes.Excerpt}
+                          </p>
+                          
+                          {/* Read Article link - only visible on hover */}
+                          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div className="flex items-center text-[#1E3B75] font-semibold text-xs sm:text-sm">
+                              <span>Read Article</span>
+                              <svg 
+                                className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-2 transform group-hover:translate-x-1 transition-transform" 
+                                fill="none" 
+                                stroke="currentColor" 
+                                viewBox="0 0 24 24"
+                              >
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                              </svg>
+                            </div>
+                          </div>
+                          
+                          {/* Placeholder to maintain layout when Read Article is hidden */}
+                          <div className="opacity-0 group-hover:opacity-0 h-0">
+                            <div className="flex items-center text-[#1E3B75] font-semibold text-xs sm:text-sm">
+                              <span>Read Article</span>
+                              <svg className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                              </svg>
+                            </div>
+                          </div>
+                        </div>
+                      </article>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
-        </section>
+        </SectionContainer>
+        
         {/* <PartnersSection/> */}
         <BackToTop/>
       </main>
