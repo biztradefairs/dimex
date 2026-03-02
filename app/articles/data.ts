@@ -67,22 +67,24 @@ export const mockArticles: Record<string, Article> = {
   "why-is-rail-freight-becoming-a-stronger-alternative-for-long-haul-cargo-in-2026": {
     id: "83",
     attributes: {
-      Title: "Why Is Rail Freight Becoming a Stronger Alternative for Long-Haul Cargo in 2026?",
-      Slug: "why-is-rail-freight-becoming-a-stronger-alternative-for-long-haul-cargo-in-2026",
-      Excerpt: "Rail freight for long-haul cargo offers reliable schedules, lower emissions, and optimized corridor operations.",
+      Title: "The Rise of India as a Global Die & Mould Manufacturing Hub",
+      Slug: "insights/india-global-die-mould-hub",
+      Excerpt: "How India is emerging as a competitive force in precision tooling and mould manufacturing.",
       Content: `
-        <h2>The Rise of Rail Freight in 2026</h2>
-        <p>Rail freight is experiencing a significant resurgence as a viable alternative for long-haul cargo transportation. With increasing pressure on supply chains and growing environmental concerns, many logistics companies are turning to rail as a sustainable and efficient solution.</p>
-        
-        <h3>Key Advantages</h3>
-        <ul>
-          <li><strong>Environmental Sustainability:</strong> Rail transport produces significantly fewer emissions compared to road transport.</li>
-          <li><strong>Cost Efficiency:</strong> Lower fuel consumption and higher capacity make rail more economical for long distances.</li>
-          <li><strong>Reliability:</strong> Less affected by traffic congestion and weather conditions.</li>
-          <li><strong>Capacity:</strong> Ability to move large volumes of goods in single journeys.</li>
-        </ul>
-        
-        <p>As we move through 2026, we expect to see even greater adoption of rail freight solutions across Eurasia and other major trade corridors.</p>
+             <h2>India’s Transformation in Tooling Excellence</h2>
+      <p>India’s die & mould industry has evolved from a domestic-support sector into a globally competitive manufacturing powerhouse. With strong demand from automotive, electronics, medical devices, and aerospace sectors, the country is experiencing unprecedented growth.</p>
+
+      <p>Government initiatives such as Make in India, infrastructure modernization, and export promotion schemes have further strengthened the industry’s international presence.</p>
+
+      <h3>Key Growth Drivers</h3>
+      <ul>
+        <li>Cost competitiveness with high engineering capability</li>
+        <li>Expansion of advanced CNC and 5-axis machining centers</li>
+        <li>Improved digital integration and automation</li>
+        <li>Growing export demand from Europe and Southeast Asia</li>
+      </ul>
+
+      <p>As global supply chains diversify, India is positioning itself as a reliable and innovative tooling partner worldwide.</p>
       `,
       PublishedDate: "2025-11-20T03:30:00.000Z",
       Image: {
