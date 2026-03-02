@@ -30,7 +30,7 @@ export default function NewsletterSection() {
 
           {/* IMAGE - Hidden on mobile, visible on lg+ */}
           <img
-            src="https://cdn.itegroupnews.com/img_11_445fce1f7c.png"
+            src="/images/newsletter.png"
             alt="Newsletter"
             className="pointer-events-none absolute bottom-0 right-0 z-10 hidden lg:block h-[200px] lg:h-[250px] xl:h-[300px] object-contain"
           />
