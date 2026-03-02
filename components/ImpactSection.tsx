@@ -11,7 +11,7 @@ export default function ImpactSection() {
 
       content:
         'DIEMEX offers a powerful opportunity for visitors to discover new die & mould suppliers, tooling partners, and advanced manufacturing solutions—all under one roof.',
-      image: '/images/image.png',
+      image: '/images/tooling.JPG',
       stat: {
         value: '76%',
         label: 'of visitors attend DIEMEX to identify new suppliers and sourcing partners',
