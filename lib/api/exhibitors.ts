@@ -26,7 +26,8 @@ api.interceptors.request.use(
     if (typeof window !== "undefined") {
       const token =
         localStorage.getItem("exhibitor_token") ||
-        localStorage.getItem("token");
+        localStorage.getItem("token") ||
+        localStorage.getItem("admin_token");
 
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -63,6 +64,13 @@ api.interceptors.response.use(
     if (error.response?.status === 401 && typeof window !== "undefined") {
       localStorage.removeItem("exhibitor_token");
       localStorage.removeItem("exhibitor_data");
+      localStorage.removeItem("token");
+      localStorage.removeItem("admin_token");
+      
+      // Redirect to login if not already there
+      if (!window.location.pathname.includes('/login')) {
+        window.location.href = '/login';
+      }
     }
 
     return Promise.reject(error);
@@ -88,8 +96,8 @@ export interface Exhibitor {
   company: string;
   sector: string;
 
-  address?: string;       // optional
-  website?: string;       // optional
+  address?: string;
+  website?: string;
 
   booth: string;
   boothNumber?: string;
@@ -189,21 +197,23 @@ const mapExhibitorData = (data: any): Exhibitor => {
   }
 
   return {
-    id: data.id,
-    name: data.name,
-    email: data.email,
+    id: data.id || data._id,
+    name: data.name || '',
+    email: data.email || '',
     phone: data.phone || '',
-    company: data.company,
+    company: data.company || '',
     sector: data.sector || '',
     booth: data.boothNumber || data.booth || "Not assigned",
-    boothNumber: data.boothNumber,
+    boothNumber: data.boothNumber || data.booth,
     boothSize: data.boothSize || stallDetails?.size || '',
     boothType: data.boothType || stallDetails?.type || 'standard',
     boothDimensions: data.boothDimensions || stallDetails?.dimensions || '',
     boothNotes: data.boothNotes || stallDetails?.notes || '',
-    status: data.status === 'approved' ? 'active' : data.status,
+    status: data.status === 'approved' ? 'active' : (data.status || 'pending'),
     originalPassword: data.originalPassword,
-    createdAt: data.createdAt,
+    createdAt: data.createdAt || new Date().toISOString(),
+    address: data.address,
+    website: data.website,
     stallDetails: stallDetails
   };
 };
@@ -220,173 +230,291 @@ export const exhibitorsAPI = {
     sector?: string;
     status?: string;
   }): Promise<PaginatedResponse<Exhibitor>> => {
-    const response = await api.get("/exhibitors", { params });
+    try {
+      const response = await api.get("/exhibitors", { params });
 
-    if (!response.data.success) {
-      throw new Error(response.data.error || "Failed to fetch exhibitors");
+      if (!response.data.success) {
+        throw new Error(response.data.error || "Failed to fetch exhibitors");
+      }
+
+      // Map each exhibitor to ensure proper data structure
+      const mappedData = response.data.data.map(mapExhibitorData);
+
+      return {
+        ...response.data,
+        data: mappedData
+      };
+    } catch (error: any) {
+      console.error("Error fetching exhibitors:", error);
+      throw new Error(error.response?.data?.error || error.message || "Failed to fetch exhibitors");
     }
-
-    // Map each exhibitor to ensure proper data structure
-    const mappedData = response.data.data.map(mapExhibitorData);
-
-    return {
-      ...response.data,
-      data: mappedData
-    };
   },
 
   // Get single exhibitor by ID
   getById: async (id: string): Promise<ApiResponse<Exhibitor>> => {
-    const response = await api.get(`/exhibitors/${id}`);
+    try {
+      const response = await api.get(`/exhibitors/${id}`);
 
-    if (!response.data.success) {
-      throw new Error(response.data.error || "Failed to fetch exhibitor");
+      if (!response.data.success) {
+        throw new Error(response.data.error || "Failed to fetch exhibitor");
+      }
+
+      // Map the data to ensure proper structure
+      const mappedData = mapExhibitorData(response.data.data);
+
+      return {
+        ...response.data,
+        data: mappedData
+      };
+    } catch (error: any) {
+      console.error("Error fetching exhibitor:", error);
+      throw new Error(error.response?.data?.error || error.message || "Failed to fetch exhibitor");
     }
-
-    // Map the data to ensure proper structure
-    const mappedData = mapExhibitorData(response.data.data);
-
-    return {
-      ...response.data,
-      data: mappedData
-    };
   },
 
   getStats: async (): Promise<ExhibitorStats> => {
-    const response = await api.get<ApiResponse<ExhibitorStats>>(
-      "/exhibitors/stats"
-    );
-
-    if (!response.data.success) {
-      throw new Error(
-        response.data.error || "Failed to fetch exhibitor statistics"
+    try {
+      const response = await api.get<ApiResponse<ExhibitorStats>>(
+        "/exhibitors/stats"
       );
-    }
 
-    return response.data.data;
+      if (!response.data.success) {
+        throw new Error(
+          response.data.error || "Failed to fetch exhibitor statistics"
+        );
+      }
+
+      return response.data.data;
+    } catch (error: any) {
+      console.error("Error fetching stats:", error);
+      throw new Error(error.response?.data?.error || error.message || "Failed to fetch stats");
+    }
   },
 
   create: async (
     data: CreateExhibitorData
   ): Promise<Exhibitor & { originalPassword: string }> => {
-    // Prepare data for backend - include stallDetails structure
-    const backendData = {
-      ...data,
-      boothNumber: data.boothNumber,
-      stallDetails: {
-        size: data.boothSize || '',
-        type: data.boothType || 'standard',
-        dimensions: data.boothDimensions || '',
-        notes: data.boothNotes || ''
+    try {
+      // Prepare data for backend - include stallDetails structure
+      const backendData = {
+        ...data,
+        boothNumber: data.boothNumber,
+        stallDetails: {
+          size: data.boothSize || '',
+          type: data.boothType || 'standard',
+          dimensions: data.boothDimensions || '',
+          notes: data.boothNotes || ''
+        }
+      };
+
+      console.log("📤 Creating exhibitor with data:", backendData);
+
+      const response = await api.post("/exhibitors", backendData);
+
+      if (!response.data.success) {
+        throw new Error(response.data.error || "Failed to create exhibitor");
       }
-    };
 
-    const response = await api.post("/exhibitors", backendData);
+      const createdExhibitor = response.data.data;
+      
+      // Send credentials email using the new route
+      try {
+        const emailData = {
+          email: createdExhibitor.email,
+          name: createdExhibitor.name,
+          company: createdExhibitor.company,
+          password: createdExhibitor.originalPassword || data.password,
+          boothNumber: createdExhibitor.boothNumber || data.boothNumber,
+          loginUrl: `${process.env.NEXT_PUBLIC_FRONTEND_URL || window.location.origin}/login`
+        };
 
-    if (!response.data.success) {
-      throw new Error(response.data.error || "Failed to create exhibitor");
+        console.log("📧 Sending credentials email to:", emailData.email);
+        
+        await api.post('/exhibitor-credentials/send-credentials', emailData, {
+          timeout: 30000
+        });
+        
+        console.log(`✅ Credentials email sent to ${createdExhibitor.email}`);
+      } catch (emailError: any) {
+        console.error("❌ Failed to send credentials email:", emailError);
+        console.error("Email error details:", {
+          message: emailError.message,
+          response: emailError.response?.data,
+          status: emailError.response?.status
+        });
+        // Don't fail the creation if email fails, just log it
+      }
+
+      // Map response to include all fields
+      const mappedResponse = mapExhibitorData(createdExhibitor);
+      
+      return {
+        ...mappedResponse,
+        originalPassword: createdExhibitor.originalPassword || data.password
+      };
+    } catch (error: any) {
+      console.error("Error creating exhibitor:", error);
+      throw new Error(error.response?.data?.error || error.message || "Failed to create exhibitor");
     }
-
-    // Map response to include all fields
-    const mappedResponse = mapExhibitorData(response.data.data);
-    
-    return {
-      ...mappedResponse,
-      originalPassword: response.data.data.originalPassword || data.password
-    };
   },
 
   update: async (
     id: string,
     data: Partial<CreateExhibitorData>
   ): Promise<Exhibitor> => {
-    // Prepare data for backend
-    const backendData: any = {
-      ...data,
-      boothNumber: data.boothNumber,
-    };
-
-    // Include stallDetails if booth fields are provided
-    if (data.boothSize || data.boothType || data.boothDimensions || data.boothNotes) {
-      backendData.stallDetails = {
-        size: data.boothSize || '',
-        type: data.boothType || 'standard',
-        dimensions: data.boothDimensions || '',
-        notes: data.boothNotes || ''
+    try {
+      // Prepare data for backend
+      const backendData: any = {
+        ...data,
+        boothNumber: data.boothNumber,
       };
+
+      // Include stallDetails if booth fields are provided
+      if (data.boothSize || data.boothType || data.boothDimensions || data.boothNotes) {
+        backendData.stallDetails = {
+          size: data.boothSize || '',
+          type: data.boothType || 'standard',
+          dimensions: data.boothDimensions || '',
+          notes: data.boothNotes || ''
+        };
+      }
+
+      console.log("📤 Updating exhibitor:", id, backendData);
+
+      const response = await api.put(`/exhibitors/${id}`, backendData);
+
+      if (!response.data.success) {
+        throw new Error(response.data.error || "Failed to update exhibitor");
+      }
+
+      // Map response to include all fields
+      return mapExhibitorData(response.data.data);
+    } catch (error: any) {
+      console.error("Error updating exhibitor:", error);
+      throw new Error(error.response?.data?.error || error.message || "Failed to update exhibitor");
     }
-
-    const response = await api.put(`/exhibitors/${id}`, backendData);
-
-    if (!response.data.success) {
-      throw new Error(response.data.error || "Failed to update exhibitor");
-    }
-
-    // Map response to include all fields
-    return mapExhibitorData(response.data.data);
   },
 
   bulkUpdateStatus: async (
     ids: string[],
     status: string
   ): Promise<{ affectedCount: number }> => {
-    // Validate that status is a valid ExhibitorStatus
-    const validStatuses: ExhibitorStatus[] = ["pending", "active", "inactive", "approved", "rejected"];
-    
-    if (!validStatuses.includes(status as ExhibitorStatus)) {
-      throw new Error(`Invalid status: ${status}`);
+    try {
+      // Validate that status is a valid ExhibitorStatus
+      const validStatuses: ExhibitorStatus[] = ["pending", "active", "inactive", "approved", "rejected"];
+      
+      if (!validStatuses.includes(status as ExhibitorStatus)) {
+        throw new Error(`Invalid status: ${status}`);
+      }
+
+      const response = await api.post("/exhibitors/bulk/update-status", {
+        ids,
+        status: status as ExhibitorStatus,
+      });
+
+      if (!response.data.success) {
+        throw new Error(response.data.error || "Failed to update status");
+      }
+
+      return response.data.data;
+    } catch (error: any) {
+      console.error("Error bulk updating status:", error);
+      throw new Error(error.response?.data?.error || error.message || "Failed to update status");
     }
-
-    const response = await api.post("/exhibitors/bulk/update-status", {
-      ids,
-      status: status as ExhibitorStatus,
-    });
-
-    if (!response.data.success) {
-      throw new Error(response.data.error || "Failed to update status");
-    }
-
-    return response.data.data;
   },
 
   delete: async (id: string): Promise<void> => {
-    const response = await api.delete(`/exhibitors/${id}`);
+    try {
+      const response = await api.delete(`/exhibitors/${id}`);
 
-    if (!response.data.success) {
-      throw new Error(response.data.error || "Failed to delete exhibitor");
+      if (!response.data.success) {
+        throw new Error(response.data.error || "Failed to delete exhibitor");
+      }
+    } catch (error: any) {
+      console.error("Error deleting exhibitor:", error);
+      throw new Error(error.response?.data?.error || error.message || "Failed to delete exhibitor");
     }
   },
 
   resendCredentials: async (
     id: string
-  ): Promise<{ email: string; timestamp: string }> => {
+  ): Promise<{ success: boolean; message: string; recipient: string }> => {
     try {
-      const response = await api.post(
-        `/exhibitors/${id}/resend-credentials`,
-        {},
-        { timeout: 30000 }
-      );
+      console.log(`📧 Resending credentials for exhibitor: ${id}`);
+      
+      // First get the exhibitor details
+      const exhibitorResponse = await exhibitorsAPI.getById(id);
+      const exhibitor = exhibitorResponse.data;
+      
+      if (!exhibitor) {
+        throw new Error("Exhibitor not found");
+      }
+      
+      console.log("📋 Exhibitor details for email:", {
+        id: exhibitor.id,
+        email: exhibitor.email,
+        name: exhibitor.name,
+        company: exhibitor.company
+      });
+      
+      // Prepare the data for email
+      const emailData = {
+        exhibitorId: id,
+        email: exhibitor.email,
+        name: exhibitor.name,
+        company: exhibitor.company,
+        password: exhibitor.originalPassword || 'Please check your welcome email for the password',
+        boothNumber: exhibitor.booth || exhibitor.boothNumber,
+        loginUrl: `${window.location.origin}/login`
+      };
+      
+      console.log("📧 Sending credentials email with data:", {
+        ...emailData,
+        password: emailData.password === 'Please check your welcome email for the password' ? '[HIDDEN]' : '[PASSWORD INCLUDED]'
+      });
+      
+      // Send credentials using the new route
+      const response = await api.post('/exhibitor-credentials/send-credentials', emailData, {
+        timeout: 30000
+      });
+
+      console.log("📧 Email API response:", response.data);
 
       if (!response.data.success) {
-        throw new Error(
-          response.data.error || "Failed to resend credentials"
-        );
+        throw new Error(response.data.error || "Failed to send credentials");
       }
 
-      return response.data.data;
+      return {
+        success: true,
+        message: `Credentials sent to ${exhibitor.email}`,
+        recipient: exhibitor.email
+      };
+      
     } catch (error: any) {
-      if (
-        error.code === "ECONNABORTED" ||
-        error.message?.includes("timeout")
-      ) {
-        throw new Error(
-          "Email service is slow. Please try again after some time."
-        );
+      console.error("❌ Error resending credentials:", error);
+      
+      if (error.code === "ECONNABORTED" || error.message?.includes("timeout")) {
+        throw new Error("Email service is slow. Please try again after some time.");
       }
-
-      throw error;
+      
+      if (error.response?.status === 404) {
+        throw new Error("Credentials email endpoint not found. Please check server configuration.");
+      }
+      
+      throw new Error(error.response?.data?.error || error.message || "Failed to resend credentials");
     }
   },
+
+  // New method to test email configuration
+  testEmailService: async (): Promise<any> => {
+    try {
+      const response = await api.get('/exhibitor-credentials/test');
+      return response.data;
+    } catch (error: any) {
+      console.error("Error testing email service:", error);
+      throw new Error(error.response?.data?.error || error.message || "Failed to test email service");
+    }
+  }
 };
 
 /* =========================================================
@@ -413,23 +541,33 @@ export const authAPI = {
       // Map the exhibitor data
       const mappedExhibitor = mapExhibitorData(response.data.data.exhibitor);
 
+      // Store token
+      if (typeof window !== "undefined") {
+        localStorage.setItem("exhibitor_token", response.data.data.token);
+        localStorage.setItem("exhibitor_data", JSON.stringify(mappedExhibitor));
+      }
+
       return {
         token: response.data.data.token,
         exhibitor: mappedExhibitor
       };
     } catch (error: any) {
+      console.error("Login error:", error);
+      
       let errorMessage = "Login failed";
 
       if (error.response?.status === 401) {
         errorMessage = "Invalid email or password";
       } else if (error.response?.status === 403) {
         errorMessage = "Account is not active. Contact administrator.";
+      } else if (error.response?.status === 404) {
+        errorMessage = "Login service not available";
       } else if (
         error.message?.includes("Network Error") ||
-        error.message?.includes("timeout")
+        error.message?.includes("timeout") ||
+        error.code === "ECONNABORTED"
       ) {
-        errorMessage =
-          "Server is starting up. Please wait a few seconds and retry.";
+        errorMessage = "Server is starting up. Please wait a few seconds and retry.";
       } else if (error.response?.data?.error) {
         errorMessage = error.response.data.error;
       }
@@ -439,18 +577,35 @@ export const authAPI = {
   },
 
   getProfile: async (): Promise<Exhibitor> => {
-    const response = await api.get("/auth/exhibitor/profile");
+    try {
+      const response = await api.get("/auth/exhibitor/profile");
 
-    if (!response.data.success) {
-      throw new Error(response.data.error || "Failed to fetch profile");
+      if (!response.data.success) {
+        throw new Error(response.data.error || "Failed to fetch profile");
+      }
+
+      return mapExhibitorData(response.data.data);
+    } catch (error: any) {
+      console.error("Error fetching profile:", error);
+      throw new Error(error.response?.data?.error || error.message || "Failed to fetch profile");
     }
+  },
 
-    return mapExhibitorData(response.data.data);
+  logout: (): void => {
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("exhibitor_token");
+      localStorage.removeItem("exhibitor_data");
+    }
   },
 
   test: async () => {
-    const response = await api.get("/auth/exhibitor/test");
-    return response.data;
+    try {
+      const response = await api.get("/auth/exhibitor/test");
+      return response.data;
+    } catch (error: any) {
+      console.error("Error testing auth:", error);
+      throw error;
+    }
   },
 };
 
@@ -489,16 +644,62 @@ export interface DashboardData {
 
 export const dashboardAPI = {
   getLayout: async (): Promise<DashboardData> => {
-    const response = await api.get('/exhibitorDashboard/layout', {
-      timeout: 30000,
-    });
+    try {
+      const response = await api.get('/exhibitorDashboard/layout', {
+        timeout: 30000,
+      });
 
-    if (!response.data.success) {
-      throw new Error(
-        response.data.error || 'Failed to load dashboard data'
-      );
+      if (!response.data.success) {
+        throw new Error(
+          response.data.error || 'Failed to load dashboard data'
+        );
+      }
+
+      return response.data.data;
+    } catch (error: any) {
+      console.error("Error fetching dashboard:", error);
+      throw new Error(error.response?.data?.error || error.message || "Failed to load dashboard");
     }
-
-    return response.data.data;
   },
 };
+
+/* =========================================================
+   PASSWORD RESET API
+========================================================= */
+
+export const passwordResetAPI = {
+  requestReset: async (email: string): Promise<{ message: string }> => {
+    try {
+      const response = await api.post("/auth/exhibitor/forgot-password", { email });
+
+      if (!response.data.success) {
+        throw new Error(response.data.error || "Failed to request password reset");
+      }
+
+      return response.data.data;
+    } catch (error: any) {
+      console.error("Error requesting password reset:", error);
+      throw new Error(error.response?.data?.error || error.message || "Failed to request password reset");
+    }
+  },
+
+  resetPassword: async (token: string, newPassword: string): Promise<{ message: string }> => {
+    try {
+      const response = await api.post("/auth/exhibitor/reset-password", {
+        token,
+        newPassword
+      });
+
+      if (!response.data.success) {
+        throw new Error(response.data.error || "Failed to reset password");
+      }
+
+      return response.data.data;
+    } catch (error: any) {
+      console.error("Error resetting password:", error);
+      throw new Error(error.response?.data?.error || error.message || "Failed to reset password");
+    }
+  }
+};
+
+export default api;
