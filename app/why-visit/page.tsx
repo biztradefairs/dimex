@@ -688,7 +688,7 @@ export default function WhyVisit() {
                   {
                    title: "ToolingTrends.com",
                 text: "A premier knowledge-sharing platform by ToolingTrends.com, bringing together industry leaders, innovators, and manufacturing professionals to exchange insights and drive growth across the tooling, die & mould, and precision engineering sectors.",
-                image: "/images/tooling-about-diemex.png",
+                image: "/images/tooling-visit.png",
                 link: "https://toolingtrends.com",
                 external: true
                   }
