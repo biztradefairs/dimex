@@ -58,7 +58,7 @@ export default function WhyVisit() {
             animate={{ scale: 1 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "/images/why_visit_header.png)" }}
+            style={{ backgroundImage: "/images/why_visit_header.png" }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/10" />
           <SectionContainer>
