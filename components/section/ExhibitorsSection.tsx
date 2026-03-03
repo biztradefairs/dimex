@@ -4,7 +4,7 @@ import SectionContainer from "../UI/SectionContainer"
 
 const ExhibitorsSection = () => {
   const exhibitors = [
-    ".",
+    "MAXX",
     "",
     "",
     "",
