@@ -6,8 +6,8 @@ const HeroSection = () => {
     <section className="relative min-h-[60vh] md:min-h-[80vh] flex items-end">
       {/* BACKGROUND IMAGE - Full Width */}
       <img
-        src="https://cdn.itegroupnews.com/photorealistic_scene_with_warehouse_logistics_operations_bf55208e3d.jpg"
-        alt="TransRussia©24"
+        src="/images/about-header.jpg"
+        alt="Diemex©2026"
         className="absolute inset-0 h-full w-full object-cover"
       />
 
