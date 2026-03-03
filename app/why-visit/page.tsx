@@ -681,14 +681,14 @@ export default function WhyVisit() {
                   {
                     title: "Conference Programme",
                     text: "2 Days focused industry conference delivering practical insights to address real business challenges — from emerging die & mould technologies and tooling innovations to future trends shaping precision manufacturing.",
-                    image: "https://cdn.itegroupnews.com/Business_Programme_9f14587238.webp",
+                    image:  "/images/conferen.jpg",
                     link: "/conference",
                     external:true
                   },
                   {
                    title: "ToolingTrends.com",
                 text: "A premier knowledge-sharing platform by ToolingTrends.com, bringing together industry leaders, innovators, and manufacturing professionals to exchange insights and drive growth across the tooling, die & mould, and precision engineering sectors.",
-                image: "https://cdn.itegroupnews.com/18_6c90079699.jpg",
+                image: "/images/tooling-about-diemex.png",
                 link: "https://toolingtrends.com",
                 external: true
                   }
