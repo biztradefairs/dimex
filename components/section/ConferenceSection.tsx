@@ -62,7 +62,7 @@ const ConferenceSection = () => {
         {/* Right Image */}
         <div className="relative min-h-[400px] lg:min-h-full">
           <Image
-            src="/images/image.png"
+            src="/images/con-about-diemex.JPG"
             alt="Conference attendees networking and participating in sessions"
             fill
             className="object-cover"
