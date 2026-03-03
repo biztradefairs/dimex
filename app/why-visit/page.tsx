@@ -281,22 +281,22 @@ export default function WhyVisit() {
               >
                 {[
                   {
-                    image: "https://cdn.itegroupnews.com/why_visit_1_b9ef94bf3b.webp",
+                    image: "/images/pic1.JPG",
                     title: "Connect with Key Industry Players",
                     text: "DIEMEX offers a focused platform to meet die & mould manufacturers, tooling suppliers, and precision manufacturing solution providers from India and international markets—helping you connect with the right partners for your business."
                   },
                   {
-                    image: "https://cdn.itegroupnews.com/why_visit_2_231ef95a51.webp",
+                    image:  "/images/pic2.JPG",
                     title: "Discover The Latest Innovations",
                     text: "Visit DIEMEX to explore the newest developments in die & mould, tooling, and precision manufacturing technologies—and understand how they can enhance productivity, quality, and competitiveness."
                   },
                   {
-                    image: "https://cdn.itegroupnews.com/1_41fae57627.jpg",
+                    image:  "/images/pic3.JPG",
                     title: "Build the Right Business Deals",
                     text: "Engage directly with manufacturers and technology suppliers to discuss requirements, evaluate solutions, and establish long-term business partnerships."
                   },
                   {
-                    image: "https://cdn.itegroupnews.com/Why_visit_4_418c67c8b2.webp",
+                    image:  "/images/pic4.JPG",
                     title: "Stay Ahead of Industry Trends",
                     text: "Gain insights into emerging technologies, market developments, and best practices through DIEMEX's conference sessions led by industry experts."
                   }
