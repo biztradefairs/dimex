@@ -69,14 +69,14 @@ export const mockArticles: Record<string, Article> = {
     attributes: {
       Title: "The Rise of India as a Global Die & Mould Manufacturing Hub",
       Slug: "why-is-rail-freight-becoming-a-stronger-alternative-for-long-haul-cargo-in-2026",
-      Excerpt: "Rail freight for long-haul cargo offers reliable schedules, lower emissions, and optimized corridor operations.",
+      Excerpt: "India is rapidly emerging as a competitive global force in precision tooling and mould manufacturing.",
       Content: `
              <h2>India’s Transformation in Tooling Excellence</h2>
       <p>India’s die & mould industry has evolved from a domestic-support sector into a globally competitive manufacturing powerhouse. With strong demand from automotive, electronics, medical devices, and aerospace sectors, the country is experiencing unprecedented growth.</p>
 
       <p>Government initiatives such as Make in India, infrastructure modernization, and export promotion schemes have further strengthened the industry’s international presence.</p>
 
-      <h3>Key Growth Drivers</h3>
+      <h3>Global OEMs are now sourcing complex tooling solutions from India due to:</h3>
       <ul>
         <li>Cost competitiveness with high engineering capability</li>
         <li>Expansion of advanced CNC and 5-axis machining centers</li>
