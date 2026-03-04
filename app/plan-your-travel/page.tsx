@@ -165,7 +165,7 @@ const HeroSection: React.FC = () => {
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="relative flex justify-end bg-mainColor5 !pt-96 w-full"
+      className="relative min-h-[60vh] lg:min-h-[70vh] flex justify-end bg-mainColor5 !pt-96 w-full"
     >
       <div className="w-full">
         <motion.div

@@ -75,7 +75,7 @@ const IconicLandmarksPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative bg-mainColor5 pt-48 pb-10 overflow-hidden">
+      <section className="relative min-h-[60vh] lg:min-h-[70vh] bg-mainColor5 pt-48 pb-10 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
           <Image
@@ -86,8 +86,8 @@ const IconicLandmarksPage: React.FC = () => {
             priority
           />
         </div>
-        <div className="container mx-auto px-4 relative z-20">
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 animate-fade-in-up">
+        <div className="container mx-auto relative z-20">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mt-40 animate-fade-in-up">
             Iconic Landmarks
           </h1>
         </div>
