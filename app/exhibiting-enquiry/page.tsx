@@ -6,6 +6,7 @@ import SectionContainer from "@/components/UI/SectionContainer";
 import ReCAPTCHA from "react-google-recaptcha";
 import BackToTop from "../exhibitor-resource-center/component/BackToTop";
 import toast, { Toaster } from 'react-hot-toast';
+import ThankYouPopup from "@/components/ThankYouPopup";
 
 interface Country {
   name: string;
@@ -16,8 +17,10 @@ const TransRussiaExhibitPage: React.FC = () => {
   const [countriesLoading, setCountriesLoading] = useState(false);
   const introRef = useRef<HTMLDivElement>(null);
   const backToTopRef = useRef<HTMLButtonElement>(null);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
 
   const [formData, setFormData] = useState({
     interestLevel: "",
@@ -133,6 +136,12 @@ const TransRussiaExhibitPage: React.FC = () => {
       return;
     }
 
+    // Validate at least one product sector is selected
+    if (formData.productSector.length === 0) {
+      toast.error("Please select at least one product sector");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -153,6 +162,9 @@ const TransRussiaExhibitPage: React.FC = () => {
 
       if (result.success) {
         toast.success("Enquiry submitted successfully! Our team will contact you soon.");
+        setShowThankYou(true);
+        
+        // Reset form
         setFormData({
           interestLevel: "",
           firstName: "",
@@ -169,7 +181,12 @@ const TransRussiaExhibitPage: React.FC = () => {
           hearAboutUs: "",
           productSector: [],
         });
+        
+        // Reset captcha
         setCaptchaToken(null);
+        if (recaptchaRef.current) {
+          recaptchaRef.current.reset();
+        }
       } else {
         toast.error(result.message || 'Failed to submit. Please try again.');
       }
@@ -428,6 +445,7 @@ const TransRussiaExhibitPage: React.FC = () => {
                 {/* CAPTCHA */}
                 <div className="border rounded p-4 bg-gray-50 flex justify-center">
                   <ReCAPTCHA
+                    ref={recaptchaRef}
                     sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
                     onChange={(token) => setCaptchaToken(token)}
                     onExpired={() => setCaptchaToken(null)}
@@ -457,6 +475,15 @@ const TransRussiaExhibitPage: React.FC = () => {
           </div>
         </SectionContainer>
       </main>
+
+      {/* Thank You Popup */}
+      <ThankYouPopup
+        isVisible={showThankYou}
+        onClose={() => setShowThankYou(false)}
+        name={formData.firstName}
+        formType="exhibitor-enquiry"
+      />
+
       <BackToTop />
     </>
   );
