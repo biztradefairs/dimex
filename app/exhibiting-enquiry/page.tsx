@@ -226,7 +226,7 @@ const TransRussiaExhibitPage: React.FC = () => {
                   ["10,000", "Visitors"],
                   ["200+", "Exhibitors"],
                   ["20+", "Speakers"],
-                  ["10+", "Countries"],
+                  ["5+", "Countries"],
                 ].map(([n, l]) => (
                   <div key={l}>
                     <p className="text-5xl font-bold text-mainColor1">{n}</p>
