@@ -1,29 +1,9 @@
 import React from "react"
 import Link from "next/link"
+import Image from "next/image"
 import SectionContainer from "../UI/SectionContainer"
 
 const ExhibitorsSection = () => {
-  const exhibitors = [
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-    "",
-  ]
-
   return (
     <SectionContainer className="py-16 lg:py-24">
       {/* Heading */}
@@ -35,18 +15,18 @@ const ExhibitorsSection = () => {
         Participating in DIEMEX Boosts Your Business Growth and Visibility
       </p>
 
-      {/* Exhibitors Grid */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 md:gap-6 mb-12 lg:mb-16">
-        {exhibitors.map((exhibitor, index) => (
-          <div
-            key={index}
-            className="bg-gray-50 border border-gray-200 rounded-xl p-4 md:p-5 flex items-center justify-center min-h-[100px] transition-all duration-300 hover:bg-white hover:shadow-lg hover:border-mainColor2"
-          >
-            <span className="text-gray-800 font-medium text-sm md:text-base text-center">
-              {exhibitor}
-            </span>
-          </div>
-        ))}
+      {/* Single Banner Image with All Logos */}
+      <div className="relative w-full mb-12 lg:mb-16 overflow-hidden rounded-2xl shadow-xl">
+        <div className="relative w-full h-auto">
+          <Image
+            src="/images/conference/venue/registration.webp" // Update this path to your banner image
+            alt="Our Past Exhibitors Banner"
+            width={1200}
+            height={400}
+            className="w-full h-auto object-cover"
+            priority
+          />
+        </div>
       </div>
 
       {/* CTA */}
