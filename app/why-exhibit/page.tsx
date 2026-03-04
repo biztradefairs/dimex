@@ -218,7 +218,7 @@ export default function WhyExhibit() {
                       whileHover={{ scale: 1.02, x: 5 }}
                       className="text-[#4D4D4D] text-[30px] cursor-pointer"
                     >
-                      <strong>10+ Countries</strong>
+                      <strong>5+ Countries</strong>
                     </motion.span>
                   </li>
                 </ul>
@@ -727,7 +727,7 @@ export default function WhyExhibit() {
     href="/exhibition-directory" 
     className="inline-block bg-[#004D9F] hover:bg-blue-700 text-white px-6 py-3 rounded-full text-base font-medium"
   >
-    View Top 2025 Exhibitor List
+    View 2026 Exhibitor List
   </Link>
 </motion.button>
           </SectionContainer>
