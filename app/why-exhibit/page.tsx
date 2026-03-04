@@ -239,7 +239,7 @@ export default function WhyExhibit() {
                 className="relative h-120 overflow-hidden transition-all duration-300"
               >
                 <img
-                  src="/images/image.png"
+                  src="/images/con-highlight.JPG"
                   alt="Conference"
                   className="w-full h-full object-cover"
                 />
