@@ -91,7 +91,7 @@ export default function LoginPage() {
             {/* Option 1: If you have a logo image */}
             <div className="relative h-16 w-16">
               <Image
-                src="/images/diemex-logo.png" // Update this path to your actual logo location
+                src="/images/exhibitor-login.png" // Update this path to your actual logo location
                 alt="DIEMEX"
                 fill
                 className="object-contain"
