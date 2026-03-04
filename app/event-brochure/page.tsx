@@ -78,8 +78,8 @@ export default function BrochurePage() {
                     <p className="mt-2 text-xl text-gray-700">Buyer & OEM Engagement</p>
                   </div>
                   <div>
-                    <p className="text-5xl font-bold  text-[#4D4D4D]">3+</p>
-                    <p className="mt-2 text-xl text-gray-700">Countries Represented</p>
+                    <p className="text-5xl font-bold  text-[#4D4D4D]">5+</p>
+                    <p className="mt-2 text-xl text-gray-700">Countries Expecting</p>
                   </div>
                 </div>
 
