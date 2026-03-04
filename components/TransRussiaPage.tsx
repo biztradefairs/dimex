@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import SectionContainer from './UI/SectionContainer';
 import dynamic from 'next/dynamic';
 import toast, { Toaster } from 'react-hot-toast';
+import ThankYouPopup from './ThankYouPopup'; // Import the popup component
 
 // Dynamically import ReCAPTCHA to avoid SSR issues
 const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), {
@@ -34,7 +35,6 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
   const [countries, setCountries] = useState<Country[]>([]);
   const [countriesLoading, setCountriesLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  // const [showBackToTop, setShowBackToTop] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [formData, setFormData] = useState({
@@ -53,16 +53,10 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
   });
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [showThankYouPopup, setShowThankYouPopup] = useState(false); // State for popup visibility
+  const [submittedName, setSubmittedName] = useState(''); // Store the submitted name for popup
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com';
-
-  // useEffect(() => {
-  //   const handleScroll = () => {
-  //     setShowBackToTop(window.scrollY > 300);
-  //   };
-  //   window.addEventListener('scroll', handleScroll);
-  //   return () => window.removeEventListener('scroll', handleScroll);
-  // }, []);
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -134,7 +128,12 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
       const result = await response.json();
 
       if (result.success) {
+        // Show success toast and store the name for popup
         toast.success("Registration submitted successfully!");
+        setSubmittedName(formData.name.split(' ')[0] || 'Visitor'); // Store first name or default
+        setShowThankYouPopup(true); // Show the thank you popup
+        
+        // Reset form
         setFormData({
           name: '',
           designation: '',
@@ -162,11 +161,21 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
     }
   };
 
+  const handleClosePopup = () => {
+    setShowThankYouPopup(false);
+  };
+
   return (
     <div id="__next">
       <Toaster position="top-right" />
       
-
+      {/* Thank You Popup */}
+      <ThankYouPopup 
+        isVisible={showThankYouPopup}
+        onClose={handleClosePopup}
+        name={submittedName}
+        formType="visitor-registration"
+      />
 
       {/* Main Content */}
       <div>
@@ -400,22 +409,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                       </select>
                     </div>
 
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Promo Code (Optional)
-                      </label>
-                      <input
-                        type="text"
-                        name="promocode"
-                        value={formData.promocode}
-                        onChange={handleInputChange}
-                        placeholder="Enter promo code if available"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300"
-                      />
-                      <p className="mt-2 text-xs text-gray-500">
-                        Enter your promo code to get discounted or free registration.
-                      </p>
-                    </div>
+          
 
                     <div className="flex items-start">
                       <input
