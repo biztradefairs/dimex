@@ -5,7 +5,7 @@ import Button from '@/components/UI/Button'
 
 export default function HeroSection() {
   return (
-    <section className="relative h-[400px] md:h-[450px] lg:h-[500px] w-full overflow-hidden text-white">
+    <section className="relative min-h-[60vh] lg:min-h-[70vh] w-full overflow-hidden text-white">
       {/* ================= BACKGROUND IMAGE ================= */}
       <div className="absolute inset-0 bg-black">
         {/* Background Image */}
@@ -22,7 +22,7 @@ export default function HeroSection() {
       </div>
 
       {/* ================= CONTENT ================= */}
-      <div className="relative z-10 flex h-full w-full items-end px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 flex min-h-[60vh] lg:min-h-[70vh] w-full items-end px-4 sm:px-6 lg:px-8">
         <div className="mx-auto w-full max-w-[1440px] pb-6 md:pb-10 lg:pb-16">
           {/* Heading */}
           <h1 className="font-parabolica text-[32px] font-bold leading-[0.85] tracking-tight sm:text-[48px] md:text-[80px] lg:text-[100px] xl:text-[160px]">
