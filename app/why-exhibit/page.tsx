@@ -114,7 +114,7 @@ export default function WhyExhibit() {
     className="absolute inset-0 bg-cover bg-center"
     style={{
       backgroundImage:
-        "(/images/why-exhibit-header.JPG)",
+        "/images/why-exhibit-header.JPG",
     }}
   />
 
@@ -738,7 +738,7 @@ export default function WhyExhibit() {
   className="relative font-parabolica py-16 lg:py-24 text-white bg-cover bg-center"
   style={{
     backgroundImage:
-      "/images/auto_cluster.png",
+      "/images/why-exhibit-header.JPG",
   }}
 >
   {/* Dark overlay */}
