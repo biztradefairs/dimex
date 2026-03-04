@@ -738,7 +738,7 @@ export default function WhyExhibit() {
   className="relative font-parabolica py-16 lg:py-24 text-white bg-cover bg-center"
   style={{
     backgroundImage:
-      "/images/punecity.jpg",
+      "('https://cdn.itegroupnews.com/Frame_1707480883_b10f284c3d.jpg')",
   }}
 >
   {/* Dark overlay */}
