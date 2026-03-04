@@ -85,7 +85,7 @@ export default function LoginPage() {
       <div className="max-w-md w-full">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center h-20 w-420 rounded-2xl mb-4">
+          <div className="inline-flex items-center justify-center h-120 w-620 rounded-2xl mb-4">
             {/* DIEMEX Logo - You can use either an image or text logo */}
             
             {/* Option 1: If you have a logo image */}
