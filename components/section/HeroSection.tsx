@@ -6,8 +6,8 @@ const HeroSection = () => {
     <section className="relative min-h-[60vh] md:min-h-[80vh] flex items-end">
       {/* BACKGROUND IMAGE - Full Width */}
       <img
-        src="https://cdn.itegroupnews.com/photorealistic_scene_with_warehouse_logistics_operations_bf55208e3d.jpg"
-        alt="TransRussia©24"
+        src="/images/about-header.jpg"
+        alt="Diemex©2026"
         className="absolute inset-0 h-full w-full object-cover"
       />
 
@@ -20,6 +20,7 @@ const HeroSection = () => {
           <div className="pb-25 text-white">
             <h2 className="title-72">About DIEMEX 2026</h2>
             <p className="mt-4 max-w-6xl text-lg">
+              
               Shaping the Future of Die & Mould Manufacturing.
             </p>
           </div>

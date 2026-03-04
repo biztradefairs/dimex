@@ -9,7 +9,7 @@ import { HiOutlineCalendar, HiOutlineLocationMarker } from "react-icons/hi"
 import BrochureSection from "@/components/section/BrochureSection";
 import BackToTop from "../exhibitor-resource-center/component/BackToTop";
 
- const countries = [
+  const countries = [
     { name: 'China', flag: 'https://cdn.itegroupnews.com/Flag_icons_3e3608eca2.png' },
     { name: 'India', flag: 'https://cdn.itegroupnews.com/India_77390bec7a.webp' },
     { name: 'Japan', flag: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQQAAACtCAMAAABhsvGqAAAAb1BMVEX///+8AC27ACq3AAC6ACG7ACa6ACO5ABi5ABy7ACj9+fq4ABS4ABC4AAu3AAP14OTcl6D78fPPbnnakZrpv8W+IDfw0dbJU2LBLkPUe4blsrnsxszWhY7eoKbmt7z46OvFRlXhqq/OZnPKW2fDO00P6eL9AAAER0lEQVR4nO3d23aqMBAGYEkChJMUVCoeCrZ9/2fcoNtltVUQMyTR/7vsFTMLJ5NJtJMJAAAAAAAAAAAAAAAAAAAAAMDTC7O02EuzUPezaBAWu/J9GXM+TRpTzuPle7krXicVYbH99mNfuIHzQ+CK5o/120skoigXXLrOFa7ki7LQ/Yy0qrcFF+xaBg6Y4M6s0v2kZNJc+h0Z+J8HKfNU99OSSHMu+mTgQPDP50tDVt6TgkMaykz3U6u1c+V9KWhJd6f7uRWq6qRXLbjEkvppKuRKekNS0PLkSvfTq5HzoSlo8Vz38ytQLQdUg5/k0vqPRMqudod9uczyxXKdBN1Rdgmma91xPGI+bFW4xJK57kiGU5QDq7NQPLQsnOOWfiJSqeg9aDFpZXXMmIKaeBIwG3cS9Z0bpi6i1h3R/TaR2hw4TrTRHdO91gqL4tHUsiUicxUWxSPm2lUWcsUF4UBYtZlaTylyYFm3sFS6Op4ES92R9beNaXLQrBBb3bH1FfpUOXAc35YDqtmDY5SbSZjpjq6fMCBYHo9YYMersFXeK/5kSVVwCF+E5lVwdMfXx5psaTiIbegVPgcfMvTjfeqOsFtI/CI0VcH80rgiT0Js/qHU18PnDF3cL90xdslo14YWc0zfURcJdQ4cJzH9UhNly3wkTW+da/KS0BSFWneUHcjXhlasO8rbUoL56m/c7IOYOenm6Sgye+y8HaEuNpXR7J1kSTJlviRK3XHeRN8vtgzvGWuiMfNFEmrdcd5ENWs/Z/bkPVyQ7xxabGnybnqsJCyQBCQBSbAjCWOtDiYnYaQ+Iah1x3kTOsZGTnzocOCZfWNljOma8fO1FeHVhBPf7JOHguiy0rmp2ePmcJzxmtEr5GQyRrfEFrqj7DDGaMnwwdJk8jHCzD3+0B1lh2qMEyjjvx5Hv3swe660R98uGd4qtejPoAw/f9r7Jv48BN+6I+xhR9w5+zb8nkBGfBwZmX5PZY/mCx9HlnzxIyW9sZNYUBZbX4STFc/sodIJ5Sppw/p48ElWFYQFd3r/q8hWSd/4bcPJjCgLtnzv5WBB0jYGpk9TztHMGo2/ynqhJOgbI9MnSr98Kz+Lcm3YOZ2rIsUjVxZZtDIczRW3TNzsG5xXbJXuIRKzL3BeVSqcPMfWFcWjXNkSEdnTLv+iKguRHUOEK3IldSGxOgeTyUZBFhLrflbn0o4/2C8wbum68FPBHho0eYFlG4a/Ze8PlMfo3cI+8U9vfOBGwuVvup9dnaqOB1QGFj/PLxbvrcTdB7VS2HDWdJdw5t/z+4xM+hvDbyYNkm3cfj/q36TAdzdWnLYNkG0d7nXmgXnc2T5rCvaK3Ilv/ZsLJmInf4rO4KZwXi7iSPyxaLoiip1y/oyl4C/pR1lLnvhSCK8hhPQTLutyZc0hmyJhVax2mzJvlJvdqqhe5Q0AAAAAAAAAAAAAAAAAAAAAgNf1D53+Qj8zo+6sAAAAAElFTkSuQmCC' },
@@ -58,7 +58,7 @@ export default function WhyVisit() {
             animate={{ scale: 1 }}
             transition={{ duration: 1.2, ease: "easeOut" }}
             className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: "url(https://cdn.itegroupnews.com/Why_visit_header_58ece0089d.webp)" }}
+            style={{ backgroundImage: "url(/images/why_visit_header.png)" }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/50 to-black/10" />
           <SectionContainer>
@@ -154,7 +154,7 @@ export default function WhyVisit() {
                 {[
                   { value: "10,000", label: "Visitors" },
                   { value: "200+", label: "Exhibitors" },
-                  { value: "5+", label: "Countries Represented" },
+                  { value: "10+", label: "Countries Represented" },
                   { value: "10", label: "Event Sectors" }
                 ].map((stat, index) => (
                   <motion.div
@@ -281,22 +281,22 @@ export default function WhyVisit() {
               >
                 {[
                   {
-                    image: "https://cdn.itegroupnews.com/why_visit_1_b9ef94bf3b.webp",
+                    image: "/images/pic1.JPG",
                     title: "Connect with Key Industry Players",
                     text: "DIEMEX offers a focused platform to meet die & mould manufacturers, tooling suppliers, and precision manufacturing solution providers from India and international markets—helping you connect with the right partners for your business."
                   },
                   {
-                    image: "https://cdn.itegroupnews.com/why_visit_2_231ef95a51.webp",
+                    image:  "/images/pic2.JPG",
                     title: "Discover The Latest Innovations",
                     text: "Visit DIEMEX to explore the newest developments in die & mould, tooling, and precision manufacturing technologies—and understand how they can enhance productivity, quality, and competitiveness."
                   },
                   {
-                    image: "https://cdn.itegroupnews.com/1_41fae57627.jpg",
+                    image:  "/images/pic3.JPG",
                     title: "Build the Right Business Deals",
                     text: "Engage directly with manufacturers and technology suppliers to discuss requirements, evaluate solutions, and establish long-term business partnerships."
                   },
                   {
-                    image: "https://cdn.itegroupnews.com/Why_visit_4_418c67c8b2.webp",
+                    image:  "/images/pic4.JPG",
                     title: "Stay Ahead of Industry Trends",
                     text: "Gain insights into emerging technologies, market developments, and best practices through DIEMEX's conference sessions led by industry experts."
                   }
@@ -482,76 +482,48 @@ export default function WhyVisit() {
           </section>
 
           {/* A SNAPSHOT OF EXHIBITORS */}
-          <section className="py-12 sm:py-16 lg:py-24">
-            <SectionContainer>
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-center sm:text-left"
-              >
-                Who You Will Meet
-              </motion.h2>
+        <section className="py-12 sm:py-16 lg:py-24">
+  <SectionContainer>
+    <motion.h2
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-center sm:text-left"
+    >
+      Who You Will Meet
+    </motion.h2>
 
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={staggerContainer}
-                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 sm:gap-4 mb-4 sm:mb-6"
-              >
-                {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                  <motion.div
-                    key={i}
-                    variants={scaleIn}
-                    whileHover={{ 
-                      scale: 1.1,
-                      backgroundColor: "#f8fafc",
-                      boxShadow: "0 10px 20px rgba(0,0,0,0.1)"
-                    }}
-                    className="bg-gray-100 p-3 sm:p-4 rounded-lg h-16 sm:h-20 flex items-center justify-center transition-all duration-300 cursor-pointer"
-                  >
-                    <div className="text-xs text-gray-500">Logo {i}</div>
-                  </motion.div>
-                ))}
-              </motion.div>
-              
-              <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                variants={staggerContainer}
-                className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 gap-3 sm:gap-4 mb-6 sm:mb-8"
-              >
-                {[9, 10, 11, 12, 13, 14, 15, 16].map((i) => (
-                  <motion.div
-                    key={i}
-                    variants={scaleIn}
-                    whileHover={{ 
-                      scale: 1.1,
-                      backgroundColor: "#f8fafc",
-                      boxShadow: "0 10px 20px rgba(0,0,0,0.1)"
-                    }}
-                    className="bg-gray-100 p-3 sm:p-4 rounded-lg h-16 sm:h-20 flex items-center justify-center transition-all duration-300 cursor-pointer"
-                  >
-                    <div className="text-xs text-gray-500">Logo {i}</div>
-                  </motion.div>
-                ))}
-              </motion.div>
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className="mb-6 sm:mb-8"
+    >
+      <div className="relative w-full h-[200px] sm:h-[250px] md:h-[300px] lg:h-[350px] rounded-lg overflow-hidden shadow-lg">
+        <Image
+          src="/images/image.png" // Replace with your image path
+          alt="Who you will meet at the exhibition"
+          fill
+          className="object-cover"
+          priority
+        />
+      </div>
+    </motion.div>
 
-              <div className="text-center sm:text-left">
-                <Link href="/exhibition-directory">
-                <motion.button
-                  whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
-                  whileTap={{ scale: 0.95 }}
-                  className="bg-[#004D9F] hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 w-full sm:w-auto"
-                >
-                  View Top 2025 Exhibitor List
-                </motion.button>
-                </Link>
-              </div>
-            </SectionContainer>
-          </section>
+    <div className="text-center sm:text-left">
+      <Link href="/exhibition-directory">
+        <motion.button
+          whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
+          whileTap={{ scale: 0.95 }}
+          className="bg-[#004D9F] hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 w-full sm:w-auto"
+        >
+          View 2026 Exhibitor List
+        </motion.button>
+      </Link>
+    </div>
+  </SectionContainer>
+</section>
 
           {/* EVENT SECTORS ON DISPLAY */}
           <section className="py-12 sm:py-16 lg:py-28 bg-white">
@@ -709,16 +681,16 @@ export default function WhyVisit() {
                   {
                     title: "Conference Programme",
                     text: "2 Days focused industry conference delivering practical insights to address real business challenges — from emerging die & mould technologies and tooling innovations to future trends shaping precision manufacturing.",
-                    image: "https://cdn.itegroupnews.com/Business_Programme_9f14587238.webp",
+                    image:  "/images/conferen.jpg",
                     link: "/conference",
                     external:true
                   },
                   {
-                    title: "MOLDING TRENDS Summit",
-                    text: "A knowledge-driven platform bringing industry professionals and leading experts together to share insights, helping the die & mould and tooling community stay ahead in a rapidly evolving manufacturing landscape.",
-                    image: "https://cdn.itegroupnews.com/18_6c90079699.jpg",
-                    link: "https://mouldingtrends.com",
-                    external:true
+                   title: "ToolingTrends.com",
+                text: "A premier knowledge-sharing platform by ToolingTrends.com, bringing together industry leaders, innovators, and manufacturing professionals to exchange insights and drive growth across the tooling, die & mould, and precision engineering sectors.",
+                image: "/images/tooling-visit.png",
+                link: "https://toolingtrends.com",
+                external: true
                   }
                 ].map((card, index) => {
   const Wrapper = card.external ? 'a' : Link

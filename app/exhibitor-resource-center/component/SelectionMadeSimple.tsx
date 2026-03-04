@@ -14,16 +14,11 @@ const standOptions = [
   },
   {
     title: 'Standard Shell Scheme',
-    description: 'Standard Shell Scheme is suitable for the construction of the exhibition area from 11 to 60 sq. m. The stand kit depends on the construction area. Standard Shell Scheme may be amended with standard decorative elements.',
+    description: 'Standard Shell Scheme is suitable for the construction of the exhibition area from 9 to 36 sq. m. The stand kit depends on the construction area. Standard Shell Scheme may be amended with standard decorative elements.',
     image: 'https://cdn.itegroupnews.com/Screenshot_2025_02_21_120405_38e02b53c3.png',
     link: '/exhibiting-enquiry',
   },
-  {
-    title: 'Premium Shell Scheme',
-    description: 'Premium Shell Scheme is suitable for the construction of the exhibition area from 12 to 60 sq. m. You can choose the color of decorative elements, and order additional equipment and furniture. The height of structures from 3.5 m to 5 m will make the stands look more voluminous and spacious',
-    image: 'https://cdn.itegroupnews.com/1_2_992df162af.jpg',
-    link: '/exhibiting-enquiry',
-  },
+  
 ];
 
 export default function SelectionMadeSimple() {

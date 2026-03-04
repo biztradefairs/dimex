@@ -10,7 +10,7 @@ export default function AttentionSection() {
             
             <div className="max-w-4xl">
               <p className="text-lg text-gray-600 mb-6">
-                Design project of your stand with an indication of overall dimensions must be approved by the ITE EXPO INTERNATIONAL LLC Technical Service Department.
+                Design project of your stand with an indication of overall dimensions must be approved by the Maxx Business Media Pvt. Ltd., Technical Service Department.
               </p>
               
               <p className="text-lg text-gray-600">

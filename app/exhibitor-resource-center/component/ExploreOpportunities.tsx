@@ -8,7 +8,7 @@ export default function ExploreOpportunities() {
         <div className="flex flex-col gap-8">
           <h2 className="title-72 text-black">Explore Opportunities</h2>
           <p className="max-w-6xl whitespace-pre-line text-lg">
-            As a participant at TransRussia, our team is dedicated to providing you with a variety of participation opportunities to make the most of your exhibition experience. From pre-event to post, we have created guides to really simplify the decision-making and onboarding process for you.
+            As a participant at Diemex 2026 Exhibition, our team is dedicated to providing you with a variety of participation opportunities to make the most of your exhibition experience. From pre-event to post, we have created guides to really simplify the decision-making and onboarding process for you.
           </p>
           <Link
             href="https://cdn.itegroupnews.com/Exhibitor_Manual_Trans_Russia_Sklad_Tech_2026_eng_7dbe69d229.pdf"

@@ -11,7 +11,7 @@ export default function LogisticsMarketing() {
           <div className="bg-gray-50 rounded-2xl p-8 lg:p-12">
             <div className="flex flex-col h-full">
             <h2 className="text-xl md:text-2xl lg:text-[30px] max-w-3xl text-[#4D4D4D] mb-6 leading-tight font-semibold">
-  How to get your products/equipment to Moscow on time?
+  How to get your products/equipment to Pune on time?
 </h2>
 
 
@@ -19,11 +19,11 @@ export default function LogisticsMarketing() {
             <div className="mb-8 flex-grow">
   <div className="prose prose-xl max-w-none text-[#4D4D4D]">
     <p className="text-[18px]">
-      TransRussia partners with DMW EXPO for all freight handling requests from exhibitors.
+      Diemex 2026 partners with Buhariwala Logistics for all freight handling requests from exhibitors.
     </p>
 
     <p className="text-[18px]">
-      We recommend DMW EXPO for shipment of any products, stand equipment, marketing materials,
+      We recommend Buhariwala Logistics for shipment of any products, stand equipment, marketing materials,
       machinery, and/or displays you plan to send for your stand.
     </p>
 
@@ -31,20 +31,20 @@ export default function LogisticsMarketing() {
       <p className="font-semibold">For any enquiries, contact:</p>
 
       <p>
-        <strong>Marina Filippova</strong> — Head of Exhibition Department
+        <strong>Prabhodh Kulkarni</strong> — Head of Exhibition Department
       </p>
 
       <p>
-        <strong>Phone:</strong> +7 (915) 224-47-27
+        <strong>Phone:</strong> +91 – 22 – 22625450
       </p>
 
       <p>
         <strong>Email:</strong>{' '}
         <a
-          href="mailto:marina.filippova@dmw-expo.ru"
+          href="mailto:exhibitions@buhariwalasglobal.com"
           className="underline underline-offset-4 hover:text-gray-700"
         >
-          marina.filippova@dmw-expo.ru
+          exhibitions@buhariwalasglobal.com
         </a>
       </p>
     </div>
@@ -59,7 +59,7 @@ export default function LogisticsMarketing() {
                   rel="noopener noreferrer"
                 >
                   <button className="inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[#004D9F] px-10 py-3 font-jakarta text-[16px] font-semibold text-white transition-all duration-300 hover:bg-mainColor4">
-                    DMW Expo
+                    Contact
                   </button>
                 </Link>
               </div>
@@ -69,8 +69,8 @@ export default function LogisticsMarketing() {
 <div className="relative h-[500px] lg:h-[540px] rounded-2xl overflow-hidden">
   {/* Background Image */}
   <img
-    src="https://cdn.itegroupnews.com/TR_23_IMG_0029i_54b0b0806d.jpg"
-    alt="TransRussia Exhibition"
+    src="/images/exbibitor-resource-center/image3.png"
+    alt="Diemex Exhibition"
     className="absolute inset-0 h-full w-full object-cover"
   />
 
@@ -89,7 +89,7 @@ export default function LogisticsMarketing() {
 
       <p className="text-lg text-white/95 leading-relaxed mb-8">
         To increase the effectiveness of participation in the exhibition, take advantage
-        of the partnership and additional advertising opportunities of TransRussia.
+        of the partnership and additional advertising opportunities of Diemex 2026 Expo.
       </p>
 
       <Link

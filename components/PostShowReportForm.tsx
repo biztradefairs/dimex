@@ -1,22 +1,21 @@
 "use client"
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import ThankYouPopup from '@/components/ThankYouPopup';
 import ReCAPTCHA from 'react-google-recaptcha';
 
+interface Country {
+  name: string;
+}
 
 export default function PostShowReportForm() {
-  type Country = {
-  name: string;
-};
-
-const [countries, setCountries] = useState<Country[]>([]);
-const [countriesLoading, setCountriesLoading] = useState(false);
-
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [countriesLoading, setCountriesLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
-  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+  
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -33,61 +32,7 @@ const [countriesLoading, setCountriesLoading] = useState(false);
     sector: '',
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...formData,
-          formType: 'post-show-report',
-          submittedAt: new Date().toISOString(),
-        }),
-      });
-
-      const result = await response.json();
-
-      if (result.success) {
-        toast.success('Request submitted successfully!');
-        setShowThankYou(true);
-        // Reset form
-        setFormData({
-          firstName: '',
-          lastName: '',
-          company: '',
-          website: '',
-          jobTitle: '',
-          country: '',
-          city: '',
-          state: '',
-          phone: '',
-          email: '',
-          standSize: '',
-          hearAbout: '',
-          sector: '',
-        });
-      } else {
-        toast.error(result.message || 'Failed to submit. Please try again.');
-      }
-    } catch (error) {
-      toast.error('Network error. Please check your connection.');
-      console.error('Submission error:', error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com';
 
   const sectors = [
     "Additive Manufacturing - 3D Printing",
@@ -106,20 +51,99 @@ const [countriesLoading, setCountriesLoading] = useState(false);
     "Tool Room - Die Casting Dies & Rubber Moulds",
     "Tool Room - Jig, Fixture and Gauges",
     "Tool Room - Sheet Metal Dies / Sheet metal Components",
-  ]
+  ];
+
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        setCountriesLoading(true);
+        const res = await fetch("https://restcountries.com/v3.1/all?fields=name");
+        const data = await res.json();
+        const sortedCountries = data
+          .map((c: any) => ({ name: c.name.common }))
+          .sort((a: Country, b: Country) => a.name.localeCompare(b.name));
+        setCountries(sortedCountries);
+      } catch (error) {
+        console.error("Failed to fetch countries", error);
+        toast.error("Failed to load countries");
+      } finally {
+        setCountriesLoading(false);
+      }
+    };
+    fetchCountries();
+  }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!captchaToken) {
+      toast.error('Please complete the CAPTCHA verification');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch(`${API_URL}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          formType: 'post-show-report',
+          captchaToken,
+          submittedAt: new Date().toISOString(),
+        }),
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        toast.success('Request submitted successfully!');
+        setShowThankYou(true);
+        setFormData({
+          firstName: '',
+          lastName: '',
+          company: '',
+          website: '',
+          jobTitle: '',
+          country: '',
+          city: '',
+          state: '',
+          phone: '',
+          email: '',
+          standSize: '',
+          hearAbout: '',
+          sector: '',
+        });
+        setCaptchaToken(null);
+      } else {
+        toast.error(result.message || 'Failed to submit. Please try again.');
+      }
+    } catch (error) {
+      toast.error('Network error. Please check your connection.');
+      console.error('Submission error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   return (
     <>
       <Toaster position="top-right" />
       
       <form onSubmit={handleSubmit} className="space-y-5">
-        {/* Title */}
         <div className="mb-4">
           <h3 className="text-2xl font-bold text-[#004D9F]">Download Post-Show Report</h3>
           <p className="mt-1 text-gray-600">Fill in your details to get the complete report</p>
         </div>
 
-        {/* First Name */}
         <div>
           <label className="mb-1 block text-sm font-semibold">
             First Name<span className="ml-1 text-red-500">*</span>
@@ -135,7 +159,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
           />
         </div>
 
-        {/* Last Name */}
         <div>
           <label className="mb-1 block text-sm font-semibold">
             Last Name<span className="ml-1 text-red-500">*</span>
@@ -151,7 +174,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
           />
         </div>
 
-        {/* Company */}
         <div>
           <label className="mb-1 block text-sm font-semibold">
             Company Name<span className="ml-1 text-red-500">*</span>
@@ -167,11 +189,8 @@ const [countriesLoading, setCountriesLoading] = useState(false);
           />
         </div>
 
-        {/* Website */}
         <div>
-          <label className="mb-1 block text-sm font-semibold">
-            Company Website
-          </label>
+          <label className="mb-1 block text-sm font-semibold">Company Website</label>
           <input
             type="url"
             name="website"
@@ -182,7 +201,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
           />
         </div>
 
-        {/* Job Title */}
         <div>
           <label className="mb-1 block text-sm font-semibold">
             Job Title<span className="ml-1 text-red-500">*</span>
@@ -198,71 +216,59 @@ const [countriesLoading, setCountriesLoading] = useState(false);
           />
         </div>
 
-        {/* Country */}
         <div>
           <label className="mb-1 block text-sm font-semibold">
             Country<span className="ml-1 text-red-500">*</span>
           </label>
           <select
-  name="country"
-  value={formData.country}
-  onChange={handleChange}
-  required
-  className="w-full px-4 py-3 border border-gray-300 rounded-lg 
-             focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
-             outline-none transition hover:border-blue-300 bg-white cursor-pointer"
->
-  <option value="">
-    {countriesLoading ? "Loading countries..." : "Select Country"}
-  </option>
-
-  {countries.map((country) => (
-    <option key={country.name} value={country.name}>
-      {country.name}
-    </option>
-  ))}
-</select>
-
+            name="country"
+            value={formData.country}
+            onChange={handleChange}
+            required
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer"
+          >
+            <option value="">
+              {countriesLoading ? "Loading countries..." : "Select Country"}
+            </option>
+            {countries.map((country) => (
+              <option key={country.name} value={country.name}>
+                {country.name}
+              </option>
+            ))}
+          </select>
         </div>
-        {/* State & City */}
-<div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-  {/* State */}
-  <div>
-    <label className="mb-1 block text-sm font-medium">
-      State<span className="ml-1 text-red-500">*</span>
-    </label>
-    <input
-      type="text"
-      name="state"
-      value={formData.state}
-      onChange={handleChange}
-      required
-      placeholder="Enter your state"
-      className="w-full rounded border border-gray-300 px-3 py-2 text-sm 
-                 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-    />
-  </div>
 
-  {/* City */}
-  <div>
-    <label className="mb-1 block text-sm font-medium">
-      City<span className="ml-1 text-red-500">*</span>
-    </label>
-    <input
-      type="text"
-      name="city"
-      value={formData.city}
-      onChange={handleChange}
-      required
-      placeholder="Enter your city"
-      className="w-full rounded border border-gray-300 px-3 py-2 text-sm 
-                 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-    />
-  </div>
-</div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="mb-1 block text-sm font-medium">
+              State<span className="ml-1 text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              name="state"
+              value={formData.state}
+              onChange={handleChange}
+              required
+              placeholder="Enter your state"
+              className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+          <div>
+            <label className="mb-1 block text-sm font-medium">
+              City<span className="ml-1 text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              name="city"
+              value={formData.city}
+              onChange={handleChange}
+              required
+              placeholder="Enter your city"
+              className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            />
+          </div>
+        </div>
 
-
-        {/* Phone */}
         <div>
           <label className="mb-1 block text-sm font-semibold">
             Phone<span className="ml-1 text-red-500">*</span>
@@ -278,7 +284,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
           />
         </div>
 
-        {/* Email */}
         <div>
           <label className="mb-1 block text-sm font-semibold">
             Work Email<span className="ml-1 text-red-500">*</span>
@@ -294,11 +299,8 @@ const [countriesLoading, setCountriesLoading] = useState(false);
           />
         </div>
 
-        {/* Stand Size */}
         <div>
-          <label className="mb-1 block text-sm font-semibold">
-            Preferred Stand Size
-          </label>
+          <label className="mb-1 block text-sm font-semibold">Preferred Stand Size</label>
           <select
             name="standSize"
             value={formData.standSize}
@@ -312,11 +314,8 @@ const [countriesLoading, setCountriesLoading] = useState(false);
           </select>
         </div>
 
-        {/* How Did You Hear */}
         <div>
-          <label className="mb-1 block text-sm font-semibold">
-            How Did You Hear About Us?
-          </label>
+          <label className="mb-1 block text-sm font-semibold">How Did You Hear About Us?</label>
           <select
             name="hearAbout"
             value={formData.hearAbout}
@@ -333,7 +332,6 @@ const [countriesLoading, setCountriesLoading] = useState(false);
           </select>
         </div>
 
-        {/* Product Sector */}
         <div className="pt-2">
           <label className="mb-2 block text-sm font-semibold">
             Product Sector<span className="ml-1 text-red-500">*</span>
@@ -354,46 +352,42 @@ const [countriesLoading, setCountriesLoading] = useState(false);
               </label>
             ))}
           </div>
-          <div className="flex justify-center">
+        </div>
+
+        <div className="flex justify-center">
           <ReCAPTCHA
             sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
             onChange={(token) => setCaptchaToken(token)}
             onExpired={() => setCaptchaToken(null)}
           />
         </div>
-        </div>
-         
 
-        {/* Submit Button */}
         <button
           type="submit"
-          disabled={isSubmitting}
+          disabled={isSubmitting || !captchaToken}
           className={`mt-4 w-full rounded-lg px-6 py-3 font-semibold text-white transition ${
-            isSubmitting
-              ? 'cursor-not-allowed bg-[#004D9F]'
+            isSubmitting || !captchaToken
+              ? 'cursor-not-allowed bg-gray-400'
               : 'bg-[#004D9F] hover:bg-blue-700'
           }`}
         >
           {isSubmitting ? 'Submitting...' : 'Download Report'}
         </button>
 
-        {/* Terms */}
         <p className="mt-4 text-xs text-gray-600">
           By submitting this form, you agree to receive marketing communications.
           You can unsubscribe anytime. Read our{' '}
           <a
-            href="https://ite.group/en/privacy/"
+            href="/privacy-policy"
             target="_blank"
             className="font-semibold text-blue-600 hover:underline"
             rel="noopener noreferrer"
           >
             Privacy Policy
-          </a>
-          .
+          </a>.
         </p>
       </form>
 
-      {/* Thank You Popup */}
       <ThankYouPopup
         isVisible={showThankYou}
         onClose={() => setShowThankYou(false)}

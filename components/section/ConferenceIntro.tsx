@@ -12,7 +12,7 @@ const ConferenceIntro = () => {
         </h1>
 
         <p className="text-sm uppercase tracking-wide text-black/70">
-          Transport and Logistics Congress
+          Die and Mould  Conference
         </p>
       </SectionContainer>
     </section>

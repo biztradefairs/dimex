@@ -13,7 +13,6 @@
   },
   "license": "ISC",
   "author": "",
-  "type": "commonjs",
   "main": "tailwind.config.js",
   "directories": {
     "lib": "lib"

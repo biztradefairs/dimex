@@ -54,10 +54,9 @@ export default function ExhibitorPromotionPage() {
           </h1>
 
           <p className="max-w-10xl text-lg leading-relaxed text-black/80">
-            As an exhibitor at TransRussia 2026, maximise your impact by inviting your
+            As an exhibitor at Diemex 2026, maximise your impact by inviting your
             clients, partners, and prospects to visit your stand for free! We're
-            providing you with an exclusive promo code to include in your branded
-            materials, ensuring your audience can easily register and connect with you
+            providing you with an exclusive branded materials, ensuring your audience can easily register and connect with you
             at the event.
           </p>
         </div>
@@ -69,7 +68,7 @@ export default function ExhibitorPromotionPage() {
           {/* TEXT */}
           <div className='text-[#4D4D4D]'>
             <h2 className="text-2xl lg:text-3xl font-bold text-[#4D4D4D] mb-6 leading-tight">
-              Invite Your Clients to TransRussia 2026 with a Free Promo Code
+              Invite Your Clients to Diemex 2026
             </h2>
 
             <h3 className="text-2xl lg:text-3xl font-semibold mb-4">
@@ -78,11 +77,10 @@ export default function ExhibitorPromotionPage() {
 
             <ul className="list-disc pl-6 space-y-4 mb-6 text-lg lg:text-xl text-black/80">
               <li>
-                Your <strong>unique promo code</strong> allows an unlimited number of
-                visitors to register for a free electronic ticket.
+                Unlimited number of visitors to register for a free electronic ticket.
               </li>
               <li>
-                Share your promo code and direct them to register on the official
+                Share the website link and direct them to register on the official
                 exhibition website.
               </li>
             </ul>
@@ -98,7 +96,7 @@ export default function ExhibitorPromotionPage() {
             </ul>
 
             <a
-              href="mailto:Alexandra.Kiryanova@ite.group"
+              href="mailto:pad@diemex.in"
               className="inline-block mt-10 rounded-full bg-[#004D9F] px-12 py-4 text-lg font-semibold text-white hover:bg-mainColor4 transition"
             >
               Request Promo Code
@@ -108,7 +106,7 @@ export default function ExhibitorPromotionPage() {
           {/* IMAGE */}
           <div>
             <img
-              src="https://cdn.itegroupnews.com/TR_23_IMG_0029i_54b0b0806d.jpg"
+              src="/images/exhibitor-promo/exhibitor.JPG"
               alt=""
               className="w-full h-[400px] lg:h-[520px] object-cover"
             />
@@ -136,9 +134,9 @@ export default function ExhibitorPromotionPage() {
               </h2>
 
               <p className="text-lg lg:text-xl leading-relaxed text-black/80 mb-6">
-                Use your <strong>exclusive promo code</strong> to personally invite
+                Use your <strong>Logo</strong> to personally invite
                 your clients, distributors, and business partners to visit your stand
-                at <strong>TransRussia 2026</strong> for free. Add the promo code to
+                at <strong>Diemex 2026</strong> for free. Add Logo to
                 your email invitations and formal letters to ensure they secure their
                 <strong> free electronic ticket</strong>.
               </p>
@@ -161,10 +159,9 @@ export default function ExhibitorPromotionPage() {
 
               <p className="text-lg lg:text-xl leading-relaxed text-black/80 mb-6">
                 Enhance your marketing materials by integrating your
-                <strong> promo code</strong> into <strong>custom banners</strong> for
+                <strong> Logo</strong> into <strong>custom banners</strong> for
                 digital campaigns, social media ads, and website promotions. These
-                banners help visitors register easily using your
-                <strong> free access code</strong>.
+                banners help visitors register easily.
               </p>
 
               <a
@@ -186,7 +183,7 @@ export default function ExhibitorPromotionPage() {
               <p className="text-lg lg:text-xl leading-relaxed text-black/80 mb-6">
                 Announce your participation in the exhibition on your company website.
                 Share your stand number, product information, and invite visitors to
-                meet you at <strong>TransRussia 2026</strong>.
+                meet you at <strong>Diemex 2026</strong>.
               </p>
 
               <a
@@ -209,7 +206,7 @@ export default function ExhibitorPromotionPage() {
                 Promote your <strong>product launches</strong> through company
                 newsletters, industry publications, and press releases to maximise
                 visibility and encourage visitors to attend
-                <strong> TransRussia 2026</strong>.
+                <strong> Diemex 2026</strong>.
               </p>
 
               <a
@@ -249,35 +246,34 @@ export default function ExhibitorPromotionPage() {
                   <p>
                     Download the exhibition logo and place it in your email signature
                     with a link to the ticket pickup page, attaching your personal link
-                    to the ticket pickup page. Change the word <strong>PROMOCODE</strong>{" "}
-                    in the link to your real promo code.
+                    to the ticket pickup page.
                   </p>
 
                   <img
-                    src="https://storage.yandexcloud.net/assets.ite.group/sites/transrussia.ru/pages/ru/exhibit/free-promo/logo_transrussia.png"
-                    alt="TransRussia logo"
+                    src="/images/exhibitor-promo/logo_diemex.png"
+                    alt="Diemex logo"
                     className="max-w-[260px]"
                   />
 
                   <p className="font-semibold text-black">
-                    TransRussia | Skladtech 2025
+                    Diemex 2026 | 3rd Edition
                   </p>
 
                   <p>
-                    March 18–20, 2025, Moscow, Crocus Expo
+                    October 08–10, 2026, Auto Cluster Exhibition Centre, Pune, India
                     <br />
                     <br />
                     We invite you to visit our stand No. ___
                     <br />
                     Get an electronic ticket &gt;&gt; (your personal link)
                     <br />
-                    Promo code: ___
+                   
                   </p>
                 </div>
 
                 {/* BUTTON */}
                 <a
-                  href="https://cdn-ite.prismetic.com/Trans_Russia_Sklad_Tech_logos_2992e07778.zip"
+                  href="/images/exhibitor-promo/exhibitor.JPG"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-6 inline-flex w-fit rounded-full bg-[#004D9F] px-12 py-4 text-lg font-semibold text-white hover:bg-mainColor4 transition"

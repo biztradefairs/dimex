@@ -1,16 +1,15 @@
-// app/media-gallery/[slug]/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
-// This would typically come from an API or database
+// Complete media details with all slugs
 const mediaDetails = [
   {
     id: 1,
-    slug: "transrussia-2025-conference-program",
-    title: "TransRussia 2025 Conference Program",
+    slug: "diemex-2025-conference-program",
+    title: "Diemex 2025 Conference Program",
     shortText: "TransRussia",
     images: [
       { src: "https://cdn.itegroupnews.com/DSC_6960_retouched_d7ae158197.webp", alt: "TransRussia©24" },
@@ -95,7 +94,146 @@ const mediaDetails = [
       { src: "https://cdn.itegroupnews.com/0036_20250318_11_25_09_cd072cd9da.webp", alt: "TransRussia©24" }
     ]
   },
-  // Add other media items here...
+  {
+    id: 2,
+    slug: "diemex-2025-exhibition",
+    title: "Diemex 2025 Exhibition",
+    shortText: "Exhibition Highlights",
+    images: [
+      { src: "https://cdn.itegroupnews.com/TR_2025_337_e76336212a.webp", alt: "Diemex 2025 Exhibition" },
+      // Add more images for this gallery
+    ]
+  },
+  {
+    id: 3,
+    slug: "diemex-2024-exhibition",
+    title: "Diemex 2024 Exhibition",
+    shortText: "Exhibition Highlights",
+    images: [
+      { src: "https://cdn.itegroupnews.com/TR_24_IMG_2499i_dc444c9640.webp", alt: "Diemex 2024 Exhibition" },
+      // Add more images for this gallery
+    ]
+  },
+  {
+    id: 4,
+    slug: "diemex-4-5-december-2024",
+    title: "Diemex Conference 2024",
+    shortText: "Conference Highlights",
+    images: [
+      { src: "https://cdn.itegroupnews.com/19_32d833764b.webp", alt: "Diemex Conference 2024" },
+      // Add more images for this gallery
+    ]
+  },
+  {
+    id: 5,
+    slug: "diemex-2024-conference-programme",
+    title: "Diemex 2024 Conference Programme",
+    shortText: "Conference Programme",
+    images: [
+      { src: "https://cdn.itegroupnews.com/tr24_15_194638d1ef.webp", alt: "Diemex 2024 Conference Programme" },
+      // Add more images for this gallery
+    ]
+  },
+  {
+    id: 6,
+    slug: "diemex-2024-awards-ceremony",
+    title: "Diemex 2024 Awards Ceremony",
+    shortText: "Awards Ceremony",
+    images: [
+      { src: "https://cdn.itegroupnews.com/TR_24_IMG_3023i_cbdb39d5ea.webp", alt: "Diemex 2024 Awards Ceremony" },
+      // Add more images for this gallery
+    ]
+  },
+  {
+    id: 7,
+    slug: "diemex-2023-exhibition",
+    title: "Diemex 2023 Exhibition",
+    shortText: "Exhibition Highlights",
+    images: [
+      { src: "https://cdn.itegroupnews.com/TR_23_MUH_2553i_bcf08a1176.webp", alt: "Diemex 2023 Exhibition" },
+      // Add more images for this gallery
+    ]
+  },
+  {
+    id: 8,
+    slug: "diemex-2023-conference-programme",
+    title: "Diemex 2023 Conference Programme",
+    shortText: "Conference Programme",
+    images: [
+      { src: "https://cdn.itegroupnews.com/TR_23_IMG_3094i_f602090d20.webp", alt: "Diemex 2023 Conference Programme" },
+      // Add more images for this gallery
+    ]
+  },
+  {
+    id: 9,
+    slug: "diemex-2022-exhibition",
+    title: "Diemex 2022 Exhibition",
+    shortText: "Exhibition Highlights",
+    images: [
+      { src: "https://cdn.itegroupnews.com/tr2022_022_f714843e07.webp", alt: "Diemex 2022 Exhibition" },
+      // Add more images for this gallery
+    ]
+  },
+  {
+    id: 10,
+    slug: "diemex-2022-conference-programme",
+    title: "Diemex 2022 Conference Programme",
+    shortText: "Conference Programme",
+    images: [
+      { src: "https://cdn.itegroupnews.com/transrussia22_bp_33_73e55dcf6a.webp", alt: "Diemex 2022 Conference Programme" },
+      // Add more images for this gallery
+    ]
+  },
+  {
+    id: 11,
+    slug: "diemex-2022-awards-ceremony",
+    title: "Diemex 2022 Awards Ceremony",
+    shortText: "Awards Ceremony",
+    images: [
+      { src: "https://cdn.itegroupnews.com/1_196c1de625.webp", alt: "Diemex 2022 Awards Ceremony" },
+      // Add more images for this gallery
+    ]
+  },
+  {
+    id: 12,
+    slug: "diemex-2021-exhibition",
+    title: "Diemex 2021 Exhibition",
+    shortText: "Exhibition Highlights",
+    images: [
+      { src: "https://cdn.itegroupnews.com/108_d40b77d3a3.webp", alt: "Diemex 2021 Exhibition" },
+      // Add more images for this gallery
+    ]
+  },
+  {
+    id: 13,
+    slug: "diemex-2021-conference-programme",
+    title: "Diemex 2021 Conference Programme",
+    shortText: "Conference Programme",
+    images: [
+      { src: "https://cdn.itegroupnews.com/bp049_790eb559dc.webp", alt: "Diemex 2021 Conference Programme" },
+      // Add more images for this gallery
+    ]
+  },
+  {
+    id: 14,
+    slug: "diemex-2019",
+    title: "Diemex 2019",
+    shortText: "Diemex 2019",
+    images: [
+      { src: "https://cdn.itegroupnews.com/2019_36_d7d12ee1e5.webp", alt: "Diemex 2019" },
+      // Add more images for this gallery
+    ]
+  },
+  {
+    id: 15,
+    slug: "diemex-2018",
+    title: "Diemex 2018",
+    shortText: "Diemex 2018",
+    images: [
+      { src: "https://cdn.itegroupnews.com/photo_49_011f89357e.webp", alt: "Diemex 2018" },
+      // Add more images for this gallery
+    ]
+  }
 ];
 
 // Lightbox/Modal Component
@@ -135,7 +273,7 @@ function LightboxModal({
 
   return (
     <div className="fixed inset-0 z-[1000] bg-black/90 flex items-center justify-center">
-      {/* Close Button - Fixed positioning with higher z-index */}
+      {/* Close Button */}
       <button
         onClick={onClose}
         className="fixed top-6 right-6 text-white text-3xl z-[1001] p-2 hover:bg-white/10 rounded-full backdrop-blur-sm transition-all duration-200"
@@ -150,7 +288,7 @@ function LightboxModal({
         className="fixed left-6 top-1/2 -translate-y-1/2 text-white p-4 hover:bg-white/10 rounded-full backdrop-blur-sm z-[1001] transition-all duration-200"
         aria-label="Previous image"
       >
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"></path>
         </svg>
       </button>
@@ -160,7 +298,7 @@ function LightboxModal({
         className="fixed right-6 top-1/2 -translate-y-1/2 text-white p-4 hover:bg-white/10 rounded-full backdrop-blur-sm z-[1001] transition-all duration-200"
         aria-label="Next image"
       >
-        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path>
         </svg>
       </button>
@@ -212,7 +350,7 @@ export default function MediaGallerySlugPage() {
   const openLightbox = (index: number) => {
     setLightboxIndex(index);
     setLightboxOpen(true);
-    document.body.style.overflow = 'hidden'; // Prevent scrolling
+    document.body.style.overflow = 'hidden';
   };
 
   const closeLightbox = () => {
@@ -265,7 +403,7 @@ export default function MediaGallerySlugPage() {
           className="m-0 rounded-full border-none bg-white p-0 outline-none drop-shadow-lg"
         >
           <svg className="size-10 fill-mainColor1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M22 12c0-5.522-4.476-10+10-10C6.479 2 2 6.479 2 12c0 5.524 4.478 10 10 10c5.524 0 10-4.476 10-10zm-14.53.28a.75.75 0 0 1-.073-.976l.073-.084l4-4a.75.75 0 0 1 .977-.073l.085.072l4 4.002a.75.75 0 0 1-.977 1.133l-.084-.073l-2.72-2.721v6.691a.75.75 0 0 1-.649.743l-.102.007a.75.75 0 0 1-.743-.648l-.007-.102v-6.69l-2.72 2.72a.75.75 0 0 1-.976.072l-.084-.072z"></path>
+            <path d="M22 12c0-5.522-4.476-10-10-10C6.479 2 2 6.479 2 12c0 5.524 4.478 10 10 10c5.524 0 10-4.476 10-10zm-14.53.28a.75.75 0 0 1-.073-.976l.073-.084l4-4a.75.75 0 0 1 .977-.073l.085.072l4 4.002a.75.75 0 0 1-.977 1.133l-.084-.073l-2.72-2.721v6.691a.75.75 0 0 1-.649.743l-.102.007a.75.75 0 0 1-.743-.648l-.007-.102v-6.69l-2.72 2.72a.75.75 0 0 1-.976.072l-.084-.072z"></path>
           </svg>
         </button>
       </div>
@@ -282,7 +420,7 @@ export default function MediaGallerySlugPage() {
           </div>
         </div>
 
-        {/* Image Grid - Updated for consistent card sizes */}
+        {/* Image Grid */}
         <div className="container my-10">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
             {mediaItem.images.map((image: { src: string; alt: string }, index: number) => (
@@ -307,7 +445,7 @@ export default function MediaGallerySlugPage() {
                   </button>
                 </div>
                 
-                {/* Optional: Add caption or overlay */}
+                {/* Optional overlay */}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <p className="text-white text-sm truncate">{image.alt}</p>
                 </div>
@@ -323,7 +461,7 @@ export default function MediaGallerySlugPage() {
               href="/media-gallery"
               className="flex items-center text-mainColor1 hover:underline px-4 py-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
             >
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
               </svg>
               Back to Media Gallery

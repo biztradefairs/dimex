@@ -1,6 +1,6 @@
 import SectionContainer from "@/components/UI/SectionContainer"
 import QuickNavigation from "@/components/QuickNavigation"
-// import PartnersSection from "@/components/section/PartnersSection"
+import PartnersSection from "@/components/section/PartnersSection"
 import Link from "next/link"
 import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 
@@ -8,70 +8,70 @@ import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 const transRussiaSectors = [
   { 
     id: 1, 
-    title: 'Complex Logistics Services & Freight Forwarding', 
+    title: 'Die & Mould Manufacturing', 
     slug: 'complex-logistics', 
     image: '/images/image.png',
     description: 'Comprehensive logistics solutions including freight forwarding, customs clearance, and supply chain management services.'
   },
   { 
     id: 2, 
-    title: 'Maritime & Inland Waterway Transport', 
+    title: 'Tooling & Cutting Tools', 
     slug: 'maritime-and-inland-waterway-transport', 
     image: '/images/image.png',
     description: 'Ocean and river transport services, shipping lines, and inland waterway logistics solutions.'
   },
   { 
     id: 3, 
-    title: 'Air Freight', 
-    slug: 'air-freight', 
+    title: 'Machine Tools & Advanced Machining', 
+    slug: 'die-mould', 
     image: '/images/image.png',
     description: 'Air cargo services, express logistics, and aviation freight solutions.'
   },
   { 
     id: 4, 
-    title: 'Rail Freight', 
+    title: 'Automation & Robotics', 
     slug: 'rail-freight', 
     image: '/images/image.png',
     description: 'Rail transportation, intermodal solutions, and rail logistics across Eurasia.'
   },
   { 
     id: 5, 
-    title: 'Road Freight Transportation', 
+    title: 'Additive Manufacturing & 3D Printing', 
     slug: 'road-freight-transportation', 
     image: '/images/image.png',
     description: 'Trucking, LTL, FTL services, and road transport logistics.'
   },
   { 
     id: 6, 
-    title: 'Ports & Terminals, Freight Handling Services In Ports', 
+    title: 'Metrology & Quality Control', 
     slug: 'ports-and-terminals-freight-handling-services-in-ports', 
     image: '/images/image.png',
     description: 'Port operations, terminal services, stevedoring, and maritime infrastructure solutions.'
   },
   { 
     id: 7, 
-    title: 'Warehouse Technology', 
+    title: 'Raw Materials & Tool Steel', 
     slug: 'warehouse-technology', 
     image: '/images/image.png',
     description: 'Warehouse management systems, automation, and storage technology solutions.'
   },
   { 
     id: 8, 
-    title: 'IT Solutions', 
+    title: 'Surface Treatment & Finishing', 
     slug: 'it-solutions', 
     image: '/images/image.png',
     description: 'Logistics software, tracking systems, and digital supply chain solutions.'
   },
   { 
     id: 9, 
-    title: 'E-commerce Logistics', 
+    title: 'Smart Manufacturing & Industry 4.0', 
     slug: 'ecommerce-logistics', 
     image: '/images/image.png',
     description: 'Fulfillment, last-mile delivery, and e-commerce supply chain services.'
   },
   { 
     id: 10, 
-    title: 'Heavy Lift Carriage', 
+    title: 'Industrial Services & Engineering Solutions', 
     slug: 'heavy-lift-carriage', 
     image: '/images/image.png',
     description: 'Oversized cargo transport, project logistics, and specialized heavy haulage.'
@@ -134,8 +134,8 @@ export default function SectorsPage() {
               Event Sectors
             </h1>
             <p className="text-lg lg:text-xl max-w-full text-white/90">
-              TransRussia and SkladTech showcase the full spectrum of logistics and warehouse innovation.
-            </p>
+  DIEMEX 2026 showcases the complete spectrum of die & mould manufacturing, tooling technologies, advanced machine tools, automation, additive manufacturing, and smart factory innovations.
+</p>
           </div>
         </SectionContainer>
       </section>
@@ -144,10 +144,13 @@ export default function SectorsPage() {
       <section className="py-16 lg:py-24">
         <SectionContainer>
           <div className="mb-6 lg:mb-8">
-            <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-3 w-full">TransRussia Event Sectors</h2>
-            <p className="text-gray-600 text-lg lg:text-xl w-full">
-              Covers freight forwarding, transport services, warehousing, and logistics IT.
-            </p>
+            <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-3 w-full">
+  DIEMEX 2026 Event Sectors
+</h2>
+
+<p className="text-gray-600 text-lg lg:text-xl w-full">
+  Covers die & mould manufacturing, tooling & cutting tools, machine tools, automation & robotics, additive manufacturing, metrology, smart manufacturing, surface engineering, raw materials, and industrial engineering solutions.
+</p>
           </div>
           <SectorGrid sectors={transRussiaSectors} />
         </SectionContainer>
@@ -156,7 +159,7 @@ export default function SectorsPage() {
     
       
       <QuickNavigation/>
-      {/* <PartnersSection/> */}
+      <PartnersSection/>
     </div>
     <BackToTop/>
     </>

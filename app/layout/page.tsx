@@ -241,81 +241,6 @@ export default function PublicFloorPlanPage() {
       </motion.section>
 
       <SectionContainer>
-        {/* STATS CARDS */}
-        <motion.div
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          variants={fadeInUp}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12"
-        >
-          <motion.div
-            whileHover={{ y: -5, boxShadow: "0 10px 30px rgba(0, 77, 159, 0.1)" }}
-            className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-[#004D9F]"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500 mb-1">Total Booths</p>
-                <p className="text-3xl font-bold text-gray-800">{stats.totalBooths}</p>
-              </div>
-              <div className="bg-blue-100 p-3 rounded-full">
-                <Building2 className="w-6 h-6 text-[#004D9F]" />
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ y: -5, boxShadow: "0 10px 30px rgba(34, 197, 94, 0.1)" }}
-            className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-green-500"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500 mb-1">Available</p>
-                <p className="text-3xl font-bold text-green-600">{stats.availableBooths}</p>
-              </div>
-              <div className="bg-green-100 p-3 rounded-full">
-                <svg className="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                </svg>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ y: -5, boxShadow: "0 10px 30px rgba(234, 179, 8, 0.1)" }}
-            className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-yellow-500"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500 mb-1">Reserved</p>
-                <p className="text-3xl font-bold text-yellow-600">{stats.reservedBooths}</p>
-              </div>
-              <div className="bg-yellow-100 p-3 rounded-full">
-                <svg className="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            whileHover={{ y: -5, boxShadow: "0 10px 30px rgba(239, 68, 68, 0.1)" }}
-            className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-red-500"
-          >
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm text-gray-500 mb-1">Occupied</p>
-                <p className="text-3xl font-bold text-red-600">{stats.occupiedBooths}</p>
-              </div>
-              <div className="bg-red-100 p-3 rounded-full">
-                <svg className="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-              </div>
-            </div>
-          </motion.div>
-        </motion.div>
-
         {/* MAIN CONTENT - FLOOR PLAN */}
         <motion.div
           initial="hidden"
@@ -362,25 +287,6 @@ export default function PublicFloorPlanPage() {
                     setImageUrl(null);
                   }}
                 />
-                
-                {/* Legend */}
-                <div className="absolute bottom-4 right-4 bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-4">
-                  <h4 className="text-sm font-semibold text-gray-700 mb-2">Booth Status</h4>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                      <span className="text-xs text-gray-600">Available</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                      <span className="text-xs text-gray-600">Reserved</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                      <span className="text-xs text-gray-600">Occupied</span>
-                    </div>
-                  </div>
-                </div>
               </motion.div>
             ) : (
               <div className="bg-gray-100 rounded-lg p-16 text-center">
@@ -394,19 +300,39 @@ export default function PublicFloorPlanPage() {
           </div>
         </motion.div>
 
-        {/* Description Section */}
-        {floorPlan?.description && (
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={fadeInUp}
-            className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 mb-12"
-          >
-            <h3 className="text-2xl font-semibold text-[#0E1C35] mb-4">About This Layout</h3>
-            <p className="text-gray-700 leading-relaxed">{floorPlan.description}</p>
-          </motion.div>
-        )}
+        {/* About This Layout Section - With normal text */}
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeInUp}
+          className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 mb-12"
+        >
+          <h3 className="text-2xl font-semibold text-[#0E1C35] mb-4">About This Layout</h3>
+          <div className="space-y-4 text-gray-700 leading-relaxed">
+            <p>
+              The exhibition hall is thoughtfully designed to maximize visitor flow and exhibitor visibility. 
+              Our floor plan ensures easy navigation and optimal exposure for all participants.
+            </p>
+            <p>
+              <strong className="text-[#004D9F]">Pleae Note:</strong>
+            </p>
+            <ul className="list-disc pl-6 space-y-2">
+              
+             <li> Allotment of booths is made on a first-come, first-served basis,
+based on the date of receiving the 25% advance payment.</li>
+
+<li>This is a tentative plan and may be modified in the future as per
+circumstances.</li>
+
+<li>The premium for open sides will be extra and applicable
+on the tariff rate and not on the discounted rate.</li>
+
+<li>For 2 side open 10%, for 3 side open 15% & for island booth 20%.</li>
+            </ul>
+            
+          </div>
+        </motion.div>
 
         {/* Information Footer */}
         <motion.div
@@ -426,7 +352,7 @@ export default function PublicFloorPlanPage() {
               <h4 className="text-lg font-semibold text-gray-800 mb-2">Need Assistance?</h4>
               <p className="text-gray-600">
                 If you need help locating your booth or have questions about the layout, 
-                please contact our exhibition support team at <a href="mailto:support@diemex.com" className="text-[#004D9F] hover:underline">support@diemex.com</a>
+                please contact our exhibition support team at <a href="mailto:info@diemex.in" className="text-[#004D9F] hover:underline">info@diemex.in</a>
               </p>
             </div>
           </div>

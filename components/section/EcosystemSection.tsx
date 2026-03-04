@@ -13,7 +13,7 @@ const EcosystemSection = () => {
 - Establish direct, face-to-face business connections with OEMs, toolroom owners, and senior decision-makers.
 - Showcase advanced die & mould solutions, including tooling technologies, design & engineering software, automation, materials, and Industry 4.0 innovations.
 - Engage with thousands of qualified buyers and technical professionals from automotive, EV, plastics, aerospace, and industrial manufacturing sectors—all in one place from 8–10 October 2026.`,
-      image: "https://cdn.itegroupnews.com/TR_2025_159_0d4f744777.jpg",
+      image: "/images/expo-about-diemex.JPG",
       link: "/about-diemex",
       buttonText: "Know More",
     },
@@ -25,20 +25,20 @@ const EcosystemSection = () => {
 - Gain insights from industry experts on the latest developments, challenges, and opportunities in die & mould and precision manufacturing.
 - Explore emerging technologies, including advanced tooling, materials, automation, digital design, and Industry 4.0 applications.
 - Build valuable professional connections with OEMs, toolroom heads, engineers, buyers, and decision-makers from across the manufacturing ecosystem.`,
-      image: "https://cdn.itegroupnews.com/TR_2025_161_da551e1607.jpg",
+      image: "/images/conference-about-diemex.JPG",
       link: "/conference",
       buttonText: "Conference Programme",
     },
     {
       number: "03",
-      title: "Molding Trends",
-      description: `Molding Trends is an online platform designed to keep the industry connected before, during, and after the exhibition. Through Molding Trends, participants can::
+      title: "Tooling Trends",
+      description: `Tooling Trends is an online platform designed to keep the industry connected before, during, and after the exhibition. Through Molding Trends, participants can::
 - Network year-round with buyers, OEMs, toolrooms, technology providers, and industry peers.
 - Access curated content, including industry news, technical insights, exhibitor updates, and market trends.
 - Schedule meetings, manage contacts, and follow up on business leads seamlessly through a single digital platform.`,
-      image: "http://cdn.itegroupnews.com/Untitled_design_92_3f5e8a1454.png",
-      link: "mouldingtrends.com",
-      buttonText: "Join Molding Trends",
+      image: "/images/tooling-about-diemex.png",
+      link: "toolingtrends.com",
+      buttonText: "Join Tooling Trends",
     },
   ]
 

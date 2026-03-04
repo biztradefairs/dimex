@@ -3,7 +3,9 @@ export default function VenueSection() {
     <section className="animated-block">
       <div className="animated-block-target">
         <div className="container">
-          <h2 className="title-48 md:title-72 mb-6 md:mb-10 text-black">Venue</h2>
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 md:mb-10 text-black">
+  Venue
+</h2>
           <div className="rte-style [&_a]:underline [&_blockquote]:relative [&_blockquote]:ml-5 [&_blockquote]:w-fit [&_blockquote]:border-l-4 [&_blockquote]:border-black [&_blockquote]:bg-[#f9f9f9] [&_blockquote]:p-5 [&_blockquote]:italic [&_h1]:lg:text-4xl [&_h2]:lg:text-3xl [&_h3]:lg:text-2xl [&_ol]:list-decimal [&_ol]:pl-5 [&_ul]:list-disc [&_ul]:pl-5">
             <figure className="table w-full">
               <table className="ck-table-resized w-full">
@@ -27,11 +29,11 @@ export default function VenueSection() {
                     </td>
                     <td className="py-2 md:py-4 pl-2 md:pl-4 align-top">
                       <span style={{ fontFamily: 'Proxima, "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif', fontSize: '18px', lineHeight: '1.4' }} className="md:text-[22px] lg:text-[27px]">
-                        <strong>Hyatt Regency Moscow Petrovsky Park</strong>
+                        <strong>Auto Cluster Exhibition Centre</strong>
                       </span>
                       <br />
                       <span style={{ fontFamily: 'Proxima, "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif', fontSize: '16px', lineHeight: '1.4' }} className="md:text-[20px] lg:text-[27px]">
-                        Moscow, Leningradsky Prospekt, 36 bldg. 33
+                        Chinchwad East, Old Mumbai - Pune Hwy, MIDC, Chinchwad, Pimpri-Chinchwad, Maharashtra 411019
                       </span>
                     </td>
                   </tr>
@@ -52,7 +54,7 @@ export default function VenueSection() {
                       <figure className="image image_resized w-full">
                         <img
                           style={{ aspectRatio: '940/627' }}
-                          src="https://regional-cdn.itegroupnews.com/hyatt_a33630c7be.jpg"
+                          src="/images/conference/venue/autocluster.jpg"
                           alt="hyatt.jpg"
                           width={940}
                           height={627}
@@ -64,7 +66,7 @@ export default function VenueSection() {
                       <figure className="image image_resized w-full mt-4 md:mt-0">
                         <img
                           style={{ aspectRatio: '4000/2667' }}
-                          src="https://regional-cdn.itegroupnews.com/02_6deba748f3.jpg"
+                          src="/images/conference/venue/conference.jpg"
                           alt="02.jpg"
                           width={4000}
                           height={2667}
@@ -76,7 +78,7 @@ export default function VenueSection() {
                       <figure className="image image_resized w-full mt-4 md:mt-0">
                         <img
                           style={{ aspectRatio: '4000/2667' }}
-                          src="https://regional-cdn.itegroupnews.com/VAO_03626_f5adfc79ac.jpg"
+                          src="/images/conference/venue/registration.webp"
                           alt="VAO03626.jpg"
                           width={4000}
                           height={2667}

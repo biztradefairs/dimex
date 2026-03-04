@@ -4,7 +4,7 @@ import SectionContainer from "../UI/SectionContainer"
 
 const ExhibitorsSection = () => {
   const exhibitors = [
-    ".",
+    "",
     "",
     "",
     "",
@@ -28,7 +28,7 @@ const ExhibitorsSection = () => {
     <SectionContainer className="py-16 lg:py-24">
       {/* Heading */}
       <h2 className="title-72 text-black mb-6">
-        A Glimpse of Our 2026 Exhibitors
+        A Glimpse of Our Past Exhibitors
       </h2>
 
       <p className="title-40 font-semibold text-gray-700 mb-12 lg:mb-16">

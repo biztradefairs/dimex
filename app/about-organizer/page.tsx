@@ -4,7 +4,7 @@
 import React from 'react';
 import SectionContainer from "@/components/UI/SectionContainer";
 import { motion, Variants } from "framer-motion";
-import ExhibitionsGlance from './ExhibitionsGlance';
+// import ExhibitionsGlance from './ExhibitionsGlance';
 import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 
 const AboutITEPage: React.FC = () => {
@@ -64,7 +64,7 @@ const slideInFromRight: Variants = {
                 transition={{ duration: 0.8, delay: 0.1 }}
               >
                 <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold text-black mb-4">
-                  Maxx Business Media
+                  Maxx Business Media Pvt. Ltd.
                 </h1>
               </motion.div>
               
@@ -186,7 +186,7 @@ Our events drive industrial development, support export growth, and provide unma
                 <div className="flex w-1/2 flex-col gap-10">
                   {[
                     { number: "1,700+", label: "Media in Attendance" },
-                    { number: "30", label: "Events" },
+                    { number: "10", label: "Events" },
                     { number: "20+", label: "Industry Sectors" }
                   ].map((stat, index) => (
                     <motion.div
@@ -244,17 +244,17 @@ At Maxx Business Media, our mission is to create powerful B2B platforms that acc
                 {
                   title: "Our Mission",
                   description: "To create high-impact B2B platforms that drive business success, accelerate industry growth, and contribute to the development of strong and sustainable economies.",
-                  image: "/images/image.png"
+                  image: "/images/mission.jpg"
                 },
                 {
                   title: "Our Vision",
                   description: "To be a trusted global connector, enabling businesses to engage, collaborate, and build long-term partnerships year-round—through both physical events and digital platforms.",
-                  image: "/images/image.png"
+                  image: "/images/vision.jpg"
                 },
                 {
                   title: "Our Values",
                   description: "Entrepreneurship, Integrity, Excellence, Positive Thinking, Commitment to Result",
-                  image: "/images/image.png"
+                  image: "/images/values.png"
                 }
               ].map((card, index) => (
                 <motion.div
@@ -295,7 +295,7 @@ At Maxx Business Media, our mission is to create powerful B2B platforms that acc
             </motion.div>
           </SectionContainer>
         </section>
-        <ExhibitionsGlance/>
+        {/* <ExhibitionsGlance/> */}
 
         {/* Exhibitions Section */}
         <section className="py-16 lg:py-24 bg-gray-50">

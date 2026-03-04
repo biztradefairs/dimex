@@ -11,7 +11,7 @@ const TravelSection = () => {
       {/* Background Image with Overlay */}
       <div className="absolute inset-0">
         <Image
-          src="/images/image.png"
+          src="/images/pune.jpg"
           alt="diemex exhibition backgrouund"
           fill
           className="object-cover"

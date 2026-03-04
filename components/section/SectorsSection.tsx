@@ -6,25 +6,25 @@ import SectionContainer from "../UI/SectionContainer"
 const SectorsSection = () => {
   const sectors = [
     {
-      title: "Air Freight",
+      title: "Die,Mould & Tooling Solutions",
       description:
-        "Air transportation is crucial for fast delivery of time-sensitive cargo like perishables, medicines, and e-commerce, overcoming topographical limitations that affect road or rail.",
+        "Advanced die manufacturing, injection moulding solutions, precision machining systems, and smart tooling technologies.",
       image: "/images/image.png",
-      link: "/sectors/air-freight",
+      link: "/sectors/die-mould",
     },
     {
-      title: "Maritime & Inland Waterway Transport",
-      description:
-        "Maritime cargo transportation offers cost-effective, high-capacity solutions for intercontinental shipments of diverse cargo types.",
-      image: "/images/image.png",
-      link: "/sectors/maritime-and-inland-waterway-transport",
+      title: "Tooling & Cutting Solutions",
+description:
+  "High-performance cutting tools, tool holders, and machining solutions driving productivity and precision in modern manufacturing.",
+image: "/images/tooling-solutions.png",
+link: "/sectors/tooling-cutting-solutions",
     },
     {
-      title: "Ports & Terminals, Freight Handling Services In Ports",
-      description:
-        "Discover expert stevedoring, logistics, and storage solutions for seamless port operations at TransRussia.",
-      image: "/images/image.png",
-      link: "/sectors/ports-and-terminals-freight-handling-services-in-ports",
+      title: "Precision Machining & Automation",
+description:
+  "CNC machining, EDM systems, robotics, and smart manufacturing technologies powering next-generation production.",
+image: "/images/precision-machining.png",
+link: "/sectors/precision-machining-automation",
     },
   ]
 

@@ -44,7 +44,7 @@ export default function LoginPage() {
         <div className="mt-4 bg-blue-50 border border-blue-200 rounded-md p-4 text-center">
           <p className="text-sm text-blue-800">
             <strong>Demo Credentials:</strong><br />
-            Email: <code className="bg-white px-1 rounded">admin@exhibition.com</code><br />
+            Email: <code className="bg-white px-1 rounded">admin@example.com</code><br />
             Password: <code className="bg-white px-1 rounded">admin123</code>
           </p>
         </div>

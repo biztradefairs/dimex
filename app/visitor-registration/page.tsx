@@ -7,8 +7,8 @@ import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 const pageData = {
   navbarData: {
     NavText: {
-      Text1: "17-19 March 2026",
-      Text2: "Crocus Expo, Pavilion 3"
+      Text1: "08-10 October 2026",
+      Text2: "Auto Cluster Exhibition Centre, Pune"
     },
     Data: [
       {

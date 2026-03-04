@@ -8,18 +8,18 @@ const FAQ = () => {
   const faqItems = [
     {
       id: 1,
-      question: "When will TransRussia Summit take place?",
-      answer: "October 19-21, 2026."
+      question: "When will Diemex Conference take place?",
+      answer: "October 08-09, 2026."
     },
     {
       id: 2,
-      question: "Can I participate in TransRussia Summit online?",
-      answer: "No. TransRussia Summit will be held offline at the Hyatt Regency Petrovsky Park Hotel."
+      question: "Can I participate in Diemex Conference  online?",
+      answer: "No. Diemex Conference will be held offline at the Auto Cluster Exhibition Centre, Pune."
     },
     {
       id: 3,
       question: "Will there be recordings of the business program?",
-      answer: "No. However, delegates with 'Business' and 'VIP' ticket categories will be able to receive presentation materials. Materials are provided with speaker approval."
+      answer: "No. However, delegates will be able to receive presentation materials. Materials are provided with speaker approval."
     },
     {
       id: 4,
@@ -28,13 +28,13 @@ const FAQ = () => {
     },
     {
       id: 5,
-      question: "Can I upgrade my ticket category?",
-      answer: "Yes, you can upgrade your ticket category. We will issue a new or additional invoice."
+      question: "Can I get group discount on the ticket price?",
+      answer: "Yes, you can get the group discount of 3 or more delegates booking at a time."
     },
     {
       id: 6,
       question: "Can I pay for tickets by card?",
-      answer: "Yes. Select the card payment option on the website under the 'Become a Delegate' section."
+      answer: "Yes. Select the card payment option on the website in the payment section."
     }
   ];
 

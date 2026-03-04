@@ -5,7 +5,9 @@ export default function WhyAttendSection() {
     <section className="animated-block">
       <div className="animated-block-target">
         <div className="container">
-          <h2 className="title-48 md:title-72 mb-6 md:mb-10 text-black">Why Attend TransRussia Summit 2026</h2>
+          <h2 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 md:mb-10 text-black">
+  Why Attend DIEMEX Conference 2026
+</h2>
           <div className="rte-style [&_a]:underline [&_blockquote]:relative [&_blockquote]:ml-5 [&_blockquote]:w-fit [&_blockquote]:border-l-4 [&_blockquote]:border-black [&_blockquote]:bg-[#f9f9f9] [&_blockquote]:p-5 [&_blockquote]:italic [&_h1]:lg:text-4xl [&_h2]:lg:text-3xl [&_h3]:lg:text-2xl [&_ol]:list-decimal [&_ol]:pl-5 [&_ul]:list-disc [&_ul]:pl-5">
             <div className="overflow-x-auto">
               <figure className="table min-w-[300px] w-full">
@@ -18,23 +20,23 @@ export default function WhyAttendSection() {
                     {[
                       {
                         icon: "info_1ac9f9903c.png",
-                        title: "Stay updated on key market changes",
-                        description: "Delegates will receive current information about changes in transport and logistics services and can get answers to their questions from market experts"
+                        title: "Stay Updated on Key Industry Developments",
+                        description: "Delegates will gain valuable insights into the latest trends in die & mould, tooling, automation, and precision manufacturing. Hear directly from industry experts, technology leaders, and OEM decision-makers, and get practical answers to your most pressing technical and business challenges."
                       },
                       {
                         icon: "profits_7bf2b98a13.png",
-                        title: "Insights for business development",
-                        description: "Each delegate will identify new prospects for company development, including expanding types of cargo transportation and range of services offered"
+                        title: "Insights for Business Growth",
+                        description: "Each delegate will discover new opportunities for business expansion, including advanced tooling capabilities, emerging manufacturing technologies, new industry applications, and expanded service offerings across automotive, aerospace, plastics, and precision engineering sectors."
                       },
                       {
                         icon: "chat_6c367bef7a.png",
                         title: "Networking opportunities",
-                        description: "Participation provides a simple way to join the business community, exchange ideas and experiences, and establish useful partnerships"
+                        description: "Participating in the DIEMEX Conference offers a powerful platform to connect with die & mould manufacturers, tooling experts, OEM leaders, and precision engineering professionals. Exchange ideas, share best practices, and build strategic partnerships that drive long-term business growth."
                       },
                       {
                         icon: "sales_348ae8dd98.png",
-                        title: "Additional opportunities for TransRussia exhibition participants",
-                        description: "For delegates whose companies plan to participate in the upcoming exhibition, the knowledge gained allows adapting participation concepts to market situations"
+                        title: "Additional Opportunities for DIEMEX Exhibitors",
+                        description: "For DIEMEX exhibitors, conference insights help sharpen exhibition strategies, align product positioning with market trends, and maximise ROI. By understanding emerging technologies and buyer expectations, exhibitors can present stronger, more targeted solutions."
                       }
                     ].map((item, index) => (
                       <React.Fragment key={index}>

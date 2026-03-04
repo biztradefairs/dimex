@@ -1,556 +1,679 @@
 // Database of all sectors with their specific content
 export const sectorDatabase = {
   // TransRussia Sectors
-  'complex-logistics': {
-    title: 'Complex Logistics Services & Freight Forwarding',
-    description: 'Comprehensive logistics solutions including freight forwarding, customs clearance, and supply chain management services.',
+  'die & mould manufacturing': {
+    title: 'Comprehensive die, mould, and precision tooling solutions powering modern manufacturing industries.',
+    description: 'Die & Mould Manufacturing',
+    mainDescription: `As industries demand lighter components, tighter tolerances, and faster production cycles, the role of advanced die & mould manufacturing becomes increasingly critical. The Die & Mould Manufacturing sector at DIEMEX brings together leading tool rooms, mould makers, die manufacturers, and precision engineering companies driving innovation across automotive, aerospace, electronics, packaging, and medical industries..
+
+From high-precision injection moulds and progressive dies to die-casting tools and multi-cavity mould systems, this sector showcases cutting-edge manufacturing capabilities designed for durability, repeatability, and cost efficiency.
+
+Visitors can explore innovations in high-speed machining, 5-axis tool manufacturing, conformal cooling, advanced tool steels, and CAD/CAM-driven design optimization that reduce lead times and enhance part quality.
+
+Whether you are an OEM seeking reliable tooling partners or a manufacturer aiming to scale production capabilities, this sector connects you with experts shaping the next generation of precision manufacturing..`,
     heroImage: '/images/image.png',
     stats: {
-      visitors: '30,400+',
-      exhibitors: '590+',
-      countries: '50+'
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
-        title: "Connect with Major Shippers & Importers",
+        title: "Connect with OEM & Tier Manufacturers",
         icon: "🤝",
-        description: "Meet decision-makers from manufacturing, retail, and trade sectors seeking end-to-end logistics partners."
+        description: "Engage with automotive, aerospace, consumer goods, and electronics manufacturers actively sourcing tooling partners."
       },
       {
-        title: "Showcase Integrated Supply Chain Solutions",
+        title: "Showcase Advanced Manufacturing Capabilities",
         icon: "🔗",
-        description: "Present your capabilities in multi-modal transport, warehousing, customs brokerage, and last-mile delivery."
+        description: "Demonstrate multi-cavity mould systems, progressive tooling, and precision die solutions."
       },
       {
-        title: "Capitalize on Growing Cross-Border Trade",
+        title: "Capitalize on India’s Manufacturing Growth",
         icon: "🌍",
-        description: "With Eurasian trade corridors expanding, demand for sophisticated logistics services is at an all-time high."
+        description: "Benefit from rising domestic production and global supply chain diversification."
       }
     ],
     services: [
-      "Freight Forwarding Services",
-      "Customs Clearance & Documentation",
-      "Supply Chain Consulting",
-      "Inventory Management",
-      "Multi-modal Transportation",
-      "Cross-border Logistics",
-      "Distribution Network Design",
-      "Logistics Outsourcing",
-      "Risk Management",
-      "Compliance & Regulatory Services"
-    ],
+      "Injection Moulds",
+      "Blow Moulds",
+      "Compression & Transfer Moulds",
+      "Progressive & Compound Dies",
+      "Die Casting Dies",
+      "Jigs & Fixtures",
+      "Prototype & Development Tooling",
+      "Tool Room Services",
+      "Reverse Engineering",
+        ],
     faqs: [
       {
         question: "What types of companies exhibit in this sector?",
-        answer: "Global freight forwarders, 3PL/4PL providers, customs brokers, supply chain consultants, and integrated logistics service providers."
+        answer: "Tool rooms, mould makers, die manufacturers, precision engineering firms, and design solution providers."
       },
       {
         question: "Who visits this sector?",
-        answer: "Manufacturers, retailers, import/export managers, supply chain directors, and businesses seeking comprehensive logistics solutions."
+        answer: "OEMs, plant heads, tool room managers, R&D engineers, and procurement teams."
       },
       {
-        question: "What are the key trends in complex logistics?",
-        answer: "Digital transformation, sustainability, nearshoring, supply chain resilience, and integrated technology platforms."
+        question: "What are the key trends?",
+        answer: "Automation integration, conformal cooling, additive tooling, lightweight materials, and digital simulation."
       }
     ]
   },
+     'die-mould-manufacturing': {
+    title: 'Die & Mould Manufacturing',
+    description: 'Comprehensive die, mould, and precision tooling solutions powering modern manufacturing industries.',
+    mainDescription: `As industries demand higher precision, faster production cycles, and lightweight components, advanced die & mould solutions have become essential. This sector at DIEMEX brings together leading tool rooms, mould makers, and die manufacturers serving automotive, aerospace, electronics, medical, and consumer industries.
+
+From injection moulds and progressive press tools to die casting dies and multi-cavity systems, exhibitors showcase durable, repeatable, and cost-efficient manufacturing capabilities enhanced by CAD/CAM integration and high-speed machining technologies.`,
+    heroImage: '/images/sectors/die-mould.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
+    whyExhibit: [
+      { title: "Connect with OEMs & Tier Manufacturers", icon: "🤝", description: "Engage decision-makers sourcing precision tooling partners." },
+      { title: "Showcase Advanced Tooling Capabilities", icon: "⚙️", description: "Demonstrate injection moulds, progressive dies, and precision die systems." },
+      { title: "Capitalize on Manufacturing Growth", icon: "📈", description: "Leverage India's rapidly expanding industrial ecosystem." }
+    ],
+    services: [
+      "Injection Moulds","Blow Moulds","Progressive & Compound Dies",
+      "Die Casting Dies","Jigs & Fixtures","Prototype Tooling"
+    ],
+    faqs: [
+      { question: "Who should exhibit?", answer: "Tool rooms, die makers, mould manufacturers, and precision engineering firms." },
+      { question: "Who visits?", answer: "OEMs, production heads, R&D engineers, and procurement teams." },
+      { question: "Key trends?", answer: "5-axis machining, conformal cooling, additive inserts, and smart tooling." }
+    ]
+  },
+   'maritime-and-inland-waterway-transport': {
+     title: 'Tooling & Cutting Tools',
+    description: 'High-performance cutting tools and precision tooling systems for advanced machining.',
+    mainDescription: `Tooling performance directly impacts productivity and profitability. This sector features carbide inserts, end mills, drills, reamers, and tool holders designed for high-speed and high-precision machining applications across industries.`,
+    heroImage: '/images/sectors/tooling.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
+    whyExhibit: [
+      { title: "Meet High-Volume Manufacturers", icon: "🔧", description: "Connect with production-driven companies seeking efficiency." },
+      { title: "Showcase Tool Innovations", icon: "🛠️", description: "Present advanced coatings and optimized geometries." },
+      { title: "Drive Productivity Partnerships", icon: "📊", description: "Demonstrate cost-per-component improvements." }
+    ],
+    services: [
+      "Carbide Inserts","End Mills","Drills & Reamers",
+      "Tool Holders","Special Purpose Tools","Coating Technologies"
+    ],
+    faqs: [
+      { question: "Who should exhibit?", answer: "Cutting tool manufacturers and carbide producers." },
+      { question: "Who visits?", answer: "Machining supervisors, tool room heads, and engineers." },
+      { question: "Key trends?", answer: "Advanced coatings, automation-compatible tooling, and micro-machining." }
+    ]
+  },
+     'die-mould': {
+     title: 'Machine Tools & Advanced Machining',
+    description: 'CNC systems, EDM, multi-axis machining, and high-precision manufacturing technologies.',
+    mainDescription: `Modern manufacturing depends on advanced machining capabilities. This sector features CNC machining centers, EDM systems, 5-axis machines, grinding solutions, and IoT-enabled production equipment designed for precision and efficiency.`,
+    heroImage: '/images/sectors/machine-tools.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
+    whyExhibit: [
+      { title: "Demonstrate Live Capabilities", icon: "🏭", description: "Show real-time machining performance." },
+      { title: "Target Expanding Investments", icon: "📈", description: "Connect with companies upgrading production facilities." },
+      { title: "Build Long-Term Partnerships", icon: "🤝", description: "Position your machines as productivity assets." }
+    ],
+    services: [
+      "CNC Machines","5-Axis Systems","EDM & Wire Cut",
+      "Grinding Machines","High-Speed Milling","Smart Controls"
+    ],
+    faqs: [
+      { question: "Who should exhibit?", answer: "CNC and EDM manufacturers." },
+      { question: "Who visits?", answer: "Plant heads and capital equipment buyers." },
+      { question: "Key trends?", answer: "Automation integration and predictive maintenance." }
+    ]
+  },
+      'rail-freight': {
+    title: 'Automation & Robotics',
+    description: 'Industrial automation and robotics driving smart factory transformation.',
+    mainDescription: `Automation is redefining productivity. This sector features industrial robots, cobots, material handling systems, and AI-powered manufacturing technologies that enhance efficiency, precision, and safety.`,
+    heroImage: '/images/sectors/automation.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
+    whyExhibit: [
+      { title: "Engage Digital Manufacturers", icon: "🤖", description: "Connect with smart factory adopters." },
+      { title: "Demonstrate Efficiency Gains", icon: "⚡", description: "Show measurable productivity improvements." },
+      { title: "Support Industry 4.0", icon: "📊", description: "Enable connected manufacturing ecosystems." }
+    ],
+    services: [
+      "Industrial Robots","Cobots","Vision Systems",
+      "Automated Loading","Smart Assembly Systems"
+    ],
+    faqs: [
+      { question: "Who should exhibit?", answer: "Robot manufacturers and automation integrators." },
+      { question: "Key trends?", answer: "AI integration and collaborative robotics." }
+    ]
+  },
   
-  'maritime-and-inland-waterway-transport': {
-    title: 'Maritime & Inland Waterway Transport',
-    description: 'Ocean and river transport services, shipping lines, and inland waterway logistics solutions.',
+  'tooling & cutting tools': {
+    title: 'Tooling & Cutting Tools',
+    description: 'Enhancing Productivity Through Advanced Tooling Solutions',
+    mainDescription: `In high-speed, high-precision production environments, tooling performance directly impacts efficiency and profitability. The Tooling & Cutting Tools sector at DIEMEX features manufacturers and suppliers of carbide inserts, end mills, drills, reamers, tool holders, and special-purpose tooling systems.
+
+This sector highlights advancements in coating technologies, optimized geometries, micro-machining tools, and long-life cutting solutions designed to improve surface finish and reduce downtime.
+
+Visitors can explore innovative tooling strategies that support hard machining, high-speed milling, and complex component production across automotive, aerospace, and die & mould industries.`,
     heroImage: '/images/image.png',
     stats: {
-      visitors: '30,400+',
-      exhibitors: '590+',
-      countries: '50+'
+     visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
-        title: "Connect with Major Shippers & Exporters",
+        title: "Meet High-Volume Manufacturers",
         icon: "🚢",
-        description: "Meet cargo owners moving bulk, containerized, and project cargo across global shipping lanes."
+        description: "Connect with companies seeking performance-driven cutting solutions."
       },
       {
-        title: "Showcase Port-to-Port & Door-to-Door Solutions",
+        title: "Showcase New Tooling Technologies",
         icon: "⚓",
-        description: "Present your shipping routes, vessel capabilities, intermodal connections, and value-added services."
+        description: "Present next-generation coatings, carbide grades, and optimized geometries."
       },
       {
-        title: "Tap into Growing Container & Bulk Trade",
+        title: "Drive Productivity-Focused Partnerships",
         icon: "📈",
-        description: "With new port infrastructure and trade agreements, maritime transport demand continues to expand across Eurasia."
+        description: "Demonstrate measurable cost-per-component improvements."
       }
     ],
     services: [
-      "Container Shipping Services",
-      "Bulk Carrier Operations",
-      "Liner & Tramper Services",
-      "Inland Waterway Transport",
-      "Chartering & Brokerage",
-      "Port Agency Services",
-      "Marine Insurance",
-      "Bunker Fuel Supply",
-      "Vessel Operations Management",
-      "Shipping Documentation"
-    ],
+      "Carbide Inserts",
+      "End Mills",
+      "Drills & Reamers",
+      "Tool Holders",
+      "Special Purpose Tools",
+      "Coating Technologies",
+      "Micro Machining Tools",
+      "Tool Presetting Systems",
+          ],
     faqs: [
       {
-        question: "What shipping services are featured?",
-        answer: "Container lines, bulk carriers, ro-ro services, specialized vessels, and inland waterway operators."
+        question: "Who should exhibit?",
+        answer: "Cutting tool manufacturers, tool holder suppliers, carbide producers, and coating specialists."
       },
       {
-        question: "Who are the key visitors?",
-        answer: "Exporters, importers, freight forwarders, port operators, and supply chain managers sourcing ocean transport."
+        question: "Who visits?",
+        answer: "Production engineers, machining supervisors, tool room heads, and procurement managers."
       },
       {
-        question: "What are the market opportunities?",
-        answer: "Growth in containerized trade, new shipping routes, Arctic shipping development, and sustainable shipping initiatives."
+        question: "Key trends?",
+        answer: "High-speed machining, advanced coatings, automation-compatible tooling, and sustainable manufacturing."
       }
     ]
   },
   
-  'air-freight': {
-    title: 'Air Freight',
-    description: 'Air cargo services, express logistics, and aviation freight solutions.',
+  'machine tools & advanced machining': {
+    title: 'Machine Tools & Advanced Machining',
+    description: 'CNC systems, EDM, multi-axis machining, and high-precision production technologies.',
+    mainDescription: `The backbone of die & mould and precision engineering industries, advanced machining technologies continue to evolve rapidly. The Machine Tools sector at DIEMEX features CNC machining centers, 5-axis systems, EDM, wire-cut EDM, grinding machines, and high-speed milling solutions.
+
+Exhibitors present automation-ready machines integrated with IoT monitoring, AI-driven diagnostics, and high-accuracy control systems designed for complex geometries and tight tolerances.
+
+Visitors can experience live demonstrations, production simulations, and smart machining solutions that increase throughput while maintaining precision.`,
     heroImage: '/images/image.png',
     stats: {
-      visitors: '30,400+',
-      exhibitors: '590+',
-      countries: '50+'
+    visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
-        title: "Connect with Time-Sensitive Shippers",
+        title: "Demonstrate Live Machining Capabilities",
         icon: "✈️",
-        description: "Meet pharmaceutical, e-commerce, automotive, and high-tech companies requiring urgent air cargo solutions."
+        description: "Engage buyers through real-time performance demonstrations."
       },
       {
-        title: "Showcase Specialized Air Logistics",
+        title: "Target Expanding Manufacturing Investments",
         icon: "📦",
-        description: "Present your capabilities in perishables, dangerous goods, live animals, and oversized cargo handling."
+        description: "Connect with companies upgrading production facilities."
       },
       {
-        title: "Capitalize on E-commerce & Pharma Growth",
+        title: "Build Long-Term Equipment Partnerships",
         icon: "💊",
-        description: "With rapid growth in online retail and temperature-sensitive shipments, air freight demand continues to soar."
+        description: "Position your machines as long-term productivity assets."
       }
     ],
     services: [
-      "Air Cargo Charter Services",
-      "Scheduled Freight Services",
-      "Express & Courier Logistics",
-      "Perishables Handling",
-      "Dangerous Goods Transport",
-      "Oversized & Heavy Cargo",
-      "Airport Ground Handling",
-      "Customs Clearance at Airports",
-      "Temperature-controlled Transport",
-      "Air Freight Consolidation"
-    ],
+      "CNC Machining Centers",
+      "5-Axis Machines",
+      "EDM & Wire Cut EDM",
+      "Grinding Machines",
+      "High-Speed Milling Systems",
+      "Automation-Integrated Machines",
+      "IoT Monitoring Systems",
+      "Smart Controls",
+          ],
     faqs: [
       {
-        question: "What types of air freight services are featured?",
-        answer: "Cargo airlines, freight forwarders, charter brokers, ground handlers, and specialized air logistics providers."
+        question: "Who should exhibit?",
+        answer: "CNC manufacturers, EDM providers, grinding machine suppliers, and automation integrators."
       },
       {
-        question: "Who visits the air freight sector?",
-        answer: "Manufacturers, e-commerce platforms, pharmaceutical companies, and businesses requiring fast, reliable transport."
+        question: "Who visits?",
+        answer: "Plant managers, production engineers, operations heads, and capital equipment buyers."
       },
       {
-        question: "What are the key market drivers?",
-        answer: "E-commerce growth, pharmaceutical supply chains, just-in-time manufacturing, and global emergency logistics."
+        question: "Key trends?",
+        answer: "Smart factories, automation integration, predictive maintenance, and energy-efficient machines."
       }
     ]
   },
-  // Complete TransRussia sectors data - Rail Freight to Heavy Lift Carriage
-'rail-freight': {
-  title: 'Rail Freight',
-  description: 'Rail transportation, intermodal solutions, and rail logistics across Eurasia.',
-  heroImage: '/images/image.png',
-  stats: {
-    visitors: '30,400+',
-    exhibitors: '590+',
-    countries: '50+'
-  },
-  whyExhibit: [
-    {
-      title: "Connect with Cross-Continent Shippers",
-      icon: "🚂",
-      description: "Meet businesses moving bulk commodities, containers, and project cargo across Eurasian rail corridors."
-    },
-    {
-      title: "Showcase Intermodal Rail Solutions",
-      icon: "🔄",
-      description: "Present your rail freight services, block train operations, wagon leasing, and rail-port connectivity."
-    },
-    {
-      title: "Capitalize on New Silk Road Growth",
-      icon: "🌐",
-      description: "With China-Europe rail traffic expanding, demand for efficient rail logistics solutions is at record levels."
-    }
-  ],
-  services: [
-    "Container Rail Services",
-    "Bulk Commodity Transport",
-    "Intermodal Terminal Operations",
-    "Wagon Leasing & Management",
-    "Railcar Maintenance & Repair",
-    "Railway Infrastructure Services",
-    "Cross-border Rail Logistics",
-    "Rail Freight Documentation",
-    "Dangerous Goods Transport by Rail",
-    "Temperature-controlled Rail Services"
-  ],
-  faqs: [
-    {
-      question: "What rail services are featured?",
-      answer: "Container trains, bulk cargo services, intermodal solutions, wagon management, and rail logistics consulting."
-    },
-    {
-      question: "Who are the key rail freight users?",
-      answer: "Manufacturers, mining companies, agricultural exporters, container shippers, and cross-border traders."
-    },
-    {
-      question: "What are the advantages of rail freight?",
-      answer: "Cost-effective for long distances, eco-friendly, reliable schedules, and high capacity for bulk commodities."
-    }
-  ]
-},
-
-'road-freight-transportation': {
-  title: 'Road Freight Transportation',
-  description: 'Trucking, LTL, FTL services, and road transport logistics.',
-  heroImage: '/images/image.png',
-  stats: {
-    visitors: '30,400+',
-    exhibitors: '590+',
-    countries: '50+'
-  },
-  whyExhibit: [
-    {
-      title: "Connect with Regional & Long-Haul Shippers",
-      icon: "🚚",
-      description: "Meet manufacturers, distributors, and retailers requiring flexible road transport solutions."
-    },
-    {
-      title: "Showcase Comprehensive Trucking Services",
-      icon: "📦",
-      description: "Present your fleet capabilities, LTL/FTL services, temperature-controlled transport, and last-mile delivery."
-    },
-    {
-      title: "Address E-commerce & Just-in-Time Demands",
-      icon: "⚡",
-      description: "With online retail growing, reliable and flexible road transport is more critical than ever."
-    }
-  ],
-  services: [
-    "Full Truckload (FTL) Services",
-    "Less Than Truckload (LTL) Solutions",
-    "Temperature-controlled Transport",
-    "Dangerous Goods by Road",
-    "Express & Urgent Delivery",
-    "Last-Mile Delivery Services",
-    "Fleet Management Solutions",
-    "Cross-border Road Transport",
-    "Vehicle Leasing & Rental",
-    "Road Transport Insurance"
-  ],
-  faqs: [
-    {
-      question: "What types of road transport services are featured?",
-      answer: "FTL/LTL services, specialized transport, express delivery, fleet management, and cross-border trucking."
-    },
-    {
-      question: "Who uses road freight services?",
-      answer: "Manufacturers, retailers, distributors, e-commerce companies, and businesses requiring flexible transport."
-    },
-    {
-      question: "What are the key challenges in road transport?",
-      answer: "Border crossing efficiency, driver shortages, fuel costs, regulatory compliance, and infrastructure constraints."
-    }
-  ]
-},
-
-'warehouse-technology': {
-  title: 'Warehouse Technology',
-  description: 'Warehouse management systems, automation, and storage technology solutions.',
-  heroImage: '/images/image.png',
-  stats: {
-    visitors: '30,400+',
-    exhibitors: '590+',
-    countries: '50+'
-  },
-  whyExhibit: [
-    {
-      title: "Connect with Warehouse & DC Managers",
-      icon: "🏭",
-      description: "Meet logistics managers, 3PLs, and distribution center operators seeking efficiency improvements."
-    },
-    {
-      title: "Showcase Smart Warehouse Solutions",
-      icon: "🤖",
-      description: "Present your WMS software, automation systems, robotics, and warehouse optimization technologies."
-    },
-    {
-      title: "Address Labor Shortages & Efficiency Goals",
-      icon: "📊",
-      description: "With e-commerce driving warehouse volume, automation and technology adoption are accelerating."
-    }
-  ],
-  services: [
-    "Warehouse Management Systems (WMS)",
-    "Inventory Management Software",
-    "Automated Storage & Retrieval",
-    "Pick-to-Light & Put-to-Light Systems",
-    "RFID & Barcode Technology",
-    "Warehouse Robotics & Automation",
-    "Voice Picking Systems",
-    "Yard Management Systems",
-    "Labor Management Software",
-    "Warehouse Analytics & Reporting"
-  ],
-  faqs: [
-    {
-      question: "What warehouse technologies are featured?",
-      answer: "WMS software, automation systems, robotics, scanning technology, and warehouse optimization solutions."
-    },
-    {
-      question: "Who implements warehouse technology?",
-      answer: "3PLs, distribution centers, manufacturers, retailers, and logistics companies with storage operations."
-    },
-    {
-      question: "What ROI can warehouse technology provide?",
-      answer: "Reduced labor costs, improved accuracy, faster order processing, better space utilization, and enhanced visibility."
-    }
-  ]
-},
-
-'it-solutions': {
-  title: 'IT Solutions',
-  description: 'Logistics software, tracking systems, and digital supply chain solutions.',
-  heroImage: '/images/image.png',
-  stats: {
-    visitors: '30,400+',
-    exhibitors: '590+',
-    countries: '50+'
-  },
-  whyExhibit: [
-    {
-      title: "Connect with Digital Transformation Teams",
-      icon: "💻",
-      description: "Meet CIOs, logistics managers, and operations directors seeking to digitize their supply chains."
-    },
-    {
-      title: "Showcase End-to-End Supply Chain Visibility",
-      icon: "👁️",
-      description: "Present your TMS, visibility platforms, IoT solutions, and digital logistics ecosystems."
-    },
-    {
-      title: "Capitalize on Supply Chain Digitization",
-      icon: "🚀",
-      description: "With supply chain complexity increasing, demand for digital solutions is growing exponentially."
-    }
-  ],
-  services: [
-    "Transportation Management Systems (TMS)",
-    "Supply Chain Visibility Platforms",
-    "Fleet Management Software",
-    "IoT & Telematics Solutions",
-    "Blockchain for Logistics",
-    "Digital Freight Marketplaces",
-    "Route Optimization Software",
-    "Document Management Systems",
-    "EDI & API Integration",
-    "Cloud Logistics Platforms"
-  ],
-  faqs: [
-    {
-      question: "What IT solutions are featured?",
-      answer: "TMS, visibility platforms, fleet management software, IoT solutions, and digital logistics platforms."
-    },
-    {
-      question: "Who implements logistics IT solutions?",
-      answer: "Logistics companies, manufacturers, retailers, 3PLs, and businesses with complex supply chains."
-    },
-    {
-      question: "What are the benefits of logistics IT?",
-      answer: "Improved visibility, reduced costs, better customer service, enhanced efficiency, and data-driven decision making."
-    }
-  ]
-},
-
-'ecommerce-logistics': {
-  title: 'E-commerce Logistics',
-  description: 'Fulfillment, last-mile delivery, and e-commerce supply chain services.',
-  heroImage: '/images/image.png',
-  stats: {
-    visitors: '30,400+',
-    exhibitors: '590+',
-    countries: '50+'
-  },
-  whyExhibit: [
-    {
-      title: "Connect with Online Retailers & Marketplaces",
-      icon: "🛒",
-      description: "Meet e-commerce businesses, D2C brands, and marketplace sellers seeking fulfillment solutions."
-    },
-    {
-      title: "Showcase End-to-End E-commerce Solutions",
-      icon: "📦",
-      description: "Present your fulfillment services, last-mile delivery, returns management, and cross-border e-commerce."
-    },
-    {
-      title: "Tap into Explosive E-commerce Growth",
-      icon: "📈",
-      description: "With online retail continuing to expand, specialized e-commerce logistics services are in high demand."
-    }
-  ],
-  services: [
-    "E-commerce Fulfillment Services",
-    "Last-Mile Delivery Solutions",
-    "Returns Management & Reverse Logistics",
-    "Cross-border E-commerce Logistics",
-    "Multi-channel Fulfillment",
-    "Subscription Box Logistics",
-    "Same-Day & Next-Day Delivery",
-    "Parcel Consolidation",
-    "E-commerce Warehouse Solutions",
-    "Customs Clearance for E-commerce"
-  ],
-  faqs: [
-    {
-      question: "What e-commerce logistics services are featured?",
-      answer: "Fulfillment, last-mile delivery, returns management, cross-border solutions, and specialized e-commerce services."
-    },
-    {
-      question: "Who uses e-commerce logistics?",
-      answer: "Online retailers, marketplace sellers, D2C brands, subscription services, and e-commerce platforms."
-    },
-    {
-      question: "What are the key challenges in e-commerce logistics?",
-      answer: "Last-mile delivery costs, returns management, peak season capacity, cross-border complexity, and customer expectations."
-    }
-  ]
-},
-
-'heavy-lift-carriage': {
-  title: 'Heavy Lift Carriage',
-  description: 'Oversized cargo transport, project logistics, and specialized heavy haulage.',
-  heroImage: '/images/image.png',
-  stats: {
-    visitors: '30,400+',
-    exhibitors: '590+',
-    countries: '50+'
-  },
-  whyExhibit: [
-    {
-      title: "Connect with Energy & Infrastructure Projects",
-      icon: "⚡",
-      description: "Meet oil & gas, renewable energy, construction, and industrial project managers moving oversized equipment."
-    },
-    {
-      title: "Showcase Specialized Heavy Transport Capabilities",
-      icon: "🏗️",
-      description: "Present your heavy lift equipment, specialized transport solutions, engineering capabilities, and project logistics."
-    },
-    {
-      title: "Capitalize on Infrastructure Development",
-      icon: "🔨",
-      description: "With major infrastructure projects underway across Eurasia, demand for heavy lift expertise is growing."
-    }
-  ],
-  services: [
-    "Oversized & Overweight Cargo Transport",
-    "Project Logistics Management",
-    "Heavy Lift Equipment & Cranes",
-    "Specialized Transport Vehicles",
-    "Engineering & Route Surveys",
-    "Permitting & Regulatory Compliance",
-    "Off-road & Remote Area Transport",
-    "Marine Heavy Lift Services",
-    "Industrial Relocation",
-    "Risk Management & Insurance"
-  ],
-  faqs: [
-    {
-      question: "What types of heavy lift services are featured?",
-      answer: "Oversized cargo transport, project logistics, specialized equipment, engineering services, and permit management."
-    },
-    {
-      question: "Who requires heavy lift services?",
-      answer: "Energy companies, construction firms, manufacturers, mining operations, and infrastructure developers."
-    },
-    {
-      question: "What makes heavy lift logistics complex?",
-      answer: "Route planning, permitting, specialized equipment, engineering requirements, and coordination with multiple authorities."
-    }
-  ]
-},
-
   
-  'ports-and-terminals-freight-handling-services-in-ports': {
-    title: 'Ports & Terminals, Freight Handling Services In Ports',
-    description: 'Discover expert stevedoring, logistics, and storage solutions for seamless port operations at TransRussia.',
+  'automation & robotics': {
+    title: 'Automation & Robotics',
+    description: 'Industrial automation, robotics, and smart production systems driving next-generation manufacturing efficiency.',
+    mainDescription: `As manufacturers strive for higher productivity, consistency, and safety, automation has become a strategic necessity. The Automation & Robotics sector at DIEMEX showcases industrial robots, cobots, automated material handling systems, vision-guided inspection, and AI-driven production technologies.
+
+From robotic tool loading and automated mould change systems to fully integrated smart assembly lines, this sector highlights solutions that reduce human error, improve precision, and enhance production throughput.
+
+Visitors can explore scalable automation models suitable for tool rooms, die & mould shops, and high-volume manufacturing plants.`,
     heroImage: '/images/image.png',
     stats: {
-      visitors: '30,400+',
-      exhibitors: '590+',
-      countries: '50+'
+   visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
-        title: "Meet Buyers Managing Complex Seaborne Cargo Operations",
-        icon: "🔧",
-        description: "Engage with shippers, forwarders, and manufacturers sourcing reliable port services for smooth cross-border logistics."
+        title: "Engage Digital-Ready Manufacturers",
+        icon: "🚂",
+        description: "Connect with companies investing in smart factory upgrades."
       },
       {
-        title: "Showcase Expertise in Cargo Handling, Transshipment & Storage",
-        icon: "⚓",
-        description: "Present port operations, container unloading/loading, warehousing, and support services to decision-makers in global supply chains."
+        title: "Demonstrate Efficiency Gains",
+        icon: "🔄",
+        description: "Showcase automation solutions that reduce downtime and labor dependency."
       },
       {
-        title: "Capitalise on Investment in Eurasia's Coastal & Inland Port Infrastructure",
-        icon: "💰",
-        description: "With modernisation efforts and new trade routes emerging, demand is growing for agile, full-service port logistics solutions."
+        title: "Support Industry 4.0 Adoption",
+        icon: "🌐",
+        description: "Position your systems as enablers of connected manufacturing."
       }
     ],
     services: [
-      "Stevedoring & Vessel Docking Services",
-      "Container Handling & Transshipment",
-      "Port-Based Warehousing & Temporary Storage",
-      "Cargo Consolidation & Deconsolidation",
-      "Breakbulk & Project Cargo Handling",
-      "Refrigerated & Hazardous Goods Management",
-      "Port Infrastructure Development & Modernization",
-      "Terminal Automation & Tracking Systems",
-      "Customs Clearance & Port Documentation Support",
-      "Inland Waterway & River Port Logistics"
-    ],
+      "Industrial Robots & Cobots",
+      "Automated Tool Loading Systems",
+      "Vision Inspection Systems",
+      "Material Handling Automation",
+      "Smart Assembly Systems",
+      "Robotic Welding & Machining Cells",
+      "AI-Based Process Monitoring",
+          ],
     faqs: [
       {
-        question: "Who exhibits at TransRussia?",
-        answer: "Logistics companies, freight forwarders, carriers (road, rail, sea, air), 3PLs, terminals, IT and customs service providers."
+        question: "Who should exhibit?",
+        answer: "Robot manufacturers, automation integrators, AI solution providers, and smart factory consultants."
       },
       {
-        question: "Who visits the show?",
-        answer: "Logistics and supply chain managers, manufacturers, retailers, wholesalers, import/export professionals, and infrastructure developers."
+        question: "Who visits?",
+        answer: "Plant heads, production managers, automation engineers, and OEM decision-makers."
       },
       {
-        question: "What sectors can I exhibit under?",
-        answer: "Air, road, rail, and sea transport; freight forwarding; IT & automation; warehousing; customs and insurance. Please check out our sectors page for more details."
+        question: "Key trends?",
+        answer: "Collaborative robotics, AI analytics, predictive maintenance, and fully connected production lines."
       }
     ]
   },
 
-  // DIEMEX Sectors (New Addition)
+  'road-freight-transportation': {
+    title: 'Additive Manufacturing & 3D Printing',
+    description: 'Advanced 3D printing technologies for tooling and production innovation.',
+    mainDescription: `Additive manufacturing accelerates prototyping and tooling development. This sector showcases metal 3D printing, hybrid manufacturing, and conformal cooling solutions that reduce lead times and enable complex designs.`,
+    heroImage: '/images/sectors/additive.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
+    whyExhibit: [
+      { title: "Promote Rapid Innovation", icon: "🚀", description: "Highlight faster time-to-market capabilities." },
+      { title: "Showcase Complex Geometries", icon: "🧩", description: "Demonstrate design flexibility." }
+    ],
+    services: [
+      "Metal 3D Printers","Polymer 3D Printing","Hybrid Systems","Rapid Prototyping"
+    ],
+    faqs: [
+      { question: "Key trends?", answer: "Conformal cooling and hybrid machining integration." }
+    ]
+  },
+
+
+  'ports-and-terminals-freight-handling-services-in-ports': {
+   title: 'Metrology & Quality Control',
+    description: 'Precision measurement systems ensuring zero-defect production.',
+    mainDescription: `Quality defines competitiveness. This sector features CMM machines, optical inspection systems, and advanced metrology technologies ensuring dimensional accuracy and compliance with global standards.`,
+    heroImage: '/images/sectors/metrology.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
+    whyExhibit: [
+      { title: "Support Zero-Defect Manufacturing", icon: "📏", description: "Showcase precision measurement technologies." }
+    ],
+    services: [
+      "CMM Machines","Laser Scanners","Surface Testers","Inspection Software"
+    ],
+    faqs: [
+      { question: "Who visits?", answer: "Quality managers and inspection engineers." }
+    ]
+  },
+
+
+  'warehouse-technology': {
+    title: 'Raw Materials & Tool Steel',
+    description: 'High-performance materials engineered for durability and precision.',
+    mainDescription: `Premium tool steels, carbides, coatings, and specialty alloys form the backbone of die & mould performance. This sector highlights materials engineered for strength, wear resistance, and thermal stability.`,
+    heroImage: '/images/sectors/materials.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
+    whyExhibit: [
+      { title: "Target Tool Manufacturers", icon: "🔩", description: "Connect with die & mould producers seeking advanced materials." }
+    ],
+    services: [
+      "Tool Steels","Carbide Materials","Special Alloys","Heat Treatment"
+    ],
+    faqs: [
+      { question: "Key trends?", answer: "Lightweight alloys and advanced surface coatings." }
+    ]
+  },
+
+  'it-solutions': {
+     title: 'Surface Treatment & Finishing',
+    description: 'Surface engineering solutions enhancing durability and performance.',
+    mainDescription: `Surface treatment technologies such as PVD/CVD coatings, nitriding, polishing, and texturing significantly extend tool life and performance.`,
+    heroImage: '/images/sectors/surface.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
+    whyExhibit: [
+      { title: "Enhance Tool Performance", icon: "✨", description: "Showcase coatings and hardening technologies." }
+    ],
+    services: [
+      "PVD/CVD Coatings","Laser Texturing","Heat Treatment","Polishing Systems"
+    ],
+    faqs: [
+      { question: "Who visits?", answer: "Tool rooms and production engineers." }
+    ]
+  },
+
+
+  'ecommerce-logistics': {
+   title: 'Smart Manufacturing & Industry 4.0',
+    description: 'Connected, data-driven factory technologies.',
+    mainDescription: `Industry 4.0 is transforming production with IoT-enabled machines, AI analytics, ERP/MES integration, and predictive maintenance platforms that improve efficiency and visibility.`,
+    heroImage: '/images/sectors/smart.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
+    whyExhibit: [
+      { title: "Enable Digital Transformation", icon: "🌐", description: "Showcase IoT and AI-driven solutions." }
+    ],
+    services: [
+      "IoT Platforms","MES Systems","ERP Integration","Predictive Maintenance"
+    ],
+    faqs: [
+      { question: "Key trends?", answer: "Connected machines and AI-based analytics." }
+    ]
+  },
+
+  'heavy-lift-carriage': {
+   title: 'Industrial Services & Engineering Solutions',
+  description: 'Specialized engineering expertise and industrial services supporting scalable manufacturing growth.',
+  mainDescription: `As manufacturing ecosystems become more specialized and globally integrated, companies increasingly rely on external expertise to enhance efficiency, reduce costs, and accelerate innovation. The Industrial Services & Engineering Solutions sector at DIEMEX brings together contract manufacturers, engineering consultants, reverse engineering specialists, maintenance providers, and technical service companies.
+
+This sector focuses on delivering end-to-end industrial support — from product design optimization and process consulting to plant maintenance, retrofitting, and turnkey project execution. Exhibitors present scalable solutions that help manufacturers improve operational performance without heavy capital investments.
+
+Visitors can explore partnerships that strengthen production capabilities, enhance technical expertise, and ensure long-term operational sustainability.
+
+Whether you are an OEM seeking outsourced engineering support or a growing manufacturer requiring technical collaboration, this sector connects you with trusted industrial solution providers ready to support your expansion journey.`,
+  
+  heroImage: '/images/sectors/industrial-services.jpg',
+
+  stats: {
+    visitors: '10,000+',
+    exhibitors: '200+',
+    countries: '10+'
+  },
+
+  whyExhibit: [
+    {
+      title: "Position as a Strategic Manufacturing Partner",
+      icon: "🤝",
+      description: "Engage OEMs and manufacturers seeking outsourced engineering and industrial expertise."
+    },
+    {
+      title: "Showcase Specialized Technical Capabilities",
+      icon: "🛠️",
+      description: "Demonstrate consulting, maintenance, reverse engineering, and turnkey project solutions."
+    },
+    {
+      title: "Expand Long-Term Business Relationships",
+      icon: "📈",
+      description: "Build recurring revenue opportunities through industrial service partnerships."
+    }
+  ],
+
+  services: [
+    "Contract Manufacturing Services",
+    "Engineering Design & Consulting",
+    "Reverse Engineering",
+    "Plant Maintenance & Retrofitting",
+    "Turnkey Project Solutions",
+    "Process Optimization",
+    "Technical Outsourcing",
+    "Installation & Commissioning Services"
+  ],
+
+  faqs: [
+    {
+      question: "What types of companies exhibit in this sector?",
+      answer: "Contract manufacturers, engineering consultants, maintenance service providers, reverse engineering firms, and turnkey project specialists."
+    },
+    {
+      question: "Who visits this sector?",
+      answer: "OEMs, plant heads, operations managers, technical directors, and businesses seeking scalable industrial support solutions."
+    },
+    {
+      question: "What are the key trends in industrial services?",
+      answer: "Outsourced engineering, predictive maintenance, plant modernization, turnkey automation integration, and cost-optimized manufacturing support."
+    }
+  ]
+},
+
+  // SkladTech Sectors
+  'warehousing-systems': {
+    title: 'Warehousing Systems',
+    description: 'Storage systems, racking, and warehouse infrastructure solutions.',
+    mainDescription: `The Warehousing Systems sector at DIEMEX focuses on the physical infrastructure that enables efficient storage and retrieval of goods. From pallet racking and shelving systems to mezzanine floors and automated storage solutions, this sector showcases the products that maximize warehouse space utilization while ensuring safety and accessibility.
+
+Exhibitors include manufacturers and suppliers of storage equipment, racking systems, and warehouse infrastructure components. Visitors can explore different storage configurations, compare materials and load capacities, and discover innovative solutions for challenging storage requirements—from long goods to hazardous materials and temperature-controlled environments.
+
+For warehouse operators, logistics managers, and facility planners, this sector provides the foundational elements of efficient warehouse design. Whether you're building a new facility, expanding existing space, or reconfiguring for changing product mix, the solutions showcased here help you make the most of your storage investment.`,
+    heroImage: '/images/image.png',
+    stats: {
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
+    },
+    whyExhibit: [
+      {
+        title: "Meet Warehouse Operators & 3PLs",
+        icon: "🏭",
+        description: "Connect with distribution centers, logistics hubs, and storage facility managers seeking modern storage solutions."
+      },
+      {
+        title: "Showcase Advanced Storage Technologies",
+        icon: "📊",
+        description: "Present your racking systems, automated storage, mezzanine floors, and warehouse design services."
+      }
+    ],
+    services: [
+      "Pallet Racking Systems",
+      "Shelving & Storage Solutions",
+      "Mezzanine Floors",
+      "Warehouse Design & Layout",
+      "Storage Optimization",
+      "Inventory Management Systems"
+    ],
+    faqs: [
+      {
+        question: "What products are featured?",
+        answer: "Storage systems, warehouse equipment, racking solutions, and space optimization technologies."
+      }
+    ]
+  },
+
+  'material-handling': {
+    title: 'Material Handling',
+    description: 'Forklifts, conveyors, and material handling equipment.',
+    mainDescription: `The Material Handling sector at DIEMEX showcases the equipment that keeps goods moving through warehouses, distribution centers, and manufacturing facilities. From forklifts and pallet jacks to conveyor systems and automated guided vehicles (AGVs), this sector brings together the manufacturers and suppliers who enable efficient material flow.
+
+Exhibitors demonstrate the latest in lift truck technology, including electric and alternative fuel options, ergonomic designs, and telematics-enabled fleet management systems. Visitors can also explore conveyor solutions for sortation and accumulation, as well as specialized handling equipment for unique applications like drum handling, coil lifting, and palletizing.
+
+For operations managers seeking to improve throughput, reduce labor costs, and enhance workplace safety, this sector offers hands-on exposure to the equipment that can transform material handling operations. Whether you're equipping a new facility or upgrading existing equipment, the solutions showcased here address the full spectrum of material movement needs.`,
+    heroImage: '/images/image.png',
+    stats: {
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
+    },
+    whyExhibit: [
+      {
+        title: "Connect with Operations Managers",
+        icon: "🔧",
+        description: "Meet warehouse managers, plant supervisors, and logistics professionals seeking material handling solutions."
+      }
+    ],
+    services: [
+      "Forklifts & Lift Trucks",
+      "Conveyor Systems",
+      "Pallet Jacks & Hand Trucks",
+      "Automated Guided Vehicles",
+      "Cranes & Hoists",
+      "Dock Equipment"
+    ],
+    faqs: [
+      {
+        question: "What equipment is featured?",
+        answer: "Forklifts, conveyors, AGVs, cranes, and various material handling equipment."
+      }
+    ]
+  },
+
+  'automation-robotics': {
+    title: 'Automation & Robotics',
+    description: 'Automated storage, robotics, and smart warehouse solutions.',
+    mainDescription: `The Automation & Robotics sector at DIEMEX showcases the cutting-edge technologies that are transforming warehouses into highly efficient, lights-out operations. From autonomous mobile robots (AMRs) that transport goods through facilities to robotic picking arms that handle individual items, this sector demonstrates how automation is addressing labor shortages while improving accuracy and throughput.
+
+Exhibitors include robotics manufacturers, system integrators, and automation specialists who design and implement solutions for warehouses of all sizes. Visitors can see live demonstrations of robotic systems in action, explore how they integrate with warehouse management software, and understand the ROI calculations that justify automation investments.
+
+For forward-thinking logistics professionals, this sector provides a window into the future of warehousing. Whether you're considering partial automation or planning a fully automated facility, the expertise and technology showcased here can guide your automation strategy and help you stay competitive in an increasingly automated world.`,
+    heroImage: '/images/image.png',
+    stats: {
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
+    },
+    whyExhibit: [
+      {
+        title: "Connect with Automation Engineers",
+        icon: "🤖",
+        description: "Meet professionals seeking to automate warehouse operations and reduce labor dependency."
+      }
+    ],
+    services: [
+      "Automated Storage Systems",
+      "Robotic Picking Solutions",
+      "Autonomous Mobile Robots",
+      "Sortation Systems",
+      "Control Software",
+      "Integration Services"
+    ],
+    faqs: [
+      {
+        question: "What automation solutions are featured?",
+        answer: "Robotics, automated storage, sortation systems, and control software."
+      }
+    ]
+  },
+
+  'packaging-systems': {
+    title: 'Packaging Systems',
+    description: 'Packaging equipment, labeling, and packing solutions.',
+    mainDescription: `The Packaging Systems sector at DIEMEX addresses the critical interface between product protection and logistics efficiency. From primary packaging that preserves product integrity to secondary packaging that enables efficient handling and transport, this sector showcases the equipment and materials that ensure goods reach customers in perfect condition.
+
+Exhibitors include manufacturers of packaging machinery, labeling systems, and consumables, as well as providers of sustainable packaging solutions that reduce environmental impact while maintaining protection. Visitors can explore automated packaging lines, case erectors, stretch wrappers, and the labeling systems that ensure products are properly identified throughout the supply chain.
+
+For operations managers seeking to optimize packaging processes, reduce material costs, or transition to more sustainable options, this sector provides access to the latest innovations in packaging technology. Whether you're packaging consumer goods, industrial components, or e-commerce orders, the solutions showcased here help you balance protection, cost, and sustainability.`,
+    heroImage: '/images/image.png',
+    stats: {
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
+    },
+    whyExhibit: [
+      {
+        title: "Connect with Packaging Engineers",
+        icon: "📦",
+        description: "Meet professionals responsible for product packaging and shipping preparation."
+      }
+    ],
+    services: [
+      "Packaging Machinery",
+      "Labeling Systems",
+      "Stretch Wrappers",
+      "Case Erectors",
+      "Sustainable Packaging",
+      "Packing Materials"
+    ],
+    faqs: [
+      {
+        question: "What packaging solutions are featured?",
+        answer: "Packaging equipment, labeling systems, and sustainable packaging materials."
+      }
+    ]
+  },
+
+  'inventory-management': {
+    title: 'Inventory Management',
+    description: 'Inventory control, stock management, and tracking solutions.',
+    mainDescription: `The Inventory Management sector at DIEMEX focuses on the systems and technologies that provide real-time visibility into stock levels, locations, and movements. In an era where inventory accuracy directly impacts customer satisfaction and working capital, this sector showcases the solutions that help businesses maintain precise control over their assets.
+
+Exhibitors include providers of inventory management software, RFID and barcode systems, cycle counting solutions, and the IoT sensors that enable continuous monitoring of inventory conditions. Visitors can explore how these technologies integrate with ERP and WMS systems to provide accurate, timely information for decision-making.
+
+For businesses seeking to reduce stockouts, minimize excess inventory, or improve inventory accuracy, this sector offers insights into the tools and practices that drive inventory excellence. From warehouse floor to executive dashboard, the solutions showcased here provide the visibility needed to optimize inventory investment while meeting customer demand.`,
+    heroImage: '/images/image.png',
+    stats: {
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
+    },
+    whyExhibit: [
+      {
+        title: "Connect with Inventory Managers",
+        icon: "📊",
+        description: "Meet professionals responsible for stock accuracy and inventory optimization."
+      }
+    ],
+    services: [
+      "Inventory Management Software",
+      "RFID Systems",
+      "Barcode Solutions",
+      "Cycle Counting",
+      "IoT Sensors",
+      "Analytics & Reporting"
+    ],
+    faqs: [
+      {
+        question: "What inventory solutions are featured?",
+        answer: "Inventory software, tracking systems, and real-time monitoring solutions."
+      }
+    ]
+  },
+
+  // DIEMEX Sectors
   'precision-moulds': {
     title: 'Precision Die & Mould Solutions',
     description: 'Comprehensive die & mould manufacturing, tooling systems, design engineering, and end-to-end production solutions supporting high-precision industrial applications.',
+    mainDescription: `The Precision Die & Mould Solutions sector at DIEMEX represents the pinnacle of tooling technology, where accuracy meets durability to enable mass production across automotive, aerospace, electronics, and consumer goods industries. This sector brings together specialized mould makers, tool designers, and manufacturing experts who create the critical components that shape our manufactured world.
+
+From injection moulds that produce millions of plastic parts to complex die-casting tools that form metal components under extreme pressure, exhibitors demonstrate how precision engineering drives modern manufacturing. Visitors can explore innovations in mould design, material selection, cooling systems, and ejection mechanisms that improve part quality while reducing cycle times.
+
+For manufacturers seeking to launch new products or optimize existing production, this sector offers access to tooling expertise that can make the difference between success and failure. Whether you need prototype tooling for market testing or high-volume production tools designed for maximum efficiency, the Precision Die & Mould sector connects you with partners who understand the critical role that quality tooling plays in competitive manufacturing.`,
     heroImage: 'https://cdn.itegroupnews.com/Untitled_design_16_ff2396a005.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -596,15 +719,20 @@ export const sectorDatabase = {
       }
     ]
   },
-  
+
   'tooling-mould-base': {
     title: 'Tooling, Mould Bases & Standard Components',
     description: 'High-quality mould bases, precision components, hot runner systems, and standard tooling elements supporting efficient and reliable die & mould production.',
+    mainDescription: `The Tooling, Mould Bases & Standard Components sector at DIEMEX focuses on the building blocks of effective tooling—the standardized elements that enable rapid mould construction, reliable performance, and cost-effective maintenance. This sector brings together manufacturers of mould bases, hot runner systems, ejector components, and the thousands of standard parts that toolmakers rely on daily.
+
+From precision-ground guide pillars and bushings to complex hot runner manifolds with sequential valve gating, exhibitors demonstrate how standardized components can reduce lead times, improve reliability, and simplify maintenance. Visitors can explore catalogues of off-the-shelf solutions that can be customized for specific applications, as well as specialized components designed for demanding molding conditions.
+
+For toolrooms and mould makers facing tight deadlines and budget constraints, this sector offers access to components that can accelerate production without compromising quality. Whether you're building new tools or maintaining existing ones, the standardized solutions showcased here provide the foundation for efficient, reliable tooling operations.`,
     heroImage: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_5_46a97403ad.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -650,15 +778,20 @@ export const sectorDatabase = {
       }
     ]
   },
-  
+
   'machining-finishing': {
     title: 'Machining & Finishing Technologies',
     description: 'High-precision CNC machining, EDM, wire-cut, surface finishing, and polishing solutions for toolroom operations.',
+    mainDescription: `The Machining & Finishing Technologies sector at DIEMEX showcases the equipment and processes that transform raw materials into precision tooling components. From rough machining to final finishing, this sector brings together manufacturers of CNC machines, EDM equipment, grinding systems, and the tools that achieve the micron-level accuracy required for modern tooling.
+
+Exhibitors demonstrate the latest in multi-axis machining, high-speed cutting, and wire EDM technologies that enable complex geometries and fine details. Visitors can also explore finishing processes—from manual polishing to automated surface treatments—that determine the final quality of tooling surfaces and, ultimately, the parts they produce.
+
+For toolmakers and precision machinists, this sector offers hands-on exposure to equipment that can expand capabilities, improve efficiency, and achieve tighter tolerances. Whether you're investing in new machinery or optimizing existing processes, the technologies showcased here represent the state of the art in precision machining and finishing.`,
     heroImage: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_4_b89e6f82a3.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -704,15 +837,20 @@ export const sectorDatabase = {
       }
     ]
   },
-  
+
   'automation-industry': {
     title: 'Automation & Industry 4.0 Solutions',
     description: 'Smart automation, robotics, digital manufacturing, and smart factory technologies for modern die & mould production.',
+    mainDescription: `The Automation & Industry 4.0 Solutions sector at DIEMEX showcases the digital transformation of toolmaking, where smart machines, connected systems, and data analytics are creating new levels of efficiency and capability. This sector brings together robotics manufacturers, control system integrators, and software developers who are implementing the smart factory vision in tool rooms and production facilities.
+
+Exhibitors demonstrate how collaborative robots can work alongside skilled toolmakers, how IoT sensors provide real-time machine monitoring, and how digital twins enable simulation and optimization before cutting chips. Visitors can explore manufacturing execution systems (MES) that provide end-to-end visibility and control, as well as the connectivity solutions that tie everything together.
+
+For manufacturers seeking to remain competitive in an increasingly digital world, this sector provides insights into the technologies and strategies driving Industry 4.0 adoption. Whether you're just beginning your digital transformation journey or looking to integrate existing systems, the solutions showcased here point the way toward smarter, more responsive manufacturing.`,
     heroImage: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_3_9089d75ec1.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+     visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -758,15 +896,20 @@ export const sectorDatabase = {
       }
     ]
   },
-  
+
   'cad-cam': {
     title: 'Design, CAD/CAM & Engineering Software',
     description: 'Advanced design, simulation, and manufacturing software enabling accurate tooling development and reduced time-to-market.',
+    mainDescription: `The Design, CAD/CAM & Engineering Software sector at DIEMEX showcases the digital tools that enable toolmakers to design complex geometries, simulate manufacturing processes, and generate efficient toolpaths before any metal is cut. This sector brings together software developers who create the specialized applications that tool designers and CNC programmers rely on daily.
+
+Exhibitors demonstrate the latest in 3D modeling, mold flow analysis, multi-axis CAM programming, and the simulation tools that verify programs and prevent costly errors. Visitors can explore how integrated CAD/CAM/CAE workflows reduce development time, improve first-shot success, and enable the design of increasingly complex parts.
+
+For tool designers, engineers, and programmers, this sector offers insights into software solutions that can expand capabilities and improve efficiency. Whether you're designing simple molds or complex multi-cavity tools with intricate cooling and ejection systems, the software showcased here provides the digital foundation for successful toolmaking.`,
     heroImage: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_7_c75137da32.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+    visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -812,15 +955,20 @@ export const sectorDatabase = {
       }
     ]
   },
-  
+
   'tool-steel': {
     title: 'Tool Steel & Advanced Materials',
     description: 'High-performance tool steels, alloy steels, special metals, and advanced materials engineered for durability, precision, and long tool life in die & mould applications.',
+    mainDescription: `The Tool Steel & Advanced Materials sector at DIEMEX focuses on the fundamental materials that determine tool performance, longevity, and cost-effectiveness. This sector brings together steel producers, material distributors, and metallurgical experts who supply the specialized alloys that enable precision tooling to withstand the extreme conditions of modern manufacturing.
+
+Exhibitors showcase the full range of tool steels—from conventional grades to powder metallurgy products—as well as advanced materials like carbides, ceramics, and surface treatments that extend tool life and improve performance. Visitors can explore material properties, heat treatment options, and the latest developments in materials that resist wear, withstand heat, and maintain dimensional stability under demanding conditions.
+
+For tool designers and manufacturing engineers, this sector provides essential information for material selection decisions that impact tool performance, production efficiency, and total cost of ownership. Whether you're selecting materials for high-volume production or challenging applications, the expertise and products showcased here support informed material choices.`,
     heroImage: 'https://cdn.itegroupnews.com/httpstransrussia_preview_prismetic_comterms_of_visiting_1200_x_490_px_a78a81f1aa.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -867,51 +1015,19 @@ export const sectorDatabase = {
     ]
   },
 
-  // SkladTech Sectors
-  'warehousing-systems': {
-    title: 'Warehousing Systems',
-    description: 'Storage systems, racking, and warehouse infrastructure solutions.',
-    heroImage: '/images/image.png',
-    stats: {
-      visitors: '15,200+',
-      exhibitors: '280+',
-      countries: '35+'
-    },
-    whyExhibit: [
-      {
-        title: "Meet Warehouse Operators & 3PLs",
-        icon: "🏭",
-        description: "Connect with distribution centers, logistics hubs, and storage facility managers seeking modern storage solutions."
-      },
-      {
-        title: "Showcase Advanced Storage Technologies",
-        icon: "📊",
-        description: "Present your racking systems, automated storage, mezzanine floors, and warehouse design services."
-      }
-    ],
-    services: [
-      "Pallet Racking Systems",
-      "Shelving & Storage Solutions",
-      "Mezzanine Floors",
-      "Warehouse Design & Layout",
-      "Storage Optimization",
-      "Inventory Management Systems"
-    ],
-    faqs: [
-      {
-        question: "What products are featured?",
-        answer: "Storage systems, warehouse equipment, racking solutions, and space optimization technologies."
-      }
-    ]
-  },
-    'die-mould-manufacturing': {
+  'die-mould-2': {
     title: 'Die & Mould Manufacturing',
     description: 'Injection moulds, die casting dies, press tools, blow moulds, extrusion dies and comprehensive manufacturing solutions.',
+    mainDescription: `The Die & Mould Manufacturing sector at DIEMEX encompasses the complete spectrum of tooling production, from concept to finished tool ready for production. This sector brings together specialized manufacturers who create the injection moulds, die casting dies, press tools, and other production tooling that enable mass manufacturing across industries.
+
+Exhibitors demonstrate their capabilities in designing and building tools for applications ranging from micro-molding to large automotive components. Visitors can explore examples of complex tooling, discuss manufacturing approaches, and evaluate potential partners for their tooling needs. The sector also showcases supporting services like tool tryout, sampling, and production support that ensure tools perform as designed.
+
+For companies seeking tooling partners—whether for new product launches, capacity expansion, or replacement tools—this sector provides direct access to manufacturers with diverse capabilities and specializations. From prototype tools for market testing to high-cavitation production tools for high-volume manufacturing, the expertise assembled here covers the full range of tooling requirements.`,
     heroImage: '/images/image.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+     visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -961,11 +1077,16 @@ export const sectorDatabase = {
   'tooling-tool-rom-technologies': {
     title: 'Tooling & Tool Room Technologies',
     description: 'Cutting tools, jigs & fixtures, gauges, tool holders, and comprehensive tool room solutions for precision manufacturing.',
+    mainDescription: `The Tooling & Tool Room Technologies sector at DIEMEX focuses on the essential elements that keep manufacturing operations running—the cutting tools, workholding devices, measurement equipment, and support systems that tool rooms rely on daily. This sector brings together manufacturers and suppliers of the consumables and equipment that determine machining efficiency and part quality.
+
+Exhibitors showcase the latest in cutting tool materials and geometries, workholding innovations that reduce setup time, and measurement systems that ensure quality. Visitors can explore tool management solutions that track tool inventory and usage, as well as the accessories and consumables that support efficient tool room operations.
+
+For manufacturing engineers, machinists, and tool room managers, this sector provides access to the products that directly impact productivity and quality. Whether you're optimizing existing processes or equipping a new facility, the tooling technologies showcased here represent the cutting edge of machining efficiency and precision.`,
     heroImage: '/images/image.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+     visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -1012,68 +1133,19 @@ export const sectorDatabase = {
     ]
   },
 
-  'automation-robotics': {
-    title: 'Automation, Robotics & Smart Manufacturing',
-    description: 'Industrial automation, robotics, Industry 4.0 solutions, and smart manufacturing technologies for modern production.',
-    heroImage: '/images/image.png',
-    stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
-    },
-    whyExhibit: [
-      {
-        title: "Connect with Factory Modernization Teams",
-        icon: "🤖",
-        description: "Meet operations managers, automation engineers, and digital transformation specialists seeking smart solutions."
-      },
-      {
-        title: "Showcase Complete Automation Ecosystems",
-        icon: "🏭",
-        description: "Present your robotics, PLC systems, IoT platforms, and integrated smart factory solutions."
-      },
-      {
-        title: "Address Labor Challenges & Productivity Goals",
-        icon: "⚡",
-        description: "With skilled labor shortages, manufacturers are increasingly investing in automation to maintain competitiveness."
-      }
-    ],
-    services: [
-      "Industrial Robotics & Cobots",
-      "PLC & Control Systems",
-      "IoT Sensors & Connectivity",
-      "Digital Twin Technology",
-      "Automated Guided Vehicles (AGVs)",
-      "Vision Inspection Systems",
-      "Predictive Maintenance Solutions",
-      "Energy Management Systems",
-      "Factory Integration Services",
-      "Training & Implementation Support"
-    ],
-    faqs: [
-      {
-        question: "What automation solutions are available?",
-        answer: "Robotics, PLC systems, IoT devices, AGVs, vision systems, and complete smart factory integration."
-      },
-      {
-        question: "Who implements automation in manufacturing?",
-        answer: "Automation engineers, operations directors, maintenance managers, and digital transformation teams."
-      },
-      {
-        question: "What ROI can be expected from automation?",
-        answer: "Increased productivity, reduced labor costs, improved quality consistency, and enhanced operational flexibility."
-      }
-    ]
-  },
-
   'cnc-machines': {
     title: 'CNC Machines & Precision Engineering',
     description: 'Machining centres, turning, grinding, EDM, VMCs & HMCs, and comprehensive precision engineering solutions.',
+    mainDescription: `The CNC Machines & Precision Engineering sector at DIEMEX showcases the capital equipment that forms the backbone of modern manufacturing. From machining centers and turning machines to grinders and EDM equipment, this sector brings together machine tool builders and distributors who supply the equipment that produces precision components across industries.
+
+Exhibitors demonstrate the latest in machine technology—faster spindles, more rigid constructions, better thermal stability, and advanced control systems that enable unattended operation and lights-out manufacturing. Visitors can explore multi-tasking machines that combine multiple operations in one setup, as well as specialized machines designed for specific applications like gear cutting or turbine blade production.
+
+For manufacturers investing in new capabilities or replacing aging equipment, this sector provides hands-on access to the machines that will determine their future productivity and precision. Whether you're a job shop seeking versatility or a high-volume producer requiring dedicated solutions, the machine tools showcased here represent the state of the art in precision manufacturing.`,
     heroImage: '/images/image.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -1119,15 +1191,42 @@ export const sectorDatabase = {
       }
     ]
   },
+  'complex-logistics': {
+    title: 'Die & Mould Manufacturing',
+    description: 'Comprehensive die, mould, and precision tooling solutions powering modern manufacturing industries.',
+    mainDescription: `As industries demand higher precision, faster production cycles, and lightweight components, advanced die & mould solutions have become essential. This sector at DIEMEX brings together leading tool rooms, mould makers, and die manufacturers serving automotive, aerospace, electronics, medical, and consumer industries.
 
+From injection moulds and progressive press tools to die casting dies and multi-cavity systems, exhibitors showcase durable, repeatable, and cost-efficient manufacturing capabilities enhanced by CAD/CAM integration and high-speed machining technologies.`,
+    heroImage: '/images/sectors/die-mould.jpg',
+    stats: { visitors: '10,000+', exhibitors: '200+', countries: '10+' },
+    whyExhibit: [
+      { title: "Connect with OEMs & Tier Manufacturers", icon: "🤝", description: "Engage decision-makers sourcing precision tooling partners." },
+      { title: "Showcase Advanced Tooling Capabilities", icon: "⚙️", description: "Demonstrate injection moulds, progressive dies, and precision die systems." },
+      { title: "Capitalize on Manufacturing Growth", icon: "📈", description: "Leverage India's rapidly expanding industrial ecosystem." }
+    ],
+    services: [
+      "Injection Moulds","Blow Moulds","Progressive & Compound Dies",
+      "Die Casting Dies","Jigs & Fixtures","Prototype Tooling"
+    ],
+    faqs: [
+      { question: "Who should exhibit?", answer: "Tool rooms, die makers, mould manufacturers, and precision engineering firms." },
+      { question: "Who visits?", answer: "OEMs, production heads, R&D engineers, and procurement teams." },
+      { question: "Key trends?", answer: "5-axis machining, conformal cooling, additive inserts, and smart tooling." }
+    ]
+  },
   'surface-treatment': {
     title: 'Surface Treatment & Heat Treatment',
     description: 'Coatings, finishing, hardening, thermal processes, and surface enhancement technologies for extended component life.',
+    mainDescription: `The Surface Treatment & Heat Treatment sector at DIEMEX addresses the critical processes that determine component performance, durability, and appearance. This sector brings together specialists in thermal processing, coating application, and surface enhancement who extend the life and improve the functionality of tools and components.
+
+Exhibitors showcase heat treatment services that optimize material properties, coating technologies that reduce friction and wear, and finishing processes that achieve required surface specifications. Visitors can explore the relationship between treatment processes and component performance, understanding how proper treatment can multiply tool life and improve part quality.
+
+For manufacturers seeking to improve product performance or reduce warranty costs, this sector provides access to treatment technologies that can make substantial differences in component longevity. Whether you're treating cutting tools, forming dies, or production components, the processes showcased here represent the difference between good and exceptional performance.`,
     heroImage: '/images/image.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+    visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -1177,11 +1276,16 @@ export const sectorDatabase = {
   'materials-steels-alloys': {
     title: 'Materials, Steels & Alloys',
     description: 'Tool steels, special alloys, polymers, consumables, and advanced materials for demanding manufacturing applications.',
+    mainDescription: `The Materials, Steels & Alloys sector at DIEMEX provides a comprehensive view of the raw materials that go into manufacturing—from the metals shaped into components to the consumables that support production processes. This sector brings together material producers, distributors, and specialists who supply the building blocks of manufactured products.
+
+Exhibitors showcase the range of materials available for different applications, including tool steels for demanding forming operations, engineering plastics for lightweight components, and specialized alloys for extreme environments. Visitors can explore material properties, processing characteristics, and the latest developments in material science that enable new applications and improved performance.
+
+For design engineers, procurement specialists, and manufacturing professionals, this sector provides essential information for material selection decisions that impact product performance, manufacturing cost, and supply chain reliability. Whether you're selecting materials for a new product or seeking alternatives for existing applications, the expertise and products showcased here support informed material choices.`,
     heroImage: '/images/image.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -1228,16 +1332,19 @@ export const sectorDatabase = {
     ]
   },
 
-  // Note: 'cad-cam' already exists in previous DIEMEX sectors, so we'll keep that one
-
   'die-casting': {
     title: 'Injection Moulding & Casting Technologies',
     description: 'Plastics, rubber, die casting, metal forming solutions, and comprehensive moulding technologies for production.',
+    mainDescription: `The Injection Moulding & Casting Technologies sector at DIEMEX focuses on the production processes that shape materials into finished products—from plastic injection molding to metal die casting and forming. This sector brings together machinery manufacturers, process specialists, and technology providers who enable high-volume production of precision components.
+
+Exhibitors showcase injection molding machines of all sizes, die casting equipment for non-ferrous metals, and the auxiliary equipment that supports efficient production. Visitors can explore process control technologies that ensure consistency, automation solutions that reduce labor, and quality monitoring systems that catch defects before they reach customers.
+
+For production managers, process engineers, and manufacturing executives, this sector provides insights into the equipment and technologies that determine production efficiency and part quality. Whether you're launching a new product line or optimizing existing operations, the solutions showcased here represent the latest in molding and casting technology.`,
     heroImage: '/images/image.png',
     stats: {
-      visitors: '8,500+',
-      exhibitors: '320+',
-      countries: '40+'
+     visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '10+'
     },
     whyExhibit: [
       {
@@ -1282,8 +1389,7 @@ export const sectorDatabase = {
         answer: "Production capacity, precision, energy efficiency, reliability, compatibility with materials, and total cost of ownership."
       }
     ]
-  },
- 
+  }
 }
 
 export const transRussiaSectors = [
@@ -1397,7 +1503,6 @@ export const skladTechSectors = [
   },
 ]
 
-// New DIEMEX Sectors Array
 export const diemexSectors = [
   { 
     id: 1, 
@@ -1457,34 +1562,27 @@ export const diemexSectors = [
   },
   { 
     id: 9, 
-    title: "Automation, Robotics & Smart Manufacturing", 
-    slug: "automation-robotics", 
-    image: "/images/image.png",
-    description: "Industrial automation, robotics, Industry 4.0 solutions, and smart manufacturing technologies for modern production."
-  },
-  { 
-    id: 10, 
     title: "CNC Machines & Precision Engineering", 
     slug: "cnc-machines", 
     image: "/images/image.png",
     description: "Machining centres, turning, grinding, EDM, VMCs & HMCs, and comprehensive precision engineering solutions."
   },
   { 
-    id: 11, 
+    id: 10, 
     title: "Surface Treatment & Heat Treatment",
     slug: "surface-treatment", 
     image: "/images/image.png",
     description: "Coatings, finishing, hardening, thermal processes, and surface enhancement technologies for extended component life."
   },
   { 
-    id: 12, 
+    id: 11, 
     title: "Materials, Steels & Alloys",
     slug: "materials-steels-alloys",
     image: "/images/image.png",
     description: "Tool steels, special alloys, polymers, consumables, and advanced materials for demanding manufacturing applications."
   },
   { 
-    id: 13, 
+    id: 12, 
     title: "Injection Moulding & Casting Technologies",
     slug: "die-casting", 
     image: "/images/image.png",
@@ -1492,7 +1590,6 @@ export const diemexSectors = [
   }
 ]
 
-// Export all slugs for static generation
 export const allSectorSlugs = [
   // TransRussia sectors
   'complex-logistics',
@@ -1513,7 +1610,7 @@ export const allSectorSlugs = [
   'packaging-systems',
   'inventory-management',
   
-  // DIEMEX sectors (new)
+  // DIEMEX sectors
   'precision-moulds',
   'tooling-mould-base',
   'machining-finishing',
