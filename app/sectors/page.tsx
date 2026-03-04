@@ -5,76 +5,76 @@ import Link from "next/link"
 import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 
 // Mock data - replace with actual data
-const transRussiaSectors = [
+const DiemexSectors = [
   { 
     id: 1, 
     title: 'Die & Mould Manufacturing', 
     slug: 'complex-logistics', 
-    image: '/images/image.png',
-    description: 'Comprehensive logistics solutions including freight forwarding, customs clearance, and supply chain management services.'
+    image: '/images/sector1.jpg',
+    description: 'Manufacturers of injection moulds, press tools, die casting dies, extrusion dies, and precision mould bases serving automotive, aerospace, electronics, medical, and consumer industries.'
   },
   { 
     id: 2, 
     title: 'Tooling & Cutting Tools', 
     slug: 'maritime-and-inland-waterway-transport', 
-    image: '/images/image.png',
-    description: 'Ocean and river transport services, shipping lines, and inland waterway logistics solutions.'
+    image: '/images/sector2.jpg',
+    description: 'Advanced cutting tools, carbide inserts, end mills, drills, tool holders, and high-performance tooling solutions designed for precision machining and high-efficiency production.'
   },
   { 
     id: 3, 
     title: 'Machine Tools & Advanced Machining', 
     slug: 'die-mould', 
-    image: '/images/image.png',
-    description: 'Air cargo services, express logistics, and aviation freight solutions.'
+    image: '/images/sector3.jpg',
+    description: 'CNC machining centers, EDM, wire cutting, grinding machines, high-speed milling, and 5-axis machining technologies enabling precision die and mould production.'
   },
   { 
     id: 4, 
     title: 'Automation & Robotics', 
     slug: 'rail-freight', 
-    image: '/images/image.png',
-    description: 'Rail transportation, intermodal solutions, and rail logistics across Eurasia.'
+    image: '/images/sector4.jpg',
+    description: 'Industrial robots, cobots, automated loading/unloading systems, palletizing solutions, and smart factory automation technologies for improved productivity and efficiency.'
   },
   { 
     id: 5, 
     title: 'Additive Manufacturing & 3D Printing', 
     slug: 'road-freight-transportation', 
-    image: '/images/image.png',
-    description: 'Trucking, LTL, FTL services, and road transport logistics.'
+    image: '/images/sector5.jpg',
+    description: 'Metal and polymer 3D printing systems, rapid prototyping solutions, conformal cooling innovations, and hybrid manufacturing technologies for tool and mould development.'
   },
   { 
     id: 6, 
     title: 'Metrology & Quality Control', 
     slug: 'ports-and-terminals-freight-handling-services-in-ports', 
-    image: '/images/image.png',
-    description: 'Port operations, terminal services, stevedoring, and maritime infrastructure solutions.'
+    image: '/images/sector6.jpg',
+    description: 'CMM machines, optical measurement systems, 3D scanners, testing equipment, and precision inspection solutions ensuring dimensional accuracy and quality assurance.'
   },
   { 
     id: 7, 
     title: 'Raw Materials & Tool Steel', 
     slug: 'warehouse-technology', 
-    image: '/images/image.png',
-    description: 'Warehouse management systems, automation, and storage technology solutions.'
+    image: '/images/sector7.jpg',
+    description: 'Tool steels, alloy steels, special steels, aluminium blocks, mould bases, and advanced materials engineered for durability, strength, and high-performance tooling applications.'
   },
   { 
     id: 8, 
     title: 'Surface Treatment & Finishing', 
     slug: 'it-solutions', 
-    image: '/images/image.png',
-    description: 'Logistics software, tracking systems, and digital supply chain solutions.'
+    image: '/images/sector8.jpg',
+    description: 'Heat treatment, coatings, polishing technologies, surface texturing, plating, and finishing solutions that enhance tool life, wear resistance, and product aesthetics.'
   },
   { 
     id: 9, 
     title: 'Smart Manufacturing & Industry 4.0', 
     slug: 'ecommerce-logistics', 
-    image: '/images/image.png',
-    description: 'Fulfillment, last-mile delivery, and e-commerce supply chain services.'
+    image: '/images/sector9.jpg',
+    description: 'Digital manufacturing solutions including IoT integration, MES systems, AI-driven production monitoring, data analytics, and smart factory technologies for connected manufacturing.'
   },
   { 
     id: 10, 
     title: 'Industrial Services & Engineering Solutions', 
     slug: 'heavy-lift-carriage', 
-    image: '/images/image.png',
-    description: 'Oversized cargo transport, project logistics, and specialized heavy haulage.'
+    image: '/images/sector10.jpg',
+    description: 'Design engineering, CAD/CAM software, reverse engineering, simulation services, maintenance support, retrofitting, and turnkey project solutions for the die and mould industry.'
   },
 ]
 
@@ -152,7 +152,7 @@ export default function SectorsPage() {
   Covers die & mould manufacturing, tooling & cutting tools, machine tools, automation & robotics, additive manufacturing, metrology, smart manufacturing, surface engineering, raw materials, and industrial engineering solutions.
 </p>
           </div>
-          <SectorGrid sectors={transRussiaSectors} />
+          <SectorGrid sectors={DiemexSectors} />
         </SectionContainer>
       </section>
 
