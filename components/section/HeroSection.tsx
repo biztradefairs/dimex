@@ -3,7 +3,7 @@ import SectionContainer from "@/components/UI/SectionContainer"
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-[60vh] md:min-h-[80vh] flex items-end">
+    <section className="relative min-h-[60vh] lg:min-h-[70vh] flex items-end">
       {/* BACKGROUND IMAGE - Full Width */}
       <img
         src="/images/about-header.jpg"

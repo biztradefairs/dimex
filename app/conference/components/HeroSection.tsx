@@ -5,7 +5,7 @@ import Button from '@/components/UI/Button'
 
 export default function HeroSection() {
   return (
-    <section className="relative h-[500px] md:h-[550px] lg:h-[600px] w-full overflow-hidden text-white">
+    <section className="relative h-[400px] md:h-[450px] lg:h-[500px] w-full overflow-hidden text-white">
       {/* ================= BACKGROUND IMAGE ================= */}
       <div className="absolute inset-0 bg-black">
         {/* Background Image */}

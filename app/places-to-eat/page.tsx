@@ -10,7 +10,7 @@ export default function PlacesToEatPage() {
     <div className="page-spacing-wrapper font-parabolica">
       {/* Hero Section */}
 {/* Hero Section */}
-<div className="relative flex flex-col justify-end min-h-[90vh]">
+<div className="relative min-h-[60vh] lg:min-h-[70vh] flex flex-col justify-end">
   
   {/* Background Image */}
   <Image

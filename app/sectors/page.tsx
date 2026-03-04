@@ -122,7 +122,7 @@ export default function SectorsPage() {
     
     <div className="min-h-screen font-parabolica">
       {/* Hero Section - COMPACT */}
-      <section className="relative min-h-[40vh] md:min-h-[50vh] flex items-end">
+      <section className="relative min-h-[60vh] lg:min-h-[70vh] flex items-end">
         <div
           className="absolute inset-0 z-0 bg-cover bg-center"
           style={{ backgroundImage: "url(/images/image.png)" }}

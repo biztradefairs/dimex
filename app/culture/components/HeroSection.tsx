@@ -2,7 +2,7 @@ import React from 'react';
 
 const HeroSection: React.FC = () => {
   return (
-    <section className="relative z-10 flex flex-col justify-end bg-gray-100 pt-96">
+    <section className="relative min-h-[60vh] lg:min-h-[70vh] z-10 flex flex-col justify-end bg-gray-100 pt-96">
       <div className="container mx-auto flex flex-col justify-end pb-10 text-white">
         <h2 className="text-6xl md:text-7xl lg:text-8xl font-bold text-white mb-4">
           Immerse in Moscow's Culture
