@@ -114,7 +114,7 @@ export default function WhyExhibit() {
     className="absolute inset-0 bg-cover bg-center"
     style={{
       backgroundImage:
-        "/images/why-exhibit-header.JPG",
+        "url(https://cdn.itegroupnews.com/Trans_Russia_heading_c711a6e7b3.webp)",
     }}
   />
 
@@ -239,7 +239,7 @@ export default function WhyExhibit() {
                 className="relative h-120 overflow-hidden transition-all duration-300"
               >
                 <img
-                  src="/images/con-highlight.JPG"
+                  src="/images/image.png"
                   alt="Conference"
                   className="w-full h-full object-cover"
                 />
@@ -738,7 +738,7 @@ export default function WhyExhibit() {
   className="relative font-parabolica py-16 lg:py-24 text-white bg-cover bg-center"
   style={{
     backgroundImage:
-      "/images/auto_cluster.png",
+      "url('https://cdn.itegroupnews.com/Frame_1707480883_b10f284c3d.jpg')",
   }}
 >
   {/* Dark overlay */}
