@@ -52,7 +52,7 @@ export default function WhyVisit() {
     <>
       <main className="bg-white overflow-hidden font-parabolica">
         {/* Hero Section */}
-        <section className="relative min-h-[60vh] sm:min-h-[70vh] lg:min-h-[85vh] flex items-end">
+        <section className="relative min-h-[60vh] lg:min-h-[70vh] flex items-end">
           <motion.div
             initial={{ scale: 1.1 }}
             animate={{ scale: 1 }}

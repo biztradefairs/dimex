@@ -2,7 +2,7 @@ import SectionContainer from '@/components/UI/SectionContainer';
 
 export default function HeroSection() {
   return (
-    <section className="relative h-[55vh] md:h-[65vh] flex items-end overflow-hidden">
+    <section className="relative min-h-[60vh] lg:min-h-[70vh] flex items-end overflow-hidden">
       {/* BACKGROUND IMAGE */}
       <img
         src="/images/exbibitor-resource-center/image1.png"
