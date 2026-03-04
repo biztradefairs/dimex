@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
-  Building,
   Eye,
   EyeOff,
   Mail,
   Lock,
   AlertCircle,
 } from "lucide-react";
+import Image from "next/image";
 import toast from "react-hot-toast";
 import { authAPI } from "@/lib/api/exhibitors";
 import Link from "next/link";
@@ -85,8 +85,25 @@ export default function LoginPage() {
       <div className="max-w-md w-full">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center h-16 w-16 rounded-2xl bg-blue-600 mb-4">
-            <Building className="h-8 w-8 text-white" />
+          <div className="inline-flex items-center justify-center h-20 w-20 rounded-2xl mb-4">
+            {/* DIEMEX Logo - You can use either an image or text logo */}
+            
+            {/* Option 1: If you have a logo image */}
+            <div className="relative h-16 w-16">
+              <Image
+                src="/images/diemex-logo.png" // Update this path to your actual logo location
+                alt="DIEMEX"
+                fill
+                className="object-contain"
+                priority
+              />
+            </div>
+
+            {/* Option 2: Text logo (if you don't have an image) */}
+            {/* <div className="text-center">
+              <h1 className="text-4xl font-bold text-blue-600">DIEMEX</h1>
+              <p className="text-xs text-gray-500 mt-1">Exhibition</p>
+            </div> */}
           </div>
 
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -192,27 +209,19 @@ export default function LoginPage() {
             </button>
           </form>
           <div className="flex items-center justify-between mt-4">
-  <div className="text-sm">
-    <Link href="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500">
-      Forgot your password?
-    </Link>
-  </div>
-</div>
+            <div className="text-sm">
+              <Link href="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500">
+                Forgot your password?
+              </Link>
+            </div>
+          </div>
         </div>
 
         {/* Footer */}
         <div className="text-center mt-8">
           <p className="text-xs text-gray-500">
-            © {new Date().getFullYear()} Exhibition
-            Management System
+            © {new Date().getFullYear()} DIEMEX Exhibition. All rights reserved.
           </p>
-
-          <button
-            onClick={() => setDebugMode(!debugMode)}
-            className="mt-2 text-xs text-gray-400 hover:text-gray-600"
-          >
-            {debugMode ? "Hide Debug" : "Show Debug"}
-          </button>
         </div>
       </div>
     </div>
