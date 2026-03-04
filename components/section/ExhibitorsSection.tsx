@@ -16,18 +16,17 @@ const ExhibitorsSection = () => {
       </p>
 
       {/* Single Banner Image with All Logos */}
-      <div className="relative w-full mb-12 lg:mb-16 overflow-hidden rounded-2xl shadow-xl">
-        <div className="relative w-full h-auto">
-          <Image
-            src="/images/conference/venue/registration.webp" // Update this path to your banner image
-            alt="Our Past Exhibitors Banner"
-            width={1200}
-            height={400}
-            className="w-full h-auto object-cover"
-            priority
-          />
-        </div>
-      </div>
+    <div className="relative w-full mb-12 lg:mb-16 overflow-hidden rounded-2xl shadow-xl">
+  <div className="relative w-full h-[200px] lg:h-[250px]">
+    <Image
+      src="/images/conference/venue/registration.webp"
+      alt="Our Past Exhibitors Banner"
+      fill
+      className="object-cover"
+      priority
+    />
+  </div>
+</div>
 
       {/* CTA */}
       <div className="flex justify-center">
