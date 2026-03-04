@@ -27,7 +27,7 @@ const ShopAndStroll: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen font-sans antialiased">
+    <div className="min-h-[60vh] lg:min-h-[70vh] font-sans antialiased">
       {/* Hero Section */}
       <div className="relative z-[1] flex flex-col justify-end bg-gray-100 pt-96">
         <div className="container mx-auto px-4 flex flex-col justify-end pt-0 pb-10 text-white">
