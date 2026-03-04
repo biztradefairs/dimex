@@ -114,7 +114,7 @@ export default function WhyExhibit() {
     className="absolute inset-0 bg-cover bg-center"
     style={{
       backgroundImage:
-        "/images/why-exhibit-header.JPG",
+        "(/images/why-exhibit-header.JPG)",
     }}
   />
 
