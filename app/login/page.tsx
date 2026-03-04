@@ -89,7 +89,7 @@ export default function LoginPage() {
             {/* DIEMEX Logo - You can use either an image or text logo */}
             
             {/* Option 1: If you have a logo image */}
-            <div className="relative h-146 w-476">
+            <div className="relative h-46 w-46">
               <Image
                 src="/images/exhibitor-login.png" // Update this path to your actual logo location
                 alt="DIEMEX"
