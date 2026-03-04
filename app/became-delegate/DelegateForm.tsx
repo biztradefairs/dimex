@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import ThankYouPopup from '@/components/ThankYouPopup';
 import ReCAPTCHA from 'react-google-recaptcha';
@@ -15,6 +15,9 @@ export default function DelegateForm() {
   const [showThankYou, setShowThankYou] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   
+  // Create a ref for the reCAPTCHA component
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
+  
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -26,8 +29,6 @@ export default function DelegateForm() {
     state: '',
     city: '',
     package: '',
-    // dietaryRestrictions: '',
-    // specialRequirements: '',
     notRobot: false
   });
 
@@ -53,7 +54,8 @@ export default function DelegateForm() {
     }
 
     try {
-      const response = await fetch('/api/contact', {
+      // Use your Render backend URL
+      const response = await fetch('https://diemex-backend.onrender.com/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,6 +73,7 @@ export default function DelegateForm() {
       if (result.success) {
         toast.success('Delegate registration submitted successfully!');
         setShowThankYou(true);
+        
         // Reset form
         setFormData({
           firstName: '',
@@ -83,11 +86,16 @@ export default function DelegateForm() {
           state: '',
           city: '',
           package: '',
-          // dietaryRestrictions: '',
-          // specialRequirements: '',
           notRobot: false
         });
+        
+        // Reset captcha token
         setCaptchaToken(null);
+        
+        // Reset reCAPTCHA using the ref
+        if (recaptchaRef.current) {
+          recaptchaRef.current.reset();
+        }
       } else {
         toast.error(result.message || 'Failed to submit registration.');
       }
@@ -297,43 +305,11 @@ export default function DelegateForm() {
                        outline-none transition hover:border-blue-300 bg-white cursor-pointer"
           >
             <option value="">Choose a package</option>
-            <option value="basic">STUDENT - ₹3,500</option>
-            <option value="business">GENERAL - ₹ 6,000</option>
-            <option value="vip">GROUP 3 - 15,000</option>
+            <option value="student">STUDENT - ₹3,500</option>
+            <option value="general">GENERAL - ₹6,000</option>
+            <option value="group">GROUP 3 - ₹15,000</option>
           </select>
         </div>
-
-        {/* Dietary Restrictions */}
-        {/* <div>
-          {/* <label className="mb-1 block text-sm font-medium">
-            Dietary Restrictions
-          </label>
-          <input
-            type="text"
-            name="dietaryRestrictions"
-            value={formData.dietaryRestrictions}
-            onChange={handleChange}
-            placeholder="e.g., Vegetarian, Vegan, Allergies"
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm 
-                       focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          />
-        </div> */} 
-
-        {/* Special Requirements */}
-        {/* <div>
-          <label className="mb-1 block text-sm font-medium">
-            Special Requirements
-          </label>
-          <textarea
-            name="specialRequirements"
-            value={formData.specialRequirements}
-            onChange={handleChange}
-            rows={3}
-            placeholder="Any special requirements or accessibility needs?"
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm 
-                       focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-          />
-        </div> */}
 
         {/* Checkbox */}
         <div className="flex items-start gap-2">
@@ -354,6 +330,7 @@ export default function DelegateForm() {
         <div className="rounded border bg-gray-50 p-4">
           <div className="flex justify-center">
             <ReCAPTCHA
+              ref={recaptchaRef}
               sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
               onChange={(token) => setCaptchaToken(token)}
               onExpired={() => setCaptchaToken(null)}
