@@ -125,7 +125,7 @@ export default function SectorsPage() {
       <section className="relative min-h-[60vh] lg:min-h-[70vh] flex items-end">
         <div
           className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{ backgroundImage: "url(/images/image.png)" }}
+          style={{ backgroundImage: "url(/images/sectorheader.jpg)" }}
         />
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
         <SectionContainer>
