@@ -9,21 +9,21 @@ const SectorsSection = () => {
       title: "Die,Mould & Tooling Solutions",
       description:
         "Advanced die manufacturing, injection moulding solutions, precision machining systems, and smart tooling technologies.",
-      image: "/images/image.png",
+      image: "/images/precision.jpg",
       link: "/sectors/die-mould",
     },
     {
       title: "Tooling & Cutting Solutions",
 description:
   "High-performance cutting tools, tool holders, and machining solutions driving productivity and precision in modern manufacturing.",
-image: "/images/tooling-solutions.png",
+image: "/images/mouldbase.jpg",
 link: "/sectors/tooling-cutting-solutions",
     },
     {
       title: "Precision Machining & Automation",
 description:
   "CNC machining, EDM systems, robotics, and smart manufacturing technologies powering next-generation production.",
-image: "/images/precision-machining.png",
+image: "/images/finishing.jpg",
 link: "/sectors/precision-machining-automation",
     },
   ]
