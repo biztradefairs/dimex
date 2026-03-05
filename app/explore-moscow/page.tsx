@@ -18,7 +18,7 @@ import Link from 'next/link';
 
 export default function ExploreMoscowPage() {
   return (
-    <main className="relative min-h-screen font-sans antialiased font-parabolica">
+    <main className="relative min-h-[60vh] lg:min-h-[70vh] font-sans antialiased font-parabolica">
       {/* Hero Section */}
       <section className="relative z-10 flex flex-col justify-end bg-[#005EB8] pt-96">
         <SectionContainer className="pt-0 pb-10 text-white">
@@ -44,17 +44,18 @@ export default function ExploreMoscowPage() {
       {/* A Unique Guide Section */}
       <section className="relative py-16 overflow-hidden">
         <SectionContainer>
-          <div className="mb-14 flex flex-wrap justify-between gap-10 lg:items-end">
-            <div className="lg:basis-2/3">
-              <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-black my-3">
-               A City of Culture, Education & Industry
-              </h2>
-              <p className="whitespace-pre-line text-gray-700 text-lg">
-                Welcome to Pune, a city where rich heritage meets modern industry. As Maharashtra’s cultural capital and a leading 
-                manufacturing and automotive hub, Pune offers a vibrant experience for business visitors and travellers. From historic landmarks and lively markets to fine dining, museums, and cultural venues, the city has much to explore during your visit to DIEMEX 2026 and beyond.
-              </p>
-            </div>
-          </div>
+<div className="mb-14">
+  <div className="lg:basis-2/3">
+    <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-black my-3">
+      A City of Culture, Education & Industry
+    </h2>
+
+    <p className="text-gray-700 text-lg">
+      Welcome to Pune, a city where rich heritage meets modern industry. As Maharashtra’s cultural capital and a leading 
+      manufacturing and automotive hub, Pune offers a vibrant experience for business visitors and travellers. From historic landmarks and lively markets to fine dining, museums, and cultural venues, the city has much to explore during your visit to DIEMEX 2026 and beyond.
+    </p>
+  </div>
+</div>
 
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {/* Card 1: Discover Iconic Landmarks */}
@@ -202,14 +203,6 @@ export default function ExploreMoscowPage() {
             </div>
           </div>
 
-          {/* Decorative Shape Image */}
-          <img
-            src="https://cdn.itegroupnews.com/imgs/shape.png"
-            alt="Decorative shape"
-            width={900}
-            height={900}
-            className="absolute right-0 top-0 -z-10 hidden xl:block"
-          />
         </SectionContainer>
       </section>
 
