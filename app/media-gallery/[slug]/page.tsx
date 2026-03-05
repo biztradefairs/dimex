@@ -12,7 +12,7 @@ const mediaDetails = [
     title: "Diemex 2025 Conference Program",
     shortText: "TransRussia",
     images: [
-      { src: "https://cdn.itegroupnews.com/DSC_6960_retouched_d7ae158197.webp", alt: "Diemex©24" },
+      { src: "/image/image.png", alt: "Diemex©24" },
       { src: "https://cdn.itegroupnews.com/DSC_6924_retouched_2b8cd2d094.webp", alt: "Diemex©24" },
       { src: "https://cdn.itegroupnews.com/DSC_2772_retouched_32583e8d73.webp", alt: "Diemex©24" },
       { src: "https://cdn.itegroupnews.com/DSC_2469_retouched_c78625a3b2.webp", alt: "Diemex©24" },
