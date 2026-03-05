@@ -27,8 +27,8 @@ Experience continuous networking and collaboration with Toolingtrends.com, our e
       <div className="flex items-center justify-center relative z-[-1] my-10 lg:h-full lg:my-0">
 
   <img 
-    src="https://cdn.itegroupnews.com/Trans_Russia_Connect_89c213959b.webp"
-    alt="TransRussia Connect"
+    src="/images/mobile.png"
+    alt="ToolingTrends.com "
     className="relative z-10 size-auto max-w-md max-h-[250px]"
   />
 
