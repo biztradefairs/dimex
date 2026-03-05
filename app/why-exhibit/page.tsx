@@ -365,15 +365,18 @@ export default function WhyExhibit() {
               {[
                 {
                   title: "A Fast-Growing Manufacturing Economy",
-                  text: "India is one of the world’s fastest-growing manufacturing hubs, supported by strong GDP growth and major investments in automotive, EVs, aerospace, electronics, and industrial manufacturing—all key drivers of die & mould demand."
+                  text: "India is one of the world’s fastest-growing manufacturing hubs, supported by strong GDP growth and major investments in automotive, EVs, aerospace, electronics, and industrial manufacturing—all key drivers of die & mould demand.",
+                  images: "/images/mfg-economy.jpg"
                 },
                 {
                   title: "Rising Demand for Precision Tooling",
-                  text: "With increasing localisation, shorter product life cycles, and higher quality standards, there is growing demand for advanced dies, moulds, tooling systems, and high-performance materials across industries."
+                  text: "With increasing localisation, shorter product life cycles, and higher quality standards, there is growing demand for advanced dies, moulds, tooling systems, and high-performance materials across industries.",
+                  images: "/images/demand.jpg"
                 },
                 {
                   title: "Long-Term Growth & Investment Potential",
-                  text: "India’s die & mould and tooling sector is poised for sustained expansion through 2026 and beyond, driven by capacity expansion, technology upgrades, automation, and global sourcing shifts—creating strong opportunities for technology providers, material suppliers, and solution partners."
+                  text: "India’s die & mould and tooling sector is poised for sustained expansion through 2026 and beyond, driven by capacity expansion, technology upgrades, automation, and global sourcing shifts—creating strong opportunities for technology providers, material suppliers, and solution partners.",
+                  images: "/images/investment.jpg"
                 }
               ].map((item, index) => (
                 <motion.div
@@ -387,7 +390,7 @@ export default function WhyExhibit() {
                   className="relative w-[466px] h-[500px] overflow-hidden rounded-lg cursor-pointer"
                 >
                   <Image
-                    src="/images/image.png"
+                    src={item.images}
                     alt={item.title}
                     fill
                     className="object-cover"
