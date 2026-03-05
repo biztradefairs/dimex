@@ -81,15 +81,15 @@ export default function LoginPage() {
   ====================================================== */
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100">
       <div className="max-w-md w-full">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center h-20 w-420 rounded-2xl mb-4">
+          <div className="flex justify-center mb-6">
             {/* DIEMEX Logo - You can use either an image or text logo */}
             
             {/* Option 1: If you have a logo image */}
-            <div className="relative h-46 w-46">
+            <div className="relative h-40 w-40">
               <Image
                 src="/images/exhibitor-login.png" // Update this path to your actual logo location
                 alt="DIEMEX"
