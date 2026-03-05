@@ -5,19 +5,19 @@ const museums = [
     id: 1,
     title: "State Tretyakov Gallery",
     description: "Immerse yourself in Russian art at State Tretyakov Gallery, a premier museum and home to an extensive collection of masterpieces.",
-    image: "https://cdn.itegroupnews.com/Securika_600_x_650_7_edc7cbf1b7.png"
+    image: "/images/image.png"
   },
   {
     id: 2,
     title: "Garage Museum of Contemporary Art",
     description: "Engage with contemporary art through innovative exhibitions, lectures, and cultural events at Garage Museum of Contemporary Art.",
-    image: "https://cdn.itegroupnews.com/Securika_600_x_650_6_15e82cc9b5.png"
+    image: "/images/image.png"
   },
   {
     id: 3,
     title: "Moscow Museum of Modern Art (MMOMA)",
     description: "Explore cutting-edge exhibitions showcasing both Russian and international contemporary artists at MMOMA.",
-    image: "https://cdn.itegroupnews.com/Securika_600_x_650_5_bcec892b02.png"
+    image: "/images/image.png"
   }
 ];
 

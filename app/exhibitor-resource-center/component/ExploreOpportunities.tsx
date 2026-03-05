@@ -11,7 +11,7 @@ export default function ExploreOpportunities() {
             As a participant at Diemex 2026 Exhibition, our team is dedicated to providing you with a variety of participation opportunities to make the most of your exhibition experience. From pre-event to post, we have created guides to really simplify the decision-making and onboarding process for you.
           </p>
           <Link
-            href="https://cdn.itegroupnews.com/Exhibitor_Manual_Trans_Russia_Sklad_Tech_2026_eng_7dbe69d229.pdf"
+            href=""
             target="_blank"
             rel="noopener noreferrer"
             className="inline-block"

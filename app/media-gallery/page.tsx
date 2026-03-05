@@ -8,91 +8,91 @@ const mediaItems = [
     id: 1,
     title: "Diemex 2025 Conference Program",
     href: "/media-gallery/diemex-2025-conference-program", // Changed slug to lowercase
-    image: "https://cdn.itegroupnews.com/DSC_6960_retouched_d7ae158197.webp"
+    image: "/images/image.png"
   },
   {
     id: 2,
     title: "Diemex 2025 Exhibition",
     href: "/media-gallery/diemex-2025-exhibition", // Changed slug
-    image: "https://cdn.itegroupnews.com/TR_2025_337_e76336212a.webp"
+    image: "/images/image.png"
   },
   {
     id: 3,
     title: "Diemex 2024 Exhibition",
     href: "/media-gallery/diemex-2024-exhibition", // Changed slug
-    image: "https://cdn.itegroupnews.com/TR_24_IMG_2499i_dc444c9640.webp"
+    image: "/images/image.png"
   },
   {
     id: 4,
     title: "Diemex Conference 2024",
     href: "/media-gallery/diemex-4-5-december-2024", // Changed slug
-    image: "https://cdn.itegroupnews.com/19_32d833764b.webp"
+    image: "/images/image.png"
   },
   {
     id: 5,
     title: "Diemex 2024 Conference Programme",
     href: "/media-gallery/diemex-2024-conference-programme", // Changed slug
-    image: "https://cdn.itegroupnews.com/tr24_15_194638d1ef.webp"
+    image: "/images/image.png"
   },
   {
     id: 6,
     title: "Diemex 2024 Awards Ceremony",
     href: "/media-gallery/diemex-2024-awards-ceremony", // Changed slug
-    image: "https://cdn.itegroupnews.com/TR_24_IMG_3023i_cbdb39d5ea.webp"
+    image: "/images/image.png"
   },
   {
     id: 7,
     title: "Diemex 2023 Exhibition",
     href: "/media-gallery/diemex-2023-exhibition", // Changed slug
-    image: "https://cdn.itegroupnews.com/TR_23_MUH_2553i_bcf08a1176.webp"
+    image: "/images/image.png"
   },
   {
     id: 8,
     title: "Diemex 2023 Conference Programme",
     href: "/media-gallery/diemex-2023-conference-programme", // Changed slug
-    image: "https://cdn.itegroupnews.com/TR_23_IMG_3094i_f602090d20.webp"
+    image: "/images/image.png"
   },
   {
     id: 9,
     title: "Diemex 2022 Exhibition",
     href: "/media-gallery/diemex-2022-exhibition", // Changed slug
-    image: "https://cdn.itegroupnews.com/tr2022_022_f714843e07.webp"
+    image: "/images/image.png"
   },
   {
     id: 10,
     title: "Diemex 2022 Conference Programme",
     href: "/media-gallery/diemex-2022-conference-programme", // Changed slug
-    image: "https://cdn.itegroupnews.com/transrussia22_bp_33_73e55dcf6a.webp"
+    image: "/images/image.png"
   },
   {
     id: 11,
     title: "Diemex 2022 Awards Ceremony",
     href: "/media-gallery/diemex-2022-awards-ceremony", // Changed slug
-    image: "https://cdn.itegroupnews.com/1_196c1de625.webp"
+    image: "/images/image.png"
   },
   {
     id: 12,
     title: "Diemex 2021 Exhibition",
     href: "/media-gallery/diemex-2021-exhibition", // Changed slug
-    image: "https://cdn.itegroupnews.com/108_d40b77d3a3.webp"
+    image: "/images/image.png"
   },
   {
     id: 13,
     title: "Diemex 2021 Conference Programme",
     href: "/media-gallery/diemex-2021-conference-programme", // Changed slug
-    image: "https://cdn.itegroupnews.com/bp049_790eb559dc.webp"
+    image: "/images/image.png"
   },
   {
     id: 14,
     title: "Diemex 2019",
     href: "/media-gallery/diemex-2019", // Changed slug
-    image: "https://cdn.itegroupnews.com/2019_36_d7d12ee1e5.webp"
+    image: "/images/image.png"
   },
   {
     id: 15,
     title: "Diemex 2018",
     href: "/media-gallery/diemex-2018", // Changed slug
-    image: "https://cdn.itegroupnews.com/photo_49_011f89357e.webp"
+    image: "/images/image.png"
   }
 ];
 

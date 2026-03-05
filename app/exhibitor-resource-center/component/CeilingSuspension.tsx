@@ -12,7 +12,7 @@ export default function CeilingSuspension() {
                   <h3 className="text-3xl font-semibold !leading-normal">Ceiling Suspension Form</h3>
                   <div className="!mt-auto flex flex-wrap items-center gap-3 pt-5 transition-all duration-500 ease-in-out">
                     <Link
-                      href="https://cdn.itegroupnews.com/T5_Suspensions_Eng_Trans_Russia_1571e9bd23.pdf"
+                      href=""
                       target="_blank"
                       rel="noopener noreferrer"
                     >

@@ -86,7 +86,7 @@ export default function BrochurePage() {
                 <div className="mt-20 flex justify-center">
                   <div className="relative">
                     <img
-                      src="https://cdn.itegroupnews.com/Brochure_Mockup_8_f53822fd4a.png"
+                      src="/images/image.png"
                       alt="Event Brochure Mockup"
                       width={420}
                       height={420}

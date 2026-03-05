@@ -13,7 +13,7 @@ export default function TechnicalServices() {
                 <h2 className="title-40 font-semibold">Technical Service Order Forms</h2>
                 <div className="flex w-full flex-wrap gap-5">
                   <Link
-                    href="https://cdn.itegroupnews.com/Technical_forms_Trans_Russia_Sklad_Tech_2026_EUR_d2771a7e2c.pdf"
+                    href=""
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -31,7 +31,7 @@ export default function TechnicalServices() {
                 <h2 className="title-40 font-semibold">Technical Information</h2>
                 <div className="flex w-full flex-wrap gap-5">
                   <Link
-                    href="https://cdn.itegroupnews.com/Information_form_046b13d7dc.docx"
+                    href=""
                     target="_blank"
                     rel="noopener noreferrer"
                   >

@@ -12,11 +12,7 @@ import ContactInformation from './component/ContactInformation';
 import AttentionSection from './component/AttentionSection';
 // import PartnersSection from '@/components/section/PartnersSection';
 
-export const metadata = {
-  title: 'Exhibitor Resource Center | TransRussia',
-  description: 'Discover essential resources for exhibitors at the TransRussia Expo. Access guidelines, marketing materials, and support to help you prepare for the event.',
-  canonical: 'https://trstexpo.com/exhibitor-resource-center/',
-};
+
 
 export default function ExhibitorResourceCenterPage() {
   return (

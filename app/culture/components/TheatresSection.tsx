@@ -5,19 +5,19 @@ const theatres = [
     id: 1,
     title: "Bolshoi Theatre",
     description: "A class of Russian theater. You should definitely visit the opera or ballet.",
-    image: "https://cdn.itegroupnews.com/Securika_600_x_650_4_3b35e9e245.png"
+    image: "/images/image.png"
   },
   {
     id: 2,
     title: "Taganka Theatre",
     description: "Known for its experimental productions and unique approach to classical works.",
-    image: "https://cdn.itegroupnews.com/Securika_600_x_650_8_5ce1052c63.png"
+    image: "/images/image.png"
   },
   {
     id: 3,
     title: "Chekhov Moscow Art Theatre",
     description: "One of the most famous theatres in the country with a rich history and high-class productions.",
-    image: "https://cdn.itegroupnews.com/Securika_600_x_650_9_5dbd40a82a.png"
+    image: "/images/image.png"
   }
 ];
 
