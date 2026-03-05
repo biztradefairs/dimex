@@ -58,42 +58,8 @@ const mediaItems = [
     href: "/media-gallery/diemex-2022-exhibition", // Changed slug
     image: "/images/image.png"
   },
-  {
-    id: 10,
-    title: "Diemex 2022 Conference Programme",
-    href: "/media-gallery/diemex-2022-conference-programme", // Changed slug
-    image: "/images/image.png"
-  },
-  {
-    id: 11,
-    title: "Diemex 2022 Awards Ceremony",
-    href: "/media-gallery/diemex-2022-awards-ceremony", // Changed slug
-    image: "/images/image.png"
-  },
-  {
-    id: 12,
-    title: "Diemex 2021 Exhibition",
-    href: "/media-gallery/diemex-2021-exhibition", // Changed slug
-    image: "/images/image.png"
-  },
-  {
-    id: 13,
-    title: "Diemex 2021 Conference Programme",
-    href: "/media-gallery/diemex-2021-conference-programme", // Changed slug
-    image: "/images/image.png"
-  },
-  {
-    id: 14,
-    title: "Diemex 2019",
-    href: "/media-gallery/diemex-2019", // Changed slug
-    image: "/images/image.png"
-  },
-  {
-    id: 15,
-    title: "Diemex 2018",
-    href: "/media-gallery/diemex-2018", // Changed slug
-    image: "/images/image.png"
-  }
+  
+
 ];
 
 export default function MediaGalleryPage() {
