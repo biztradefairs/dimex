@@ -63,7 +63,7 @@ export default function ExploreMoscowPage() {
               <div className="flex justify-between items-start">
                 <div className="mb-5 w-16 h-16 rounded-full overflow-hidden">
                   <img
-                    src="https://cdn.itegroupnews.com/nutshell_boats_explore_writing_near_travel_stuff_17e4a9e0e0.jpg"
+                    src="/images/image.png"
                     alt="Travel exploration"
                     width={64}
                     height={64}
@@ -172,7 +172,7 @@ export default function ExploreMoscowPage() {
               <div className="flex justify-between items-start">
                 <div className="mb-5 w-16 h-16 rounded-full overflow-hidden">
                   <img
-                    src="https://cdn.itegroupnews.com/two_girls_walking_with_shopping_city_streets_208e2abb3e.jpg"
+                    src="images/image.png"
                     alt="Shopping in Pune"
                     width={64}
                     height={64}
@@ -235,7 +235,7 @@ export default function ExploreMoscowPage() {
             
             <div className="grid min-h-[300px] place-content-center lg:col-span-5">
               <img
-                src="https://cdn.itegroupnews.com/Securika_600_x_650_68bb4c89e8.png"
+                src="/images/image.png"
                 alt="Transportation illustration"
                 width={500}
                 height={500}

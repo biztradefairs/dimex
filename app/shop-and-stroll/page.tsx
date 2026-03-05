@@ -7,22 +7,22 @@ const ShopAndStroll: React.FC = () => {
     {
       title: "TSUM",
       description: "Don't miss TSUM, the iconic Central Department Store.",
-      image: "https://cdn.itegroupnews.com/15_0ab2aa82ec.png"
+      image: "/images/image.png"
     },
     {
       title: "Tverskaya Street",
       description: "Discover luxury on Tverskaya Street, lined with boutiques and renowned brand shops.",
-      image: "https://cdn.itegroupnews.com/16_4c12988a8e.png"
+      image: "/images/image.png"
     },
     {
       title: "Kuznetsky Most",
       description: "Explore Kuznetsky Most, a vibrant street known for its high-end boutiques featuring Russian and international designers.",
-      image: "https://cdn.itegroupnews.com/17_264319f150.png"
+      image: "/images/image.png"
     },
     {
       title: "Fashion Quarter on Stoleshnikov Lane",
       description: "Shop unique clothing and accessories at cozy stores and concept shops in the charming Fashion Quarter.",
-      image: "https://cdn.itegroupnews.com/18_b27a580cac.png"
+      image: "/images/image.png"
     }
   ];
 

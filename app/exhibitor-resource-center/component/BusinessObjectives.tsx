@@ -6,32 +6,32 @@ const objectives = [
   {
     title: 'Find New Prospects',
     description: 'It should be easy to read the company\'s direction and name. Important details that you want to communicate to potential clients should be obvious and easy to remember.',
-    icon: 'https://cdn.itegroupnews.com/search_f5d1ded325.png',
+    icon: '/images/image.png',
   },
   {
     title: 'Improve Existing Relationships',
     description: 'You need a spacious recreational area, negotiation tables, and an enclosed utility room where you will store/prepare coffee and snacks.',
-    icon: 'https://cdn.itegroupnews.com/relationships_0b6f2d11f3.png',
+    icon: '/images/image.png',
   },
   {
     title: 'Conduct Meetings',
     description: 'Your stand should have an ideal meeting area. You can separate one "meeting room" from another or plan a couple of closed rooms where the exhibition atmosphere will not distract from the business conversation.',
-    icon: 'https://cdn.itegroupnews.com/talk_3a4eb44859.png',
+    icon: '/images/image.png',
   },
   {
     title: 'Increase Brand Identity',
     description: 'An interesting stand design solution, supported by a high-quality demonstration of the best products will help.',
-    icon: 'https://cdn.itegroupnews.com/branding_1_215a6597a0.png',
+    icon: '/images/image.png',
   },
   {
     title: 'Competitor Research',
     description: 'A small stand is enough, but it is worth placing it next to the business program sites to be in the thick of industry events.',
-    icon: 'https://cdn.itegroupnews.com/competitive_analysis_03542a40bd.png',
+    icon: '/images/image.png',
   },
   {
     title: 'Showcase New Launches',
     description: 'An interesting and bright design solution, perhaps navigation in the hall, will help. The invitation and presentation schedule should be large, informative, and located in the most visible place.',
-    icon: 'https://cdn.itegroupnews.com/new_5f9a05798a.png',
+    icon: '/images/image.png',
   },
 ];
 
@@ -66,7 +66,7 @@ export default function BusinessObjectives() {
         
         <div className="mt-12 text-center">
           <Link
-            href="https://cdn.itegroupnews.com/ITE_Group_s_requirements_for_stand_construction_694a352e2e.pdf"
+            href=""
             target="_blank"
             rel="noopener noreferrer"
           >

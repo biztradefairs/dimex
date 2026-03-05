@@ -142,7 +142,7 @@ export default function ExhibitorPromotionPage() {
               </p>
 
               <a
-                href="https://cdn.itegroupnews.com/Invitation_TRU_2026_99e491351b.docx"
+                href=""
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-auto inline-flex w-fit rounded-full bg-[#004D9F] px-10 py-4 text-lg font-semibold text-white hover:bg-mainColor4 transition"
@@ -187,7 +187,7 @@ export default function ExhibitorPromotionPage() {
               </p>
 
               <a
-                href="https://cdn.itegroupnews.com/Announcement_Temp_TRU_2026_2392c6a28a.docx"
+                href=""
                 target="_blank"
                 rel="noopener noreferrer"
                 className="mt-auto inline-flex w-fit rounded-full bg-[#004D9F] px-10 py-4 text-lg font-semibold text-white hover:bg-mainColor4 transition"
