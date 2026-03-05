@@ -44,8 +44,8 @@ interface HotelItem {
 // Animation variants
 const fadeInUp = {
   hidden: { opacity: 0, y: 20 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     y: 0,
     transition: { duration: 0.6 }
   }
@@ -64,8 +64,8 @@ const staggerContainer = {
 
 const scaleIn = {
   hidden: { opacity: 0, scale: 0.95 },
-  visible: { 
-    opacity: 1, 
+  visible: {
+    opacity: 1,
     scale: 1,
     transition: { duration: 0.5 }
   }
@@ -82,15 +82,15 @@ const Button: React.FC<ButtonProps> = ({
   variant = 'primary'
 }) => {
   const baseClasses = "flex-center group gap-2 overflow-hidden rounded-full font-jakarta text-[16px] font-semibold global-transition px-5 py-2 w-fit";
-  
+
   const variantClasses = {
     primary: "bg-mainColor2 text-white hover:bg-mainColor4",
     secondary: "bg-white text-mainColor2 hover:bg-mainColor2 hover:text-white",
     icon: "bg-mainColor2 text-white hover:bg-mainColor4 aspect-square rounded-full !p-4"
   };
-  
+
   const buttonClass = `${baseClasses} ${variantClasses[variant]} ${className}`;
-  
+
   const buttonContent = (
     <motion.div
       whileHover={{ scale: 1.05 }}
@@ -108,7 +108,7 @@ const Button: React.FC<ButtonProps> = ({
       )}
     </motion.div>
   );
-  
+
   if (href) {
     return (
       <a
@@ -122,7 +122,7 @@ const Button: React.FC<ButtonProps> = ({
       </a>
     );
   }
-  
+
   return (
     <button onClick={onClick} className={buttonClass}>
       {buttonContent}
@@ -162,7 +162,7 @@ const Image: React.FC<ImageProps> = ({
 // Hero Section
 const HeroSection: React.FC = () => {
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       className="relative min-h-[60vh] lg:min-h-[70vh] flex justify-end bg-mainColor5 !pt-96 w-full"
@@ -181,7 +181,7 @@ const HeroSection: React.FC = () => {
             className="size-full object-cover"
           />
         </motion.div>
-        
+
         <SectionContainer>
           <div className="flex flex-col justify-end !pt-0 !pb-10 text-white">
             <motion.h2
@@ -198,7 +198,7 @@ const HeroSection: React.FC = () => {
               transition={{ delay: 0.3 }}
               className="max-w-6xl whitespace-pre-line py-5"
             >
-              Plan your journey with ease with our comprehensive guide to visas, hotels, and bookings, 
+              Plan your journey with ease with our comprehensive guide to visas, hotels, and bookings,
               designed to ensure a seamless exhibition experience, all in one place.
             </motion.p>
           </div>
@@ -225,17 +225,17 @@ const IntroductionSection: React.FC = () => {
               whileHover={{ x: 5 }}
               className="flex w-fit gap-2 py-2 pe-5 pl-1 capitalize"
             >
-             <Image
-  src="/images/logo-icon-3.png"
-  alt="Diemex"
-  className="w-5 h-5"
-  rounded={false}
-/>
+              <Image
+                src="/images/logo-icon-3.png"
+                alt="Diemex"
+                className="w-5 h-5"
+                rounded={false}
+              />
 
               <span>DIEMEX</span>
             </motion.div>
             <h2 className="title-72 text-black w-7xl">
-Combine Business with Pune’s Manufacturing Heritage at DIEMEX
+              Combine Business with Pune’s Manufacturing Heritage at DIEMEX
             </h2>
             <p className="whitespace-pre-line">
               Connect with die & mould and precision manufacturing leaders from across India and beyond, explore the latest technologies and industry trends, and experience Pune—a city known for its strong automotive base, engineering excellence, and vibrant cultural legacy.
@@ -259,7 +259,7 @@ const GuideItemComponent: React.FC<GuideItem & { index: number }> = ({
   return (
     <motion.div
       variants={scaleIn}
-      whileHover={{ 
+      whileHover={{
         y: -5,
         backgroundColor: "#f8fafc",
         boxShadow: "0 15px 30px rgba(0,0,0,0.1)"
@@ -284,13 +284,13 @@ const GuideItemComponent: React.FC<GuideItem & { index: number }> = ({
             <motion.svg
               animate={{ x: [0, 5, 0] }}
               transition={{ repeat: Infinity, duration: 1.5 }}
-              stroke="currentColor" 
-              fill="currentColor" 
-              strokeWidth="0" 
-              viewBox="0 0 448 512" 
-              className="size-4 lg:size-5 text-black"  
-              height="1em" 
-              width="1em" 
+              stroke="currentColor"
+              fill="currentColor"
+              strokeWidth="0"
+              viewBox="0 0 448 512"
+              className="size-4 lg:size-5 text-black"
+              height="1em"
+              width="1em"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path>
@@ -305,7 +305,7 @@ const GuideItemComponent: React.FC<GuideItem & { index: number }> = ({
 // Guide Section with Tabs
 const GuideSection: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'exhibitors' | 'visitors'>('exhibitors');
-  
+
   const exhibitorItems: GuideItem[] = [
     {
       title: "Visa",
@@ -343,12 +343,12 @@ const GuideSection: React.FC = () => {
               whileHover={{ x: 5 }}
               className="flex w-fit gap-2 py-2 pe-5 pl-1 capitalize"
             >
-             <Image
-  src="/images/logo-icon-3.png"
-  alt="Diemex"
-  className="w-5 h-5"
-  rounded={false}
-/>
+              <Image
+                src="/images/logo-icon-3.png"
+                alt="Diemex"
+                className="w-5 h-5"
+                rounded={false}
+              />
 
               <span>Plan Your Travel</span>
             </motion.div>
@@ -363,11 +363,10 @@ const GuideSection: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab("exhibitors")}
-              className={`rounded-full px-6 py-3 text-sm font-bold transition ${
-                activeTab === "exhibitors"
+              className={`rounded-full px-6 py-3 text-sm font-bold transition ${activeTab === "exhibitors"
                   ? "bg-black text-white shadow"
                   : "text-gray-700 hover:bg-gray-100"
-              }`}
+                }`}
             >
               Exhibitors
             </motion.button>
@@ -376,11 +375,10 @@ const GuideSection: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab("visitors")}
-              className={`rounded-full px-6 py-3 text-sm font-bold transition ${
-                activeTab === "visitors"
+              className={`rounded-full px-6 py-3 text-sm font-bold transition ${activeTab === "visitors"
                   ? "bg-black text-white shadow"
                   : "text-gray-700 hover:bg-gray-100"
-              }`}
+                }`}
             >
               Visitors
             </motion.button>
@@ -417,7 +415,7 @@ const HotelComponent: React.FC<HotelItem & { index: number }> = ({
   return (
     <motion.div
       variants={scaleIn}
-      whileHover={{ 
+      whileHover={{
         y: -8,
         boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
         backgroundColor: "#f8fafc"
@@ -438,17 +436,17 @@ const HotelComponent: React.FC<HotelItem & { index: number }> = ({
         </h3>
         <p className="mt-5 whitespace-pre-line text-gray-700">{description}</p>
         <div className="mt-5 flex w-full flex-wrap gap-5">
-          <Button 
-            href={bookingLink} 
-            target="_blank" 
+          <Button
+            href={bookingLink}
+            target="_blank"
             rel="noopener noreferrer"
             className="max-lg:w-full !text-black"
           >
             Book your stay
           </Button>
-          <Button 
-            href={locationLink} 
-            target="_blank" 
+          <Button
+            href={locationLink}
+            target="_blank"
             rel="noopener noreferrer"
             variant="secondary"
             className="max-lg:w-full hover:!text-black"
@@ -508,7 +506,7 @@ The hotel has a stylish interior and an elaborate infrastructure, including a re
             transition={{ duration: 0.8, delay: 0.2 }}
             className="shrink-0 mt-5 h-px w-full bg-gradient-to-r from-blue-500 via-blue-600 to-blue-500"
           />
-          
+
           <motion.div
             variants={staggerContainer}
             initial="hidden"
@@ -530,14 +528,14 @@ The hotel has a stylish interior and an elaborate infrastructure, including a re
 const PlanYourTravelPage: React.FC = () => {
   return (
     <>
-    <div className="font-parabolica">
-      <HeroSection />
-      <IntroductionSection />
-      <GuideSection />
-      <HotelsSection />
-      {/* <PartnersSection /> */}
-    </div>
-    <BackToTop/>
+      <div className="font-parabolica">
+        <HeroSection />
+        <IntroductionSection />
+        <GuideSection />
+        <HotelsSection />
+        {/* <PartnersSection /> */}
+      </div>
+      <BackToTop />
     </>
   );
 };
