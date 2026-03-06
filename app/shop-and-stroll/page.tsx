@@ -5,24 +5,24 @@ const ShopAndStroll: React.FC = () => {
   // Shopping destinations data
   const shoppingDestinations = [
     {
-      title: "TSUM",
-      description: "Don't miss TSUM, the iconic Central Department Store.",
-      image: "/images/image.png"
+      title: "Phoenix Marketcity",
+      description: "Phoenix Marketcity is a shopping mall developed by Phoenix Mills Limited, located in Pune, Maharashtra. It was opened in June 2011 and is one of the largest malls in India, with a retail area of 1.19 million square feet. It is located in the Vimannagar area of Pune.",
+      image: "/images/PhoenixPune.jpg"
     },
     {
-      title: "Tverskaya Street",
-      description: "Discover luxury on Tverskaya Street, lined with boutiques and renowned brand shops.",
-      image: "/images/image.png"
+      title: "Phule Market",
+      description: "Pune's largest, historic, Gothic-style retail vegetable market located in Shukrawar Peth. Built in 1886, this bustling, centrally located hub features over 500 stalls selling fresh produce, fruits, and spices. It is a major, vibrant, and crowded cultural landmark near Tulshi Baug",
+      image: "/images/phule-market.jpg"
     },
     {
-      title: "Kuznetsky Most",
-      description: "Explore Kuznetsky Most, a vibrant street known for its high-end boutiques featuring Russian and international designers.",
-      image: "/images/image.png"
+      title: "Tulshibag Market",
+      description: "Tulshibaug Market, located in Budhwar Peth, Pune, near Vishrambaug Wada, is a bustling, iconic, and historic street shopping hub known for incredibly budget-friendly, diverse goods. It is famous for women's fashion, including traditional clothing, imitation jewellery, cosmetics, and accessories, as well as household items, Puja items, and footwear.",
+      image: "/images/tulsi.jpg"
     },
     {
-      title: "Fashion Quarter on Stoleshnikov Lane",
-      description: "Shop unique clothing and accessories at cozy stores and concept shops in the charming Fashion Quarter.",
-      image: "/images/image.png"
+      title: "Seasons Mall",
+      description: "Seasons Mall Pune, located in Magarpatta, is a vibrant lifestyle hub offering shopping, dining, and entertainment all in one place. From premium brands and cozy cafés to movies and fun activities, it’s the perfect destination for fashion lovers and families alike",
+      image: "/images/seasons.jpg"
     }
   ];
 
