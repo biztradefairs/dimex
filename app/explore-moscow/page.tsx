@@ -235,7 +235,7 @@ export default function ExploreMoscowPage() {
             
             <div className="grid min-h-[300px] place-content-center lg:col-span-5">
               <img
-                src="/images/image.png"
+                src="/images/pune4.jpg"
                 alt="Transportation illustration"
                 width={500}
                 height={500}
