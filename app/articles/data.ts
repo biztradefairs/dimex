@@ -547,11 +547,11 @@ export const mockPageData: PageData = {
   Header: {
     Title: "Industry Insights and News",
     Content:
-      "Stay up to date with the latest trends, innovations, and developments shaping the die,mould and tooling industry."
+      "Stay up to date with the latest trends, innovations, and developments shaping the die,mould and toolinglogistics industry."
   },
   Sections: [
     {
-      __typename: "ComponentDiemexaArticlesList",
+      __typename: "ComponentTransRussiaArticlesList",
       id: "2",
       Articles: articles
     }
