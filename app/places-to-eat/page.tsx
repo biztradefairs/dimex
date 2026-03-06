@@ -52,7 +52,7 @@ export default function PlacesToEatPage() {
                   className="absolute inset-0 size-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="flex flex-col z-[1] gap-5">
-                  <h2 className="title-40 font-semibold text-white group-hover:text-mainColor2 transition-colors duration-300">White Rabbit</h2>
+                  <h2 className="title-40 font-semibold text-white group-hover:text-mainColor2 transition-colors duration-300">Tao-fu</h2>
                   <div className="flex w-full flex-wrap gap-5"></div>
                 </div>
               </div>
@@ -60,13 +60,13 @@ export default function PlacesToEatPage() {
               {/* Evviva Sky Lounge */}
               <div className="z-[1] relative flex size-full min-h-[500px] flex-col p-5 lg:p-10 before:content-[''] text-white before:absolute before:inset-0 before:z-[1] before:from-black before:bg-gradient-to-b hover:before:opacity-90 transition-all duration-300 group">
                 <Image
-                  src="/images/image.png"
+                  src="/images/eviva.jpg"
                   alt="Evviva Sky Lounge"
                   fill
                   className="absolute inset-0 size-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="flex flex-col z-[1] gap-5">
-                  <h2 className="title-40 font-semibold text-white group-hover:text-mainColor2 transition-colors duration-300">Twin Garden</h2>
+                  <h2 className="title-40 font-semibold text-white group-hover:text-mainColor2 transition-colors duration-300">Evviva Sky Lounge</h2>
                   <div className="flex w-full flex-wrap gap-5"></div>
                 </div>
               </div>
