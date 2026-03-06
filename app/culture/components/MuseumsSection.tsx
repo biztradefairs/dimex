@@ -3,21 +3,21 @@ import React from 'react';
 const museums = [
   {
     id: 1,
-    title: "State Tretyakov Gallery",
-    description: "Immerse yourself in Russian art at State Tretyakov Gallery, a premier museum and home to an extensive collection of masterpieces.",
-    image: "/images/image.png"
+    title: "Raja Dinkar Kelkar Museum",
+    description: "This museum is the brainchild of Dr. Dinkar G. Kelkar and it features over 20,000 artefacts that comprise weapons, musical instruments, and sculptures from the Mughal eras. The crown jewel of the museum is Mastani Mahal, the remodelled palace of the Peshwa Bajirao’s queen.",
+    image: "/images/raja.jpg"
   },
   {
     id: 2,
-    title: "Garage Museum of Contemporary Art",
-    description: "Engage with contemporary art through innovative exhibitions, lectures, and cultural events at Garage Museum of Contemporary Art.",
-    image: "/images/image.png"
+    title: "Shree Chhatrapati Shivaji Maharaj Museum",
+    description: "Chhatrapati Shivaji Maharaj Museum of Indian History is a private historical museum founded by François Gautier in 2012 under the banner of his not-for-profit organization, the Foundation For Advancement of Cultural Ties.",
+    image: "/images/shivaji.jpg"
   },
   {
     id: 3,
-    title: "Moscow Museum of Modern Art (MMOMA)",
-    description: "Explore cutting-edge exhibitions showcasing both Russian and international contemporary artists at MMOMA.",
-    image: "/images/image.png"
+    title: "National War Museum",
+    description: "The National War Memorial Southern Command is a war memorial in the city of Pune, India, dedicated to post-Independence war martyrs. This is the only war memorial in South Asia which has been erected by citizens' contributions. The memorial was unveiled and dedicated to the nation on 15 August 1998.",
+    image: "/images/national.jpg"
   }
 ];
 
