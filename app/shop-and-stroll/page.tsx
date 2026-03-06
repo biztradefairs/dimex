@@ -39,8 +39,8 @@ const ShopAndStroll: React.FC = () => {
         <div className="absolute inset-0 z-[-1] w-full h-full py-0">
           <div className="absolute inset-0 bg-gradient-to-t from-black"></div>
           <img 
-            alt="Moscow Shopping"
-            src="https://cdn.itegroupnews.com/Untitled_design_56_9d84bd6621.png"
+            alt="Pune Shopping"
+            src="/images/shopping-pune.jpg"
             className="w-full h-full object-cover"
           />
         </div>
