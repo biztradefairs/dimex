@@ -12,7 +12,7 @@ import Link from 'next/link';
 //   openGraph: {
 //     title: "Die & Mould Exhibition Trade Show | DIEMEX",
 //   description: "Join Diemex 2026, the premier internatinal die and mould exhibition at Auto Cluster Exhibition Centre, Pune.. Network with global industry leaders and explore cutting-edge solutions.",
-//     images: ["https://cdn.itegroupnews.com/TRU_Sectors_Images_1_c2980dbd37.png"]
+//     images: ["/images/image.png"]
 //   }
 // };
 
@@ -34,8 +34,8 @@ export default function ExploreMoscowPage() {
         <div className="absolute inset-0 z-[-1]">
           <div className="absolute inset-0 bg-gradient-to-t from-black" />
           <img
-            src="/images/image.png"
-            alt="Moscow river with Kremlin in the evening"
+            src="/images/pune3.jpg"
+            alt="Pune Night View"
             className="w-full h-full object-cover"
           />
         </div>
