@@ -79,8 +79,8 @@ const IconicLandmarksPage: React.FC = () => {
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10"></div>
           <Image
-            src="/images/image.png"
-            alt="Moscow Landmarks"
+            src="/images/pune5.jpg"
+            alt="Pune Landmarks"
             fill
             className="object-cover"
             priority
@@ -88,7 +88,7 @@ const IconicLandmarksPage: React.FC = () => {
         </div>
         <div className="container mx-auto relative z-20">
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mt-40 animate-fade-in-up">
-            Iconic Landmarks
+            Pune Iconic Landmarks
           </h1>
         </div>
       </section>
