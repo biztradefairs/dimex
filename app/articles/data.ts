@@ -66,7 +66,7 @@ export const articles: Article[] = [
     Image: {
       data: {
         attributes: {
-          url: "https://cdn.itegroupnews.com/shutterstock_2060451893_5cd959fc52.webp"
+          url: "/images/image.png"
           }
         }
       }
@@ -102,7 +102,7 @@ export const articles: Article[] = [
     Image: {
       data: {
         attributes: {
-          url: "https://cdn.itegroupnews.com/shutterstock_2471682929_d7e3484915.webp"
+          url: "/images/image.png"
           }
         }
       }
@@ -135,7 +135,7 @@ export const articles: Article[] = [
     Image: {
       data: {
         attributes: {
-          url: "https://cdn.itegroupnews.com/shutterstock_506661664_119ee222ac.webp"
+          url: "/images/image.png"
           }
         }
       }
@@ -168,7 +168,7 @@ export const articles: Article[] = [
     Image: {
       data: {
         attributes: {
-          url: "https://cdn.itegroupnews.com/russian_transport_logistics_1_1c8e93c332.webp"
+          url: "/images/image.png"
           }
         }
       }
@@ -201,7 +201,7 @@ export const articles: Article[] = [
     Image: {
       data: {
         attributes: {
-          url: "https://cdn.itegroupnews.com/TR_2025_061_c602a7d767.webp"
+          url: "/images/image.png"
           }
         }
       }
@@ -234,7 +234,7 @@ export const articles: Article[] = [
     Image: {
       data: {
         attributes: {
-          url: "https://cdn.itegroupnews.com/TR_NY_Postcard_02preview_e50c14384f.webp"
+          url: "/images/image.png"
           }
         }
       }
