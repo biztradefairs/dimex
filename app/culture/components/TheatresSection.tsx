@@ -3,21 +3,21 @@ import React from 'react';
 const theatres = [
   {
     id: 1,
-    title: "Bolshoi Theatre",
-    description: "A class of Russian theater. You should definitely visit the opera or ballet.",
-    image: "/images/image.png"
+    title: "Parvati Hill",
+    description: "Standing at 2,100 feet, Parvati Hill is home to the 17th-century Parvati Temple, which was built by the Peshwas, and other ancient temples. The hill has a breathtaking view of the city of Pune and serves as a pilgrimage and tourism spot for people around the world.",
+    image: "/images/parvathi.jpg"
   },
   {
     id: 2,
-    title: "Taganka Theatre",
-    description: "Known for its experimental productions and unique approach to classical works.",
-    image: "/images/image.png"
+    title: "Pataleshwar Cave Temple ",
+    description: "Pataleshwar Cave Temple, dedicated to Lord Shiva, is an 8th-century temple made out of solid rock and showcases exemplary cut stone work. The intricately carved sculptures feature a majestic Nandi Mandap and multi-detailed stone pillars.",
+    image: "/images/pataleshwar.jpg"
   },
   {
     id: 3,
-    title: "Chekhov Moscow Art Theatre",
-    description: "One of the most famous theatres in the country with a rich history and high-class productions.",
-    image: "/images/image.png"
+    title: "Shrimant Dagdusheth Halwai Ganpati Mandir",
+    description: "The Dagadusheth Halwai Ganapati Temple is a Hindu temple dedicated to the Hindu god Ganesha in the city of Pune, India. The temple is visited by over one hundred thousand devotees every year. A large number of devotees visit the temple during the annual ten-day public Ganeshotsav festival.",
+    image: "/images/dadu.jpg"
   }
 ];
 
@@ -26,7 +26,7 @@ const TheatresSection: React.FC = () => {
     <section className="py-20 bg-white">
       <div className="container mx-auto">
         <h2 className="text-6xl md:text-7xl lg:text-8xl font-bold text-black mb-10">
-          THEATRES
+          TEMPLES
         </h2>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
