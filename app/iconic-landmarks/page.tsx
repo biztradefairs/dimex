@@ -33,10 +33,9 @@ const IconicLandmarksPage: React.FC = () => {
   const landmarks: Landmark[] = [
     {
       id: 1,
-      title: "Red Square and the Kremlin",
-      description: `• Red Square is the heart of Moscow. Be sure to visit St. Basil's Cathedral with its colorful domes and the State Historical Museum.
-      • The Kremlin is a historical fortress where you can see the Trinity Tower, the Grand Kremlin Palace and many cathedrals.`,
-      imageUrl: "/images/image.png",
+      title: "Shaniwar Wada – The Iconic Fortress",
+      description: `Shaniwar Wada is a site that holds great importance when it comes to Pune’s history. It was built in 1732 by the Maratha Empire Peshwas. Despite being partially destroyed by fire in 1828, the place is famous for its humongous light pillars and intricate carvings. A sound and light show is held during the evenings, which helps you relive the outstanding tales of this site.`,
+      imageUrl: "/images/shaniwarwada.jpg",
     },
     {
       id: 2,
