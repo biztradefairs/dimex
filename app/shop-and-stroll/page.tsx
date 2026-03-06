@@ -33,7 +33,7 @@ const ShopAndStroll: React.FC = () => {
         <div className="container mx-auto px-4 flex flex-col justify-end pt-0 pb-10 text-white">
           <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-5">Shop and Stroll</h2>
           <p className="max-w-6xl whitespace-pre-line py-5 text-lg">
-            For a blend of luxury and tradition, explore the historic GUM Department Store or the trendy boutiques of the Patriarch Ponds area. Antique markets and souvenir shops offer a chance to take a piece of Moscow home with you.
+            For a mix of modern retail and local charm, explore Pune’s popular shopping spots like FC Road, MG Road, and Laxmi Road. From trendy boutiques to traditional markets and souvenir shops, you can easily find something special to take home.
           </p>
         </div>
         <div className="absolute inset-0 z-[-1] w-full h-full py-0">
