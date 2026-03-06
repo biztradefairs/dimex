@@ -33,7 +33,7 @@ const IconicLandmarksPage: React.FC = () => {
   const landmarks: Landmark[] = [
     {
       id: 1,
-      title: "Shaniwar Wada – The Iconic Fortress",
+      title: "Shaniwar Wada",
       description: `Shaniwar Wada is a site that holds great importance when it comes to Pune’s history. It was built in 1732 by the Maratha Empire Peshwas. Despite being partially destroyed by fire in 1828, the place is famous for its humongous light pillars and intricate carvings. A sound and light show is held during the evenings, which helps you relive the outstanding tales of this site.`,
       imageUrl: "/images/shaniwarwada.jpg",
     },
