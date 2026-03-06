@@ -13,7 +13,7 @@ const HeroSection: React.FC = () => {
       <div className="absolute inset-0 z-[-1] w-full h-full">
         <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent"></div>
         <img 
-          src="/images/kesaiwada.jpg" 
+          src="/images/kesariwada.jpg" 
           alt="Pune" 
           className="w-full h-full object-cover"
         />
