@@ -86,27 +86,32 @@ export default function PlacesToEatPage() {
                   <div className="rte-style [&_h1]:lg:text-4xl [&_h2]:lg:text-3xl [&_h3]:lg:text-2xl [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_a]:underline [&_blockquote]:relative [&_blockquote]:italic [&_blockquote]:bg-[#f9f9f9] [&_blockquote]:text-xl [&_blockquote]:w-fit [&_blockquote]:border-l-4 [&_blockquote]:border-black [&_blockquote]:p-5 [&_blockquote]:ml-5">
                     <ul className="space-y-4">
                       <li>
-                        <strong className="text-mainColor1 hover:text-mainColor2 transition-colors duration-300">Cafe Pushkin</strong> - Savor traditional Russian cuisine in the elegant, old-Moscow ambiance of this famous Cafe Pushkin.
+                        <strong className="text-mainColor1 hover:text-mainColor2 transition-colors duration-300">Spice Kitchen
+
+</strong> - All day, multi-cuisine restaurant, which includes buffets for breakfast, lunch, dinner and Sunday brunches as well as an all day à la carte menu to enhance your dining options.
                         <br />&nbsp;
                       </li>
                       <li>
-                        <strong className="text-mainColor1 hover:text-mainColor2 transition-colors duration-300">Restaurant Beluga</strong> - Experience modern Russian cuisine in a sophisticated setting at Restaurant Beluga.
+                        <strong className="text-mainColor1 hover:text-mainColor2 transition-colors duration-300">Chingari</strong> - Adjacent to the outdoor swimming pool, Chingari is an idyllic place to explore the exotic flavours of North India while enjoying the cool breeze that sweeps over the rooftop every evening.
                         <br />&nbsp;
                       </li>
                       <li>
-                        <strong className="text-mainColor1 hover:text-mainColor2 transition-colors duration-300">Depot</strong> - Taste flavors from around the globe at the bustling culinary market Depot filled with diverse restaurants and cafes.
+                        <strong className="text-mainColor1 hover:text-mainColor2 transition-colors duration-300">Koji</strong> - Koji, the Asian specialty restaurant, serves the best of Japanese, Chinese and Thai cuisine. Designed by Spin, the renowned Japanese interior design company, the stunning restaurant features a dramatic live kitchen, extensive sushi bar and an exclusive private dining area with dedicated teppan grill.
+
                         <br />&nbsp;
                       </li>
                       <li>
-                        <strong className="text-mainColor1 hover:text-mainColor2 transition-colors duration-300">Restaurant Varenichnaya No. 1</strong> - Indulge in authentic Russian pelmeni and vareniki at the delightful eatery.
+                        <strong className="text-mainColor1 hover:text-mainColor2 transition-colors duration-300">Wah Marathi</strong> - Through Wah! Marathi we intend to honor the cuisine that has its roots spread deep into the Great Maharashtrian heritage. The underscore of “WAH! MARATHI” remains the assortment of delicacies from all over Maharashtra presented in a vogue ambience with contemporary elements.
                         <br />&nbsp;
                       </li>
                       <li>
-                        <strong className="text-mainColor1 hover:text-mainColor2 transition-colors duration-300">Danilovsky</strong> - Offers a mix of fresh produce, authentic Russian dishes, and international street food.
+                        <strong className="text-mainColor1 hover:text-mainColor2 transition-colors duration-300">Cobbler & Crew</strong> - Pune's only bar on India's 30 Best Bars list! Cocktail bar with a global food program | Live music every Wednesday | Cocktail masterclasses
+
                         <br />&nbsp;
                       </li>
                       <li>
-                        <strong className="text-mainColor1 hover:text-mainColor2 transition-colors duration-300">Depo Moscow</strong> - A bustling foodie hub with over 75 cuisines to explore.
+                        <strong className="text-mainColor1 hover:text-mainColor2 transition-colors duration-300">Feast</strong> - Enjoy bountiful breakfast buffets and an extensive à la carte menu at Feast, the trendy yet informal restaurant at our Pune, Maharashtra hotel.
+
                       </li>
                     </ul>
                   </div>
