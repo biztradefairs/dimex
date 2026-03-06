@@ -39,9 +39,8 @@ const IconicLandmarksPage: React.FC = () => {
     },
     {
       id: 2,
-      title: "Tsaritsyno and Kolomenskoye",
-      description: `• Tsaritsyno is a beautiful park with a palace where exhibitions and cultural events are held.
-      • Kolomenskoye is a historical complex with wooden buildings and beautiful views of the Moscow River.`,
+      title: "Aga Khan Palace",
+      description: `Due to the famous Indian independence movement, this landmark site greatly helped the Agakhan Palace in becoming a significant landmark. During the ‘Quit India Movement,’ Mahatma Gandhi and wife Kasturba Gandhi were imprisoned here. The site also comes with stunning gardens, beautiful Italian arches, and a museum that holds the belongings of Gandhi Ji.`,
       imageUrl: "/images/image.png",
     },
     {
