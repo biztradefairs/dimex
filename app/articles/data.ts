@@ -66,7 +66,7 @@ export const articles: Article[] = [
     Image: {
       data: {
         attributes: {
-          url: "/images/image.png"
+          url: "/images/article1.jpg"
           }
         }
       }
@@ -102,7 +102,7 @@ export const articles: Article[] = [
     Image: {
       data: {
         attributes: {
-          url: "/images/image.png"
+          url: "/images/article2.jpg"
           }
         }
       }
@@ -135,7 +135,7 @@ export const articles: Article[] = [
     Image: {
       data: {
         attributes: {
-          url: "/images/image.png"
+          url: "/images/article3.jpg"
           }
         }
       }
@@ -168,7 +168,7 @@ export const articles: Article[] = [
     Image: {
       data: {
         attributes: {
-          url: "/images/image.png"
+          url: "/images/article4.jpg"
           }
         }
       }
@@ -201,7 +201,7 @@ export const articles: Article[] = [
     Image: {
       data: {
         attributes: {
-          url: "/images/image.png"
+          url: "/images/article5.jpg"
           }
         }
       }
@@ -234,7 +234,7 @@ export const articles: Article[] = [
     Image: {
       data: {
         attributes: {
-          url: "/images/image.png"
+          url: "/images/article6.jpg"
           }
         }
       }
