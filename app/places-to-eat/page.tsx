@@ -37,17 +37,17 @@ export default function PlacesToEatPage() {
 </div>
 
 
-      {/* Top 2 Michelin Stars Section */}
+      {/* Top 2 Restaurants in Pune */}
       <div className="animated-block">
         <div className="animated-block-target">
           <div className="container">
-            <h2 className="title-72 text-black mb-10">Top 2 Michelin Stars</h2>
+            <h2 className="title-72 text-black mb-10">Top 2 Restaurants</h2>
             <div className="grid size-full grid-cols-1 gap-5 md:grid-cols-2">
-              {/* White Rabbit */}
+              {/* Tao-fu */}
               <div className="z-[1] relative flex size-full min-h-[500px] flex-col p-5 lg:p-10 before:content-[''] text-white before:absolute before:inset-0 before:z-[1] before:from-black before:bg-gradient-to-b hover:before:opacity-90 transition-all duration-300 group">
                 <Image
-                  src="/images/image.png"
-                  alt="White Rabbit"
+                  src="/images/toofu.jpg"
+                  alt="Tao-fu"
                   fill
                   className="absolute inset-0 size-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -57,11 +57,11 @@ export default function PlacesToEatPage() {
                 </div>
               </div>
 
-              {/* Twin Garden */}
+              {/* Evviva Sky Lounge */}
               <div className="z-[1] relative flex size-full min-h-[500px] flex-col p-5 lg:p-10 before:content-[''] text-white before:absolute before:inset-0 before:z-[1] before:from-black before:bg-gradient-to-b hover:before:opacity-90 transition-all duration-300 group">
                 <Image
                   src="/images/image.png"
-                  alt="Twin Garden"
+                  alt="Evviva Sky Lounge"
                   fill
                   className="absolute inset-0 size-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
