@@ -250,7 +250,7 @@ export const mockPageData: PageData = {
   Header: {
     Title: "Industry Insights and News",
     Content:
-      "Stay up to date with the latest trends, innovations, and developments shaping the die,mould and toolinglogistics industry."
+      "Stay up to date with the latest trends, innovations, and developments shaping the die,mould and tooling industry."
   },
   Sections: [
     {
