@@ -209,81 +209,32 @@ export const articles: Article[] = [
   },
   {
     id: "84",
-    attributes: {
-      Title: "Happy New Year and Merry Christmas!",
-      Slug: "happy-new-year-and-merry-christmas",
-      Excerpt:
-        "The team extends warm holiday wishes to exhibitors, partners, and visitors.",
-      Content: `<p><strong>As 2025 draws to a close</strong>, the TransRussia and SkladTech team reflects on a remarkable year of growth, innovation, and collaboration with the logistics community.</p>
+  attributes: {
+    Title: "Future Trends in the Global Die & Mould Industry",
+    Slug: "happy-new-year-and-merry-christmas",
+    Excerpt:
+      "Discover the key trends shaping the future of the global die and mould manufacturing industry.",
+    Content: `
+    <p>The global <strong>die and mould industry</strong> is evolving rapidly as manufacturers adopt new materials, digital engineering tools, and automated production systems.</p>
 
-<p>&nbsp;</p>
+    <h2>Major Industry Trends</h2>
+    <ul>
+      <li>Increased adoption of electric vehicle component tooling</li>
+      <li>Growth in precision plastic moulding</li>
+      <li>Integration of additive manufacturing with traditional machining</li>
+      <li>Expansion of smart factories and digital tool rooms</li>
+    </ul>
 
-<div style="text-align: center; margin: 3rem 0;">
-  <img src="https://cdn.itegroupnews.com/TR_NY_Postcard_02preview_e50c14384f.webp" alt="Happy New Year and Merry Christmas" style="max-width: 100%; border-radius: 1rem;" />
-</div>
+    <h2>Global Market Outlook</h2>
+    <p>Demand for advanced tooling solutions will continue to grow as industries require lightweight components, higher precision, and faster product development cycles.</p>
 
-<p>&nbsp;</p>
-
-<h2>A Year of Achievement</h2>
-
-<p>&nbsp;</p>
-
-<p>2025 has been a landmark year for the transport and logistics industry. We've witnessed:</p>
-
-<ul>
-<li><strong>Record attendance</strong> at TransRussia and SkladTech 2025, with thousands of professionals connecting and conducting business</li>
-<li><strong>Groundbreaking innovations</strong> in warehouse automation, digital logistics, and sustainable transport solutions</li>
-<li><strong>Strengthened partnerships</strong> across the Eurasian logistics community, building resilience and capability</li>
-<li><strong>Meaningful conversations</strong> about the future of supply chains and the technologies that will shape them</li>
-</ul>
-
-<p>&nbsp;</p>
-
-<h2>Looking Forward to 2026</h2>
-
-<p>&nbsp;</p>
-
-<p>As we look ahead to 2026, we're excited about:</p>
-
-<ul>
-<li><strong>TransRussia & SkladTech 2026</strong> (17-19 March, Crocus Expo, Pavilion 3) - Our most ambitious event yet</li>
-<li><strong>Expanded exhibition space</strong> featuring more exhibitors and innovations</li>
-<li><strong>Enhanced networking opportunities</strong> connecting logistics professionals from across Eurasia and beyond</li>
-<li><strong>New conference programs</strong> addressing the most pressing challenges and opportunities in transport and warehousing</li>
-</ul>
-
-<p>&nbsp;</p>
-
-<h2>Season's Greetings</h2>
-
-<p>&nbsp;</p>
-
-<p>To our valued exhibitors, partners, and visitors:</p>
-
-<p>We extend our warmest wishes for the holiday season. May your celebrations be filled with joy, and may the coming year bring prosperity, successful partnerships, and continued growth.</p>
-
-<p>Thank you for being part of the TransRussia and SkladTech community. Your participation, insights, and commitment make our events the premier gathering place for the logistics industry.</p>
-
-<p>&nbsp;</p>
-
-<p><strong>Happy Holidays and a prosperous New Year!</strong></p>
-
-<p>&nbsp;</p>
-
-<p><em>The TransRussia & SkladTech Team</em></p>
-
-<p>&nbsp;</p>
-
-<hr />
-
-<p>&nbsp;</p>
-
-<p>We look forward to welcoming you to <strong>TransRussia & SkladTech 2026</strong> – 17-19 March at Crocus Expo, Pavilion 3. <a href="https://trstexpo.com/visitor-registration/"><strong>Register your interest</strong></a> to stay updated on event news and announcements.</p>`,
-      PublishedDate: "2025-12-26T09:15:00.000Z",
-      Image: {
-        data: {
-          attributes: {
-            url: "https://cdn.itegroupnews.com/TR_NY_Postcard_02preview_e50c14384f.webp"
+    <p>International industry events such as <strong>DIEMEX</strong> provide a platform for manufacturers and technology providers to explore new partnerships and innovations.</p>
+    `,
+    PublishedDate: "2025-12-26T09:15:00.000Z",
+    Image: {
+      data: {
+        attributes: {
+          url: "https://cdn.itegroupnews.com/TR_NY_Postcard_02preview_e50c14384f.webp"
           }
         }
       }
