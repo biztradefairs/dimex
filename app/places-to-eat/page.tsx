@@ -14,7 +14,7 @@ export default function PlacesToEatPage() {
   
   {/* Background Image */}
   <Image
-    src="/images/image.png"
+    src="/images/culinary.jpg"
     alt="Moscow's Culinary Delights"
     fill
     priority
@@ -27,10 +27,10 @@ export default function PlacesToEatPage() {
   {/* Content */}
   <div className="relative z-20 container pb-10 text-white">
     <h2 className="title-72 text-white drop-shadow-lg">
-      Moscow&apos;s Culinary Delights
+      Pune&apos;s Culinary Delights
     </h2>
     <p className="max-w-6xl py-5 text-white/90 drop-shadow">
-      Moscow's culinary scene is a feast for the senses, offering a mix of traditional Russian flavors and international cuisines. Dive into hearty classics like borscht, pelmeni, and blini.
+      Pune’s culinary scene is a treat for food lovers, offering a blend of traditional Maharashtrian flavors and global cuisines. Enjoy local favorites like misal pav, vada pav, and puran poli, along with a wide variety of modern cafés and international dining options
     </p>
   </div>
 
