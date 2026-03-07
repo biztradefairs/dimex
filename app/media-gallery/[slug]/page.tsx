@@ -50,7 +50,7 @@ const mediaDetails = [
     title: "Diemex 2025 Exhibition",
     shortText: "Exhibition Highlights",
     images: [
-      { src: "/images/media-gallery/2025_29.JPG", alt: "Diemex 2025 Exhibition" },
+      { src: "/images/media-gallery/2025_29.jpg", alt: "Diemex 2025 Exhibition" },
       // Add more images for this gallery
     ]
   },
