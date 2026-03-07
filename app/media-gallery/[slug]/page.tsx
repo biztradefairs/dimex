@@ -12,9 +12,7 @@ const mediaDetails = [
     title: "Diemex 2025",
     shortText: "Diemex2025",
     images: [
-      { src: "/images/media-gallery/2025IN_1.JPG", alt: "Diemex©25" },
-  
-  
+  { src: "/images/media-gallery/2025IN_1.JPG", alt: "Diemex©25" },
   { src: "/images/media-gallery/2025IN_2.JPG", alt: "Diemex©25" },
   { src: "/images/media-gallery/2025IN_3.JPG", alt: "Diemex©25" },     
   { src: "/images/media-gallery/2025IN_4.JPG", alt: "Diemex©25" },
@@ -43,6 +41,7 @@ const mediaDetails = [
 { src: "/images/media-gallery/2025IN_27.JPG", alt: "Diemex©25" }, 
 { src: "/images/media-gallery/2025IN_28.JPG", alt: "Diemex©25" },
 { src: "/images/media-gallery/2025IN_29.JPG", alt: "Diemex©25" },
+{ src: "https://cdn.itegroupnews.com/TR_2025_337_e76336212a.webp", alt: "Diemex 2025 Exhibition" },
    ]
   },
   {
