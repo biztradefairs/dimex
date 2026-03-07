@@ -8,98 +8,98 @@ import { useParams } from 'next/navigation';
 const mediaDetails = [
   {
     id: 1,
-    slug: "diemex-2025-inaguration",
-    title: "Diemex 2025 Inaguration",
-    shortText: "Diemex2025",
+    slug: "diemex-2025-inauguration",
+    title: "Diemex 2025 Inauguration",
+    shortText: "Diemex2025 Inauguration Ceremony",
     images: [
-  { src: "/images/media-gallery/2025IN_1.JPG", alt: "Diemex©25" },
-  { src: "/images/media-gallery/2025IN_2.JPG", alt: "Diemex©25" },
-  { src: "/images/media-gallery/2025IN_3.JPG", alt: "Diemex©25" },     
-  { src: "/images/media-gallery/2025IN_4.JPG", alt: "Diemex©25" },
-  { src: "/images/media-gallery/2025IN_5.JPG", alt: "Diemex©25" },
-  { src: "/images/media-gallery/2025IN_6.JPG", alt: "Diemex©25" },
-  { src: "/images/media-gallery/2025IN_7.JPG", alt: "Diemex©25" },
-  { src: "/images/media-gallery/2025IN_8.JPG", alt: "Diemex©25" },
-  { src: "/images/media-gallery/2025IN_9.JPG", alt: "Diemex©25" },
-  { src: "/images/media-gallery/2025IN_10.JPG", alt: "Diemex©25" },
-  { src: "/images/media-gallery/2025IN_11.JPG", alt: "Diemex©25" },
-  { src: "/images/media-gallery/2025IN_12.JPG", alt: "Diemex©25" },
-  { src: "/images/media-gallery/2025IN_13.JPG", alt: "Diemex©25" },
-  { src: "/images/media-gallery/2025IN_14.JPG", alt: "Diemex©25" },
- { src: "/images/media-gallery/2025IN_15.JPG", alt: "Diemex©25" },
- { src: "/images/media-gallery/2025IN_16.JPG", alt: "Diemex©25" },
- { src: "/images/media-gallery/2025IN_17.JPG", alt: "Diemex©25" },
- { src: "/images/media-gallery/2025IN_18.JPG", alt: "Diemex©25" },
- { src: "/images/media-gallery/2025IN_19.JPG", alt: "Diemex©25" },
- { src: "/images/media-gallery/2025IN_20.JPG", alt: "Diemex©25" },
- { src: "/images/media-gallery/2025IN_21.JPG", alt: "Diemex©25" },
- { src: "/images/media-gallery/2025IN_22.JPG", alt: "Diemex©25" },
- { src: "/images/media-gallery/2025IN_23.JPG", alt: "Diemex©25" },
- { src: "/images/media-gallery/2025IN_24.JPG", alt: "Diemex©25" },
-{ src: "/images/media-gallery/2025IN_25.JPG", alt: "Diemex©25" },
-{ src: "/images/media-gallery/2025IN_26.JPG", alt: "Diemex©25" },
-{ src: "/images/media-gallery/2025IN_27.JPG", alt: "Diemex©25" }, 
-{ src: "/images/media-gallery/2025IN_28.JPG", alt: "Diemex©25" },
-{ src: "/images/media-gallery/2025IN_29.JPG", alt: "Diemex©25" },
-
-   ]
+      { src: "/images/media-gallery/20205IN_1.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_2.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_3.jpg", alt: "Diemex©25 Inauguration" },     
+      { src: "/images/media-gallery/20205IN_4.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_5.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_6.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_7.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_8.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_9.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_10.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_11.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_12.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_13.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_14.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_15.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_16.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_17.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_18.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_19.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_20.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_21.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_22.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_23.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_24.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_25.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_26.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_27.jpg", alt: "Diemex©25 Inauguration" }, 
+      { src: "/images/media-gallery/20205IN_28.jpg", alt: "Diemex©25 Inauguration" },
+      { src: "/images/media-gallery/20205IN_29.jpg", alt: "Diemex©25 Inauguration" },
+    ]
   },
   {
     id: 2,
     slug: "diemex-2025-exhibition",
     title: "Diemex 2025 Exhibition",
-    shortText: "Exhibition Highlights",
+    shortText: "Diemex2025 Exhibition Highlights",
     images: [
-      { src: "/images/media-gallery/2025_29.JPG", alt: "Diemex 2025 Exhibition" },
-      // Add more images for this gallery
+      // You'll need to check what your exhibition files are named
+      // They might be 20205EX_1.jpg etc or you might need to add them
+      { src: "/images/media-gallery/20205IN_1.jpg", alt: "Diemex 2025 Exhibition" },
+      { src: "/images/media-gallery/20205IN_2.jpg", alt: "Diemex 2025 Exhibition" },
     ]
   },
   {
     id: 3,
-    slug: "diemex-2024-exhibition",
-    title: "Diemex 2024 Exhibition",
-    shortText: "Exhibition Highlights",
+    slug: "diemex-2025-awards",
+    title: "Diemex 2025 Awards Ceremony",
+    shortText: "Diemex2025 Awards Ceremony",
     images: [
-      { src: "https://cdn.itegroupnews.com/TR_24_IMG_2499i_dc444c9640.webp", alt: "Diemex 2024 Exhibition" },
-      // Add more images for this gallery
+      // You'll need to check what your awards files are named
+      { src: "/images/media-gallery/20205IN_1.jpg", alt: "Diemex 2025 Awards" },
+      { src: "/images/media-gallery/20205IN_2.jpg", alt: "Diemex 2025 Awards" },
     ]
   },
+  // For 2023 galleries, you'll need to check those filenames too
   {
     id: 4,
-    slug: "diemex-4-5-december-2024",
-    title: "Diemex Conference 2024",
-    shortText: "Conference Highlights",
+    slug: "diemex-2023-inauguration",
+    title: "Diemex 2023 Inauguration",
+    shortText: "Diemex2023 Inauguration Ceremony",
     images: [
-      { src: "https://cdn.itegroupnews.com/19_32d833764b.webp", alt: "Diemex Conference 2024" },
-      // Add more images for this gallery
+      { src: "/images/media-gallery/2023IN_1.jpg", alt: "Diemex 2023 Inauguration" },
+      // Add more 2023 images based on your actual files
     ]
   },
   {
     id: 5,
-    slug: "diemex-2024-conference-programme",
-    title: "Diemex 2024 Conference Programme",
-    shortText: "Conference Programme",
+    slug: "diemex-2023-exhibition",
+    title: "Diemex 2023 Exhibition",
+    shortText: "Diemex2023 Exhibition Highlights",
     images: [
-      { src: "https://cdn.itegroupnews.com/tr24_15_194638d1ef.webp", alt: "Diemex 2024 Conference Programme" },
-      // Add more images for this gallery
+      { src: "/images/media-gallery/2023EX_1.jpg", alt: "Diemex 2023 Exhibition" },
+      // Add more 2023 images based on your actual files
     ]
   },
   {
     id: 6,
-    slug: "diemex-2024-awards-ceremony",
-    title: "Diemex 2024 Awards Ceremony",
-    shortText: "Awards Ceremony",
+    slug: "diemex-2023-awards",
+    title: "Diemex 2023 Awards Ceremony",
+    shortText: "Diemex2023 Awards Ceremony",
     images: [
-      { src: "https://cdn.itegroupnews.com/TR_24_IMG_3023i_cbdb39d5ea.webp", alt: "Diemex 2024 Awards Ceremony" },
-      // Add more images for this gallery
+      { src: "/images/media-gallery/2023AW_1.jpg", alt: "Diemex 2023 Awards" },
+      // Add more 2023 images based on your actual files
     ]
   }
-   
-  
-  
 ];
 
-// Lightbox/Modal Component
+// Lightbox/Modal Component (keep this exactly as you had it)
 function LightboxModal({ 
   isOpen, 
   onClose, 
@@ -263,7 +263,7 @@ export default function MediaGallerySlugPage() {
         <button
           aria-label="Back to top"
           onClick={scrollToTop}
-          className="m-0 rounded-full border-none bg-white p-0 outline-none drop-shadow-lg"
+          className="m-0 rounded-full border-none bg-[#b0cbdf] p-0 outline-none drop-shadow-lg"
         >
           <svg className="size-10 fill-mainColor1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
             <path d="M22 12c0-5.522-4.476-10-10-10C6.479 2 2 6.479 2 12c0 5.524 4.478 10 10 10c5.524 0 10-4.476 10-10zm-14.53.28a.75.75 0 0 1-.073-.976l.073-.084l4-4a.75.75 0 0 1 .977-.073l.085.072l4 4.002a.75.75 0 0 1-.977 1.133l-.084-.073l-2.72-2.721v6.691a.75.75 0 0 1-.649.743l-.102.007a.75.75 0 0 1-.743-.648l-.007-.102v-6.69l-2.72 2.72a.75.75 0 0 1-.976.072l-.084-.072z"></path>
@@ -278,7 +278,7 @@ export default function MediaGallerySlugPage() {
           <h2 className="title-72 text-black">{mediaItem.title}</h2>
           <div className="mt-10 flex flex-col justify-between lg:flex-row lg:items-end gap-10 lg:gap-32">
             <div className="rte-style">
-              {/* Add description here if needed */}
+              <p className="text-gray-600">{mediaItem.shortText}</p>
             </div>
           </div>
         </div>
@@ -289,13 +289,12 @@ export default function MediaGallerySlugPage() {
             {mediaItem.images.map((image: { src: string; alt: string }, index: number) => (
               <div 
                 key={index} 
-                className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 bg-white"
+                className="group relative overflow-hidden rounded-lg shadow-md hover:shadow-xl transition-all duration-300 bg-white cursor-pointer"
+                onClick={() => openLightbox(index)}
               >
                 {/* Image Container with Fixed Aspect Ratio */}
                 <div className="relative aspect-square w-full overflow-hidden">
-                  <button
-                    type="button"
-                    onClick={() => openLightbox(index)}
+                  <div
                     className="global-transition size-full cursor-pointer focus:outline-none"
                     aria-label={`View image ${index + 1}`}
                   >
@@ -305,7 +304,7 @@ export default function MediaGallerySlugPage() {
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
                       loading="lazy"
                     />
-                  </button>
+                  </div>
                 </div>
                 
                 {/* Optional overlay */}
