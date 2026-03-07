@@ -51,8 +51,8 @@ const mediaDetails = [
     images: [
       // You'll need to check what your exhibition files are named
       // They might be 20205EX_1.jpg etc or you might need to add them
-      { src: "/images/media-gallery/20205IN_1.jpg", alt: "Diemex 2025 Exhibition" },
-      { src: "/images/media-gallery/20205IN_2.jpg", alt: "Diemex 2025 Exhibition" },
+      { src: "/images/media-gallery/20205IN_1.JPG", alt: "Diemex 2025 Exhibition" },
+      { src: "/images/media-gallery/20205IN_2.JPG", alt: "Diemex 2025 Exhibition" },
     ]
   },
   {
@@ -62,8 +62,8 @@ const mediaDetails = [
     shortText: "Diemex2025 Awards Ceremony",
     images: [
       // You'll need to check what your awards files are named
-      { src: "/images/media-gallery/20205IN_1.jpg", alt: "Diemex 2025 Awards" },
-      { src: "/images/media-gallery/20205IN_2.jpg", alt: "Diemex 2025 Awards" },
+      { src: "/images/media-gallery/20205IN_1.JPG", alt: "Diemex 2025 Awards" },
+      { src: "/images/media-gallery/20205IN_2.JPG", alt: "Diemex 2025 Awards" },
     ]
   },
   // For 2023 galleries, you'll need to check those filenames too
@@ -73,7 +73,7 @@ const mediaDetails = [
     title: "Diemex 2023 Inauguration",
     shortText: "Diemex2023 Inauguration Ceremony",
     images: [
-      { src: "/images/media-gallery/2023IN_1.jpg", alt: "Diemex 2023 Inauguration" },
+      { src: "/images/media-gallery/2023IN_1.JPG", alt: "Diemex 2023 Inauguration" },
       // Add more 2023 images based on your actual files
     ]
   },
@@ -83,7 +83,7 @@ const mediaDetails = [
     title: "Diemex 2023 Exhibition",
     shortText: "Diemex2023 Exhibition Highlights",
     images: [
-      { src: "/images/media-gallery/2023EX_1.jpg", alt: "Diemex 2023 Exhibition" },
+      { src: "/images/media-gallery/2023EX_1.JPG", alt: "Diemex 2023 Exhibition" },
       // Add more 2023 images based on your actual files
     ]
   },
@@ -93,7 +93,7 @@ const mediaDetails = [
     title: "Diemex 2023 Awards Ceremony",
     shortText: "Diemex2023 Awards Ceremony",
     images: [
-      { src: "/images/media-gallery/2023AW_1.jpg", alt: "Diemex 2023 Awards" },
+      { src: "/images/media-gallery/2023AW_1.JPG", alt: "Diemex 2023 Awards" },
       // Add more 2023 images based on your actual files
     ]
   }
