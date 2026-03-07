@@ -9,7 +9,7 @@ const mediaDetails = [
   {
     id: 1,
     slug: "diemex-2025-conference-program",
-    title: "Diemex 2025",
+    title: "Diemex 2025 Inaguration",
     shortText: "Diemex2025",
     images: [
   { src: "/images/media-gallery/2025IN_1.JPG", alt: "Diemex©25" },
