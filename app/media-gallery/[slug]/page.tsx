@@ -69,97 +69,10 @@ const mediaDetails = [
       { src: "https://cdn.itegroupnews.com/TR_24_IMG_3023i_cbdb39d5ea.webp", alt: "Diemex 2024 Awards Ceremony" },
       // Add more images for this gallery
     ]
-  },
-  {
-    id: 7,
-    slug: "diemex-2023-exhibition",
-    title: "Diemex 2023 Exhibition",
-    shortText: "Exhibition Highlights",
-    images: [
-      { src: "https://cdn.itegroupnews.com/TR_23_MUH_2553i_bcf08a1176.webp", alt: "Diemex 2023 Exhibition" },
-      // Add more images for this gallery
-    ]
-  },
-  {
-    id: 8,
-    slug: "diemex-2023-conference-programme",
-    title: "Diemex 2023 Conference Programme",
-    shortText: "Conference Programme",
-    images: [
-      { src: "https://cdn.itegroupnews.com/TR_23_IMG_3094i_f602090d20.webp", alt: "Diemex 2023 Conference Programme" },
-      // Add more images for this gallery
-    ]
-  },
-  {
-    id: 9,
-    slug: "diemex-2022-exhibition",
-    title: "Diemex 2022 Exhibition",
-    shortText: "Exhibition Highlights",
-    images: [
-      { src: "https://cdn.itegroupnews.com/tr2022_022_f714843e07.webp", alt: "Diemex 2022 Exhibition" },
-      // Add more images for this gallery
-    ]
-  },
-  {
-    id: 10,
-    slug: "diemex-2022-conference-programme",
-    title: "Diemex 2022 Conference Programme",
-    shortText: "Conference Programme",
-    images: [
-      { src: "https://cdn.itegroupnews.com/transrussia22_bp_33_73e55dcf6a.webp", alt: "Diemex 2022 Conference Programme" },
-      // Add more images for this gallery
-    ]
-  },
-  {
-    id: 11,
-    slug: "diemex-2022-awards-ceremony",
-    title: "Diemex 2022 Awards Ceremony",
-    shortText: "Awards Ceremony",
-    images: [
-      { src: "https://cdn.itegroupnews.com/1_196c1de625.webp", alt: "Diemex 2022 Awards Ceremony" },
-      // Add more images for this gallery
-    ]
-  },
-  {
-    id: 12,
-    slug: "diemex-2021-exhibition",
-    title: "Diemex 2021 Exhibition",
-    shortText: "Exhibition Highlights",
-    images: [
-      { src: "https://cdn.itegroupnews.com/108_d40b77d3a3.webp", alt: "Diemex 2021 Exhibition" },
-      // Add more images for this gallery
-    ]
-  },
-  {
-    id: 13,
-    slug: "diemex-2021-conference-programme",
-    title: "Diemex 2021 Conference Programme",
-    shortText: "Conference Programme",
-    images: [
-      { src: "https://cdn.itegroupnews.com/bp049_790eb559dc.webp", alt: "Diemex 2021 Conference Programme" },
-      // Add more images for this gallery
-    ]
-  },
-  {
-    id: 14,
-    slug: "diemex-2019",
-    title: "Diemex 2019",
-    shortText: "Diemex 2019",
-    images: [
-      { src: "https://cdn.itegroupnews.com/2019_36_d7d12ee1e5.webp", alt: "Diemex 2019" },
-      // Add more images for this gallery
-    ]
-  },
-  {
-    id: 15,
-    slug: "diemex-2018",
-    title: "Diemex 2018",
-    shortText: "Diemex 2018",
-    images: [
-      { src: "https://cdn.itegroupnews.com/photo_49_011f89357e.webp", alt: "Diemex 2018" },
-      // Add more images for this gallery
-    ]
   }
+   
+  
+  
 ];
 
 // Lightbox/Modal Component
