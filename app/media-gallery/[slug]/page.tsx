@@ -14,7 +14,7 @@ const mediaDetails = [
     images: [
       { src: "/images/media-gallery/2025IN_1.JPG", alt: "Diemex©25" },
   
-  { src: "/images/media-gallery/2025IN_1.JPG", alt: "Diemex©25" },
+  
   { src: "/images/media-gallery/2025IN_2.JPG", alt: "Diemex©25" },
   { src: "/images/media-gallery/2025IN_3.JPG", alt: "Diemex©25" },     
   { src: "/images/media-gallery/2025IN_4.JPG", alt: "Diemex©25" },
