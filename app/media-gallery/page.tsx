@@ -6,58 +6,41 @@ import Link from 'next/link';
 const mediaItems = [
   {
     id: 1,
-    title: "Diemex 2025 Conference Program",
+    title: "Diemex 2025 Exhibiton Inaguration",
     href: "/media-gallery/diemex-2025-conference-program", // Changed slug to lowercase
-    image: "/images/image.png"
+    image: "/images/diemex2023.JPG"
   },
   {
     id: 2,
     title: "Diemex 2025 Exhibition",
     href: "/media-gallery/diemex-2025-exhibition", // Changed slug
-    image: "/images/image.png"
+    image: "/images/diemex2023-2.JPG"
   },
   {
     id: 3,
-    title: "Diemex 2024 Exhibition",
+   title: "Diemex 2025 Awards Ceremony",
     href: "/media-gallery/diemex-2024-exhibition", // Changed slug
-    image: "/images/image.png"
+    image: "/images/diemex2023-awards.JPG"
   },
   {
     id: 4,
-    title: "Diemex Conference 2024",
+    title: "Diemex 2023 Exhibition Inaguration",
     href: "/media-gallery/diemex-4-5-december-2024", // Changed slug
     image: "/images/image.png"
   },
   {
     id: 5,
-    title: "Diemex 2024 Conference Programme",
+    title: "Diemex 2023 Exhibition",
     href: "/media-gallery/diemex-2024-conference-programme", // Changed slug
     image: "/images/image.png"
   },
   {
     id: 6,
-    title: "Diemex 2024 Awards Ceremony",
+    title: "Diemex 2023 Awards Ceremony",
     href: "/media-gallery/diemex-2024-awards-ceremony", // Changed slug
     image: "/images/image.png"
   },
-  {
-    id: 7,
-    title: "Diemex 2023 Exhibition",
-    href: "/media-gallery/diemex-2023-exhibition", // Changed slug
-    image: "/images/image.png"
-  },
-  {
-    id: 8,
-    title: "Diemex 2023 Conference Programme",
-    href: "/media-gallery/diemex-2023-conference-programme", // Changed slug
-    image: "/images/image.png"
-  },
-  {
-    id: 9,
-    title: "Diemex 2022 Exhibition",
-    href: "/media-gallery/diemex-2022-exhibition", // Changed slug
-    image: "/images/image.png"
-  },
+ 
   
 
 ];
