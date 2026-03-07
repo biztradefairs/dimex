@@ -26,7 +26,7 @@ const mediaItems = [
     id: 4,
     title: "Diemex 2023 Exhibition Inaguration",
     href: "/media-gallery/diemex-4-5-december-2024", // Changed slug
-    image: "/images/image.png"
+   image: "/images/diemex2025-2.JPG"
   },
   {
     id: 5,
@@ -38,7 +38,7 @@ const mediaItems = [
     id: 6,
     title: "Diemex 2023 Awards Ceremony",
     href: "/media-gallery/diemex-2024-awards-ceremony", // Changed slug
-    image: "/images/image.png"
+   image: "/images/diemex2025-awards.JPG"
   },
  
   
