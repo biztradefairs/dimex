@@ -8,19 +8,19 @@ const mediaItems = [
     id: 1,
     title: "Diemex 2025 Exhibiton Inaguration",
     href: "/media-gallery/diemex-2025-conference-program", // Changed slug to lowercase
-    image: "/images/diemex2023.JPG"
+    image: "/images/diemex2025.JPG"
   },
   {
     id: 2,
     title: "Diemex 2025 Exhibition",
     href: "/media-gallery/diemex-2025-exhibition", // Changed slug
-    image: "/images/diemex2023-2.JPG"
+    image: "/images/diemex2025-2.JPG"
   },
   {
     id: 3,
    title: "Diemex 2025 Awards Ceremony",
     href: "/media-gallery/diemex-2024-exhibition", // Changed slug
-    image: "/images/diemex2023-awards.JPG"
+    image: "/images/diemex2025-awards.JPG"
   },
   {
     id: 4,
