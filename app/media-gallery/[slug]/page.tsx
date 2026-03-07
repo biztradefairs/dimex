@@ -50,7 +50,7 @@ const mediaDetails = [
     title: "Diemex 2025 Exhibition",
     shortText: "Exhibition Highlights",
     images: [
-      { src: "https://cdn.itegroupnews.com/TR_2025_337_e76336212a.webp", alt: "Diemex 2025 Exhibition" },
+      { src: "/images/media-gallery/2025_29.JPG", alt: "Diemex 2025 Exhibition" },
       // Add more images for this gallery
     ]
   },
