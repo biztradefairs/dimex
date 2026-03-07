@@ -8,7 +8,7 @@ import { useParams } from 'next/navigation';
 const mediaDetails = [
   {
     id: 1,
-    slug: "diemex-2025",
+    slug: "diemex-2025-conference-program",
     title: "Diemex 2025",
     shortText: "Diemex2025",
     images: [
