@@ -12,7 +12,7 @@ const mediaDetails = [
     title: "Diemex 2025",
     shortText: "Diemex2025",
     images: [
-      { src: "/image/2025IN_1.JPG", alt: "Diemex©25" },
+      { src: "/images/2025IN_1.JPG", alt: "Diemex©25" },
       { src: "https://cdn.itegroupnews.com/DSC_6924_retouched_2b8cd2d094.webp", alt: "Diemex©24" },
 
      
