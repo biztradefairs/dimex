@@ -21,12 +21,12 @@ const SafeImage = ({ src, alt, fill, ...props }: any) => {
   if (isRemoteImage) {
     if (fill) {
       return (
-        <img
-          src={src}
-          alt={alt}
-          style={{ position: "absolute", width: "100%", height: "100%" }}
-          className={props.className}
-        />
+       <img
+  src={src}
+  alt={alt}
+  style={{ position: "absolute", width: "100%", height: "100%" } as React.CSSProperties}
+  className={props.className}
+/>
       );
     }
     return <img src={src} alt={alt} {...props} />;

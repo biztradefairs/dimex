@@ -65,7 +65,7 @@ export default function SectorsPage() {
       <section className="relative min-h-[60vh] lg:min-h-[70vh] flex items-end">
         <div
           className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{ backgroundImage: "url(/images/sectorheader.jpg)" }}
+          style={{ backgroundImage: "url(/images/sectorheader.jpg)" } as React.CSSProperties}
         />
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
         <SectionContainer>
@@ -129,7 +129,7 @@ function SectorGrid({
           {/* Image */}
           <div
             className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-            style={{ backgroundImage: `url(${sector.image})` }}
+            style={{ backgroundImage: `url(${sector.image})` } as React.CSSProperties}
           />
 
           {/* Dark Overlay */}
