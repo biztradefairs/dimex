@@ -36,7 +36,7 @@ export default function SectorsPage() {
   {/* Background Image */}
   <div
     className="absolute inset-0 z-0 bg-cover bg-center"
-    style={{ backgroundImage: "url(/images/image.png)" }}
+    style={{ backgroundImage: "url(/images/image.png)" } as React.CSSProperties}
   />
 
   {/* Gradient Overlay */}
@@ -82,7 +82,7 @@ export default function SectorsPage() {
 // SectorGrid Component
 function SectorGrid({ sectors }: { sectors: Array<{id: number, title: string, slug: string, image: string}> }) {
   return (
-    <div className="grid  md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {sectors.map((sector) => (
         <Link
           key={sector.id}
