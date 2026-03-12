@@ -15,18 +15,20 @@ const ExhibitorsSection = () => {
         Participating in DIEMEX Boosts Your Business Growth and Visibility
       </p>
 
-      {/* Single Banner Image with All Logos */}
-    <div className="relative w-full mb-12 lg:mb-16 overflow-hidden rounded-2xl shadow-xl">
-  <div className="relative w-full h-[500px] lg:h-[550px]">
-    <Image
-      src="/images/exhibitors.png"
-      alt="Our Past Exhibitors Banner"
-      fill
-      className="object-cover"
-      priority
-    />
-  </div>
-</div>
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 md:gap-6 mb-12 lg:mb-16">
+        {exhibitors.map((exhibitor, index) => (
+          <div
+            key={index}
+            className="bg-gray-50 border border-gray-200 rounded-xl p-4 md:p-5 flex items-center justify-center min-h-[100px] transition-all duration-300 hover:bg-white hover:shadow-lg hover:border-mainColor2"
+          >
+            <div className="text-center">
+              <span className="text-gray-800 font-medium text-sm md:text-base">
+                {exhibitor}
+              </span>
+            </div>
+          </div>
+        ))}
+      </div>
 
       {/* CTA */}
       <div className="flex justify-center">

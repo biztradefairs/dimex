@@ -463,20 +463,13 @@ const HotelComponent: React.FC<HotelItem & { index: number }> = ({
 const HotelsSection: React.FC = () => {
   const hotels: HotelItem[] = [
     {
-      name: "DoubleTree by Hilton Hotel Pune 5*",
-      description: `Find us in Pune’s automobile and industrial belt, less than 15 minutes from leading names like Tata Motors and Bajaj Auto. Pimpri Chinchwad Science Park and Planetarium is just one kilometer away. We offer a fitness center, a penthouse Executive Lounge, and an outdoor pool. Dine at our Japanese specialty restaurant, and unwind at the rooftop bar.`,
-      imageSrc: "/images/hilton.png",
-      bookingLink: "https://www.hilton.com/en/book/reservation/rates/",
-      locationLink: "https://maps.app.goo.gl/omkXtsE1Q6ctu4sXA"
-    },
-    {
-      name: "Keys Prima by Lemon Tree Hotels 4*",
-      description: `Keys Select By Lemon Tree Hotels Pimpri, Pune, sits in the heart of the city's bustling business district. The prime location of the hotel in PCMC puts you close to the major business establishments and industry headquarters - within walking distance or a short ride away.
+      name: "Art Moscow 4*",
+      description: `The modern Hotel Art Moscow Voykovskaya 4* is a 25-minute drive from Crocus Expo, Sheremetyevo Airport, and the city center. The Voykovskaya metro station, Baltiyskaya MCC, Krasny Baltiets MCC are a 10-minute walk away.
 
-Being situated in the center of the business district means you can spend less time commuting and more time on what matters most – your work or exploring the city. Car lovers will also appreciate the closeness of the hotel in Pimpri, Chinchwad, to Pune's talked-about auto industry hub. Whether you are in town for a business meeting or to explore Pune's automotive and natural scene, Keys Select By Lemon Tree Hotels Pimpri, Pune, serves as the perfect base camp.`,
-      imageSrc: "/images/prisma.jpg",
-      bookingLink: "https://www.lemontreehotels.com/keys-prima-hotel/pune/hotel-pimpri-pune",
-      locationLink: "https://maps.app.goo.gl/DaFunwNyphXSfQXd9"
+The hotel has a stylish interior and an elaborate infrastructure, including a restaurant, a bar and conference rooms. Buffet breakfast, free Wi-Fi and parking are at guests' disposal. All rooms are equipped with all the amenities you need for maximum comfort, including a mini-fridge and LCD TV, a tea station and toiletries. Book a room at Art Moscow and experience an atmosphere of coziness and inspiration.`,
+      imageSrc: "/images/image.png",
+      bookingLink: "https://artmoscowhotel.ru/en/",
+      locationLink: "https://yandex.ru/maps/org/art_moskva/88116514898/?ll=37.511617%2C55.815313&source=wizbiz_new_map_single&z=14"
     },
     {
       name: "Spree Shivai Hotel Pune - 3*",
@@ -520,7 +513,7 @@ Being situated in the center of the business district means you can spend less t
       <SectionContainer>
         <div>
           <h2 className="title-72 text-black">
-            Nearby Hotels and Accommodation Options
+            20% Off When You Book at the Hotel Website Using the Promo Code "EXPO"
           </h2>
           <motion.div
             initial={{ width: 0 }}

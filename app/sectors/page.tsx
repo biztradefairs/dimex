@@ -5,96 +5,69 @@ import Link from "next/link"
 import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 
 // Mock data - replace with actual data
-const DiemexSectors = [
-  { 
-    id: 1, 
-    title: 'Precision Die & Mould Solutions',
+const transRussiaSectors = [
+  { id: 1, title: 'Complex Logistics Services & Freight Forwarding', slug: 'complex-logistics', image: '/images/image.png' },
+  { id: 2, title: 'Maritime & Inland Waterway Transport', slug: 'maritime', image: '/images/image.png' },
+  { id: 3, title: 'Air Freight', slug: 'air-freight', image: '/images/image.png' },
+  { id: 4, title: 'Rail Freight', slug: 'rail-freight', image: '/images/image.png' },
+  { id: 5, title: 'Road Freight Transportation', slug: 'road-freight', image: '/images/image.png' },
+  { id: 6, title: 'Ports & Terminals', slug: 'ports', image: '/images/image.png' },
+  { id: 7, title: 'Warehouse Technology', slug: 'warehouse-tech', image: '/images/image.png' },
+  { id: 8, title: 'IT Solutions', slug: 'it-solutions', image: '/images/image.png' },
+  { id: 9, title: 'E-commerce Logistics', slug: 'ecommerce', image: '/images/image.png' },
+  { id: 10, title: 'Heavy Lift Carriage', slug: 'heavy-lift', image: '/images/image.png' },
+]
 
-    slug: 'precision-moulds',
-     image: '/images/precision.jpg',
-     description: 'Comprehensive die & mould manufacturing, tooling systems, design engineering, and end-to-end production solutions supporting high-precision industrial applications.'
-     },
-  { 
-    id: 2, 
-     title: 'Tooling, Mould Bases & Standard Components',
-
-                  slug: 'tooling-mould-base',
-                  image: '/images/mouldbase.jpg',
-                  description: 'High-quality mould bases, precision components, hot runner systems, and standard tooling elements supporting efficient and reliable die & mould production.'
-                },
-  { 
-    id: 3, 
-   title: 'Machining & Finishing Technologies',
-
-                  slug: 'machining-finishing',
-                  image: '/images/finishing.jpg',
-                  description: 'High-precision CNC machining, EDM, wire-cut, surface finishing, and polishing solutions for toolroom operations.'
-                },
-  { 
-    id: 4, 
-     title: 'Automation & Industry 4.0 Solutions',
-
-                  slug: 'automation-industry',
-                  image: '/images/automation.jpg',
-                  description: 'Smart automation, robotics, digital manufacturing, and smart factory technologies for modern die & mould production.'
-                },
-  { 
-    id: 5, 
-    title: 'Design, CAD/CAM & Engineering Software',
-                  slug: 'cad-cam',
-                  image: '/images/cad.jpg',
-                  description: 'Advanced design, simulation, and manufacturing software enabling accurate tooling development and reduced time-to-market.'
-                },
-  { 
-    id: 6, 
-    title: 'Tool Steel & Advanced Materials',
-                  slug: 'tool-steel',
-                  image: '/images/toolsteel.jpg',
-                  description: 'High-performance tool steels, alloy steels, special metals, and advanced materials engineered for durability, precision, and long tool life in die & mould applications.'
-                },
-  ]
-
-
+const skladTechSectors = [
+  { id: 1, title: 'Warehousing Systems', slug: 'warehousing-systems', image: '/images/image.png' },
+  { id: 2, title: 'Material Handling', slug: 'material-handling', image: '/images/image.png' },
+  { id: 3, title: 'Automation & Robotics', slug: 'automation', image: '/images/image.png' },
+  { id: 4, title: 'Packaging Systems', slug: 'packaging', image: '/images/image.png' },
+  { id: 5, title: 'Inventory Management', slug: 'inventory', image: '/images/image.png' },
+]
 
 export default function SectorsPage() {
   return (
     <>
-    
-    <div className="min-h-screen font-parabolica">
-      {/* Hero Section - COMPACT */}
-      <section className="relative min-h-[60vh] lg:min-h-[70vh] flex items-end">
-        <div
-          className="absolute inset-0 z-0 bg-cover bg-center"
-          style={{ backgroundImage: "url(/images/sectorheader.jpg)" }}
-        />
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
-        <SectionContainer>
-          <div className="relative z-20 text-white pb-6 md:pb-10 pt-20">
-            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-3">
-              Event Sectors
-            </h1>
-            <p className="text-lg lg:text-xl max-w-full text-white/90">
-  DIEMEX 2026 showcases the complete spectrum of die & mould manufacturing, tooling technologies, advanced machine tools, automation, additive manufacturing, and smart factory innovations.
-</p>
-          </div>
-        </SectionContainer>
-      </section>
+      <div className="min-h-screen">
+        {/* Hero Section - COMPACT */}
+      <section className="relative min-h-[40vh] md:min-h-[50vh] flex items-end">
+  
+  {/* Background Image */}
+  <div
+    className="absolute inset-0 z-0 bg-cover bg-center"
+    style={{ backgroundImage: "url(/images/image.png)" } as React.CSSProperties}
+  />
 
-      {/* Diemex Sectors - COMPACT */}
-      <section className="py-16 lg:py-24">
-        <SectionContainer>
-          <div className="mb-6 lg:mb-8">
-            <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-3 w-full">
-  DIEMEX 2026 Event Sectors
-</h2>
+  {/* Gradient Overlay */}
+  <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
 
-<p className="text-gray-600 text-lg lg:text-xl w-full">
-  Covers die & mould manufacturing, tooling & cutting tools, machine tools, automation & robotics, additive manufacturing, metrology, smart manufacturing, surface engineering, raw materials, and industrial engineering solutions.
-</p>
-          </div>
-          <SectorGrid sectors={DiemexSectors} />
-        </SectionContainer>
-      </section>
+  <SectionContainer>
+    <div className="relative z-20 text-white pb-6 md:pb-10 pt-20">
+      <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-3">
+        Event Sectors
+      </h1>
+      <p className="text-lg lg:text-xl max-w-full text-white/90">
+        TransRussia and SkladTech showcase the full spectrum of logistics and warehouse innovation.
+      </p>
+    </div>
+  </SectionContainer>
+
+</section>
+
+
+        {/* TransRussia Sectors - COMPACT */}
+        <section className="py-16 lg:py-24">
+          <SectionContainer>
+            <div className="mb-6 lg:mb-8">
+              <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-3 w-full">TransRussia Event Sectors</h2>
+              <p className="text-gray-600 text-lg lg:text-xl w-full">
+                Covers freight forwarding, transport services, warehousing, and logistics IT.
+              </p>
+            </div>
+            <SectorGrid sectors={transRussiaSectors} />
+          </SectionContainer>
+        </section>
 
     
       
@@ -107,17 +80,7 @@ export default function SectorsPage() {
 }
 
 // SectorGrid Component
-function SectorGrid({
-  sectors,
-}: {
-  sectors: Array<{
-    id: number
-    title: string
-    slug: string
-    image: string
-    description: string
-  }>
-}) {
+function SectorGrid({ sectors }: { sectors: Array<{id: number, title: string, slug: string, image: string}> }) {
   return (
     <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
       {sectors.map((sector) => (
@@ -129,7 +92,7 @@ function SectorGrid({
           {/* Image */}
           <div
             className="absolute inset-0 bg-cover bg-center transition-transform duration-500 group-hover:scale-110"
-            style={{ backgroundImage: `url(${sector.image})` }}
+            style={{ backgroundImage: `url(${sector.image})` } as React.CSSProperties}
           />
 
           {/* Dark Overlay */}
