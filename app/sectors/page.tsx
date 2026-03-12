@@ -119,7 +119,7 @@ function SectorGrid({
   }>
 }) {
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid  md:grid-cols-2 lg:grid-cols-3">
       {sectors.map((sector) => (
         <Link
           key={sector.id}
