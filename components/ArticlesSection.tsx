@@ -4,25 +4,34 @@ import SectionContainer from './UI/SectionContainer'
 export default function ArticlesSection() {
   const articles = [
     {
-      title: 'The Role of Precision Tooling in Modern Manufacturing',
-      slug: 'why-is-india-die-mould-industry-accelerating-in-2026',
-      excerpt: 'Precision tooling plays a critical role in enabling high-quality manufacturing across automotive, electronics, and consumer industries.',
-      image: '/images/article1.jpg',
-      date: 'February 01, 2026',
-    },
-    {
-      title: 'The Rise of India as a Global Die & Mould Manufacturing Hub',
-      slug: 'how-is-die-mould-industry-preparing-in-2026',
-      excerpt: 'India is rapidly emerging as a competitive global force in precision tooling and mould manufacturing.',
-      image: '/images/article3.jpg',
+      title:
+        'Why Is Rail Freight Becoming a Stronger Alternative for Long-Haul Cargo in 2026?',
+      slug:
+        'why-is-rail-freight-becoming-a-stronger-alternative-for-long-haul-cargo-in-2026',
+      excerpt:
+        'Rail freight for long-haul cargo offers reliable schedules, lower emissions, and optimized corridor operations. Digital planning, terminal upgrades, and sea–land integration help shippers move goods efficiently across Eurasia in 2026.',
+      image: '/images/image.png',
       date: 'November 20, 2025',
     },
     {
-      title: 'How Smart Manufacturing Is Reshaping the Tooling Industry',
-      slug: 'what-s-next-for-large-complex-tooling-mould-manufacturing',
-      excerpt: 'Smart manufacturing technologies are reshaping the global die and mould industry.',
-      image: '/images/article4.jpg',
-      date: 'November 5, 2025',
+      title:
+        'How Are Ports Preparing for Increased Freight Handling Demands in 2026?',
+      slug:
+        'how-are-ports-preparing-for-increased-freight-handling-demands-in-2026',
+      excerpt:
+        'Freight handling in ports is evolving with infrastructure upgrades, digital operations, and sea–land integration. Ports in Eurasia enhance berth productivity, reduce dwell, and ensure reliable inland handoffs to meet growing 2026 cargo demands.',
+      image: '/images/image.png',
+      date: 'November 05, 2025',
+    },
+    {
+      title:
+        'What\'s Next for Oversized Cargo Handling in the Global Logistics Industry?',
+      slug:
+        'what-s-next-for-oversized-cargo-handling-in-the-global-logistics-industry',
+      excerpt:
+        'Oversized cargo handling is evolving with digital planning, IoT monitoring, and coordinated sea–land operations. Operators reduce risk, improve speed, and ensure predictable delivery for turbines, bridge spans, and other large project freight across Eurasia.',
+      image: '/images/image.png',
+      date: 'October 23, 2025',
     },
   ]
 

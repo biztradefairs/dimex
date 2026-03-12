@@ -97,46 +97,6 @@ export default function WhyExhibit() {
     },
   ]
 
-  const [testimonialIndex, setTestimonialIndex] = useState(0)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTestimonialIndex((prev) => (prev + 1) % testimonials.length)
-    }, 5000)
-
-    return () => clearInterval(interval)
-  }, [testimonials.length])
-
-  // Animation variants
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6 }
-    }
-  };
-
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.1
-      }
-    }
-  };
-
-  const scaleIn = {
-    hidden: { opacity: 0, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.5 }
-    }
-  };
-
   return (
     <>
       <main className="bg-white overflow-hidden">
@@ -563,34 +523,29 @@ export default function WhyExhibit() {
               <h3 className="text-sm text-[#4D4D4D] font-semibold mb-2">Testimonials</h3>
             </div>
 
-            <div className="relative flex items-center justify-between mb-16">
-              <motion.h2
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                className="text-4xl lg:text-5xl font-bold"
-              >
-                Trusted by Industry Leaders
-              </motion.h2>
+    {/* Heading + Controls */}
+    <div className="flex items-center justify-between mb-16">
+      <h2 className="text-4xl lg:text-5xl font-bold">
+        Trusted by Industry Leaders
+      </h2>
 
-              <div className="absolute -top-10 right-0 text-[180px] text-blue-100 leading-none select-none pointer-events-none">
-                
-              </div>
+            {/* Quote background */}
+      <div className="absolute -top-10 right-0 text-[180px] text-blue-100 leading-none select-none">
+        “”
+      </div>
+      
 
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="flex gap-3 z-10"
-              >
-                <motion.button
-                  whileHover={{ scale: 1.1, backgroundColor: "#dbeafe" }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => setTestimonialIndex((i) => (i - 1 + testimonials.length) % testimonials.length)}
-                  className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center transition-all duration-300"
-                >
-                  <ChevronLeft className="w-5 h-5" />
-                </motion.button>
+      <div className="flex gap-3">
+        <button
+          onClick={() =>
+            setTestimonialIndex(
+              (i) => (i - 1 + testimonials.length) % testimonials.length
+            )
+          }
+          className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center hover:bg-blue-200"
+        >
+          <ChevronLeft className="w-5 h-5" />
+        </button>
 
                 <motion.button
                   whileHover={{ scale: 1.1, backgroundColor: "#1d4ed8" }}
@@ -730,44 +685,26 @@ export default function WhyExhibit() {
         {/* A SNAPSHOT OF EXHIBITORS */}
         <section className="py-16 lg:py-24 font-parabolica">
           <SectionContainer>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl lg:text-4xl font-bold mb-8"
-            >
-              A Snapshot of Our Key Exhibitors
-            </motion.h2>
+            <h2 className="text-3xl lg:text-4xl font-bold mb-8">A Snapshot of Our Exhibitors</h2>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="mb-8"
-            >
-              <div className="relative w-full h-[520px] lg:h-[580px] rounded-lg overflow-hidden shadow-lg">
-                <Image
-                  src="/images/exhibitors.png"
-                  alt="Exhibitors showcase"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-            </motion.div>
+            <div className="grid grid-cols-4 md:grid-cols-8 gap-4 mb-6">
+              {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                <div key={i} className="bg-gray-100 p-4 rounded-lg h-16 flex items-center justify-center">
+                  <div className="text-xs text-gray-500">Logo {i}</div>
+                </div>
+              ))}
+            </div>
+            <div className="grid grid-cols-4 md:grid-cols-8 gap-4 mb-8">
+              {[9, 10, 11, 12, 13, 14, 15, 16].map((i) => (
+                <div key={i} className="bg-gray-100 p-4 rounded-lg h-16 flex items-center justify-center">
+                  <div className="text-xs text-gray-500">Logo {i}</div>
+                </div>
+              ))}
+            </div>
 
-            <motion.button
-              whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
-              whileTap={{ scale: 0.95 }}
-            >
-              <Link
-                href="/exhibition-directory"
-                className="inline-block bg-[#004D9F] hover:bg-blue-700 text-white px-6 py-3 rounded-full text-base font-medium"
-              >
-                View 2026 Exhibitor List
-              </Link>
-            </motion.button>
+            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full text-base font-medium">
+              View Top 2024 Exhibitor List
+            </button>
           </SectionContainer>
         </section>
 

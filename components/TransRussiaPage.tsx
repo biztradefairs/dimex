@@ -194,123 +194,49 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
             </SectionContainer>
           </div>
 
-          <section className="py-16 lg:py-24 bg-blue-50/30">
-            <SectionContainer>
-              <div className="max-w-4xl mx-auto">
-                <div className="mb-12 text-center">
-                  <span className="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full mb-4">
-                    Get Your Visitor Pass
-                  </span>
-                  <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                    Register for Diemex 2026
-                  </h2>
-                  <p className="text-gray-600 text-lg">
-                    Join 10,000+ industry professionals and 200+ exhibitors at the heart of Pune's Auto Cluster Exhibition Centre.
-                  </p>
-                </div>
+            {/* Registration Section */}
+            <section className="py-16 lg:py-24 bg-blue-50/30">
+              <SectionContainer>
+                <div className="max-w-4xl mx-auto">
+                  <div className="mb-12 text-center">
+                    <span className="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full mb-4">
+                      Get Your Visitor Pass
+                    </span>
+                    <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
+                      Register for TransRussia 2026
+                    </h2>
+                    <p className="text-gray-600 text-lg">
+                      Join 30,500+ industry professionals and 600+ exhibitors at the heart of Eurasia's logistics innovation.
+                    </p>
+                  </div>
 
-                {/* Registration Form */}
-                <div className="bg-white rounded-xl p-6 lg:p-8 border border-gray-200 shadow-sm">
-                  <h3 className="text-xl font-semibold text-gray-900 mb-6">Visitor Registration Form</h3>
-                  
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="Enter your full name"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Designation <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="designation"
-                        value={formData.designation}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="Your job title/position"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Company Name <span className="text-red-500">*</span>
-                      </label>
-                      <input
-                        type="text"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="Your company/organization name"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Address <span className="text-red-500">*</span>
-                      </label>
-                      <textarea
-                        name="address"
-                        value={formData.address}
-                        onChange={handleInputChange}
-                        required
-                        placeholder="ex: #20, 4th cross, RK Road"
-                        rows={3}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 resize-none"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Country <span className="text-red-500">*</span>
-                      </label>
-                      <select
-                        name="country"
-                        value={formData.country}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer"
-                      >
-                        <option value="">
-                          {countriesLoading ? "Loading countries..." : "Select Country"}
-                        </option>
-                        {countries.map((country) => (
-                          <option key={country.name} value={country.name}>
-                            {country.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          State <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          name="state"
-                          value={formData.state}
-                          onChange={handleInputChange}
-                          required
-                          placeholder="Enter your state"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300"
-                        />
+                  {/* Pricing Info */}
+                  <div className="bg-white rounded-xl p-6 lg:p-8 mb-8 border border-gray-200 shadow-sm">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4">Registration Pricing</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="bg-blue-50 p-4 rounded-lg">
+                        <div className="text-blue-700 font-bold text-lg mb-2">Free</div>
+                        <p className="text-sm text-gray-700">Online with promo code</p>
                       </div>
+                      <div className="bg-gray-50 p-4 rounded-lg">
+                        <div className="text-gray-800 font-bold text-lg mb-2">1,000 RUB</div>
+                        <p className="text-sm text-gray-700">Online without promo code</p>
+                      </div>
+                      <div className="bg-amber-50 p-4 rounded-lg">
+                        <div className="text-amber-800 font-bold text-lg mb-2">1,500 RUB</div>
+                        <p className="text-sm text-gray-700">At the ticket office during exhibition</p>
+                      </div>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-4">
+                      *Only one personal ticket can be requested per email address.
+                    </p>
+                  </div>
+
+                  {/* Registration Form */}
+                  <div className="bg-white rounded-xl p-6 lg:p-8 border border-gray-200 shadow-sm">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-6">Registration Form</h3>
+                    
+                    <form onSubmit={handleSubmit} className="space-y-6">
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           City <span className="text-red-500">*</span>
@@ -411,40 +337,26 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
 
           
 
-                    <div className="flex items-start">
-                      <input
-                        type="checkbox"
-                        id="terms"
-                        checked={termsAccepted}
-                        onChange={(e) => setTermsAccepted(e.target.checked)}
-                        required
-                        className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-0.5 cursor-pointer"
-                      />
-                      <label htmlFor="terms" className="ml-3 text-sm text-gray-600 cursor-pointer select-none">
-                        I agree to receive marketing communications, updates, and promotional materials from Diemex Exhibition. 
-                        I can unsubscribe anytime by clicking the "unsubscribe" link in emails. 
-                        For more information on how we handle your data, please refer to our{' '}
-                        <a 
-                          href="https://ite.group/en/privacy/" 
-                          target="_blank" 
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline"
-                        >
-                          Privacy Policy
-                        </a>.
-                      </label>
-                    </div>
-
-                    <div className="py-4">
-                      {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
-                        <ReCAPTCHA
-                          sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                          onChange={(token) => setCaptchaToken(token)}
-                          onExpired={() => setCaptchaToken(null)}
-                          className="recaptcha-container"
+                      <div className="flex items-start">
+                        <input
+                          type="checkbox"
+                          id="terms"
+                          required
+                          className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1"
                         />
-                      )}
-                    </div>
+                        <label htmlFor="terms" className="ml-3 text-sm text-gray-600">
+                          I agree to receive marketing communications, updates, and promotional materials from TransRussia. 
+                          I can unsubscribe anytime by clicking the "unsubscribe" link in emails. 
+                          For more information on how we handle your data, please refer to our{' '}
+                          <a 
+                            href="https://ite.group/en/privacy/" 
+                            target="_blank" 
+                            className="text-blue-600 hover:underline"
+                          >
+                            Privacy Policy
+                          </a>.
+                        </label>
+                      </div>
 
                     <div className="pt-4">
                       <button

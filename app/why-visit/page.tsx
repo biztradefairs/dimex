@@ -482,49 +482,30 @@ export default function WhyVisit() {
           </section>
 
           {/* A SNAPSHOT OF EXHIBITORS */}
-        <section className="py-12 sm:py-16 lg:py-24">
-  <SectionContainer>
-    <motion.h2
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-6 sm:mb-8 text-center sm:text-left"
-    >
-      Who You Will Meet
-    </motion.h2>
+          <section className="py-16 lg:py-24">
+            <SectionContainer>
+              <h2 className="text-3xl lg:text-4xl font-bold mb-8">Who You Will Meet</h2>
 
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.6 }}
-      className="mb-6 sm:mb-8"
-    >
-      <div className="relative w-full h-[700px] sm:h-[750px] md:h-[800px] lg:h-[850px] rounded-lg overflow-hidden shadow-lg">
-        <Image
-          src="/images/segments.png" // Replace with your image path
-          alt="Who you will meet at the exhibition"
-          fill
-          className="object-cover"
-          priority
-        />
-      </div>
-    </motion.div>
+              <div className="grid grid-cols-4 md:grid-cols-8 gap-4 mb-6">
+                {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
+                  <div key={i} className="bg-gray-100 p-4 rounded-lg h-16 flex items-center justify-center">
+                    <div className="text-xs text-gray-500">Logo {i}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="grid grid-cols-4 md:grid-cols-8 gap-4 mb-8">
+                {[9, 10, 11, 12, 13, 14, 15, 16].map((i) => (
+                  <div key={i} className="bg-gray-100 p-4 rounded-lg h-16 flex items-center justify-center">
+                    <div className="text-xs text-gray-500">Logo {i}</div>
+                  </div>
+                ))}
+              </div>
 
-    <div className="text-center sm:text-left">
-      <Link href="/exhibition-directory">
-        <motion.button
-          whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
-          whileTap={{ scale: 0.95 }}
-          className="bg-[#004D9F] hover:bg-blue-700 text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 w-full sm:w-auto"
-        >
-          View 2026 Exhibitor List
-        </motion.button>
-      </Link>
-    </div>
-  </SectionContainer>
-</section>
-
+              <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-full text-base font-medium">
+                View Top 2024 Exhibitor List
+              </button>
+            </SectionContainer>
+          </section>
           {/* EVENT SECTORS ON DISPLAY */}
           <section className="py-12 sm:py-16 lg:py-28 bg-white">
             <SectionContainer>
