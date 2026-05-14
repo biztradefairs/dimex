@@ -64,9 +64,12 @@ export default function CompanyDirectory() {
       )
     : companies
 
+  // In the handleProductBrochure function, update to use company name for slug
   const handleProductBrochure = (companyId: string, companyName: string) => {
+    // Use the actual company name for the URL slug
     const slug = companyName.toLowerCase().replace(/\s+/g, '-')
-    router.push(`/exhibition-directory/${companyId}`)
+    router.push(`/exhibition-directory/${companyId}`) // Keep using ID for now
+    // Or if you want to use slug: router.push(`/exhibition-directory/${slug}`)
   }
 
   // Pagination range

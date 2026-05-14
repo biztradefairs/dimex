@@ -45,7 +45,8 @@ interface Metadata {
 export interface ExhibitionCompany {
   [x: string]: any;
   id: string;
-  name: string;
+  name: string;        // This is the exhibitor/person name
+  company: string;     // This is the actual company name
   shortName?: string;
   pavilion: string;
   hall?: string;
@@ -137,13 +138,13 @@ export async function fetchCompleteExhibitorData(exhibitorId: string): Promise<E
     }
 
     const exhibitor = result.data;
-    
+
     // Parse metadata safely
     let metadata: Metadata = {};
     if (exhibitor.metadata) {
       try {
-        metadata = typeof exhibitor.metadata === 'string' 
-          ? JSON.parse(exhibitor.metadata) 
+        metadata = typeof exhibitor.metadata === 'string'
+          ? JSON.parse(exhibitor.metadata)
           : exhibitor.metadata;
       } catch (e) {
         metadata = {};
@@ -162,7 +163,7 @@ export async function fetchCompleteExhibitorData(exhibitorId: string): Promise<E
 
     // Get logo URL
     const logoUrl = metadata?.logoUrl || exhibitor.logoUrl || '';
-    
+
     // Get country
     let country = 'Not specified';
     if (metadata.address_country) {
@@ -172,7 +173,7 @@ export async function fetchCompleteExhibitorData(exhibitorId: string): Promise<E
     } else if (exhibitor.country) {
       country = exhibitor.country;
     }
-    
+
     // Get full address
     let fullAddress = '';
     const street = metadata.address_street || metadata.address?.street || '';
@@ -180,10 +181,10 @@ export async function fetchCompleteExhibitorData(exhibitorId: string): Promise<E
     const state = metadata.address_state || metadata.address?.state || '';
     const postalCode = metadata.address_postal_code || metadata.address?.postalCode || '';
     const addressCountry = country;
-    
+
     const addressParts = [street, city, state, postalCode, addressCountry].filter(part => part && part !== 'Not specified');
     fullAddress = addressParts.join(', ');
-    
+
     // Get country code
     let countryCode = '';
     if (metadata.address_country_code) {
@@ -193,7 +194,7 @@ export async function fetchCompleteExhibitorData(exhibitorId: string): Promise<E
     } else if (exhibitor.countryCode) {
       countryCode = exhibitor.countryCode;
     }
-    
+
     // Get hall
     let hall = '';
     if (metadata.hall) {
@@ -203,7 +204,7 @@ export async function fetchCompleteExhibitorData(exhibitorId: string): Promise<E
     } else if (exhibitor.hall) {
       hall = exhibitor.hall;
     }
-    
+
     // Get short name
     let shortName = '';
     if (metadata.shortName) {
@@ -213,7 +214,7 @@ export async function fetchCompleteExhibitorData(exhibitorId: string): Promise<E
     } else if (exhibitor.shortName) {
       shortName = exhibitor.shortName;
     }
-    
+
     // Get pavilion
     let pavilion = 'Not assigned';
     if (metadata.pavilion) {
@@ -223,7 +224,7 @@ export async function fetchCompleteExhibitorData(exhibitorId: string): Promise<E
     } else if (exhibitor.pavilion) {
       pavilion = exhibitor.pavilion;
     }
-    
+
     // Get description
     let description = '';
     if (metadata.about) {
@@ -233,7 +234,7 @@ export async function fetchCompleteExhibitorData(exhibitorId: string): Promise<E
     } else if (exhibitor.description) {
       description = exhibitor.description;
     }
-    
+
     // Get website
     let website = '';
     if (metadata.website) {
@@ -241,19 +242,20 @@ export async function fetchCompleteExhibitorData(exhibitorId: string): Promise<E
     } else if (exhibitor.website) {
       website = exhibitor.website;
     }
-    
+
     // Get contact person
     let contactPerson = {
       name: metadata.contact_name || metadata.contactPerson?.name || exhibitor.name || '',
       jobTitle: metadata.contact_job_title || metadata.contactPerson?.jobTitle || '',
       email: metadata.email || metadata.contactPerson?.email || exhibitor.email || '',
       phone: metadata.phone || metadata.contactPerson?.phone || exhibitor.phone || '',
-      alternatePhone:  metadata.contactPerson?.alternatePhone || ''
+      alternatePhone: metadata.contactPerson?.alternatePhone || ''
     };
 
     return {
       id: exhibitor.id,
-      name: exhibitor.name || exhibitor.company || 'Unknown Company',
+      name: exhibitor.name || 'Unknown',  // Person's name
+      company: exhibitor.company || exhibitor.name || 'Unknown Company',  // Actual company name
       shortName: shortName,
       pavilion: pavilion,
       hall: hall,
@@ -310,7 +312,7 @@ export async function fetchExhibitionCompanies(
 
     const basicCompanies = result.data || [];
     console.log(`🔄 Fetching complete details for ${basicCompanies.length} companies...`);
-    
+
     // Fetch complete details for each company in parallel
     const companiesWithDetails = await Promise.all(
       basicCompanies.map(async (basic: any) => {
@@ -322,7 +324,8 @@ export async function fetchExhibitionCompanies(
           // Fallback to basic data if complete fetch fails
           return {
             id: basic.id,
-            name: basic.name || basic.company || 'Unknown Company',
+            name: basic.name || 'Unknown',
+            company: basic.company || basic.name || 'Unknown Company',
             pavilion: 'Not assigned',
             hall: '',
             standNumber: basic.boothNumber || basic.booth || 'Not assigned',
@@ -340,7 +343,8 @@ export async function fetchExhibitionCompanies(
           console.error(`❌ Failed to fetch details for ${basic.name}`);
           return {
             id: basic.id,
-            name: basic.name || basic.company || 'Unknown Company',
+            name: basic.name || 'Unknown',
+            company: basic.company || basic.name || 'Unknown Company',
             pavilion: 'Not assigned',
             hall: '',
             standNumber: basic.boothNumber || basic.booth || 'Not assigned',
@@ -365,12 +369,12 @@ export async function fetchExhibitionCompanies(
     };
   } catch (error) {
     console.error('Error fetching exhibitors:', error);
-    
+
     if (process.env.NODE_ENV === 'development') {
       console.log('Returning mock data for development');
       return getMockCompanies(page, limit);
     }
-    
+
     throw error;
   }
 }
@@ -497,7 +501,8 @@ function getMockCompanies(page: number, limit: number): { companies: ExhibitionC
   const mockCompanies: ExhibitionCompany[] = [
     {
       id: '1',
-      name: 'Aow Logistics',
+      name: 'John Doe',
+      company: 'Aow Logistics',
       shortName: 'AOW',
       pavilion: 'Pavilion 5',
       hall: 'Hall D',
