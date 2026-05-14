@@ -59,9 +59,9 @@ export default function CompanyDirectory() {
 
   // Filter by letter (client-side filtering)
   const filteredCompanies = selectedLetter
-    ? companies.filter(company => 
-        company.name?.toUpperCase().startsWith(selectedLetter)
-      )
+    ? companies.filter(company =>
+      company.company?.toUpperCase().startsWith(selectedLetter)
+    )
     : companies
 
   // In the handleProductBrochure function, update to use company name for slug
