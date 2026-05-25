@@ -16,7 +16,7 @@ export type PartnersData = Record<string, Partner[]>;
 export const partnersData: PartnersData = {
   supportingPartner: [
     {
-      name: '',
+      name: 'IDEMI',
       slug: 'idemi',
       role: 'Supporting Partner',
       logo: '/images/partners/idemi.png',
