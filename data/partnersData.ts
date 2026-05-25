@@ -20,8 +20,8 @@ export const partnersData: PartnersData = {
       slug: 'idemi',
       role: 'Supporting Partner',
       logo: '/images/partners/idemi.png',
-      websiteLink: 'https://idemi.org/',
-      description: `IDEMI is an Organization established by the Government Of India Society in the year 1969 as a service to Instrument Industry Organisation. The main objective of setting up this Institute was to gear up the growth potential of indigenous instrument industry and hence to meet the ever growing instrumentation needs of the country by augmenting productivity quality control in industrial sector – be it in Electrical, Electronics or Process Control Instruments. The Institute is looked upon a nodal centre in view of its multifarious activities offered to suit various needs of instrument industry.`,
+      websiteLink: '',
+      description: ``,
     },
   ],
 
