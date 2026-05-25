@@ -10,6 +10,7 @@ interface CompanyCardProps {
   company: {
     id: string
     name: string
+    company: string
     pavilion: string
     stand: string
     country: string
@@ -25,18 +26,21 @@ export default function CompanyCard({ company, onProductBrochureClick }: Company
   const [imageError, setImageError] = useState(false)
   const router = useRouter()
 
+  // In companyCard.tsx, update the navigation:
   const handleCardClick = (e: React.MouseEvent) => {
     const target = e.target as HTMLElement
     if (
-      target.closest('button') || 
+      target.closest('button') ||
       target.closest('a') ||
       target.tagName === 'BUTTON' ||
       target.tagName === 'A'
     ) {
       return
     }
-    
-    router.push(`/exhibition-directory/${company.id}`)
+
+    // Create slug from company name
+    const slug = company.company.toLowerCase().replace(/\s+/g, '-')
+    router.push(`/exhibition-directory/${slug}`)
   }
 
   const handleConnectClick = (e: React.MouseEvent) => {
@@ -46,7 +50,7 @@ export default function CompanyCard({ company, onProductBrochureClick }: Company
 
   const handleBrochureClick = (e: React.MouseEvent) => {
     e.stopPropagation()
-    onProductBrochureClick(company.id, company.name)
+    onProductBrochureClick(company.id, company.company)
   }
 
   const getLogoColor = () => {
@@ -60,14 +64,14 @@ export default function CompanyCard({ company, onProductBrochureClick }: Company
       'bg-gradient-to-br from-teal-50 to-teal-100',
       'bg-gradient-to-br from-yellow-50 to-yellow-100'
     ];
-    
-    const index = company.name.length % colors.length;
+
+    const index = company.company.length % colors.length;
     return colors[index];
   };
 
   return (
     <>
-      <div 
+      <div
         onClick={handleCardClick}
         className="group bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full hover:-translate-y-1 cursor-pointer"
       >
@@ -77,9 +81,9 @@ export default function CompanyCard({ company, onProductBrochureClick }: Company
         >
           {company.logo && !imageError ? (
             <div className="relative w-full h-full">
-              <img 
-                src={company.logo} 
-                alt={company.name}
+              <img
+                src={company.logo}
+                alt={company.company}
                 className="w-full h-full object-contain"
                 onError={() => setImageError(true)}
               />
@@ -93,10 +97,17 @@ export default function CompanyCard({ company, onProductBrochureClick }: Company
 
         {/* Content */}
         <div className="p-4 sm:p-5 md:p-6 border-t border-slate-100 bg-white">
-          {/* Company Name */}
+          {/* Company Name - This is the actual company name */}
           <h3 className="font-bold text-slate-900 mb-3 text-base sm:text-lg md:text-xl leading-tight line-clamp-2">
-            {company.name}
+            {company.company}
           </h3>
+
+          {/* Exhibitor/Contact Name - Optional secondary info */}
+          {company.name && company.name !== company.company && (
+            <p className="text-sm text-slate-500 mb-2">
+              Contact: {company.name}
+            </p>
+          )}
 
           {/* Details */}
           <div className="space-y-1.5 sm:space-y-2 text-sm sm:text-base text-slate-600 mb-4 sm:mb-6">
@@ -115,7 +126,7 @@ export default function CompanyCard({ company, onProductBrochureClick }: Company
           </div>
 
           {/* Action Buttons */}
-          <div 
+          <div
             onClick={(e) => e.stopPropagation()}
             className="grid grid-cols-2 gap-2 sm:gap-3 pt-4 border-t border-slate-200"
           >
@@ -142,7 +153,7 @@ export default function CompanyCard({ company, onProductBrochureClick }: Company
       <VisitorRegistrationForm
         isOpen={isFormOpen}
         onClose={() => setIsFormOpen(false)}
-        // companyName={company.name}
+        companyName={company.company}
       />
     </>
   )

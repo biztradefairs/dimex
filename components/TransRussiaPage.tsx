@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import SectionContainer from './UI/SectionContainer';
 import dynamic from 'next/dynamic';
 import toast, { Toaster } from 'react-hot-toast';
-import ThankYouPopup from './ThankYouPopup'; // Import the popup component
+import ThankYouPopup from './ThankYouPopup';
 
 // Dynamically import ReCAPTCHA to avoid SSR issues
 const ReCAPTCHA = dynamic(() => import('react-google-recaptcha'), {
@@ -27,13 +27,25 @@ interface Country {
   name: string;
 }
 
+interface State {
+  name: string;
+}
+
+interface City {
+  name: string;
+}
+
 const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
   navbarData,
   pageData,
   footerData,
 }) => {
   const [countries, setCountries] = useState<Country[]>([]);
+  const [states, setStates] = useState<State[]>([]);
+  const [cities, setCities] = useState<City[]>([]);
   const [countriesLoading, setCountriesLoading] = useState(false);
+  const [statesLoading, setStatesLoading] = useState(false);
+  const [citiesLoading, setCitiesLoading] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
@@ -53,11 +65,12 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
   });
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [showThankYouPopup, setShowThankYouPopup] = useState(false); // State for popup visibility
-  const [submittedName, setSubmittedName] = useState(''); // Store the submitted name for popup
+  const [showThankYouPopup, setShowThankYouPopup] = useState(false);
+  const [submittedName, setSubmittedName] = useState('');
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com';
 
+  // Fetch countries
   useEffect(() => {
     const fetchCountries = async () => {
       try {
@@ -77,6 +90,105 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
     };
     fetchCountries();
   }, []);
+
+  // Fetch states when country changes
+  useEffect(() => {
+    const fetchStates = async () => {
+      if (!formData.country) {
+        setStates([]);
+        setFormData(prev => ({ ...prev, state: '', city: '' }));
+        return;
+      }
+
+      try {
+        setStatesLoading(true);
+        
+        const response = await fetch(
+          'https://countriesnow.space/api/v0.1/countries/states',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ country: formData.country }),
+          }
+        );
+
+        const result = await response.json();
+        
+        if (result.data && result.data.states) {
+          const sortedStates = result.data.states
+            .map((state: any) => ({ name: state.name }))
+            .sort((a: State, b: State) => a.name.localeCompare(b.name));
+          
+          setStates(sortedStates);
+        } else {
+          setStates([]);
+        }
+        
+        setFormData(prev => ({ ...prev, state: '', city: '' }));
+      } catch (error) {
+        console.error("Failed to fetch states", error);
+        toast.error("Failed to load states");
+        setStates([]);
+      } finally {
+        setStatesLoading(false);
+      }
+    };
+
+    fetchStates();
+  }, [formData.country]);
+
+  // Fetch cities when state changes
+  useEffect(() => {
+    const fetchCities = async () => {
+      if (!formData.country || !formData.state) {
+        setCities([]);
+        setFormData(prev => ({ ...prev, city: '' }));
+        return;
+      }
+
+      try {
+        setCitiesLoading(true);
+        
+        const response = await fetch(
+          'https://countriesnow.space/api/v0.1/countries/state/cities',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+              country: formData.country,
+              state: formData.state 
+            }),
+          }
+        );
+
+        const result = await response.json();
+        
+        if (result.data && result.data.length > 0) {
+          const sortedCities = result.data
+            .map((city: string) => ({ name: city }))
+            .sort((a: City, b: City) => a.name.localeCompare(b.name));
+          
+          setCities(sortedCities);
+        } else {
+          setCities([]);
+        }
+        
+        setFormData(prev => ({ ...prev, city: '' }));
+      } catch (error) {
+        console.error("Failed to fetch cities", error);
+        toast.error("Failed to load cities");
+        setCities([]);
+      } finally {
+        setCitiesLoading(false);
+      }
+    };
+
+    fetchCities();
+  }, [formData.country, formData.state]);
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -128,10 +240,9 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
       const result = await response.json();
 
       if (result.success) {
-        // Show success toast and store the name for popup
         toast.success("Registration submitted successfully!");
-        setSubmittedName(formData.name.split(' ')[0] || 'Visitor'); // Store first name or default
-        setShowThankYouPopup(true); // Show the thank you popup
+        setSubmittedName(formData.name.split(' ')[0] || 'Visitor');
+        setShowThankYouPopup(true);
         
         // Reset form
         setFormData({
@@ -148,6 +259,11 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
           profile: '',
           promocode: ''
         });
+        
+        // Reset states and cities
+        setStates([]);
+        setCities([]);
+        
         setTermsAccepted(false);
         setCaptchaToken(null);
       } else {
@@ -301,29 +417,53 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           State <span className="text-red-500">*</span>
                         </label>
-                        <input
-                          type="text"
+                        <select
                           name="state"
                           value={formData.state}
                           onChange={handleInputChange}
                           required
-                          placeholder="Enter your state"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300"
-                        />
+                          disabled={!formData.country || statesLoading}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        >
+                          <option value="">
+                            {statesLoading 
+                              ? "Loading states..." 
+                              : !formData.country 
+                                ? "Select country first" 
+                                : "Select State"}
+                          </option>
+                          {states.map((state, index) => (
+                            <option key={index} value={state.name}>
+                              {state.name}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                           City <span className="text-red-500">*</span>
                         </label>
-                        <input
-                          type="text"
+                        <select
                           name="city"
                           value={formData.city}
                           onChange={handleInputChange}
                           required
-                          placeholder="Enter your city"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300"
-                        />
+                          disabled={!formData.state || citiesLoading}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
+                        >
+                          <option value="">
+                            {citiesLoading 
+                              ? "Loading cities..." 
+                              : !formData.state 
+                                ? "Select state first" 
+                                : "Select City"}
+                          </option>
+                          {cities.map((city, index) => (
+                            <option key={index} value={city.name}>
+                              {city.name}
+                            </option>
+                          ))}
+                        </select>
                       </div>
                     </div>
 
@@ -408,8 +548,6 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                         <option value="Consulting">Consulting Services</option>
                       </select>
                     </div>
-
-          
 
                     <div className="flex items-start">
                       <input

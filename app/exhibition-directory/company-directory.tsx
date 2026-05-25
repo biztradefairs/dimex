@@ -59,14 +59,17 @@ export default function CompanyDirectory() {
 
   // Filter by letter (client-side filtering)
   const filteredCompanies = selectedLetter
-    ? companies.filter(company => 
-        company.name?.toUpperCase().startsWith(selectedLetter)
-      )
+    ? companies.filter(company =>
+      company.company?.toUpperCase().startsWith(selectedLetter)
+    )
     : companies
 
+  // In the handleProductBrochure function, update to use company name for slug
   const handleProductBrochure = (companyId: string, companyName: string) => {
+    // Use the actual company name for the URL slug
     const slug = companyName.toLowerCase().replace(/\s+/g, '-')
-    router.push(`/exhibition-directory/${companyId}`)
+    router.push(`/exhibition-directory/${companyId}`) // Keep using ID for now
+    // Or if you want to use slug: router.push(`/exhibition-directory/${slug}`)
   }
 
   // Pagination range

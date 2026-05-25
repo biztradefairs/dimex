@@ -1,41 +1,104 @@
-// app/admin/dashboard/page.tsx - FIXED VERSION (NO HEALTH)
 'use client';
 
-import { 
-  Users, 
-  Building, 
-  DollarSign, 
+import {
+  Users,
   Calendar,
-  FileText,
-  Eye,
   Download,
   ArrowUp,
-  ArrowDown,
   RefreshCw,
   TrendingUp,
   Activity,
   Clock,
-  ChevronRight
+  
+  FileText,
+  BarChart3,
+  TrendingDown,
+  CalendarDays,
+  MousePointerClick,
+  ChartNoAxesCombined,
 } from 'lucide-react';
+
 import { useDashboard } from '@/hooks/useDashboard';
-import { useExhibitorStats } from '@/hooks/useExhibitorStats';
 import { useAuth } from '@/hooks/useAuth';
 import toast from 'react-hot-toast';
 import { useState, FormEvent } from 'react';
 import Link from 'next/link';
+import {
+  LineChart,
+  Line,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+  Area,
+  AreaChart,
+  PieChart,
+  Pie,
+  Cell
+} from 'recharts';
+
+// Types for dashboard data
+interface VisitorDay {
+  date: string;
+  count: number;
+}
+
+interface PageView {
+  page: string;
+  views: number;
+}
+
+interface VisitorStats {
+  total: number;
+  today: number;
+  week: number;
+  month: number;
+  source: string;
+  last7Days: VisitorDay[];
+  pages: PageView[];
+}
+
+interface DashboardData {
+  visitors: VisitorStats;
+}
+
+// Unified chart data type
+interface ChartDataPoint {
+  name: string;
+  visitors: number;
+  fullDate?: string;
+  date?: string;
+  days?: number;
+}
+
+// Custom colors
+const COLORS = ['#F08400', '#F59E0B', '#FCD34D', '#FDE68A', '#FFEDD5', '#FFF7ED'];
+const CHART_COLORS = {
+  primary: '#F08400',
+  secondary: '#F59E0B',
+  gradient: ['#F08400', '#FCD34D'],
+  area: '#FEF3C7',
+  grid: '#E5E7EB',
+  text: '#6B7280'
+};
 
 export default function DashboardPage() {
   const { summary, isLoading, error, refresh } = useDashboard();
-  const { stats: exhibitorStats } = useExhibitorStats();
   const { user } = useAuth();
   const [isExporting, setIsExporting] = useState(false);
+  const [selectedPeriod, setSelectedPeriod] = useState<'week' | 'month'>('week');
+  const [chartType, setChartType] = useState<'line' | 'bar' | 'area'>('area');
 
   const handleExport = async (e: FormEvent) => {
     e.preventDefault();
     setIsExporting(true);
     try {
       toast.success('Report exported successfully');
-    } catch (error) {
+    } catch {
       toast.error('Failed to export report');
     } finally {
       setIsExporting(false);
@@ -47,17 +110,43 @@ export default function DashboardPage() {
     toast.success('Dashboard refreshed');
   };
 
-  const handleCalendarView = (e: FormEvent) => {
-    e.preventDefault();
-    toast('Calendar view coming soon');
+  // Format date from GA format (20260425 → Apr 25)
+  const formatDate = (dateStr: string) => {
+    if (!dateStr || dateStr.length < 8) return 'Invalid Date';
+    const date = new Date(
+      dateStr.slice(0, 4) + '-' +
+      dateStr.slice(4, 6) + '-' +
+      dateStr.slice(6, 8)
+    );
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  };
+
+  const getFullDate = (dateStr: string) => {
+    if (!dateStr || dateStr.length < 8) return '';
+    const date = new Date(
+      dateStr.slice(0, 4) + '-' +
+      dateStr.slice(4, 6) + '-' +
+      dateStr.slice(6, 8)
+    );
+    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  };
+
+  const getDayName = (dateStr: string) => {
+    if (!dateStr || dateStr.length < 8) return '';
+    const date = new Date(
+      dateStr.slice(0, 4) + '-' +
+      dateStr.slice(4, 6) + '-' +
+      dateStr.slice(6, 8)
+    );
+    return date.toLocaleDateString('en-US', { weekday: 'short' });
   };
 
   if (isLoading) {
     return (
-      <div className="min-h-screen p-3 sm:p-4 md:p-6 flex items-center justify-center">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
-          <RefreshCw className="h-8 w-8 sm:h-10 sm:w-10 animate-spin mx-auto text-blue-600" />
-          <p className="mt-2 sm:mt-3 text-sm sm:text-base text-gray-600">Loading dashboard...</p>
+          <RefreshCw className="h-12 w-12 animate-spin text-[#F08400] mx-auto mb-4" />
+          <p className="text-gray-600">Loading dashboard data...</p>
         </div>
       </div>
     );
@@ -65,249 +154,570 @@ export default function DashboardPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen p-3 sm:p-4 md:p-6">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-3 sm:p-4">
-          <p className="text-xs sm:text-sm text-red-800">{error}</p>
-          <button
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center max-w-md mx-auto p-8 bg-white rounded-xl shadow-lg">
+          <div className="text-red-600 text-5xl mb-4">⚠️</div>
+          <p className="text-red-600 mb-4">{error}</p>
+          <button 
             onClick={handleRefresh}
-            className="mt-3 inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-white bg-red-600 hover:bg-red-700"
+            className="bg-[#F08400] text-white px-6 py-2 rounded-lg hover:bg-orange-600 transition"
           >
-            <RefreshCw className="h-4 w-4 mr-2" />
-            Retry
+            Try Again
           </button>
         </div>
       </div>
     );
   }
 
-  const stats = [
+  const data = summary as DashboardData;
+  const visitorStats = data?.visitors || { 
+    total: 0, today: 0, week: 0, month: 0, 
+    source: 'google-analytics', last7Days: [], pages: [] 
+  };
+  
+  const last7Days = visitorStats.last7Days || [];
+  const topPages = visitorStats.pages || [];
+  
+  // Calculate percentage change
+  const calculateChange = (current: number, previous: number) => {
+    if (previous === 0) return { percentage: '+100', trend: 'up' };
+    const change = ((current - previous) / previous * 100).toFixed(1);
+    return {
+      percentage: `${parseFloat(change) >= 0 ? '+' : ''}${change}%`,
+      trend: parseFloat(change) >= 0 ? 'up' : 'down'
+    };
+  };
+
+  // Weekly change calculation
+  const previousWeekTotal = last7Days.slice(0, 7).reduce((sum, d) => sum + d.count, 0);
+  const currentWeekTotal = last7Days.slice(0, 7).reduce((sum, d) => sum + d.count, 0);
+  const weeklyChange = calculateChange(currentWeekTotal, previousWeekTotal);
+
+  // Monthly change calculation
+  const weeklyAvg = last7Days.reduce((sum, d) => sum + d.count, 0) / 7;
+  const monthlyAvg = (visitorStats.month || 0) / 30;
+  const monthlyChange = calculateChange(weeklyAvg, monthlyAvg);
+
+  // Prepare chart data with unified type
+  const weeklyChartData: ChartDataPoint[] = last7Days.map(day => ({
+    name: getDayName(day.date),
+    fullDate: getFullDate(day.date),
+    visitors: day.count,
+    date: day.date
+  }));
+
+  // Prepare monthly data (group by week)
+  const monthlyChartData: ChartDataPoint[] = [];
+  for (let i = 0; i < last7Days.length; i += 7) {
+    const weekData = last7Days.slice(i, i + 7);
+    if (weekData.length > 0) {
+      monthlyChartData.push({
+        name: `Week ${Math.floor(i / 7) + 1}`,
+        visitors: weekData.reduce((sum, d) => sum + d.count, 0),
+        days: weekData.length
+      });
+    }
+  }
+
+  const chartData: ChartDataPoint[] = selectedPeriod === 'week' ? weeklyChartData : monthlyChartData;
+  
+  // Calculate stats
+  const totalViews = topPages.reduce((sum, p) => sum + p.views, 0);
+  const homepageViews = topPages.find(p => p.page === '/')?.views || 0;
+  const engagementRate = ((homepageViews / (visitorStats.total || 1)) * 100).toFixed(1);
+  const pagesPerVisitor = (totalViews / (visitorStats.total || 1)).toFixed(1);
+
+  // Prepare pie chart data for page distribution
+  const pageDistribution = topPages.slice(0, 5).map(page => ({
+    name: page.page === '/' ? 'Homepage' : page.page.replace(/^\/+/, '').substring(0, 20),
+    value: page.views,
+    percentage: ((page.views / totalViews) * 100).toFixed(1)
+  }));
+
+  const statsCards = [
     {
-      name: 'Total Visitors',
-      value: summary?.visitors?.total?.toLocaleString() || '0',
-      change: '+12.5%',
-      changeType: 'positive' as const,
+      title: 'Total Visitors',
+      value: visitorStats.total?.toLocaleString() || '0',
       icon: Users,
-      color: 'bg-teal-500'
+      color: 'from-blue-500 to-blue-600',
+      bgColor: 'bg-blue-50',
+      iconColor: 'text-blue-600',
+      period: 'All Time',
+      trend: '+12%',
+      trendUp: true
     },
     {
-      name: 'Today\'s Visitors',
-      value: summary?.visitors?.today?.toLocaleString() || '0',
-      change: summary?.visitors?.today ? '+0%' : '0%',
-      changeType: 'positive' as const,
+      title: 'Monthly Visitors',
+      value: visitorStats.month?.toLocaleString() || '0',
+      icon: CalendarDays,
+      color: 'from-purple-500 to-purple-600',
+      bgColor: 'bg-purple-50',
+      iconColor: 'text-purple-600',
+      period: 'Last 30 Days',
+      subValue: `${visitorStats.week || 0} this week`,
+      trend: monthlyChange.percentage,
+      trendUp: monthlyChange.trend === 'up'
+    },
+    {
+      title: 'Weekly Visitors',
+      value: visitorStats.week?.toLocaleString() || '0',
+      icon: Activity,
+      color: 'from-green-500 to-green-600',
+      bgColor: 'bg-green-50',
+      iconColor: 'text-green-600',
+      period: 'Last 7 Days',
+      subValue: `${visitorStats.today || 0} today`,
+      trend: weeklyChange.percentage,
+      trendUp: weeklyChange.trend === 'up'
+    },
+    {
+      title: "Today's Visitors",
+      value: visitorStats.today?.toLocaleString() || '0',
       icon: Calendar,
-      color: 'bg-indigo-500'
-    },
-    {
-      name: 'Exhibitors',
-      value: exhibitorStats?.total?.toLocaleString() || summary?.exhibitors?.total?.toLocaleString() || '0',
-      change: '+8.2%',
-      changeType: 'positive' as const,
-      icon: Building,
-      color: 'bg-green-500'
-    },
-    // {
-    //   name: 'Revenue',
-    //   value: summary?.revenue?.totalRevenue ? `₹${(summary.revenue.totalRevenue).toLocaleString()}` : '₹0',
-    //   change: '+23.1%',
-    //   changeType: 'positive' as const,
-    //   icon: DollarSign,
-    //   color: 'bg-purple-500'
-    // },
-    // {
-    //   name: 'Articles',
-    //   value: summary?.articles?.total?.toLocaleString() || '0',
-    //   change: '+5.3%',
-    //   changeType: 'positive' as const,
-    //   icon: FileText,
-    //   color: 'bg-yellow-500'
-    // }
+      color: 'from-orange-500 to-orange-600',
+      bgColor: 'bg-orange-50',
+      iconColor: 'text-orange-600',
+      period: 'Live',
+      subValue: `Updated real-time`,
+      trend: '+5%',
+      trendUp: true
+    }
   ];
 
-  const recentActivities = summary?.activities || [
-    { id: '1', action: 'System started', user: 'System', time: new Date().toISOString(), type: 'system' }
-  ];
+  // Custom Tooltip for charts
+  const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-white p-3 rounded-lg shadow-lg border border-gray-100">
+          <p className="text-sm font-semibold text-gray-800">{label}</p>
+          <p className="text-2xl font-bold text-[#F08400]">
+            {payload[0].value.toLocaleString()}
+          </p>
+          <p className="text-xs text-gray-500">visitors</p>
+        </div>
+      );
+    }
+    return null;
+  };
 
-  const topArticles = summary?.articles?.recent || [
-    { id: 1, title: 'Rail Freight Innovation Trends 2026', views: 1245, status: 'published' },
-    { id: 2, title: 'Port Automation Solutions', views: 892, status: 'published' },
-    { id: 3, title: 'Sustainable Logistics Practices', views: 756, status: 'published' },
-    { id: 4, title: 'Autonomous Trucking Revolution', views: 654, status: 'published' }
-  ];
+  // Render chart based on selected type
+  const renderChart = () => {
+    if (chartType === 'line') {
+      return (
+        <LineChart data={chartData}>
+          <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
+          <XAxis 
+            dataKey="name" 
+            tick={{ fill: CHART_COLORS.text, fontSize: 12 }}
+            axisLine={{ stroke: CHART_COLORS.grid }}
+          />
+          <YAxis 
+            tick={{ fill: CHART_COLORS.text, fontSize: 12 }}
+            axisLine={{ stroke: CHART_COLORS.grid }}
+          />
+          <Tooltip content={<CustomTooltip />} />
+          <Legend />
+          <Line 
+            type="monotone" 
+            dataKey="visitors" 
+            stroke={CHART_COLORS.primary}
+            strokeWidth={3}
+            dot={{ fill: CHART_COLORS.primary, strokeWidth: 2, r: 4 }}
+            activeDot={{ r: 6, fill: CHART_COLORS.primary }}
+            name="Visitors"
+          />
+        </LineChart>
+      );
+    } else if (chartType === 'bar') {
+      return (
+        <BarChart data={chartData}>
+          <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
+          <XAxis 
+            dataKey="name" 
+            tick={{ fill: CHART_COLORS.text, fontSize: 12 }}
+            axisLine={{ stroke: CHART_COLORS.grid }}
+          />
+          <YAxis 
+            tick={{ fill: CHART_COLORS.text, fontSize: 12 }}
+            axisLine={{ stroke: CHART_COLORS.grid }}
+          />
+          <Tooltip content={<CustomTooltip />} />
+          <Legend />
+          <Bar 
+            dataKey="visitors" 
+            fill={CHART_COLORS.primary}
+            radius={[8, 8, 0, 0]}
+            name="Visitors"
+          />
+        </BarChart>
+      );
+    } else {
+      return (
+        <AreaChart data={chartData}>
+          <defs>
+            <linearGradient id="colorVisitors" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="5%" stopColor={CHART_COLORS.primary} stopOpacity={0.3}/>
+              <stop offset="95%" stopColor={CHART_COLORS.primary} stopOpacity={0}/>
+            </linearGradient>
+          </defs>
+          <CartesianGrid strokeDasharray="3 3" stroke={CHART_COLORS.grid} />
+          <XAxis 
+            dataKey="name" 
+            tick={{ fill: CHART_COLORS.text, fontSize: 12 }}
+            axisLine={{ stroke: CHART_COLORS.grid }}
+          />
+          <YAxis 
+            tick={{ fill: CHART_COLORS.text, fontSize: 12 }}
+            axisLine={{ stroke: CHART_COLORS.grid }}
+          />
+          <Tooltip content={<CustomTooltip />} />
+          <Legend />
+          <Area 
+            type="monotone" 
+            dataKey="visitors" 
+            stroke={CHART_COLORS.primary}
+            strokeWidth={3}
+            fill="url(#colorVisitors)"
+            name="Visitors"
+          />
+        </AreaChart>
+      );
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-3 sm:p-4 md:p-6">
-      <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 sm:gap-4">
+    <div className="min-h-screen bg-gray-50">
+      <div className="p-4 sm:p-6 lg:p-8 space-y-6 sm:space-y-8">
+        
+        {/* HEADER */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className="text-xl sm:text-2xl font-bold text-gray-900">Dashboard</h1>
-            <p className="text-xs sm:text-sm text-gray-600 mt-0.5 sm:mt-1">
-              Welcome back, {user?.name || 'Admin'}! Here's what's happening.
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
+              Analytics Dashboard
+            </h1>
+            <p className="text-gray-500 text-sm mt-1 flex items-center gap-2">
+              <span>Welcome back, {user?.name || 'Admin'}!</span>
+              <span className="inline-flex items-center gap-1 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full">
+                <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
+                Live Data
+              </span>
             </p>
           </div>
-          <div className="flex flex-col sm:flex-row w-full sm:w-auto gap-2 sm:space-x-3">
+
+          <div className="flex flex-wrap gap-2">
             <button 
               onClick={handleRefresh}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 rounded-md shadow-sm text-xs sm:text-sm font-medium text-gray-700 bg-white hover:bg-gray-50"
+              className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 rounded-lg text-gray-700 hover:bg-gray-50 transition shadow-sm"
             >
-              <RefreshCw className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-              Refresh
+              <RefreshCw className="h-4 w-4" />
+              <span className="hidden sm:inline">Refresh</span>
             </button>
-            <button 
-              onClick={handleExport}
-              disabled={isExporting}
-              className="w-full sm:w-auto inline-flex items-center justify-center px-3 sm:px-4 py-2 border border-gray-300 rounded-md shadow-sm text-xs sm:text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
-            >
-              {isExporting ? (
-                <RefreshCw className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4 animate-spin" />
-              ) : (
-                <Download className="mr-1.5 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-              )}
-              Export Report
-            </button>
-
+            
           </div>
         </div>
 
-        {/* Stats Grid - Responsive */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2 sm:gap-3 md:gap-4">
-          {stats.map((stat) => (
-            <div key={stat.name} className="bg-white overflow-hidden shadow rounded-lg p-3 sm:p-4 md:p-5">
-              <div className="flex items-center">
-                <div className={`flex-shrink-0 rounded-md p-2 sm:p-2.5 md:p-3 ${stat.color}`}>
-                  <stat.icon className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 text-white" />
+        {/* STATS CARDS */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {statsCards.map((stat) => (
+            <div key={stat.title} className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-5 hover:shadow-md transition group">
+              <div className="flex items-start justify-between">
+                <div className="flex items-start gap-3 sm:gap-4">
+                  <div className={`p-2.5 sm:p-3 rounded-xl ${stat.bgColor} group-hover:scale-110 transition-transform`}>
+                    <stat.icon className={`h-5 w-5 sm:h-6 sm:w-6 ${stat.iconColor}`} />
+                  </div>
+                  <div>
+                    <p className="text-xs sm:text-sm text-gray-500">{stat.title}</p>
+                    <p className="text-2xl sm:text-3xl font-bold text-gray-800">{stat.value}</p>
+                    {stat.subValue && (
+                      <p className="text-xs text-gray-400 mt-1">{stat.subValue}</p>
+                    )}
+                    <p className="text-[10px] text-gray-400 mt-0.5">{stat.period}</p>
+                  </div>
                 </div>
-                <div className="ml-2 sm:ml-3 md:ml-5 w-0 flex-1">
-                  <dl>
-                    <dt className="text-xs sm:text-sm font-medium text-gray-500 truncate">{stat.name}</dt>
-                    <dd className="flex items-baseline flex-wrap gap-1">
-                      <div className="text-sm sm:text-base md:text-lg lg:text-2xl font-semibold text-gray-900">{stat.value}</div>
-                      {stat.change !== '0%' && (
-                        <div className={`flex items-baseline text-xs sm:text-sm font-semibold ${
-                          stat.changeType === 'positive' ? 'text-green-600' : 'text-red-600'
-                        }`}>
-                          {stat.changeType === 'positive' ? (
-                            <ArrowUp className="flex-shrink-0 h-3 w-3 sm:h-4 sm:w-4" />
-                          ) : (
-                            <ArrowDown className="flex-shrink-0 h-3 w-3 sm:h-4 sm:w-4" />
-                          )}
-                          <span className="ml-0.5">{stat.change}</span>
-                        </div>
-                      )}
-                    </dd>
-                  </dl>
-                </div>
+                {stat.trend && (
+                  <div className={`flex items-center gap-1 text-xs font-medium ${stat.trendUp ? 'text-green-600' : 'text-red-600'}`}>
+                    {stat.trendUp ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
+                    {stat.trend}
+                  </div>
+                )}
               </div>
             </div>
           ))}
         </div>
 
-        {/* Visitor Trend Chart - Only show if last7Days exists */}
-        {(summary?.visitors as any)?.last7Days && (summary?.visitors as any)?.last7Days.length > 0 && (
-          <div className="bg-white shadow rounded-lg p-4 sm:p-6">
-            <h3 className="text-sm sm:text-base md:text-lg font-medium text-gray-900 mb-4 flex items-center">
-              <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 mr-2 text-blue-600" />
-              Visitor Trend (Last 7 Days)
-            </h3>
-            <div className="flex items-end space-x-2 sm:space-x-4 h-48">
-              {((summary?.visitors as any)?.last7Days || []).map((day: { date: string; count: number }) => (
-                <div key={day.date} className="flex-1 flex flex-col items-center">
-                  <div 
-                    className="w-full bg-blue-500 rounded-t transition-all duration-500 hover:bg-blue-600"
-                    style={{ height: `${(day.count / Math.max(...((summary?.visitors as any)?.last7Days || []).map((d: { count: number }) => d.count), 1)) * 100}%` }}
-                  />
-                  <span className="mt-2 text-xs text-gray-600 rotate-45 sm:rotate-0 origin-left">
-                    {new Date(day.date).toLocaleDateString('en-US', { weekday: 'short' })}
-                  </span>
-                  <span className="text-xs font-semibold text-gray-900">{day.count}</span>
+        {/* CHART CONTROLS */}
+        <div className="flex flex-wrap justify-between items-center gap-4">
+          <div className="flex flex-wrap gap-2">
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-1">
+              <button
+                onClick={() => setSelectedPeriod('week')}
+                className={`px-3 sm:px-4 py-1.5 text-xs sm:text-sm rounded-md transition ${
+                  selectedPeriod === 'week' 
+                    ? 'bg-[#F08400] text-white' 
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                <CalendarDays className="h-3 w-3 sm:h-4 sm:w-4 inline mr-1" />
+                Weekly
+              </button>
+              <button
+                onClick={() => setSelectedPeriod('month')}
+                className={`px-3 sm:px-4 py-1.5 text-xs sm:text-sm rounded-md transition ${
+                  selectedPeriod === 'month' 
+                    ? 'bg-[#F08400] text-white' 
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                <BarChart3 className="h-3 w-3 sm:h-4 sm:w-4 inline mr-1" />
+                Monthly
+              </button>
+            </div>
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-1">
+              <button
+                onClick={() => setChartType('area')}
+                className={`px-2 sm:px-3 py-1.5 text-xs sm:text-sm rounded-md transition ${
+                  chartType === 'area' 
+                    ? 'bg-[#F08400] text-white' 
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                📈 Area
+              </button>
+              <button
+                onClick={() => setChartType('line')}
+                className={`px-2 sm:px-3 py-1.5 text-xs sm:text-sm rounded-md transition ${
+                  chartType === 'line' 
+                    ? 'bg-[#F08400] text-white' 
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                📉 Line
+              </button>
+              <button
+                onClick={() => setChartType('bar')}
+                className={`px-2 sm:px-3 py-1.5 text-xs sm:text-sm rounded-md transition ${
+                  chartType === 'bar' 
+                    ? 'bg-[#F08400] text-white' 
+                    : 'text-gray-600 hover:bg-gray-100'
+                }`}
+              >
+                📊 Bar
+              </button>
+            </div>
+          </div>
+          <div className="text-xs text-gray-400">
+            Source: {visitorStats.source || 'Google Analytics'}
+          </div>
+        </div>
+
+        {/* MAIN CHART */}
+        {chartData.length > 0 && (
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-3">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-800 flex items-center gap-2">
+                <ChartNoAxesCombined className="h-5 w-5 text-[#F08400]" />
+                Visitor Trends - {selectedPeriod === 'week' ? 'Daily Breakdown' : 'Weekly Summary'}
+              </h3>
+              <div className="flex items-center gap-2 text-xs">
+                <div className="flex items-center gap-1">
+                  <span className="w-3 h-3 bg-[#F08400] rounded-full"></span>
+                  <span className="text-gray-500">Visitors</span>
                 </div>
-              ))}
+              </div>
+            </div>
+
+            <ResponsiveContainer width="100%" height={400}>
+              {renderChart()}
+            </ResponsiveContainer>
+
+            {/* Chart Summary Stats */}
+            <div className="mt-6 pt-4 border-t border-gray-100">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <div className="text-center p-3 bg-gray-50 rounded-lg">
+                  <p className="text-xs text-gray-500">Total</p>
+                  <p className="text-xl font-bold text-gray-800">
+                    {chartData.reduce((sum, d) => sum + d.visitors, 0).toLocaleString()}
+                  </p>
+                </div>
+                <div className="text-center p-3 bg-gray-50 rounded-lg">
+                  <p className="text-xs text-gray-500">Average</p>
+                  <p className="text-xl font-bold text-gray-800">
+                    {Math.round(chartData.reduce((sum, d) => sum + d.visitors, 0) / chartData.length).toLocaleString()}
+                    <span className="text-xs text-gray-400">/day</span>
+                  </p>
+                </div>
+                <div className="text-center p-3 bg-gray-50 rounded-lg">
+                  <p className="text-xs text-gray-500">Highest</p>
+                  <p className="text-xl font-bold text-green-600">
+                    {Math.max(...chartData.map(d => d.visitors)).toLocaleString()}
+                  </p>
+                </div>
+                <div className="text-center p-3 bg-gray-50 rounded-lg">
+                  <p className="text-xs text-gray-500">Lowest</p>
+                  <p className="text-xl font-bold text-red-500">
+                    {Math.min(...chartData.map(d => d.visitors)).toLocaleString()}
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         )}
 
-        {/* Charts and Activities Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-          {/* Recent Activities */}
-          <div className="bg-white shadow rounded-lg overflow-hidden">
-            <div className="px-3 sm:px-4 py-3 sm:py-5 border-b border-gray-200">
-              <h3 className="text-sm sm:text-base md:text-lg font-medium text-gray-900 flex items-center">
-                <Activity className="h-4 w-4 sm:h-5 sm:w-5 mr-1.5 sm:mr-2 text-blue-600" />
-                Recent Activities
+        {/* TWO COLUMN LAYOUT */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          
+          {/* TOP PAGES - Bar Chart View */}
+          {topPages.length > 0 && (
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                <FileText className="h-5 w-5 text-[#F08400]" />
+                Top Performing Pages
+                <span className="text-xs font-normal text-gray-400 ml-2">by views</span>
               </h3>
-            </div>
-            <div className="px-3 sm:px-4 py-3 sm:py-5">
-              <div className="flow-root">
-                <ul className="-mb-4 sm:-mb-8">
-                  {recentActivities.slice(0, 5).map((activity: any, activityIdx: number) => (
-                    <li key={activity.id}>
-                      <div className="relative pb-4 sm:pb-8">
-                        {activityIdx !== recentActivities.slice(0, 5).length - 1 ? (
-                          <span className="absolute top-3 sm:top-4 left-3 sm:left-4 -ml-px h-full w-0.5 bg-gray-200" aria-hidden="true" />
-                        ) : null}
-                        <div className="relative flex space-x-2 sm:space-x-3">
-                          <div className="flex-shrink-0">
-                            <div className="h-6 w-6 sm:h-8 sm:w-8 rounded-full bg-blue-100 flex items-center justify-center">
-                              <span className="text-blue-600 font-medium text-xs sm:text-sm">
-                                {activity.user?.charAt(0) || activity.action?.charAt(0) || 'A'}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="min-w-0 flex-1">
-                            <div>
-                              <p className="text-xs sm:text-sm text-gray-900">{activity.action}</p>
-                              <p className="mt-0.5 sm:mt-1 text-xs text-gray-500 flex items-center flex-wrap gap-1">
-                                <Clock className="h-3 w-3" />
-                                by {activity.user} • {new Date(activity.time).toLocaleString()}
-                              </p>
-                            </div>
-                          </div>
+              
+              <div className="space-y-4">
+                {topPages.slice(0, 7).map((page: PageView, i: number) => {
+                  const percentage = topPages[0]?.views > 0 
+                    ? (page.views / topPages[0].views) * 100 
+                    : 0;
+                  return (
+                    <div key={i} className="group">
+                      <div className="flex justify-between items-center mb-1.5">
+                        <div className="flex items-center gap-2 flex-1 min-w-0">
+                          <span className="text-xs font-bold text-gray-400 w-6">{i + 1}.</span>
+                          <span className="text-sm text-gray-700 truncate font-medium">
+                            {page.page === '/' ? '🏠 Homepage' : page.page.replace(/^\/+/, '').replace(/-/g, ' ').substring(0, 30) || 'Unknown'}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                         
+                          <span className="text-sm font-bold text-gray-800 min-w-[45px] text-right">
+                            {page.views.toLocaleString()}
+                          </span>
+                          <span className="text-xs text-gray-400 w-12 text-right">
+                            {((page.views / topPages[0].views) * 100).toFixed(0)}%
+                          </span>
                         </div>
                       </div>
-                    </li>
-                  ))}
-                </ul>
+                      <div className="w-full bg-gray-100 rounded-full h-2 overflow-hidden">
+                        <div 
+                          className="bg-gradient-to-r from-[#F08400] to-orange-400 h-2 rounded-full transition-all duration-700 ease-out"
+                          style={{ width: `${percentage}%` }}
+                        />
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            
-            </div>
-          </div>
 
-       </div>
+              {topPages.length > 7 && (
+                <div className="mt-4 pt-3 border-t border-gray-100">
+                  <Link 
+                    href="/admin/analytics"
+                    className="text-sm text-[#F08400] hover:text-orange-600 font-medium flex items-center gap-1 inline-flex"
+                  >
+                    View All {topPages.length} Pages
+                    <ArrowUp className="h-3 w-3 rotate-90" />
+                  </Link>
+                </div>
+              )}
+            </div>
+          )}
 
-        {/* Quick Stats Row */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
-          <div className="bg-white rounded-lg shadow p-3 sm:p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-gray-500">Pending Exhibitors</p>
-                <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-900">
-                  {exhibitorStats?.pending || summary?.exhibitors?.pending || 0}
-                </p>
+          {/* PAGE DISTRIBUTION - Pie Chart */}
+          {pageDistribution.length > 0 && (
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 sm:p-6">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-4 flex items-center gap-2">
+                <PieChart className="h-5 w-5 text-[#F08400]" />
+                Page View Distribution
+              </h3>
+              <ResponsiveContainer width="100%" height={250}>
+                <PieChart>
+                  <Pie
+                    data={pageDistribution}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={60}
+                    outerRadius={90}
+                    paddingAngle={2}
+                    dataKey="value"
+                    label={({ name, percent }) => `${name}: ${((percent || 0) * 100).toFixed(0)}%`}
+                    labelLine={false}
+                  >
+                    {pageDistribution.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+        <Tooltip
+  // formatter={(value: number | string | undefined) => {
+  //   const num = Number(value ?? 0);
+  //   return [`${num.toLocaleString()} views`, 'Views'];
+  // }}
+/>
+                </PieChart>
+              </ResponsiveContainer>
+              <div className="flex flex-wrap justify-center gap-3 mt-3">
+                {pageDistribution.map((entry, index) => (
+                  <div key={index} className="flex items-center gap-1">
+                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS[index % COLORS.length] }} />
+                    <span className="text-xs text-gray-600">{entry.name}</span>
+                    <span className="text-xs font-semibold text-gray-800">{entry.percentage}%</span>
+                  </div>
+                ))}
               </div>
-              <Clock className="h-4 w-4 sm:h-5 sm:w-5 text-yellow-500" />
             </div>
+          )}
+        </div>
+
+        {/* SUMMARY SECTION */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div className="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-5">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2 bg-white rounded-lg shadow-sm">
+                <MousePointerClick className="h-5 w-5 text-blue-600" />
+              </div>
+              <h4 className="font-semibold text-gray-800">Engagement Rate</h4>
+            </div>
+            <p className="text-3xl font-bold text-gray-800">{engagementRate}%</p>
+            <p className="text-xs text-gray-500 mt-1">of visitors viewed homepage</p>
           </div>
-          <div className="bg-white rounded-lg shadow p-3 sm:p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-gray-500">Active Exhibitors</p>
-                <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-900">
-                  {exhibitorStats?.active || summary?.exhibitors?.active || 0}
-                </p>
+          
+          <div className="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-5">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2 bg-white rounded-lg shadow-sm">
+                <Activity className="h-5 w-5 text-green-600" />
               </div>
-              <Building className="h-4 w-4 sm:h-5 sm:w-5 text-green-500" />
+              <h4 className="font-semibold text-gray-800">Pages per Visitor</h4>
             </div>
+            <p className="text-3xl font-bold text-gray-800">{pagesPerVisitor}</p>
+            <p className="text-xs text-gray-500 mt-1">average page views per session</p>
           </div>
-          <div className="bg-white rounded-lg shadow p-3 sm:p-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-xs text-gray-500">Week Visitors</p>
-                <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-900">
-                  {summary?.visitors?.week?.toLocaleString() || 0}
-                </p>
+          
+          <div className="bg-gradient-to-br from-orange-50 to-orange-100 rounded-xl p-5">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2 bg-white rounded-lg shadow-sm">
+                <CalendarDays className="h-5 w-5 text-orange-600" />
               </div>
-              <TrendingUp className="h-4 w-4 sm:h-5 sm:w-5 text-purple-500" />
+              <h4 className="font-semibold text-gray-800">Monthly Growth</h4>
             </div>
+            <p className={`text-3xl font-bold flex items-center gap-2 ${monthlyChange.trend === 'up' ? 'text-green-600' : 'text-red-600'}`}>
+              {monthlyChange.trend === 'up' ? <TrendingUp className="h-6 w-6" /> : <TrendingDown className="h-6 w-6" />}
+              {monthlyChange.percentage}
+            </p>
+            <p className="text-xs text-gray-500 mt-1">compared to previous period</p>
+          </div>
+        </div>
+
+        {/* DATA SOURCE FOOTER */}
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 text-xs text-gray-400 pt-4 border-t border-gray-200">
+          <div className="flex items-center gap-4 flex-wrap">
+            <span>🔄 Last updated: {new Date().toLocaleString()}</span>
+            <span>📊 Analytics: {visitorStats.source || 'Google Analytics'}</span>
+            <span>📈 Tracking: Real-time</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <span className="inline-block w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+            <span>Live data streaming</span>
           </div>
         </div>
       </div>

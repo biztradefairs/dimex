@@ -1,42 +1,74 @@
-// lib/api/dashboard.ts - UPDATED VERSION
+// lib/api/dashboard.ts
 import axios from 'axios';
 import api from '../api';
 
-export interface DashboardSummary {
-  users?: {
+// Visitor data with full analytics
+export interface VisitorData {
+  total: number;
+  today: number;
+  week: number;
+  month?: number;
+  source?: string;
+  last7Days?: Array<{ date: string; count: number }>;
+  pages?: Array<{ page: string; views: number }>;
+  devices?: Array<{ device: string; count: number }>;
+  locations?: Array<{ location: string; count: number }>;
+}
+
+// Exhibitor stats from API
+export interface ExhibitorStatsData {
+  total: number;
+  active: number;
+  pending: number;
+  approved: number;
+  rejected: number;
+  inactive: number;
+  newThisWeek: number;
+  bySector: Array<{ sector: string; count: number }>;
+}
+
+// User stats
+export interface UserStatsData {
+  total: number;
+  active: number;
+  inactive: number;
+  admins: number;
+  editors: number;
+  viewers: number;
+  newThisWeek: number;
+}
+
+// Revenue data
+export interface RevenueData {
+  totalRevenue: number;
+  monthRevenue: number;
+  pendingAmount: number;
+  invoices?: {
     total: number;
-    active: number;
-  };
-  exhibitors?: {
-    total: number;
-    active: number;
+    paid: number;
     pending: number;
-    approved: number;
-    rejected: number;
-    inactive: number;
-    recent?: any[];
   };
-  visitors?: {
-    total: number;
-    today: number;
-    week: number;
-    source?: string;
-  };
-  revenue?: {
-    totalRevenue: number;
-    monthRevenue: number;
-    pendingAmount: number;
-  };
-  articles?: {
-    total: number;
-    published: number;
-    recent: Array<{
-      id: number;
-      title: string;
-      views: number;
-      status: string;
-    }>;
-  };
+}
+
+// Articles data
+export interface ArticlesData {
+  total: number;
+  published: number;
+  recent: Array<{
+    id: number;
+    title: string;
+    views: number;
+    status: string;
+  }>;
+}
+
+// Full dashboard summary matching your API response
+export interface DashboardSummary {
+  users?: UserStatsData;
+  exhibitors?: ExhibitorStatsData;
+  visitors?: VisitorData;
+  revenue?: RevenueData;
+  articles?: ArticlesData;
   activities?: Array<{
     id: number;
     action: string;
@@ -46,111 +78,56 @@ export interface DashboardSummary {
 }
 
 export const dashboardAPI = {
-  // Get real exhibitor stats from your backend
-  getExhibitorStats: async () => {
+  // Get full dashboard summary from your API - NO MOCK DATA
+  getSummary: async (): Promise<{ success: boolean; data?: DashboardSummary; error?: string }> => {
+    try {
+      const response = await api.get('/api/dashboard/summary');
+      
+      if (response.data && response.data.success) {
+        return {
+          success: true,
+          data: response.data.data
+        };
+      }
+      
+      return {
+        success: false,
+        error: response.data?.error || 'Failed to load dashboard data'
+      };
+    } catch (error: any) {
+      console.error('Dashboard summary error:', error);
+      return {
+        success: false,
+        error: error.message || 'Failed to fetch dashboard data'
+      };
+    }
+  },
+
+  // Get exhibitor stats
+  getExhibitorStats: async (): Promise<{ success: boolean; data?: ExhibitorStatsData; error?: string }> => {
     try {
       const response = await api.get('/api/exhibitor-stats/count');
       return response.data;
     } catch (error: any) {
       console.error('Error fetching exhibitor stats:', error);
-      // Fallback to mock data if API fails
       return {
-        success: true,
-        data: {
-          total: 1,
-          active: 1,
-          pending: 0,
-          approved: 0,
-          rejected: 0,
-          inactive: 0,
-          recent: []
-        }
+        success: false,
+        error: error.message || 'Failed to fetch exhibitor stats'
       };
     }
   },
 
-  // Get real visitor stats
-  getVisitorStats: async () => {
+  // Get visitor stats
+  getVisitorStats: async (): Promise<{ success: boolean; data?: VisitorData; error?: string }> => {
     try {
       const response = await api.get('/api/exhibitor-stats/visitor-count');
       return response.data;
     } catch (error: any) {
       console.error('Error fetching visitor stats:', error);
       return {
-        success: true,
-        data: {
-          total: 0,
-          today: 0,
-          thisWeek: 0,
-          source: 'none'
-        }
+        success: false,
+        error: error.message || 'Failed to fetch visitor stats'
       };
-    }
-  },
-
-  // Mock dashboard summary (fallback)
-  getMockSummary: async (): Promise<{ success: boolean; data?: DashboardSummary }> => {
-    // Get real counts from API first
-    const [exhibitorRes, visitorRes] = await Promise.all([
-      dashboardAPI.getExhibitorStats(),
-      dashboardAPI.getVisitorStats()
-    ]);
-    
-    return {
-      success: true,
-      data: {
-        users: {
-          total: 1,
-          active: 1
-        },
-        exhibitors: {
-          total: exhibitorRes.data?.total || 0,
-          active: exhibitorRes.data?.active || 0,
-          pending: exhibitorRes.data?.pending || 0,
-          approved: exhibitorRes.data?.approved || 0,
-          rejected: exhibitorRes.data?.rejected || 0,
-          inactive: exhibitorRes.data?.inactive || 0
-        },
-        visitors: {
-          total: visitorRes.data?.total || 0,
-          today: visitorRes.data?.today || 0,
-          week: visitorRes.data?.thisWeek || 0,
-          source: visitorRes.data?.source || 'database'
-        },
-        revenue: {
-          totalRevenue: 0,
-          monthRevenue: 0,
-          pendingAmount: 0
-        },
-        articles: {
-          total: 0,
-          published: 0,
-          recent: []
-        },
-        activities: [
-          {
-            id: 1,
-            action: 'System running',
-            user: 'System',
-            time: new Date().toISOString()
-          }
-        ]
-      }
-    };
-  },
-
-  // Get dashboard summary
-  getSummary: async (): Promise<{ success: boolean; data?: DashboardSummary; error?: string }> => {
-    try {
-      // Try to get from your dashboard endpoint if it exists
-      // const response = await api.get('/dashboard/summary');
-      // return response.data;
-      
-      // Use mock with real data for now
-      return await dashboardAPI.getMockSummary();
-    } catch (error: any) {
-      console.error('Dashboard summary error:', error);
-      return await dashboardAPI.getMockSummary();
     }
   },
 

@@ -1,28 +1,20 @@
+
 // hooks/useVisitorStats.ts
 import { useEffect, useState, useCallback } from 'react';
-import { dashboardAPI } from '@/lib/api/dashboard';
-
-export interface VisitorStats {
-  total: number;
-  today: number;
-  week: number;
-  month: number;
-  last7Days: Array<{ date: string; count: number }>;
-  topCompanies: Array<{ company: string; count: number }>;
-}
+import { dashboardAPI, VisitorData } from '@/lib/api/dashboard';
 
 export function useVisitorStats() {
-  const [stats, setStats] = useState<VisitorStats | null>(null);
+  const [stats, setStats] = useState<VisitorData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   const fetchStats = useCallback(async () => {
     setIsLoading(true);
     setError(null);
-    
+
     try {
       const response = await dashboardAPI.getVisitorStats();
-      
+
       if (response.success && response.data) {
         setStats(response.data);
       } else {
@@ -44,10 +36,10 @@ export function useVisitorStats() {
     fetchStats();
   }, [fetchStats]);
 
-  return { 
-    stats, 
-    isLoading, 
-    error, 
-    refresh 
+  return {
+    stats,
+    isLoading,
+    error,
+    refresh
   };
 }

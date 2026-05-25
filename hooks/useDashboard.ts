@@ -18,9 +18,11 @@ export function useDashboard() {
         dashboardAPI.getSummary(),
         dashboardAPI.getHealth()
       ]);
+      console.log("🔥 SUMMARY RESPONSE:", summaryRes);
       
       if (summaryRes.success && summaryRes.data) {
         setSummary(summaryRes.data);
+         console.log("🔥 SUMMARY DATA:", summaryRes.data);
       } else {
         setError(summaryRes.error || 'Failed to load dashboard data');
       }

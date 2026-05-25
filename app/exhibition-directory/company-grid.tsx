@@ -12,8 +12,12 @@ interface CompanyGridProps {
 }
 
 export default function CompanyGrid({ companies, viewMode, onProductBrochureClick }: CompanyGridProps) {
-  console.log('📊 CompanyGrid received companies:', companies.map(c => ({ name: c.name, logo: c.logo })));
-  
+  console.log('📊 CompanyGrid received companies:', companies.map(c => ({
+    exhibitorName: c.name,
+    companyName: c.company,
+    logo: c.logo
+  })));
+
   if (viewMode === 'grid') {
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
@@ -23,11 +27,12 @@ export default function CompanyGrid({ companies, viewMode, onProductBrochureClic
             company={{
               id: company.id,
               name: company.name,
+              company: company.company,
               pavilion: company.pavilion,
               stand: company.standNumber,
               country: company.country,
               logo: company.logo,
-              logoInitials: company.name.substring(0, 2).toUpperCase(),
+              logoInitials: (company.company || company.name).substring(0, 2).toUpperCase(),
               countryCode: company.countryCode
             }}
             onProductBrochureClick={(id, name) => onProductBrochureClick(id, name)}
@@ -46,11 +51,12 @@ export default function CompanyGrid({ companies, viewMode, onProductBrochureClic
             company={{
               id: company.id,
               name: company.name,
+              company: company.company,
               pavilion: company.pavilion,
               stand: company.standNumber,
               country: company.country,
               logo: company.logo,
-              logoInitials: company.name.substring(0, 2).toUpperCase(),
+              logoInitials: (company.company || company.name).substring(0, 2).toUpperCase(),
               countryCode: company.countryCode
             }}
             onProductBrochureClick={(id, name) => onProductBrochureClick(id, name)}
@@ -76,15 +82,15 @@ export default function CompanyGrid({ companies, viewMode, onProductBrochureClic
           {companies.map((company) => (
             <tr
               key={company.id}
-              onClick={() => onProductBrochureClick(company.id, company.name)}
+              onClick={() => onProductBrochureClick(company.id, company.company)}
               className="border-t hover:bg-slate-50 cursor-pointer transition-colors"
             >
               <td className="p-4">
                 <div className="flex items-center gap-3">
                   {company.logo && (
-                    <img 
-                      src={company.logo} 
-                      alt={company.name}
+                    <img
+                      src={company.logo}
+                      alt={company.company}
                       className="w-10 h-10 rounded-lg object-cover"
                       onError={(e) => {
                         console.error('List view image error:', company.logo);
@@ -93,7 +99,10 @@ export default function CompanyGrid({ companies, viewMode, onProductBrochureClic
                     />
                   )}
                   <div>
-                    <div className="font-medium text-slate-900">{company.name}</div>
+                    <div className="font-medium text-slate-900">{company.company}</div>
+                    {company.name && company.name !== company.company && (
+                      <div className="text-sm text-slate-500">Contact: {company.name}</div>
+                    )}
                     <div className="text-sm text-slate-600 md:hidden">
                       {company.pavilion} • Stand {company.standNumber}
                     </div>

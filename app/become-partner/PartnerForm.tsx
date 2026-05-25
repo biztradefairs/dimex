@@ -1,11 +1,29 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import toast, { Toaster } from 'react-hot-toast';
 import ThankYouPopup from '@/components/ThankYouPopup';
 import ReCAPTCHA from 'react-google-recaptcha';
 
+interface Country {
+  name: string;
+}
+
+interface State {
+  name: string;
+}
+
+interface City {
+  name: string;
+}
+
 export default function PartnerRegistrationForm() {
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [states, setStates] = useState<State[]>([]);
+  const [cities, setCities] = useState<City[]>([]);
+  const [countriesLoading, setCountriesLoading] = useState(false);
+  const [statesLoading, setStatesLoading] = useState(false);
+  const [citiesLoading, setCitiesLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
@@ -20,16 +38,147 @@ export default function PartnerRegistrationForm() {
     companyName: '',
     gstin: '',
     address: '',
+    country: '',
+    state: '',
+    city: '',
     website: '',
     marketingConsent: false,
     privacyConsent: false
   });
+
+  // Fetch countries
+  useEffect(() => {
+    const fetchCountries = async () => {
+      try {
+        setCountriesLoading(true);
+        const res = await fetch("https://restcountries.com/v3.1/all?fields=name");
+        const data = await res.json();
+        const sortedCountries = data
+          .map((c: any) => ({ name: c.name.common }))
+          .sort((a: Country, b: Country) => a.name.localeCompare(b.name));
+        setCountries(sortedCountries);
+      } catch (error) {
+        console.error("Failed to fetch countries", error);
+        toast.error("Failed to load countries");
+      } finally {
+        setCountriesLoading(false);
+      }
+    };
+    fetchCountries();
+  }, []);
+
+  // Fetch states when country changes
+  useEffect(() => {
+    const fetchStates = async () => {
+      if (!formData.country) {
+        setStates([]);
+        setFormData(prev => ({ ...prev, state: '', city: '' }));
+        return;
+      }
+
+      try {
+        setStatesLoading(true);
+        
+        const response = await fetch(
+          'https://countriesnow.space/api/v0.1/countries/states',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ country: formData.country }),
+          }
+        );
+
+        const result = await response.json();
+        
+        if (result.data && result.data.states) {
+          const sortedStates = result.data.states
+            .map((state: any) => ({ name: state.name }))
+            .sort((a: State, b: State) => a.name.localeCompare(b.name));
+          
+          setStates(sortedStates);
+        } else {
+          setStates([]);
+        }
+        
+        setFormData(prev => ({ ...prev, state: '', city: '' }));
+      } catch (error) {
+        console.error("Failed to fetch states", error);
+        toast.error("Failed to load states");
+        setStates([]);
+      } finally {
+        setStatesLoading(false);
+      }
+    };
+
+    fetchStates();
+  }, [formData.country]);
+
+  // Fetch cities when state changes
+  useEffect(() => {
+    const fetchCities = async () => {
+      if (!formData.country || !formData.state) {
+        setCities([]);
+        setFormData(prev => ({ ...prev, city: '' }));
+        return;
+      }
+
+      try {
+        setCitiesLoading(true);
+        
+        const response = await fetch(
+          'https://countriesnow.space/api/v0.1/countries/state/cities',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+              country: formData.country,
+              state: formData.state 
+            }),
+          }
+        );
+
+        const result = await response.json();
+        
+        if (result.data && result.data.length > 0) {
+          const sortedCities = result.data
+            .map((city: string) => ({ name: city }))
+            .sort((a: City, b: City) => a.name.localeCompare(b.name));
+          
+          setCities(sortedCities);
+        } else {
+          setCities([]);
+        }
+        
+        setFormData(prev => ({ ...prev, city: '' }));
+      } catch (error) {
+        console.error("Failed to fetch cities", error);
+        toast.error("Failed to load cities");
+        setCities([]);
+      } finally {
+        setCitiesLoading(false);
+      }
+    };
+
+    fetchCities();
+  }, [formData.country, formData.state]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData(prev => ({ 
       ...prev, 
       [name]: type === 'checkbox' ? checked : value 
+    }));
+  };
+
+  const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ 
+      ...prev, 
+      [name]: value 
     }));
   };
 
@@ -92,10 +241,17 @@ export default function PartnerRegistrationForm() {
           companyName: '',
           gstin: '',
           address: '',
+          country: '',
+          state: '',
+          city: '',
           website: '',
           marketingConsent: false,
           privacyConsent: false
         });
+        
+        // Reset states and cities
+        setStates([]);
+        setCities([]);
         
         // Reset captcha token
         setCaptchaToken(null);
@@ -250,37 +406,119 @@ export default function PartnerRegistrationForm() {
                 placeholder="22AAAAA0000A1Z5 (Optional)"
               />
             </div>
+          </div>
 
-            {/* Address */}
-            <div className="md:col-span-2">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Address <span className="text-red-500">*</span>
-              </label>
-              <input 
-                type="text" 
-                name="address"
-                value={formData.address}
-                onChange={handleChange}
-                required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
-                placeholder="Enter company address"
-              />
-            </div>
+          {/* Address */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Address <span className="text-red-500">*</span>
+            </label>
+            <input 
+              type="text" 
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
+              required
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
+              placeholder="Enter company address"
+            />
+          </div>
 
-            {/* Company Website */}
+          {/* Country, State, City Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {/* Country */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
-                Company Website
+                Country <span className="text-red-500">*</span>
               </label>
-              <input 
-                type="url" 
-                name="website"
-                value={formData.website}
-                onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
-                placeholder="https://example.com"
-              />
+              <select
+                name="country"
+                value={formData.country}
+                onChange={handleSelectChange}
+                required
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 cursor-pointer"
+              >
+                <option value="">
+                  {countriesLoading ? "Loading countries..." : "Select Country"}
+                </option>
+                {countries.map((country) => (
+                  <option key={country.name} value={country.name}>
+                    {country.name}
+                  </option>
+                ))}
+              </select>
             </div>
+
+            {/* State */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                State <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="state"
+                value={formData.state}
+                onChange={handleSelectChange}
+                required
+                disabled={!formData.country || statesLoading}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
+              >
+                <option value="">
+                  {statesLoading 
+                    ? "Loading states..." 
+                    : !formData.country 
+                      ? "Select country first" 
+                      : "Select State"}
+                </option>
+                {states.map((state, index) => (
+                  <option key={index} value={state.name}>
+                    {state.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* City */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                City <span className="text-red-500">*</span>
+              </label>
+              <select
+                name="city"
+                value={formData.city}
+                onChange={handleSelectChange}
+                required
+                disabled={!formData.state || citiesLoading}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
+              >
+                <option value="">
+                  {citiesLoading 
+                    ? "Loading cities..." 
+                    : !formData.state 
+                      ? "Select state first" 
+                      : "Select City"}
+                </option>
+                {cities.map((city, index) => (
+                  <option key={index} value={city.name}>
+                    {city.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          {/* Company Website */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Company Website
+            </label>
+            <input 
+              type="url" 
+              name="website"
+              value={formData.website}
+              onChange={handleChange}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
+              placeholder="https://example.com"
+            />
           </div>
 
           {/* Checkboxes */}

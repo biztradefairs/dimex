@@ -7,11 +7,24 @@ import ReCAPTCHA from 'react-google-recaptcha';
 
 interface Country {
   name: string;
+  code?: string;
+}
+
+interface State {
+  name: string;
+}
+
+interface City {
+  name: string;
 }
 
 export default function BrochureForm() {
   const [countries, setCountries] = useState<Country[]>([]);
+  const [states, setStates] = useState<State[]>([]);
+  const [cities, setCities] = useState<City[]>([]);
   const [countriesLoading, setCountriesLoading] = useState(false);
+  const [statesLoading, setStatesLoading] = useState(false);
+  const [citiesLoading, setCitiesLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
@@ -30,6 +43,7 @@ export default function BrochureForm() {
 
   const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com';
 
+  // Fetch countries
   useEffect(() => {
     const fetchCountries = async () => {
       try {
@@ -49,6 +63,107 @@ export default function BrochureForm() {
     };
     fetchCountries();
   }, []);
+
+  // Fetch states when country changes (NO API KEY REQUIRED)
+  useEffect(() => {
+    const fetchStates = async () => {
+      if (!formData.country) {
+        setStates([]);
+        setFormData(prev => ({ ...prev, state: '', city: '' }));
+        return;
+      }
+
+      try {
+        setStatesLoading(true);
+        
+        // Using countriesnow API - no API key required
+        const response = await fetch(
+          'https://countriesnow.space/api/v0.1/countries/states',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ country: formData.country }),
+          }
+        );
+
+        const result = await response.json();
+        
+        if (result.data && result.data.states) {
+          const sortedStates = result.data.states
+            .map((state: any) => ({ name: state.name }))
+            .sort((a: State, b: State) => a.name.localeCompare(b.name));
+          
+          setStates(sortedStates);
+        } else {
+          setStates([]);
+        }
+        
+        setFormData(prev => ({ ...prev, state: '', city: '' }));
+      } catch (error) {
+        console.error("Failed to fetch states", error);
+        toast.error("Failed to load states");
+        setStates([]);
+      } finally {
+        setStatesLoading(false);
+      }
+    };
+
+    fetchStates();
+  }, [formData.country]);
+
+  // Fetch cities when state changes (NO API KEY REQUIRED)
+  useEffect(() => {
+    const fetchCities = async () => {
+      if (!formData.country || !formData.state) {
+        setCities([]);
+        setFormData(prev => ({ ...prev, city: '' }));
+        return;
+      }
+
+      try {
+        setCitiesLoading(true);
+        
+        // Using countriesnow API - no API key required
+        const response = await fetch(
+          'https://countriesnow.space/api/v0.1/countries/state/cities',
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+              country: formData.country,
+              state: formData.state 
+            }),
+          }
+        );
+
+        const result = await response.json();
+        
+        if (result.data && result.data.length > 0) {
+          const sortedCities = result.data
+            .map((city: string) => ({ name: city }))
+            .sort((a: City, b: City) => a.name.localeCompare(b.name));
+          
+          setCities(sortedCities);
+        } else {
+          setCities([]);
+        }
+        
+        setFormData(prev => ({ ...prev, city: '' }));
+      } catch (error) {
+        console.error("Failed to fetch cities", error);
+        toast.error("Failed to load cities");
+        setCities([]);
+      } finally {
+        setCitiesLoading(false);
+      }
+    };
+
+    fetchCities();
+  }, [formData.country, formData.state]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
@@ -96,6 +211,8 @@ export default function BrochureForm() {
           city: '',
         });
         setCaptchaToken(null);
+        setStates([]);
+        setCities([]);
       } else {
         toast.error(result.message || 'Failed to submit request. Please try again.');
       }
@@ -220,8 +337,8 @@ export default function BrochureForm() {
             <option value="">
               {countriesLoading ? "Loading countries..." : "Select Country"}
             </option>
-            {countries.map((country) => (
-              <option key={country.name} value={country.name}>
+            {countries.map((country, index) => (
+              <option key={index} value={country.name}>
                 {country.name}
               </option>
             ))}
@@ -233,29 +350,54 @@ export default function BrochureForm() {
             <label className="mb-1 block text-sm font-medium">
               State<span className="ml-1 text-red-500">*</span>
             </label>
-            <input
-              type="text"
+            <select
               name="state"
               value={formData.state}
               onChange={handleChange}
               required
-              placeholder="Enter your state"
-              className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
+              disabled={!formData.country || statesLoading}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
+            >
+              <option value="">
+                {statesLoading 
+                  ? "Loading states..." 
+                  : !formData.country 
+                    ? "Select country first" 
+                    : "Select State"}
+              </option>
+              {states.map((state, index) => (
+                <option key={index} value={state.name}>
+                  {state.name}
+                </option>
+              ))}
+            </select>
           </div>
+          
           <div>
             <label className="mb-1 block text-sm font-medium">
               City<span className="ml-1 text-red-500">*</span>
             </label>
-            <input
-              type="text"
+            <select
               name="city"
               value={formData.city}
               onChange={handleChange}
               required
-              placeholder="Enter your city"
-              className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            />
+              disabled={!formData.state || citiesLoading}
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
+            >
+              <option value="">
+                {citiesLoading 
+                  ? "Loading cities..." 
+                  : !formData.state 
+                    ? "Select state first" 
+                    : "Select City"}
+              </option>
+              {cities.map((city, index) => (
+                <option key={index} value={city.name}>
+                  {city.name}
+                </option>
+              ))}
+            </select>
           </div>
         </div>
 
@@ -299,7 +441,6 @@ export default function BrochureForm() {
         isVisible={showThankYou}
         onClose={() => setShowThankYou(false)}
         name={formData.firstName}
-        // formType="event-brochure"
       />
     </>
   );
