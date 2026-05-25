@@ -19,7 +19,7 @@ export const partnersData: PartnersData = {
       name: '',
       slug: 'icib',
       role: 'Supporting Partner',
-      logo: '',
+      logo: '/images/partners/idemi.png',
       websiteLink: '',
       description: ``,
     },
