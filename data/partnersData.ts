@@ -25,7 +25,7 @@ export const partnersData: PartnersData = {
     },
   ],
 
-  officialMediaPartner2026: [
+  officialMediaPartner: [
     {
       name: '',
       slug: 'cargo-insights',
