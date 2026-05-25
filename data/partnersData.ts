@@ -17,7 +17,7 @@ export const partnersData: PartnersData = {
   supportingPartner: [
     {
       name: '',
-      slug: 'icib',
+      slug: 'idemi',
       role: 'Supporting Partner',
       logo: '/images/partners/idemi.png',
       websiteLink: 'https://idemi.org/',
