@@ -1,406 +1,172 @@
+// components/BrochureForm.tsx
 "use client"
 
-import React, { useState, useEffect } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
-import ThankYouPopup from '@/components/ThankYouPopup';
+import React, { useState, useRef } from 'react';
+import toast from 'react-hot-toast';
 import ReCAPTCHA from 'react-google-recaptcha';
+import ThankYouPopup from '@/components/ThankYouPopup';
+import { useLocationData } from '@/hooks/useLocationData';
+import {
+  InputField, PhoneField, LocationFields,
+  SubmitButton, Icons,
+} from '@/components/FormFields';
 
-interface Country {
-  name: string;
-  code?: string;
-}
-
-interface State {
-  name: string;
-}
-
-interface City {
-  name: string;
+interface BrochureFormValues {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  companyName: string;
+  jobTitle: string;
+  country: string;
+  state: string;
+  city: string;
 }
 
 export default function BrochureForm() {
-  const [countries, setCountries] = useState<Country[]>([]);
-  const [states, setStates] = useState<State[]>([]);
-  const [cities, setCities] = useState<City[]>([]);
-  const [countriesLoading, setCountriesLoading] = useState(false);
-  const [statesLoading, setStatesLoading] = useState(false);
-  const [citiesLoading, setCitiesLoading] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showThankYou, setShowThankYou] = useState(false);
+  const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
-  
-  const [formData, setFormData] = useState({
+  const [loading, setLoading] = useState<boolean>(false);
+  const [showThanks, setShowThanks] = useState<boolean>(false);
+
+  const [form, setForm] = useState<BrochureFormValues>({
     firstName: '',
     lastName: '',
-    company: '',
-    jobTitle: '',
     email: '',
     phone: '',
+    companyName: '',
+    jobTitle: '',
     country: '',
     state: '',
     city: '',
   });
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com';
+  const {
+    countries,
+    states,
+    cities,
+    countriesLoading,
+    statesLoading,
+    citiesLoading,
+  } = useLocationData(form.country, form.state);
 
-  // Fetch countries
-  useEffect(() => {
-    const fetchCountries = async () => {
-      try {
-        setCountriesLoading(true);
-        const res = await fetch("https://restcountries.com/v3.1/all?fields=name");
-        const data = await res.json();
-        const sortedCountries = data
-          .map((c: any) => ({ name: c.name.common }))
-          .sort((a: Country, b: Country) => a.name.localeCompare(b.name));
-        setCountries(sortedCountries);
-      } catch (error) {
-        console.error("Failed to fetch countries", error);
-        toast.error("Failed to load countries");
-      } finally {
-        setCountriesLoading(false);
-      }
-    };
-    fetchCountries();
-  }, []);
+  const API_URL: string = process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com';
 
-  // Fetch states when country changes (NO API KEY REQUIRED)
-  useEffect(() => {
-    const fetchStates = async () => {
-      if (!formData.country) {
-        setStates([]);
-        setFormData(prev => ({ ...prev, state: '', city: '' }));
-        return;
-      }
-
-      try {
-        setStatesLoading(true);
-        
-        // Using countriesnow API - no API key required
-        const response = await fetch(
-          'https://countriesnow.space/api/v0.1/countries/states',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ country: formData.country }),
-          }
-        );
-
-        const result = await response.json();
-        
-        if (result.data && result.data.states) {
-          const sortedStates = result.data.states
-            .map((state: any) => ({ name: state.name }))
-            .sort((a: State, b: State) => a.name.localeCompare(b.name));
-          
-          setStates(sortedStates);
-        } else {
-          setStates([]);
-        }
-        
-        setFormData(prev => ({ ...prev, state: '', city: '' }));
-      } catch (error) {
-        console.error("Failed to fetch states", error);
-        toast.error("Failed to load states");
-        setStates([]);
-      } finally {
-        setStatesLoading(false);
-      }
-    };
-
-    fetchStates();
-  }, [formData.country]);
-
-  // Fetch cities when state changes (NO API KEY REQUIRED)
-  useEffect(() => {
-    const fetchCities = async () => {
-      if (!formData.country || !formData.state) {
-        setCities([]);
-        setFormData(prev => ({ ...prev, city: '' }));
-        return;
-      }
-
-      try {
-        setCitiesLoading(true);
-        
-        // Using countriesnow API - no API key required
-        const response = await fetch(
-          'https://countriesnow.space/api/v0.1/countries/state/cities',
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-              country: formData.country,
-              state: formData.state 
-            }),
-          }
-        );
-
-        const result = await response.json();
-        
-        if (result.data && result.data.length > 0) {
-          const sortedCities = result.data
-            .map((city: string) => ({ name: city }))
-            .sort((a: City, b: City) => a.name.localeCompare(b.name));
-          
-          setCities(sortedCities);
-        } else {
-          setCities([]);
-        }
-        
-        setFormData(prev => ({ ...prev, city: '' }));
-      } catch (error) {
-        console.error("Failed to fetch cities", error);
-        toast.error("Failed to load cities");
-        setCities([]);
-      } finally {
-        setCitiesLoading(false);
-      }
-    };
-
-    fetchCities();
-  }, [formData.country, formData.state]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    if (!captchaToken) {
-      toast.error('Please complete the CAPTCHA verification');
-      return;
+    if (process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && !captchaToken) {
+      return toast.error('Please complete the CAPTCHA');
     }
-
-    setIsSubmitting(true);
-
+    setLoading(true);
     try {
-      const response = await fetch(`${API_URL}/api/contact`, {
+      const res = await fetch(`${API_URL}/api/contact`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          ...formData,
-          formType: 'event-brochure',
+          ...form,
+          formType: 'brochure-request',
           captchaToken,
           submittedAt: new Date().toISOString(),
         }),
       });
-
-      const result = await response.json();
-
+      const result = await res.json();
       if (result.success) {
-        toast.success('Brochure request submitted successfully!');
-        setShowThankYou(true);
-        setFormData({
-          firstName: '',
-          lastName: '',
-          company: '',
-          jobTitle: '',
-          email: '',
-          phone: '',
-          country: '',
-          state: '',
-          city: '',
+        toast.success('Brochure download link sent to your email!');
+        setShowThanks(true);
+        setForm({
+          firstName: '', lastName: '', email: '', phone: '',
+          companyName: '', jobTitle: '', country: '', state: '', city: '',
         });
         setCaptchaToken(null);
-        setStates([]);
-        setCities([]);
+        recaptchaRef.current?.reset();
       } else {
-        toast.error(result.message || 'Failed to submit request. Please try again.');
+        toast.error(result.message || 'Failed to submit. Please try again.');
       }
-    } catch (error) {
+    } catch {
       toast.error('Network error. Please check your connection.');
-      console.error('Submission error:', error);
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   };
 
   return (
     <>
-      <Toaster position="top-right" />
-      
-      <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-        <h3 className="text-xl font-semibold text-[#004D9F]">
-          Download Event Brochure
-        </h3>
+      <form onSubmit={handleSubmit} className="space-y-4">
 
-        <div>
-          <label className="mb-1 block text-sm font-medium">
-            First Name<span className="ml-1 text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            name="firstName"
-            value={formData.firstName}
-            onChange={handleChange}
-            required
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            placeholder="Type your first name"
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <InputField
+            label="First Name" required icon={Icons.user}
+            type="text" name="firstName" value={form.firstName}
+            onChange={handleChange} placeholder="First name"
           />
-        </div>
-
-        <div>
-          <label className="mb-1 block text-sm font-medium">
-            Last Name<span className="ml-1 text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            name="lastName"
-            value={formData.lastName}
-            onChange={handleChange}
-            required
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            placeholder="Type your last name"
+          <InputField
+            label="Last Name" required icon={Icons.user}
+            type="text" name="lastName" value={form.lastName}
+            onChange={handleChange} placeholder="Last name"
           />
-        </div>
-
-        <div>
-          <label className="mb-1 block text-sm font-medium">
-            Company Name<span className="ml-1 text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            name="company"
-            value={formData.company}
-            onChange={handleChange}
-            required
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            placeholder="Company name"
-          />
-        </div>
-
-        <div>
-          <label className="mb-1 block text-sm font-medium">
-            Job Title<span className="ml-1 text-red-500">*</span>
-          </label>
-          <input
-            type="text"
-            name="jobTitle"
-            value={formData.jobTitle}
-            onChange={handleChange}
-            required
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            placeholder="Job title"
-          />
-        </div>
-
-        <div>
-          <label className="mb-1 block text-sm font-medium">
-            Work Email<span className="ml-1 text-red-500">*</span>
-          </label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            placeholder="you@company.com"
-          />
-        </div>
-
-        <div>
-          <label className="mb-1 block text-sm font-medium">
-            Phone<span className="ml-1 text-red-500">*</span>
-          </label>
-          <input
-            type="tel"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-            required
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-            placeholder="Phone number"
-          />
-        </div>
-
-        <div>
-          <label className="mb-1 block text-sm font-medium">
-            Country<span className="ml-1 text-red-500">*</span>
-          </label>
-          <select
-            name="country"
-            value={formData.country}
-            onChange={handleChange}
-            required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer"
-          >
-            <option value="">
-              {countriesLoading ? "Loading countries..." : "Select Country"}
-            </option>
-            {countries.map((country, index) => (
-              <option key={index} value={country.name}>
-                {country.name}
-              </option>
-            ))}
-          </select>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <label className="mb-1 block text-sm font-medium">
-              State<span className="ml-1 text-red-500">*</span>
-            </label>
-            <select
-              name="state"
-              value={formData.state}
-              onChange={handleChange}
-              required
-              disabled={!formData.country || statesLoading}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
-            >
-              <option value="">
-                {statesLoading 
-                  ? "Loading states..." 
-                  : !formData.country 
-                    ? "Select country first" 
-                    : "Select State"}
-              </option>
-              {states.map((state, index) => (
-                <option key={index} value={state.name}>
-                  {state.name}
-                </option>
-              ))}
-            </select>
-          </div>
-          
-          <div>
-            <label className="mb-1 block text-sm font-medium">
-              City<span className="ml-1 text-red-500">*</span>
-            </label>
-            <select
-              name="city"
-              value={formData.city}
-              onChange={handleChange}
-              required
-              disabled={!formData.state || citiesLoading}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
-            >
-              <option value="">
-                {citiesLoading 
-                  ? "Loading cities..." 
-                  : !formData.state 
-                    ? "Select state first" 
-                    : "Select City"}
-              </option>
-              {cities.map((city, index) => (
-                <option key={index} value={city.name}>
-                  {city.name}
-                </option>
-              ))}
-            </select>
-          </div>
+          <InputField
+            label="Work Email" required icon={Icons.email}
+            type="email" name="email" value={form.email}
+            onChange={handleChange} placeholder="name@company.com"
+          />
+          <PhoneField
+            label="Phone Number" required
+            name="phone" value={form.phone}
+            onChange={handleChange} placeholder="98765 43210"
+          />
         </div>
 
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <InputField
+            label="Company Name" required icon={Icons.building}
+            type="text" name="companyName" value={form.companyName}
+            onChange={handleChange} placeholder="Your company name"
+          />
+          <InputField
+            label="Job Title" required icon={Icons.briefcase}
+            type="text" name="jobTitle" value={form.jobTitle}
+            onChange={handleChange} placeholder="Your job title"
+          />
+        </div>
+
+        {/* Location */}
+        <LocationFields
+          prefix="br"
+          country={form.country} state={form.state} city={form.city}
+          onCountryChange={(v: any) => setForm(p => ({ ...p, country: v, state: '', city: '' }))}
+          onStateChange={(v: any) => setForm(p => ({ ...p, state: v, city: '' }))}
+          onCityChange={(v: any) => setForm(p => ({ ...p, city: v }))}
+          countries={countries} states={states} cities={cities}
+          countriesLoading={countriesLoading} statesLoading={statesLoading} citiesLoading={citiesLoading}
+          layout="1+2"
+        />
+
+        {/* Terms */}
+        <div className="flex items-start gap-3 pt-1">
+          <input
+            type="checkbox"
+            id="br-terms"
+            required
+            className="mt-0.5 h-4 w-4 accent-[#1e3a6e] cursor-pointer shrink-0"
+          />
+          <label htmlFor="br-terms" className="text-xs text-gray-600 leading-relaxed cursor-pointer">
+            I agree to the{' '}
+            <a href="/terms" className="text-blue-600 hover:underline">Terms & Conditions</a>
+            {' '}and{' '}
+            <a href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</a>.{' '}
+            <span className="text-red-500">*</span>
+          </label>
+        </div>
+
+        {/* CAPTCHA */}
         <div className="rounded border bg-gray-50 p-4">
           <div className="flex justify-center pt-4">
             <ReCAPTCHA
@@ -411,36 +177,13 @@ export default function BrochureForm() {
           </div>
         </div>
 
-        <button
-          type="submit"
-          disabled={isSubmitting || !captchaToken}
-          className={`mt-4 w-fit rounded px-6 py-2 text-sm font-medium text-white ${
-            isSubmitting || !captchaToken
-              ? 'bg-gray-400 cursor-not-allowed'
-              : 'bg-[#004D9F] hover:opacity-90'
-          }`}
-        >
-          {isSubmitting ? 'Processing...' : 'Download Brochure'}
-        </button>
-
-        <p className="text-[11px] leading-relaxed text-gray-600">
-          By submitting this form, you agree to receive marketing
-          communications. You can unsubscribe anytime. Read our{' '}
-          <a
-            href="/privacy-policy"
-            className="text-blue-600 underline"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Privacy Policy
-          </a>.
-        </p>
+        <SubmitButton loading={loading} label="Download Brochure" />
       </form>
 
       <ThankYouPopup
-        isVisible={showThankYou}
-        onClose={() => setShowThankYou(false)}
-        name={formData.firstName}
+        isVisible={showThanks}
+        onClose={() => setShowThanks(false)}
+        name={form.firstName}
       />
     </>
   );

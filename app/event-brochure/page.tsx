@@ -4,6 +4,7 @@ import BrochureForm from "@/components/BrochureForm"
 import PartnersSlider from "@/components/section/PartnersSection"
 import SectionContainer from "@/components/UI/SectionContainer"
 import BackToTop from "../exhibitor-resource-center/component/BackToTop"
+import DiemexTabbedFormWrapper from "@/components/diemextabbedform"
 
 export const metadata: Metadata = {
   title: "Event Brochure |Diemex 2026",
@@ -13,107 +14,28 @@ export const metadata: Metadata = {
 export default function BrochurePage() {
   return (
     <main className="bg-white font-parabolica">
-      {/* HEADER */}
-      <div className="bg-[#F4FAFF] pt-48 pb-10">
-        <SectionContainer>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-black">
-            Browse Through Your Event Brochure
-          </h1>
-          <p className="mt-4 max-w-4xl text-lg text-gray-600">
-            Almost there, your brochure is waiting for you to download
-          </p>
-        </SectionContainer>
-      </div>
-
-      {/* MAIN CONTENT */}
-      <section className="py-16">
-        <SectionContainer>
-          <div className="grid gap-12 lg:grid-cols-[1.6fr_1fr]">
-            {/* LEFT CONTENT */}
-            <div>
-              <div className="max-w-3xl">
-                <h2 className="mt-5 text-4xl font-semibold  text-[#4D4D4D] lg:text-5xl">
-                  Your Roadmap to DIEMEX 2026
-                </h2>
-
-                <p className="mt-6 text-lg leading-relaxed text-gray-700">
-                  Position your brand at the centre of India’s fast-growing die, mould, and precision 
-                  manufacturing market. As a leading B2B exhibition for die & mould, tooling, and advanced 
-                  manufacturing technologies, <strong className=" text-[#4D4D4D]">DIEMEX</strong> connects global solution providers with qualified buyers, 
-                  OEMs, and decision-makers from across India and international markets. 
-                </p>
-
-                <hr className="my-10 border-gray-300" />
-
-                <h3 className="text-3xl font-semibold  text-[#4D4D4D] lg:text-4xl">
-                  Download the Event Brochure to:
-                </h3>
-
-                <ul className="mt-6 space-y-4 pl-6 text-lg text-gray-700">
-                  <li className="list-disc">Explore exhibitor opportunities and tailored participation packages.</li>
-                  <li className="list-disc">Understand visitor demographics, cargo volumes, and purchasing trends.
-</li>
-                  <li className="list-disc">
-                    Discover how DIEMEX delivers measurable ROI, qualified leads, and long-term business growth.
-                  </li>
-                </ul>
-
-                <hr className="my-12 border-gray-300" />
-
-                <h3 className="mb-8 text-3xl font-semibold text-gray-900">
-                  DIEMEX at a Glance
-                </h3>
-
-                <div className="grid grid-cols-2 gap-x-10 gap-y-12">
-                  <div>
-                    <p className="text-5xl font-bold  text-[#4D4D4D]">3rd Edition</p>
-                    <p className="mt-2 text-xl text-gray-700">2 Successful Editions Completed</p>
-                  </div>
-                  <div>
-                    <p className="text-5xl font-bold  text-[#4D4D4D]">Growing</p>
-                    <p className="mt-2 text-xl text-gray-700">Exhibitor Participation</p>
-                  </div>
-                  <div>
-                    <p className="text-5xl font-bold  text-[#4D4D4D]">Strong</p>
-                    <p className="mt-2 text-xl text-gray-700">Buyer & OEM Engagement</p>
-                  </div>
-                  <div>
-                    <p className="text-5xl font-bold  text-[#4D4D4D]">5+</p>
-                    <p className="mt-2 text-xl text-gray-700">Countries Expecting</p>
-                  </div>
-                </div>
-
-                <div className="mt-20 flex justify-center">
-                  <div className="relative">
-                    <img
-                      src="/images/Why-Exhibit/brochure.png"
-                      alt="Event Brochure Mockup"
-                      width={420}
-                      height={420}
-                      className="rotate-[-8deg] transform shadow-2xl"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT FORM */}
-            <div className="relative">
-              <div className="sticky top-32">
-                <BrochureForm />
-              </div>
-            </div>
+          {/* HEADER */}
+          <div className="bg-[#F4FAFF] pt-48 pb-10">
+            <SectionContainer>
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-black">
+                Download Event Brochure
+              </h1>
+              <p className="mt-4 max-w-4xl text-lg text-gray-600">
+                Please complete the form below and our team will send you the complete event brochure.
+              </p>
+            </SectionContainer>
           </div>
-        </SectionContainer>
-      </section>
-
-      {/* PARTNERS */}
-      <section className="py-20 bg-gray-50">
-        <SectionContainer>
-          <PartnersSlider />
-        </SectionContainer>
-      </section>
-      <BackToTop/>
-    </main>
+    
+          {/* FORM - With max width constraint */}
+          <section className="py-16">
+            <div className="w-full px-4 sm:px-6 lg:px-8 mx-auto max-w-7xl">
+              <DiemexTabbedFormWrapper
+                defaultTab="brochure"
+                headerTitle="Download Event Brochure"
+                headerSubtitle="Please fill in the details below and we will send you the complete event brochure."
+              />
+            </div>
+          </section>
+        </main>
   )
 }
