@@ -170,45 +170,53 @@ const PartnersSponsorsPage: React.FC = () => {
   const sections = [
     {
       title: "Supporting Partner 2026",
-      partners: partnersData.supportingPartner2026,
-      key: "supporting"
+      partners: partnersData.supportingPartner2026 ?? [],
+      key: "supporting",
     },
     {
       title: "Official Media Partner 2026",
-      partners: partnersData.officialMediaPartner2026,
-      key: "official-media"
+      partners: partnersData.officialMediaPartner2026 ?? [],
+      key: "official-media",
     },
     {
       title: "",
-      partners: partnersData.transRussiaOfficialBank,
-      key: "official-bank"
+      partners: partnersData.transRussiaOfficialBank ?? [],
+      key: "official-bank",
     },
     {
       title: "Wi-Fi Partner",
-      partners: partnersData.wifiPartner,
-      key: "wifi"
+      partners: partnersData.wifiPartner ?? [],
+      key: "wifi",
     },
     {
       title: "",
-      partners: partnersData.coOrganizer,
-      key: "co-organizer"
+      partners: partnersData.coOrganizer ?? [],
+      key: "co-organizer",
     },
     {
       title: "",
-      partners: partnersData.businessProgramPartner,
-      key: "business-program"
+      partners: partnersData.businessProgramPartner ?? [],
+      key: "business-program",
     },
     {
       title: "Media Partners",
-      partners: partnersData.mediaPartners,
-      key: "media-partners"
+      partners: partnersData.mediaPartners ?? [],
+      key: "media-partners",
     },
   ];
 
   /* ===================== RENDER ===================== */
 
   return (
+    console.log(
+      sections.map((s) => ({
+        key: s.key,
+        partners: s.partners,
+        isArray: Array.isArray(s.partners),
+      }))
+    ),
     <>
+    
     <div className="">
       {/* HERO */}
       <motion.section
