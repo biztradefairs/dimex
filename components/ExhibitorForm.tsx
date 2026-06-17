@@ -6,10 +6,12 @@ import toast from 'react-hot-toast';
 import ReCAPTCHA from 'react-google-recaptcha';
 import ThankYouPopup from '@/components/ThankYouPopup';
 import { useLocationData } from '@/hooks/useLocationData';
+import { useUTMData } from '@/hooks/useUTMTracker';
 import {
     InputField, SelectField, PhoneField,
     LocationFields, SubmitButton, Icons,
 } from '@/components/FormFields';
+import { graphqlRequest, FORM_QUERIES, PROJECT_ID_VAR } from '@/lib/graphql-client';
 
 const STAND_SIZES = [
     '9 sqm (3x3)', '12 sqm (3x4)', '15 sqm (3x5)', '18 sqm (3x6)',
@@ -47,6 +49,7 @@ export default function ExhibitorForm() {
     const [captchaToken, setCaptchaToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [showThanks, setShowThanks] = useState(false);
+    const { utmData, campaign } = useUTMData();
 
     const [form, setForm] = useState({
         interestLevel: '',
@@ -66,8 +69,6 @@ export default function ExhibitorForm() {
 
     const { countries, states, cities, countriesLoading, statesLoading, citiesLoading } =
         useLocationData(form.country, form.state);
-
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com';
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         const { name, value, type } = e.target as HTMLInputElement;
@@ -90,31 +91,56 @@ export default function ExhibitorForm() {
         if (!form.productSector.length) return toast.error('Please select at least one product sector');
         setLoading(true);
         try {
-            const res = await fetch(`${API_URL}/api/contact`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    firstName: form.contactPerson?.split(' ')[0] || '',
-                    lastName: form.contactPerson?.split(' ').slice(1).join(' ') || '',
-                    companyName: form.companyName,
-                    jobTitle: form.jobTitle,
-                    email: form.email,
-                    phone: form.phone,
-                    country: form.country,
-                    state: form.state,
-                    city: form.city,
-                    standSize: form.standSize,
-                    industry: form.industry,
-                    productSector: form.productSector,
-                    message: form.message,
-                    interestLevel: form.interestLevel,
-                    formType: 'exhibitor-enquiry',
-                    captchaToken,
-                    submittedAt: new Date().toISOString(),
-                }),
-            });
-            const result = await res.json();
-            if (result.success) {
+            const result = await graphqlRequest<{ submitContact: { success: boolean; message: string; contactId: string } }>(
+                FORM_QUERIES.submitContact,
+                {
+                    projectId: PROJECT_ID_VAR.projectId,
+                    input: {
+                        // Form fields
+                        firstName: form.contactPerson?.split(' ')[0] || '',
+                        lastName: form.contactPerson?.split(' ').slice(1).join(' ') || '',
+                        contactPerson: form.contactPerson,
+                        companyName: form.companyName,
+                        jobTitle: form.jobTitle,
+                        email: form.email,
+                        phone: form.phone,
+                        country: form.country,
+                        state: form.state,
+                        city: form.city,
+                        standSize: form.standSize,
+                        industry: form.industry,
+                        productSector: form.productSector,
+                        message: form.message,
+                        interestLevel: form.interestLevel,
+                        formType: 'exhibitor-enquiry',
+                        captchaToken,
+                        submittedAt: new Date().toISOString(),
+                        // UTM Tracking Data
+                        utmSource: utmData?.utm_source || '',
+                        utmMedium: utmData?.utm_medium || '',
+                        utmCampaign: utmData?.utm_campaign || '',
+                        utmTerm: utmData?.utm_term || '',
+                        utmContent: utmData?.utm_content || '',
+                        utmId: utmData?.utm_id || '',
+                        referrer: utmData?.referrer || '',
+                        landingPage: utmData?.landingPage || '',
+                        utmTimestamp: utmData?.timestamp || '',
+                        // CMS Campaign Data
+                        cmsCampaignId: campaign?.id || '',
+                        cmsCampaignName: campaign?.name || '',
+                        cmsCampaignSource: campaign?.utm_source || '',
+                        cmsCampaignMedium: campaign?.utm_medium || '',
+                    }
+                }
+            );
+
+            if (result.errors) {
+                toast.error(result.errors[0]?.message || 'Failed to submit');
+                return;
+            }
+
+            const data = result.data?.submitContact;
+            if (data?.success) {
                 toast.success('Enquiry submitted! Our team will contact you soon.');
                 setShowThanks(true);
                 setForm({
@@ -125,9 +151,10 @@ export default function ExhibitorForm() {
                 setCaptchaToken(null);
                 recaptchaRef.current?.reset();
             } else {
-                toast.error(result.message || 'Failed to submit. Please try again.');
+                toast.error(data?.message || 'Failed to submit. Please try again.');
             }
-        } catch {
+        } catch (error) {
+            console.error('Error submitting form:', error);
             toast.error('Network error. Please check your connection.');
         } finally {
             setLoading(false);
@@ -137,8 +164,6 @@ export default function ExhibitorForm() {
     return (
         <>
             <form onSubmit={handleSubmit} className="space-y-4">
-
-                {/* Interest Level */}
                 <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-semibold text-gray-700 tracking-wide">
                         Interest Level <span className="text-red-500">*</span>
@@ -161,7 +186,6 @@ export default function ExhibitorForm() {
                     </div>
                 </div>
 
-                {/* Company + Contact */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <InputField
                         label="Company Name" required icon={Icons.building}
@@ -175,7 +199,6 @@ export default function ExhibitorForm() {
                     />
                 </div>
 
-                {/* Job Title + Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <InputField
                         label="Job Title" required icon={Icons.briefcase}
@@ -189,7 +212,6 @@ export default function ExhibitorForm() {
                     />
                 </div>
 
-                {/* Phone + Industry */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <PhoneField
                         label="Phone Number" required
@@ -206,7 +228,6 @@ export default function ExhibitorForm() {
                     </SelectField>
                 </div>
 
-                {/* Location */}
                 <LocationFields
                     prefix="ex"
                     country={form.country} state={form.state} city={form.city}
@@ -218,7 +239,6 @@ export default function ExhibitorForm() {
                     layout="1+2"
                 />
 
-                {/* Booth Size */}
                 <SelectField
                     label="Booth Size Interested In" required icon={Icons.grid}
                     name="standSize" value={form.standSize}
@@ -228,7 +248,6 @@ export default function ExhibitorForm() {
                     {STAND_SIZES.map(s => <option key={s} value={s}>{s}</option>)}
                 </SelectField>
 
-                {/* Products / Services */}
                 <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-semibold text-gray-700 tracking-wide">
                         Products / Services <span className="text-red-500">*</span>
@@ -254,7 +273,6 @@ export default function ExhibitorForm() {
                     </div>
                 </div>
 
-                {/* Message */}
                 <div className="flex flex-col gap-1.5">
                     <label className="text-xs font-semibold text-gray-700 tracking-wide">Message (If any)</label>
                     <textarea
@@ -267,7 +285,6 @@ export default function ExhibitorForm() {
                     />
                 </div>
 
-                {/* Consent */}
                 <div className="space-y-2">
                     <div className="flex items-start gap-3">
                         <input type="checkbox" id="ex-terms" required
@@ -289,15 +306,18 @@ export default function ExhibitorForm() {
                     </div>
                 </div>
 
-                <div className="rounded border bg-gray-50 p-4">
-                    <div className="flex justify-center pt-4">
-                        <ReCAPTCHA
-                            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-                            onChange={(token) => setCaptchaToken(token)}
-                            onExpired={() => setCaptchaToken(null)}
-                        />
+                {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
+                    <div className="rounded border bg-gray-50 p-4">
+                        <div className="flex justify-center pt-4">
+                            <ReCAPTCHA
+                                ref={recaptchaRef}
+                                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                                onChange={(token) => setCaptchaToken(token)}
+                                onExpired={() => setCaptchaToken(null)}
+                            />
+                        </div>
                     </div>
-                </div>
+                )}
 
                 <SubmitButton loading={loading} label="Submit" />
             </form>

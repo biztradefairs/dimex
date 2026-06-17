@@ -6,10 +6,12 @@ import toast from 'react-hot-toast';
 import ReCAPTCHA from 'react-google-recaptcha';
 import ThankYouPopup from '@/components/ThankYouPopup';
 import { useLocationData } from '@/hooks/useLocationData';
+import { useUTMData } from '@/hooks/useUTMTracker';
 import {
     InputField, SelectField, PhoneField,
     LocationFields, SubmitButton, Icons,
 } from '@/components/FormFields';
+import { graphqlRequest, FORM_QUERIES, PROJECT_ID_VAR } from '@/lib/graphql-client';
 
 const VISITOR_PROFILES = [
     { value: 'Automotive', label: 'Automotive (Auto OEMs, Auto Ancillary)' },
@@ -33,6 +35,7 @@ export default function EnquiryForm() {
     const [loading, setLoading] = useState(false);
     const [termsAccepted, setTerms] = useState(false);
     const [showThanks, setShowThanks] = useState(false);
+    const { utmData, campaign } = useUTMData();
 
     const [form, setForm] = useState({
         name: '', designation: '', company: '', address: '',
@@ -42,8 +45,6 @@ export default function EnquiryForm() {
 
     const { countries, states, cities, countriesLoading, statesLoading, citiesLoading } =
         useLocationData(form.country, form.state);
-
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com';
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
@@ -58,20 +59,55 @@ export default function EnquiryForm() {
         }
         setLoading(true);
         try {
-            const res = await fetch(`${API_URL}/api/contact`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...form,
-                    firstName: form.name.split(' ')[0] || '',
-                    lastName: form.name.split(' ').slice(1).join(' ') || '',
-                    formType: 'visitor-registration',
-                    captchaToken,
-                    submittedAt: new Date().toISOString(),
-                }),
-            });
-            const result = await res.json();
-            if (result.success) {
+            const result = await graphqlRequest<{ submitContact: { success: boolean; message: string; contactId: string } }>(
+                FORM_QUERIES.submitContact,
+                {
+                    projectId: PROJECT_ID_VAR.projectId,
+                    input: {
+                        // Form fields
+                        name: form.name,
+                        firstName: form.name.split(' ')[0] || '',
+                        lastName: form.name.split(' ').slice(1).join(' ') || '',
+                        designation: form.designation,
+                        company: form.company,
+                        address: form.address,
+                        pincode: form.pincode,
+                        email: form.email,
+                        mobile: form.mobile,
+                        profile: form.profile,
+                        promocode: form.promocode,
+                        country: form.country,
+                        state: form.state,
+                        city: form.city,
+                        formType: 'visitor-registration',
+                        captchaToken,
+                        submittedAt: new Date().toISOString(),
+                        // UTM Tracking Data
+                        utmSource: utmData?.utm_source || '',
+                        utmMedium: utmData?.utm_medium || '',
+                        utmCampaign: utmData?.utm_campaign || '',
+                        utmTerm: utmData?.utm_term || '',
+                        utmContent: utmData?.utm_content || '',
+                        utmId: utmData?.utm_id || '',
+                        referrer: utmData?.referrer || '',
+                        landingPage: utmData?.landingPage || '',
+                        utmTimestamp: utmData?.timestamp || '',
+                        // CMS Campaign Data
+                        cmsCampaignId: campaign?.id || '',
+                        cmsCampaignName: campaign?.name || '',
+                        cmsCampaignSource: campaign?.utm_source || '',
+                        cmsCampaignMedium: campaign?.utm_medium || '',
+                    }
+                }
+            );
+
+            if (result.errors) {
+                toast.error(result.errors[0]?.message || 'Failed to submit');
+                return;
+            }
+
+            const data = result.data?.submitContact;
+            if (data?.success) {
                 toast.success('Registration submitted successfully!');
                 setShowThanks(true);
                 setForm({
@@ -83,9 +119,10 @@ export default function EnquiryForm() {
                 setCaptchaToken(null);
                 recaptchaRef.current?.reset();
             } else {
-                toast.error(result.message || 'Failed to submit. Please try again.');
+                toast.error(data?.message || 'Failed to submit. Please try again.');
             }
-        } catch {
+        } catch (error) {
+            console.error('Error submitting form:', error);
             toast.error('Network error. Please check your connection.');
         } finally {
             setLoading(false);
@@ -95,7 +132,6 @@ export default function EnquiryForm() {
     return (
         <>
             <form onSubmit={handleSubmit} className="space-y-4">
-
                 <InputField
                     label="Contact Person" required icon={Icons.user}
                     type="text" name="name" value={form.name}
@@ -128,7 +164,6 @@ export default function EnquiryForm() {
                     />
                 </div>
 
-                {/* Location */}
                 <LocationFields
                     prefix="en"
                     country={form.country} state={form.state} city={form.city}
@@ -140,7 +175,6 @@ export default function EnquiryForm() {
                     layout="1+2"
                 />
 
-                {/* Profile */}
                 <SelectField
                     label="Profile" required icon={Icons.grid}
                     name="profile" value={form.profile}
@@ -150,7 +184,6 @@ export default function EnquiryForm() {
                     {VISITOR_PROFILES.map(p => <option key={p.value} value={p.value}>{p.label}</option>)}
                 </SelectField>
 
-                {/* Terms */}
                 <div className="flex items-start gap-3 pt-1">
                     <input
                         type="checkbox"
@@ -167,15 +200,18 @@ export default function EnquiryForm() {
                     </label>
                 </div>
 
-                <div className="rounded border bg-gray-50 p-4">
-                    <div className="flex justify-center pt-4">
-                        <ReCAPTCHA
-                            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-                            onChange={(token) => setCaptchaToken(token)}
-                            onExpired={() => setCaptchaToken(null)}
-                        />
+                {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
+                    <div className="rounded border bg-gray-50 p-4">
+                        <div className="flex justify-center pt-4">
+                            <ReCAPTCHA
+                                ref={recaptchaRef}
+                                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                                onChange={(token) => setCaptchaToken(token)}
+                                onExpired={() => setCaptchaToken(null)}
+                            />
+                        </div>
                     </div>
-                </div>
+                )}
 
                 <SubmitButton loading={loading} label="Submit" />
             </form>

@@ -3,15 +3,12 @@
 
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-
-interface Country { name: string; }
-interface State { name: string; }
-interface City { name: string; }
+import { LocationItem } from '@/components/FormFields';
 
 export function useLocationData(country: string, state: string) {
-    const [countries, setCountries] = useState<Country[]>([]);
-    const [states, setStates] = useState<State[]>([]);
-    const [cities, setCities] = useState<City[]>([]);
+    const [countries, setCountries] = useState<LocationItem[]>([]);
+    const [states, setStates] = useState<LocationItem[]>([]);
+    const [cities, setCities] = useState<LocationItem[]>([]);
     const [countriesLoading, setCountriesLoading] = useState(false);
     const [statesLoading, setStatesLoading] = useState(false);
     const [citiesLoading, setCitiesLoading] = useState(false);
@@ -25,9 +22,12 @@ export function useLocationData(country: string, state: string) {
                 const result = await res.json();
                 if (result.data?.length) {
                     const sorted = result.data
-                        .map((item: any) => ({ name: item.name || '' }))
-                        .filter((c: Country) => c.name)
-                        .sort((a: Country, b: Country) => a.name.localeCompare(b.name));
+                        .map((item: any) => ({
+                            id: item.name || '',
+                            name: item.name || ''
+                        }))
+                        .filter((c: LocationItem) => c.name)
+                        .sort((a: LocationItem, b: LocationItem) => a.name.localeCompare(b.name));
                     setCountries(sorted);
                 } else {
                     setCountries(FALLBACK_COUNTRIES);
@@ -59,8 +59,11 @@ export function useLocationData(country: string, state: string) {
                 const result = await res.json();
                 if (result.data?.states?.length) {
                     const sorted = result.data.states
-                        .map((s: any) => ({ name: s.name }))
-                        .sort((a: State, b: State) => a.name.localeCompare(b.name));
+                        .map((s: any) => ({
+                            id: s.name || '',
+                            name: s.name || ''
+                        }))
+                        .sort((a: LocationItem, b: LocationItem) => a.name.localeCompare(b.name));
                     setStates(sorted);
                 } else {
                     setStates([]);
@@ -92,8 +95,11 @@ export function useLocationData(country: string, state: string) {
                 const result = await res.json();
                 if (result.data?.length) {
                     const sorted = result.data
-                        .map((c: string) => ({ name: c }))
-                        .sort((a: City, b: City) => a.name.localeCompare(b.name));
+                        .map((c: string) => ({
+                            id: c || '',
+                            name: c || ''
+                        }))
+                        .sort((a: LocationItem, b: LocationItem) => a.name.localeCompare(b.name));
                     setCities(sorted);
                 } else {
                     setCities([]);
@@ -111,8 +117,14 @@ export function useLocationData(country: string, state: string) {
     return { countries, states, cities, countriesLoading, statesLoading, citiesLoading };
 }
 
-const FALLBACK_COUNTRIES: Country[] = [
-    { name: 'India' }, { name: 'United States' }, { name: 'United Kingdom' },
-    { name: 'Germany' }, { name: 'France' }, { name: 'China' },
-    { name: 'Japan' }, { name: 'Australia' }, { name: 'Canada' },
+const FALLBACK_COUNTRIES: LocationItem[] = [
+    { id: 'India', name: 'India' },
+    { id: 'United States', name: 'United States' },
+    { id: 'United Kingdom', name: 'United Kingdom' },
+    { id: 'Germany', name: 'Germany' },
+    { id: 'France', name: 'France' },
+    { id: 'China', name: 'China' },
+    { id: 'Japan', name: 'Japan' },
+    { id: 'Australia', name: 'Australia' },
+    { id: 'Canada', name: 'Canada' },
 ];

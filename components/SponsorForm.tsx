@@ -6,16 +6,19 @@ import toast from 'react-hot-toast';
 import ReCAPTCHA from 'react-google-recaptcha';
 import ThankYouPopup from '@/components/ThankYouPopup';
 import { useLocationData } from '@/hooks/useLocationData';
+import { useUTMData } from '@/hooks/useUTMTracker';
 import {
     InputField, PhoneField, LocationFields,
     ConsentCheckbox, SubmitButton, Icons,
 } from '@/components/FormFields';
+import { graphqlRequest, FORM_QUERIES, PROJECT_ID_VAR } from '@/lib/graphql-client';
 
 export default function SponsorForm() {
     const recaptchaRef = useRef<any>(null);
     const [captchaToken, setCaptchaToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [showThanks, setShowThanks] = useState(false);
+    const { utmData, campaign } = useUTMData();
 
     const [form, setForm] = useState({
         firstName: '',
@@ -37,8 +40,6 @@ export default function SponsorForm() {
     const { countries, states, cities, countriesLoading, statesLoading, citiesLoading } =
         useLocationData(form.country, form.state);
 
-    const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com';
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value, type, checked } = e.target;
         setForm(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
@@ -53,18 +54,55 @@ export default function SponsorForm() {
         if (!captchaToken) return toast.error('Please complete the reCAPTCHA');
         setLoading(true);
         try {
-            const res = await fetch(`${API_URL}/api/contact`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ...form,
-                    formType: 'partner-registration',
-                    captchaToken,
-                    submittedAt: new Date().toISOString(),
-                }),
-            });
-            const result = await res.json();
-            if (result.success) {
+            const result = await graphqlRequest<{ submitContact: { success: boolean; message: string; contactId: string } }>(
+                FORM_QUERIES.submitContact,
+                {
+                    projectId: PROJECT_ID_VAR.projectId,
+                    input: {
+                        // Form fields
+                        firstName: form.firstName,
+                        lastName: form.lastName,
+                        jobTitle: form.jobTitle,
+                        email: form.email,
+                        phone: form.phone,
+                        companyName: form.companyName,
+                        gstin: form.gstin,
+                        address: form.address,
+                        country: form.country,
+                        state: form.state,
+                        city: form.city,
+                        website: form.website,
+                        marketingConsent: form.marketingConsent,
+                        privacyConsent: form.privacyConsent,
+                        formType: 'partner-registration',
+                        captchaToken,
+                        submittedAt: new Date().toISOString(),
+                        // UTM Tracking Data
+                        utmSource: utmData?.utm_source || '',
+                        utmMedium: utmData?.utm_medium || '',
+                        utmCampaign: utmData?.utm_campaign || '',
+                        utmTerm: utmData?.utm_term || '',
+                        utmContent: utmData?.utm_content || '',
+                        utmId: utmData?.utm_id || '',
+                        referrer: utmData?.referrer || '',
+                        landingPage: utmData?.landingPage || '',
+                        utmTimestamp: utmData?.timestamp || '',
+                        // CMS Campaign Data
+                        cmsCampaignId: campaign?.id || '',
+                        cmsCampaignName: campaign?.name || '',
+                        cmsCampaignSource: campaign?.utm_source || '',
+                        cmsCampaignMedium: campaign?.utm_medium || '',
+                    }
+                }
+            );
+
+            if (result.errors) {
+                toast.error(result.errors[0]?.message || 'Failed to submit');
+                return;
+            }
+
+            const data = result.data?.submitContact;
+            if (data?.success) {
                 toast.success('Partner registration submitted successfully!');
                 setShowThanks(true);
                 setForm({
@@ -76,9 +114,10 @@ export default function SponsorForm() {
                 setCaptchaToken(null);
                 recaptchaRef.current?.reset();
             } else {
-                toast.error(result.message || 'Failed to submit registration.');
+                toast.error(data?.message || 'Failed to submit registration.');
             }
-        } catch {
+        } catch (error) {
+            console.error('Error submitting form:', error);
             toast.error('Network error. Please check your connection.');
         } finally {
             setLoading(false);
@@ -88,8 +127,6 @@ export default function SponsorForm() {
     return (
         <>
             <form onSubmit={handleSubmit} className="space-y-4">
-
-                {/* First + Last name */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <InputField
                         label="First Name" required icon={Icons.user}
@@ -103,7 +140,6 @@ export default function SponsorForm() {
                     />
                 </div>
 
-                {/* Job Title + Email */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <InputField
                         label="Job Title" required icon={Icons.briefcase}
@@ -117,7 +153,6 @@ export default function SponsorForm() {
                     />
                 </div>
 
-                {/* Phone */}
                 <PhoneField
                     label="Mobile Phone" required
                     name="phone" value={form.phone}
@@ -127,7 +162,6 @@ export default function SponsorForm() {
                     hint="Enter 10-digit mobile number"
                 />
 
-                {/* Company + GSTIN */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <InputField
                         label="Company Name" required icon={Icons.building}
@@ -141,14 +175,12 @@ export default function SponsorForm() {
                     />
                 </div>
 
-                {/* Address */}
                 <InputField
                     label="Address" required
                     type="text" name="address" value={form.address}
                     onChange={handleChange} placeholder="Company address"
                 />
 
-                {/* Location */}
                 <LocationFields
                     prefix="sp"
                     country={form.country} state={form.state} city={form.city}
@@ -160,14 +192,12 @@ export default function SponsorForm() {
                     layout="3-col"
                 />
 
-                {/* Website */}
                 <InputField
                     label="Company Website" icon={Icons.web}
                     type="url" name="website" value={form.website}
                     onChange={handleChange} placeholder="https://example.com"
                 />
 
-                {/* Consent */}
                 <div className="space-y-2 pt-1">
                     <ConsentCheckbox
                         id="sp-mkt" name="marketingConsent"
@@ -191,15 +221,18 @@ export default function SponsorForm() {
                     </ConsentCheckbox>
                 </div>
 
-                <div className="rounded border bg-gray-50 p-4">
-                    <div className="flex justify-center pt-4">
-                        <ReCAPTCHA
-                            sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-                            onChange={(token) => setCaptchaToken(token)}
-                            onExpired={() => setCaptchaToken(null)}
-                        />
+                {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
+                    <div className="rounded border bg-gray-50 p-4">
+                        <div className="flex justify-center pt-4">
+                            <ReCAPTCHA
+                                ref={recaptchaRef}
+                                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                                onChange={(token) => setCaptchaToken(token)}
+                                onExpired={() => setCaptchaToken(null)}
+                            />
+                        </div>
                     </div>
-                </div>
+                )}
 
                 <SubmitButton loading={loading} label="Register as Partner" showArrow={false} />
             </form>

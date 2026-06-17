@@ -6,10 +6,13 @@ import toast from 'react-hot-toast';
 import ReCAPTCHA from 'react-google-recaptcha';
 import ThankYouPopup from '@/components/ThankYouPopup';
 import { useLocationData } from '@/hooks/useLocationData';
+import { useUTMData } from '@/hooks/useUTMTracker';
 import {
   InputField, PhoneField, LocationFields,
   SubmitButton, Icons,
 } from '@/components/FormFields';
+import { graphqlRequest, FORM_QUERIES, PROJECT_ID_VAR } from '@/lib/graphql-client';
+
 
 interface BrochureFormValues {
   firstName: string;
@@ -28,6 +31,7 @@ export default function BrochureForm() {
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [showThanks, setShowThanks] = useState<boolean>(false);
+  const { utmData, campaign } = useUTMData();
 
   const [form, setForm] = useState<BrochureFormValues>({
     firstName: '',
@@ -64,18 +68,41 @@ export default function BrochureForm() {
     }
     setLoading(true);
     try {
-      const res = await fetch(`${API_URL}/api/contact`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...form,
-          formType: 'brochure-request',
-          captchaToken,
-          submittedAt: new Date().toISOString(),
-        }),
-      });
-      const result = await res.json();
-      if (result.success) {
+      const result = await graphqlRequest<{ submitContact: { success: boolean; message: string; contactId: string } }>(
+        FORM_QUERIES.submitContact,
+        {
+          projectId: PROJECT_ID_VAR.projectId,
+          input: {
+            ...form,
+            formType: 'brochure-request',
+            captchaToken,
+            submittedAt: new Date().toISOString(),
+            // UTM Tracking Data
+            utmSource: utmData?.utm_source || '',
+            utmMedium: utmData?.utm_medium || '',
+            utmCampaign: utmData?.utm_campaign || '',
+            utmTerm: utmData?.utm_term || '',
+            utmContent: utmData?.utm_content || '',
+            utmId: utmData?.utm_id || '',
+            referrer: utmData?.referrer || '',
+            landingPage: utmData?.landingPage || '',
+            utmTimestamp: utmData?.timestamp || '',
+            // CMS Campaign Data
+            cmsCampaignId: campaign?.id || '',
+            cmsCampaignName: campaign?.name || '',
+            cmsCampaignSource: campaign?.utm_source || '',
+            cmsCampaignMedium: campaign?.utm_medium || '',
+          }
+        }
+      );
+
+      if (result.errors) {
+        toast.error(result.errors[0]?.message || 'Failed to submit');
+        return;
+      }
+
+      const data = result.data?.submitContact;
+      if (data?.success) {
         toast.success('Brochure download link sent to your email!');
         setShowThanks(true);
         setForm({
@@ -85,9 +112,10 @@ export default function BrochureForm() {
         setCaptchaToken(null);
         recaptchaRef.current?.reset();
       } else {
-        toast.error(result.message || 'Failed to submit. Please try again.');
+        toast.error(data?.message || 'Failed to submit. Please try again.');
       }
-    } catch {
+    } catch (error) {
+      console.error('Error submitting form:', error);
       toast.error('Network error. Please check your connection.');
     } finally {
       setLoading(false);
@@ -96,8 +124,7 @@ export default function BrochureForm() {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="space-y-4">
-
+      <form onSubmit={handleSubmit} className="space-y-4 w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <InputField
             label="First Name" required icon={Icons.user}
@@ -137,7 +164,6 @@ export default function BrochureForm() {
           />
         </div>
 
-        {/* Location */}
         <LocationFields
           prefix="br"
           country={form.country} state={form.state} city={form.city}
@@ -149,7 +175,6 @@ export default function BrochureForm() {
           layout="1+2"
         />
 
-        {/* Terms */}
         <div className="flex items-start gap-3 pt-1">
           <input
             type="checkbox"
@@ -166,16 +191,18 @@ export default function BrochureForm() {
           </label>
         </div>
 
-        {/* CAPTCHA */}
-        <div className="rounded border bg-gray-50 p-4">
-          <div className="flex justify-center pt-4">
-            <ReCAPTCHA
-              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-              onChange={(token) => setCaptchaToken(token)}
-              onExpired={() => setCaptchaToken(null)}
-            />
+        {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
+          <div className="rounded border bg-gray-50 p-4">
+            <div className="flex justify-center">
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                onChange={(token) => setCaptchaToken(token)}
+                onExpired={() => setCaptchaToken(null)}
+              />
+            </div>
           </div>
-        </div>
+        )}
 
         <SubmitButton loading={loading} label="Download Brochure" />
       </form>
