@@ -11,7 +11,7 @@ import {
     InputField, SelectField, PhoneField,
     LocationFields, SubmitButton, Icons,
 } from '@/components/FormFields';
-import { graphqlRequest, FORM_QUERIES, PROJECT_ID_VAR } from '@/lib/graphql-client';
+import { submitContactForm, PROJECT_ID_VAR } from '@/lib/graphql-client';
 
 const STAND_SIZES = [
     '9 sqm (3x3)', '12 sqm (3x4)', '15 sqm (3x5)', '18 sqm (3x6)',
@@ -91,11 +91,9 @@ export default function ExhibitorForm() {
         if (!form.productSector.length) return toast.error('Please select at least one product sector');
         setLoading(true);
         try {
-            const result = await graphqlRequest<{ submitContact: { success: boolean; message: string; contactId: string } }>(
-                FORM_QUERIES.submitContact,
+            const result = await submitContactForm(
+                PROJECT_ID_VAR.projectId,
                 {
-                    projectId: PROJECT_ID_VAR.projectId,
-                    input: {
                         // Form fields
                         firstName: form.contactPerson?.split(' ')[0] || '',
                         lastName: form.contactPerson?.split(' ').slice(1).join(' ') || '',
@@ -130,7 +128,6 @@ export default function ExhibitorForm() {
                         cmsCampaignName: campaign?.name || '',
                         cmsCampaignSource: campaign?.utm_source || '',
                         cmsCampaignMedium: campaign?.utm_medium || '',
-                    }
                 }
             );
 

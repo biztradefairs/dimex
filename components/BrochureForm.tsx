@@ -11,7 +11,7 @@ import {
   InputField, PhoneField, LocationFields,
   SubmitButton, Icons,
 } from '@/components/FormFields';
-import { graphqlRequest, FORM_QUERIES, PROJECT_ID_VAR } from '@/lib/graphql-client';
+import { submitContactForm, PROJECT_ID_VAR } from '@/lib/graphql-client';
 
 
 interface BrochureFormValues {
@@ -68,11 +68,9 @@ export default function BrochureForm() {
     }
     setLoading(true);
     try {
-      const result = await graphqlRequest<{ submitContact: { success: boolean; message: string; contactId: string } }>(
-        FORM_QUERIES.submitContact,
+      const result = await submitContactForm(
+        PROJECT_ID_VAR.projectId,
         {
-          projectId: PROJECT_ID_VAR.projectId,
-          input: {
             ...form,
             formType: 'brochure-request',
             captchaToken,
@@ -92,7 +90,6 @@ export default function BrochureForm() {
             cmsCampaignName: campaign?.name || '',
             cmsCampaignSource: campaign?.utm_source || '',
             cmsCampaignMedium: campaign?.utm_medium || '',
-          }
         }
       );
 

@@ -79,11 +79,11 @@ export async function getUTMFromCMS(currentUtmData: any): Promise<CMSUTMCampaign
         // Find matching campaign
         const matchingCampaign = campaigns.find(campaign => {
             const sourceMatch = !currentUtmData.utm_source ||
-                campaign.source === currentUtmData.utm_source;
+                campaign.source === currentUtmData.utm_source.toLowerCase();
             const campaignMatch = !currentUtmData.utm_campaign ||
-                campaign.campaign === currentUtmData.utm_campaign;
+                campaign.campaign === currentUtmData.utm_campaign.toLowerCase();
             const mediumMatch = !currentUtmData.utm_medium ||
-                campaign.medium === currentUtmData.utm_medium;
+                campaign.medium === currentUtmData.utm_medium.toLowerCase();
 
             return sourceMatch && campaignMatch && mediumMatch;
         });
@@ -109,7 +109,11 @@ export async function createUTMInCMS(utmData: any): Promise<CMSUTMCampaign | nul
         campaign: utmData.utm_campaign.toLowerCase(),
         term: utmData.utm_term?.toLowerCase() || null,
         content: utmData.utm_content?.toLowerCase() || null,
-        url: (utmData.landingPage || '').toLowerCase(),
+        url: (
+            utmData.landingPage ||
+            utmData.utm_url ||
+            (typeof window !== 'undefined' ? window.location.href : 'https://diemex.in')
+        ).toLowerCase(),
         projectId: PROJECT_ID_VAR.projectId,
     };
 

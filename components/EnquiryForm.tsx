@@ -11,7 +11,7 @@ import {
     InputField, SelectField, PhoneField,
     LocationFields, SubmitButton, Icons,
 } from '@/components/FormFields';
-import { graphqlRequest, FORM_QUERIES, PROJECT_ID_VAR } from '@/lib/graphql-client';
+import { submitContactForm, PROJECT_ID_VAR } from '@/lib/graphql-client';
 
 const VISITOR_PROFILES = [
     { value: 'Automotive', label: 'Automotive (Auto OEMs, Auto Ancillary)' },
@@ -59,11 +59,9 @@ export default function EnquiryForm() {
         }
         setLoading(true);
         try {
-            const result = await graphqlRequest<{ submitContact: { success: boolean; message: string; contactId: string } }>(
-                FORM_QUERIES.submitContact,
+            const result = await submitContactForm(
+                PROJECT_ID_VAR.projectId,
                 {
-                    projectId: PROJECT_ID_VAR.projectId,
-                    input: {
                         // Form fields
                         name: form.name,
                         firstName: form.name.split(' ')[0] || '',
@@ -97,7 +95,6 @@ export default function EnquiryForm() {
                         cmsCampaignName: campaign?.name || '',
                         cmsCampaignSource: campaign?.utm_source || '',
                         cmsCampaignMedium: campaign?.utm_medium || '',
-                    }
                 }
             );
 

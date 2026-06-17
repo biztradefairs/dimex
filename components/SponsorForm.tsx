@@ -11,7 +11,7 @@ import {
     InputField, PhoneField, LocationFields,
     ConsentCheckbox, SubmitButton, Icons,
 } from '@/components/FormFields';
-import { graphqlRequest, FORM_QUERIES, PROJECT_ID_VAR } from '@/lib/graphql-client';
+import { submitContactForm, PROJECT_ID_VAR } from '@/lib/graphql-client';
 
 export default function SponsorForm() {
     const recaptchaRef = useRef<any>(null);
@@ -54,11 +54,9 @@ export default function SponsorForm() {
         if (!captchaToken) return toast.error('Please complete the reCAPTCHA');
         setLoading(true);
         try {
-            const result = await graphqlRequest<{ submitContact: { success: boolean; message: string; contactId: string } }>(
-                FORM_QUERIES.submitContact,
+            const result = await submitContactForm(
+                PROJECT_ID_VAR.projectId,
                 {
-                    projectId: PROJECT_ID_VAR.projectId,
-                    input: {
                         // Form fields
                         firstName: form.firstName,
                         lastName: form.lastName,
@@ -92,7 +90,6 @@ export default function SponsorForm() {
                         cmsCampaignName: campaign?.name || '',
                         cmsCampaignSource: campaign?.utm_source || '',
                         cmsCampaignMedium: campaign?.utm_medium || '',
-                    }
                 }
             );
 

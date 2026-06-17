@@ -122,17 +122,93 @@ export const UTM_QUERIES = {
   `,
 };
 
-// GraphQL Queries for Forms
+// GraphQL mutation for leads (cms-backend)
 export const FORM_QUERIES = {
-    submitContact: `
-    mutation SubmitContact($projectId: String!, $input: ContactInput!) {
-      submitContact(projectId: $projectId, input: $input) {
-        success
-        message
-        contactId
+    createLead: `
+    mutation CreateLead($input: CreateLeadInput!) {
+      createLead(input: $input) {
+        id
+        name
+        email
       }
     }
   `,
 };
+
+const FORM_TYPE_TO_LEAD_TYPE: Record<string, string> = {
+    'visitor-registration': 'VISITOR',
+    'exhibitor-enquiry': 'EXHIBITOR',
+    'partner-registration': 'PARTNER',
+    'brochure-request': 'BROCHURE',
+};
+
+function mapFormInputToCreateLead(projectId: string, input: Record<string, any>) {
+    const name =
+        input.name ||
+        input.contactPerson ||
+        [input.firstName, input.lastName].filter(Boolean).join(' ').trim();
+
+    const utmUrl =
+        input.landingPage ||
+        input.utmUrl ||
+        (typeof window !== 'undefined' ? window.location.href : 'https://diemex.in');
+
+    return {
+        name,
+        email: input.email,
+        phone: input.phone || input.mobile || undefined,
+        jobTitle: input.jobTitle || input.designation || undefined,
+        companyName: input.companyName || input.company || undefined,
+        message: input.message || undefined,
+        country: input.country || undefined,
+        state: input.state || undefined,
+        city: input.city || undefined,
+        industry: input.industry || input.profile || undefined,
+        projectId,
+        leadType: FORM_TYPE_TO_LEAD_TYPE[input.formType] || 'ENQUIRY',
+        utmSource: input.utmSource || undefined,
+        utmMedium: input.utmMedium || undefined,
+        utmCampaign: input.utmCampaign || undefined,
+        utmTerm: input.utmTerm || undefined,
+        utmContent: input.utmContent || undefined,
+        utmId: input.utmId || input.cmsCampaignId || undefined,
+        utmUrl,
+    };
+}
+
+/** Drop-in replacement for old submitContact mutation — maps to cms-backend createLead */
+export async function submitContactForm(
+    projectId: string,
+    input: Record<string, any>,
+) {
+    const result = await graphqlRequest<{ createLead: { id: string; name: string; email: string } }>(
+        FORM_QUERIES.createLead,
+        { input: mapFormInputToCreateLead(projectId, input) },
+    );
+
+    if (result.errors?.length) {
+        return {
+            errors: result.errors,
+            data: {
+                submitContact: {
+                    success: false,
+                    message: result.errors[0]?.message || 'Failed to submit',
+                    contactId: '',
+                },
+            },
+        };
+    }
+
+    const lead = result.data?.createLead;
+    return {
+        data: {
+            submitContact: {
+                success: !!lead?.id,
+                message: lead?.id ? 'Submitted successfully' : 'Failed to submit',
+                contactId: lead?.id || '',
+            },
+        },
+    };
+}
 
 export const PROJECT_ID_VAR = { projectId: PROJECT_ID };
