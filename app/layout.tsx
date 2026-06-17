@@ -3,7 +3,8 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import { usePathname } from "next/navigation";
 import Script from "next/script";
 import { parabolica } from "@/lib/fonts";
 import "./globals.css";
@@ -19,7 +20,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
 
   const hideLayout =
     pathname?.startsWith("/admin") ||
@@ -53,7 +53,7 @@ export default function RootLayout({
 
       console.log(`📊 Page view tracked: ${pathname}`, utmData);
     }
-  }, [pathname, hideLayout, searchParams]);
+  }, [pathname, hideLayout]);
 
   return (
     <html lang="en" className={parabolica.variable}>
@@ -115,13 +115,15 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col font-parabolica">
-        {/* UTM Provider - This captures and stores UTM data */}
-        <UTMProvider>
-          {!hideLayout && <NavBar />}
-          <main className="flex-grow w-full">{children}</main>
-          {!hideLayout && <Footer />}
-          <UTMDebugger />
-        </UTMProvider>
+        {/* UTM provider tree must be in Suspense for Next 16 */}
+        <Suspense fallback={null}>
+          <UTMProvider>
+            {!hideLayout && <NavBar />}
+            <main className="flex-grow w-full">{children}</main>
+            {!hideLayout && <Footer />}
+            <UTMDebugger />
+          </UTMProvider>
+        </Suspense>
       </body>
     </html>
   );

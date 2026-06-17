@@ -7,6 +7,7 @@ export interface UTMData {
     utm_term?: string;
     utm_content?: string;
     utm_id?: string;
+    utm_url?: string;
     referrer?: string;
     landingPage?: string;
     timestamp?: string;

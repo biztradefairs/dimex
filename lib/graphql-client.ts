@@ -87,37 +87,36 @@ export const LOCATION_QUERIES = {
   `,
 };
 
-// GraphQL Queries for UTM Campaigns - Simplified
+// GraphQL Queries for UTM
 export const UTM_QUERIES = {
-    getActiveCampaigns: `
-    query GetActiveUTMCampaigns($projectId: String!) {
-      utmCampaigns(projectId: $projectId, isActive: true) {
+    getUtmByProject: `
+    query GetUtmByProject($id: String!) {
+      getUtmByProject(id: $id) {
         id
-        name
-        utm_source
-        utm_medium
-        utm_campaign
-        utm_term
-        utm_content
-        isActive
-        startDate
-        endDate
+        source
+        medium
+        campaign
+        term
+        content
+        url
+        projectId
         createdAt
         updatedAt
       }
     }
   `,
-    trackCampaignVisit: `
-    mutation TrackCampaignVisit($projectId: String!, $campaignId: String!, $utmData: JSON!, $pagePath: String!) {
-      trackCampaignVisit(
-        projectId: $projectId
-        campaignId: $campaignId
-        utmData: $utmData
-        pagePath: $pagePath
-      ) {
-        success
-        message
-        visitId
+    createUtm: `
+    mutation CreateUtm($input: CreateUtmInput!) {
+      createUtm(input: $input) {
+        id
+        source
+        medium
+        campaign
+        term
+        content
+        url
+        projectId
+        createdAt
       }
     }
   `,

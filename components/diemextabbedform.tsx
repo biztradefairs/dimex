@@ -2,15 +2,22 @@
 "use client"
 
 import React, { useState, useEffect } from 'react';
-import { useRouter, usePathname } from 'next/navigation';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { Toaster } from 'react-hot-toast';
 import { useUTMData } from '@/hooks/useUTMTracker';
+import {
+    buildRegisterUrl,
+    isValidRegistrationTab,
+    LEGACY_PATH_TO_TAB,
+    RegistrationTab,
+    TAB_TO_LEGACY_PATH,
+} from '@/lib/registrationRoutes';
 import EnquiryForm from './EnquiryForm';
 import ExhibitorForm from './ExhibitorForm';
 import SponsorForm from './SponsorForm';
 import BrochureForm from './BrochureForm';
 
-type TabKey = 'enquiry' | 'exhibitor' | 'sponsor' | 'brochure';
+type TabKey = RegistrationTab;
 
 interface TabConfig {
     key: TabKey;
@@ -36,7 +43,7 @@ const TABS: TabConfig[] = [
         sub: 'Please fill in the details below and our team will get in touch with you.',
         rightHeadline: 'Discover What\'s Next in Manufacturing',
         rightSub: 'Visit DIEMEX 2026 to explore innovations in die, mould, and precision manufacturing technologies.',
-        path: '/visitor-registration',
+        path: TAB_TO_LEGACY_PATH.enquiry,
     },
     {
         key: 'exhibitor',
@@ -51,7 +58,7 @@ const TABS: TabConfig[] = [
         sub: 'Please fill in the details below and our team will get in touch with you.',
         rightHeadline: 'Be Part of a Global Business Platform',
         rightSub: 'Showcase your solutions, connect with buyers and grow your business.',
-        path: '/exhibiting-enquiry',
+        path: TAB_TO_LEGACY_PATH.exhibitor,
     },
     {
         key: 'sponsor',
@@ -65,7 +72,7 @@ const TABS: TabConfig[] = [
         sub: 'Partner with DIEMEX 2026 and put your brand in front of 10,000+ professionals.',
         rightHeadline: 'Amplify Your Brand at Scale',
         rightSub: 'Gain unmatched visibility with India\'s premier die & mould manufacturing exhibition.',
-        path: '/become-partner',
+        path: TAB_TO_LEGACY_PATH.sponsor,
     },
     {
         key: 'brochure',
@@ -83,16 +90,11 @@ const TABS: TabConfig[] = [
         sub: 'Fill in your details to receive the complete DIEMEX 2026 brochure.',
         rightHeadline: 'Your Roadmap to DIEMEX 2026',
         rightSub: 'Explore exhibitor opportunities, visitor demographics, and ROI insights.',
-        path: '/event-brochure',
+        path: TAB_TO_LEGACY_PATH.brochure,
     },
 ];
 
-const PATH_TO_TAB: Record<string, TabKey> = {
-    '/visitor-registration': 'enquiry',
-    '/exhibiting-enquiry': 'exhibitor',
-    '/become-partner': 'sponsor',
-    '/event-brochure': 'brochure',
-};
+const PATH_TO_TAB = LEGACY_PATH_TO_TAB;
 
 interface DiemexTabbedFormWrapperProps {
     defaultTab?: TabKey;
@@ -100,6 +102,7 @@ interface DiemexTabbedFormWrapperProps {
     headerTitle?: string;
     headerSubtitle?: string;
     className?: string;
+    useRegisterRouting?: boolean;
 }
 
 export default function DiemexTabbedFormWrapper({
@@ -108,33 +111,36 @@ export default function DiemexTabbedFormWrapper({
     headerTitle,
     headerSubtitle,
     className = '',
+    useRegisterRouting = false,
 }: DiemexTabbedFormWrapperProps) {
     const router = useRouter();
     const pathname = usePathname();
+    const searchParams = useSearchParams();
     const { utmData } = useUTMData();
 
-    const getTabFromPath = (path: string): TabKey => {
-        for (const [route, tabKey] of Object.entries(PATH_TO_TAB)) {
-            if (path === route || path.startsWith(route)) {
-                return tabKey;
+    const getTabFromLocation = (): TabKey => {
+        if (pathname === '/register' || useRegisterRouting) {
+            const tab = searchParams?.get('t');
+            if (isValidRegistrationTab(tab)) return tab;
+            return defaultTab;
+        }
+
+        if (pathname) {
+            for (const [route, tabKey] of Object.entries(PATH_TO_TAB)) {
+                if (pathname === route || pathname.startsWith(route)) {
+                    return tabKey;
+                }
             }
         }
+
         return defaultTab;
     };
 
-    const [activeTab, setActiveTab] = useState<TabKey>(() => {
-        if (pathname) {
-            return getTabFromPath(pathname);
-        }
-        return defaultTab;
-    });
+    const [activeTab, setActiveTab] = useState<TabKey>(() => getTabFromLocation());
 
     useEffect(() => {
-        if (pathname) {
-            const newTab = getTabFromPath(pathname);
-            setActiveTab(newTab);
-        }
-    }, [pathname]);
+        setActiveTab(getTabFromLocation());
+    }, [pathname, searchParams, defaultTab, useRegisterRouting]);
 
     const activeConfig = TABS.find(t => t.key === activeTab)!;
 
@@ -146,19 +152,18 @@ export default function DiemexTabbedFormWrapper({
     };
 
     const handleTabClick = (tab: TabConfig) => {
-        let path = tab.path;
+        const params = new URLSearchParams(searchParams?.toString() || '');
 
         if (utmData && Object.keys(utmData).length > 0) {
-            const url = new URL(path, window.location.origin);
             Object.entries(utmData).forEach(([key, value]) => {
                 if (value && key !== 'referrer' && key !== 'landingPage' && key !== 'timestamp') {
-                    url.searchParams.append(key, value);
+                    params.set(key, value);
                 }
             });
-            path = url.pathname + url.search;
         }
 
-        router.push(path);
+        const targetPath = buildRegisterUrl(tab.key, params);
+        router.push(targetPath);
         setActiveTab(tab.key);
     };
 
