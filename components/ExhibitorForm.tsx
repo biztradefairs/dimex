@@ -93,6 +93,7 @@ export default function ExhibitorForm() {
         try {
             const payload = {
                 // all your existing form fields...
+                email:form.email,
                 formType: 'exhibitor-enquiry', // or exhibitor-enquiry
                 captchaToken,
                 submittedAt: new Date().toISOString(),

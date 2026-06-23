@@ -61,6 +61,7 @@ export default function EnquiryForm() {
         try {
             const payload = {
                 // all your existing form fields...
+                email:form.email,
                 formType: 'visitor-registration', // or exhibitor-enquiry
                 captchaToken,
                 submittedAt: new Date().toISOString(),

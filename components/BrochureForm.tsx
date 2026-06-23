@@ -70,6 +70,7 @@ export default function BrochureForm() {
     try {
       const payload = {
         ...form,
+        email:form.email,
         formType: 'event-brochure',
         captchaToken,
         submittedAt: new Date().toISOString(),
