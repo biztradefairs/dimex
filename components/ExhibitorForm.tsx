@@ -91,69 +91,70 @@ export default function ExhibitorForm() {
         if (!form.productSector.length) return toast.error('Please select at least one product sector');
         setLoading(true);
         try {
-            const result = await submitContactForm(
+            const payload = {
+                // all your existing form fields...
+                formType: 'exhibitor-enquiry', // or exhibitor-enquiry
+                captchaToken,
+                submittedAt: new Date().toISOString(),
+
+                utmSource: utmData?.utm_source || '',
+                utmMedium: utmData?.utm_medium || '',
+                utmCampaign: utmData?.utm_campaign || '',
+                utmTerm: utmData?.utm_term || '',
+                utmContent: utmData?.utm_content || '',
+                utmId: utmData?.utm_id || '',
+                referrer: utmData?.referrer || '',
+                landingPage: utmData?.landingPage || '',
+                utmTimestamp: utmData?.timestamp || '',
+
+                cmsCampaignId: campaign?.id || '',
+                cmsCampaignName: campaign?.name || '',
+                cmsCampaignSource: campaign?.utm_source || '',
+                cmsCampaignMedium: campaign?.utm_medium || '',
+            };
+
+            const graphqlResult = await submitContactForm(
                 PROJECT_ID_VAR.projectId,
+                payload
+            );
+
+            const emailResponse = await fetch(
+                `${process.env.NEXT_PUBLIC_API_BASE_URL || 'https://diemex-backend.onrender.com'}/api/contact`,
                 {
-                        // Form fields
-                        firstName: form.contactPerson?.split(' ')[0] || '',
-                        lastName: form.contactPerson?.split(' ').slice(1).join(' ') || '',
-                        contactPerson: form.contactPerson,
-                        companyName: form.companyName,
-                        jobTitle: form.jobTitle,
-                        email: form.email,
-                        phone: form.phone,
-                        country: form.country,
-                        state: form.state,
-                        city: form.city,
-                        standSize: form.standSize,
-                        industry: form.industry,
-                        productSector: form.productSector,
-                        message: form.message,
-                        interestLevel: form.interestLevel,
-                        formType: 'exhibitor-enquiry',
-                        captchaToken,
-                        submittedAt: new Date().toISOString(),
-                        // UTM Tracking Data
-                        utmSource: utmData?.utm_source || '',
-                        utmMedium: utmData?.utm_medium || '',
-                        utmCampaign: utmData?.utm_campaign || '',
-                        utmTerm: utmData?.utm_term || '',
-                        utmContent: utmData?.utm_content || '',
-                        utmId: utmData?.utm_id || '',
-                        referrer: utmData?.referrer || '',
-                        landingPage: utmData?.landingPage || '',
-                        utmTimestamp: utmData?.timestamp || '',
-                        // CMS Campaign Data
-                        cmsCampaignId: campaign?.id || '',
-                        cmsCampaignName: campaign?.name || '',
-                        cmsCampaignSource: campaign?.utm_source || '',
-                        cmsCampaignMedium: campaign?.utm_medium || '',
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
                 }
             );
 
-            if (result.errors) {
-                toast.error(result.errors[0]?.message || 'Failed to submit');
+            const emailResult = await emailResponse.json();
+
+            if (graphqlResult.errors) {
+                toast.error(graphqlResult.errors[0]?.message || "Failed to save lead");
                 return;
             }
 
-            const data = result.data?.submitContact;
-            if (data?.success) {
-                toast.success('Enquiry submitted! Our team will contact you soon.');
-                setShowThanks(true);
-                setForm({
-                    interestLevel: '', contactPerson: '', companyName: '', jobTitle: '',
-                    email: '', phone: '', country: '', state: '', city: '',
-                    standSize: '', industry: '', productSector: [], message: '',
-                });
-                setCaptchaToken(null);
-                recaptchaRef.current?.reset();
-            } else {
-                toast.error(data?.message || 'Failed to submit. Please try again.');
+            if (!emailResult.success) {
+                toast.error("Lead saved but email could not be sent");
+                return;
             }
+
+            toast.success("Submitted successfully!");
+
+            setShowThanks(true);
+
+            // Reset form here
+            setCaptchaToken(null);
+            recaptchaRef.current?.reset();
+            console.log("GraphQL Result:", graphqlResult);
+            console.log("Email Result:", emailResult);
+
         } catch (error) {
-            console.error('Error submitting form:', error);
-            toast.error('Network error. Please check your connection.');
-        } finally {
+            console.error(error);
+            toast.error("Network error. Please check your connection.");
+        }  finally {
             setLoading(false);
         }
     };

@@ -59,68 +59,67 @@ export default function EnquiryForm() {
         }
         setLoading(true);
         try {
-            const result = await submitContactForm(
+            const payload = {
+                // all your existing form fields...
+                formType: 'visitor-registration', // or exhibitor-enquiry
+                captchaToken,
+                submittedAt: new Date().toISOString(),
+
+                utmSource: utmData?.utm_source || '',
+                utmMedium: utmData?.utm_medium || '',
+                utmCampaign: utmData?.utm_campaign || '',
+                utmTerm: utmData?.utm_term || '',
+                utmContent: utmData?.utm_content || '',
+                utmId: utmData?.utm_id || '',
+                referrer: utmData?.referrer || '',
+                landingPage: utmData?.landingPage || '',
+                utmTimestamp: utmData?.timestamp || '',
+
+                cmsCampaignId: campaign?.id || '',
+                cmsCampaignName: campaign?.name || '',
+                cmsCampaignSource: campaign?.utm_source || '',
+                cmsCampaignMedium: campaign?.utm_medium || '',
+            };
+
+            const graphqlResult = await submitContactForm(
                 PROJECT_ID_VAR.projectId,
+                payload
+            );
+
+            const emailResponse = await fetch(
+                `${process.env.NEXT_PUBLIC_API_BASE_URL || 'https://diemex-backend.onrender.com'}/api/contact`,
                 {
-                        // Form fields
-                        name: form.name,
-                        firstName: form.name.split(' ')[0] || '',
-                        lastName: form.name.split(' ').slice(1).join(' ') || '',
-                        designation: form.designation,
-                        company: form.company,
-                        address: form.address,
-                        pincode: form.pincode,
-                        email: form.email,
-                        mobile: form.mobile,
-                        profile: form.profile,
-                        promocode: form.promocode,
-                        country: form.country,
-                        state: form.state,
-                        city: form.city,
-                        formType: 'visitor-registration',
-                        captchaToken,
-                        submittedAt: new Date().toISOString(),
-                        // UTM Tracking Data
-                        utmSource: utmData?.utm_source || '',
-                        utmMedium: utmData?.utm_medium || '',
-                        utmCampaign: utmData?.utm_campaign || '',
-                        utmTerm: utmData?.utm_term || '',
-                        utmContent: utmData?.utm_content || '',
-                        utmId: utmData?.utm_id || '',
-                        referrer: utmData?.referrer || '',
-                        landingPage: utmData?.landingPage || '',
-                        utmTimestamp: utmData?.timestamp || '',
-                        // CMS Campaign Data
-                        cmsCampaignId: campaign?.id || '',
-                        cmsCampaignName: campaign?.name || '',
-                        cmsCampaignSource: campaign?.utm_source || '',
-                        cmsCampaignMedium: campaign?.utm_medium || '',
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(payload),
                 }
             );
 
-            if (result.errors) {
-                toast.error(result.errors[0]?.message || 'Failed to submit');
+            const emailResult = await emailResponse.json();
+
+            if (graphqlResult.errors) {
+                toast.error(graphqlResult.errors[0]?.message || "Failed to save lead");
                 return;
             }
 
-            const data = result.data?.submitContact;
-            if (data?.success) {
-                toast.success('Registration submitted successfully!');
-                setShowThanks(true);
-                setForm({
-                    name: '', designation: '', company: '', address: '', pincode: '',
-                    email: '', mobile: '', profile: '', promocode: '',
-                    country: '', state: '', city: '',
-                });
-                setTerms(false);
-                setCaptchaToken(null);
-                recaptchaRef.current?.reset();
-            } else {
-                toast.error(data?.message || 'Failed to submit. Please try again.');
+            if (!emailResult.success) {
+                toast.error("Lead saved but email could not be sent");
+                return;
             }
+
+            toast.success("Submitted successfully!");
+
+            setShowThanks(true);
+
+            // Reset form here
+            setCaptchaToken(null);
+            recaptchaRef.current?.reset();
+
         } catch (error) {
-            console.error('Error submitting form:', error);
-            toast.error('Network error. Please check your connection.');
+            console.error(error);
+            toast.error("Network error. Please check your connection.");
         } finally {
             setLoading(false);
         }

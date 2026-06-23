@@ -54,7 +54,7 @@ export default function BrochureForm() {
     citiesLoading,
   } = useLocationData(form.country, form.state);
 
-  const API_URL: string = process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com';
+  const API_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://diemex-backend.onrender.com';
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -68,49 +68,78 @@ export default function BrochureForm() {
     }
     setLoading(true);
     try {
-      const result = await submitContactForm(
+      const payload = {
+        ...form,
+        formType: 'event-brochure',
+        captchaToken,
+        submittedAt: new Date().toISOString(),
+
+        // UTM Tracking Data
+        utmSource: utmData?.utm_source || '',
+        utmMedium: utmData?.utm_medium || '',
+        utmCampaign: utmData?.utm_campaign || '',
+        utmTerm: utmData?.utm_term || '',
+        utmContent: utmData?.utm_content || '',
+        utmId: utmData?.utm_id || '',
+        referrer: utmData?.referrer || '',
+        landingPage: utmData?.landingPage || '',
+        utmTimestamp: utmData?.timestamp || '',
+
+        // CMS Campaign Data
+        cmsCampaignId: campaign?.id || '',
+        cmsCampaignName: campaign?.name || '',
+        cmsCampaignSource: campaign?.utm_source || '',
+        cmsCampaignMedium: campaign?.utm_medium || '',
+      };
+
+      // 1. Save in GraphQL CMS
+      const graphqlResult = await submitContactForm(
         PROJECT_ID_VAR.projectId,
+        payload
+      );
+
+      // 2. Send email through contact API
+      const emailResponse = await fetch(
+        `${API_URL}/api/contact`,
         {
-            ...form,
-            formType: 'brochure-request',
-            captchaToken,
-            submittedAt: new Date().toISOString(),
-            // UTM Tracking Data
-            utmSource: utmData?.utm_source || '',
-            utmMedium: utmData?.utm_medium || '',
-            utmCampaign: utmData?.utm_campaign || '',
-            utmTerm: utmData?.utm_term || '',
-            utmContent: utmData?.utm_content || '',
-            utmId: utmData?.utm_id || '',
-            referrer: utmData?.referrer || '',
-            landingPage: utmData?.landingPage || '',
-            utmTimestamp: utmData?.timestamp || '',
-            // CMS Campaign Data
-            cmsCampaignId: campaign?.id || '',
-            cmsCampaignName: campaign?.name || '',
-            cmsCampaignSource: campaign?.utm_source || '',
-            cmsCampaignMedium: campaign?.utm_medium || '',
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
         }
       );
 
-      if (result.errors) {
-        toast.error(result.errors[0]?.message || 'Failed to submit');
+      const emailResult = await emailResponse.json();
+
+      if (graphqlResult.errors) {
+        toast.error(graphqlResult.errors[0]?.message || "Failed to save lead");
         return;
       }
 
-      const data = result.data?.submitContact;
-      if (data?.success) {
-        toast.success('Brochure download link sent to your email!');
-        setShowThanks(true);
-        setForm({
-          firstName: '', lastName: '', email: '', phone: '',
-          companyName: '', jobTitle: '', country: '', state: '', city: '',
-        });
-        setCaptchaToken(null);
-        recaptchaRef.current?.reset();
-      } else {
-        toast.error(data?.message || 'Failed to submit. Please try again.');
+      if (!emailResult.success) {
+        toast.error("Lead saved but email could not be sent");
+        return;
       }
+
+      toast.success("Brochure download link sent to your email!");
+
+      setShowThanks(true);
+
+      setForm({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        companyName: '',
+        jobTitle: '',
+        country: '',
+        state: '',
+        city: '',
+      });
+
+      setCaptchaToken(null);
+      recaptchaRef.current?.reset();
     } catch (error) {
       console.error('Error submitting form:', error);
       toast.error('Network error. Please check your connection.');

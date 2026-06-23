@@ -562,16 +562,18 @@ export default function PartnerRegistrationForm() {
           </div>
 
           {/* reCAPTCHA */}
-          <div className="rounded-lg bg-white p-4 border border-gray-200">
-            <div className="flex justify-center">
-              <ReCAPTCHA
-                ref={recaptchaRef}
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
-                onChange={(token) => setCaptchaToken(token)}
-                onExpired={() => setCaptchaToken(null)}
-              />
+          {process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && (
+            <div className="rounded border bg-gray-50 p-4">
+              <div className="flex justify-center">
+                <ReCAPTCHA
+                  ref={recaptchaRef}
+                  sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                  onChange={(token) => setCaptchaToken(token)}
+                  onExpired={() => setCaptchaToken(null)}
+                />
+              </div>
             </div>
-          </div>
+          )}
 
           {/* Submit Button */}
           <div className="pt-4">
