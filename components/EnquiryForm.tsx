@@ -60,9 +60,20 @@ export default function EnquiryForm() {
         setLoading(true);
         try {
             const payload = {
-                // all your existing form fields...
-                email:form.email,
-                formType: 'visitor-registration', // or exhibitor-enquiry
+                email: form.email,
+                formType: 'exhibitor-enquiry',
+                firstName: form.name.split(' ')[0] || '',
+                lastName: form.name.split(' ').slice(1).join(' ') || '',
+                contactPerson: form.name,
+                companyName: form.company,
+                jobTitle: form.designation,
+                phone: form.mobile,
+                country: form.country,
+                state: form.state,
+                city: form.city,
+                address: form.address,
+                pincode: form.pincode,
+                profile: form.profile,
                 captchaToken,
                 submittedAt: new Date().toISOString(),
 
@@ -88,7 +99,7 @@ export default function EnquiryForm() {
             );
 
             const emailResponse = await fetch(
-                `${process.env.NEXT_PUBLIC_API_BASE_URL || 'https://diemex-backend.onrender.com'}/api/contact`,
+                `${process.env.NEXT_PUBLIC_API_BASE_URL}/contact`,
                 {
                     method: "POST",
                     headers: {

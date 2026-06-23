@@ -15,6 +15,12 @@ import { submitContactForm, PROJECT_ID_VAR } from '@/lib/graphql-client';
 
 
 interface BrochureFormValues {
+  contactPerson: any;
+  standSize: any;
+  industry: any;
+  productSector: any;
+  message: any;
+  interestLevel: any;
   firstName: string;
   lastName: string;
   email: string;
@@ -34,6 +40,12 @@ export default function BrochureForm() {
   const { utmData, campaign } = useUTMData();
 
   const [form, setForm] = useState<BrochureFormValues>({
+    contactPerson: '',
+    standSize: '',
+    industry: '',
+    productSector: '',
+    message: '',
+    interestLevel: '',
     firstName: '',
     lastName: '',
     email: '',
@@ -54,7 +66,7 @@ export default function BrochureForm() {
     citiesLoading,
   } = useLocationData(form.country, form.state);
 
-  const API_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://diemex-backend.onrender.com';
+  const API_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL || '';
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -74,6 +86,25 @@ export default function BrochureForm() {
         formType: 'event-brochure',
         captchaToken,
         submittedAt: new Date().toISOString(),
+        firstName: form.contactPerson?.split(' ')[0] || '',
+        lastName: form.contactPerson?.split(' ').slice(1).join(' ') || '',
+        contactPerson: form.contactPerson,
+        companyName: form.companyName,
+        jobTitle: form.jobTitle,
+        // email: form.email,
+        phone: form.phone,
+        country: form.country,
+        state: form.state,
+        city: form.city,
+        standSize: form.standSize,
+        industry: form.industry,
+        productSector: form.productSector,
+        message: form.message,
+        interestLevel: form.interestLevel,
+
+        // formType: 'exhibitor-enquiry',
+        // captchaToken,
+        // submittedAt: new Date().toISOString(),
 
         // UTM Tracking Data
         utmSource: utmData?.utm_source || '',
@@ -128,6 +159,12 @@ export default function BrochureForm() {
       setShowThanks(true);
 
       setForm({
+        contactPerson: '',
+        standSize: '',
+        industry: '',
+        productSector: '',
+        message: '',
+        interestLevel: '',
         firstName: '',
         lastName: '',
         email: '',

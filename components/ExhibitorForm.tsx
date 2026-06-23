@@ -93,11 +93,24 @@ export default function ExhibitorForm() {
         try {
             const payload = {
                 // all your existing form fields...
-                email:form.email,
-                formType: 'exhibitor-enquiry', // or exhibitor-enquiry
+                firstName: form.contactPerson?.split(' ')[0] || '',
+                lastName: form.contactPerson?.split(' ').slice(1).join(' ') || '',
+                contactPerson: form.contactPerson,
+                companyName: form.companyName,
+                jobTitle: form.jobTitle,
+                email: form.email,
+                phone: form.phone,
+                country: form.country,
+                state: form.state,
+                city: form.city,
+                standSize: form.standSize,
+                industry: form.industry,
+                productSector: form.productSector,
+                message: form.message,
+                interestLevel: form.interestLevel,
+                formType: 'exhibitor-enquiry',
                 captchaToken,
                 submittedAt: new Date().toISOString(),
-
                 utmSource: utmData?.utm_source || '',
                 utmMedium: utmData?.utm_medium || '',
                 utmCampaign: utmData?.utm_campaign || '',
@@ -120,7 +133,7 @@ export default function ExhibitorForm() {
             );
 
             const emailResponse = await fetch(
-                `${process.env.NEXT_PUBLIC_API_BASE_URL || 'https://diemex-backend.onrender.com'}/api/contact`,
+                `${process.env.NEXT_PUBLIC_API_BASE_URL}/contact`,
                 {
                     method: "POST",
                     headers: {
