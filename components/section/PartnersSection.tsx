@@ -87,9 +87,9 @@ const partners: Partner[] = [
     logo: 'images/thiaram.png',
     link: "https://thriam.com/"
 },    {
-  name: 'EXCELLENT LASERTECH ', 
-    logo: 'images/excellent.jpg',
-    link: "https://www.indiamart.com/excellent-lasertech-proto/?srsltid=AfmBOoo1XRJ320qkGlU-s_c2iMZjHXJoRy6gGqNlXmQtyP8jkCFq4n-i"
+  name: 'HYDRALIQUE PRODUCTION SYSTEMS ', 
+    logo: 'images/hps.jpg',
+    link: "http://www.hpsindia.com/"
   },    {
     name: 'EXCELLENT LASERTECH ', 
     logo: 'images/excellent.jpg',
