@@ -59,9 +59,9 @@ const partners: Partner[] = [
     link: "https://www.rgees.in/"
   },
   {
-    name: '', 
-    logo: '',
-    link: ""
+    name: 'JAI AMBAY ETCHING PROCESS', 
+    logo: 'images/jayambe.jpg',
+    link: "https://jaiambayetchingprocess.com"
   },
   {
     name: '', 
