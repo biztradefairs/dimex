@@ -24,14 +24,14 @@ const PartnersSection = () => {
 
 const partners: Partner[] = [
   {
-    name: 'RAJTOOL AND STAMPINGS', 
+    name: 'RAJTOOLS AND STAMPING', 
     logo: 'images/raj.png',
     link: "https://www.rajtools.co.in/"
   },
   {
-    name: '', 
-    logo: '',
-    link: ""
+    name: 'RAJAMANE SOLUTIONS', 
+    logo: 'images/rajamane.png',
+    link: "https://rajamanesolutions.com/"
   },
   {
     name: '', 
