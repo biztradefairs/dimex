@@ -91,9 +91,9 @@ const partners: Partner[] = [
     logo: 'images/hps.jpg',
     link: "http://www.hpsindia.com/"
   },    {
-    name: 'EXCELLENT LASERTECH ', 
-    logo: 'images/excellent.jpg',
-    link: "https://www.indiamart.com/excellent-lasertech-proto/?srsltid=AfmBOoo1XRJ320qkGlU-s_c2iMZjHXJoRy6gGqNlXmQtyP8jkCFq4n-i"
+    name: 'IDEMI -GOVT OF INDIA', 
+    logo: 'images/idemi.png',
+    link: "https://www.idemi.org/"
 },    {
   name: 'EXCELLENT LASERTECH ', 
     logo: 'images/excellent.jpg',
