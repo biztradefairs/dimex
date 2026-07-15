@@ -54,9 +54,9 @@ const partners: Partner[] = [
     link: "https://www.rainbowtechnologies.in"
   },
   {
-    name: '', 
-    logo: '',
-    link: ""
+    name: 'RHEOLOGIST GAZE AND SOLUTION', 
+    logo: 'images/reologist.png',
+    link: "https://www.rgees.in/"
   },
   {
     name: '', 
