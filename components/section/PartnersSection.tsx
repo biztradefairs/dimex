@@ -49,9 +49,9 @@ const partners: Partner[] = [
     link: "https://www.hemnav.com/"
   },
   {
-    name: '', 
-    logo: '',
-    link: ""
+    name: 'RAINBOW TECHNOLOGIES', 
+    logo: 'images/rainbowtechnologies.jpg',
+    link: "https://www.rainbowtechnologies.in"
   },
   {
     name: '', 
