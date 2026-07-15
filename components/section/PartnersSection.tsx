@@ -40,7 +40,7 @@ const partners: Partner[] = [
   },
   {
     name: 'SWASTIK AUTOMATION & CONTROL', 
-    logo: 'images/catouni',
+    logo: 'images/catouni.jpg',
     link: "https://www.cautoniswastikinstrument.com/"
   },
   {
