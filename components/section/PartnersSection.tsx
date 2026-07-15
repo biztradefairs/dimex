@@ -68,30 +68,33 @@ const partners: Partner[] = [
     logo: 'images/excellent.jpg',
     link: "https://www.indiamart.com/excellent-lasertech-proto/?srsltid=AfmBOoo1XRJ320qkGlU-s_c2iMZjHXJoRy6gGqNlXmQtyP8jkCFq4n-i"
 },
-  name: 'SENOR METALS', 
+   {
+    
+    name: 'SENOR METALS', 
     logo: 'images/senor.png',
     link: "https://senormetals.com/"
-    {
+    
+},    {
     name: 'GOEL CARBON  ', 
     logo: 'images/goel_carbon.png',
     link: "https://goelcarbon.com/"
-},
+},    {
   name: 'EXCELLENT LASERTECH ', 
     logo: 'images/excellent.jpg',
     link: "https://www.indiamart.com/excellent-lasertech-proto/?srsltid=AfmBOoo1XRJ320qkGlU-s_c2iMZjHXJoRy6gGqNlXmQtyP8jkCFq4n-i"
-    {
+ },    {  
     name: 'EXCELLENT LASERTECH ', 
     logo: 'images/excellent.jpg',
     link: "https://www.indiamart.com/excellent-lasertech-proto/?srsltid=AfmBOoo1XRJ320qkGlU-s_c2iMZjHXJoRy6gGqNlXmQtyP8jkCFq4n-i"
-},
+},    {
   name: 'EXCELLENT LASERTECH ', 
     logo: 'images/excellent.jpg',
     link: "https://www.indiamart.com/excellent-lasertech-proto/?srsltid=AfmBOoo1XRJ320qkGlU-s_c2iMZjHXJoRy6gGqNlXmQtyP8jkCFq4n-i"
-    {
+  },    {
     name: 'EXCELLENT LASERTECH ', 
     logo: 'images/excellent.jpg',
     link: "https://www.indiamart.com/excellent-lasertech-proto/?srsltid=AfmBOoo1XRJ320qkGlU-s_c2iMZjHXJoRy6gGqNlXmQtyP8jkCFq4n-i"
-},
+},    {
   name: 'EXCELLENT LASERTECH ', 
     logo: 'images/excellent.jpg',
     link: "https://www.indiamart.com/excellent-lasertech-proto/?srsltid=AfmBOoo1XRJ320qkGlU-s_c2iMZjHXJoRy6gGqNlXmQtyP8jkCFq4n-i"
