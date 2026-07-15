@@ -44,9 +44,9 @@ const partners: Partner[] = [
     link: "https://www.cautoniswastikinstrument.com/"
   },
   {
-    name: '', 
-    logo: '',
-    link: ""
+    name: 'HEMANAV GRAPHITES', 
+    logo: 'images/hemnav.png',
+    link: "https://www.hemnav.com/"
   },
   {
     name: '', 
