@@ -104,9 +104,16 @@ const partners: Partner[] = [
     logo: 'images/ipm.jpg',
     link: "https://www.instagram.com/industrialproductmonitor/"
 
+    },    {
+  name: '99 BUSINESS MEDIA ', 
+    logo: 'images/99media.png',
+    link: "hhttps://www.99businessmedia.com"
 
 
-
+    },    {
+  name: 'UDYAM PRAKASHAN', 
+    logo: 'images/dhatukam.png',
+    link: "https://dhatukam.udyamprakashan.in/"
 
   },
 ];
