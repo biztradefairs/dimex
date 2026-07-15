@@ -64,9 +64,9 @@ const partners: Partner[] = [
     link: "https://jaiambayetchingprocess.com"
   },
   {
-    name: '', 
-    logo: '',
-    link: ""
+    name: 'EXCELLENT LASERTECH ', 
+    logo: 'images/excellent.jpg',
+    link: "https://www.indiamart.com/excellent-lasertech-proto/?srsltid=AfmBOoo1XRJ320qkGlU-s_c2iMZjHXJoRy6gGqNlXmQtyP8jkCFq4n-i"
   },
 ];
 
@@ -154,7 +154,7 @@ const partners: Partner[] = [
       <div className="space-y-10 py-10">
         <div className="flex flex-col items-center">
           <h2 className="mt-5 text-4xl font-bold text-black lg:text-6xl">
-            Partners & Sponsors
+            Exhibitors
           </h2>
         </div>
 
