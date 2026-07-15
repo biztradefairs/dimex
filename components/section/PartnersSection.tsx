@@ -39,9 +39,9 @@ const partners: Partner[] = [
     link: "https://bhatmetals.com/"
   },
   {
-    name: '', 
-    logo: '',
-    link: ""
+    name: 'SWASTIK AUTOMATION & CONTROL', 
+    logo: 'images/catouni',
+    link: "https://www.cautoniswastikinstrument.com/"
   },
   {
     name: '', 
