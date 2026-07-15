@@ -72,9 +72,9 @@ const partners: Partner[] = [
     logo: 'images/senor.png',
     link: "https://senormetals.com/"
     {
-    name: 'EXCELLENT LASERTECH ', 
-    logo: 'images/excellent.jpg',
-    link: "https://www.indiamart.com/excellent-lasertech-proto/?srsltid=AfmBOoo1XRJ320qkGlU-s_c2iMZjHXJoRy6gGqNlXmQtyP8jkCFq4n-i"
+    name: 'GOEL CARBON  ', 
+    logo: 'images/goel_carbon.png',
+    link: "https://goelcarbon.com/"
 },
   name: 'EXCELLENT LASERTECH ', 
     logo: 'images/excellent.jpg',
