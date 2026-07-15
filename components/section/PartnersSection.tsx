@@ -34,7 +34,7 @@ const partners: Partner[] = [
     link: "https://rajamanesolutions.com/"
   },
   {
-    name: 'BHAT METALS', 
+    name: 'BHAT METALSS', 
     logo: 'images/bhat_metals.jpg',
     link: "https://bhatmetals.com/"
   },
