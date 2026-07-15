@@ -99,7 +99,10 @@ const partners: Partner[] = [
     logo: 'images/oemupdate.jpg',
     link: "https://www.oemupdate.com/"
     
-
+},    {
+  name: 'INDUSTRIAL PRODUCT MONITOR ', 
+    logo: 'images/ipm.jpg',
+    link: "https://www.instagram.com/industrialproductmonitor/"
 
 
 
