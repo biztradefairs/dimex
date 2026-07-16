@@ -30,7 +30,7 @@ export const partnersData: PartnersData = {
       name: '',
       slug: 'cargo-insights',
       role: 'Official Media Partner',
-      logo: '',
+      logo: 'images/partners/idemi.png',
       websiteLink: '',
       description: ``,
     },
