@@ -19,7 +19,7 @@ export default function PartnersSection() {
   const subtitleRef = useRef<HTMLDivElement>(null);
 
   const partners = [
-    { name: '', logo: '/images/partner1.png', url: '#' },
+    { name: 'RAJ TOOL & STAMPINGS', logo: '/images/partner1.png', url: '#' },
     { name: '', logo: '/images/partner2.png', url: '#' },
     { name: '', logo: '/images/partner3.png', url: '#' },
     { name: '', logo: '/images/partner4.png', url: '#' },
