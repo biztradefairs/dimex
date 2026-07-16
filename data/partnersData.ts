@@ -27,7 +27,7 @@ export const partnersData: PartnersData = {
 
   officialMediaPartner: [
     {
-      name: '',
+      name: 'IDEMI',
       slug: 'cargo-insights',
       role: 'Official Media Partner',
       logo: 'images/partners/idemi.png',
