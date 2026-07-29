@@ -203,7 +203,7 @@ const TransRussiaSummitProgram: React.FC = () => {
           title: "Networking Hi Tea"
         },
 {
-          time: "16:30 – 16:30",
+          time: "16:00 – 16:30",
           title: "Fireside Chat : AI, Simulation & Smart Manufacturing – Digitalizing the Mold Shop",
           description: "• AI-driven mold flow and simulation for zero-defect molding.• Use of digital twins & predictive maintenance in tool rooms • From manual know-how to knowledge-driven digital workflows"
         },
