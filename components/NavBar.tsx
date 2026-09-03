@@ -33,6 +33,7 @@ const navItems: NavItem[] = [
     dropdown: true,
     links: [
       { text: "Why Visit", href: "/why-visit" },
+      { text: "Digital Visitor Pass", href: "/passes" },
       { text: "Event Sector", href: "/sectors" },
       { text: "Exhibitor List", href: "/exhibition-directory" },
       { text: "Download Event Brochure", href: "/event-brochure" },

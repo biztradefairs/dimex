@@ -61,7 +61,7 @@ export default function EnquiryForm() {
         try {
             const payload = {
                 email: form.email,
-                formType: 'exhibitor-enquiry',
+                formType: 'visitor-registration',
                 firstName: form.name.split(' ')[0] || '',
                 lastName: form.name.split(' ').slice(1).join(' ') || '',
                 contactPerson: form.name,
