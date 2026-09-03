@@ -140,6 +140,7 @@ const FORM_TYPE_TO_LEAD_TYPE: Record<string, string> = {
     'exhibitor-enquiry': 'EXHIBITOR',
     'partner-registration': 'PARTNER',
     'brochure-request': 'BROCHURE',
+    'event-brochure': 'BROCHURE',
 };
 
 function mapFormInputToCreateLead(projectId: string, input: Record<string, any>) {

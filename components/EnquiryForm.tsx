@@ -2,16 +2,16 @@
 "use client"
 
 import React, { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import ReCAPTCHA from 'react-google-recaptcha';
-import ThankYouPopup from '@/components/ThankYouPopup';
 import { useLocationData } from '@/hooks/useLocationData';
 import { useUTMData } from '@/hooks/useUTMTracker';
 import {
     InputField, SelectField, PhoneField,
     LocationFields, SubmitButton, Icons,
 } from '@/components/FormFields';
-import { submitContactForm, PROJECT_ID_VAR } from '@/lib/graphql-client';
+import { saveThanksSession, submitRegistrationInBackground } from '@/lib/submitRegistration';
 
 const VISITOR_PROFILES = [
     { value: 'Automotive', label: 'Automotive (Auto OEMs, Auto Ancillary)' },
@@ -30,11 +30,11 @@ const VISITOR_PROFILES = [
 ];
 
 export default function EnquiryForm() {
+    const router = useRouter();
     const recaptchaRef = useRef<any>(null);
     const [captchaToken, setCaptchaToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [termsAccepted, setTerms] = useState(false);
-    const [showThanks, setShowThanks] = useState(false);
     const { utmData, campaign } = useUTMData();
 
     const [form, setForm] = useState({
@@ -93,46 +93,12 @@ export default function EnquiryForm() {
                 cmsCampaignMedium: campaign?.utm_medium || '',
             };
 
-            const graphqlResult = await submitContactForm(
-                PROJECT_ID_VAR.projectId,
-                payload
-            );
-
-            const emailResponse = await fetch(
-                `${process.env.NEXT_PUBLIC_API_BASE_URL}/contact`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                }
-            );
-
-            const emailResult = await emailResponse.json();
-
-            if (graphqlResult.errors) {
-                toast.error(graphqlResult.errors[0]?.message || "Failed to save lead");
-                return;
-            }
-
-            if (!emailResult.success) {
-                toast.error("Lead saved but email could not be sent");
-                return;
-            }
-
-            toast.success("Submitted successfully!");
-
-            setShowThanks(true);
-
-            // Reset form here
-            setCaptchaToken(null);
-            recaptchaRef.current?.reset();
-
+            submitRegistrationInBackground(payload);
+            saveThanksSession({ name: form.name.split(' ')[0] || 'Visitor', tab: 'enquiry', email: form.email });
+            router.push(`/register/thank-you?t=enquiry&name=${encodeURIComponent(form.name.split(' ')[0] || 'Visitor')}`);
         } catch (error) {
             console.error(error);
             toast.error("Network error. Please check your connection.");
-        } finally {
             setLoading(false);
         }
     };
@@ -223,12 +189,6 @@ export default function EnquiryForm() {
 
                 <SubmitButton loading={loading} label="Submit" />
             </form>
-
-            <ThankYouPopup
-                isVisible={showThanks}
-                onClose={() => setShowThanks(false)}
-                name={form.name.split(' ')[0] || 'Visitor'}
-            />
         </>
     );
 }

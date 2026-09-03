@@ -2,22 +2,22 @@
 "use client"
 
 import React, { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import ReCAPTCHA from 'react-google-recaptcha';
-import ThankYouPopup from '@/components/ThankYouPopup';
 import { useLocationData } from '@/hooks/useLocationData';
 import { useUTMData } from '@/hooks/useUTMTracker';
 import {
     InputField, PhoneField, LocationFields,
     ConsentCheckbox, SubmitButton, Icons,
 } from '@/components/FormFields';
-import { submitContactForm, PROJECT_ID_VAR } from '@/lib/graphql-client';
+import { saveThanksSession, submitRegistrationInBackground } from '@/lib/submitRegistration';
 
 export default function SponsorForm() {
+    const router = useRouter();
     const recaptchaRef = useRef<any>(null);
     const [captchaToken, setCaptchaToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-    const [showThanks, setShowThanks] = useState(false);
     const { utmData, campaign } = useUTMData();
 
     const [form, setForm] = useState({
@@ -51,13 +51,12 @@ export default function SponsorForm() {
         e.preventDefault();
         if (!validatePhone(form.phone)) return toast.error('Please enter a valid 10-digit mobile number');
         if (!form.privacyConsent) return toast.error('Please accept the Privacy Policy to continue');
-        if (!captchaToken) return toast.error('Please complete the reCAPTCHA');
+        if (process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && !captchaToken) {
+            return toast.error('Please complete the reCAPTCHA');
+        }
         setLoading(true);
         try {
-            const result = await submitContactForm(
-                PROJECT_ID_VAR.projectId,
-                {
-                        // Form fields
+            const payload = {
                         firstName: form.firstName,
                         lastName: form.lastName,
                         jobTitle: form.jobTitle,
@@ -75,7 +74,6 @@ export default function SponsorForm() {
                         formType: 'partner-registration',
                         captchaToken,
                         submittedAt: new Date().toISOString(),
-                        // UTM Tracking Data
                         utmSource: utmData?.utm_source || '',
                         utmMedium: utmData?.utm_medium || '',
                         utmCampaign: utmData?.utm_campaign || '',
@@ -85,38 +83,18 @@ export default function SponsorForm() {
                         referrer: utmData?.referrer || '',
                         landingPage: utmData?.landingPage || '',
                         utmTimestamp: utmData?.timestamp || '',
-                        // CMS Campaign Data
                         cmsCampaignId: campaign?.id || '',
                         cmsCampaignName: campaign?.name || '',
                         cmsCampaignSource: campaign?.utm_source || '',
                         cmsCampaignMedium: campaign?.utm_medium || '',
-                }
-            );
+            };
 
-            if (result.errors) {
-                toast.error(result.errors[0]?.message || 'Failed to submit');
-                return;
-            }
-
-            const data = result.data?.submitContact;
-            if (data?.success) {
-                toast.success('Partner registration submitted successfully!');
-                setShowThanks(true);
-                setForm({
-                    firstName: '', lastName: '', jobTitle: '', email: '',
-                    phone: '', companyName: '', gstin: '', address: '',
-                    country: '', state: '', city: '', website: '',
-                    marketingConsent: false, privacyConsent: false,
-                });
-                setCaptchaToken(null);
-                recaptchaRef.current?.reset();
-            } else {
-                toast.error(data?.message || 'Failed to submit registration.');
-            }
+            submitRegistrationInBackground(payload);
+            saveThanksSession({ name: form.firstName || 'Partner', tab: 'sponsor', email: form.email });
+            router.push(`/register/thank-you?t=sponsor&name=${encodeURIComponent(form.firstName || 'Partner')}`);
         } catch (error) {
             console.error('Error submitting form:', error);
             toast.error('Network error. Please check your connection.');
-        } finally {
             setLoading(false);
         }
     };
@@ -233,12 +211,6 @@ export default function SponsorForm() {
 
                 <SubmitButton loading={loading} label="Register as Partner" showArrow={false} />
             </form>
-
-            <ThankYouPopup
-                isVisible={showThanks}
-                onClose={() => setShowThanks(false)}
-                name={form.firstName}
-            />
         </>
     );
 }

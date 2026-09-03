@@ -2,16 +2,16 @@
 "use client"
 
 import React, { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import ReCAPTCHA from 'react-google-recaptcha';
-import ThankYouPopup from '@/components/ThankYouPopup';
 import { useLocationData } from '@/hooks/useLocationData';
 import { useUTMData } from '@/hooks/useUTMTracker';
 import {
     InputField, SelectField, PhoneField,
     LocationFields, SubmitButton, Icons,
 } from '@/components/FormFields';
-import { submitContactForm, PROJECT_ID_VAR } from '@/lib/graphql-client';
+import { saveThanksSession, submitRegistrationInBackground } from '@/lib/submitRegistration';
 
 const STAND_SIZES = [
     '9 sqm (3x3)', '12 sqm (3x4)', '15 sqm (3x5)', '18 sqm (3x6)',
@@ -45,10 +45,10 @@ const INTEREST_LEVELS = [
 ];
 
 export default function ExhibitorForm() {
+    const router = useRouter();
     const recaptchaRef = useRef<any>(null);
     const [captchaToken, setCaptchaToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
-    const [showThanks, setShowThanks] = useState(false);
     const { utmData, campaign } = useUTMData();
 
     const [form, setForm] = useState({
@@ -87,7 +87,9 @@ export default function ExhibitorForm() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (!captchaToken) return toast.error('Please complete the CAPTCHA');
+        if (process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && !captchaToken) {
+            return toast.error('Please complete the CAPTCHA');
+        }
         if (!form.productSector.length) return toast.error('Please select at least one product sector');
         setLoading(true);
         try {
@@ -127,48 +129,13 @@ export default function ExhibitorForm() {
                 cmsCampaignMedium: campaign?.utm_medium || '',
             };
 
-            const graphqlResult = await submitContactForm(
-                PROJECT_ID_VAR.projectId,
-                payload
-            );
-
-            const emailResponse = await fetch(
-                `${process.env.NEXT_PUBLIC_API_BASE_URL}/contact`,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify(payload),
-                }
-            );
-
-            const emailResult = await emailResponse.json();
-
-            if (graphqlResult.errors) {
-                toast.error(graphqlResult.errors[0]?.message || "Failed to save lead");
-                return;
-            }
-
-            if (!emailResult.success) {
-                toast.error("Lead saved but email could not be sent");
-                return;
-            }
-
-            toast.success("Submitted successfully!");
-
-            setShowThanks(true);
-
-            // Reset form here
-            setCaptchaToken(null);
-            recaptchaRef.current?.reset();
-            console.log("GraphQL Result:", graphqlResult);
-            console.log("Email Result:", emailResult);
-
+            submitRegistrationInBackground(payload);
+            const firstName = form.contactPerson?.split(' ')[0] || 'Visitor';
+            saveThanksSession({ name: firstName, tab: 'exhibitor', email: form.email });
+            router.push(`/register/thank-you?t=exhibitor&name=${encodeURIComponent(firstName)}`);
         } catch (error) {
             console.error(error);
             toast.error("Network error. Please check your connection.");
-        }  finally {
             setLoading(false);
         }
     };
@@ -333,12 +300,6 @@ export default function ExhibitorForm() {
 
                 <SubmitButton loading={loading} label="Submit" />
             </form>
-
-            <ThankYouPopup
-                isVisible={showThanks}
-                onClose={() => setShowThanks(false)}
-                name={form.contactPerson?.split(' ')[0] || 'Visitor'}
-            />
         </>
     );
 }

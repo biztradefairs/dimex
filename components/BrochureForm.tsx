@@ -2,16 +2,16 @@
 "use client"
 
 import React, { useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import ReCAPTCHA from 'react-google-recaptcha';
-import ThankYouPopup from '@/components/ThankYouPopup';
 import { useLocationData } from '@/hooks/useLocationData';
 import { useUTMData } from '@/hooks/useUTMTracker';
 import {
   InputField, PhoneField, LocationFields,
   SubmitButton, Icons,
 } from '@/components/FormFields';
-import { submitContactForm, PROJECT_ID_VAR } from '@/lib/graphql-client';
+import { saveThanksSession, submitRegistrationInBackground } from '@/lib/submitRegistration';
 
 
 interface BrochureFormValues {
@@ -33,10 +33,10 @@ interface BrochureFormValues {
 }
 
 export default function BrochureForm() {
+  const router = useRouter();
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [captchaToken, setCaptchaToken] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [showThanks, setShowThanks] = useState<boolean>(false);
   const { utmData, campaign } = useUTMData();
 
   const [form, setForm] = useState<BrochureFormValues>({
@@ -66,8 +66,6 @@ export default function BrochureForm() {
     citiesLoading,
   } = useLocationData(form.country, form.state);
 
-  const API_URL: string = process.env.NEXT_PUBLIC_API_BASE_URL || '';
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm(prev => ({ ...prev, [name]: value }));
@@ -82,16 +80,15 @@ export default function BrochureForm() {
     try {
       const payload = {
         ...form,
-        email:form.email,
+        email: form.email,
         formType: 'event-brochure',
         captchaToken,
         submittedAt: new Date().toISOString(),
-        firstName: form.contactPerson?.split(' ')[0] || '',
-        lastName: form.contactPerson?.split(' ').slice(1).join(' ') || '',
-        contactPerson: form.contactPerson,
+        firstName: form.firstName,
+        lastName: form.lastName,
+        contactPerson: `${form.firstName} ${form.lastName}`.trim(),
         companyName: form.companyName,
         jobTitle: form.jobTitle,
-        // email: form.email,
         phone: form.phone,
         country: form.country,
         state: form.state,
@@ -101,12 +98,6 @@ export default function BrochureForm() {
         productSector: form.productSector,
         message: form.message,
         interestLevel: form.interestLevel,
-
-        // formType: 'exhibitor-enquiry',
-        // captchaToken,
-        // submittedAt: new Date().toISOString(),
-
-        // UTM Tracking Data
         utmSource: utmData?.utm_source || '',
         utmMedium: utmData?.utm_medium || '',
         utmCampaign: utmData?.utm_campaign || '',
@@ -116,72 +107,18 @@ export default function BrochureForm() {
         referrer: utmData?.referrer || '',
         landingPage: utmData?.landingPage || '',
         utmTimestamp: utmData?.timestamp || '',
-
-        // CMS Campaign Data
         cmsCampaignId: campaign?.id || '',
         cmsCampaignName: campaign?.name || '',
         cmsCampaignSource: campaign?.utm_source || '',
         cmsCampaignMedium: campaign?.utm_medium || '',
       };
 
-      // 1. Save in GraphQL CMS
-      const graphqlResult = await submitContactForm(
-        PROJECT_ID_VAR.projectId,
-        payload
-      );
-
-      // 2. Send email through contact API
-      const emailResponse = await fetch(
-        `${API_URL}/api/contact`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      const emailResult = await emailResponse.json();
-
-      if (graphqlResult.errors) {
-        toast.error(graphqlResult.errors[0]?.message || "Failed to save lead");
-        return;
-      }
-
-      if (!emailResult.success) {
-        toast.error("Lead saved but email could not be sent");
-        return;
-      }
-
-      toast.success("Brochure download link sent to your email!");
-
-      setShowThanks(true);
-
-      setForm({
-        contactPerson: '',
-        standSize: '',
-        industry: '',
-        productSector: '',
-        message: '',
-        interestLevel: '',
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        companyName: '',
-        jobTitle: '',
-        country: '',
-        state: '',
-        city: '',
-      });
-
-      setCaptchaToken(null);
-      recaptchaRef.current?.reset();
+      submitRegistrationInBackground(payload);
+      saveThanksSession({ name: form.firstName || 'Visitor', tab: 'brochure', email: form.email });
+      router.push(`/register/thank-you?t=brochure&name=${encodeURIComponent(form.firstName || 'Visitor')}`);
     } catch (error) {
       console.error('Error submitting form:', error);
       toast.error('Network error. Please check your connection.');
-    } finally {
       setLoading(false);
     }
   };
@@ -270,12 +207,6 @@ export default function BrochureForm() {
 
         <SubmitButton loading={loading} label="Download Brochure" />
       </form>
-
-      <ThankYouPopup
-        isVisible={showThanks}
-        onClose={() => setShowThanks(false)}
-        name={form.firstName}
-      />
     </>
   );
 }
