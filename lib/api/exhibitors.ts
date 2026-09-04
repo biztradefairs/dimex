@@ -1,13 +1,21 @@
 import axios from "axios";
 
+function getApiBaseUrl() {
+  const raw = (
+    process.env.NEXT_PUBLIC_API_BASE_URL ||
+    process.env.NEXT_PUBLIC_API_URL ||
+    "https://diemex-backend.onrender.com/api"
+  ).replace(/\/$/, "");
+
+  return raw.endsWith("/api") ? raw : `${raw}/api`;
+}
+
 /* =========================================================
    AXIOS INSTANCE
 ========================================================= */
 
 const api = axios.create({
-  baseURL:
-    process.env.NEXT_PUBLIC_API_URL ||
-    "https://diemex-backend.onrender.com/api",
+  baseURL: getApiBaseUrl(),
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
@@ -66,10 +74,10 @@ api.interceptors.response.use(
       localStorage.removeItem("exhibitor_data");
       localStorage.removeItem("token");
       localStorage.removeItem("admin_token");
-      
-      // Redirect to login if not already there
-      if (!window.location.pathname.includes('/login')) {
-        window.location.href = '/login';
+
+      const onAdmin = window.location.pathname.startsWith("/admin");
+      if (!window.location.pathname.includes("/login")) {
+        window.location.href = onAdmin ? "/admin/login" : "/login";
       }
     }
 
@@ -316,36 +324,10 @@ export const exhibitorsAPI = {
       }
 
       const createdExhibitor = response.data.data;
-      
-      // Send credentials email using the new route
-      try {
-        const emailData = {
-          email: createdExhibitor.email,
-          name: createdExhibitor.name,
-          company: createdExhibitor.company,
-          password: createdExhibitor.originalPassword || data.password,
-          boothNumber: createdExhibitor.boothNumber || data.boothNumber,
-          loginUrl: `${process.env.NEXT_PUBLIC_FRONTEND_URL || window.location.origin}/login`
-        };
 
-        console.log("📧 Sending credentials email to:", emailData.email);
-        
-        await api.post('/exhibitor-credentials/send-credentials', emailData, {
-          timeout: 30000
-        });
-        
-        console.log(`✅ Credentials email sent to ${createdExhibitor.email}`);
-      } catch (emailError: any) {
-        console.error("❌ Failed to send credentials email:", emailError);
-        console.error("Email error details:", {
-          message: emailError.message,
-          response: emailError.response?.data,
-          status: emailError.response?.status
-        });
-        // Don't fail the creation if email fails, just log it
-      }
+      // Credentials email is sent by the backend on create.
+      // A second frontend call is not required and was surfacing SendGrid 500s.
 
-      // Map response to include all fields
       const mappedResponse = mapExhibitorData(createdExhibitor);
       
       return {
