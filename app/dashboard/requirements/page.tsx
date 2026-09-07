@@ -45,6 +45,7 @@ import {
   formatDraftSavedAt,
   type RequirementsFormDraft,
 } from '@/lib/requirementsDraft';
+import { roundMoney } from '@/lib/utils';
 
 // ============= API CONFIGURATION =============
 const API_BASE_URL = 'https://diemex-backend.onrender.com';
@@ -845,7 +846,7 @@ export default function RequirementsPage() {
     if (draft.pendingPayment?.invoiceId) {
       setCashfreeInvoiceId(draft.pendingPayment.invoiceId);
       setCashfreeRequirementsId(draft.pendingPayment.requirementsId);
-      setCashfreeAmount(draft.pendingPayment.amount || 0);
+      setCashfreeAmount(roundMoney(draft.pendingPayment.amount || 0));
     }
 
     if (draftHasUserProgress(draft)) {
@@ -1259,21 +1260,21 @@ export default function RequirementsPage() {
       rentalTotal +
       housekeepingTotal;
 
-    const gst = servicesTotal * 0.18;
-    const subtotal = servicesTotal + gst;
-    const grandTotal = subtotal + depositAmount;
+    const gst = roundMoney(servicesTotal * 0.18);
+    const subtotal = roundMoney(servicesTotal + gst);
+    const grandTotal = roundMoney(subtotal + depositAmount);
 
     return {
-      furniture: furnitureTotal,
-      hostess: hostessTotal,
-      electrical: electricalTotal,
-      compressedAir: compressedAirTotal,
-      water: waterTotal,
-      security: securityTotal,
-      rental: rentalTotal,
-      housekeeping: housekeepingTotal,
-      deposit: depositAmount,
-      servicesTotal,
+      furniture: roundMoney(furnitureTotal),
+      hostess: roundMoney(hostessTotal),
+      electrical: roundMoney(electricalTotal),
+      compressedAir: roundMoney(compressedAirTotal),
+      water: roundMoney(waterTotal),
+      security: roundMoney(securityTotal),
+      rental: roundMoney(rentalTotal),
+      housekeeping: roundMoney(housekeepingTotal),
+      deposit: roundMoney(depositAmount),
+      servicesTotal: roundMoney(servicesTotal),
       gst,
       subtotal,
       total: grandTotal
@@ -1575,7 +1576,7 @@ export default function RequirementsPage() {
           
           setCashfreeInvoiceId(finalInvoiceId);
           setCashfreeRequirementsId(requirementsId);
-          setCashfreeAmount(totals.total);
+          setCashfreeAmount(roundMoney(totals.total));
           
           setShowPayment(false);
           setShowCashfree(true);
@@ -1704,19 +1705,10 @@ export default function RequirementsPage() {
 
   const handleCashfreeFailure = (error: string) => {
     console.error('Payment failed:', error);
-    setShowCashfree(false);
     setDraftNotice({
       savedAt: new Date().toISOString(),
       hasPendingPayment: true,
     });
-    
-    const shouldRetry = window.confirm(
-      `Payment failed: ${error}\n\nYour form has been saved. Would you like to try payment again?\n\nClick "OK" to retry.`
-    );
-    
-    if (shouldRetry) {
-      setShowCashfree(true);
-    }
   };
 
   const resetCashPaymentForm = () => {

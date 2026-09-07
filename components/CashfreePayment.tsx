@@ -3,6 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import { ExclamationCircleIcon } from '@heroicons/react/24/outline';
+import { roundMoney } from '@/lib/utils';
 
 interface CashfreePaymentProps {
   invoiceId: string;
@@ -76,9 +77,16 @@ export default function CashfreePayment({
       }
 
       const token = localStorage.getItem('exhibitor_token') || localStorage.getItem('token');
+      const payableAmount = roundMoney(amount);
+
+      if (payableAmount < 1) {
+        throw new Error('Payment amount must be at least ₹1. Please check the selected services and admin prices.');
+      }
+
+      const details = exhibitorDetails as Record<string, any>;
 
       console.log('Creating Cashfree order...', {
-        amount,
+        amount: payableAmount,
         invoiceId,
         requirementsId,
         exhibitorDetails
@@ -91,10 +99,15 @@ export default function CashfreePayment({
           'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({
-          amount,
+          amount: payableAmount,
           invoiceId,
           requirementsId,
-          customerDetails: exhibitorDetails
+          customerDetails: {
+            customerId: details.customerId || details.id,
+            customerName: details.customerName || details.name,
+            customerEmail: details.customerEmail || details.email,
+            customerPhone: details.customerPhone || details.phone,
+          }
         })
       });
 
@@ -157,7 +170,6 @@ export default function CashfreePayment({
       console.error('Payment error:', err);
       const errorMessage = err.message || 'Payment failed. Please try again.';
       setError(errorMessage);
-      onFailure?.(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -184,7 +196,9 @@ export default function CashfreePayment({
     <div className="p-6">
       <div className="text-center mb-6">
         <h3 className="text-xl font-bold text-gray-900">Complete Payment</h3>
-        <p className="text-3xl font-bold text-blue-600 mt-2">₹{amount.toLocaleString()}</p>
+        <p className="text-3xl font-bold text-blue-600 mt-2">
+          ₹{roundMoney(amount).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+        </p>
         <p className="text-sm text-gray-500 mt-1">Invoice: {invoiceId}</p>
       </div>
 
@@ -205,7 +219,7 @@ export default function CashfreePayment({
         ) : !isSDKLoaded ? (
           'Loading Payment Gateway...'
         ) : (
-          `Pay ₹${amount.toLocaleString()}`
+          `Pay ₹${roundMoney(amount).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
         )}
       </button>
 
