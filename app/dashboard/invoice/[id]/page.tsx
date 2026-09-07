@@ -62,57 +62,10 @@ export default function ExhibitorInvoiceDetailsPage() {
   const [error, setError] = useState<string | null>(null);
   const [showPaymentSuccess, setShowPaymentSuccess] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<'checking' | 'success' | 'failed' | null>(null);
-  const [autoCheckCount, setAutoCheckCount] = useState(0);
 
-  // Check for payment status in URL and verify payment
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const paymentStatusParam = urlParams.get('payment_status');
-    const orderId = urlParams.get('order_id');
-    
-    if (paymentStatusParam === 'success' && orderId) {
-      verifyPayment(orderId);
-      // Remove query params from URL
-      window.history.replaceState({}, '', window.location.pathname);
-    }
-  }, [invoiceId]);
-
-  const verifyPayment = async (orderId: string) => {
+  const fetchInvoiceDetails = useCallback(async (opts?: { silent?: boolean }) => {
     try {
-      setPaymentStatus('checking');
-      const token = localStorage.getItem('exhibitor_token') || localStorage.getItem('token');
-      
-      const response = await fetch(`${API_BASE_URL}/api/payments/verify-payment/${orderId}`, {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      
-      if (response.ok) {
-        const data = await response.json();
-        if (data.data.paymentStatus === 'SUCCESS') {
-          setPaymentStatus('success');
-          setShowPaymentSuccess(true);
-          // Refresh invoice details
-          await fetchInvoiceDetails();
-          
-          // Auto-hide success message after 5 seconds
-          setTimeout(() => {
-            setShowPaymentSuccess(false);
-          }, 5000);
-        } else {
-          setPaymentStatus('failed');
-        }
-      }
-    } catch (error) {
-      console.error('Payment verification error:', error);
-      setPaymentStatus('failed');
-    }
-  };
-
-  const fetchInvoiceDetails = useCallback(async () => {
-    try {
-      setLoading(true);
+      if (!opts?.silent) setLoading(true);
       const token = localStorage.getItem('exhibitor_token') || localStorage.getItem('token');
       
       const response = await fetch(`${API_BASE_URL}/api/invoices/${invoiceId}/details`, {
@@ -125,6 +78,7 @@ export default function ExhibitorInvoiceDetailsPage() {
         const data = await response.json();
         setInvoice(data.data);
         setError(null);
+        return data.data as Invoice;
       } else if (response.status === 403) {
         setError('You do not have permission to view this invoice');
       } else if (response.status === 404) {
@@ -136,16 +90,90 @@ export default function ExhibitorInvoiceDetailsPage() {
       console.error('Error:', error);
       setError('Failed to load invoice details');
     } finally {
-      setLoading(false);
+      if (!opts?.silent) setLoading(false);
     }
+    return null;
   }, [invoiceId]);
 
-  // Auto-refresh invoice details if status is pending
+  const isPaidStatus = (status?: string) => String(status || '').toLowerCase() === 'paid';
+
+  const verifyPayment = useCallback(async (orderId: string) => {
+    setPaymentStatus('checking');
+    const token = localStorage.getItem('exhibitor_token') || localStorage.getItem('token');
+
+    const markSuccess = async () => {
+      setPaymentStatus('success');
+      setShowPaymentSuccess(true);
+      await fetchInvoiceDetails({ silent: true });
+      window.setTimeout(() => setShowPaymentSuccess(false), 5000);
+    };
+
+    try {
+      for (let attempt = 0; attempt < 6; attempt++) {
+        const latest = await fetchInvoiceDetails({ silent: true });
+        if (isPaidStatus(latest?.status)) {
+          await markSuccess();
+          return;
+        }
+
+        const response = await fetch(`${API_BASE_URL}/api/cashfree/verify-payment/${orderId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          if (data?.data?.paymentStatus === 'SUCCESS') {
+            await markSuccess();
+            return;
+          }
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+      }
+
+      const latest = await fetchInvoiceDetails({ silent: true });
+      if (isPaidStatus(latest?.status)) {
+        await markSuccess();
+        return;
+      }
+
+      setPaymentStatus('failed');
+    } catch (error) {
+      console.error('Payment verification error:', error);
+      const latest = await fetchInvoiceDetails({ silent: true });
+      if (isPaidStatus(latest?.status)) {
+        setPaymentStatus('success');
+        setShowPaymentSuccess(true);
+        return;
+      }
+      setPaymentStatus('failed');
+    }
+  }, [fetchInvoiceDetails]);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const paymentStatusParam = urlParams.get('payment_status');
+    const orderId = urlParams.get('order_id');
+
+    if (paymentStatusParam === 'success' && orderId) {
+      verifyPayment(orderId);
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, [invoiceId, verifyPayment]);
+
   useEffect(() => {
     fetchInvoiceDetails();
   }, [fetchInvoiceDetails]);
 
- // Replace the auto-refresh useEffect with this:
+  useEffect(() => {
+    if (isPaidStatus(invoice?.status) && paymentStatus === 'checking') {
+      setPaymentStatus('success');
+      setShowPaymentSuccess(true);
+      window.setTimeout(() => setShowPaymentSuccess(false), 5000);
+    }
+  }, [invoice?.status, paymentStatus]);
 
 useEffect(() => {
   let interval: NodeJS.Timeout;
@@ -384,7 +412,7 @@ const downloadInvoice = async () => {
         )}
 
         {/* Payment Status Checking */}
-        {paymentStatus === 'checking' && (
+        {paymentStatus === 'checking' && !isPaidStatus(invoice.status) && (
           <div className="mb-6 bg-blue-50 border border-blue-200 rounded-xl p-4">
             <div className="flex items-center gap-3">
               <ArrowPathIcon className="h-5 w-5 text-blue-600 animate-spin" />
@@ -397,7 +425,7 @@ const downloadInvoice = async () => {
         )}
 
         {/* Payment Failed Alert */}
-        {paymentStatus === 'failed' && (
+        {paymentStatus === 'failed' && !isPaidStatus(invoice.status) && (
           <div className="mb-6 bg-red-50 border border-red-200 rounded-xl p-4">
             <div className="flex items-start gap-3">
               <ExclamationCircleIcon className="h-6 w-6 text-red-600 flex-shrink-0" />
