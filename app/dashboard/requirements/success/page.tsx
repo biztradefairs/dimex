@@ -22,6 +22,7 @@ import {
   ExclamationTriangleIcon
 } from '@heroicons/react/24/outline';
 import Link from 'next/link';
+import { clearRequirementsDraft } from '@/lib/requirementsDraft';
 
 const API_BASE_URL = 'https://diemex-backend.onrender.com';
 
@@ -43,6 +44,10 @@ export default function SuccessPage() {
   const [error, setError] = useState<string | null>(null);
   const [verifyingPayment, setVerifyingPayment] = useState(false);
   const [invoiceStatus, setInvoiceStatus] = useState<string | null>(null);
+
+  useEffect(() => {
+    clearRequirementsDraft();
+  }, []);
 
   // Verify payment status with Cashfree
   const verifyCashfreePayment = useCallback(async (orderIdParam: string) => {

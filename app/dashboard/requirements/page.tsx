@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import {
   PlusIcon,
   CheckCircleIcon,
@@ -38,6 +38,13 @@ import { useRouter } from 'next/navigation';
 import { MenuIcon } from 'lucide-react';
 import Image from 'next/image';
 import CashfreePayment from '@/components/CashfreePayment';
+import {
+  loadRequirementsDraft,
+  saveRequirementsDraft,
+  clearRequirementsDraft,
+  formatDraftSavedAt,
+  type RequirementsFormDraft,
+} from '@/lib/requirementsDraft';
 
 // ============= API CONFIGURATION =============
 const API_BASE_URL = 'https://diemex-backend.onrender.com';
@@ -630,6 +637,9 @@ export default function RequirementsPage() {
   
   // Security Deposit Tiers from API
   const [securityDepositTiers, setSecurityDepositTiers] = useState<SecurityDepositTier[]>([]);
+  const [draftNotice, setDraftNotice] = useState<{ savedAt: string; hasPendingPayment: boolean } | null>(null);
+  const draftHydratedRef = useRef(false);
+  const latestDraftRef = useRef<RequirementsFormDraft | null>(null);
 
   // ============= VALIDATION FUNCTION =============
   const validateRequiredFields = (): { isValid: boolean; errors: string[] } => {
@@ -691,12 +701,168 @@ export default function RequirementsPage() {
   };
   const router = useRouter();
 
+  const draftHasUserProgress = (draft: RequirementsFormDraft) => {
+    if (draft.currentStep > 1 || draft.showPreview) return true;
+    if (draft.pendingPayment?.invoiceId) return true;
+    const booth = draft.boothDetails as BoothDetails | undefined;
+    if (booth?.sqMtrBooked || booth?.contractorCompany) return true;
+    const deposit = draft.securityDeposit as SecurityDeposit | undefined;
+    if (deposit?.boothSq) return true;
+    const machinesDraft = draft.machines as MachineDisplay[] | undefined;
+    if (machinesDraft?.some((m) => m.machineName?.trim())) return true;
+    const personnelDraft = draft.personnel as Personnel[] | undefined;
+    if (personnelDraft?.some((p, i) => i > 0 && p.name?.trim())) return true;
+    const electrical = draft.electricalLoad as ElectricalLoad | undefined;
+    if (electrical?.temporaryLoad || electrical?.exhibitionLoad) return true;
+    if (draft.furnitureSelections?.some((s) => s.quantity > 0)) return true;
+    const hostess = draft.hostessRequirements as HostessRequirement[] | undefined;
+    if (hostess?.some((h) => h.quantity > 0)) return true;
+    const air = draft.compressedAir as CompressedAir | undefined;
+    if (air?.selected) return true;
+    const water = draft.waterConnection as WaterConnection | undefined;
+    if (water?.connections) return true;
+    const guard = draft.securityGuard as SecurityGuard | undefined;
+    if (guard?.quantity) return true;
+    if (draft.rentalSelections?.some((s) => s.quantity > 0)) return true;
+    const house = draft.housekeepingStaff as HousekeepingStaff | undefined;
+    if (house?.quantity) return true;
+    return false;
+  };
+
+  const restoreRequirementsDraft = () => {
+    const draft = loadRequirementsDraft();
+    if (!draft) return;
+
+    if (typeof draft.currentStep === 'number') {
+      setCurrentStep(Math.min(Math.max(draft.currentStep, 1), 14));
+    }
+    if (draft.showPreview && !draft.pendingPayment?.invoiceId) {
+      setShowPreview(true);
+    }
+    if (draft.generalInfo) setGeneralInfo(draft.generalInfo as GeneralInfo);
+    if (draft.boothDetails) setBoothDetails(draft.boothDetails as BoothDetails);
+    if (draft.securityDeposit) setSecurityDeposit(draft.securityDeposit as SecurityDeposit);
+    if (Array.isArray(draft.machines) && draft.machines.length) {
+      setMachines(draft.machines as MachineDisplay[]);
+    }
+    if (Array.isArray(draft.personnel) && draft.personnel.length) {
+      setPersonnel(draft.personnel as Personnel[]);
+    }
+    if (draft.companyDetails) setCompanyDetails(draft.companyDetails as CompanyDetails);
+    if (draft.electricalLoad) setElectricalLoad(draft.electricalLoad as ElectricalLoad);
+
+    if (draft.furnitureSelections?.length) {
+      setFurnitureItems((prev) =>
+        prev.map((item) => {
+          const saved = draft.furnitureSelections.find(
+            (s) => (s.id && s.id === item.id) || s.code === item.code
+          );
+          if (!saved || saved.quantity <= 0) return item;
+          return {
+            ...item,
+            quantity: saved.quantity,
+            cost: saved.quantity * (item.cost3Days || 0),
+          };
+        })
+      );
+    }
+
+    if (Array.isArray(draft.hostessRequirements)) {
+      const savedHostess = draft.hostessRequirements as HostessRequirement[];
+      setHostessRequirements((prev) =>
+        prev.map((item) => {
+          const saved = savedHostess.find((h) => h.category === item.category);
+          if (!saved) return item;
+          const rate = item.ratePerDay || saved.ratePerDay || (item.category === 'A' ? 5000 : 4000);
+          return {
+            ...item,
+            quantity: saved.quantity || 0,
+            noOfDays: saved.noOfDays || 0,
+            amount: (saved.quantity || 0) * (saved.noOfDays || 0) * rate,
+          };
+        })
+      );
+    }
+
+    if (draft.compressedAir) setCompressedAir(draft.compressedAir as CompressedAir);
+
+    if (draft.waterConnection) {
+      const savedWater = draft.waterConnection as WaterConnection;
+      setWaterConnection((prev) => ({
+        ...prev,
+        connections: savedWater.connections || 0,
+        totalCost: (savedWater.connections || 0) * prev.costPerConnection,
+      }));
+    }
+
+    if (draft.securityGuard) {
+      const savedGuard = draft.securityGuard as SecurityGuard;
+      setSecurityGuard((prev) => ({
+        ...prev,
+        quantity: savedGuard.quantity || 0,
+        noOfDays: savedGuard.noOfDays || 0,
+        totalCost: (savedGuard.quantity || 0) * (savedGuard.noOfDays || 0) * 2500,
+      }));
+    }
+
+    if (draft.rentalSelections?.length) {
+      setRentalItems((prev) => {
+        const updated = { ...prev };
+        draft.rentalSelections.forEach((saved) => {
+          if (updated[saved.id] && saved.quantity > 0) {
+            updated[saved.id] = {
+              ...updated[saved.id],
+              quantity: saved.quantity,
+              totalCost: saved.quantity * updated[saved.id].costFor3Days,
+            };
+          }
+        });
+        return updated;
+      });
+    }
+
+    if (draft.housekeepingStaff) {
+      const savedHouse = draft.housekeepingStaff as HousekeepingStaff;
+      setHousekeepingStaff((prev) => ({
+        ...prev,
+        quantity: savedHouse.quantity || 0,
+        noOfDays: savedHouse.noOfDays || 0,
+        totalCost:
+          (savedHouse.quantity || 0) *
+          (savedHouse.noOfDays || 0) *
+          (prev.chargesPerShift || savedHouse.chargesPerShift || 0),
+      }));
+    }
+
+    if (draft.paymentDetails) {
+      const savedPayment = draft.paymentDetails as PaymentDetails;
+      setPaymentDetails({
+        ...savedPayment,
+        uploadedReceipt: null,
+      });
+    }
+
+    if (draft.pendingPayment?.invoiceId) {
+      setCashfreeInvoiceId(draft.pendingPayment.invoiceId);
+      setCashfreeRequirementsId(draft.pendingPayment.requirementsId);
+      setCashfreeAmount(draft.pendingPayment.amount || 0);
+    }
+
+    if (draftHasUserProgress(draft)) {
+      setDraftNotice({
+        savedAt: draft.savedAt,
+        hasPendingPayment: Boolean(draft.pendingPayment?.invoiceId),
+      });
+    }
+  };
+
   // ============= FETCH ALL DATA =============
   useEffect(() => {
     const fetchAllData = async () => {
       try {
         setLoading(true);
         setApiError(null);
+        const existingDraft = loadRequirementsDraft();
 
         const [
           furnitureRes,
@@ -721,13 +887,19 @@ export default function RequirementsPage() {
         ]);
 
         if (furnitureRes.status === 'fulfilled' && furnitureRes.value.success) {
-          setFurnitureItems(furnitureRes.value.data.map((item: any) => ({
-            ...item,
-            image: item.imageUrl || '',
-            size: item.size || 'N/A',
-            quantity: 0,
-            cost: 0
-          })));
+          setFurnitureItems(furnitureRes.value.data.map((item: any) => {
+            const saved = existingDraft?.furnitureSelections?.find(
+              (s) => (s.id && s.id === item.id) || s.code === item.code
+            );
+            const quantity = saved?.quantity || 0;
+            return {
+              ...item,
+              image: item.imageUrl || '',
+              size: item.size || 'N/A',
+              quantity,
+              cost: quantity * (item.cost3Days || 0)
+            };
+          }));
         }
 
         if (compressedAirRes.status === 'fulfilled' && compressedAirRes.value.success) {
@@ -757,9 +929,11 @@ export default function RequirementsPage() {
                 costFor3Days: item.costFor3Days,
                 category: item.category,
                 image: imageUrl,
-                quantity: 0,
+                quantity: existingDraft?.rentalSelections?.find((s) => s.id === item.id)?.quantity || 0,
                 totalCost: 0
               };
+              rentalItemsMap[item.id].totalCost =
+                rentalItemsMap[item.id].quantity * rentalItemsMap[item.id].costFor3Days;
             }
           });
           
@@ -768,14 +942,21 @@ export default function RequirementsPage() {
 
         if (hostessCategoriesRes.status === 'fulfilled' && hostessCategoriesRes.value.success) {
           const categories = hostessCategoriesRes.value.data;
+          const savedHostess = existingDraft?.hostessRequirements as HostessRequirement[] | undefined;
           const updatedHostess = [...hostessRequirements];
           
           categories.forEach(cat => {
             const index = updatedHostess.findIndex(h => h.category === cat.category);
             if (index !== -1) {
+              const saved = savedHostess?.find((h) => h.category === cat.category);
+              const quantity = saved?.quantity || 0;
+              const noOfDays = saved?.noOfDays || 0;
               updatedHostess[index] = {
                 ...updatedHostess[index],
-                ratePerDay: cat.ratePerDay
+                ratePerDay: cat.ratePerDay,
+                quantity,
+                noOfDays,
+                amount: quantity * noOfDays * cat.ratePerDay
               };
             }
           });
@@ -786,18 +967,27 @@ export default function RequirementsPage() {
         if (waterConnectionConfigRes.status === 'fulfilled' && waterConnectionConfigRes.value.success) {
           const configData = waterConnectionConfigRes.value.data;
           const ratePerConnection = configData?.costPerConnection || 15000;
+          const savedConnections = (existingDraft?.waterConnection as WaterConnection | undefined)?.connections || 0;
           
-          setWaterConnection(prev => ({
-            ...prev,
-            costPerConnection: ratePerConnection
-          }));
+          setWaterConnection({
+            connections: savedConnections,
+            costPerConnection: ratePerConnection,
+            totalCost: savedConnections * ratePerConnection
+          });
         }
 
         if (housekeepingConfigRes.status === 'fulfilled' && housekeepingConfigRes.value.success) {
-          setHousekeepingStaff(prev => ({
-            ...prev,
-            chargesPerShift: housekeepingConfigRes.value.data.ratePerShift
-          }));
+          const savedHouse = existingDraft?.housekeepingStaff as HousekeepingStaff | undefined;
+          const ratePerShift = housekeepingConfigRes.value.data.ratePerShift;
+          const quantity = savedHouse?.quantity || 0;
+          const noOfDays = savedHouse?.noOfDays || 0;
+          setHousekeepingStaff({
+            quantity,
+            category: 'Housekeeping',
+            chargesPerShift: ratePerShift,
+            noOfDays,
+            totalCost: quantity * noOfDays * ratePerShift
+          });
         }
 
         if (securityDepositRes.status === 'fulfilled' && securityDepositRes.value.success) {
@@ -805,11 +995,17 @@ export default function RequirementsPage() {
         }
 
         await fetchExhibitorProfile();
+        restoreRequirementsDraft();
+        draftHydratedRef.current = true;
 
       } catch (error: any) {
         console.error('Error fetching data:', error);
         setApiError(error.message || 'Failed to load data');
       } finally {
+        if (!draftHydratedRef.current) {
+          restoreRequirementsDraft();
+          draftHydratedRef.current = true;
+        }
         setLoading(false);
       }
     };
@@ -1383,6 +1579,22 @@ export default function RequirementsPage() {
           
           setShowPayment(false);
           setShowCashfree(true);
+          setDraftNotice({
+            savedAt: new Date().toISOString(),
+            hasPendingPayment: true,
+          });
+          if (latestDraftRef.current) {
+            saveRequirementsDraft({
+              ...latestDraftRef.current,
+              savedAt: new Date().toISOString(),
+              showPreview: true,
+              pendingPayment: {
+                invoiceId: finalInvoiceId,
+                requirementsId,
+                amount: totals.total,
+              },
+            });
+          }
           
         } else {
           console.warn('Invoice generation failed, but requirements saved');
@@ -1461,6 +1673,7 @@ export default function RequirementsPage() {
       const result = await response.json();
 
       if (response.ok && result.success) {
+        clearRequirementsDraft();
         setPaymentReference(result.data.paymentReference);
         setShowCashPayment(false);
         window.location.href = `/dashboard/requirements/success?invoiceId=${tempInvoiceId}&paymentReference=${result.data.paymentReference}&status=pending`;
@@ -1484,6 +1697,7 @@ export default function RequirementsPage() {
     if (paymentData.paymentId) {
       localStorage.setItem('last_payment_id', paymentData.paymentId);
     }
+    clearRequirementsDraft();
     
     router.push(`/dashboard/requirements/success?order_id=${paymentData.orderId}&invoiceId=${cashfreeInvoiceId}`);
   };
@@ -1491,15 +1705,17 @@ export default function RequirementsPage() {
   const handleCashfreeFailure = (error: string) => {
     console.error('Payment failed:', error);
     setShowCashfree(false);
+    setDraftNotice({
+      savedAt: new Date().toISOString(),
+      hasPendingPayment: true,
+    });
     
     const shouldRetry = window.confirm(
-      `Payment failed: ${error}\n\nWould you like to try again?\n\nClick "OK" to retry or "Cancel" to use bank transfer.`
+      `Payment failed: ${error}\n\nYour form has been saved. Would you like to try payment again?\n\nClick "OK" to retry.`
     );
     
     if (shouldRetry) {
       setShowCashfree(true);
-    } else {
-      setShowPayment(true);
     }
   };
 
@@ -1750,6 +1966,99 @@ export default function RequirementsPage() {
 
     calculateHousekeepingCost();
   }, [housekeepingStaff.quantity, housekeepingStaff.noOfDays]);
+
+  const buildRequirementsDraft = (): RequirementsFormDraft => ({
+    version: 1,
+    savedAt: new Date().toISOString(),
+    currentStep,
+    showPreview,
+    generalInfo,
+    boothDetails,
+    securityDeposit,
+    machines,
+    personnel,
+    companyDetails,
+    electricalLoad,
+    furnitureSelections: furnitureItems
+      .filter((item) => item.quantity > 0)
+      .map((item) => ({ id: item.id, code: item.code, quantity: item.quantity })),
+    hostessRequirements,
+    compressedAir,
+    waterConnection,
+    securityGuard,
+    rentalSelections: Object.values(rentalItems)
+      .filter((item) => item.quantity > 0 && item.id)
+      .map((item) => ({ id: item.id as string, quantity: item.quantity })),
+    housekeepingStaff,
+    paymentDetails: { ...paymentDetails, uploadedReceipt: null },
+    pendingPayment: cashfreeInvoiceId
+      ? {
+          invoiceId: cashfreeInvoiceId,
+          requirementsId: cashfreeRequirementsId,
+          amount: cashfreeAmount,
+        }
+      : null,
+  });
+
+  latestDraftRef.current = buildRequirementsDraft();
+
+  useEffect(() => {
+    if (!draftHydratedRef.current || loading) return;
+
+    const timer = window.setTimeout(() => {
+      const draft = latestDraftRef.current;
+      if (!draft) return;
+      saveRequirementsDraft(draft);
+    }, 400);
+
+    return () => window.clearTimeout(timer);
+  }, [
+    loading,
+    currentStep,
+    showPreview,
+    generalInfo,
+    boothDetails,
+    securityDeposit,
+    machines,
+    personnel,
+    companyDetails,
+    electricalLoad,
+    furnitureItems,
+    hostessRequirements,
+    compressedAir,
+    waterConnection,
+    securityGuard,
+    rentalItems,
+    housekeepingStaff,
+    paymentDetails,
+    cashfreeInvoiceId,
+    cashfreeRequirementsId,
+    cashfreeAmount,
+  ]);
+
+  useEffect(() => {
+    const persistDraft = () => {
+      if (!draftHydratedRef.current || !latestDraftRef.current) return;
+      saveRequirementsDraft(latestDraftRef.current);
+    };
+
+    window.addEventListener('beforeunload', persistDraft);
+    return () => window.removeEventListener('beforeunload', persistDraft);
+  }, []);
+
+  const handleStartOver = () => {
+    if (!window.confirm('Clear your saved form and start again? Profile details will still be filled automatically.')) {
+      return;
+    }
+    clearRequirementsDraft();
+    window.location.reload();
+  };
+
+  const handleContinuePendingPayment = () => {
+    if (!cashfreeInvoiceId) return;
+    setShowPreview(false);
+    setShowCashfree(true);
+  };
 
   // ============= IMAGE MODAL =============
   const renderImageModal = () => {
@@ -3641,7 +3950,10 @@ export default function RequirementsPage() {
                 <p className="text-xs text-gray-500 hidden sm:block">Complete your exhibition service requirements</p>
               </div>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
+              <p className="hidden sm:block text-[11px] text-green-700 bg-green-50 border border-green-100 rounded-full px-2.5 py-1">
+                Progress auto-saved
+              </p>
               <div className="text-right">
                 <p className="text-xs text-gray-500">Step {currentStep} of {totalSteps}</p>
                 <p className="text-sm font-medium text-blue-600">{steps[currentStep - 1]?.name}</p>
@@ -3650,6 +3962,40 @@ export default function RequirementsPage() {
           </div>
         </div>
       </div>
+
+      {draftNotice ? (
+        <div className="bg-blue-50 border-b border-blue-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <p className="text-sm text-blue-900">
+              {draftNotice.hasPendingPayment
+                ? 'We restored your application. Payment was not completed, so you can continue without filling the form again.'
+                : `We restored your saved form${draftNotice.savedAt ? ` from ${formatDraftSavedAt(draftNotice.savedAt)}` : ''}. You can pick up where you left off.`}
+            </p>
+            <div className="flex items-center gap-2 shrink-0">
+              {draftNotice.hasPendingPayment && cashfreeInvoiceId ? (
+                <button
+                  onClick={handleContinuePendingPayment}
+                  className="px-3 py-1.5 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700"
+                >
+                  Continue payment
+                </button>
+              ) : null}
+              <button
+                onClick={handleStartOver}
+                className="px-3 py-1.5 text-sm font-medium rounded-lg border border-blue-200 text-blue-800 hover:bg-white"
+              >
+                Start over
+              </button>
+              <button
+                onClick={() => setDraftNotice(null)}
+                className="px-3 py-1.5 text-sm text-blue-700 hover:text-blue-900"
+              >
+                Dismiss
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         <div className="flex flex-col lg:flex-row gap-6">
@@ -3771,7 +4117,21 @@ export default function RequirementsPage() {
                 <button
                   onClick={() => {
                     setShowCashfree(false);
-                    setShowPayment(true);
+                    setDraftNotice({
+                      savedAt: new Date().toISOString(),
+                      hasPendingPayment: true,
+                    });
+                    if (latestDraftRef.current) {
+                      saveRequirementsDraft({
+                        ...latestDraftRef.current,
+                        savedAt: new Date().toISOString(),
+                        pendingPayment: {
+                          invoiceId: cashfreeInvoiceId,
+                          requirementsId: cashfreeRequirementsId,
+                          amount: cashfreeAmount,
+                        },
+                      });
+                    }
                   }}
                   className="text-gray-500 hover:text-gray-700"
                 >
@@ -3782,8 +4142,10 @@ export default function RequirementsPage() {
                 <CashfreePayment
                   invoiceId={cashfreeInvoiceId}
                   amount={cashfreeAmount}
+                  requirementsId={cashfreeRequirementsId || ''}
                   onSuccess={handleCashfreeSuccess}
-                  onFailure={handleCashfreeFailure} requirementsId={''}                />
+                  onFailure={handleCashfreeFailure}
+                />
               </div>
             </div>
           </div>
