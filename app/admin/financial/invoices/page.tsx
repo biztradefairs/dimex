@@ -92,7 +92,7 @@ export default function AdminInvoicesPage() {
       setLoading(true);
       const token = getAuthToken();
       
-      const response = await fetch(`${API_BASE_URL}/api/invoices/admin/all`, {
+      const response = await fetch(`${API_BASE_URL}/api/invoices/admin/all?page=1&limit=1000`, {
         headers: {
           'Authorization': `Bearer ${token}`,
         },
