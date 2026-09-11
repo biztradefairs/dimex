@@ -11,6 +11,7 @@ import {
   DocumentTextIcon,
   BookOpenIcon,
   CogIcon,
+  UserGroupIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline';
 import { icons } from 'lucide-react';
@@ -24,6 +25,7 @@ const navigation = [
   { name: 'Stall Booked', href: '/dashboard/stall', icon: ShoppingCartIcon },
   // { name: 'Invoice', href: '/dashboard/invoice', icon: DocumentTextIcon },
   { name: 'Exhibitor Manual', href: '/dashboard/manual', icon: BookOpenIcon },
+  { name: 'Team Members', href: '/dashboard/team', icon: UserGroupIcon },
   { name: 'Extra Requirements', href: '/dashboard/requirements', icon: CogIcon },
   // { name: 'Exhibitor', href: '/dashboard/exhibitor', icon: UserIcon}
 ];
@@ -64,7 +66,10 @@ export default function Sidebar({ isOpen, onClose }: SidebarProps) {
 
         <nav className="mt-5 space-y-1 px-2">
           {navigation.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive =
+              item.href === '/dashboard'
+                ? pathname === '/dashboard'
+                : pathname === item.href || pathname.startsWith(`${item.href}/`);
             return (
               <Link
                 key={item.name}

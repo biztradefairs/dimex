@@ -30,6 +30,7 @@ import {
   UserRound,
   Brush,
   Landmark,
+  Users,
 } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import toast from "react-hot-toast";
@@ -66,6 +67,7 @@ const navigation: NavSection[] = [
         icon: Building,
         subItems: [
           { name: "Exhibitors", href: "/admin/exhibition/exhibitors", icon: Briefcase },
+          { name: "Exhibitors Team", href: "/admin/exhibition/teams", icon: Users },
           { name: "Extra Requirements", href: "/admin/exhibition/requirements", icon: Package },
           { name: "Floor Plans", href: "/admin/exhibition/booths", icon: Globe },
           { name: "Manuals", href: "/admin/exhibition/manuals", icon: BookOpen },
