@@ -5,6 +5,7 @@ import Link from "next/link"
 import { ChevronDown, Menu, X } from "lucide-react"
 import Button from "./UI/Button"
 import Image from "next/image"
+import ExhibitorNavProfile, { useExhibitorLoggedIn } from "./ExhibitorNavProfile"
 
 type NavItem = {
   title: string
@@ -70,6 +71,7 @@ export default function NavBar() {
   const [scrolled, setScrolled] = useState(false)
   const [screenSize, setScreenSize] = useState<"mobile" | "tablet" | "laptop" | "desktop">("desktop")
   const [isMounted, setIsMounted] = useState(false)
+  const { loggedIn: exhibitorLoggedIn, ready: exhibitorReady } = useExhibitorLoggedIn()
 
   const [timeLeft, setTimeLeft] = useState({
     days: 35,
@@ -164,7 +166,7 @@ export default function NavBar() {
   return (
     <>
       {/* ================= NAVBAR ================= */}
-      <header className="fixed top-0 left-0 right-0 z-[999] font-parabolica">
+      <header className="fixed top-0 left-0 right-0 z-[999] overflow-visible font-parabolica">
         <div className={`px-2 sm:px-4 md:px-6 lg:px-8 transition-all duration-300 ${scrolled ? "pt-1.5 sm:pt-2" : "pt-2 sm:pt-3 md:pt-4"}`}>
           <div className="mx-auto max-w-[1600px]">
             {/* ================= MOBILE NAVBAR ================= */}
@@ -172,46 +174,42 @@ export default function NavBar() {
               <div className="bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white w-full">
 
                 {/* HEADER */}
-                <div className="grid grid-cols-[70px_auto_1fr_auto] gap-x-3 px-4 pt-2 pb-2 items-center w-full">
-
-
-                  {/* LOGO */}
-                  <div className="relative w-[80px] h-[47px]">
-                    <Image
-                      src="/images/logo-diemex2.png"
-                      alt="DIEMEX 2026 Logo"
-                      fill
-                      className="object-contain"
-                      priority
-                    />
-                  </div>
-                  <span className="block h-5 lg:h-6 xl:h-8 w-px bg-white/70 mx-1"></span>
-
-
-                  {/* 3rd Edition */}
-                  <div className="relative w-[80px] h-[47px]">
-                    <Image
-                      src="/images/3rd-edition.png"
-                      alt="3rd Edition"
-                      fill
-                      className="object-contain"
-                      priority
-                    />
+                <div className="flex items-center justify-between gap-2 px-2 sm:px-4 pt-2 pb-1.5 w-full overflow-visible">
+                  <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                    <div className="relative w-[56px] h-[34px] sm:w-[80px] sm:h-[47px] flex-shrink-0">
+                      <Image
+                        src="/images/logo-diemex2.png"
+                        alt="DIEMEX 2026 Logo"
+                        fill
+                        className="object-contain"
+                        priority
+                      />
+                    </div>
+                    <span className="hidden sm:block h-5 w-px bg-white/70 sm:h-6"></span>
+                    <div className="relative w-[48px] h-[24px] sm:w-[80px] sm:h-[47px] flex-shrink-0">
+                      <Image
+                        src="/images/3rd-edition.png"
+                        alt="3rd Edition"
+                        fill
+                        className="object-contain"
+                        priority
+                      />
+                    </div>
                   </div>
 
-                  {/* MENU BUTTON */}
-                  <button
-                    onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                    className="rounded-full bg-white/10 hover:bg-white/20 p-1 active:scale-95"
-                    aria-label="Toggle menu"
-                  >
-                    <Menu className="w-4 h-4" />
-                  </button>
-
-                  {/* DATE + VENUE */}
-                  <div className="col-span-3 text-[12px] opacity-90 leading-tight whitespace-nowrap">
-                    08–10 October 2026 · Auto Cluster Exhibition Centre, Pune
+                  <div className="flex items-center justify-end gap-1.5 sm:gap-2 flex-shrink-0">
+                    {exhibitorReady && exhibitorLoggedIn && <ExhibitorNavProfile variant="mobile" />}
+                    <button
+                      onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                      className="rounded-full bg-white/10 hover:bg-white/20 p-1.5 sm:p-2 active:scale-95"
+                      aria-label="Toggle menu"
+                    >
+                      <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
+                    </button>
                   </div>
+                </div>
+                <div className="px-2 sm:px-4 pb-2 text-[10px] sm:text-[12px] opacity-90 leading-tight truncate">
+                  08–10 October 2026 · Auto Cluster Exhibition Centre, Pune
                 </div>
               </div>
 
@@ -224,11 +222,13 @@ export default function NavBar() {
                   <span className="font-medium">{timeLeft.minutes} Mins</span>
                 </div>
               </div>
+{exhibitorReady && !exhibitorLoggedIn && (
 <Link href="/login" className="relative z-[1001]">
   <div className="flex items-end gap-1.5 rounded-b-xl bg-[#0d1e3c] px-2 py-0.5 text-[12px] text-white cursor-pointer hover:bg-[#102a55] active:scale-95 transition-all">
     <span className="font-bold">Exhibitor Login</span>
   </div>
 </Link>
+)}
 
               </div>
 
@@ -240,7 +240,7 @@ export default function NavBar() {
 
 
             {/* ================= DESKTOP NAV BAR (UNCHANGED) ================= */}
-            <div className="hidden lg:block rounded-xl sm:rounded-2xl lg:rounded-3xl bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white shadow-xl">
+            <div className="hidden lg:block overflow-visible rounded-xl sm:rounded-2xl lg:rounded-3xl bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white shadow-xl">
               <div className="flex items-center justify-between gap-1 sm:gap-2 md:gap-3 lg:gap-4 px-2 sm:px-3 md:px-4 lg:px-5 py-1.5 sm:py-2 md:py-2.5 lg:py-3">
 
                 {/* ================= LOGO SECTION ================= */}
@@ -342,18 +342,21 @@ export default function NavBar() {
 
                 {/* ================= DESKTOP CTA BUTTONS ================= */}
                 <div className="hidden lg:flex items-center gap-1 lg:gap-1.5 xl:gap-2 2xl:gap-3 flex-shrink-0">
-                  <Button
-                    href="/exhibiting-enquiry"
-                    className={`bg-[#004D9F] hover:bg-[#003d7f] px-1.5 lg:px-2 xl:px-3 py-1 lg:py-1.5 xl:py-2 whitespace-nowrap transition-all ${getButtonFontSize()}`}
-                  >
-                    {screenSize === "laptop" ? "Exhibit" : "Become an Exhibitor"}
-                  </Button>
+                  {exhibitorReady && !exhibitorLoggedIn && (
+                    <Button
+                      href="/exhibiting-enquiry"
+                      className={`bg-[#004D9F] hover:bg-[#003d7f] px-1.5 lg:px-2 xl:px-3 py-1 lg:py-1.5 xl:py-2 whitespace-nowrap transition-all ${getButtonFontSize()}`}
+                    >
+                      {screenSize === "laptop" ? "Exhibit" : "Become an Exhibitor"}
+                    </Button>
+                  )}
                   <Button
                     href="/visitor-registration"
                     className={`bg-[#004D9F] hover:bg-[#003d7f] px-1.5 lg:px-2 xl:px-3 py-1 lg:py-1.5 xl:py-2 whitespace-nowrap transition-all ${getButtonFontSize()}`}
                   >
                     {screenSize === "laptop" ? "Register" : "Register Now"}
                   </Button>
+                  {exhibitorReady && exhibitorLoggedIn && <ExhibitorNavProfile variant="desktop" />}
                 </div>
               </div>
             </div>
@@ -370,11 +373,13 @@ export default function NavBar() {
       </div>
 
       {/* Exhibitor Login */}
+      {!exhibitorReady || exhibitorLoggedIn ? null : (
       <Link href="/login">
         <div className="flex items-center rounded-b-xl bg-[#0d1e3c] px-3 py-1 text-[12px] text-white font-bold cursor-pointer hover:bg-[#102a55] active:scale-95 transition-all shadow-md">
           Exhibitor Login
         </div>
       </Link>
+      )}
 
     </div>
   </div>
@@ -458,13 +463,15 @@ export default function NavBar() {
 
               {/* CTA Buttons */}
               <div className="mt-6 space-y-3">
-                <Button
-                  href="/exhibiting-enquiry"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="bg-[#004D9F] text-white text-sm py-3 font-semibold rounded-md w-full"
-                >
-                  Become an Exhibitor
-                </Button>
+                {exhibitorReady && !exhibitorLoggedIn && (
+                  <Button
+                    href="/exhibiting-enquiry"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="bg-[#004D9F] text-white text-sm py-3 font-semibold rounded-md w-full"
+                  >
+                    Become an Exhibitor
+                  </Button>
+                )}
                 <Button
                   href="/visitor-registration"
                   onClick={() => setMobileMenuOpen(false)}
@@ -472,6 +479,28 @@ export default function NavBar() {
                 >
                   Register Now
                 </Button>
+                {exhibitorReady && exhibitorLoggedIn && (
+                  <div className="pt-2 space-y-2 border-t border-gray-200">
+                    <Button
+                      href="/dashboard"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="bg-[#06162f] text-white text-sm py-3 font-semibold rounded-md w-full"
+                    >
+                      My Dashboard
+                    </Button>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        localStorage.removeItem("exhibitor_token")
+                        localStorage.removeItem("exhibitor_data")
+                        window.location.href = "/"
+                      }}
+                      className="w-full rounded-md bg-red-50 text-red-600 text-sm py-3 font-semibold"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -482,6 +511,16 @@ export default function NavBar() {
 
       {/* CSS Animations */}
       <style jsx global>{`
+  @keyframes exhibitorMenuIn {
+    from {
+      transform: translateY(-8px) scale(0.98);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0) scale(1);
+      opacity: 1;
+    }
+  }
   @keyframes slideDown {
     from {
       transform: translateY(-12px);
