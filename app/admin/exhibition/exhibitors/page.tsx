@@ -16,7 +16,8 @@ import {
   Clock,
   Loader2,
   RefreshCw,
-  Settings
+  Settings,
+  Package
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
@@ -373,6 +374,15 @@ export default function ExhibitorsPage() {
                           title="View Details"
                         >
                           <Eye className="h-5 w-5" />
+                        </button>
+                        <button
+                          onClick={() =>
+                            router.push(`/admin/exhibition/exhibitors/${exhibitor.id}/requirements`)
+                          }
+                          className="p-2 text-orange-600 hover:text-orange-800 hover:bg-orange-50 rounded-lg transition-colors"
+                          title="Extra Requirements"
+                        >
+                          <Package className="h-5 w-5" />
                         </button>
                         <button
                           onClick={() =>

@@ -391,8 +391,14 @@ export default function AdminSecurityDepositPage() {
                     </label>
                     <input
                       type="number"
-                      value={formData.tierNo}
-                      onChange={(e) => setFormData({...formData, tierNo: parseInt(e.target.value)})}
+                      value={Number.isFinite(formData.tierNo) ? formData.tierNo : ""}
+                      onChange={(e) => {
+                        const parsed = parseInt(e.target.value, 10);
+                        setFormData({
+                          ...formData,
+                          tierNo: Number.isNaN(parsed) ? undefined : parsed,
+                        });
+                      }}
                       className="w-full border border-gray-300 rounded-lg px-3 sm:px-4 py-1.5 sm:py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                       min="1"
                       required

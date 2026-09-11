@@ -66,6 +66,7 @@ const navigation: NavSection[] = [
         icon: Building,
         subItems: [
           { name: "Exhibitors", href: "/admin/exhibition/exhibitors", icon: Briefcase },
+          { name: "Extra Requirements", href: "/admin/exhibition/requirements", icon: Package },
           { name: "Floor Plans", href: "/admin/exhibition/booths", icon: Globe },
           { name: "Manuals", href: "/admin/exhibition/manuals", icon: BookOpen },
         ],
