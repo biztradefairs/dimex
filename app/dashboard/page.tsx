@@ -187,7 +187,7 @@ export default function EnhancedDashboardPage() {
   const contactInfo = [
     { id: 1, type: "Phone", value: "+91 63649 36468", icon: PhoneIcon },
     { id: 2, type: "Email", value: "sathish@maxxmedia.in", icon: EnvelopeIcon },
-    { id: 3, type: "Hours", value: "Mon-Fri, 9AM-6PM", icon: ClockIcon },
+    { id: 3, type: "Hours", value: "Mon-Fri, 10M-6PM", icon: ClockIcon },
   ];
 
   if (loading) {
