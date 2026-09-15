@@ -389,19 +389,19 @@ export default function ManualPage() {
             <ul className="space-y-3">
               <li className="flex justify-between">
                 <span className="text-blue-700">Setup Begins</span>
-                <span className="font-medium">Jan 28</span>
+                <span className="font-medium">October 6, 2026</span>
               </li>
               <li className="flex justify-between">
                 <span className="text-blue-700">Event Days</span>
-                <span className="font-medium">Jan 29-31</span>
+                <span className="font-medium">October 08-10, 2026 </span>
               </li>
               <li className="flex justify-between">
                 <span className="text-blue-700">Breakdown</span>
-                <span className="font-medium">Feb 1</span>
+                <span className="font-medium">October 10, 2026</span>
               </li>
               <li className="flex justify-between">
                 <span className="text-blue-700">Requirements Due</span>
-                <span className="font-medium">Jan 15</span>
+                <span className="font-medium">October 25, 2026 at 5:00 PM</span>
               </li>
             </ul>
           </div>
