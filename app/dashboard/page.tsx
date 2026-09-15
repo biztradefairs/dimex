@@ -185,8 +185,8 @@ export default function EnhancedDashboardPage() {
 
   // Contact information
   const contactInfo = [
-    { id: 1, type: "Phone", value: "+91 9876543210", icon: PhoneIcon },
-    { id: 2, type: "Email", value: "support@exhibitionhub.com", icon: EnvelopeIcon },
+    { id: 1, type: "Phone", value: "+91 63649 36468", icon: PhoneIcon },
+    { id: 2, type: "Email", value: "sathish@maxxmedia.in", icon: EnvelopeIcon },
     { id: 3, type: "Hours", value: "Mon-Fri, 9AM-6PM", icon: ClockIcon },
   ];
 

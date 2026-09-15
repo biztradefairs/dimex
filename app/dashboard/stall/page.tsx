@@ -660,25 +660,26 @@ export default function StallPage() {
                   </div>
                 )}
 
-                {/* Important Dates */}
-                <div className="bg-blue-50 p-4 rounded-lg">
-                  <h3 className="font-medium text-blue-900 mb-2">Important Dates</h3>
-                  <ul className="space-y-2 text-sm text-blue-800">
-                    <li className="flex items-center gap-2">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                      Stall setup begins: January 28, 2024 at 8:00 AM
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                      Exhibition dates: January 29 - February 1, 2024
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                      Dismantling deadline: February 2, 2024 at 6:00 PM
-                    </li>
-                  </ul>
-                </div>
-              </div>
+               {/* Important Dates */}
+        <div className="bg-blue-50 p-4 rounded-lg">
+         <h3 className="font-medium text-blue-900 mb-2">Important Dates</h3>
+         <ul className="space-y-2 text-sm text-blue-800">
+          <li className="flex items-center gap-2">
+           <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+           Stall setup begins Raw Space: October 06, 2026 at 10:00 AM
+           Stall setup begins Shell Spacee: October 07, 2026 at 2:00 PM
+          </li>
+          <li className="flex items-center gap-2">
+           <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+           Exhibition dates: October 08-10, 2026
+          </li>
+          <li className="flex items-center gap-2">
+           <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+           Dismantling deadline: October 10, 2026 at 6:00 PM Onwards
+          </li>
+         </ul>
+        </div>
+       </div>
 
               {/* Action Buttons */}
               <div className="mt-6 flex justify-end gap-3">
