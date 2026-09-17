@@ -14,7 +14,7 @@ import {
   BookOpen,
   Edit2
 } from 'lucide-react';
-import manualApi, { Manual, ManualFilters, ManualStatistics, ApiError } from '@/lib/api/manualApi';
+import manualApi, { Manual, ManualFilters, ManualStatistics, ImportantDate, ApiError } from '@/lib/api/manualApi';
 
 export default function ExhibitorManualsPage() {
   const router = useRouter();
@@ -29,6 +29,13 @@ export default function ExhibitorManualsPage() {
     totalDownloads: 0,
     categoryStats: []
   });
+  const [importantDates, setImportantDates] = useState<ImportantDate[]>([
+    { label: 'Setup Begins', dateLabel: '' },
+    { label: 'Event Days', dateLabel: '' },
+    { label: 'Breakdown', dateLabel: '' },
+    { label: 'Requirements Due', dateLabel: '' },
+  ]);
+  const [savingDates, setSavingDates] = useState(false);
 
   const categories: string[] = ['all', 'Setup', 'Safety', 'Marketing', 'Technical', 'Logistics', 'Procedures', 'General', 'Rules', 'Contact'];
 
@@ -36,6 +43,7 @@ export default function ExhibitorManualsPage() {
   useEffect(() => {
     fetchManuals();
     fetchStatistics();
+    fetchImportantDates();
   }, [selectedCategory, search]);
 
   const fetchManuals = async (): Promise<void> => {
@@ -61,6 +69,43 @@ export default function ExhibitorManualsPage() {
       setStats(response.data);
     } catch (error) {
       console.error('Error fetching statistics:', error);
+    }
+  };
+
+  const fetchImportantDates = async (): Promise<void> => {
+    try {
+      const response = await manualApi.getImportantDates();
+      if (response.data?.length) {
+        setImportantDates(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching important dates:', error);
+    }
+  };
+
+  const saveImportantDates = async (): Promise<void> => {
+    const dates = importantDates
+      .map((item) => ({
+        label: item.label.trim(),
+        dateLabel: item.dateLabel.trim(),
+      }))
+      .filter((item) => item.label && item.dateLabel);
+
+    if (!dates.length) {
+      alert('Add at least one important date');
+      return;
+    }
+
+    try {
+      setSavingDates(true);
+      await manualApi.saveImportantDates(dates);
+      await fetchImportantDates();
+      alert('Important dates saved');
+    } catch (error) {
+      console.error('Error saving important dates:', error);
+      alert('Failed to save important dates');
+    } finally {
+      setSavingDates(false);
     }
   };
 
@@ -274,6 +319,69 @@ export default function ExhibitorManualsPage() {
               <p className="text-2xl font-semibold text-gray-900">{stats.totalDownloads}</p>
             </div>
           </div>
+        </div>
+      </div>
+
+      <div className="bg-white shadow rounded-lg p-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
+          <div>
+            <h2 className="text-lg font-semibold text-gray-900">Important Dates</h2>
+            <p className="text-sm text-gray-500">These dates appear on the exhibitor manual page.</p>
+          </div>
+          <div className="flex gap-2">
+            <button
+              type="button"
+              onClick={() =>
+                setImportantDates((prev) => [...prev, { label: '', dateLabel: '' }])
+              }
+              className="px-3 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50"
+            >
+              Add date
+            </button>
+            <button
+              type="button"
+              onClick={saveImportantDates}
+              disabled={savingDates}
+              className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 disabled:opacity-50"
+            >
+              {savingDates ? 'Saving...' : 'Save dates'}
+            </button>
+          </div>
+        </div>
+        <div className="space-y-3">
+          {importantDates.map((item, index) => (
+            <div key={`${item.id || 'date'}-${index}`} className="grid grid-cols-1 sm:grid-cols-12 gap-3">
+              <input
+                type="text"
+                value={item.label}
+                onChange={(e) =>
+                  setImportantDates((prev) =>
+                    prev.map((date, i) => (i === index ? { ...date, label: e.target.value } : date))
+                  )
+                }
+                placeholder="Label, e.g. Event Days"
+                className="sm:col-span-5 border border-gray-300 rounded-md px-3 py-2 text-sm"
+              />
+              <input
+                type="text"
+                value={item.dateLabel}
+                onChange={(e) =>
+                  setImportantDates((prev) =>
+                    prev.map((date, i) => (i === index ? { ...date, dateLabel: e.target.value } : date))
+                  )
+                }
+                placeholder="Date, e.g. 08–10 Oct 2026"
+                className="sm:col-span-5 border border-gray-300 rounded-md px-3 py-2 text-sm"
+              />
+              <button
+                type="button"
+                onClick={() => setImportantDates((prev) => prev.filter((_, i) => i !== index))}
+                className="sm:col-span-2 px-3 py-2 text-sm text-red-600 bg-red-50 rounded-md hover:bg-red-100"
+              >
+                Remove
+              </button>
+            </div>
+          ))}
         </div>
       </div>
 

@@ -28,6 +28,7 @@ export default function ManualPage() {
   const [manualSections, setManualSections] = useState<ManualSection[]>([]);
   const [pdfFiles, setPdfFiles] = useState<PDFFile[]>([]);
   const [fullManualPdf, setFullManualPdf] = useState<PDFFile | null>(null);
+  const [importantDates, setImportantDates] = useState<Array<{ label: string; dateLabel: string }>>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [downloading, setDownloading] = useState(false);
@@ -97,6 +98,12 @@ export default function ManualPage() {
         );
         
         setFullManualPdf(fullManual || (pdfs.length > 0 ? pdfs[0] : null));
+      }
+
+      const datesResponse = await fetch(`${API_BASE_URL}/api/manuals/important-dates`);
+      if (datesResponse.ok) {
+        const datesData = await datesResponse.json();
+        setImportantDates(datesData.data || []);
       }
 
     } catch (error) {
@@ -333,7 +340,7 @@ export default function ManualPage() {
                   {expandedSection === section.id && (
                     <div className="mt-4 pl-8">
                       <div className="prose prose-sm max-w-none">
-                        {section.content.split('\n').map((line, index) => (
+                        {String(section.content || '').split('\n').map((line, index) => (
                           <p key={index} className="text-gray-600 mb-2">{line}</p>
                         ))}
                       </div>
@@ -386,24 +393,18 @@ export default function ManualPage() {
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
             <h3 className="text-lg font-medium text-blue-900 mb-2">Important Dates</h3>
-            <ul className="space-y-3">
-              <li className="flex justify-between">
-                <span className="text-blue-700">Setup Begins</span>
-                <span className="font-medium">Jan 28</span>
-              </li>
-              <li className="flex justify-between">
-                <span className="text-blue-700">Event Days</span>
-                <span className="font-medium">Jan 29-31</span>
-              </li>
-              <li className="flex justify-between">
-                <span className="text-blue-700">Breakdown</span>
-                <span className="font-medium">Feb 1</span>
-              </li>
-              <li className="flex justify-between">
-                <span className="text-blue-700">Requirements Due</span>
-                <span className="font-medium">Jan 15</span>
-              </li>
-            </ul>
+            {importantDates.length === 0 ? (
+              <p className="text-sm text-blue-700">Dates will appear here once published.</p>
+            ) : (
+              <ul className="space-y-3">
+                {importantDates.map((item) => (
+                  <li key={`${item.label}-${item.dateLabel}`} className="flex justify-between gap-3">
+                    <span className="text-blue-700">{item.label}</span>
+                    <span className="font-medium text-right">{item.dateLabel}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
       </div>

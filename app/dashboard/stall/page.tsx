@@ -67,6 +67,7 @@ export default function StallPage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedStall, setSelectedStall] = useState<Stall | null>(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
+  const [importantDates, setImportantDates] = useState<Array<{ label: string; dateLabel: string }>>([]);
   const router = useRouter();
 
   // Function to get token
@@ -97,9 +98,19 @@ export default function StallPage() {
     }
     
     fetchStallData();
+    fetchImportantDates();
   }, []);
 
-  // Fetch stall data from API
+  const fetchImportantDates = async () => {
+    try {
+      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const response = await axios.get(`${apiBase}/api/manuals/important-dates`);
+      setImportantDates(response.data?.data || []);
+    } catch (err) {
+      console.error('Error fetching important dates:', err);
+    }
+  };
+
   const fetchStallData = async () => {
     try {
       setLoading(true);
@@ -663,20 +674,18 @@ export default function StallPage() {
                 {/* Important Dates */}
                 <div className="bg-blue-50 p-4 rounded-lg">
                   <h3 className="font-medium text-blue-900 mb-2">Important Dates</h3>
-                  <ul className="space-y-2 text-sm text-blue-800">
-                    <li className="flex items-center gap-2">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                      Stall setup begins: January 28, 2024 at 8:00 AM
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                      Exhibition dates: January 29 - February 1, 2024
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
-                      Dismantling deadline: February 2, 2024 at 6:00 PM
-                    </li>
-                  </ul>
+                  {importantDates.length === 0 ? (
+                    <p className="text-sm text-blue-800">Dates will appear here once published.</p>
+                  ) : (
+                    <ul className="space-y-2 text-sm text-blue-800">
+                      {importantDates.map((item) => (
+                        <li key={`${item.label}-${item.dateLabel}`} className="flex items-center gap-2">
+                          <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                          {item.label}: {item.dateLabel}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
               </div>
 

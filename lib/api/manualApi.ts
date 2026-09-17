@@ -33,6 +33,13 @@ export interface ManualStatistics {
   categoryStats: Array<{ category: string; count: number }>;
 }
 
+export interface ImportantDate {
+  id?: string;
+  label: string;
+  dateLabel: string;
+  sortOrder?: number;
+}
+
 export interface ApiResponse<T> {
   success: boolean;
   data: T;
@@ -281,6 +288,16 @@ class ManualApi {
       console.error('Error fetching recent manuals:', error);
       return { success: true, data: [] };
     }
+  }
+
+  async getImportantDates(): Promise<ApiResponse<ImportantDate[]>> {
+    const response = await api.get('/api/manuals/important-dates');
+    return response.data;
+  }
+
+  async saveImportantDates(dates: Array<{ label: string; dateLabel: string }>): Promise<ApiResponse<ImportantDate[]>> {
+    const response = await api.put('/api/manuals/admin/important-dates', { dates });
+    return response.data;
   }
 }
 
