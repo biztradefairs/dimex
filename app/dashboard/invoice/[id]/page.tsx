@@ -62,6 +62,7 @@ export default function ExhibitorInvoiceDetailsPage() {
   const [error, setError] = useState<string | null>(null);
   const [showPaymentSuccess, setShowPaymentSuccess] = useState(false);
   const [paymentStatus, setPaymentStatus] = useState<'checking' | 'success' | 'failed' | null>(null);
+  const [autoCheckCount, setAutoCheckCount] = useState(0);
 
   const fetchInvoiceDetails = useCallback(async (opts?: { silent?: boolean }) => {
     try {
@@ -176,36 +177,34 @@ export default function ExhibitorInvoiceDetailsPage() {
   }, [invoice?.status, paymentStatus]);
 
 useEffect(() => {
-  let interval: NodeJS.Timeout;
-  let checkCount = 0;
-  const MAX_CHECKS = 10; // Reduced from 30 to 10
-  const CHECK_INTERVAL = 10000; // Increased to 10 seconds
-  
-  // Only auto-refresh for pending invoices that don't have payment verification pending
-  if (invoice?.status === 'pending' && checkCount < MAX_CHECKS) {
-    // Check if payment was just made (within last 5 minutes)
+  let interval: NodeJS.Timeout | undefined;
+  const MAX_CHECKS = 10;
+  const CHECK_INTERVAL = 10000;
+
+  if (invoice?.status === 'pending') {
     const lastPaymentAttempt = localStorage.getItem(`payment_attempt_${invoice.id}`);
     const shouldAutoCheck = lastPaymentAttempt && (Date.now() - parseInt(lastPaymentAttempt) < 300000);
-    
+
     if (shouldAutoCheck) {
       interval = setInterval(() => {
-        console.log(`Auto-checking payment status... (${checkCount + 1}/${MAX_CHECKS})`);
-        fetchInvoiceDetails();
-        checkCount++;
-        
-        if (checkCount >= MAX_CHECKS) {
-          clearInterval(interval);
-          localStorage.removeItem(`payment_attempt_${invoice.id}`);
-        }
+        setAutoCheckCount((count) => {
+          const next = count + 1;
+          if (next >= MAX_CHECKS) {
+            if (interval) clearInterval(interval);
+            localStorage.removeItem(`payment_attempt_${invoice.id}`);
+            return MAX_CHECKS;
+          }
+          fetchInvoiceDetails({ silent: true });
+          return next;
+        });
       }, CHECK_INTERVAL);
     }
   }
-  
+
   return () => {
     if (interval) clearInterval(interval);
   };
 }, [invoice?.status, fetchInvoiceDetails, invoice?.id]);
-
 
 const downloadInvoice = async () => {
   if (!invoice?.id) return;
@@ -446,17 +445,17 @@ const downloadInvoice = async () => {
         )}
 
         {/* Auto-refresh Indicator for Pending Invoices */}
-        {invoice.status === 'pending' && autoCheckCount < 30 && (
+        {invoice.status === 'pending' && autoCheckCount > 0 && autoCheckCount < 10 && (
           <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-xl p-3">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <ArrowPathIcon className="h-4 w-4 text-yellow-600 animate-spin" />
                 <span className="text-sm text-yellow-700">
-                  Waiting for payment confirmation... Auto-checking every 5 seconds
+                  Waiting for payment confirmation... Auto-checking every 10 seconds
                 </span>
               </div>
               <span className="text-xs text-yellow-600">
-                Attempt {autoCheckCount}/30
+                Attempt {autoCheckCount}/10
               </span>
             </div>
           </div>
