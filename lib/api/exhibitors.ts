@@ -111,6 +111,7 @@ export interface Exhibitor {
   boothNumber?: string;
   boothSize?: string;
   boothType?: string;
+  boothOpenSides?: string;
   boothDimensions?: string;
   boothNotes?: string;
 
@@ -123,6 +124,7 @@ export interface Exhibitor {
     pavilion?: string;
     size?: string;
     type?: string;
+    openSides?: string;
     dimensions?: string;
     notes?: string;
   };
@@ -146,6 +148,7 @@ export interface CreateExhibitorData {
   // Add booth size fields
   boothSize?: string;
   boothType?: string;
+  boothOpenSides?: string;
   boothDimensions?: string;
   boothNotes?: string;
 }
@@ -214,7 +217,8 @@ const mapExhibitorData = (data: any): Exhibitor => {
     booth: data.boothNumber || data.booth || "Not assigned",
     boothNumber: data.boothNumber || data.booth,
     boothSize: data.boothSize || stallDetails?.size || '',
-    boothType: data.boothType || stallDetails?.type || 'standard',
+    boothType: data.boothType || stallDetails?.type || '',
+    boothOpenSides: data.boothOpenSides || stallDetails?.openSides || '',
     boothDimensions: data.boothDimensions || stallDetails?.dimensions || '',
     boothNotes: data.boothNotes || stallDetails?.notes || '',
     status: data.status === 'approved' ? 'active' : (data.status || 'pending'),
@@ -309,7 +313,8 @@ export const exhibitorsAPI = {
         boothNumber: data.boothNumber,
         stallDetails: {
           size: data.boothSize || '',
-          type: data.boothType || 'standard',
+          type: data.boothType || '',
+          openSides: data.boothOpenSides || '',
           dimensions: data.boothDimensions || '',
           notes: data.boothNotes || ''
         }
@@ -352,10 +357,11 @@ export const exhibitorsAPI = {
       };
 
       // Include stallDetails if booth fields are provided
-      if (data.boothSize || data.boothType || data.boothDimensions || data.boothNotes) {
+      if (data.boothSize || data.boothType || data.boothOpenSides || data.boothDimensions || data.boothNotes) {
         backendData.stallDetails = {
           size: data.boothSize || '',
-          type: data.boothType || 'standard',
+          type: data.boothType || '',
+          openSides: data.boothOpenSides || '',
           dimensions: data.boothDimensions || '',
           notes: data.boothNotes || ''
         };

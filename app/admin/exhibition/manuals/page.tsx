@@ -12,7 +12,8 @@ import {
   User, 
   File,
   BookOpen,
-  Edit2
+  Edit2,
+  Download
 } from 'lucide-react';
 import manualApi, { Manual, ManualFilters, ManualStatistics, ImportantDate, ApiError } from '@/lib/api/manualApi';
 
@@ -36,6 +37,7 @@ export default function ExhibitorManualsPage() {
     { label: 'Requirements Due', dateLabel: '' },
   ]);
   const [savingDates, setSavingDates] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
   const categories: string[] = ['all', 'Setup', 'Safety', 'Marketing', 'Technical', 'Logistics', 'Procedures', 'General', 'Rules', 'Contact'];
 
@@ -228,13 +230,14 @@ export default function ExhibitorManualsPage() {
           <p className="text-gray-600">Manage exhibitor manuals and documentation</p>
         </div>
         <div className="flex space-x-3">
-          <label className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 cursor-pointer">
+          <label className={`inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 ${uploading ? 'opacity-60 cursor-wait' : 'cursor-pointer'}`}>
             <Upload className="mr-2 h-4 w-4" />
-            Quick Upload
+            {uploading ? 'Uploading...' : 'Quick Upload'}
             <input
               type="file"
               className="hidden"
-              accept=".pdf,.doc,.docx,.txt"
+              accept=".pdf,.doc,.docx,.txt,.xls,.xlsx,.ppt,.pptx"
+              disabled={uploading}
               onChange={async (e) => {
                 const file = e.target.files?.[0];
                 if (!file) return;
@@ -242,20 +245,25 @@ export default function ExhibitorManualsPage() {
                 const formData = new FormData();
                 formData.append('file', file);
                 formData.append('title', file.name.replace(/\.[^/.]+$/, ""));
-                formData.append('description', 'New uploaded manual');
-                formData.append('category', 'Setup');
+                formData.append('description', 'Exhibitor manual document');
+                formData.append('category', 'General');
                 formData.append('version', '1.0');
-                formData.append('status', 'draft');
+                formData.append('status', 'published');
                 formData.append('updated_by', 'Admin');
 
                 try {
+                  setUploading(true);
                   await manualApi.createManual(formData);
                   await fetchManuals();
                   await fetchStatistics();
-                  alert('Manual uploaded successfully!');
-                } catch (error) {
-                  alert('Failed to upload manual');
+                  alert('Document uploaded. Exhibitors can download it from the manual page.');
+                } catch (error: unknown) {
+                  const message = error && typeof error === 'object' && 'response' in error
+                    ? (error as { response?: { data?: { message?: string } } }).response?.data?.message
+                    : null;
+                  alert(message || 'Failed to upload document');
                 } finally {
+                  setUploading(false);
                   e.target.value = '';
                 }
               }}
@@ -499,6 +507,13 @@ export default function ExhibitorManualsPage() {
                     <p className="text-lg font-semibold text-gray-900">{manual.downloads || 0}</p>
                   </div>
                   <div className="flex space-x-2">
+                    <button
+                      onClick={() => handleDownload(manual.id, manual.type)}
+                      className="p-2 text-green-600 hover:bg-green-50 rounded-md transition-colors"
+                      title="Download"
+                    >
+                      <Download className="h-5 w-5" />
+                    </button>
                     <button
                       onClick={() => handleEdit(manual.id, manual.type)}
                       className="p-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"

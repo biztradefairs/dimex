@@ -18,7 +18,40 @@ interface PDFFile {
   title: string;
   file_name: string;
   file_path: string;
+  mime_type?: string;
   downloadUrl?: string;
+}
+
+function documentFileName(name?: string, mimeType?: string) {
+  const fallback = 'document';
+  let fileName = String(name || fallback).trim() || fallback;
+  if (/\.(pdf|docx?|xlsx?|pptx?|txt)$/i.test(fileName)) return fileName;
+
+  if (mimeType?.includes('pdf')) return `${fileName}.pdf`;
+  if (mimeType?.includes('wordprocessingml')) return `${fileName}.docx`;
+  if (mimeType?.includes('msword')) return `${fileName}.doc`;
+  if (mimeType?.includes('spreadsheetml')) return `${fileName}.xlsx`;
+  if (mimeType?.includes('ms-excel')) return `${fileName}.xls`;
+  if (mimeType?.includes('presentationml')) return `${fileName}.pptx`;
+  if (mimeType?.includes('ms-powerpoint')) return `${fileName}.ppt`;
+  if (mimeType?.includes('text/plain')) return `${fileName}.txt`;
+  return `${fileName}.pdf`;
+}
+
+function normalizePdf(pdf: Record<string, unknown>): PDFFile | null {
+  const row = (pdf?.dataValues as Record<string, unknown>) || pdf;
+  const id = String(row.id || '');
+  const filePath = String(row.file_path || row.filePath || row.downloadUrl || '');
+  if (!id || !filePath) return null;
+  const mimeType = row.mime_type ? String(row.mime_type) : undefined;
+  return {
+    id,
+    title: String(row.title || row.file_name || 'Document'),
+    file_name: documentFileName(String(row.file_name || row.fileName || 'document'), mimeType),
+    file_path: filePath,
+    mime_type: mimeType,
+    downloadUrl: row.downloadUrl ? String(row.downloadUrl) : undefined,
+  };
 }
 
 export default function ManualPage() {
@@ -77,7 +110,7 @@ export default function ManualPage() {
         const pdfsData = await pdfsResponse.json();
         console.log('Received PDFs data:', pdfsData);
         
-        let pdfs = [];
+        let pdfs: Record<string, unknown>[] = [];
         if (pdfsData.success && Array.isArray(pdfsData.data)) {
           pdfs = pdfsData.data;
         } else if (Array.isArray(pdfsData)) {
@@ -86,10 +119,13 @@ export default function ManualPage() {
           pdfs = pdfsData.data;
         }
         
-        setPdfFiles(pdfs);
+        const normalized = pdfs
+          .map((pdf) => normalizePdf(pdf))
+          .filter((pdf): pdf is PDFFile => Boolean(pdf));
+
+        setPdfFiles(normalized);
         
-        // Look for a "Full Manual" PDF or use the first PDF as default
-        const fullManual = pdfs.find((pdf: { title: string; file_name: string; }) => 
+        const fullManual = normalized.find((pdf: PDFFile) => 
           pdf.title?.toLowerCase().includes('full') || 
           pdf.title?.toLowerCase().includes('complete') ||
           pdf.file_name?.toLowerCase().includes('full') ||
@@ -97,7 +133,7 @@ export default function ManualPage() {
           pdf.title?.toLowerCase().includes('manual')
         );
         
-        setFullManualPdf(fullManual || (pdfs.length > 0 ? pdfs[0] : null));
+        setFullManualPdf(fullManual || (normalized.length > 0 ? normalized[0] : null));
       }
 
       const datesResponse = await fetch(`${API_BASE_URL}/api/manuals/important-dates`);
@@ -114,96 +150,64 @@ export default function ManualPage() {
     }
   };
 
-  const handleDownloadFullManual = async () => {
-    if (!fullManualPdf) {
-      alert('No full manual PDF available for download');
-      return;
-    }
+  const saveBlob = (blob: Blob, filename: string) => {
+    const blobUrl = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = blobUrl;
+    link.download = filename;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(blobUrl);
+  };
 
+  const filenameFromResponse = (response: Response, fallback: string, mimeType?: string) => {
+    const header = response.headers.get('Content-Disposition') || '';
+    const encoded = response.headers.get('X-File-Name');
+    const starMatch = header.match(/filename\*=UTF-8''([^;]+)/i);
+    const basicMatch = header.match(/filename="?([^";]+)"?/i);
+    const rawName = encoded
+      ? decodeURIComponent(encoded)
+      : starMatch?.[1]
+        ? decodeURIComponent(starMatch[1])
+        : basicMatch?.[1];
+    return documentFileName(rawName || fallback, mimeType || response.headers.get('Content-Type') || undefined);
+  };
+
+  const downloadDocument = async (pdf: PDFFile) => {
     setDownloading(true);
     try {
-      // Method 1: Try to get download URL from backend first (forces download)
-      const downloadResponse = await fetch(`${API_BASE_URL}/api/manuals/${fullManualPdf.id}/download`);
-      
-      if (downloadResponse.ok) {
-        const downloadData = await downloadResponse.json();
-        
-        // If backend returns a download URL
-        if (downloadData.success && downloadData.data?.downloadUrl) {
-          // Create a hidden anchor element to force download
-          const link = document.createElement('a');
-          link.href = downloadData.data.downloadUrl;
-          link.download = downloadData.data.fileName || fullManualPdf.file_name || 'manual.pdf';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        } 
-        // If backend returns the file directly
-        else if (downloadData.success && downloadData.data?.fileUrl) {
-          // Fetch the file as blob and force download
-          const fileResponse = await fetch(downloadData.data.fileUrl);
-          const blob = await fileResponse.blob();
-          const url = window.URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.href = url;
-          link.download = downloadData.data.fileName || fullManualPdf.file_name || 'manual.pdf';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          window.URL.revokeObjectURL(url);
-        }
-        else {
-          // Fallback: try direct file path with download attribute
-          await forceDownload(fullManualPdf.file_path, fullManualPdf.file_name || 'manual.pdf');
-        }
-      } else {
-        // Fallback to direct file path
-        await forceDownload(fullManualPdf.file_path, fullManualPdf.file_name || 'manual.pdf');
+      const downloadResponse = await fetch(`${API_BASE_URL}/api/manuals/${pdf.id}/download`);
+
+      if (!downloadResponse.ok) {
+        throw new Error('Failed to download document');
       }
+
+      const blob = await downloadResponse.blob();
+      const filename = filenameFromResponse(
+        downloadResponse,
+        pdf.file_name,
+        pdf.mime_type || blob.type
+      );
+      saveBlob(blob, filename);
     } catch (error) {
-      console.error('Error downloading manual:', error);
-      alert('Failed to download manual. Please try again.');
+      console.error('Error downloading document:', error);
+      alert('Failed to download document. Please try again.');
     } finally {
       setDownloading(false);
     }
   };
 
-  // Helper function to force download a file from URL
-  const forceDownload = async (url: string, filename: string) => {
-    try {
-      // Fetch the file as blob
-      const response = await fetch(url);
-      const blob = await response.blob();
-      
-      // Create blob URL and trigger download
-      const blobUrl = window.URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = blobUrl;
-      link.download = filename;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      // Clean up
-      window.URL.revokeObjectURL(blobUrl);
-    } catch (error) {
-      console.error('Error forcing download:', error);
-      
-      // Last resort: open in new tab (will open in browser)
-      window.open(url, '_blank');
+  const handleDownloadFullManual = async () => {
+    if (!fullManualPdf) {
+      alert('No document is available for download yet.');
+      return;
     }
+    await downloadDocument(fullManualPdf);
   };
 
   const handleDownloadPDF = async (pdf: PDFFile) => {
-    setDownloading(true);
-    try {
-      await forceDownload(pdf.file_path, pdf.file_name || 'document.pdf');
-    } catch (error) {
-      console.error('Error downloading PDF:', error);
-      alert('Failed to download PDF');
-    } finally {
-      setDownloading(false);
-    }
+    await downloadDocument(pdf);
   };
 
   // Filter sections based on search and category
@@ -273,6 +277,14 @@ export default function ManualPage() {
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-bold text-gray-900">Exhibitor Manual</h1>
+        <button
+          onClick={handleDownloadFullManual}
+          disabled={downloading || !fullManualPdf}
+          className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <ArrowDownTrayIcon className="h-4 w-4 mr-2" />
+          {downloading ? 'Downloading...' : fullManualPdf ? 'Download Manual' : 'No Document Yet'}
+        </button>
       </div>
 
       {/* Search and Filter */}
@@ -365,16 +377,16 @@ export default function ManualPage() {
         {/* Quick Links - Now populated with actual PDFs */}
         <div className="space-y-6">
           <div className="bg-white shadow rounded-lg p-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Quick Links</h3>
+            <h3 className="text-lg font-medium text-gray-900 mb-4">Documents</h3>
             {pdfFiles.length === 0 ? (
-              <p className="text-sm text-gray-500">No PDF documents available</p>
+              <p className="text-sm text-gray-500">No documents available yet</p>
             ) : (
               <ul className="space-y-3">
-                {pdfFiles.slice(0, 5).map((pdf) => (
+                {pdfFiles.map((pdf) => (
                   <li key={pdf.id}>
                     <button
                       onClick={() => handleDownloadPDF(pdf)}
-                      className="flex items-center text-blue-600 hover:text-blue-800 w-full text-left"
+                      className="flex items-center text-blue-600 hover:text-blue-800 w-full text-left disabled:opacity-50"
                       disabled={downloading}
                     >
                       <ArrowDownTrayIcon className="h-4 w-4 mr-2 flex-shrink-0" />
@@ -383,11 +395,6 @@ export default function ManualPage() {
                   </li>
                 ))}
               </ul>
-            )}
-            {pdfFiles.length > 5 && (
-              <p className="text-xs text-gray-500 mt-2">
-                +{pdfFiles.length - 5} more documents
-              </p>
             )}
           </div>
 

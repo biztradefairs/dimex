@@ -15,6 +15,7 @@ export type RequirementsFormDraft = {
   boothDetails: unknown;
   securityDeposit: unknown;
   machines: unknown;
+  services?: unknown;
   personnel: unknown;
   companyDetails: unknown;
   electricalLoad: unknown;

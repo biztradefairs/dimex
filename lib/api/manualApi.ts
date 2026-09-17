@@ -131,9 +131,7 @@ class ManualApi {
     console.log('📤 Creating manual with form data');
     
     const response = await api.post('/api/manuals', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+      timeout: 120000,
     });
     
     return response.data;
@@ -151,9 +149,7 @@ class ManualApi {
     console.log(`📤 Updating manual ${id}`);
     
     const response = await api.put(`/api/manuals/${id}`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
+      timeout: 120000,
     });
     
     return response.data;
@@ -203,7 +199,6 @@ class ManualApi {
     try {
       console.log(`📥 Downloading manual ${id}`);
       
-      // Get token from localStorage for download
       const token = localStorage.getItem('admin_token') || localStorage.getItem('token');
       
       const response = await fetch(`${this.baseURL}/api/manuals/${id}/download`, {
@@ -217,19 +212,26 @@ class ManualApi {
       }
 
       const blob = await response.blob();
+      const header = response.headers.get('Content-Disposition') || '';
+      const encoded = response.headers.get('X-File-Name');
+      const starMatch = header.match(/filename\*=UTF-8''([^;]+)/i);
+      const basicMatch = header.match(/filename="?([^";]+)"?/i);
+      let filename = encoded
+        ? decodeURIComponent(encoded)
+        : starMatch?.[1]
+          ? decodeURIComponent(starMatch[1])
+          : basicMatch?.[1] || 'document';
+
+      if (!/\.(pdf|docx?|xlsx?|pptx?|txt)$/i.test(filename)) {
+        if (blob.type.includes('pdf')) filename += '.pdf';
+        else if (blob.type.includes('wordprocessingml')) filename += '.docx';
+        else if (blob.type.includes('msword')) filename += '.doc';
+        else filename += '.pdf';
+      }
+
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      
-      const contentDisposition = response.headers.get('Content-Disposition');
-      let filename = 'manual';
-      if (contentDisposition) {
-        const match = contentDisposition.match(/filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/);
-        if (match && match[1]) {
-          filename = match[1].replace(/['"]/g, '');
-        }
-      }
-      
       a.download = filename;
       document.body.appendChild(a);
       a.click();

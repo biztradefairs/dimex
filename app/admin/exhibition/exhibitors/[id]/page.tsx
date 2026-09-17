@@ -101,13 +101,24 @@ export default function ExhibitorDetailsPage() {
 
   const getBoothTypeLabel = (type: string) => {
     const types: Record<string, string> = {
-      standard: "Standard Booth (3x3m)",
-      double: "Double Booth (6x3m)",
-      corner: "Corner Booth",
+      "raw-space": "Raw Space",
+      "shell-space": "Shell Space",
+      standard: "Standard Booth",
+      double: "2 Side Corner Booth",
+      corner: "3 Side Corner Booth",
       island: "Island Booth",
       custom: "Custom Size",
     };
     return types[type] || type;
+  };
+
+  const getOpenSidesLabel = (value: string) => {
+    const options: Record<string, string> = {
+      "two-side": "2 Side corner booth",
+      "three-side": "3 Side corner booth",
+      island: "Island Booth",
+    };
+    return options[value] || value;
   };
 
   if (loading) {
@@ -278,6 +289,18 @@ export default function ExhibitorDetailsPage() {
                     </div>
                     <p className="text-lg font-medium">
                       {exhibitor.boothType ? getBoothTypeLabel(exhibitor.boothType) : "Not specified"}
+                    </p>
+                  </div>
+
+                  <div>
+                    <div className="flex items-center gap-2 text-gray-600 mb-2">
+                      <Ruler className="h-4 w-4" />
+                      <span className="text-sm font-medium">Open Sides</span>
+                    </div>
+                    <p className="text-lg font-medium">
+                      {exhibitor.boothOpenSides || exhibitor.stallDetails?.openSides
+                        ? getOpenSidesLabel(exhibitor.boothOpenSides || exhibitor.stallDetails?.openSides || "")
+                        : "Not specified"}
                     </p>
                   </div>
 

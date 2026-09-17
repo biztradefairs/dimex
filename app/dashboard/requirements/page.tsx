@@ -89,6 +89,15 @@ interface MachineDisplay {
   weight: string;
 }
 
+interface ServiceDisplay {
+  srNo: number;
+  serviceName: string;
+  width: string;
+  length: string;
+  height: string;
+  weight: string;
+}
+
 interface Personnel {
   srNo: number;
   name: string;
@@ -450,6 +459,7 @@ export default function RequirementsPage() {
   const [paymentReference, setPaymentReference] = useState('');
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const [showValidationModal, setShowValidationModal] = useState(false);
+  const [stepErrors, setStepErrors] = useState<string[]>([]);
   const [cashPaymentDetails, setCashPaymentDetails] = useState({
     amountPaid: 0,
     paymentDate: '',
@@ -548,6 +558,12 @@ export default function RequirementsPage() {
     { srNo: 3, machineName: '', width: '', length: '', height: '', weight: '' }
   ]);
 
+  const [services, setServices] = useState<ServiceDisplay[]>([
+    { srNo: 1, serviceName: '', width: '', length: '', height: '', weight: '' },
+    { srNo: 2, serviceName: '', width: '', length: '', height: '', weight: '' },
+    { srNo: 3, serviceName: '', width: '', length: '', height: '', weight: '' }
+  ]);
+
   // Form 5 - Personnel (OPTIONAL - but at least one entry recommended)
   const [personnel, setPersonnel] = useState<Personnel[]>([
     { srNo: 1, name: '', designation: '', organisation: '' },
@@ -639,57 +655,95 @@ export default function RequirementsPage() {
   // Security Deposit Tiers from API
   const [securityDepositTiers, setSecurityDepositTiers] = useState<SecurityDepositTier[]>([]);
   const [draftNotice, setDraftNotice] = useState<{ savedAt: string; hasPendingPayment: boolean } | null>(null);
+  const [exhibitorBoothType, setExhibitorBoothType] = useState('');
   const draftHydratedRef = useRef(false);
   const latestDraftRef = useRef<RequirementsFormDraft | null>(null);
 
+  const isRawSpace = ['raw-space', 'raw space', 'rawspace'].includes(
+    exhibitorBoothType.trim().toLowerCase()
+  );
+
+  const isStepVisible = (step: number) => {
+    if (!isRawSpace && (step === 2 || step === 3)) return false;
+    return true;
+  };
+
   // ============= VALIDATION FUNCTION =============
-  const validateRequiredFields = (): { isValid: boolean; errors: string[] } => {
+  const STEP_LABELS: Record<number, string> = {
+    1: 'Step 1: Basic Information',
+    2: 'Step 2: Booth Details',
+    3: 'Step 3: Security Deposit',
+    5: 'Step 5: Personnel/Exhibitor Passes',
+    6: 'Step 6: Company Details'
+  };
+
+  const getStepErrors = (step: number): string[] => {
     const errors: string[] = [];
+    const emailOk = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
 
-    // Step 1: General Information Validation
-    if (!generalInfo.firstName.trim()) errors.push('First Name is required (Step 1: Basic Information)');
-    if (!generalInfo.lastName.trim()) errors.push('Last Name is required (Step 1: Basic Information)');
-    if (!generalInfo.designation.trim()) errors.push('Designation is required (Step 1: Basic Information)');
-    if (!generalInfo.mobile.trim()) errors.push('Mobile number is required (Step 1: Basic Information)');
-    if (!generalInfo.email.trim()) errors.push('Email is required (Step 1: Basic Information)');
-    if (generalInfo.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(generalInfo.email)) {
-      errors.push('Valid email is required (Step 1: Basic Information)');
-    }
-    if (!generalInfo.companyName.trim()) errors.push('Company Name is required (Step 1: Basic Information)');
-    if (!generalInfo.businessNature.trim()) errors.push('Nature of Business is required (Step 1: Basic Information)');
-
-    // Step 2: Booth Details Validation
-    if (!boothDetails.boothNo.trim()) errors.push('Booth Number is required (Step 2: Booth Details)');
-    if (!boothDetails.sqMtrBooked.trim()) errors.push('Square Meters Booked is required (Step 2: Booth Details)');
-    if (!boothDetails.organisation.trim()) errors.push('Organisation is required (Step 2: Booth Details)');
-    if (!boothDetails.contactPerson.trim()) errors.push('Contact Person is required (Step 2: Booth Details)');
-    if (!boothDetails.designation.trim()) errors.push('Designation is required (Step 2: Booth Details)');
-    if (!boothDetails.mobile.trim()) errors.push('Mobile number is required (Step 2: Booth Details)');
-    if (!boothDetails.email.trim()) errors.push('Email is required (Step 2: Booth Details)');
-    if (boothDetails.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(boothDetails.email)) {
-      errors.push('Valid email is required (Step 2: Booth Details)');
+    if (step === 1) {
+      if (!generalInfo.firstName.trim()) errors.push('First Name is required');
+      if (!generalInfo.lastName.trim()) errors.push('Last Name is required');
+      if (!generalInfo.designation.trim()) errors.push('Designation is required');
+      if (!generalInfo.mobile.trim()) errors.push('Mobile number is required');
+      if (!generalInfo.email.trim()) errors.push('Email is required');
+      else if (!emailOk(generalInfo.email.trim())) errors.push('Valid email is required');
+      if (!generalInfo.companyName.trim()) errors.push('Company Name is required');
+      if (!generalInfo.businessNature.trim()) errors.push('Nature of Business is required');
     }
 
-    // Step 3: Security Deposit Validation
-    if (!securityDeposit.boothSq) errors.push('Security Deposit selection is required (Step 3: Security Deposit)');
-
-    // Step 6: Company Details Validation
-    if (!companyDetails.companyName.trim()) errors.push('Company Name is required (Step 6: Company Details)');
-    if (!companyDetails.address.trim()) errors.push('Address is required (Step 6: Company Details)');
-    if (!companyDetails.mobile.trim()) errors.push('Mobile number is required (Step 6: Company Details)');
-    if (!companyDetails.email.trim()) errors.push('Email is required (Step 6: Company Details)');
-    if (companyDetails.email.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(companyDetails.email)) {
-      errors.push('Valid email is required (Step 6: Company Details)');
-    }
-    if (!companyDetails.contactPerson.trim()) errors.push('Contact Person is required (Step 6: Company Details)');
-    if (!companyDetails.designation.trim()) errors.push('Designation is required (Step 6: Company Details)');
-
-    // Step 5: Personnel - At least one exhibitor pass entry is recommended
-    const hasPersonnel = personnel.some(p => p.name.trim() !== '');
-    if (!hasPersonnel) {
-      errors.push('At least one exhibitor pass entry is required (Step 5: Personnel/Exhibitor Passes)');
+    if (step === 2) {
+      if (!isRawSpace) return errors;
+      if (!boothDetails.boothNo.trim()) errors.push('Booth Number is required');
+      if (!boothDetails.sqMtrBooked.trim()) errors.push('Square Meters Booked is required');
+      if (!boothDetails.organisation.trim()) errors.push('Organisation is required');
+      if (!boothDetails.contactPerson.trim()) errors.push('Contact Person is required');
+      if (!boothDetails.designation.trim()) errors.push('Designation is required');
+      if (!boothDetails.mobile.trim()) errors.push('Mobile number is required');
+      if (!boothDetails.email.trim()) errors.push('Email is required');
+      else if (!emailOk(boothDetails.email.trim())) errors.push('Valid email is required');
     }
 
+    if (step === 3) {
+      if (!isRawSpace) return errors;
+      if (!securityDeposit.boothSq) errors.push('Security Deposit selection is required');
+    }
+
+    if (step === 5) {
+      const hasCompletePass = personnel.some(
+        (p) => p.name.trim() && p.designation.trim() && p.organisation.trim()
+      );
+      if (!hasCompletePass) {
+        errors.push('At least one exhibitor pass with Name, Designation, and Organisation is required');
+      }
+    }
+
+    if (step === 6) {
+      if (!companyDetails.companyName.trim()) errors.push('Company Name is required');
+      if (!companyDetails.address.trim()) errors.push('Address is required');
+      if (!companyDetails.mobile.trim()) errors.push('Mobile number is required');
+      if (!companyDetails.email.trim()) errors.push('Email is required');
+      else if (!emailOk(companyDetails.email.trim())) errors.push('Valid email is required');
+      if (!companyDetails.contactPerson.trim()) errors.push('Contact Person is required');
+      if (!companyDetails.designation.trim()) errors.push('Designation is required');
+    }
+
+    return errors;
+  };
+
+  const getBlockingErrors = (fromStep: number, toStep: number): string[] => {
+    const errors: string[] = [];
+    for (let step = fromStep; step < toStep; step += 1) {
+      errors.push(...getStepErrors(step));
+    }
+    return errors;
+  };
+
+  const validateRequiredFields = (): { isValid: boolean; errors: string[] } => {
+    const requiredSteps = isRawSpace ? [1, 2, 3, 5, 6] : [1, 5, 6];
+    const errors = requiredSteps.flatMap((step) =>
+      getStepErrors(step).map((error) => `${error} (${STEP_LABELS[step]})`)
+    );
     return { isValid: errors.length === 0, errors };
   };
 
@@ -711,6 +765,8 @@ export default function RequirementsPage() {
     if (deposit?.boothSq) return true;
     const machinesDraft = draft.machines as MachineDisplay[] | undefined;
     if (machinesDraft?.some((m) => m.machineName?.trim())) return true;
+    const servicesDraft = draft.services as ServiceDisplay[] | undefined;
+    if (servicesDraft?.some((s) => s.serviceName?.trim())) return true;
     const personnelDraft = draft.personnel as Personnel[] | undefined;
     if (personnelDraft?.some((p, i) => i > 0 && p.name?.trim())) return true;
     const electrical = draft.electricalLoad as ElectricalLoad | undefined;
@@ -745,6 +801,9 @@ export default function RequirementsPage() {
     if (draft.securityDeposit) setSecurityDeposit(draft.securityDeposit as SecurityDeposit);
     if (Array.isArray(draft.machines) && draft.machines.length) {
       setMachines(draft.machines as MachineDisplay[]);
+    }
+    if (Array.isArray(draft.services) && draft.services.length) {
+      setServices(draft.services as ServiceDisplay[]);
     }
     if (Array.isArray(draft.personnel) && draft.personnel.length) {
       setPersonnel(draft.personnel as Personnel[]);
@@ -1024,6 +1083,16 @@ export default function RequirementsPage() {
 
       const apiData = result.data;
 
+      let stallDetails = apiData.stallDetails || {};
+      if (typeof stallDetails === 'string') {
+        try {
+          stallDetails = JSON.parse(stallDetails);
+        } catch {
+          stallDetails = {};
+        }
+      }
+      setExhibitorBoothType(String(apiData.boothType || stallDetails.type || '').trim());
+
       let contactPersonObj = {
         name: '',
         jobTitle: '',
@@ -1202,24 +1271,47 @@ export default function RequirementsPage() {
   };
 
   // ============= AUTO-FILL EFFECT =============
+  const syncFromBasicInfo = (current: string, source: string, locked?: boolean) => {
+    if (locked) return current;
+    const next = source.trim();
+    if (!next) return current;
+    if (!current.trim()) return next;
+    if (next === current.trim() || next.startsWith(current.trim()) || current.trim().startsWith(next)) {
+      return next;
+    }
+    return current;
+  };
+
   useEffect(() => {
     setBoothDetails(prev => ({
       ...prev,
-      exhibitorName: (!readOnlyFields.boothDetails_exhibitorName && !prev.exhibitorName) ? `${generalInfo.title} ${generalInfo.firstName} ${generalInfo.lastName}`.trim() : prev.exhibitorName,
-      organisation: (!readOnlyFields.boothDetails_organisation && !prev.organisation) ? generalInfo.companyName : prev.organisation,
-      contactPerson: (!readOnlyFields.boothDetails_contactPerson && !prev.contactPerson) ? `${generalInfo.firstName} ${generalInfo.lastName}`.trim() : prev.contactPerson,
-      mobile: (!readOnlyFields.boothDetails_mobile && !prev.mobile) ? generalInfo.mobile : prev.mobile,
-      email: (!readOnlyFields.boothDetails_email && !prev.email) ? generalInfo.email : prev.email,
-      designation: (!readOnlyFields.boothDetails_designation && !prev.designation) ? generalInfo.designation : prev.designation
+      exhibitorName: syncFromBasicInfo(
+        prev.exhibitorName,
+        `${generalInfo.title} ${generalInfo.firstName} ${generalInfo.lastName}`.trim(),
+        readOnlyFields.boothDetails_exhibitorName
+      ),
+      organisation: syncFromBasicInfo(prev.organisation, generalInfo.companyName, readOnlyFields.boothDetails_organisation),
+      contactPerson: syncFromBasicInfo(
+        prev.contactPerson,
+        `${generalInfo.firstName} ${generalInfo.lastName}`.trim(),
+        readOnlyFields.boothDetails_contactPerson
+      ),
+      mobile: syncFromBasicInfo(prev.mobile, generalInfo.mobile, readOnlyFields.boothDetails_mobile),
+      email: syncFromBasicInfo(prev.email, generalInfo.email, readOnlyFields.boothDetails_email),
+      designation: syncFromBasicInfo(prev.designation, generalInfo.designation, readOnlyFields.boothDetails_designation)
     }));
 
     setCompanyDetails(prev => ({
       ...prev,
-      companyName: (!readOnlyFields.companyDetails_companyName && !prev.companyName) ? generalInfo.companyName : prev.companyName,
-      mobile: (!readOnlyFields.companyDetails_mobile && !prev.mobile) ? generalInfo.mobile : prev.mobile,
-      email: (!readOnlyFields.companyDetails_email && !prev.email) ? generalInfo.email : prev.email,
-      contactPerson: (!readOnlyFields.companyDetails_contactPerson && !prev.contactPerson) ? `${generalInfo.firstName} ${generalInfo.lastName}`.trim() : prev.contactPerson,
-      designation: (!readOnlyFields.companyDetails_designation && !prev.designation) ? generalInfo.designation : prev.designation
+      companyName: syncFromBasicInfo(prev.companyName, generalInfo.companyName, readOnlyFields.companyDetails_companyName),
+      mobile: syncFromBasicInfo(prev.mobile, generalInfo.mobile, readOnlyFields.companyDetails_mobile),
+      email: syncFromBasicInfo(prev.email, generalInfo.email, readOnlyFields.companyDetails_email),
+      contactPerson: syncFromBasicInfo(
+        prev.contactPerson,
+        `${generalInfo.firstName} ${generalInfo.lastName}`.trim(),
+        readOnlyFields.companyDetails_contactPerson
+      ),
+      designation: syncFromBasicInfo(prev.designation, generalInfo.designation, readOnlyFields.companyDetails_designation)
     }));
 
     setPersonnel(prev => {
@@ -1227,15 +1319,33 @@ export default function RequirementsPage() {
       if (updated.length > 0) {
         updated[0] = {
           ...updated[0],
-          name: (!readOnlyFields.personnel_0_name && !updated[0].name) ? `${generalInfo.firstName} ${generalInfo.lastName}`.trim() : updated[0].name,
-          designation: (!readOnlyFields.personnel_0_designation && !updated[0].designation) ? generalInfo.designation : updated[0].designation,
-          organisation: (!readOnlyFields.personnel_0_organisation && !updated[0].organisation) ? generalInfo.companyName : updated[0].organisation
+          name: syncFromBasicInfo(
+            updated[0].name,
+            `${generalInfo.firstName} ${generalInfo.lastName}`.trim(),
+            readOnlyFields.personnel_0_name
+          ),
+          designation: syncFromBasicInfo(
+            updated[0].designation,
+            generalInfo.designation,
+            readOnlyFields.personnel_0_designation
+          ),
+          organisation: syncFromBasicInfo(
+            updated[0].organisation,
+            generalInfo.companyName,
+            readOnlyFields.personnel_0_organisation
+          )
         };
       }
       return updated;
     });
 
   }, [generalInfo, readOnlyFields]);
+
+  useEffect(() => {
+    if (!isRawSpace && (currentStep === 2 || currentStep === 3)) {
+      setCurrentStep(1);
+    }
+  }, [isRawSpace, currentStep]);
 
   // ============= CALCULATIONS =============
 
@@ -1248,7 +1358,7 @@ export default function RequirementsPage() {
     const securityTotal = securityGuard.totalCost || 0;
     const housekeepingTotal = housekeepingStaff.totalCost || 0;
     const rentalTotal = Object.values(rentalItems).reduce((sum, item) => sum + item.totalCost, 0);
-    const depositAmount = securityDeposit.amountINR || 0;
+    const depositAmount = isRawSpace ? (securityDeposit.amountINR || 0) : 0;
 
     const servicesTotal =
       furnitureTotal +
@@ -1358,6 +1468,29 @@ export default function RequirementsPage() {
     setMachines(reIndexed);
   };
 
+  const handleAddService = () => {
+    setServices(prev => [
+      ...prev,
+      {
+        srNo: prev.length + 1,
+        serviceName: '',
+        width: '',
+        length: '',
+        height: '',
+        weight: ''
+      }
+    ]);
+  };
+
+  const handleRemoveService = (index: number) => {
+    const updated = services.filter((_, i) => i !== index);
+    const reIndexed = updated.map((service, i) => ({
+      ...service,
+      srNo: i + 1
+    }));
+    setServices(reIndexed);
+  };
+
   const handleCompressedAirSelect = (option: CompressedAirOption) => {
     const totalCost = (option.costPerConnection * compressedAir.qty) + (option.powerKW * 3500 * compressedAir.qty);
 
@@ -1451,11 +1584,19 @@ export default function RequirementsPage() {
     const { isValid, errors } = validateRequiredFields();
     
     if (!isValid) {
+      const firstInvalid = (isRawSpace ? [1, 2, 3, 5, 6] : [1, 5, 6]).find(
+        (step) => getStepErrors(step).length > 0
+      );
+      if (firstInvalid) {
+        setCurrentStep(firstInvalid);
+        setStepErrors(getStepErrors(firstInvalid));
+      }
       setValidationErrors(errors);
       setShowValidationModal(true);
       return;
     }
-    
+
+    setStepErrors([]);
     setShowPreview(true);
   };
 
@@ -1475,6 +1616,7 @@ export default function RequirementsPage() {
       const totals = calculateTotals();
 
       const filteredMachines = machines.filter(m => m.machineName.trim() !== '');
+      const filteredServices = services.filter(s => s.serviceName.trim() !== '');
       const filteredPersonnel = personnel.filter(p => p.name.trim() !== '');
       const filteredFurniture = furnitureItems.filter(f => f.quantity > 0);
       const filteredHostess = hostessRequirements.filter(h => h.quantity > 0);
@@ -1495,8 +1637,18 @@ export default function RequirementsPage() {
         description: 'Exhibitor requirement submission',
         generalInfo,
         boothDetails,
-        securityDeposit,
+        securityDeposit: isRawSpace ? securityDeposit : {
+          boothSq: '',
+          amountINR: 0,
+          amountUSD: 0,
+          ddNo: '',
+          bankName: '',
+          branch: '',
+          dated: '',
+          amountWords: ''
+        },
         machines: filteredMachines,
+        services: filteredServices,
         personnel: filteredPersonnel,
         companyDetails,
         electricalLoad,
@@ -1968,6 +2120,7 @@ export default function RequirementsPage() {
     boothDetails,
     securityDeposit,
     machines,
+    services,
     personnel,
     companyDetails,
     electricalLoad,
@@ -2012,6 +2165,7 @@ export default function RequirementsPage() {
     boothDetails,
     securityDeposit,
     machines,
+    services,
     personnel,
     companyDetails,
     electricalLoad,
@@ -2154,7 +2308,42 @@ export default function RequirementsPage() {
     { number: 14, name: 'Housekeeping', icon: SparklesIcon, mobileName: 'House', required: false }
   ];
 
-  const totalSteps = steps.length;
+  const visibleSteps = steps.filter((step) => isStepVisible(step.number));
+  const lastVisibleStep = visibleSteps[visibleSteps.length - 1]?.number ?? 14;
+  const currentVisibleIndex = Math.max(
+    visibleSteps.findIndex((step) => step.number === currentStep) + 1,
+    1
+  );
+
+  const getAdjacentStep = (from: number, direction: 1 | -1) => {
+    let next = from + direction;
+    while (next >= 1 && next <= 14 && !isStepVisible(next)) {
+      next += direction;
+    }
+    return isStepVisible(next) ? next : from;
+  };
+
+  const goToStep = (target: number) => {
+    const next = Math.min(Math.max(target, 1), 14);
+    if (!isStepVisible(next) || next === currentStep) return;
+
+    if (next < currentStep) {
+      setStepErrors([]);
+      setCurrentStep(next);
+      setIsMobileMenuOpen(false);
+      return;
+    }
+
+    const blocking = getBlockingErrors(currentStep, next);
+    if (blocking.length > 0) {
+      setStepErrors(blocking);
+      return;
+    }
+
+    setStepErrors([]);
+    setCurrentStep(next);
+    setIsMobileMenuOpen(false);
+  };
 
   // Loading state
   if (loading) {
@@ -2772,6 +2961,7 @@ export default function RequirementsPage() {
 
   // ============= FORM 4: MACHINES (OPTIONAL) =============
   const renderMachines = () => (
+    <div className="space-y-6">
     <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center">
@@ -2910,6 +3100,147 @@ export default function RequirementsPage() {
       <p className="text-xs text-gray-500 mt-4 italic">
         * Add all machines that will be displayed at your booth. (Optional)
       </p>
+    </div>
+
+    <div className="bg-white shadow-lg rounded-xl p-4 sm:p-6 md:p-8">
+      <div className="flex items-center justify-between mb-6">
+        <div className="flex items-center">
+          <div className="bg-blue-100 p-2 rounded-lg">
+            <WrenchScrewdriverIcon className="h-5 w-5 sm:h-6 sm:w-6 text-blue-600" />
+          </div>
+          <h2 className="text-xl sm:text-2xl font-bold text-gray-900 ml-3">
+            SERVICE DISPLAY
+            <br />
+            <span className="text-[#4D4D4D] font-semibold text-[15px]">
+              (OPTIONAL)
+            </span>
+          </h2>
+        </div>
+
+        <button
+          type="button"
+          onClick={handleAddService}
+          className="flex items-center gap-1 bg-blue-600 hover:bg-blue-700 text-white text-sm px-4 py-2 rounded-lg shadow transition"
+        >
+          <PlusIcon className="h-4 w-4" />
+          Add Service
+        </button>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="min-w-full divide-y divide-gray-200 border border-gray-200 rounded-lg">
+          <thead className="bg-gray-50">
+            <tr>
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Sr.</th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Service Name</th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Width (m)</th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Length (m)</th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Height (m)</th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Weight (Tons)</th>
+              <th className="px-3 py-2 text-left text-xs font-medium text-gray-500 uppercase">Action</th>
+            </tr>
+          </thead>
+
+          <tbody className="bg-white divide-y divide-gray-200">
+            {services.map((service, index) => (
+              <tr key={service.srNo} className="hover:bg-gray-50">
+                <td className="px-3 py-2 text-sm text-gray-900 font-medium">
+                  {service.srNo}
+                </td>
+                <td className="px-3 py-2">
+                  <input
+                    type="text"
+                    value={service.serviceName}
+                    onChange={(e) => {
+                      const updated = [...services];
+                      updated[index].serviceName = e.target.value;
+                      setServices(updated);
+                    }}
+                    className="w-full border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter service name"
+                  />
+                </td>
+                <td className="px-3 py-2">
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={service.width}
+                    onChange={(e) => {
+                      const updated = [...services];
+                      updated[index].width = e.target.value;
+                      setServices(updated);
+                    }}
+                    className="w-20 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
+                    placeholder="W"
+                  />
+                </td>
+                <td className="px-3 py-2">
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={service.length}
+                    onChange={(e) => {
+                      const updated = [...services];
+                      updated[index].length = e.target.value;
+                      setServices(updated);
+                    }}
+                    className="w-20 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
+                    placeholder="L"
+                  />
+                </td>
+                <td className="px-3 py-2">
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={service.height}
+                    onChange={(e) => {
+                      const updated = [...services];
+                      updated[index].height = e.target.value;
+                      setServices(updated);
+                    }}
+                    className="w-20 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
+                    placeholder="H"
+                  />
+                </td>
+                <td className="px-3 py-2">
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={service.weight}
+                    onChange={(e) => {
+                      const updated = [...services];
+                      updated[index].weight = e.target.value;
+                      setServices(updated);
+                    }}
+                    className="w-20 border border-gray-300 rounded-lg px-2 py-1 text-sm focus:ring-2 focus:ring-blue-500"
+                    placeholder="Tons"
+                  />
+                </td>
+                <td className="px-3 py-2">
+                  {services.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveService(index)}
+                      className="text-red-500 hover:text-red-700 text-xs font-medium"
+                    >
+                      Remove
+                    </button>
+                  )}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p className="text-xs text-gray-500 mt-4 italic">
+        * Add all services that will be displayed at your booth. (Optional)
+      </p>
+    </div>
     </div>
   );
 
@@ -3822,10 +4153,12 @@ export default function RequirementsPage() {
         <div className="space-y-6">
           {/* Summary Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {isRawSpace && (
             <div className="bg-blue-50 rounded-xl p-4">
               <p className="text-sm text-gray-600">Security Deposit</p>
               <p className="text-2xl font-bold text-blue-600">₹{totals.deposit.toLocaleString()}</p>
             </div>
+            )}
             <div className="bg-green-50 rounded-xl p-4">
               <p className="text-sm text-gray-600">Services Total</p>
               <p className="text-2xl font-bold text-green-600">₹{totals.servicesTotal.toLocaleString()}</p>
@@ -3947,7 +4280,7 @@ export default function RequirementsPage() {
                 Progress auto-saved
               </p>
               <div className="text-right">
-                <p className="text-xs text-gray-500">Step {currentStep} of {totalSteps}</p>
+                <p className="text-xs text-gray-500">Step {currentVisibleIndex} of {visibleSteps.length}</p>
                 <p className="text-sm font-medium text-blue-600">{steps[currentStep - 1]?.name}</p>
               </div>
             </div>
@@ -3995,10 +4328,10 @@ export default function RequirementsPage() {
           <div className={`lg:w-64 flex-shrink-0 ${isMobileMenuOpen ? 'block' : 'hidden lg:block'}`}>
             <div className="bg-white rounded-xl shadow-lg p-4 sticky top-24">
               <div className="space-y-1">
-                {steps.map((step) => (
+                {visibleSteps.map((step, index) => (
                   <button
                     key={step.number}
-                    onClick={() => setCurrentStep(step.number)}
+                    onClick={() => goToStep(step.number)}
                     className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-colors ${
                       currentStep === step.number
                         ? 'bg-blue-50 text-blue-700'
@@ -4010,7 +4343,7 @@ export default function RequirementsPage() {
                         ? 'bg-blue-600 text-white'
                         : 'bg-gray-200 text-gray-600'
                     }`}>
-                      {step.number}
+                      {index + 1}
                     </div>
                     <span className="text-sm font-medium hidden lg:inline">{step.name}</span>
                     <span className="text-sm font-medium lg:hidden">{step.mobileName}</span>
@@ -4025,9 +4358,21 @@ export default function RequirementsPage() {
 
           {/* Main Content */}
           <div className="flex-1">
+            {stepErrors.length > 0 && (
+              <div className="mb-4 rounded-xl border border-red-200 bg-red-50 p-4">
+                <p className="text-sm font-semibold text-red-800">
+                  Fill all required fields on this step before changing tabs.
+                </p>
+                <ul className="mt-2 space-y-1">
+                  {stepErrors.map((error) => (
+                    <li key={error} className="text-sm text-red-700">• {error}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
             {currentStep === 1 && renderGeneralInfo()}
-            {currentStep === 2 && renderBoothDetails()}
-            {currentStep === 3 && renderSecurityDeposit()}
+            {currentStep === 2 && isRawSpace && renderBoothDetails()}
+            {currentStep === 3 && isRawSpace && renderSecurityDeposit()}
             {currentStep === 4 && renderMachines()}
             {currentStep === 5 && renderPersonnel()}
             {currentStep === 6 && renderCompanyDetails()}
@@ -4043,7 +4388,7 @@ export default function RequirementsPage() {
             {/* Navigation Buttons */}
             <div className="flex justify-between mt-6">
               <button
-                onClick={() => setCurrentStep(prev => Math.max(1, prev - 1))}
+                onClick={() => goToStep(getAdjacentStep(currentStep, -1))}
                 disabled={currentStep === 1}
                 className={`flex items-center gap-2 px-4 py-2 rounded-lg transition ${
                   currentStep === 1
@@ -4055,9 +4400,9 @@ export default function RequirementsPage() {
                 Previous
               </button>
 
-              {currentStep < totalSteps ? (
+              {currentStep !== lastVisibleStep ? (
                 <button
-                  onClick={() => setCurrentStep(prev => prev + 1)}
+                  onClick={() => goToStep(getAdjacentStep(currentStep, 1))}
                   className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
                 >
                   Next

@@ -21,6 +21,7 @@ import { exhibitorsAPI, Exhibitor, CreateExhibitorData } from "@/lib/api/exhibit
 interface ExtendedCreateExhibitorData extends CreateExhibitorData {
   boothSize?: string;
   boothType?: string;
+  boothOpenSides?: string;
   boothDimensions?: string;
   boothNotes?: string;
 }
@@ -41,7 +42,8 @@ export default function EditExhibitorPage() {
     sector: "",
     boothNumber: "",
     boothSize: "",
-    boothType: "standard",
+    boothType: "",
+    boothOpenSides: "",
     boothDimensions: "",
     boothNotes: "",
     password: "",
@@ -68,11 +70,14 @@ export default function EditExhibitorPage() {
   ];
 
   const boothTypes = [
-    { value: "standard", label:"Standard Booth" },
-    { value: "double", label: "2 Side Corner Booth" },
-    { value: "corner", label: "3 Side  Corner Booth" },
+    { value: "raw-space", label: "Raw Space" },
+    { value: "shell-space", label: "Shell Space" },
+  ];
+
+  const openSidesOptions = [
+    { value: "two-side", label: "2 Side corner booth" },
+    { value: "three-side", label: "3 Side corner booth" },
     { value: "island", label: "Island Booth" },
-    { value: "custom", label: "Custom Size" },
   ];
 
   const boothSizes = [
@@ -117,7 +122,8 @@ export default function EditExhibitorPage() {
           sector: exhibitor.sector,
           boothNumber: exhibitor.booth,
           boothSize: exhibitor.boothSize || "",
-          boothType: exhibitor.boothType || "standard",
+          boothType: exhibitor.boothType || "",
+          boothOpenSides: exhibitor.boothOpenSides || exhibitor.stallDetails?.openSides || "",
           boothDimensions: exhibitor.boothDimensions || "",
           boothNotes: exhibitor.boothNotes || "",
           password: "", // Don't show existing password for security
@@ -156,6 +162,7 @@ export default function EditExhibitorPage() {
         boothNumber: formData.boothNumber,
         boothSize: formData.boothSize,
         boothType: formData.boothType,
+        boothOpenSides: formData.boothOpenSides,
         boothDimensions: formData.boothDimensions,
         boothNotes: formData.boothNotes,
         status: formData.status,
@@ -382,9 +389,33 @@ export default function EditExhibitorPage() {
                   onChange={handleChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                 >
+                  <option value="">Select booth type</option>
                   {boothTypes.map((type) => (
                     <option key={type.value} value={type.value}>
                       {type.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Open Sides */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <div className="flex items-center gap-2">
+                    <Ruler className="h-4 w-4" />
+                    Open Sides
+                  </div>
+                </label>
+                <select
+                  name="boothOpenSides"
+                  value={formData.boothOpenSides}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
+                >
+                  <option value="">Select open sides</option>
+                  {openSidesOptions.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
                     </option>
                   ))}
                 </select>
