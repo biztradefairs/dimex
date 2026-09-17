@@ -827,10 +827,10 @@ const downloadInvoice = async () => {
         <div className="mt-6 text-center">
           <p className="text-xs text-gray-400">
             For any queries, please contact our support team at{' '}
-            <a href="mailto:support@diemex.com" className="text-blue-600 hover:underline">
-              support@diemex.com
+            <a href="mailto:sathish@maxxmedia.in" className="text-blue-600 hover:underline">
+              sathish@maxxmedia.in
             </a>
-            {' '}or call +91 1234567890
+            {' '}or call +91 63649 36468
           </p>
         </div>
       </div>

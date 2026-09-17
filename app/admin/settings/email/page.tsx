@@ -19,7 +19,7 @@ export default function EmailTemplatesPage() {
     {
       id: '1',
       name: 'Welcome Email',
-      subject: 'Welcome to Logistics Exhibition 2024!',
+      subject: 'Welcome to DIEMEX 2026 Exhibition!',
       description: 'Sent to new exhibitors after registration',
       category: 'Registration',
       lastUpdated: '2024-01-15',
@@ -28,7 +28,7 @@ export default function EmailTemplatesPage() {
     {
       id: '2',
       name: 'Payment Confirmation',
-      subject: 'Payment Received - Logistics Exhibition 2024',
+      subject: 'Payment Received - DIEMEX 2026 Exhibition',
       description: 'Sent after successful payment',
       category: 'Payment',
       lastUpdated: '2024-01-14',
@@ -37,7 +37,7 @@ export default function EmailTemplatesPage() {
     {
       id: '3',
       name: 'Event Reminder',
-      subject: 'Reminder: Logistics Exhibition Starts Soon!',
+      subject: 'Reminder: DIEMEX 2026 Exhibition Starts Soon!',
       description: 'Sent one week before the event',
       category: 'Reminder',
       lastUpdated: '2024-01-13',
@@ -92,9 +92,8 @@ Important Next Steps:
 3. Submit your booth design by {design_deadline}
 
 Need Help?
-- Exhibitor Support: support@logistics-expo.com
-- Technical Questions: tech@logistics-expo.com
-- General Inquiries: info@logistics-expo.com
+- Exhibitor Support: sathish@maxxmedia.in
+- General Inquiries: pad@maxxmedia.in
 
 We look forward to seeing you at the exhibition!
 
