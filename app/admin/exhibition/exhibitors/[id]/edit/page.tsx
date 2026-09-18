@@ -16,6 +16,11 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { exhibitorsAPI, Exhibitor, CreateExhibitorData } from "@/lib/api/exhibitors";
+import ExhibitorPaymentFields, {
+  defaultPaymentFormValue,
+  type PaymentFormValue,
+} from "@/components/admin/ExhibitorPaymentFields";
+import { toDateInputValue } from "@/lib/stallPayment";
 
 // Extend the interface to include booth size fields
 interface ExtendedCreateExhibitorData extends CreateExhibitorData {
@@ -49,6 +54,7 @@ export default function EditExhibitorPage() {
     password: "",
     status: "active",
   });
+  const [payment, setPayment] = useState<PaymentFormValue>(defaultPaymentFormValue);
 
   const sectors = [
  "Additive Manufacturing - 3D Printing",
@@ -129,6 +135,16 @@ export default function EditExhibitorPage() {
           password: "", // Don't show existing password for security
           status: exhibitor.status,
         });
+        const phases = exhibitor.paymentPhases || exhibitor.stallDetails?.paymentPhases || [];
+        setPayment({
+          stallCost: String(exhibitor.stallCost ?? exhibitor.stallDetails?.stallCost ?? ""),
+          gstPercent: String(exhibitor.gstPercent ?? exhibitor.stallDetails?.gstPercent ?? 18),
+          discount: String(exhibitor.discount ?? exhibitor.stallDetails?.discount ?? ""),
+          phases: [0, 1, 2].map((index) => ({
+            dueDate: toDateInputValue(phases[index]?.dueDate),
+            status: (phases[index]?.status as PaymentFormValue["phases"][number]["status"]) || "pending",
+          })),
+        });
       } else {
         toast.error("Exhibitor not found");
         router.push("/admin/exhibition/exhibitors");
@@ -166,6 +182,14 @@ export default function EditExhibitorPage() {
         boothDimensions: formData.boothDimensions,
         boothNotes: formData.boothNotes,
         status: formData.status,
+        stallCost: payment.stallCost,
+        gstPercent: payment.gstPercent || "18",
+        discount: payment.discount,
+        paymentPhases: payment.phases.map((phase, index) => ({
+          phase: index + 1,
+          dueDate: phase.dueDate,
+          status: phase.status,
+        })),
       };
 
       // Only send password if admin typed a new one
@@ -477,6 +501,8 @@ export default function EditExhibitorPage() {
               </div>
             </div>
           </div>
+
+          <ExhibitorPaymentFields value={payment} onChange={setPayment} />
 
           {/* Password Card */}
           <div className="bg-white rounded-xl shadow-sm p-6">

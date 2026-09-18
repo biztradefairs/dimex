@@ -5,6 +5,10 @@ import { useRouter } from "next/navigation";
 import { Save, X, Building, User, Mail, Phone, MapPin, Key, AlertCircle, Ruler } from "lucide-react";
 import toast from "react-hot-toast";
 import { exhibitorsAPI, CreateExhibitorData } from "@/lib/api/exhibitors";
+import ExhibitorPaymentFields, {
+  defaultPaymentFormValue,
+  type PaymentFormValue,
+} from "@/components/admin/ExhibitorPaymentFields";
 
 // Update the interface to include booth size
 interface ExtendedCreateExhibitorData extends CreateExhibitorData {
@@ -33,6 +37,7 @@ export default function NewExhibitorPage() {
     password: "",
     status: "active",
   });
+  const [payment, setPayment] = useState<PaymentFormValue>(defaultPaymentFormValue);
   const [emailStatus, setEmailStatus] = useState<{
     sent: boolean;
     recipient: string;
@@ -127,6 +132,14 @@ export default function NewExhibitorPage() {
         boothOpenSides: formData.boothOpenSides,
         boothDimensions: formData.boothDimensions,
         boothNotes: formData.boothNotes,
+        stallCost: payment.stallCost,
+        gstPercent: payment.gstPercent || "18",
+        discount: payment.discount,
+        paymentPhases: payment.phases.map((phase, index) => ({
+          phase: index + 1,
+          dueDate: phase.dueDate,
+          status: phase.status,
+        })),
       };
       
       const result = await exhibitorsAPI.create(apiData);
@@ -548,6 +561,8 @@ export default function NewExhibitorPage() {
               </div>
             </div>
           </div>
+
+          <ExhibitorPaymentFields value={payment} onChange={setPayment} />
 
           {/* Credentials Card */}
           <div className="bg-white rounded-xl shadow-sm p-6">

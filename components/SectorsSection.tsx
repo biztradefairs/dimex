@@ -1,194 +1,111 @@
-// components/SectorsSection.tsx - WITH HOVER DESCRIPTION
-'use client';
+"use client"
 
-import SectionContainer from './UI/SectionContainer';
-import { useState } from 'react';
-import Link from 'next/link';
+import Link from "next/link"
+import { ArrowRight } from "lucide-react"
+import SectionContainer from "./UI/SectionContainer"
+
+const sectors = [
+  {
+    title: "Precision Die & Mould Solutions",
+    slug: "precision-moulds",
+    image: "/images/precision.jpg",
+    description:
+      "Comprehensive die & mould manufacturing, tooling systems, design engineering, and end-to-end production solutions supporting high-precision industrial applications.",
+  },
+  {
+    title: "Tooling, Mould Bases & Standard Components",
+    slug: "tooling-mould-base",
+    image: "/images/mouldbase.jpg",
+    description:
+      "High-quality mould bases, precision components, hot runner systems, and standard tooling elements supporting efficient and reliable die & mould production.",
+  },
+  {
+    title: "Machining & Finishing Technologies",
+    slug: "machining-finishing",
+    image: "/images/finishing.jpg",
+    description:
+      "High-precision CNC machining, EDM, wire-cut, surface finishing, and polishing solutions for toolroom operations.",
+  },
+  {
+    title: "Automation & Industry 4.0 Solutions",
+    slug: "automation-industry",
+    image: "/images/automation.jpg",
+    description:
+      "Smart automation, robotics, digital manufacturing, and smart factory technologies for modern die & mould production.",
+  },
+  {
+    title: "Design, CAD/CAM & Engineering Software",
+    slug: "cad-cam",
+    image: "/images/cad.jpg",
+    description:
+      "Advanced design, simulation, and manufacturing software enabling accurate tooling development and reduced time-to-market.",
+  },
+  {
+    title: "Tool Steel & Advanced Materials",
+    slug: "tool-steel",
+    image: "/images/toolsteel.jpg",
+    description:
+      "High-performance tool steels, alloy steels, special metals, and advanced materials engineered for durability, precision, and long tool life.",
+  },
+]
 
 export default function SectorsSection() {
-  const sectors = [
-    { 
-      title: 'Precision Die & Mould Solutions',
-
-      slug: 'precision-moulds', 
-      image: '/images/precision.jpg',
-      description: 'Comprehensive die & mould manufacturing, tooling systems, design engineering, and end-to-end production solutions supporting high-precision industrial applications.'
-    },
-    { 
-      title: 'Tooling, Mould Bases & Standard Components',
-
-      slug: 'tooling-mould-base', 
-       image: '/images/mouldbase.jpg',
-      description: 'High-quality mould bases, precision components, hot runner systems, and standard tooling elements supporting efficient and reliable die & mould production.'
-    },
-    { 
-      title: 'Machining & Finishing Technologies',
-
-      slug: 'machining-finishing', 
-     image: '/images/finishing.jpg',
-      description: 'High-precision CNC machining, EDM, wire-cut, surface finishing, and polishing solutions for toolroom operations.'
-    },
-    { 
-      title: 'Automation & Industry 4.0 Solutions',
-
-      slug: 'automation-industry', 
-       image: '/images/automation.jpg',
-      description: 'Smart automation, robotics, digital manufacturing, and smart factory technologies for modern die & mould production.'
-    },
-    { 
-      title: 'Design, CAD/CAM & Engineering Software', 
-      slug: 'cad-cam', 
-     image: '/images/cad.jpg',
-      description: 'Advanced design, simulation, and manufacturing software enabling accurate tooling development and reduced time-to-market.'
-    },
-    { 
-      title: 'Tool Steel & Advanced Materials', 
-      slug: 'tool-steel', 
-       image: '/images/toolsteel.jpg',
-      description: 'High-performance tool steels, alloy steels, special metals, and advanced materials engineered for durability, precision, and long tool life in die & mould applications.'
-    },
-  ];
-
   return (
-    <section className="bg-white py-32">
+    <section className="bg-white py-16 lg:py-24">
       <SectionContainer>
-        {/* ================= HEADER ================= */}
-        <div className="mb-12 lg:mb-15 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-          {/* LEFT */}
-          <div className="max-w-7xl">
-            {/* LABEL */}
-            <div className="mb-5 flex items-center gap-3">
-              <img
-                src="/images/logo-icon-3.png"
-                alt="Sectors"
-                className="h-6 w-6"
-              />
-              <span className="text-sm font-medium text-gray-700">
-                Sectors
-              </span>
-            </div>
-
-            {/* TITLE */}
-            <h2 className="
-              text-4xl 
-              lg:text-5xl 
-              xl:text-6xl
-              font-[600] 
-              leading-[0.95]
-              tracking-tight
-            ">
-              Discover In-Demand Product Sectors at DIEMEX
+        <div className="mb-10 flex flex-col gap-6 lg:mb-14 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-3xl">
+            <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#004D9F]">
+              Sectors
+            </p>
+            <h2 className="font-parabolica text-[32px] font-black leading-[1.05] tracking-tight text-[#06162F] sm:text-4xl lg:text-[44px] xl:text-5xl">
+              Discover in-demand product sectors at DIEMEX
             </h2>
           </div>
 
-          {/* RIGHT BUTTON */}
-          <div className="mt-6 lg:mt-0">
-            <Link href="/sectors">
-              <button className="
-                rounded-full 
-                bg-[#004D9F] 
-                px-8 lg:px-10 
-                py-3 lg:py-4 
-                text-white 
-                font-semibold 
-                transition 
-                hover:bg-[#0074D9]
-              ">
-                Explore Sectors
-              </button>
-            </Link>
-          </div>
+          <Link
+            href="/sectors"
+            className="inline-flex w-fit items-center gap-2 bg-[#004D9F] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#003d7f]"
+          >
+            Explore Sectors
+            <ArrowRight className="h-4 w-4" />
+          </Link>
         </div>
 
-        {/* ================= CARDS WITH HOVER EFFECTS ================= */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
           {sectors.map((sector, i) => (
-            <SectorCard key={i} sector={sector} index={i} />
+            <Link
+              key={sector.slug}
+              href={`/sectors/${sector.slug}`}
+              className="group relative block h-[340px] overflow-hidden sm:h-[380px] lg:h-[420px]"
+            >
+              <div
+                className="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-110"
+                style={{ backgroundImage: `url(${sector.image})` }}
+              />
+
+              <div className="absolute inset-0 bg-gradient-to-t from-[#06162F] via-[#06162F]/55 to-black/10 transition-opacity duration-500 group-hover:opacity-0" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#06162F]/95 via-[#004D9F]/80 to-[#82C6EB]/70 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+
+              <div className="relative z-10 flex h-full flex-col justify-end p-5 sm:p-6">
+                <span className="mb-3 font-parabolica text-sm font-black text-[#82C6EB]">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 className="font-parabolica text-xl font-bold leading-snug text-white lg:text-2xl">
+                  {sector.title}
+                </h3>
+                <p className="mt-3 max-h-0 overflow-hidden text-sm leading-relaxed text-white/85 opacity-0 transition-all duration-500 group-hover:max-h-32 group-hover:opacity-100">
+                  {sector.description}
+                </p>
+                <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-[#82C6EB] opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                  Explore Sector
+                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                </span>
+              </div>
+            </Link>
           ))}
         </div>
       </SectionContainer>
     </section>
-  );
-}
-
-// Separate client component for sector card with hover effects
-function SectorCard({ sector, index }: { sector: any; index: number }) {
-  const [isHovered, setIsHovered] = useState(false);
-
-  return (
-    <Link
-      href={`/sectors/${sector.slug}`}
-      className="group relative h-[400px] lg:h-[460px] overflow-hidden block"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      {/* IMAGE WITH ZOOM EFFECT */}
-      <div
-        className="absolute inset-0 bg-cover bg-center transition-all duration-700"
-        style={{
-          backgroundImage: `url(${sector.image})`,
-          transform: isHovered ? 'scale(1.05)' : 'scale(1)',
-        }}
-      />
-
-      {/* GRADIENT OVERLAY - CHANGES ON HOVER */}
-      <div className="absolute inset-0 transition-all duration-500"
-        style={{
-          background: isHovered 
-            ? 'linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.5))'
-            : 'linear-gradient(to top, rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.4))'
-        }}
-      />
-
-      {/* CONTENT */}
-      <div className="absolute bottom-0 left-0 right-0 p-6 lg:p-8 transition-all duration-500"
-        style={{
-          transform: isHovered ? 'translateY(0)' : 'translateY(0)',
-          paddingBottom: isHovered ? '5rem' : '1.5rem',
-        }}
-      >
-        {/* TITLE */}
-        <h3 className="text-2xl lg:text-3xl font-bold text-white mb-2 transition-all duration-300"
-          style={{
-            transform: isHovered ? 'translateY(0)' : 'translateY(0)'
-          }}>
-          {sector.title}
-        </h3>
-
-        {/* DESCRIPTION - SLIDES UP ON HOVER */}
-        <div className="overflow-hidden transition-all duration-500 ease-in-out"
-          style={{
-            maxHeight: isHovered ? '100px' : '0',
-            opacity: isHovered ? 1 : 0,
-            transform: isHovered ? 'translateY(0)' : 'translateY(10px)'
-          }}
-        >
-          <p className="text-white/80 text-base lg:text-lg leading-relaxed pt-2">
-            {sector.description}
-          </p>
-          
-          {/* EXPLORE BUTTON - APPEARS ON HOVER */}
-          <div className="mt-4 flex items-center gap-2">
-            <span className="text-blue-300 font-medium">Explore Sector</span>
-            <svg 
-              className="w-5 h-5 text-blue-300 transform transition-transform duration-300 group-hover:translate-x-1" 
-              fill="none" 
-              stroke="currentColor" 
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      {/* HOVER INDICATOR LINE */}
-      <div className="absolute bottom-0 left-6 lg:left-8 h-1 bg-blue-500 transition-all duration-300"
-        style={{
-          width: isHovered ? '80px' : '40px',
-          opacity: isHovered ? 1 : 0.7,
-        }}
-      />
-    </Link>
-  );
+  )
 }

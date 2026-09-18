@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { exhibitorsAPI, Exhibitor } from "@/lib/api/exhibitors";
+import { calculateStallPayment, formatINR, formatPhaseDate } from "@/lib/stallPayment";
 
 export default function ExhibitorDetailsPage() {
   const params = useParams();
@@ -135,6 +136,13 @@ export default function ExhibitorDetailsPage() {
   if (!exhibitor) {
     return null;
   }
+
+  const payment = calculateStallPayment({
+    stallCost: exhibitor.stallCost,
+    discount: exhibitor.discount,
+    gstPercent: exhibitor.gstPercent,
+    paymentPhases: exhibitor.paymentPhases,
+  }, exhibitor.stallDetails || {});
 
   return (
     <div className="min-h-screen bg-gray-50 p-6">
@@ -336,6 +344,42 @@ export default function ExhibitorDetailsPage() {
                     </p>
                   </div>
                 )}
+              </div>
+            </div>
+
+            <div className="bg-white rounded-xl shadow-sm p-6">
+              <h2 className="text-lg font-semibold text-gray-900 mb-6 pb-4 border-b">
+                Stall Payment
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div className="rounded-lg bg-slate-50 p-4">
+                  <p className="text-xs text-gray-500">Stall cost</p>
+                  <p className="mt-1 font-semibold">{formatINR(payment.stallCost)}</p>
+                </div>
+                <div className="rounded-lg bg-slate-50 p-4">
+                  <p className="text-xs text-gray-500">GST (18% of stall − discount)</p>
+                  <p className="mt-1 font-semibold">
+                    {formatINR(payment.gstAmount)}
+                  </p>
+                </div>
+                <div className="rounded-lg bg-blue-50 p-4">
+                  <p className="text-xs text-blue-700">Final amount</p>
+                  <p className="mt-1 font-bold text-blue-800">{formatINR(payment.finalAmount)}</p>
+                </div>
+              </div>
+              <div className="space-y-3">
+                {payment.paymentPhases.map((phase) => (
+                  <div key={phase.phase} className="flex flex-wrap items-center justify-between gap-2 rounded-lg border border-gray-100 px-4 py-3">
+                    <div>
+                      <p className="text-sm font-medium text-gray-900">{phase.label || `Payment ${phase.phase}`}</p>
+                      <p className="text-xs text-gray-500">{phase.percent}% · {formatPhaseDate(phase.dueDate)}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-semibold">{formatINR(phase.amount)}</p>
+                      <p className="text-xs capitalize text-gray-500">{phase.status || 'pending'}</p>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

@@ -127,7 +127,34 @@ export interface Exhibitor {
     openSides?: string;
     dimensions?: string;
     notes?: string;
+    stallCost?: number;
+    gstPercent?: number;
+    discount?: number;
+    gstAmount?: number;
+    afterDiscount?: number;
+    finalAmount?: number;
+    paymentPhases?: Array<{
+      phase: number;
+      label?: string;
+      percent: number;
+      amount: number;
+      dueDate?: string;
+      status?: 'pending' | 'paid' | 'overdue';
+    }>;
   };
+  stallCost?: number;
+  gstPercent?: number;
+  discount?: number;
+  gstAmount?: number;
+  finalAmount?: number;
+  paymentPhases?: Array<{
+    phase: number;
+    label?: string;
+    percent: number;
+    amount: number;
+    dueDate?: string;
+    status?: 'pending' | 'paid' | 'overdue';
+  }>;
 }
 
 export interface ExhibitorStats {
@@ -151,6 +178,14 @@ export interface CreateExhibitorData {
   boothOpenSides?: string;
   boothDimensions?: string;
   boothNotes?: string;
+  stallCost?: number | string;
+  gstPercent?: number | string;
+  discount?: number | string;
+  paymentPhases?: Array<{
+    phase: number;
+    dueDate?: string;
+    status?: 'pending' | 'paid' | 'overdue';
+  }>;
 }
 
 export interface PaginatedResponse<T> {
@@ -226,7 +261,13 @@ const mapExhibitorData = (data: any): Exhibitor => {
     createdAt: data.createdAt || new Date().toISOString(),
     address: data.address,
     website: data.website,
-    stallDetails: stallDetails
+    stallDetails: stallDetails,
+    stallCost: Number(data.stallCost ?? stallDetails?.stallCost ?? 0),
+    gstPercent: Number(data.gstPercent ?? stallDetails?.gstPercent ?? 18),
+    discount: Number(data.discount ?? stallDetails?.discount ?? 0),
+    gstAmount: Number(data.gstAmount ?? stallDetails?.gstAmount ?? 0),
+    finalAmount: Number(data.finalAmount ?? stallDetails?.finalAmount ?? 0),
+    paymentPhases: data.paymentPhases || stallDetails?.paymentPhases || [],
   };
 };
 
@@ -316,7 +357,11 @@ export const exhibitorsAPI = {
           type: data.boothType || '',
           openSides: data.boothOpenSides || '',
           dimensions: data.boothDimensions || '',
-          notes: data.boothNotes || ''
+          notes: data.boothNotes || '',
+          stallCost: data.stallCost ?? 0,
+          gstPercent: data.gstPercent ?? 18,
+          discount: data.discount ?? 0,
+          paymentPhases: data.paymentPhases || [],
         }
       };
 
@@ -357,13 +402,18 @@ export const exhibitorsAPI = {
       };
 
       // Include stallDetails if booth fields are provided
-      if (data.boothSize || data.boothType || data.boothOpenSides || data.boothDimensions || data.boothNotes) {
+      if (data.boothSize || data.boothType || data.boothOpenSides || data.boothDimensions || data.boothNotes ||
+          data.stallCost !== undefined || data.discount !== undefined || data.gstPercent !== undefined || data.paymentPhases) {
         backendData.stallDetails = {
           size: data.boothSize || '',
           type: data.boothType || '',
           openSides: data.boothOpenSides || '',
           dimensions: data.boothDimensions || '',
-          notes: data.boothNotes || ''
+          notes: data.boothNotes || '',
+          stallCost: data.stallCost ?? 0,
+          gstPercent: data.gstPercent ?? 18,
+          discount: data.discount ?? 0,
+          paymentPhases: data.paymentPhases || [],
         };
       }
 
@@ -648,6 +698,14 @@ export const dashboardAPI = {
       console.error("Error fetching dashboard:", error);
       throw new Error(error.response?.data?.error || error.message || "Failed to load dashboard");
     }
+  },
+
+  getPayment: async () => {
+    const response = await api.get('/exhibitorDashboard/payment');
+    if (!response.data.success) {
+      throw new Error(response.data.error || 'Failed to load stall payment');
+    }
+    return response.data.data;
   },
 };
 

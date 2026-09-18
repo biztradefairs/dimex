@@ -171,34 +171,37 @@ export default function DiemexTabbedFormWrapper({
         <div className={`w-full max-w-7xl mx-auto bg-white overflow-hidden shadow-lg rounded-2xl ${className}`}>
             <Toaster position="top-right" />
 
-            <div className="grid grid-cols-4 gap-[2px] bg-slate-200 w-full px-1 py-1">
-                {TABS.map((tab) => {
-                    const isActive = activeTab === tab.key;
+            <div className="bg-slate-100 p-1.5">
+                <div className="grid grid-cols-2 gap-1 md:grid-cols-4">
+                    {TABS.map((tab) => {
+                        const isActive = activeTab === tab.key;
 
-                    return (
-                        <button
-                            key={tab.key}
-                            onClick={() => handleTabClick(tab)}
-                            className={`
-                                relative flex items-center justify-center gap-3
-                                h-[54px] w-full
-                                font-semibold text-sm
-                                transition-all
-                                ${isActive
-                                    ? "bg-[#002d86] text-white"
-                                    : "bg-white text-[#1e2b52] hover:bg-slate-50"
-                                }
-                            `}
-                        >
-                            <span>{tab.icon}</span>
-                            <span className="tracking-wide">{tab.label}</span>
+                        return (
+                            <button
+                                key={tab.key}
+                                onClick={() => handleTabClick(tab)}
+                                className={`
+                                    relative flex flex-col items-center justify-center gap-1
+                                    min-h-[56px] px-2 py-2
+                                    font-semibold text-[11px] leading-tight
+                                    transition-all
+                                    md:h-[54px] md:flex-row md:gap-2.5 md:text-sm
+                                    ${isActive
+                                        ? "bg-[#002d86] text-white"
+                                        : "bg-white text-[#1e2b52] hover:bg-slate-50"
+                                    }
+                                `}
+                            >
+                                <span className="shrink-0">{tab.icon}</span>
+                                <span className="tracking-wide">{tab.label}</span>
 
-                            {isActive && (
-                                <span className="absolute left-1/2 -translate-x-1/2 -bottom-[12px] w-0 h-0 border-l-[12px] border-r-[12px] border-t-[12px] border-l-transparent border-r-transparent border-t-[#002d86]" />
-                            )}
-                        </button>
-                    );
-                })}
+                                {isActive && (
+                                    <span className="absolute left-1/2 hidden -bottom-[10px] -translate-x-1/2 border-l-[10px] border-r-[10px] border-t-[10px] border-l-transparent border-r-transparent border-t-[#002d86] md:block" />
+                                )}
+                            </button>
+                        );
+                    })}
+                </div>
             </div>
 
             <div className="flex flex-col lg:flex-row">
