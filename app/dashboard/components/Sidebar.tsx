@@ -15,6 +15,7 @@ import {
   XMarkIcon,
   CreditCardIcon,
   ChevronDownIcon,
+  ClipboardDocumentListIcon,
 } from '@heroicons/react/24/outline';
 
 const navigation = [
@@ -23,6 +24,7 @@ const navigation = [
   { name: 'Invoices', href: '/dashboard/invoice', icon: DocumentTextIcon },
   { name: 'Layout', href: '/dashboard/layout', icon: MapIcon },
   { name: 'Stall Booked', href: '/dashboard/stall', icon: ShoppingCartIcon },
+  { name: 'Application form', href: '/dashboard/application-form', icon: ClipboardDocumentListIcon },
   {
     name: 'Payment',
     icon: CreditCardIcon,

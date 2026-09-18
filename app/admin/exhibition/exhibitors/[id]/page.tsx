@@ -19,6 +19,7 @@ import {
   Ruler,
   Info,
   Package,
+  FileText,
 } from "lucide-react";
 import toast from "react-hot-toast";
 import { exhibitorsAPI, Exhibitor } from "@/lib/api/exhibitors";
@@ -199,6 +200,15 @@ export default function ExhibitorDetailsPage() {
               >
                 <Edit className="h-4 w-4" />
                 Edit Exhibitor
+              </button>
+              <button
+                onClick={() =>
+                  router.push(`/admin/exhibition/exhibitors/${exhibitor.id}/application-form`)
+                }
+                className="flex items-center gap-2 px-4 py-2 bg-white border border-gray-200 text-gray-800 rounded-lg hover:bg-gray-50"
+              >
+                <FileText className="h-4 w-4" />
+                Application Form
               </button>
               <button
                 onClick={() =>

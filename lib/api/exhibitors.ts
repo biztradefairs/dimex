@@ -42,6 +42,10 @@ api.interceptors.request.use(
       }
     }
 
+    if (typeof FormData !== "undefined" && config.data instanceof FormData) {
+      delete config.headers["Content-Type"];
+    }
+
     return config;
   },
   (error) => {
@@ -707,7 +711,76 @@ export const dashboardAPI = {
     }
     return response.data.data;
   },
+
+  getApplicationForm: async () => {
+    const response = await api.get('/exhibitorDashboard/application-form');
+    if (!response.data.success) {
+      throw new Error(response.data.error || 'Failed to load application form');
+    }
+    return response.data.data;
+  },
+
+  downloadApplicationPdf: async (filename = 'DIEMEX-Application-Form.pdf') => {
+    const response = await api.get('/exhibitorDashboard/application-form/pdf', {
+      responseType: 'blob',
+    });
+    triggerBlobDownload(response.data, filename);
+  },
+
+  uploadSignedApplication: async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const response = await api.post('/exhibitorDashboard/application-form/upload', formData, {
+      headers: { 'Content-Type': 'multipart/form-data' },
+    });
+    if (!response.data.success) {
+      throw new Error(response.data.error || 'Failed to upload signed form');
+    }
+    return response.data.data;
+  },
 };
+
+export const applicationFormAPI = {
+  get: async (exhibitorId: string) => {
+    const response = await api.get(`/exhibitors/${exhibitorId}/application-form`);
+    if (!response.data.success) {
+      throw new Error(response.data.error || 'Failed to load application form');
+    }
+    return response.data.data;
+  },
+  save: async (exhibitorId: string, data: Record<string, unknown>) => {
+    const response = await api.put(`/exhibitors/${exhibitorId}/application-form`, data);
+    if (!response.data.success) {
+      throw new Error(response.data.error || 'Failed to save application form');
+    }
+    return response.data.data;
+  },
+  send: async (exhibitorId: string, data: Record<string, unknown>) => {
+    const response = await api.post(`/exhibitors/${exhibitorId}/application-form/send`, data);
+    if (!response.data.success) {
+      throw new Error(response.data.error || 'Failed to send application form');
+    }
+    return response.data.data;
+  },
+  downloadPdf: async (exhibitorId: string, filename = 'DIEMEX-Application-Form.pdf') => {
+    const response = await api.get(`/exhibitors/${exhibitorId}/application-form/pdf`, {
+      responseType: 'blob',
+    });
+    triggerBlobDownload(response.data, filename);
+  },
+};
+
+function triggerBlobDownload(data: BlobPart, filename: string) {
+  const blob = new Blob([data], { type: 'application/pdf' });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
 
 /* =========================================================
    PASSWORD RESET API
