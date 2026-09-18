@@ -2,15 +2,7 @@
 
 import { useRef, useState } from "react"
 import Link from "next/link"
-import {
-  ArrowRight,
-  ChevronDown,
-  MapPin,
-  Pause,
-  Play,
-  Volume2,
-  VolumeX,
-} from "lucide-react"
+import { MapPin, Pause, Play, Volume2, VolumeX } from "lucide-react"
 
 const VIDEO_ID = "3P-hRFrsXIs"
 
@@ -54,11 +46,6 @@ export default function HeroSection() {
     setIsMuted((prev) => !prev)
   }
 
-  const scrollToNext = () => {
-    const next = document.getElementById("heroSection")?.nextElementSibling
-    next?.scrollIntoView({ behavior: "smooth" })
-  }
-
   return (
     <section
       id="heroSection"
@@ -84,12 +71,8 @@ export default function HeroSection() {
       <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-[#06162F] from-[0%] via-[#06162F]/92 via-[42%] to-transparent to-[72%] lg:block" />
 
       {/* ================= MOBILE / TABLET ================= */}
-      <div className="relative z-10 flex min-h-[100svh] flex-col justify-end px-5 pb-8 pt-[7.5rem] lg:hidden">
-        <p className="max-w-[16rem] text-[11px] font-semibold uppercase leading-[1.55] tracking-[0.18em] text-[#82C6EB]">
-          Die &amp; Mould · Tooling · Precision · Progress
-        </p>
-
-        <h1 className="mt-4 font-parabolica text-[52px] font-black leading-[0.86] tracking-tight xs:text-[60px]">
+      <div className="relative z-10 flex min-h-[100svh] flex-col justify-end px-5 pb-16 pt-[8.75rem] lg:hidden">
+        <h1 className="font-parabolica text-[52px] font-black leading-[0.86] tracking-tight xs:text-[60px]">
           DIEMEX
           <span className="mt-1 block text-[#82C6EB]">2026</span>
         </h1>
@@ -108,72 +91,53 @@ export default function HeroSection() {
           Auto Cluster Exhibition Centre, Pune
         </p>
 
-        <div className="mt-7 flex flex-col gap-3">
-          <Link
-            href="/exhibiting-enquiry"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#2563EB] px-6 py-3.5 text-[15px] font-semibold text-white shadow-[0_12px_28px_rgba(37,99,235,0.45)]"
-          >
-            Book Your Stand
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+        <div className="mt-7 grid grid-cols-2 gap-2.5">
           <Link
             href="/visitor-registration"
-            className="inline-flex items-center justify-center rounded-full border border-white/70 bg-transparent px-6 py-3.5 text-[15px] font-semibold text-white"
+            className="inline-flex items-center justify-center border border-[#82C6EB] bg-transparent px-4 py-3.5 text-[14px] font-semibold text-white"
           >
-            Register to Attend
+            Register Now
+          </Link>
+          <Link
+            href="/exhibiting-enquiry"
+            className="inline-flex items-center justify-center bg-[#004D9F] px-4 py-3.5 text-[14px] font-semibold text-white"
+          >
+            Exhibit
           </Link>
         </div>
       </div>
 
       {/* ================= DESKTOP ================= */}
-      <div className="relative z-10 mx-auto hidden min-h-[100svh] w-full max-w-[1600px] flex-col justify-center px-8 pb-16 pt-28 lg:flex">
-        <div className="max-w-3xl">
-          <p className="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-[#82C6EB]">
-            Die &amp; Mould · Tooling · Precision · Progress
-          </p>
-
-          <h1 className="font-parabolica text-[88px] font-black leading-[0.9] tracking-tight xl:text-[104px]">
+      <div className="relative z-10 mx-auto hidden min-h-[100svh] w-full max-w-[1600px] flex-col justify-center px-8 pb-16 pt-32 lg:flex">
+        <div className="max-w-4xl">
+          <h1 className="mt-6 font-parabolica text-[92px] font-black leading-[0.88] tracking-tight xl:text-[118px] 2xl:text-[132px]">
             DIEMEX <span className="text-[#82C6EB]">2026</span>
           </h1>
 
-          <h2 className="mt-5 max-w-xl text-2xl font-semibold leading-snug text-white lg:text-[28px]">
+          <h2 className="mt-6 max-w-2xl text-[30px] font-semibold leading-snug text-white xl:mt-8 xl:text-[36px] 2xl:text-[40px]">
             Where global die &amp; mould leaders meet India&apos;s manufacturers.
           </h2>
 
-          <p className="mt-4 max-w-xl text-base leading-relaxed text-white/75">
+          <p className="mt-5 max-w-2xl text-lg leading-relaxed text-white/75 xl:mt-6 xl:text-xl 2xl:text-[22px]">
             3rd Edition of the International Exhibition for Die &amp; Mould, Tooling,
             and Precision Manufacturing Technologies
           </p>
 
-          <div className="mt-8 flex items-center gap-3">
-            <Link
-              href="/exhibiting-enquiry"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-[#004D9F] px-7 py-3.5 text-sm font-semibold text-white shadow-[0_12px_30px_rgba(0,77,159,0.45)] transition hover:bg-[#003d7f] hover:shadow-[0_16px_36px_rgba(51,168,223,0.35)]"
-            >
-              Book Your Stand
-              <ArrowRight className="h-4 w-4" />
-            </Link>
+          <div className="mt-10 flex gap-3 xl:mt-12">
             <Link
               href="/visitor-registration"
-              className="inline-flex items-center justify-center rounded-full border border-white/30 bg-white/5 px-7 py-3.5 text-sm font-semibold text-white backdrop-blur-md transition hover:border-white/60 hover:bg-white/10"
+              className="inline-flex items-center justify-center border border-[#82C6EB] bg-transparent px-10 py-4 text-base font-semibold text-white transition hover:bg-[#82C6EB]/10 xl:px-12 xl:py-4.5 xl:text-lg"
             >
-              Register to Attend
+              Register Now
+            </Link>
+            <Link
+              href="/exhibiting-enquiry"
+              className="inline-flex items-center justify-center bg-[#004D9F] px-10 py-4 text-base font-semibold text-white transition hover:bg-[#003d7f] xl:px-12 xl:py-4.5 xl:text-lg"
+            >
+              Exhibit
             </Link>
           </div>
         </div>
-      </div>
-
-      <div className="absolute bottom-8 left-8 z-20 hidden items-center gap-3 lg:flex">
-        <button
-          type="button"
-          onClick={scrollToNext}
-          className="group inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.18em] text-white/70 transition hover:text-white"
-        >
-          <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-white/5">
-            <ChevronDown className="h-4 w-4 animate-bounce" />
-          </span>
-          Explore More
-        </button>
       </div>
 
       <div className="absolute bottom-8 right-8 z-20 hidden gap-2 lg:flex">

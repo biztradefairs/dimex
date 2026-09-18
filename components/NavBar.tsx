@@ -207,9 +207,9 @@ export default function NavBar() {
           </div>
 
           <div className="bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white">
-            <div className="flex items-center justify-between gap-2 px-3 py-2">
-              <div className="flex items-center gap-1.5 min-w-0">
-                <div className="relative h-[34px] w-[56px] flex-shrink-0">
+            <div className="flex items-center justify-between gap-2 px-3 py-3">
+              <div className="flex items-center gap-2 min-w-0">
+                <div className="relative h-[44px] w-[72px] flex-shrink-0">
                   <Image
                     src="/images/logo-diemex2.png"
                     alt="DIEMEX 2026 Logo"
@@ -218,8 +218,8 @@ export default function NavBar() {
                     priority
                   />
                 </div>
-                <span className="h-5 w-px bg-white/70"></span>
-                <div className="relative h-[24px] w-[48px] flex-shrink-0">
+                <span className="h-6 w-px bg-white/70"></span>
+                <div className="relative h-[34px] w-[64px] flex-shrink-0">
                   <Image
                     src="/images/3rd-edition.png"
                     alt="3rd Edition"
@@ -234,10 +234,10 @@ export default function NavBar() {
                 {exhibitorReady && exhibitorLoggedIn && <ExhibitorNavProfile variant="mobile" />}
                 <button
                   onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="rounded-full bg-white/10 p-1.5 hover:bg-white/20 active:scale-95"
+                  className="rounded-full bg-white/10 p-2 hover:bg-white/20 active:scale-95"
                   aria-label="Toggle menu"
                 >
-                  <Menu className="h-4 w-4" />
+                  <Menu className="h-5 w-5" />
                 </button>
               </div>
             </div>
@@ -410,7 +410,7 @@ export default function NavBar() {
 
           {/* Dropdown Menu - higher z-index */}
           <div
-            className={`lg:hidden fixed top-[100px] left-0 right-0 z-[9999] mt-2 bg-white text-gray-900 shadow-xl rounded-xl mx-2`}
+            className={`lg:hidden fixed top-[110px] left-0 right-0 z-[9999] mt-2 bg-white text-gray-900 shadow-xl rounded-xl mx-2`}
             style={{ animation: "slideDown 0.25s ease-out" }}
           >
             {/* Dropdown Header (Close Button) */}
