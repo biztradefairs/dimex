@@ -170,9 +170,9 @@ export default function NavBar() {
       {/* ================= NAVBAR ================= */}
       <header className="fixed top-0 left-0 right-0 z-[999] overflow-visible font-parabolica">
         <div className="lg:hidden">
-          <div className="flex h-9 items-center bg-[#82C6EB] text-[#06162F]">
+          <div className="flex h-9 items-center bg-gradient-to-r from-[#06162F] to-[#0A2B57] text-white">
             <div className="flex h-full items-center justify-center px-2.5">
-              <Megaphone className="h-4 w-4 shrink-0" />
+              <Megaphone className="h-4 w-4 shrink-0 text-[#82C6EB]" />
             </div>
             <div className="min-w-0 flex-1 overflow-hidden">
               <div className="animate-diemex-marquee flex w-max">
@@ -182,10 +182,10 @@ export default function NavBar() {
                     className="px-4 text-[12px] font-medium whitespace-nowrap"
                   >
                     Event Dates Have Been{" "}
-                    <span className="font-extrabold">Rescheduled</span>
-                    <span className="mx-3 text-[#06162F]/35">•</span>
+                    <span className="font-extrabold text-[#82C6EB]">Rescheduled</span>
+                    <span className="mx-3 text-white/30">•</span>
                     New Dates Coming Soon
-                    <span className="mx-3 text-[#06162F]/35">•</span>
+                    <span className="mx-3 text-white/30">•</span>
                   </span>
                 ))}
               </div>
@@ -199,7 +199,7 @@ export default function NavBar() {
                 }
                 window.location.href = "/"
               }}
-              className="inline-flex h-full shrink-0 items-center gap-1 border-l border-[#06162F]/20 px-3 text-[12px] font-semibold"
+              className="inline-flex h-full shrink-0 items-center gap-1 border-l border-white/20 px-3 text-[12px] font-semibold text-[#82C6EB]"
             >
               Know More
               <ArrowRight className="h-3.5 w-3.5" />
