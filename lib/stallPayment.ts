@@ -40,7 +40,9 @@ export function calculateStallPayment(
     gstPercent?: number | string
     paymentPhases?: Array<Partial<PaymentPhase>>
   } = {},
-  existing: Partial<StallPayment> = {}
+  existing: Partial<Omit<StallPayment, 'paymentPhases'>> & {
+    paymentPhases?: Array<Partial<PaymentPhase>>
+  } = {}
 ): StallPayment {
   const stallCost = round2(source.stallCost ?? existing.stallCost ?? 0)
   const discount = round2(source.discount ?? existing.discount ?? 0)
