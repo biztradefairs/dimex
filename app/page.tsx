@@ -15,10 +15,12 @@ import ExploreMoscowSection from '@/components/ExploreMoscowSection'
 import PartnersSection from '@/components/section/PartnersSection'
 import VideoSection from '@/components/videoSection';
 import BackToTop from './exhibitor-resource-center/component/BackToTop';
+import PostponedDatesPopup from '@/components/PostponedDatesPopup';
 
 export default function Home() {
   return (
     <>
+    <PostponedDatesPopup />
     <main className="font-parabolica antialiased overflow-hidden">
       <HeroSection />
       <AboutSection />

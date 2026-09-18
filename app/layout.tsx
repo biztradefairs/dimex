@@ -11,8 +11,7 @@ import "./globals.css";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
 import { UTMProvider } from "@/components/UTMProvider";
-import { getUTMParams, UTMData } from "@/lib/utmTracker";
-import { UTMDebugger } from "@/components/UTMDebugger";
+import { getUTMParams } from "@/lib/utmTracker";
 
 export default function RootLayout({
   children,
@@ -122,7 +121,6 @@ export default function RootLayout({
             {!hideLayout && <NavBar />}
             <main className="flex-grow w-full">{children}</main>
             {!hideLayout && <Footer />}
-            <UTMDebugger />
           </UTMProvider>
         </Suspense>
       </body>

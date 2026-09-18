@@ -209,12 +209,12 @@ export default function NavBar() {
                   </div>
                 </div>
                 <div className="px-2 sm:px-4 pb-2 text-[10px] sm:text-[12px] opacity-90 leading-tight truncate">
-                  08–10 October 2026 · Auto Cluster Exhibition Centre, Pune
+                  NEW DATES • COMING SOON · Auto Cluster Exhibition Centre, Pune
                 </div>
               </div>
 
               {/* TIME BAR */}
-              <div className="flex items-center gap-2 pl-4">
+              {/* <div className="flex items-center gap-2 pl-4">
                 <div className="relative z-[1001] flex justify-center px-0">
                 <div className="flex items-center gap-1.5 rounded-b-xl bg-[#0d1e3c] px-2 py-0.5 text-[12px] text-white justify-start">
                   <span className="font-medium">{timeLeft.days} Days</span>
@@ -230,7 +230,7 @@ export default function NavBar() {
 </Link>
 )}
 
-              </div>
+              </div> */}
 
 
             </div>
@@ -240,7 +240,7 @@ export default function NavBar() {
 
 
             {/* ================= DESKTOP NAV BAR (UNCHANGED) ================= */}
-            <div className="hidden lg:block overflow-visible rounded-xl sm:rounded-2xl lg:rounded-3xl bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white shadow-xl">
+            <div className="hidden lg:block overflow-visible rounded-xl sm:rounded-2xl lg:rounded-3xl bg-gradient-to-r from-[#06162f]/95 to-[#0a2b57]/95 text-white shadow-[0_18px_40px_rgba(6,22,47,0.35)] backdrop-blur-md border border-white/10">
               <div className="flex items-center justify-between gap-1 sm:gap-2 md:gap-3 lg:gap-4 px-2 sm:px-3 md:px-4 lg:px-5 py-1.5 sm:py-2 md:py-2.5 lg:py-3">
 
                 {/* ================= LOGO SECTION ================= */}
@@ -280,7 +280,7 @@ export default function NavBar() {
                   {/* Event Info - Hidden on small screens */}
                   <div className="md:flex flex-col font-parabolica min-w-0 ml-1 lg:ml-2">
                     <span className="text-[8px] md:text-[9px] lg:text-[10px] xl:text-[12px] leading-tight whitespace-nowrap">
-                      08–10 October 2026
+                      NEW DATES • COMING SOON
                     </span>
                     <span className="text-[8px] md:text-[9px] lg:text-[10px] xl:text-[12px] leading-tight whitespace-nowrap truncate max-w-[150px] lg:max-w-[180px] xl:max-w-none">
                       Auto Cluster Exhibition Centre, Pune
@@ -366,20 +366,20 @@ export default function NavBar() {
     <div className="flex items-center gap-2">
       
       {/* Time Bar */}
-      <div className="flex items-center gap-2 rounded-b-xl bg-[#0d1e3c] px-3 py-1 text-[12px] text-white shadow-md">
+      {/* <div className="flex items-center gap-2 rounded-b-xl bg-[#0d1e3c] px-3 py-1 text-[12px] text-white shadow-md">
         <span className="font-medium">{timeLeft.days} Days</span>
         <span className="font-medium">{timeLeft.hours} Hours</span>
         <span className="font-medium">{timeLeft.minutes} Mins</span>
-      </div>
+      </div> */}
 
       {/* Exhibitor Login */}
-      {!exhibitorReady || exhibitorLoggedIn ? null : (
+      {/* {!exhibitorReady || exhibitorLoggedIn ? null : (
       <Link href="/login">
         <div className="flex items-center rounded-b-xl bg-[#0d1e3c] px-3 py-1 text-[12px] text-white font-bold cursor-pointer hover:bg-[#102a55] active:scale-95 transition-all shadow-md">
           Exhibitor Login
         </div>
       </Link>
-      )}
+      )} */}
 
     </div>
   </div>

@@ -28,7 +28,9 @@ interface Stall {
   stallNumber: string;
   location: string;
   size: string;
-  type: 'standard' | 'premium' | 'corner' | 'island' | 'peninsula';
+  boothType: string;
+  openSides: string;
+  type: string;
   price: number;
   bookedDate: Date;
   status: 'confirmed' | 'pending' | 'cancelled';
@@ -55,6 +57,7 @@ interface ApiStallResponse {
   stallDetails?: {
     size?: string;
     type?: string;
+    openSides?: string;
     dimensions?: string;
     notes?: string;
     price?: string | number;
@@ -126,8 +129,8 @@ export default function StallPage() {
 
       console.log('📡 Fetching stall data...');
       
-      // Fetch from profile endpoint which includes price
-      const profileResponse = await axios.get('https://diemex-backend.onrender.com/api/exhibitorDashboard/profile', {
+      const apiBase = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+      const profileResponse = await axios.get(`${apiBase}/api/exhibitorDashboard/profile`, {
         headers: { Authorization: `Bearer ${token}` }
       });
 
@@ -183,12 +186,9 @@ export default function StallPage() {
       status = 'cancelled';
     }
 
-    // Determine type
-    const boothType = data.boothType || stallDetails?.type || 'standard';
-    let type: 'standard' | 'premium' | 'corner' | 'island' | 'peninsula' = 'standard';
-    if (boothType === 'premium' || boothType === 'corner' || boothType === 'island' || boothType === 'peninsula') {
-      type = boothType;
-    }
+    // Determine type from DB
+    const boothType = String(data.boothType || stallDetails?.type || '').trim();
+    const openSides = String(data.boothOpenSides || stallDetails?.openSides || '').trim();
 
     // Get price in INR
     let priceInINR = 0;
@@ -238,14 +238,16 @@ export default function StallPage() {
     const bookedDate = data.registrationDate || data.createdAt || new Date().toISOString();
 
     // Amenities based on booth type and price
-    const amenities = getAmenitiesForBoothType(type, priceInINR);
+    const amenities = getAmenitiesForBoothType(boothType || openSides, priceInINR);
 
     return {
       id: data.id || `stall-${Date.now()}`,
       stallNumber,
       location, // Now guaranteed to be a string
       size: data.boothSize || stallDetails?.size || 'Standard',
-      type,
+      boothType,
+      openSides,
+      type: boothType || 'standard',
       price: priceInINR,
       bookedDate: new Date(bookedDate),
       status,
@@ -284,7 +286,9 @@ export default function StallPage() {
         stallNumber: 'A-12',
         location: 'Main Hall, Entrance Area',
         size: '3m x 3m',
-        type: 'premium',
+        boothType: 'raw-space',
+        openSides: 'two-side',
+        type: 'raw-space',
         price: 373500, // ₹3,73,500
         bookedDate: new Date('2024-01-15'),
         status: 'confirmed',
@@ -295,7 +299,9 @@ export default function StallPage() {
         stallNumber: 'B-24',
         location: 'Hall B, Corner Section',
         size: '4m x 4m',
-        type: 'corner',
+        boothType: 'shell-space',
+        openSides: 'three-side',
+        type: 'shell-space',
         price: 315400, // ₹3,15,400
         bookedDate: new Date('2024-01-20'),
         status: 'pending',
@@ -326,15 +332,47 @@ export default function StallPage() {
     }
   };
 
-  const getTypeColor = (type: Stall['type']) => {
+  const getBoothTypeLabel = (type?: string) => {
+    const types: Record<string, string> = {
+      'raw-space': 'Raw Space',
+      'shell-space': 'Shell Space',
+      standard: 'Standard Booth',
+      premium: 'Premium',
+      double: '2 Side Corner Booth',
+      corner: 'Corner Booth',
+      island: 'Island Booth',
+      peninsula: 'Peninsula',
+      custom: 'Custom Size',
+    };
+    return types[type || ''] || type || 'Not specified';
+  };
+
+  const getOpenSidesLabel = (value?: string) => {
+    const options: Record<string, string> = {
+      'two-side': '2 Side corner booth',
+      'three-side': '3 Side corner booth',
+      island: 'Island Booth',
+      double: '2 Side corner booth',
+      corner: '3 Side corner booth',
+    };
+    return options[value || ''] || value || 'Not specified';
+  };
+
+  const getTypeColor = (type: string) => {
     switch (type) {
+      case 'raw-space':
+        return 'bg-orange-100 text-orange-800';
+      case 'shell-space':
+        return 'bg-teal-100 text-teal-800';
       case 'premium':
         return 'bg-purple-100 text-purple-800';
       case 'corner':
+      case 'three-side':
         return 'bg-blue-100 text-blue-800';
       case 'island':
         return 'bg-indigo-100 text-indigo-800';
       case 'peninsula':
+      case 'two-side':
         return 'bg-pink-100 text-pink-800';
       default:
         return 'bg-gray-100 text-gray-800';
@@ -482,13 +520,19 @@ export default function StallPage() {
                   <div className="flex items-start gap-2">
                     <TagIcon className="h-5 w-5 text-gray-400 flex-shrink-0" />
                     <div>
-                      <p className="text-xs text-gray-500">Type</p>
-                      <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${getTypeColor(stall.type)}`}>
-                        {stall.type.charAt(0).toUpperCase() + stall.type.slice(1)}
-                      </span>
+                      <p className="text-xs text-gray-500">Open Sides</p>
+                      <p className="font-medium text-gray-900">{getOpenSidesLabel(stall.openSides)}</p>
                     </div>
                   </div>
-                  
+
+                  <div className="flex items-start gap-2">
+                    <TagIcon className="h-5 w-5 text-gray-400 flex-shrink-0" />
+                    <div>
+                      <p className="text-xs text-gray-500">Booth Type</p>
+                      <p className="font-medium text-gray-900">{getBoothTypeLabel(stall.boothType)}</p>
+                    </div>
+                  </div>
+
                   <div className="flex items-start gap-2">
                     <CurrencyDollarIcon className="h-5 w-5 text-gray-400 flex-shrink-0" />
                     <div>
@@ -591,11 +635,16 @@ export default function StallPage() {
                   </div>
                   
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-500 mb-1">Type</p>
-                    <span className={`inline-flex px-3 py-1 text-sm font-medium rounded-full ${getTypeColor(selectedStall.type)}`}>
-                      {selectedStall.type.charAt(0).toUpperCase() + selectedStall.type.slice(1)}
+                    <p className="text-sm text-gray-500 mb-1">Booth Type</p>
+                    <span className={`inline-flex px-3 py-1 text-sm font-medium rounded-full ${getTypeColor(selectedStall.boothType || selectedStall.type)}`}>
+                      {getBoothTypeLabel(selectedStall.boothType || selectedStall.type)}
                     </span>
                   </div>
+                </div>
+
+                <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-500 mb-1">Open Sides</p>
+                    <p className="font-medium text-gray-900">{getOpenSidesLabel(selectedStall.openSides)}</p>
                 </div>
 
                 {/* Location Details - FIXED: location is always a string */}
