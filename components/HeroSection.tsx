@@ -4,7 +4,6 @@ import { useRef, useState } from "react"
 import Link from "next/link"
 import {
   ArrowRight,
-  CalendarClock,
   ChevronDown,
   MapPin,
   Pause,
@@ -81,88 +80,48 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-black/20 lg:bg-black/10" />
       </div>
 
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06162F]/55 via-[#06162F]/25 to-[#06162F] lg:hidden" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#06162F]/90 via-[#06162F]/70 to-[#06162F]/95 lg:hidden" />
       <div className="pointer-events-none absolute inset-0 hidden bg-gradient-to-r from-[#06162F] from-[0%] via-[#06162F]/92 via-[42%] to-transparent to-[72%] lg:block" />
 
       {/* ================= MOBILE / TABLET ================= */}
-      <div className="relative z-10 flex min-h-[100svh] flex-col lg:hidden">
-        <div className="flex-1" />
+      <div className="relative z-10 flex min-h-[100svh] flex-col justify-end px-5 pb-8 pt-[7.5rem] lg:hidden">
+        <p className="max-w-[16rem] text-[11px] font-semibold uppercase leading-[1.55] tracking-[0.18em] text-[#82C6EB]">
+          Die &amp; Mould · Tooling · Precision · Progress
+        </p>
 
-        <div className="px-4 pb-[max(1rem,env(safe-area-inset-bottom))] sm:px-6">
-          <div className="rounded-[28px] border border-white/15 bg-[#06162F]/70 p-5 shadow-[0_20px_50px_rgba(0,0,0,0.35)] backdrop-blur-xl sm:p-6">
-            <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#82C6EB]/30 bg-[#82C6EB]/10 px-3 py-1.5">
-              <CalendarClock className="h-3.5 w-3.5 text-[#82C6EB]" />
-              <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-[#82C6EB]">
-                New Dates • Coming Soon
-              </span>
-            </div>
+        <h1 className="mt-4 font-parabolica text-[52px] font-black leading-[0.86] tracking-tight xs:text-[60px]">
+          DIEMEX
+          <span className="mt-1 block text-[#82C6EB]">2026</span>
+        </h1>
 
-            <p className="text-[10px] font-semibold uppercase tracking-[0.18em] text-white/60">
-              3rd Edition · Die & Mould
-            </p>
+        <h2 className="mt-5 max-w-[20rem] text-[22px] font-semibold leading-snug text-white">
+          Where global die &amp; mould leaders meet India&apos;s manufacturers.
+        </h2>
 
-            <h1 className="mt-1 font-parabolica text-[44px] font-black leading-[0.88] tracking-tight xs:text-[52px] sm:text-[64px]">
-              DIEMEX
-              <span className="block text-[#82C6EB]">2026</span>
-            </h1>
+        <p className="mt-4 max-w-[21rem] text-[13px] leading-relaxed text-white/70">
+          3rd Edition of the International Exhibition for Die &amp; Mould, Tooling,
+          and Precision Manufacturing Technologies
+        </p>
 
-            <p className="mt-3 max-w-sm text-sm leading-relaxed text-white/80 sm:text-base">
-              Where global die &amp; mould leaders meet India&apos;s manufacturers.
-            </p>
+        <p className="mt-4 flex items-center gap-2 text-[13px] text-white/80">
+          <MapPin className="h-4 w-4 shrink-0 text-[#82C6EB]" />
+          Auto Cluster Exhibition Centre, Pune
+        </p>
 
-            <div className="mt-3 flex items-center gap-1.5 text-xs text-white/55">
-              <MapPin className="h-3.5 w-3.5 shrink-0 text-[#82C6EB]" />
-              Auto Cluster Exhibition Centre, Pune
-            </div>
-
-            <div className="mt-5 grid grid-cols-2 gap-2.5">
-              <Link
-                href="/exhibiting-enquiry"
-                className="inline-flex items-center justify-center gap-1.5 rounded-full bg-[#004D9F] px-3 py-3 text-[13px] font-semibold text-white shadow-[0_10px_24px_rgba(0,77,159,0.45)]"
-              >
-                Book Stand
-                <ArrowRight className="h-3.5 w-3.5" />
-              </Link>
-              <Link
-                href="/visitor-registration"
-                className="inline-flex items-center justify-center rounded-full border border-white/25 bg-white/10 px-3 py-3 text-[13px] font-semibold text-white"
-              >
-                Register
-              </Link>
-            </div>
-          </div>
-
-          <div className="mt-3 flex items-center justify-between px-1 pb-2">
-            <button
-              type="button"
-              onClick={scrollToNext}
-              className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-[0.16em] text-white/70"
-            >
-              <span className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 bg-white/10">
-                <ChevronDown className="h-4 w-4 animate-bounce" />
-              </span>
-              Explore
-            </button>
-
-            <div className="flex gap-2">
-              <button
-                type="button"
-                onClick={handlePlayPause}
-                className="rounded-full border border-white/15 bg-black/40 p-2 backdrop-blur-md"
-                aria-label={isPlaying ? "Pause video" : "Play video"}
-              >
-                {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
-              </button>
-              <button
-                type="button"
-                onClick={handleMute}
-                className="rounded-full border border-white/15 bg-black/40 p-2 backdrop-blur-md"
-                aria-label={isMuted ? "Unmute video" : "Mute video"}
-              >
-                {isMuted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
-              </button>
-            </div>
-          </div>
+        <div className="mt-7 flex flex-col gap-3">
+          <Link
+            href="/exhibiting-enquiry"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#2563EB] px-6 py-3.5 text-[15px] font-semibold text-white shadow-[0_12px_28px_rgba(37,99,235,0.45)]"
+          >
+            Book Your Stand
+            <ArrowRight className="h-4 w-4" />
+          </Link>
+          <Link
+            href="/visitor-registration"
+            className="inline-flex items-center justify-center rounded-full border border-white/70 bg-transparent px-6 py-3.5 text-[15px] font-semibold text-white"
+          >
+            Register to Attend
+          </Link>
         </div>
       </div>
 
@@ -170,7 +129,7 @@ export default function HeroSection() {
       <div className="relative z-10 mx-auto hidden min-h-[100svh] w-full max-w-[1600px] flex-col justify-center px-8 pb-16 pt-28 lg:flex">
         <div className="max-w-3xl">
           <p className="mb-4 text-xs font-semibold uppercase tracking-[0.28em] text-[#82C6EB]">
-            Die & Mould · Tooling · Precision · Progress
+            Die &amp; Mould · Tooling · Precision · Progress
           </p>
 
           <h1 className="font-parabolica text-[88px] font-black leading-[0.9] tracking-tight xl:text-[104px]">

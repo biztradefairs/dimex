@@ -11,6 +11,12 @@ export default function PostponedDatesPopup() {
   }, [])
 
   useEffect(() => {
+    const openPopup = () => setOpen(true)
+    window.addEventListener("open-postponed-popup", openPopup)
+    return () => window.removeEventListener("open-postponed-popup", openPopup)
+  }, [])
+
+  useEffect(() => {
     if (!open) return
 
     const onKeyDown = (event: KeyboardEvent) => {
@@ -30,7 +36,7 @@ export default function PostponedDatesPopup() {
 
   return (
     <div
-      className="fixed inset-0 z-[80] flex items-center justify-center px-4"
+      className="fixed inset-0 z-[1100] flex items-center justify-center px-4"
       role="dialog"
       aria-modal="true"
       aria-labelledby="postponed-title"
@@ -64,16 +70,30 @@ export default function PostponedDatesPopup() {
             id="postponed-title"
             className="mt-2 font-parabolica text-2xl font-black tracking-tight sm:text-[28px]"
           >
-            Event Dates Postponed
+            DIEMEX 2026 Dates Rescheduled
           </h2>
         </div>
 
         <div className="px-6 py-6 text-center">
-          <p className="text-sm leading-relaxed text-slate-600 sm:text-[15px]">
-            The previously announced dates for{" "}
-            <span className="font-semibold text-[#06162F]">DIEMEX 2026</span> have
-            been postponed. New dates will be announced soon.
-          </p>
+          <div className="space-y-4 text-sm leading-relaxed text-slate-600 sm:text-[15px]">
+            <p>
+              Due to unavoidable circumstances, the earlier announced dates have been{" "}
+              <span className="font-semibold text-[#06162F]">rescheduled</span>.
+            </p>
+            <p className="font-semibold text-[#06162F]">
+              New dates will be announced soon.
+            </p>
+            <p>
+              Thank you for your{" "}
+              <span className="font-semibold text-[#06162F]">
+                continued support and understanding
+              </span>
+              .
+            </p>
+            <p className="pt-1 text-[13px] font-medium italic text-slate-500">
+              — Team DIEMEX 2026
+            </p>
+          </div>
 
           <button
             type="button"

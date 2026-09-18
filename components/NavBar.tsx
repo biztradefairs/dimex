@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react"
 import Link from "next/link"
-import { ChevronDown, Menu, X } from "lucide-react"
+import { usePathname } from "next/navigation"
+import { ArrowRight, ChevronDown, Megaphone, Menu, X } from "lucide-react"
 import Button from "./UI/Button"
 import Image from "next/image"
 import ExhibitorNavProfile, { useExhibitorLoggedIn } from "./ExhibitorNavProfile"
@@ -72,6 +73,7 @@ export default function NavBar() {
   const [screenSize, setScreenSize] = useState<"mobile" | "tablet" | "laptop" | "desktop">("desktop")
   const [isMounted, setIsMounted] = useState(false)
   const { loggedIn: exhibitorLoggedIn, ready: exhibitorReady } = useExhibitorLoggedIn()
+  const pathname = usePathname()
 
   const [timeLeft, setTimeLeft] = useState({
     days: 35,
@@ -167,73 +169,82 @@ export default function NavBar() {
     <>
       {/* ================= NAVBAR ================= */}
       <header className="fixed top-0 left-0 right-0 z-[999] overflow-visible font-parabolica">
-        <div className={`px-2 sm:px-4 md:px-6 lg:px-8 transition-all duration-300 ${scrolled ? "pt-1.5 sm:pt-2" : "pt-2 sm:pt-3 md:pt-4"}`}>
-          <div className="mx-auto max-w-[1600px]">
-            {/* ================= MOBILE NAVBAR ================= */}
-            <div className="lg:hidden w-full absolute top-0 left-0 right-0 z-50">
-              <div className="bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white w-full">
-
-                {/* HEADER */}
-                <div className="flex items-center justify-between gap-2 px-2 sm:px-4 pt-2 pb-1.5 w-full overflow-visible">
-                  <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
-                    <div className="relative w-[56px] h-[34px] sm:w-[80px] sm:h-[47px] flex-shrink-0">
-                      <Image
-                        src="/images/logo-diemex2.png"
-                        alt="DIEMEX 2026 Logo"
-                        fill
-                        className="object-contain"
-                        priority
-                      />
-                    </div>
-                    <span className="hidden sm:block h-5 w-px bg-white/70 sm:h-6"></span>
-                    <div className="relative w-[48px] h-[24px] sm:w-[80px] sm:h-[47px] flex-shrink-0">
-                      <Image
-                        src="/images/3rd-edition.png"
-                        alt="3rd Edition"
-                        fill
-                        className="object-contain"
-                        priority
-                      />
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-end gap-1.5 sm:gap-2 flex-shrink-0">
-                    {exhibitorReady && exhibitorLoggedIn && <ExhibitorNavProfile variant="mobile" />}
-                    <button
-                      onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                      className="rounded-full bg-white/10 hover:bg-white/20 p-1.5 sm:p-2 active:scale-95"
-                      aria-label="Toggle menu"
-                    >
-                      <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
-                    </button>
-                  </div>
-                </div>
-                <div className="px-2 sm:px-4 pb-2 text-[10px] sm:text-[12px] opacity-90 leading-tight truncate">
-                  NEW DATES • COMING SOON · Auto Cluster Exhibition Centre, Pune
-                </div>
-              </div>
-
-              {/* TIME BAR */}
-              {/* <div className="flex items-center gap-2 pl-4">
-                <div className="relative z-[1001] flex justify-center px-0">
-                <div className="flex items-center gap-1.5 rounded-b-xl bg-[#0d1e3c] px-2 py-0.5 text-[12px] text-white justify-start">
-                  <span className="font-medium">{timeLeft.days} Days</span>
-                  <span className="font-medium">{timeLeft.hours} Hours</span>
-                  <span className="font-medium">{timeLeft.minutes} Mins</span>
-                </div>
-              </div>
-{exhibitorReady && !exhibitorLoggedIn && (
-<Link href="/login" className="relative z-[1001]">
-  <div className="flex items-end gap-1.5 rounded-b-xl bg-[#0d1e3c] px-2 py-0.5 text-[12px] text-white cursor-pointer hover:bg-[#102a55] active:scale-95 transition-all">
-    <span className="font-bold">Exhibitor Login</span>
-  </div>
-</Link>
-)}
-
-              </div> */}
-
-
+        <div className="lg:hidden">
+          <div className="flex h-9 items-center bg-[#82C6EB] text-[#06162F]">
+            <div className="flex h-full items-center justify-center px-2.5">
+              <Megaphone className="h-4 w-4 shrink-0" />
             </div>
+            <div className="min-w-0 flex-1 overflow-hidden">
+              <div className="animate-diemex-marquee flex w-max">
+                {[0, 1].map((copy) => (
+                  <span
+                    key={copy}
+                    className="px-4 text-[12px] font-medium whitespace-nowrap"
+                  >
+                    Event Dates Have Been{" "}
+                    <span className="font-extrabold">Rescheduled</span>
+                    <span className="mx-3 text-[#06162F]/35">•</span>
+                    New Dates Coming Soon
+                    <span className="mx-3 text-[#06162F]/35">•</span>
+                  </span>
+                ))}
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                if (pathname === "/") {
+                  window.dispatchEvent(new Event("open-postponed-popup"))
+                  return
+                }
+                window.location.href = "/"
+              }}
+              className="inline-flex h-full shrink-0 items-center gap-1 border-l border-[#06162F]/20 px-3 text-[12px] font-semibold"
+            >
+              Know More
+              <ArrowRight className="h-3.5 w-3.5" />
+            </button>
+          </div>
+
+          <div className="bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white">
+            <div className="flex items-center justify-between gap-2 px-3 py-2">
+              <div className="flex items-center gap-1.5 min-w-0">
+                <div className="relative h-[34px] w-[56px] flex-shrink-0">
+                  <Image
+                    src="/images/logo-diemex2.png"
+                    alt="DIEMEX 2026 Logo"
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+                <span className="h-5 w-px bg-white/70"></span>
+                <div className="relative h-[24px] w-[48px] flex-shrink-0">
+                  <Image
+                    src="/images/3rd-edition.png"
+                    alt="3rd Edition"
+                    fill
+                    className="object-contain"
+                    priority
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-end gap-1.5 flex-shrink-0">
+                {exhibitorReady && exhibitorLoggedIn && <ExhibitorNavProfile variant="mobile" />}
+                <button
+                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                  className="rounded-full bg-white/10 p-1.5 hover:bg-white/20 active:scale-95"
+                  aria-label="Toggle menu"
+                >
+                  <Menu className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={`hidden lg:block px-2 sm:px-4 md:px-6 lg:px-8 transition-all duration-300 ${scrolled ? "pt-1.5 sm:pt-2" : "pt-2 sm:pt-3 md:pt-4"}`}>
+          <div className="mx-auto max-w-[1600px]">
                           
 
 
@@ -399,7 +410,7 @@ export default function NavBar() {
 
           {/* Dropdown Menu - higher z-index */}
           <div
-            className={`lg:hidden fixed top-[64px] left-0 right-0 z-[9999] mt-2 bg-white text-gray-900 shadow-xl rounded-xl mx-2`}
+            className={`lg:hidden fixed top-[100px] left-0 right-0 z-[9999] mt-2 bg-white text-gray-900 shadow-xl rounded-xl mx-2`}
             style={{ animation: "slideDown 0.25s ease-out" }}
           >
             {/* Dropdown Header (Close Button) */}
