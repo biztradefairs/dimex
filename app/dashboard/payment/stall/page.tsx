@@ -1,24 +1,35 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { CreditCardIcon } from '@heroicons/react/24/outline';
 import { dashboardAPI } from '@/lib/api/exhibitors';
-import { formatINR, type StallPayment } from '@/lib/stallPayment';
+import { formatINR, formatPhaseDate, type StallPayment } from '@/lib/stallPayment';
+import StallPhaseCheckout from '@/components/StallPhaseCheckout';
 
-type PaymentData = StallPayment & { boothNumber?: string; company?: string };
+type PaymentData = StallPayment & { boothNumber?: string; company?: string; boothType?: string; size?: string };
+
+const statusStyles: Record<string, string> = {
+  paid: 'bg-green-50 text-green-700',
+  pending: 'bg-amber-50 text-amber-700',
+  overdue: 'bg-red-50 text-red-700',
+};
 
 export default function StallPaymentPage() {
   const [data, setData] = useState<PaymentData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const load = useCallback(() => {
     dashboardAPI
       .getPayment()
       .then(setData)
       .catch((err) => setError(err.message || 'Failed to load stall payment'))
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   if (loading) {
     return (
@@ -38,7 +49,7 @@ export default function StallPaymentPage() {
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Stall Payment</h1>
         <p className="mt-1 text-sm text-gray-500">
-          Stall cost, GST, discount, and the final amount for your booth.
+          Pay the initial 30% now. The 2nd payment is due 15 days later, and the 3rd 15 days after that.
         </p>
       </div>
 
@@ -74,6 +85,16 @@ export default function StallPaymentPage() {
             <span className="font-medium text-gray-900">{data?.boothNumber || '—'}</span>
           </div>
           <div className="flex justify-between py-3 text-sm">
+            <span className="text-gray-500">Stall type</span>
+            <span className="font-medium text-gray-900">
+              {data?.boothType === 'shell-space'
+                ? 'Shell space'
+                : data?.boothType === 'raw-space'
+                  ? 'Raw space'
+                  : data?.boothType || '—'}
+            </span>
+          </div>
+          <div className="flex justify-between py-3 text-sm">
             <span className="text-gray-500">Stall cost</span>
             <span className="font-medium text-gray-900">{formatINR(data?.stallCost || 0)}</span>
           </div>
@@ -93,6 +114,41 @@ export default function StallPaymentPage() {
             <span className="text-gray-900">Final amount</span>
             <span className="text-blue-700">{formatINR(data?.finalAmount || 0)}</span>
           </div>
+        </div>
+      </div>
+
+      <div className="rounded-xl bg-white p-6 shadow-sm">
+        <h2 className="font-semibold text-gray-900">Payment schedule</h2>
+        <div className="mt-4 space-y-3">
+          {(data?.paymentPhases || []).map((phase) => (
+            <div key={phase.phase} className="flex flex-col gap-2 rounded-lg bg-slate-50 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm font-medium text-gray-900">
+                  {phase.label} · {phase.percent}%
+                </p>
+                <p className="text-xs text-gray-500">Due {formatPhaseDate(phase.dueDate)}</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="text-sm font-semibold text-gray-900">{formatINR(phase.amount)}</span>
+                <span
+                  className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold capitalize ${
+                    statusStyles[phase.status] || statusStyles.pending
+                  }`}
+                >
+                  {phase.status}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="mt-5">
+          <Suspense fallback={null}>
+            <StallPhaseCheckout
+              phases={data?.paymentPhases || []}
+              returnPath="/dashboard/payment/stall"
+              onUpdated={load}
+            />
+          </Suspense>
         </div>
       </div>
     </div>

@@ -5,6 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 import Image from "next/image";
 import {
   LayoutDashboard,
+  LayoutGrid,
   FileText,
   Settings,
   DollarSign,
@@ -70,6 +71,7 @@ const navigation: NavSection[] = [
           { name: "Exhibitors Team", href: "/admin/exhibition/teams", icon: Users },
           { name: "Extra Requirements", href: "/admin/exhibition/requirements", icon: Package },
           { name: "Floor Plans", href: "/admin/exhibition/booths", icon: Globe },
+          { name: "Layout", href: "/admin/exhibition/layout", icon: LayoutGrid },
           { name: "Manuals", href: "/admin/exhibition/manuals", icon: BookOpen },
         ],
       },

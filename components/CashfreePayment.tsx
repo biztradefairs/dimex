@@ -9,6 +9,8 @@ interface CashfreePaymentProps {
   invoiceId: string;
   amount: number;
   requirementsId: string;
+  returnUrl?: string;
+  invoiceLabel?: string;
   onSuccess?: (data: { orderId: string; paymentId?: string }) => void;
   onFailure?: (error: string) => void;
 }
@@ -23,6 +25,8 @@ export default function CashfreePayment({
   invoiceId,
   amount,
   requirementsId,
+  returnUrl,
+  invoiceLabel,
   onSuccess,
   onFailure
 }: CashfreePaymentProps) {
@@ -30,7 +34,7 @@ export default function CashfreePayment({
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const API_BASE_URL = 'https://diemex-backend.onrender.com';
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com';
 
   // Load Cashfree SDK
   useEffect(() => {
@@ -102,6 +106,7 @@ export default function CashfreePayment({
           amount: payableAmount,
           invoiceId,
           requirementsId,
+          returnUrl,
           customerDetails: {
             customerId: details.customerId || details.id,
             customerName: details.customerName || details.name,
@@ -199,7 +204,7 @@ export default function CashfreePayment({
         <p className="text-3xl font-bold text-blue-600 mt-2">
           ₹{roundMoney(amount).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </p>
-        <p className="text-sm text-gray-500 mt-1">Invoice: {invoiceId}</p>
+        <p className="text-sm text-gray-500 mt-1">{invoiceLabel || `Invoice: ${invoiceId}`}</p>
       </div>
 
       <button

@@ -1,9 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useCallback, useEffect, useState } from 'react';
 import { CalendarDaysIcon, CheckCircleIcon, ClockIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 import { dashboardAPI } from '@/lib/api/exhibitors';
-import { formatINR, formatPhaseDate, type StallPayment } from '@/lib/stallPayment';
+import { formatINR, formatPhaseDate, nextUnpaidPhase, type StallPayment } from '@/lib/stallPayment';
+import StallPhaseCheckout from '@/components/StallPhaseCheckout';
 
 type PaymentData = StallPayment & { boothNumber?: string; company?: string };
 
@@ -18,13 +19,17 @@ export default function PaymentRemaindersPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
+  const load = useCallback(() => {
     dashboardAPI
       .getPayment()
       .then(setData)
       .catch((err) => setError(err.message || 'Failed to load payment remainders'))
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    load();
+  }, [load]);
 
   if (loading) {
     return (
@@ -43,13 +48,14 @@ export default function PaymentRemaindersPage() {
     .filter((phase) => phase.status === 'paid')
     .reduce((sum, phase) => sum + (phase.amount || 0), 0);
   const remaining = (data?.finalAmount || 0) - paid;
+  const payable = nextUnpaidPhase(data?.paymentPhases || []);
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-bold text-gray-900">Payment Remainders</h1>
         <p className="mt-1 text-sm text-gray-500">
-          Initial 30%, 2nd 40%, and 3rd 30% with dates set by the organiser.
+          After the initial 30% is paid, the 2nd payment is due in 15 days and the 3rd payment 15 days after that.
         </p>
       </div>
 
@@ -102,6 +108,17 @@ export default function PaymentRemaindersPage() {
                 <p className="mt-1 font-medium text-gray-900">{formatINR(phase.amount)}</p>
               </div>
             </div>
+            {payable?.phase === phase.phase && (
+              <div className="mt-4">
+                <Suspense fallback={null}>
+                  <StallPhaseCheckout
+                    phases={data?.paymentPhases || []}
+                    returnPath="/dashboard/payment/remainders"
+                    onUpdated={load}
+                  />
+                </Suspense>
+              </div>
+            )}
           </div>
         ))}
       </div>

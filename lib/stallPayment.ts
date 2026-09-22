@@ -11,6 +11,9 @@ export type PaymentPhase = {
   amount: number
   dueDate: string
   status: PaymentPhaseStatus
+  paidAt?: string
+  orderId?: string
+  paymentId?: string
 }
 
 export type StallPayment = {
@@ -74,6 +77,9 @@ export function calculateStallPayment(
       amount: amounts[index],
       dueDate: prev.dueDate || '',
       status: normalizeStatus(prev.status),
+      paidAt: prev.paidAt || '',
+      orderId: prev.orderId || '',
+      paymentId: prev.paymentId || '',
     }
   })
 
@@ -86,6 +92,10 @@ export function calculateStallPayment(
     finalAmount,
     paymentPhases,
   }
+}
+
+export function nextUnpaidPhase(phases: PaymentPhase[] = []) {
+  return phases.find((phase) => phase.status !== 'paid') || null
 }
 
 export function formatINR(amount: number) {

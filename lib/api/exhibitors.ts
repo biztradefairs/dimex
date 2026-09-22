@@ -712,6 +712,22 @@ export const dashboardAPI = {
     return response.data.data;
   },
 
+  selectStall: async (payload: { stallId: string; stallType: 'raw-space' | 'shell-space' }) => {
+    const response = await api.post('/exhibitorDashboard/select-stall', payload);
+    if (!response.data.success) {
+      throw new Error(response.data.error || 'Failed to select stall');
+    }
+    return response.data.data;
+  },
+
+  confirmStallPayment: async (payload: { orderId?: string; phase?: number; paymentId?: string }) => {
+    const response = await api.post('/exhibitorDashboard/confirm-stall-payment', payload);
+    if (!response.data.success) {
+      throw new Error(response.data.error || 'Failed to record stall payment');
+    }
+    return response.data.data;
+  },
+
   getApplicationForm: async () => {
     const response = await api.get('/exhibitorDashboard/application-form');
     if (!response.data.success) {
@@ -781,6 +797,23 @@ function triggerBlobDownload(data: BlobPart, filename: string) {
   link.remove();
   URL.revokeObjectURL(url);
 }
+
+export const stallLayoutAPI = {
+  get: async () => {
+    const response = await api.get('/stall-layout');
+    if (!response.data.success) {
+      throw new Error(response.data.error || 'Failed to load stall layout');
+    }
+    return response.data.data;
+  },
+  save: async (layout: unknown) => {
+    const response = await api.put('/stall-layout', layout);
+    if (!response.data.success) {
+      throw new Error(response.data.error || 'Failed to save stall layout');
+    }
+    return response.data.data;
+  },
+};
 
 /* =========================================================
    PASSWORD RESET API

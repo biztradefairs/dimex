@@ -1,453 +1,395 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { Plus, Save, Trash2 } from "lucide-react";
+import toast from "react-hot-toast";
+import StallMap from "@/components/stall-layout/StallMap";
+import HallButtons from "@/components/stall-layout/HallButtons";
+import { stallLayoutAPI } from "@/lib/api/exhibitors";
 import {
-  Download,
-  Upload,
-  Map,
-  ZoomIn,
-  ZoomOut,
-  X,
-  RefreshCw
-} from "lucide-react";
-import { boothsAPI } from "@/app/api/boothsAPI";
+  ALL_HALLS_ID,
+  STALL_PRESETS,
+  defaultStallLayout,
+  hallCounts,
+  nextStallNo,
+  normalizeStallLayout,
+  stallListedTotals,
+  type StallBox,
+  type StallLayout,
+  type StallStatus,
+} from "@/lib/stallLayout";
+import { formatINR } from "@/lib/stallPayment";
 
-interface Booth {
-  id: string;
-  boothNumber: string;
-  companyName?: string;
-  status: "available" | "booked" | "reserved";
-  xPercent?: number;
-  yPercent?: number;
-  widthPercent?: number;
-  heightPercent?: number;
-  metadata?: any;
-}
+export default function AdminStallLayoutPage() {
+  const [layout, setLayout] = useState<StallLayout>(defaultStallLayout());
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [preset, setPreset] = useState(STALL_PRESETS[0]);
+  const [activeHallId, setActiveHallId] = useState(layout.halls[0]?.id || "hall-a");
 
-interface FloorPlan {
-  id: string;
-  name: string;
-  baseImageUrl: string | null;
-  imageWidth: number | null;
-  imageHeight: number | null;
-  booths: Booth[];
-}
+  const selected = useMemo(
+    () => layout.stalls.find((stall) => stall.id === selectedId) || null,
+    [layout.stalls, selectedId]
+  );
+  const selectedTotals = useMemo(
+    () => (selected ? stallListedTotals(selected) : null),
+    [selected]
+  );
 
-export default function FloorPlanManager() {
-  /* ================= STATE ================= */
-  const [zoom, setZoom] = useState(1);
-  const [floorPlan, setFloorPlan] = useState<FloorPlan>({
-    id: "",
-    name: "Main Exhibition Floor",
-    baseImageUrl: null,
-    imageWidth: null,
-    imageHeight: null,
-    booths: []
-  });
-  const [loading, setLoading] = useState(false);
-  const [uploading, setUploading] = useState(false);
-  const [selectedBooth, setSelectedBooth] = useState<Booth | null>(null);
-  const [showBoothDetails, setShowBoothDetails] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const containerRef = useRef<HTMLDivElement>(null);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-  const imageRef = useRef<HTMLImageElement>(null);
-
-  /* ================= LOAD FLOOR PLAN ================= */
-  const loadFloorPlan = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await boothsAPI.getFloorPlan();
-      if (response.success && response.data) {
-        setFloorPlan({
-          id: response.data.id?.toString() || "",
-          name: response.data.name || "Main Exhibition Floor",
-          baseImageUrl: response.data.baseImageUrl || null,
-          imageWidth: response.data.imageWidth || null,
-          imageHeight: response.data.imageHeight || null,
-          booths: response.data.booths || []
-        });
-      }
-    } catch (err: any) {
-      setError(err.message || "Failed to load floor plan");
-    } finally {
-      setLoading(false);
-    }
-  };
+  const counts = useMemo(() => hallCounts(layout), [layout]);
+  const activeHall = layout.halls.find((hall) => hall.id === activeHallId) || layout.halls[0];
+  const isFullHall = activeHallId === ALL_HALLS_ID;
 
   useEffect(() => {
-    loadFloorPlan();
+    stallLayoutAPI
+      .get()
+      .then((data) => {
+        const next = normalizeStallLayout({ ...defaultStallLayout(), ...data, stalls: data.stalls || [] });
+        setLayout(next);
+        setActiveHallId(next.halls[0]?.id || "hall-a");
+      })
+      .catch((error) => toast.error(error.message || "Failed to load layout"))
+      .finally(() => setLoading(false));
   }, []);
 
-  /* ================= UPLOAD HANDLER ================= */
-  const handleUploadClick = () => {
-    fileInputRef.current?.click();
+  const addStall = () => {
+    if (!activeHall || isFullHall) return;
+    const id = `stall-${Date.now()}`;
+    const hallStalls = layout.stalls.filter((stall) => stall.hallId === activeHall.id);
+    const col = hallStalls.length % 8;
+    const row = Math.floor(hallStalls.length / 8);
+    const stall: StallBox = {
+      id,
+      stallNo: nextStallNo(layout.stalls, activeHall),
+      hallId: activeHall.id,
+      widthM: preset.widthM,
+      heightM: preset.heightM,
+      x: 24 + col * (preset.widthM * layout.scale + 16),
+      y: 24 + row * (preset.heightM * layout.scale + 16),
+      status: "available",
+      companyName: "",
+      price: 0,
+      discount: 0,
+      gstPercent: 18,
+    };
+    setLayout((prev) => ({ ...prev, stalls: [...prev.stalls, stall] }));
+    setSelectedId(id);
   };
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const addHall = () => {
+    const letter = String.fromCharCode(65 + layout.halls.length);
+    const id = `hall-${letter.toLowerCase()}-${Date.now().toString(36)}`;
+    const name = `Hall ${letter}`;
+    setLayout((prev) => ({ ...prev, halls: [...prev.halls, { id, name }] }));
+    setActiveHallId(id);
+  };
 
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      alert('Please select an image file');
-      return;
-    }
+  const updateSelected = (patch: Partial<StallBox>) => {
+    if (!selectedId) return;
+    setLayout((prev) => ({
+      ...prev,
+      stalls: prev.stalls.map((stall) => (stall.id === selectedId ? { ...stall, ...patch } : stall)),
+    }));
+  };
 
-    // Validate file size (max 10MB)
-    if (file.size > 10 * 1024 * 1024) {
-      alert('File size must be less than 10MB');
-      return;
-    }
+  const removeSelected = () => {
+    if (!selectedId) return;
+    setLayout((prev) => ({ ...prev, stalls: prev.stalls.filter((stall) => stall.id !== selectedId) }));
+    setSelectedId(null);
+  };
 
-    const formData = new FormData();
-    formData.append("image", file);
-
-    setUploading(true);
-    setError(null);
-
+  const save = async () => {
+    setSaving(true);
     try {
-      console.log('Uploading file:', file.name, file.type, file.size);
-      
-      // Use the fixed upload function
-      const response = await boothsAPI.uploadImage(formData);
-
-      if (response.success) {
-        alert("Floor plan uploaded successfully!");
-        // Reload the floor plan to get updated data
-        await loadFloorPlan();
-      } else {
-        throw new Error(response.error || "Upload failed");
-      }
+      const payload: StallLayout = {
+        ...layout,
+        halls: layout.halls,
+        stalls: layout.stalls.map((stall) => ({
+          ...stall,
+          hallId: stall.hallId || layout.halls[0]?.id || "hall-a",
+          price: Number(stall.price) || 0,
+          discount: Number(stall.discount) || 0,
+          gstPercent: Number(stall.gstPercent) > 0 ? Number(stall.gstPercent) : 18,
+        })),
+      };
+      const saved = await stallLayoutAPI.save(payload);
+      setLayout(normalizeStallLayout(saved));
+      toast.success("Layout saved");
     } catch (error: any) {
-      console.error("Upload error:", error);
-      setError(error.message || "Upload failed");
-      alert(error.message || "Upload failed");
+      toast.error(error.message || "Failed to save layout");
     } finally {
-      setUploading(false);
-      // Clear the input
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
+      setSaving(false);
     }
   };
 
-  /* ================= RESET HANDLER ================= */
-  const handleReset = async () => {
-    if (!confirm('Are you sure you want to reset the floor plan? This will delete all booths and the current image.')) {
-      return;
-    }
+  if (loading) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <div className="h-10 w-10 animate-spin rounded-full border-b-2 border-blue-600" />
+      </div>
+    );
+  }
 
-    setLoading(true);
-    try {
-      const response = await boothsAPI.reset();
-      if (response.success) {
-        alert("Floor plan reset successfully");
-        await loadFloorPlan();
-      } else {
-        throw new Error(response.error || "Reset failed");
-      }
-    } catch (error: any) {
-      alert(error.message || "Reset failed");
-    } finally {
-      setLoading(false);
-    }
-  };
+  return (
+    <div className="space-y-5 p-6">
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Stall Layout</h1>
+          <p className="text-sm text-gray-500">
+            Work hall by hall. Add stalls to Hall A, Hall B, Hall C — Full hall shows them together.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={save}
+          disabled={saving}
+          className="inline-flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
+        >
+          <Save className="h-4 w-4" />
+          {saving ? "Saving..." : "Save layout"}
+        </button>
+      </div>
 
-  /* ================= ZOOM CONTROLS ================= */
-  const handleZoomIn = () => {
-    setZoom(prev => Math.min(prev + 0.1, 3));
-  };
+      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl bg-white p-4 shadow-sm">
+        <HallButtons
+          halls={layout.halls}
+          value={activeHallId}
+          onChange={(id) => {
+            setActiveHallId(id);
+            setSelectedId(null);
+          }}
+          counts={counts}
+        />
+        <button
+          type="button"
+          onClick={addHall}
+          className="inline-flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+        >
+          <Plus className="h-4 w-4" />
+          Add hall
+        </button>
+      </div>
 
-  const handleZoomOut = () => {
-    setZoom(prev => Math.max(prev - 0.1, 0.5));
-  };
-
-  const handleZoomReset = () => {
-    setZoom(1);
-  };
-
-  /* ================= BOOTH HANDLERS ================= */
-  const handleBoothClick = (booth: Booth) => {
-    setSelectedBooth(booth);
-    setShowBoothDetails(true);
-  };
-
-  /* ================= STATUS COLOR ================= */
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "available":
-        return "bg-green-500";
-      case "booked":
-        return "bg-blue-500";
-      case "reserved":
-        return "bg-yellow-500";
-      default:
-        return "bg-gray-500";
-    }
-  };
-
-  /* ================= RENDER BOOTHS ================= */
-  const renderBooths = () => {
-    if (!floorPlan.booths || floorPlan.booths.length === 0) {
-      return null;
-    }
-
-    return floorPlan.booths.map((booth) => {
-      // If we have percentage-based positioning
-      if (booth.xPercent !== undefined && booth.yPercent !== undefined && imageRef.current) {
-        const containerWidth = containerRef.current?.offsetWidth || 0;
-        const containerHeight = containerRef.current?.offsetHeight || 0;
-        
-        const x = (booth.xPercent / 100) * containerWidth;
-        const y = (booth.yPercent / 100) * containerHeight;
-        const width = (booth.widthPercent || 10) / 100 * containerWidth;
-        const height = (booth.heightPercent || 8) / 100 * containerHeight;
-
-        return (
-          <div
-            key={booth.id}
-            onClick={() => handleBoothClick(booth)}
-            className="absolute border-2 border-white cursor-pointer group"
-            style={{
-              left: `${x}px`,
-              top: `${y}px`,
-              width: `${width}px`,
-              height: `${height}px`,
-              backgroundColor: `${getStatusColor(booth.status)}80`, // Add transparency
-              transform: `scale(${1/zoom})`,
-              transformOrigin: 'top left'
+      <div className="flex flex-wrap items-end gap-4 rounded-xl bg-white p-4 shadow-sm">
+        <label className="text-sm">
+          <span className="mb-1 block font-medium text-gray-700">Available colour</span>
+          <input
+            type="color"
+            value={layout.availableColor}
+            onChange={(e) => setLayout((prev) => ({ ...prev, availableColor: e.target.value }))}
+            className="h-10 w-16 cursor-pointer rounded border"
+          />
+        </label>
+        <label className="text-sm">
+          <span className="mb-1 block font-medium text-gray-700">Booked colour</span>
+          <input
+            type="color"
+            value={layout.bookedColor}
+            onChange={(e) => setLayout((prev) => ({ ...prev, bookedColor: e.target.value }))}
+            className="h-10 w-16 cursor-pointer rounded border"
+          />
+        </label>
+        <label className="text-sm">
+          <span className="mb-1 block font-medium text-gray-700">Stall size</span>
+          <select
+            className="rounded-lg border border-gray-300 px-3 py-2"
+            value={`${preset.widthM}x${preset.heightM}`}
+            onChange={(e) => {
+              const next = STALL_PRESETS.find((item) => `${item.widthM}x${item.heightM}` === e.target.value);
+              if (next) setPreset(next);
             }}
           >
-            <div className="absolute -top-6 left-0 bg-black text-white text-xs px-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-              {booth.boothNumber} {booth.companyName ? `- ${booth.companyName}` : ''}
-            </div>
-          </div>
-        );
-      }
-      return null;
-    });
-  };
-
-  /* ================= UI ================= */
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* HEADER */}
-      <div className="bg-white border-b sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold">Floor Plan Manager</h1>
-            <p className="text-sm text-gray-500">
-              {floorPlan.baseImageUrl ? 'Manage your exhibition floor plan' : 'Upload a floor plan to get started'}
-            </p>
-          </div>
-
-          <div className="flex gap-3">
-            {/* Zoom Controls */}
-            <div className="flex items-center gap-1 border rounded-lg">
-              <button
-                onClick={handleZoomOut}
-                className="p-2 hover:bg-gray-100 rounded-l-lg"
-                title="Zoom Out"
-              >
-                <ZoomOut size={16} />
-              </button>
-              <span className="px-2 text-sm">{Math.round(zoom * 100)}%</span>
-              <button
-                onClick={handleZoomIn}
-                className="p-2 hover:bg-gray-100 rounded-r-lg"
-                title="Zoom In"
-              >
-                <ZoomIn size={16} />
-              </button>
-            </div>
-
-            <button
-              onClick={handleZoomReset}
-              className="px-4 py-2 border rounded-lg flex items-center gap-2"
-            >
-              <RefreshCw size={16} /> Reset Zoom
-            </button>
-
-            <button
-              onClick={handleReset}
-              disabled={loading || uploading}
-              className="px-4 py-2 border rounded-lg flex items-center gap-2 text-red-600 hover:bg-red-50"
-            >
-              <Upload size={16} /> Reset
-            </button>
-
-            <button
-              onClick={handleUploadClick}
-              disabled={uploading}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2 disabled:bg-blue-400"
-            >
-              <Upload size={16} /> 
-              {uploading ? 'Uploading...' : 'Upload'}
-            </button>
-
-            {/* Hidden File Input */}
-            <input
-              type="file"
-              accept="image/*"
-              ref={fileInputRef}
-              onChange={handleImageUpload}
-              className="hidden"
-              disabled={uploading}
-            />
-          </div>
+            {STALL_PRESETS.map((item) => (
+              <option key={item.label} value={`${item.widthM}x${item.heightM}`}>
+                {item.label}
+              </option>
+            ))}
+          </select>
+        </label>
+        <button
+          type="button"
+          onClick={addStall}
+          disabled={isFullHall}
+          className="inline-flex items-center gap-2 rounded-lg bg-slate-800 px-4 py-2 text-sm font-medium text-white hover:bg-slate-900 disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          <Plus className="h-4 w-4" />
+          Add stall{activeHall && !isFullHall ? ` to ${activeHall.name}` : ""}
+        </button>
+        <div className="ml-auto flex items-center gap-4 text-sm">
+          <span className="inline-flex items-center gap-2">
+            <span className="h-3 w-3 rounded-sm" style={{ backgroundColor: layout.availableColor }} />
+            Available (
+            {
+              layout.stalls.filter(
+                (s) =>
+                  s.status === "available" &&
+                  (isFullHall || s.hallId === activeHallId)
+              ).length
+            }
+            )
+          </span>
+          <span className="inline-flex items-center gap-2">
+            <span className="h-3 w-3 rounded-sm" style={{ backgroundColor: layout.bookedColor }} />
+            Booked (
+            {
+              layout.stalls.filter(
+                (s) =>
+                  s.status === "booked" &&
+                  (isFullHall || s.hallId === activeHallId)
+              ).length
+            }
+            )
+          </span>
         </div>
       </div>
 
-      {/* ERROR DISPLAY */}
-      {error && (
-        <div className="max-w-7xl mx-auto px-6 py-2">
-          <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-            {error}
-          </div>
-        </div>
-      )}
+      <div className="grid grid-cols-1 gap-5 xl:grid-cols-[1fr_320px]">
+        <StallMap
+          layout={layout}
+          onChange={setLayout}
+          selectedId={selectedId}
+          onSelect={setSelectedId}
+          hallFilter={activeHallId}
+          combineHalls={isFullHall}
+          readOnly={isFullHall}
+        />
 
-      {/* CONTENT */}
-      <div className="max-w-7xl mx-auto px-6 py-8">
-        <div className="bg-white rounded-xl border shadow-sm p-6">
-          <div
-            ref={containerRef}
-            className="relative w-full h-[600px] overflow-auto border rounded-lg bg-gray-100"
-          >
-            {loading ? (
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-gray-500">Loading...</div>
-              </div>
-            ) : floorPlan.baseImageUrl ? (
-              <div className="relative inline-block">
-                <img
-                  ref={imageRef}
-                  src={floorPlan.baseImageUrl}
-                  alt="Floor Plan"
-                  style={{
-                    transform: `scale(${zoom})`,
-                    transformOrigin: 'top left',
-                    width: '100%',
-                    height: 'auto',
-                    maxWidth: 'none'
-                  }}
-                  onLoad={() => {
-                    // Force re-render of booths after image loads
-                    setZoom(prev => prev);
-                  }}
+        <div className="rounded-xl bg-white p-5 shadow-sm">
+          <h2 className="mb-4 font-semibold text-gray-900">Stall details</h2>
+          {selected ? (
+            <div className="space-y-3">
+              <label className="block text-sm">
+                <span className="mb-1 block text-gray-600">Hall</span>
+                <select
+                  className="w-full rounded-lg border px-3 py-2"
+                  value={selected.hallId || layout.halls[0]?.id}
+                  onChange={(e) => updateSelected({ hallId: e.target.value })}
+                >
+                  {layout.halls.map((hall) => (
+                    <option key={hall.id} value={hall.id}>
+                      {hall.name}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="block text-sm">
+                <span className="mb-1 block text-gray-600">Stall no.</span>
+                <input
+                  className="w-full rounded-lg border px-3 py-2"
+                  value={selected.stallNo}
+                  onChange={(e) => updateSelected({ stallNo: e.target.value })}
                 />
-                {/* Render booths overlay */}
-                <div 
-                  className="absolute top-0 left-0"
-                  style={{
-                    transform: `scale(${zoom})`,
-                    transformOrigin: 'top left',
-                    width: '100%',
-                    height: '100%'
-                  }}
+              </label>
+              <label className="block text-sm">
+                <span className="mb-1 block text-gray-600">Company</span>
+                <input
+                  className="w-full rounded-lg border px-3 py-2"
+                  value={selected.companyName || ""}
+                  onChange={(e) => updateSelected({ companyName: e.target.value })}
+                />
+              </label>
+              <label className="block text-sm">
+                <span className="mb-1 block text-gray-600">Stall price (INR)</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  className="w-full rounded-lg border px-3 py-2"
+                  value={selected.price ?? ""}
+                  onChange={(e) => updateSelected({ price: e.target.value === "" ? 0 : Number(e.target.value) })}
+                  placeholder="0.00"
+                />
+              </label>
+              <label className="block text-sm">
+                <span className="mb-1 block text-gray-600">Discount (INR)</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  className="w-full rounded-lg border px-3 py-2"
+                  value={selected.discount ?? ""}
+                  onChange={(e) =>
+                    updateSelected({ discount: e.target.value === "" ? 0 : Number(e.target.value) })
+                  }
+                  placeholder="0.00"
+                />
+              </label>
+              <label className="block text-sm">
+                <span className="mb-1 block text-gray-600">GST (%)</span>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  className="w-full rounded-lg border px-3 py-2"
+                  value={selected.gstPercent ?? 18}
+                  onChange={(e) =>
+                    updateSelected({ gstPercent: e.target.value === "" ? 18 : Number(e.target.value) })
+                  }
+                />
+              </label>
+              {selectedTotals && (
+                <div className="space-y-2 rounded-lg bg-slate-50 p-3">
+                  <div className="flex justify-between text-sm">
+                    <span className="text-gray-500">GST ({selectedTotals.gstPercent}%)</span>
+                    <span className="font-medium text-gray-900">{formatINR(selectedTotals.gstAmount)}</span>
+                  </div>
+                  <div className="flex justify-between">
+                    <span className="text-sm font-medium text-blue-800">Final price</span>
+                    <span className="text-lg font-bold text-blue-800">{formatINR(selectedTotals.finalAmount)}</span>
+                  </div>
+                  <p className="text-[11px] text-gray-400">Stall price − discount + GST</p>
+                </div>
+              )}
+              <label className="block text-sm">
+                <span className="mb-1 block text-gray-600">Status</span>
+                <select
+                  className="w-full rounded-lg border px-3 py-2"
+                  value={selected.status}
+                  onChange={(e) => updateSelected({ status: e.target.value as StallStatus })}
                 >
-                  {renderBooths()}
-                </div>
+                  <option value="available">Not booked</option>
+                  <option value="booked">Booked</option>
+                </select>
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                <label className="text-sm">
+                  <span className="mb-1 block text-gray-600">Width (m)</span>
+                  <input
+                    type="number"
+                    min="1"
+                    step="0.5"
+                    className="w-full rounded-lg border px-3 py-2"
+                    value={selected.widthM}
+                    onChange={(e) => updateSelected({ widthM: Number(e.target.value) || 1 })}
+                  />
+                </label>
+                <label className="text-sm">
+                  <span className="mb-1 block text-gray-600">Height (m)</span>
+                  <input
+                    type="number"
+                    min="1"
+                    step="0.5"
+                    className="w-full rounded-lg border px-3 py-2"
+                    value={selected.heightM}
+                    onChange={(e) => updateSelected({ heightM: Number(e.target.value) || 1 })}
+                  />
+                </label>
               </div>
-            ) : (
-              <div className="absolute inset-0 flex flex-col items-center justify-center">
-                <Map size={48} className="text-gray-400 mb-4" />
-                <p className="text-gray-500 mb-4">No floor plan uploaded yet</p>
-                <button
-                  onClick={handleUploadClick}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-lg flex items-center gap-2"
-                >
-                  <Upload size={16} /> Upload Floor Plan
-                </button>
-              </div>
-            )}
-          </div>
-
-          {/* Statistics */}
-          {floorPlan.booths && floorPlan.booths.length > 0 && (
-            <div className="mt-4 grid grid-cols-4 gap-4">
-              <div className="bg-gray-50 p-3 rounded-lg">
-                <div className="text-sm text-gray-600">Total Booths</div>
-                <div className="text-2xl font-bold">{floorPlan.booths.length}</div>
-              </div>
-              <div className="bg-green-50 p-3 rounded-lg">
-                <div className="text-sm text-green-600">Available</div>
-                <div className="text-2xl font-bold">
-                  {floorPlan.booths.filter(b => b.status === 'available').length}
-                </div>
-              </div>
-              <div className="bg-blue-50 p-3 rounded-lg">
-                <div className="text-sm text-blue-600">Booked</div>
-                <div className="text-2xl font-bold">
-                  {floorPlan.booths.filter(b => b.status === 'booked').length}
-                </div>
-              </div>
-              <div className="bg-yellow-50 p-3 rounded-lg">
-                <div className="text-sm text-yellow-600">Reserved</div>
-                <div className="text-2xl font-bold">
-                  {floorPlan.booths.filter(b => b.status === 'reserved').length}
-                </div>
-              </div>
+              <button
+                type="button"
+                onClick={removeSelected}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-red-200 px-3 py-2 text-sm text-red-700 hover:bg-red-50"
+              >
+                <Trash2 className="h-4 w-4" />
+                Remove stall
+              </button>
             </div>
+          ) : (
+            <p className="text-sm text-gray-500">Click a stall to edit number, price, discount, GST, and booked status.</p>
           )}
         </div>
       </div>
-
-      {/* BOOTH DETAILS MODAL */}
-      {showBoothDetails && selectedBooth && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
-            <div className="flex justify-between mb-4">
-              <h3 className="text-xl font-bold">
-                Booth #{selectedBooth.boothNumber}
-              </h3>
-              <button 
-                onClick={() => setShowBoothDetails(false)}
-                className="p-1 hover:bg-gray-100 rounded"
-              >
-                <X size={20} />
-              </button>
-            </div>
-
-            <div className="space-y-3">
-              <div>
-                <span className="text-sm text-gray-600">Status:</span>
-                <span className={`ml-2 px-2 py-1 rounded-full text-xs text-white ${getStatusColor(selectedBooth.status)}`}>
-                  {selectedBooth.status}
-                </span>
-              </div>
-              
-              {selectedBooth.companyName && (
-                <div>
-                  <span className="text-sm text-gray-600">Company:</span>
-                  <span className="ml-2 font-medium">{selectedBooth.companyName}</span>
-                </div>
-              )}
-
-              {selectedBooth.metadata && (
-                <div className="border-t pt-3 mt-3">
-                  <h4 className="font-medium mb-2">Additional Details</h4>
-                  <pre className="text-xs bg-gray-50 p-2 rounded overflow-auto max-h-40">
-                    {JSON.stringify(selectedBooth.metadata, null, 2)}
-                  </pre>
-                </div>
-              )}
-            </div>
-
-            <div className="mt-6 flex justify-end">
-              <button
-                onClick={() => setShowBoothDetails(false)}
-                className="px-4 py-2 bg-gray-100 rounded-lg hover:bg-gray-200"
-              >
-                Close
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
