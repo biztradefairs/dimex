@@ -145,7 +145,7 @@ export default function AboutSection() {
               className="font-parabolica text-lg md:text-xl leading-relaxed text-[#4D4D4D] opacity-0"
             >
               DIEMEX 2026 is India&apos;s premier international exhibition for die & mould manufacturing, tooling solutions, 
-              precision engineering, and advanced manufacturing technologies. Scheduled from 8–10 October 2026 at the 
+              precision engineering, and advanced manufacturing technologies. Scheduled from 24–26 March 2027 at the 
               Auto Cluster Exhibition Centre, Pune, India, the exhibition brings together industry leaders, OEMs, 
               toolmakers, and technology innovators from India and overseas.
             </p>

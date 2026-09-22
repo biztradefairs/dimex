@@ -255,7 +255,7 @@ export default function PassRegisterPage() {
               <CalendarDays className="mt-0.5 h-4 w-4 text-[#1E5AA6]" />
               <div>
                 <p className="font-semibold text-slate-500">Event Dates</p>
-                <p className="font-bold text-slate-800">8–10 Oct 2026</p>
+                <p className="font-bold text-slate-800">24–26 Mar 2027</p>
               </div>
             </div>
             <div className="flex gap-3">
@@ -273,7 +273,7 @@ export default function PassRegisterPage() {
             <div className="overflow-hidden rounded-2xl bg-gradient-to-r from-[#0F2F5C] to-[#1E5AA6] px-5 py-4 text-white">
               <p className="text-xs font-bold tracking-[0.18em] text-white/70">DIEMEX 2026</p>
               <p className="text-lg font-black">International Die & Mould Exhibition</p>
-              <p className="text-xs text-white/70">8–10 Oct 2026 · Pune, India</p>
+              <p className="text-xs text-white/70">24–26 Mar 2027 · Pune, India</p>
             </div>
 
             <h2 className="mt-6 text-2xl font-black text-slate-900">Choose Verification Method</h2>

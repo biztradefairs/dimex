@@ -20,10 +20,10 @@ import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 import TransRussiaSummitProgram from './components/ConferenceProgramme';
 
 export const metadata: Metadata = {
-  title: 'Diemex Conference | October 08-10, 2026, Pune',
+  title: 'Diemex Conference | March 24-26, 2027, Pune',
   description: 'Annual conference for professionals in the tooling industry.',
   openGraph: {
-    title: 'Diemex Conference | October 08-10, 2026, Pune',
+    title: 'Diemex Conference | March 24-26, 2027, Pune',
     description: 'Annual conference for professionals in the tooling industry.',
     images: [''],
   },

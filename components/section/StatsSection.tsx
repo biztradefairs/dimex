@@ -25,7 +25,7 @@ const StatsSection = () => {
           </p>
 
   <p className="text-lg leading-relaxed text-black/80 max-w-8xl mb-10">
-            The 2026 edition, to be held from 8–10 October 2026 at the Auto Cluster Exhibition Centre, Pune, 
+            The 2027 edition, to be held from 24–26 March 2027 at the Auto Cluster Exhibition Centre, Pune, 
             India, will serve as a focused platform for showcasing cutting-edge tooling technologies, design and 
             engineering solutions, automation, materials, and Industry 4.0 innovations to a highly qualified audience of industry decision-makers.
           </p>

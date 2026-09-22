@@ -179,8 +179,8 @@ export default function EnhancedDashboardPage() {
   ] : [
     { id: 1, title: "Event Name", value: "DIEMEX 2026", icon: BuildingOfficeIcon },
     { id: 2, title: "Venue", value: "Auto Cluster Exhibition Center", icon: MapIcon },
-    { id: 3, title: "Exhibition Day", value: "8th October, 2026", icon: CalendarIcon },
-    { id: 4, title: "Dismantle Day", value: "10th October, 2026", icon: TrashIcon },
+    { id: 3, title: "Exhibition Day", value: "24th March, 2027", icon: CalendarIcon },
+    { id: 4, title: "Dismantle Day", value: "26th March, 2027", icon: TrashIcon },
   ];
 
   // Contact information

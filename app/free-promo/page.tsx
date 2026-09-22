@@ -255,7 +255,7 @@ export default function ExhibitorPromotionPage() {
                   </p>
 
                   <p>
-                    October 08–10, 2026, Auto Cluster Exhibition Centre, Pune, India
+                    March 24–26, 2027, Auto Cluster Exhibition Centre, Pune, India
                     <br />
                     <br />
                     We invite you to visit our stand No. ___

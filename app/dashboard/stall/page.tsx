@@ -770,11 +770,11 @@ export default function StallPage() {
             <ul className="space-y-2 text-gray-600">
               <li className="flex items-start">
                 <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
-                Stall setup begins on October 7, 2026 at 8:00 AM
+                Stall setup begins on March 23, 2027 at 8:00 AM
               </li>
               <li className="flex items-start">
                 <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
-                All materials must be removed by October 10, 2026 at 10:00 PM
+                All materials must be removed by March 26, 2027 at 10:00 PM
               </li>
               <li className="flex items-start">
                 <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>

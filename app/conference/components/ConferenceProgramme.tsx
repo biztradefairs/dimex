@@ -34,7 +34,7 @@ const TransRussiaSummitProgram: React.FC = () => {
   const programData: DayProgram[] = [
     // {
     //   day: "VIP Reception",
-    //   date: "October 08, 2026",
+    //   date: "March 24, 2027",
     //   description: "*Only for Exhibitors,Speakers,VIP's and Delegates",
     //   sessions: [
     //     {
@@ -46,7 +46,7 @@ const TransRussiaSummitProgram: React.FC = () => {
     // },
     {
       day: "Day 1 Theme : Future-ready Manufacturing – Precision & Productivity",
-      date: "October 08, 2026",
+      date: "March 24, 2027",
       description: "*For delegates",
       sessions: [
         {
@@ -233,7 +233,7 @@ const TransRussiaSummitProgram: React.FC = () => {
     {
 
       day: "Day 2 Theme : Sustainability & Innovation in Manufacturing",
-      date: "October 9, 2026",
+      date: "March 25, 2027",
       description: "*For delegates of all categories",
       sessions: [
         {

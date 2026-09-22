@@ -81,7 +81,7 @@ export default function PostponedDatesPopup() {
               <span className="font-semibold text-[#06162F]">rescheduled</span>.
             </p>
             <p className="font-semibold text-[#06162F]">
-              New dates will be announced soon.
+              New dates: 24, 25 & 26 March 2027
             </p>
             <p>
               Thank you for your{" "}

@@ -73,21 +73,18 @@ export default function Footer() {
             <div>
               <h5 className="mb-2 font-semibold">Opening Hours</h5>
               <div className="text-white/70 space-y-1">
-                {/* <p className="flex items-center gap-2">
+                <p className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-green-400"></span>
-                  <span><strong>08 October 2026:</strong> 10:00—18:00</span>
+                  <span><strong>24 March 2027:</strong> 10:00—18:00</span>
                 </p>
                 <p className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-green-400"></span>
-                  <span><strong>09 October 2026:</strong> 10:00—18:00</span>
+                  <span><strong>25 March 2027:</strong> 10:00—18:00</span>
                 </p>
                 <p className="flex items-center gap-2">
                   <span className="h-2 w-2 rounded-full bg-green-400"></span>
-                  <span><strong>10 October 2026:</strong> 10:00—18:00</span>
-                </p> */}
-
-<p className="text-white/70">NEW DATES • COMING SOON</p>
-
+                  <span><strong>26 March 2027:</strong> 10:00—18:00</span>
+                </p>
               </div>
             </div>
 

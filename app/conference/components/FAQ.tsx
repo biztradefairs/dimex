@@ -9,7 +9,7 @@ const FAQ = () => {
     {
       id: 1,
       question: "When will Diemex Conference take place?",
-      answer: "October 08-09, 2026."
+      answer: "March 24-25, 2027."
     },
     {
       id: 2,

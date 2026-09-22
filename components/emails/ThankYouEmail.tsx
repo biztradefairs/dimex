@@ -96,7 +96,7 @@ export default function ThankYouEmail({ name, formType }: ThankYouEmailProps) {
           <Section style={footer}>
             <Text style={footerTitle}>Diemex Expo</Text>
             <Text style={footerText}>
-             08-10 October 2026 | Auto Cluster Exhibition Centre, Pimpri-chinchwad|Pune, India
+             24-26 March 2027 | Auto Cluster Exhibition Centre, Pimpri-chinchwad|Pune, India
             </Text>
             <Text style={footerContact}>
               Phone: +91 91483 19993| Email: pad@maxxmedia.in

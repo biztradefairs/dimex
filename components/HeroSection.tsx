@@ -62,7 +62,7 @@ export default function HeroSection() {
             height: "max(100%, 56.25vw)",
           }}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          title="DIEMEX 2026 Background Video"
+          title="DIEMEX 2027 Background Video"
         />
         <div className="absolute inset-0 bg-black/20 lg:bg-black/10" />
       </div>
@@ -74,7 +74,7 @@ export default function HeroSection() {
       <div className="relative z-10 flex min-h-[100svh] flex-col justify-end px-5 pb-16 pt-[8.75rem] lg:hidden">
         <h1 className="font-parabolica text-[52px] font-black leading-[0.86] tracking-tight xs:text-[60px]">
           DIEMEX
-          <span className="mt-1 block text-[#82C6EB]">2026</span>
+          <span className="mt-1 block text-[#82C6EB]">2027</span>
         </h1>
 
         <h2 className="mt-5 max-w-[20rem] text-[22px] font-semibold leading-snug text-white">
@@ -111,7 +111,7 @@ export default function HeroSection() {
       <div className="relative z-10 mx-auto hidden min-h-[100svh] w-full max-w-[1600px] flex-col justify-center px-8 pb-16 pt-32 lg:flex">
         <div className="max-w-4xl">
           <h1 className="mt-6 font-parabolica text-[92px] font-black leading-[0.88] tracking-tight xl:text-[118px] 2xl:text-[132px]">
-            DIEMEX <span className="text-[#82C6EB]">2026</span>
+            DIEMEX <span className="text-[#82C6EB]">2027</span>
           </h1>
 
           <h2 className="mt-6 max-w-2xl text-[30px] font-semibold leading-snug text-white xl:mt-8 xl:text-[36px] 2xl:text-[40px]">

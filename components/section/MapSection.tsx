@@ -26,7 +26,7 @@ const MapSection = () => {
             Opening Hours
           </h3>
           <p className="text-gray-800 font-medium text-lg">
-            08–10 October 2026, 10:00 – 18:00
+            24–26 March 2027, 10:00 – 18:00
           </p>
         </div>
       </div>

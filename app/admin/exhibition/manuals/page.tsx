@@ -378,7 +378,7 @@ export default function ExhibitorManualsPage() {
                     prev.map((date, i) => (i === index ? { ...date, dateLabel: e.target.value } : date))
                   )
                 }
-                placeholder="Date, e.g. 08–10 Oct 2026"
+                placeholder="Date, e.g. 24–26 Mar 2027"
                 className="sm:col-span-5 border border-gray-300 rounded-md px-3 py-2 text-sm"
               />
               <button

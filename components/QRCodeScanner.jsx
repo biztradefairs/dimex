@@ -30,7 +30,7 @@ const QRCodeScanner = ({ onScanSuccess, onScanError }) => {
       
       try {
         // Parse QR code data - it contains visitor code
-        // Format: "DIEMEX 2026\nVisitor\nName: XXX\nEmail: XXX\nCode: diemex-1234567890\nDate: 8-10 Oct 2026"
+        // Format: "DIEMEX 2026\nVisitor\nName: XXX\nEmail: XXX\nCode: diemex-1234567890\nDate: 24-26 Mar 2027"
         const lines = decodedText.split('\n');
         const codeLine = lines.find(line => line.includes('Code: '));
         

@@ -64,7 +64,17 @@ const navItems: NavItem[] = [
   { title: "Conference", dropdown: false, href: "/conference" }
 ]
 
-const EVENT_DATE = new Date("2026-10-08T10:00:00").getTime()
+const EVENT_DATE = new Date("2027-03-24T10:00:00+05:30").getTime()
+
+function remainingUntilEvent() {
+  const diff = EVENT_DATE - Date.now()
+  if (diff <= 0) return { days: 0, hours: 0, minutes: 0 }
+  return {
+    days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+    minutes: Math.floor((diff / (1000 * 60)) % 60),
+  }
+}
 
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
@@ -75,11 +85,7 @@ export default function NavBar() {
   const { loggedIn: exhibitorLoggedIn, ready: exhibitorReady } = useExhibitorLoggedIn()
   const pathname = usePathname()
 
-  const [timeLeft, setTimeLeft] = useState({
-    days: 35,
-    hours: 0,
-    minutes: 29,
-  })
+  const [timeLeft, setTimeLeft] = useState(remainingUntilEvent)
 
   /* ================= MOUNT CHECK ================= */
   useEffect(() => {
@@ -89,19 +95,7 @@ export default function NavBar() {
   /* ================= TIMER ================= */
   useEffect(() => {
     const calculateTimeLeft = () => {
-      const now = Date.now()
-      const diff = EVENT_DATE - now
-
-      if (diff <= 0) {
-        setTimeLeft({ days: 0, hours: 0, minutes: 0 })
-        return
-      }
-
-      setTimeLeft({
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-        minutes: Math.floor((diff / (1000 * 60)) % 60),
-      })
+      setTimeLeft(remainingUntilEvent())
     }
 
     calculateTimeLeft()
@@ -241,6 +235,12 @@ export default function NavBar() {
                 </button>
               </div>
             </div>
+            <div className="flex items-center justify-center gap-2 border-t border-white/10 px-3 py-1.5 text-[11px] text-white/90">
+              <span className="font-semibold text-[#82C6EB]">24–26 Mar 2027</span>
+              <span>{timeLeft.days}d</span>
+              <span>{timeLeft.hours}h</span>
+              <span>{timeLeft.minutes}m</span>
+            </div>
           </div>
         </div>
         <div className={`hidden lg:block px-2 sm:px-4 md:px-6 lg:px-8 transition-all duration-300 ${scrolled ? "pt-1.5 sm:pt-2" : "pt-2 sm:pt-3 md:pt-4"}`}>
@@ -291,7 +291,7 @@ export default function NavBar() {
                   {/* Event Info - Hidden on small screens */}
                   <div className="md:flex flex-col font-parabolica min-w-0 ml-1 lg:ml-2">
                     <span className="text-[8px] md:text-[9px] lg:text-[10px] xl:text-[12px] leading-tight whitespace-nowrap">
-                      NEW DATES • COMING SOON
+                      24–26 March 2027
                     </span>
                     <span className="text-[8px] md:text-[9px] lg:text-[10px] xl:text-[12px] leading-tight whitespace-nowrap truncate max-w-[150px] lg:max-w-[180px] xl:max-w-none">
                       Auto Cluster Exhibition Centre, Pune
@@ -375,23 +375,12 @@ export default function NavBar() {
 {!scrolled && (
   <div className="hidden lg:flex justify-end w-full pr-4">
     <div className="flex items-center gap-2">
-      
-      {/* Time Bar */}
-      {/* <div className="flex items-center gap-2 rounded-b-xl bg-[#0d1e3c] px-3 py-1 text-[12px] text-white shadow-md">
+      <div className="flex items-center gap-2 rounded-b-xl bg-[#0d1e3c] px-3 py-1 text-[12px] text-white shadow-md">
+        <span className="font-semibold text-[#82C6EB]">24–26 Mar 2027</span>
         <span className="font-medium">{timeLeft.days} Days</span>
         <span className="font-medium">{timeLeft.hours} Hours</span>
         <span className="font-medium">{timeLeft.minutes} Mins</span>
-      </div> */}
-
-      {/* Exhibitor Login */}
-      {/* {!exhibitorReady || exhibitorLoggedIn ? null : (
-      <Link href="/login">
-        <div className="flex items-center rounded-b-xl bg-[#0d1e3c] px-3 py-1 text-[12px] text-white font-bold cursor-pointer hover:bg-[#102a55] active:scale-95 transition-all shadow-md">
-          Exhibitor Login
-        </div>
-      </Link>
-      )} */}
-
+      </div>
     </div>
   </div>
 )}

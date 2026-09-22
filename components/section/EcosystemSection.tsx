@@ -12,7 +12,7 @@ const EcosystemSection = () => {
 
 - Establish direct, face-to-face business connections with OEMs, toolroom owners, and senior decision-makers.
 - Showcase advanced die & mould solutions, including tooling technologies, design & engineering software, automation, materials, and Industry 4.0 innovations.
-- Engage with thousands of qualified buyers and technical professionals from automotive, EV, plastics, aerospace, and industrial manufacturing sectors—all in one place from 8–10 October 2026.`,
+- Engage with thousands of qualified buyers and technical professionals from automotive, EV, plastics, aerospace, and industrial manufacturing sectors—all in one place from 24–26 March 2027.`,
       image: "/images/expo-about-diemex.JPG",
       link: "/about-diemex",
       buttonText: "Know More",
