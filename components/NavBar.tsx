@@ -175,10 +175,8 @@ export default function NavBar() {
                     key={copy}
                     className="px-4 text-[12px] font-medium whitespace-nowrap"
                   >
-                    Event Dates Have Been{" "}
-                    <span className="font-extrabold text-[#82C6EB]">Rescheduled</span>
-                    <span className="mx-3 text-white/30">•</span>
-                    New Dates Coming Soon
+                    Free Visitor Registrations Are Now Open —{" "}
+                    <span className="font-extrabold text-[#82C6EB]">Get your Pass</span>
                     <span className="mx-3 text-white/30">•</span>
                   </span>
                 ))}

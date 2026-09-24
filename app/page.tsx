@@ -20,7 +20,7 @@ import PostponedDatesPopup from '@/components/PostponedDatesPopup';
 export default function Home() {
   return (
     <>
-    <PostponedDatesPopup />
+    {/* <PostponedDatesPopup /> */}
     <main className="font-parabolica antialiased overflow-hidden">
       <HeroSection />
       <AboutSection />
