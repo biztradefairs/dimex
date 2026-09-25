@@ -85,29 +85,25 @@ export default function HeroSection() {
         </div>
       </div>
 
-      <div className="relative z-40 rounded-t-[28px] bg-white text-[#123867] shadow-[0_-5px_20px_rgba(0,0,0,.06)]">
-        <div className="mx-auto grid max-w-[1600px] grid-cols-1 px-6 py-[20px] sm:grid-cols-2 sm:px-10 lg:grid-cols-4 lg:px-[72px]">
+      <div className="relative z-40 bg-[#F4F4F4] text-[#123867] shadow-[0_-5px_20px_rgba(0,0,0,.06)]">
+        <div className="mx-auto grid max-w-[1600px] grid-cols-1 items-stretch px-6 py-6 sm:grid-cols-2 sm:px-10 lg:grid-cols-4 lg:px-[72px] lg:py-8">
           {highlights.map((item, index) => {
             const Icon = item.icon
 
             return (
               <div
                 key={item.title}
-                className={`relative flex min-h-[74px] items-center gap-[18px] py-3 lg:px-[30px] lg:py-0 ${
-                  index === 0 ? "lg:pl-0" : ""
+                className={`flex items-center gap-4 py-3 lg:px-6 ${
+                  index === 0 ? "lg:pl-0" : "lg:border-l lg:border-[#d8e1ea]"
                 }`}
               >
-                {index !== 0 && (
-                  <div className="absolute top-1/2 left-0 hidden h-[55px] w-px -translate-y-1/2 bg-[#d8e1ea] lg:block" />
-                )}
-
                 <div className={`flex h-[64px] w-[64px] shrink-0 items-center justify-center rounded-full ${item.iconBg}`}>
                   <Icon strokeWidth={2} className={`h-[29px] w-[29px] ${item.iconColor}`} />
                 </div>
 
-                <div>
-                  <h3 className="text-[15px] leading-tight font-extrabold text-[#123867] xl:text-[16px]">{item.title}</h3>
-                  <p className="mt-[4px] max-w-[220px] text-[13px] leading-[1.35] text-[#365575] xl:text-[14px]">
+                <div className="min-w-0">
+                  <h3 className="text-[17px] leading-tight font-extrabold text-[#123867] xl:text-[18px]">{item.title}</h3>
+                  <p className="mt-1 text-[15px] leading-snug text-[#365575] xl:text-[16px]">
                     {item.text}
                   </p>
                 </div>
