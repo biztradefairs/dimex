@@ -133,7 +133,7 @@ export default function HeroSection() {
       {/* =========================================================
           HERO
       ========================================================= */}
-      <div className="relative overflow-hidden lg:h-[680px] xl:h-[700px]">
+      <div className="relative overflow-hidden lg:h-[760px] xl:h-[780px]">
         {/* =======================================================
             BASE BLUE BACKGROUND
         ======================================================= */}
@@ -391,13 +391,14 @@ export default function HeroSection() {
               relative
               z-20
               flex
-              max-w-[650px]
+              max-w-[720px]
               flex-col
-              pt-[132px]
-              lg:max-w-[620px]
-              lg:pt-[156px]
-              xl:max-w-[680px]
-              xl:pt-[162px]
+              items-start
+              pt-[188px]
+              text-left
+              lg:max-w-[760px]
+              lg:pt-[200px]
+              xl:pt-[208px]
             "
           >
             <p
@@ -418,7 +419,7 @@ export default function HeroSection() {
 
             {/* DIEMEX 2027 */}
 
-            <h1
+            {/* <h1
               className="
                 mt-3
                 flex
@@ -441,22 +442,22 @@ export default function HeroSection() {
               <span>DIEMEX</span>
 
               <span className="text-[#ff0613]">2027</span>
-            </h1>
+            </h1> */}
 
             {/* HEADING */}
 
             <h2
               className="
                 mt-4
-                max-w-[610px]
-                text-[22px]
+                max-w-[720px]
+                text-[28px]
                 font-extrabold
-                leading-[1.2]
-                tracking-[-0.025em]
-                sm:mt-[25px]
-                sm:text-[28px]
-                lg:text-[30px]
-                xl:text-[33px]
+                leading-[1.15]
+                tracking-[-0.03em]
+                sm:mt-6
+                sm:text-[36px]
+                lg:text-[46px]
+                xl:text-[54px]
               "
             >
               Where global die &amp; mould leaders
@@ -715,9 +716,9 @@ export default function HeroSection() {
           className="
             absolute
             right-5
-            top-[132px]
+            top-[188px]
             z-40
-            lg:top-[140px]
+            lg:top-[200px]
             hidden
             gap-2
             lg:flex

@@ -38,6 +38,7 @@ const navItems: NavItem[] = [
       { text: "Digital Visitor Pass", href: "/passes" },
       { text: "Event Sector", href: "/sectors" },
       { text: "Exhibitor List", href: "/exhibition-directory" },
+      { text: "Participants", href: "/participants" },
       { text: "Download Event Brochure", href: "/event-brochure" },
     ],
   },
@@ -64,83 +65,58 @@ const navItems: NavItem[] = [
   { title: "Conference", dropdown: false, href: "/conference" },
 ]
 
-const EVENT_DATE = new Date("2027-03-24T10:00:00+05:30").getTime()
+// function DatesMarquee({ onKnowMore }: { onKnowMore: () => void }) {
+//   return (
+//     <div
+//       className="relative flex h-[38px] items-center overflow-hidden text-white"
+//       style={{
+//         background:
+//           "linear-gradient(105deg, #ff0713 0%, #f50d1c 24%, #c51d3d 48%, #63315f 72%, #004b92 100%)",
+//       }}
+//     >
+//       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.04] to-transparent" />
 
-function remainingUntilEvent() {
-  const diff = EVENT_DATE - Date.now()
-  if (diff <= 0) return { days: 0, hours: 0, minutes: 0 }
-  return {
-    days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-    hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
-    minutes: Math.floor((diff / (1000 * 60)) % 60),
-  }
-}
+//       <div className="relative z-10 flex h-full shrink-0 items-center pr-3 pl-4 sm:pl-6 xl:pl-[72px]">
+//         <Megaphone strokeWidth={2} className="h-[20px] w-[20px]" />
+//       </div>
 
-function DatesMarquee({ onKnowMore }: { onKnowMore: () => void }) {
+//       <button
+//         type="button"
+//         onClick={onKnowMore}
+//         className="relative z-10 min-w-0 flex-1 overflow-hidden text-left"
+//       >
+//         <div className="animate-diemex-marquee flex w-max items-center hover:[animation-play-state:paused]">
+//           {[0, 1].map((copy) => (
+//             <div
+//               key={copy}
+//               className="flex shrink-0 items-center text-[14px] font-semibold tracking-[-0.01em] whitespace-nowrap"
+//             >
+//               <span>Visitor Registrations Are Now Open — Get your Pass</span>
+//               <span className="mx-[18px] text-white/65">|</span>
+//               <span>Exhibitor Bookings Are Now Open — Grow Your Business at DIEMEX 2027</span>
+//               <span className="mx-[24px] text-white/65">|</span>
+//             </div>
+//           ))}
+//         </div>
+//       </button>
+
+//       <button
+//         type="button"
+//         onClick={onKnowMore}
+//         className="relative z-10 mr-4 ml-2 inline-flex h-full shrink-0 items-center gap-2 text-[14px] font-bold text-white transition-opacity hover:opacity-80 sm:mr-6 sm:ml-6 xl:mr-[58px]"
+//       >
+//         <span className="hidden sm:inline">Know More</span>
+//         <ArrowRight className="h-[18px] w-[18px]" />
+//       </button>
+//     </div>
+//   )
+// }
+
+function NavArrow() {
   return (
-    <div
-      className="relative flex h-[38px] items-center overflow-hidden text-white"
-      style={{
-        background:
-          "linear-gradient(105deg, #ff0713 0%, #f50d1c 24%, #c51d3d 48%, #63315f 72%, #004b92 100%)",
-      }}
-    >
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.04] to-transparent" />
-
-      <div className="relative z-10 flex h-full shrink-0 items-center pr-3 pl-4 sm:pl-6 xl:pl-[72px]">
-        <Megaphone strokeWidth={2} className="h-[20px] w-[20px]" />
-      </div>
-
-      <button
-        type="button"
-        onClick={onKnowMore}
-        className="relative z-10 min-w-0 flex-1 overflow-hidden text-left"
-      >
-        <div className="animate-diemex-marquee flex w-max items-center hover:[animation-play-state:paused]">
-          {[0, 1].map((copy) => (
-            <div
-              key={copy}
-              className="flex shrink-0 items-center text-[14px] font-semibold tracking-[-0.01em] whitespace-nowrap"
-            >
-              <span>Visitor Registrations Are Now Open — Get your Pass</span>
-              <span className="mx-[18px] text-white/65">|</span>
-              <span>Exhibitor Bookings Are Now Open — Grow Your Business at DIEMEX 2027</span>
-              <span className="mx-[24px] text-white/65">|</span>
-            </div>
-          ))}
-        </div>
-      </button>
-
-      <button
-        type="button"
-        onClick={onKnowMore}
-        className="relative z-10 mr-4 ml-2 inline-flex h-full shrink-0 items-center gap-2 text-[14px] font-bold text-white transition-opacity hover:opacity-80 sm:mr-6 sm:ml-6 xl:mr-[58px]"
-      >
-        <span className="hidden sm:inline">Know More</span>
-        <ArrowRight className="h-[18px] w-[18px]" />
-      </button>
-    </div>
-  )
-}
-
-function Countdown({ timeLeft }: { timeLeft: { days: number; hours: number; minutes: number } }) {
-  const cells = [
-    { value: timeLeft.days, label: "Days" },
-    { value: timeLeft.hours, label: "Hrs" },
-    { value: timeLeft.minutes, label: "Min" },
-  ]
-
-  return (
-    <div className="hidden items-center gap-4 xl:flex">
-      {cells.map((cell) => (
-        <div key={cell.label} className="min-w-[42px] text-center">
-          <p className="text-[18px] leading-none font-bold tabular-nums text-slate-900">
-            {String(cell.value).padStart(2, "0")}
-          </p>
-          <p className="mt-0.5 text-[10px] font-medium text-slate-400">{cell.label}</p>
-        </div>
-      ))}
-    </div>
+    <svg className="h-[45%] w-[45%] fill-none stroke-[#121c4e] stroke-[2.5]" viewBox="0 0 24 24">
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+    </svg>
   )
 }
 
@@ -150,12 +126,6 @@ export default function NavBar() {
   const [scrolled, setScrolled] = useState(false)
   const { loggedIn: exhibitorLoggedIn, ready: exhibitorReady } = useExhibitorLoggedIn()
   const pathname = usePathname()
-  const [timeLeft, setTimeLeft] = useState(remainingUntilEvent)
-
-  useEffect(() => {
-    const timer = setInterval(() => setTimeLeft(remainingUntilEvent()), 1000)
-    return () => clearInterval(timer)
-  }, [])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -185,7 +155,7 @@ export default function NavBar() {
   return (
     <>
       <header className="fixed top-0 right-0 left-0 z-[999] font-parabolica">
-        <DatesMarquee onKnowMore={openDatesInfo} />
+        {/* <DatesMarquee onKnowMore={openDatesInfo} /> */}
 
         <div
           className={`border-b bg-white/95 backdrop-blur-sm transition-shadow duration-300 ${
@@ -194,20 +164,43 @@ export default function NavBar() {
               : "border-slate-100 shadow-none"
           }`}
         >
-          <div className="mx-auto flex h-[80px] max-w-[1440px] items-center justify-between gap-4 px-4 lg:h-[88px] lg:px-8">
-            <Link href="/" className="group flex min-w-0 shrink-0 items-center gap-2.5">
-              <div className="relative h-14 w-[156px] transition-opacity group-hover:opacity-80 lg:h-16 lg:w-[178px]">
-                <Image
-                  src="/images/diemex3.png"
-                  alt="DIEMEX"
-                  fill
-                  className="object-contain object-left"
-                  priority
-                />
-              </div>
-            </Link>
+          <div className="mx-auto flex h-[132px] max-w-[1600px] items-center justify-between gap-3 px-4 lg:h-[142px] lg:px-8">
+            <div className="flex min-w-0 shrink-0 items-center gap-2.5 sm:gap-4">
+              <Link href="/" className="group flex shrink-0 items-center">
+                <div className="relative h-16 w-[164px] transition-opacity group-hover:opacity-80 sm:h-[76px] sm:w-[190px] lg:h-20 lg:w-[210px]">
+                  <Image
+                    src="/images/diemex3.png"
+                    alt="DIEMEX"
+                    fill
+                    className="object-contain object-left"
+                    priority
+                  />
+                </div>
+              </Link>
 
-            <nav className="hidden flex-1 items-center justify-center lg:flex">
+              <div className="hidden h-16 w-px shrink-0 bg-[#e0e0e0] sm:block" />
+
+              <div className="flex min-w-0 flex-col justify-center">
+                <div className="mb-0.5 flex items-center gap-1.5 sm:mb-1 sm:gap-2">
+                  <span className="text-[10px] font-bold tracking-wider text-[#020202] uppercase sm:text-[11px] lg:text-[13px]">
+                    Supported By
+                  </span>
+                  <img
+                    src="/images/idemi.png"
+                    alt="IDEMI"
+                    className="h-[22px] w-auto object-contain sm:h-[26px] lg:h-[32px]"
+                  />
+                </div>
+                <span className="hidden text-[0.8rem] leading-[1.1] font-normal text-black uppercase sm:block lg:text-[1.05rem]">
+                  Pune, India
+                </span>
+                <span className="hidden text-[0.85rem] leading-[1.1] font-semibold text-black uppercase sm:block lg:text-[1.12rem]">
+                  24 – 26 March 2027
+                </span>
+              </div>
+            </div>
+
+            <nav className="hidden flex-1 items-center justify-center xl:flex">
               {navItems.map((item, i) => {
                 const active = isItemActive(item)
                 return item.dropdown ? (
@@ -279,21 +272,31 @@ export default function NavBar() {
               })}
             </nav>
 
-            <div className="flex items-center gap-3 lg:gap-5">
-              <Countdown timeLeft={timeLeft} />
+            <div className="flex items-center gap-3">
               {exhibitorReady && exhibitorLoggedIn && <ExhibitorNavProfile variant="mobile" />}
-              {(!exhibitorReady || !exhibitorLoggedIn) && (
+              <div className="hidden items-center gap-3 xl:flex">
                 <Link
                   href="/visitor-registration"
-                  className="hidden items-center gap-2 rounded-full bg-[#E0161D] px-5 py-2.5 text-[13px] font-bold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#c01218] hover:shadow-md lg:inline-flex"
+                  className="group inline-flex h-[52px] items-center justify-between gap-3 rounded-full bg-[#004A96] pr-1.5 pl-5 text-[12px] leading-[1.25] font-bold tracking-wide text-white uppercase transition hover:-translate-y-px hover:bg-[#003875]"
                 >
-                  Register Now
-                  <ArrowRight className="h-4 w-4" />
+                  <span className="text-left whitespace-pre-line">{`Request Attendee\nInformation`}</span>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#ebebeb] transition group-hover:bg-white">
+                    <NavArrow />
+                  </span>
                 </Link>
-              )}
+                <Link
+                  href="/exhibiting-enquiry"
+                  className="group inline-flex h-[52px] min-w-[148px] items-center justify-between gap-3 rounded-full bg-[#004A96] pr-1.5 pl-5 text-[12px] leading-[1.25] font-bold tracking-wide text-white uppercase transition hover:-translate-y-px hover:bg-[#003875]"
+                >
+                  <span className="text-left whitespace-pre-line">{`Exhibit /\nSponsor`}</span>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#ebebeb] transition group-hover:bg-white">
+                    <NavArrow />
+                  </span>
+                </Link>
+              </div>
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="relative flex h-9 w-9 items-center justify-center rounded-md text-[#004A96] hover:bg-slate-100 lg:hidden"
+                className="relative flex h-9 w-9 items-center justify-center rounded-md text-[#004A96] hover:bg-slate-100 xl:hidden"
                 aria-label="Toggle menu"
                 aria-expanded={mobileMenuOpen}
               >
@@ -316,12 +319,12 @@ export default function NavBar() {
       {mobileMenuOpen && (
         <>
           <div
-            className="fixed inset-0 z-[998] bg-black/40 backdrop-blur-[2px] lg:hidden"
+            className="fixed inset-0 z-[998] bg-black/40 backdrop-blur-[2px] xl:hidden"
             style={{ animation: "fadeIn 0.2s ease-out" }}
             onClick={() => setMobileMenuOpen(false)}
           />
           <div
-            className="fixed top-[118px] right-0 left-0 z-[9999] max-h-[calc(100dvh-118px)] overflow-y-auto bg-white shadow-2xl lg:hidden"
+            className="fixed top-[170px] right-0 left-0 z-[9999] max-h-[calc(100dvh-170px)] overflow-y-auto bg-white shadow-2xl xl:hidden"
             style={{ animation: "slideDown 0.22s ease-out" }}
           >
             <div className="px-5 py-4">
