@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ArrowRight, ChevronDown, Megaphone, Menu, X } from "lucide-react"
+import { ChevronDown, Menu, X } from "lucide-react"
 import Image from "next/image"
 import ExhibitorNavProfile, { useExhibitorLoggedIn } from "./ExhibitorNavProfile"
 
@@ -152,31 +152,30 @@ export default function NavBar() {
         <div
           className="border-b border-black/5 bg-white shadow-[0_1px_0_rgba(0,0,0,0.08),0_2px_12px_rgba(0,0,0,0.06)]"
         >
-          <div className="mx-auto flex h-[156px] max-w-[1600px] items-center justify-between gap-3 px-4 lg:h-[168px] lg:px-8">
-            <div className="flex min-w-0 shrink-0 items-center gap-2.5 sm:gap-4">
+          <div className="mx-auto flex h-[84px] max-w-[1600px] items-center justify-between gap-2 px-3 sm:h-[112px] sm:gap-3 sm:px-4 lg:h-[168px] lg:px-8">
+            <div className="flex min-w-0 flex-1 items-center gap-1.5 sm:gap-2">
               <Link href="/" className="group flex shrink-0 items-center">
-                <div className="relative h-[88px] w-[220px] transition-opacity group-hover:opacity-80 sm:h-[100px] sm:w-[250px] lg:h-[112px] lg:w-[280px]">
-                  <Image
-                    src="/images/diemex3.png"
-                    alt="DIEMEX"
-                    fill
-                    className="object-contain object-left"
-                    priority
-                  />
-                </div>
+                <Image
+                  src="/images/diemex3.png"
+                  alt="DIEMEX"
+                  width={280}
+                  height={112}
+                  priority
+                  className="h-11 w-auto max-w-[124px] object-contain object-left transition-opacity group-hover:opacity-80 sm:h-[72px] sm:max-w-[180px] lg:h-[112px] lg:max-w-none"
+                />
               </Link>
 
-              <div className="hidden h-16 w-px shrink-0 bg-[#e0e0e0] sm:block" />
+              <div className="hidden h-12 w-px shrink-0 bg-[#e0e0e0] sm:block lg:h-16" />
 
               <div className="flex min-w-0 flex-col justify-center">
-                <div className="mb-0.5 flex items-center gap-1.5 sm:mb-1 sm:gap-2">
-                  <span className="text-[10px] font-bold tracking-wider text-[#020202] uppercase sm:text-[11px] lg:text-[13px]">
+                <div className="flex items-center gap-1 sm:mb-1 sm:gap-2">
+                  <span className="text-[9px] leading-none font-bold tracking-wider text-[#020202] uppercase sm:text-[11px] lg:text-[13px]">
                     Supported By
                   </span>
                   <img
                     src="/images/idemi.png"
                     alt="IDEMI"
-                    className="h-[22px] w-auto object-contain sm:h-[26px] lg:h-[32px]"
+                    className="h-7 w-auto max-w-[64px] object-contain sm:h-12 sm:max-w-[104px] lg:h-[72px] lg:max-w-none"
                   />
                 </div>
                 <span className="hidden text-[0.8rem] leading-[1.1] font-normal text-black uppercase sm:block lg:text-[1.05rem]">
@@ -188,7 +187,7 @@ export default function NavBar() {
               </div>
             </div>
 
-            <nav className="hidden flex-1 items-center justify-center xl:flex">
+            <nav className="hidden flex-1 items-center justify-center pl-8 xl:flex xl:pl-12">
               {navItems.map((item, i) => {
                 const active = isItemActive(item)
                 return item.dropdown ? (
@@ -260,24 +259,24 @@ export default function NavBar() {
               })}
             </nav>
 
-            <div className="flex items-center gap-3">
+            <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3">
               {exhibitorReady && exhibitorLoggedIn && <ExhibitorNavProfile variant="mobile" />}
-              <div className="hidden items-center gap-3 xl:flex">
+              <div className="hidden items-center gap-2 lg:flex xl:gap-3">
                 <Link
                   href="/visitor-registration"
-                  className="group inline-flex h-[52px] items-center justify-between gap-3 rounded-full bg-[#004A96] pr-1.5 pl-5 text-[12px] leading-[1.25] font-bold tracking-wide text-white uppercase transition hover:-translate-y-px hover:bg-[#003875]"
+                  className="group inline-flex h-[52px] items-center gap-3 rounded-full bg-[#004A96] pr-1.5 pl-5 text-[15px] leading-none font-bold tracking-wide text-white uppercase transition hover:-translate-y-px hover:bg-[#003875] xl:h-[58px] xl:pl-6 xl:text-[17px]"
                 >
-                  <span className="text-left whitespace-pre-line">{`Request Attendee\nInformation`}</span>
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#ebebeb] transition group-hover:bg-white">
+                  <span>Visitor</span>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#ebebeb] transition group-hover:bg-white xl:h-11 xl:w-11">
                     <NavArrow />
                   </span>
                 </Link>
                 <Link
                   href="/exhibiting-enquiry"
-                  className="group inline-flex h-[52px] min-w-[148px] items-center justify-between gap-3 rounded-full bg-[#004A96] pr-1.5 pl-5 text-[12px] leading-[1.25] font-bold tracking-wide text-white uppercase transition hover:-translate-y-px hover:bg-[#003875]"
+                  className="group inline-flex h-[52px] items-center gap-3 rounded-full bg-[#004A96] pr-1.5 pl-5 text-[15px] leading-none font-bold tracking-wide text-white uppercase transition hover:-translate-y-px hover:bg-[#003875] xl:h-[58px] xl:pl-6 xl:text-[17px]"
                 >
-                  <span className="text-left whitespace-pre-line">{`Exhibit /\nSponsor`}</span>
-                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#ebebeb] transition group-hover:bg-white">
+                  <span>Exhibitor</span>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#ebebeb] transition group-hover:bg-white xl:h-11 xl:w-11">
                     <NavArrow />
                   </span>
                 </Link>
@@ -312,7 +311,7 @@ export default function NavBar() {
             onClick={() => setMobileMenuOpen(false)}
           />
           <div
-            className="fixed top-[194px] right-0 left-0 z-[9999] max-h-[calc(100dvh-194px)] overflow-y-auto bg-white shadow-2xl xl:hidden"
+            className="fixed top-[84px] right-0 left-0 z-[9999] max-h-[calc(100dvh-84px)] overflow-y-auto bg-white shadow-2xl sm:top-[112px] sm:max-h-[calc(100dvh-112px)] lg:top-[168px] lg:max-h-[calc(100dvh-168px)] xl:hidden"
             style={{ animation: "slideDown 0.22s ease-out" }}
           >
             <div className="px-5 py-4">
@@ -365,23 +364,26 @@ export default function NavBar() {
                 )
               )}
 
-              <div className="mt-5 space-y-2.5">
-                {exhibitorReady && !exhibitorLoggedIn && (
-                  <Link
-                    href="/exhibiting-enquiry"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-center rounded-full bg-[#004A96] px-4 py-3 text-sm font-bold text-white"
-                  >
-                    Become an Exhibitor
-                  </Link>
-                )}
+              <div className="mt-5 space-y-3">
                 <Link
                   href="/visitor-registration"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center gap-2 rounded-full bg-[#E0161D] px-4 py-3 text-sm font-bold text-white"
+                  className="flex h-[56px] items-center justify-between rounded-full bg-[#004A96] pr-1.5 pl-6 text-[16px] font-bold tracking-wide text-white uppercase"
                 >
-                  Register Now
-                  <ArrowRight className="h-4 w-4" />
+                  <span>Visitor</span>
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#ebebeb]">
+                    <NavArrow />
+                  </span>
+                </Link>
+                <Link
+                  href="/exhibiting-enquiry"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex h-[56px] items-center justify-between rounded-full bg-[#004A96] pr-1.5 pl-6 text-[16px] font-bold tracking-wide text-white uppercase"
+                >
+                  <span>Exhibitor</span>
+                  <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#ebebeb]">
+                    <NavArrow />
+                  </span>
                 </Link>
                 {exhibitorReady && exhibitorLoggedIn && (
                   <div className="space-y-2 border-t border-slate-100 pt-3">
