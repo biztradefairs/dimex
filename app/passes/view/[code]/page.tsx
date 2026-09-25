@@ -61,7 +61,7 @@ export default function PassViewPage() {
           type="button"
           onClick={downloadBadge}
           disabled={downloading}
-          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#0F2F5C] py-3.5 text-sm font-bold text-white disabled:opacity-60"
+          className="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#004A96] py-3.5 text-sm font-bold text-white disabled:opacity-60"
         >
           <Download className="h-4 w-4" />
           {downloading ? 'Preparing badge…' : 'Download Badge'}

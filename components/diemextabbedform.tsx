@@ -187,8 +187,8 @@ export default function DiemexTabbedFormWrapper({
                                     transition-all
                                     md:h-[54px] md:flex-row md:gap-2.5 md:text-sm
                                     ${isActive
-                                        ? "bg-[#002d86] text-white"
-                                        : "bg-white text-[#1e2b52] hover:bg-slate-50"
+                                        ? "bg-[#004A96] text-white"
+                                        : "bg-white text-[#004A96] hover:bg-slate-50"
                                     }
                                 `}
                             >
@@ -196,7 +196,7 @@ export default function DiemexTabbedFormWrapper({
                                 <span className="tracking-wide">{tab.label}</span>
 
                                 {isActive && (
-                                    <span className="absolute left-1/2 hidden -bottom-[10px] -translate-x-1/2 border-l-[10px] border-r-[10px] border-t-[10px] border-l-transparent border-r-transparent border-t-[#002d86] md:block" />
+                                    <span className="absolute left-1/2 hidden -bottom-[10px] -translate-x-1/2 border-l-[10px] border-r-[10px] border-t-[10px] border-l-transparent border-r-transparent border-t-[#004A96] md:block" />
                                 )}
                             </button>
                         );
@@ -208,7 +208,7 @@ export default function DiemexTabbedFormWrapper({
                 <div className="flex-1 bg-white p-6 lg:p-8 min-w-0 overflow-y-auto">
                     {showHeader && (
                         <>
-                            <h2 className="text-xl font-bold text-[#1e3a6e] mb-1">
+                            <h2 className="text-xl font-bold text-[#004A96] mb-1">
                                 {headerTitle || activeConfig.title}
                             </h2>
                             <p className="text-sm text-gray-500 mb-6">
@@ -228,7 +228,7 @@ export default function DiemexTabbedFormWrapper({
                         className="absolute inset-0 w-full h-full object-cover"
                     />
 
-                    <div className="absolute inset-0 bg-gradient-to-r from-[#002b88]/95 via-[#0036a5]/85 to-[#0036a5]/40" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-[#004A96]/95 via-[#004A96]/85 to-[#004A96]/40" />
 
                     <div className="relative z-10 flex flex-col h-full p-10">
                         <div className="mt-auto mb-auto max-w-sm">

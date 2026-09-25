@@ -16,7 +16,7 @@ export default function CeilingSuspension() {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <button className="flex-center group w-fit gap-2 overflow-hidden rounded-full px-10 py-3 font-jakarta text-[16px] font-semibold global-transition bg-mainColor2 text-white hover:bg-mainColor4">
+                      <button className="flex-center group w-fit gap-2 overflow-hidden rounded-full px-10 py-3 font-jakarta text-[16px] font-semibold global-transition bg-mainColor2 text-white hover:bg-[#003875]">
                         Download Form
                       </button>
                     </Link>

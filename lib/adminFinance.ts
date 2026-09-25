@@ -153,7 +153,7 @@ export type RevenueSource = {
 };
 
 const SOURCE_COLORS = [
-  "bg-blue-500",
+  "bg-[#004A96]",
   "bg-green-500",
   "bg-yellow-500",
   "bg-purple-500",

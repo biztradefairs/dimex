@@ -86,7 +86,7 @@ export function InputField({
                     onChange={onChange}
                     required={required}
                     placeholder={placeholder}
-                    className={`w-full ${icon ? 'pl-9' : 'px-3'} py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white text-gray-800 placeholder:text-gray-400`}
+                    className={`w-full ${icon ? 'pl-9' : 'px-3'} py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition bg-white text-gray-800 placeholder:text-gray-400`}
                 />
             </div>
         </div>
@@ -130,7 +130,7 @@ export function SelectField({
                     value={value}
                     onChange={onChange}
                     required={required}
-                    className={`w-full ${icon ? 'pl-9' : 'px-3'} py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white text-gray-800 appearance-none`}
+                    className={`w-full ${icon ? 'pl-9' : 'px-3'} py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition bg-white text-gray-800 appearance-none`}
                 >
                     {children}
                 </select>
@@ -184,7 +184,7 @@ export function PhoneField({
                     required={required}
                     placeholder={placeholder}
                     maxLength={maxLength}
-                    className={`w-full pl-9 pr-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white text-gray-800 placeholder:text-gray-400`}
+                    className={`w-full pl-9 pr-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition bg-white text-gray-800 placeholder:text-gray-400`}
                 />
             </div>
             {hint && <p className="text-xs text-gray-500">{hint}</p>}
@@ -338,7 +338,7 @@ export function ConsentCheckbox({
                 checked={checked}
                 onChange={onChange}
                 required={required}
-                className="mt-0.5 h-4 w-4 accent-[#1e3a6e] cursor-pointer shrink-0"
+                className="mt-0.5 h-4 w-4 accent-[#004A96] cursor-pointer shrink-0"
             />
             <label htmlFor={id} className="text-xs text-gray-600 leading-relaxed cursor-pointer">
                 {children}
@@ -359,8 +359,8 @@ export function SubmitButton({ loading, label, showArrow = true }: SubmitButtonP
             type="submit"
             disabled={loading}
             className={`w-full flex items-center justify-center gap-2 py-3.5 px-6 rounded-lg font-semibold text-white transition-all text-sm ${loading
-                    ? 'bg-blue-400 cursor-not-allowed'
-                    : 'bg-[#1e3a6e] hover:bg-[#152d57] active:scale-[0.98]'
+                    ? 'bg-[#7aa3c9] cursor-not-allowed'
+                    : 'bg-[#004A96] hover:bg-[#003875] active:scale-[0.98]'
                 }`}
         >
             {loading ? (

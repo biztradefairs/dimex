@@ -8,11 +8,17 @@
   --font-sans: 'Montserrat', system-ui, sans-serif;
   --font-display: 'Montserrat', system-ui, sans-serif;
 
-  --color-main-1: #040d1f;
-  --color-main-2: #0092D7;
-  --color-main-3: #33A8DF;
-  --color-main-4: #003366;
-  --color-main-5: #06162f;
+  --color-main-1: #004A96;
+  --color-main-2: #004A96;
+  --color-main-3: #E0161D;
+  --color-main-4: #003875;
+  --color-main-5: #004A96;
+  --color-mainColor1: #004A96;
+  --color-mainColor2: #004A96;
+  --color-mainColor3: #E0161D;
+  --color-mainColor4: #003875;
+  --color-mainColor5: #004A96;
+  --color-mainColor6: #E0161D;
 
   --breakpoint-xs: 480px;
   --breakpoint-sm: 640px;
@@ -77,6 +83,15 @@ body {
 .clip-arrow {
   clip-path: polygon(0 0, 100% 50%, 0 100%);
 }
+
+.bg-mainColor1, .bg-mainColor2, .bg-mainColor5 { background-color: #004A96; }
+.bg-mainColor3 { background-color: #E0161D; }
+.bg-mainColor4 { background-color: #003875; }
+.text-mainColor1, .text-mainColor2, .text-mainColor5 { color: #004A96; }
+.text-mainColor3, .text-mainColor6 { color: #E0161D; }
+.text-mainColor4 { color: #003875; }
+.fill-mainColor1, .fill-mainColor2 { fill: #004A96; }
+.border-mainColor1, .border-mainColor2 { border-color: #004A96; }
 
 /* YouTube Video Styles */
 #youtube-player {

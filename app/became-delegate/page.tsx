@@ -66,12 +66,12 @@ export default function DelegatesPackagesPage() {
   return (
     <main className="bg-white font-parabolica">
       {/* PAGE HEADER */}
-      <div className="bg-sky-50 pt-48 pb-10">
+      <div className="bg-[#004A96] pt-48 pb-10">
         <SectionContainer>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-black">
+          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white">
             Become a Delegate
           </h1>
-          <p className="mt-4 max-w-4xl text-lg text-gray-600">
+          <p className="mt-4 max-w-4xl text-lg text-white/80">
             Prices are inclusive of GST
           </p>
         </SectionContainer>
@@ -101,7 +101,7 @@ export default function DelegatesPackagesPage() {
                   {delegatePackages.map((pkg) => (
                     <div
                       key={pkg.id}
-                      className="flex flex-col bg-sky-50 p-4 rounded-lg"
+                      className="flex flex-col bg-[#E8F1F8] p-4 rounded-lg"
                     >
                       <h3 className="text-xl font-semibold mb-2">{pkg.title}</h3>
                       
@@ -119,7 +119,7 @@ export default function DelegatesPackagesPage() {
                             >
                               <path
                                 d="M16.6667 5L7.50004 14.1667L3.33337 10"
-                                stroke="#003771"
+                                stroke="#004A96"
                                 strokeWidth="2"
                                 strokeLinecap="round"
                                 strokeLinejoin="round"
@@ -132,7 +132,7 @@ export default function DelegatesPackagesPage() {
 
                       {/* Price added at the bottom */}
                       <div className="mt-auto pt-3 border-t border-gray-200">
-                        <div className="text-xl font-bold text-[#004D9F]">{pkg.price}</div>
+                        <div className="text-xl font-bold text-[#004A96]">{pkg.price}</div>
                         {/* <p className="text-xs text-gray-500 mt-1">Inclusive of GST</p> */}
                       </div>
                     </div>

@@ -177,8 +177,8 @@ export default function ContactForm() {
           disabled={isSubmitting}
           className={`w-full rounded-lg py-4 font-semibold text-white ${
             isSubmitting
-              ? "cursor-not-allowed bg-blue-400"
-              : "bg-blue-600 hover:bg-blue-700"
+              ? "cursor-not-allowed bg-[#7aa3c9]"
+              : "bg-[#004A96] hover:bg-[#003875]"
           }`}
         >
           {isSubmitting ? "Processing..." : "Send Message"}
@@ -186,7 +186,7 @@ export default function ContactForm() {
 
         <p className="text-center text-xs text-gray-500">
           By submitting this form you agree to our{" "}
-          <a href="/privacy-policy" className="text-blue-600 underline">
+          <a href="/privacy-policy" className="text-[#004A96] underline">
             Privacy Policy
           </a>
         </p>

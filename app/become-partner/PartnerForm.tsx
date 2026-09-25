@@ -292,7 +292,7 @@ export default function PartnerRegistrationForm() {
                 value={formData.firstName}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
                 placeholder="Enter your first name"
               />
             </div>
@@ -308,7 +308,7 @@ export default function PartnerRegistrationForm() {
                 value={formData.lastName}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
                 placeholder="Enter your last name"
               />
             </div>
@@ -324,7 +324,7 @@ export default function PartnerRegistrationForm() {
                 value={formData.jobTitle}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
                 placeholder="Enter your job title"
               />
             </div>
@@ -340,7 +340,7 @@ export default function PartnerRegistrationForm() {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
                 placeholder="example@company.com"
               />
             </div>
@@ -366,7 +366,7 @@ export default function PartnerRegistrationForm() {
                 value={formData.phone}
                 onChange={handleChange}
                 required
-                className="flex-1 px-4 py-3 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
+                className="flex-1 px-4 py-3 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
                 placeholder="9876543210"
                 maxLength={10}
               />
@@ -387,7 +387,7 @@ export default function PartnerRegistrationForm() {
                 value={formData.companyName}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
                 placeholder="Enter company name"
               />
             </div>
@@ -402,7 +402,7 @@ export default function PartnerRegistrationForm() {
                 name="gstin"
                 value={formData.gstin}
                 onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
                 placeholder="22AAAAA0000A1Z5 (Optional)"
               />
             </div>
@@ -419,7 +419,7 @@ export default function PartnerRegistrationForm() {
               value={formData.address}
               onChange={handleChange}
               required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
               placeholder="Enter company address"
             />
           </div>
@@ -436,7 +436,7 @@ export default function PartnerRegistrationForm() {
                 value={formData.country}
                 onChange={handleSelectChange}
                 required
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 cursor-pointer"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition-all bg-white text-gray-800 cursor-pointer"
               >
                 <option value="">
                   {countriesLoading ? "Loading countries..." : "Select Country"}
@@ -460,7 +460,7 @@ export default function PartnerRegistrationForm() {
                 onChange={handleSelectChange}
                 required
                 disabled={!formData.country || statesLoading}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition-all bg-white text-gray-800 cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
               >
                 <option value="">
                   {statesLoading 
@@ -488,7 +488,7 @@ export default function PartnerRegistrationForm() {
                 onChange={handleSelectChange}
                 required
                 disabled={!formData.state || citiesLoading}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition-all bg-white text-gray-800 cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
               >
                 <option value="">
                   {citiesLoading 
@@ -516,7 +516,7 @@ export default function PartnerRegistrationForm() {
               name="website"
               value={formData.website}
               onChange={handleChange}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition-all bg-white text-gray-800 placeholder-gray-500"
               placeholder="https://example.com"
             />
           </div>
@@ -531,7 +531,7 @@ export default function PartnerRegistrationForm() {
                 name="marketingConsent"
                 checked={formData.marketingConsent}
                 onChange={handleChange}
-                className="mt-1 h-5 w-5 border-gray-300 rounded focus:ring-blue-500 text-blue-600"
+                className="mt-1 h-5 w-5 border-gray-300 rounded focus:ring-[#004A96] text-[#004A96]"
               />
               <label htmlFor="marketing" className="text-sm text-gray-600 leading-relaxed cursor-pointer">
                 I want to stay informed about exhibitions organized by
@@ -550,12 +550,12 @@ export default function PartnerRegistrationForm() {
                 checked={formData.privacyConsent}
                 onChange={handleChange}
                 required
-                className="mt-1 h-5 w-5 border-gray-300 rounded focus:ring-blue-500 text-blue-600"
+                className="mt-1 h-5 w-5 border-gray-300 rounded focus:ring-[#004A96] text-[#004A96]"
               />
               <label htmlFor="consent" className="text-sm text-gray-600 leading-relaxed cursor-pointer">
                 I hereby give consent to <strong>Maxx Business Media Pvt. Ltd.</strong>
                 for automated and mixed processing of my personal data in accordance
-                with the <a href="/privacy-policy" className="text-blue-600 hover:text-blue-800 underline font-medium">Personal Data Policy</a>.
+                with the <a href="/privacy-policy" className="text-[#004A96] hover:text-[#003875] underline font-medium">Personal Data Policy</a>.
                 <span className="text-red-500 ml-1">*</span>
               </label>
             </div>
@@ -580,7 +580,7 @@ export default function PartnerRegistrationForm() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 ${
+              className={`w-full bg-[#004A96] hover:bg-[#003875] text-white font-semibold py-3 px-4 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#004A96] focus:ring-offset-2 ${
                 isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
               }`}
             >

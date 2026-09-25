@@ -41,7 +41,7 @@ export default async function PartnerDetailPage({ params }: PageProps) {
 
       {/* ROLE */}
       <SectionContainer>
-        <h2 className="mt-10 text-2xl font-semibold text-[#0E1C35]">
+        <h2 className="mt-10 text-2xl font-semibold text-[#004A96]">
           {partner.role}
         </h2>
       </SectionContainer>
@@ -63,7 +63,7 @@ export default async function PartnerDetailPage({ params }: PageProps) {
               href={partner.websiteLink}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex rounded-full bg-blue-700 px-8 py-3 text-white font-semibold hover:bg-blue-800 transition"
+              className="inline-flex rounded-full bg-[#004A96] px-8 py-3 text-white font-semibold hover:bg-[#003875] transition"
             >
               Visit Website
             </a>

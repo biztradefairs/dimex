@@ -189,7 +189,7 @@ export default function CashfreePayment({
         </div>
         <button
           onClick={() => setError(null)}
-          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
+          className="px-4 py-2 bg-[#004A96] text-white rounded-lg hover:bg-[#003875]"
         >
           Try Again
         </button>
@@ -201,7 +201,7 @@ export default function CashfreePayment({
     <div className="p-6">
       <div className="text-center mb-6">
         <h3 className="text-xl font-bold text-gray-900">Complete Payment</h3>
-        <p className="text-3xl font-bold text-blue-600 mt-2">
+        <p className="text-3xl font-bold text-[#004A96] mt-2">
           ₹{roundMoney(amount).toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
         </p>
         <p className="text-sm text-gray-500 mt-1">{invoiceLabel || `Invoice: ${invoiceId}`}</p>
@@ -213,7 +213,7 @@ export default function CashfreePayment({
         className={`w-full py-3 rounded-lg font-semibold text-white transition-colors ${
           isLoading || !isSDKLoaded
             ? 'bg-gray-400 cursor-not-allowed'
-            : 'bg-blue-600 hover:bg-blue-700'
+            : 'bg-[#004A96] hover:bg-[#003875]'
         }`}
       >
         {isLoading ? (

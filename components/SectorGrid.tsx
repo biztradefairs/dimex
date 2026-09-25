@@ -31,7 +31,7 @@ export default function SectorGrid({ sectors }: SectorGridProps) {
               style={{ backgroundImage: `url(${sector.image})` }}
             ></div>
             <div className="absolute inset-0 z-20 flex items-end justify-center">
-              <h3 className="w-full bg-white py-5 text-lg font-semibold transition-all duration-300 ease-in-out group-hover:bg-blue-50">
+              <h3 className="w-full bg-white py-5 text-lg font-semibold transition-all duration-300 ease-in-out group-hover:bg-[#E8F1F8]">
                 {sector.title}
               </h3>
             </div>

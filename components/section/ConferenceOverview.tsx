@@ -20,7 +20,7 @@ const ConferenceOverview = () => {
 
         {/* <Link
           href="/conference-programme/download"
-          className="inline-flex items-center rounded-full bg-[#004aad] px-8 py-4 text-white font-semibold transition hover:bg-[#003a87]"
+          className="inline-flex items-center rounded-full bg-[#004A96] px-8 py-4 text-white font-semibold transition hover:bg-[#003875]"
         >
           Download 2025 Conference Programme Schedule
         </Link> */}

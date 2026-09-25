@@ -60,7 +60,7 @@ const EcosystemSection = () => {
             {/* LINK AS BUTTON – NO <button> */}
             <Link
               href="/why-exhibit"
-              className="inline-block w-fit rounded-full bg-[#004D9F] px-10 py-4 font-semibold text-white transition hover:bg-mainColor4"
+              className="inline-block w-fit rounded-full bg-[#004A96] px-10 py-4 font-semibold text-white transition hover:bg-[#003875]"
             >
               Why Exhibit
             </Link>
@@ -106,7 +106,7 @@ const EcosystemSection = () => {
                 <div className="mt-auto p-6 pt-4 xl:p-8">
                   <Link
                     href={item.link}
-                    className="block w-full rounded-full bg-[#004D9F] px-8 py-4 text-center text-lg font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-mainColor4 hover:shadow-lg"
+                    className="block w-full rounded-full bg-[#004A96] px-8 py-4 text-center text-lg font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#003875] hover:shadow-lg"
                   >
                     {item.buttonText}
                   </Link>

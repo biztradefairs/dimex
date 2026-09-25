@@ -67,7 +67,7 @@ export default function SectorsPage() {
           className="absolute inset-0 z-0 bg-cover bg-center"
           style={{ backgroundImage: "url(/images/sectorheader.jpg)" }}
         />
-        <div className="absolute inset-0 z-10 bg-gradient-to-t from-black/80 via-black/50 to-transparent" />
+        <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#004A96]/90 via-[#004A96]/50 to-transparent" />
         <SectionContainer>
           <div className="relative z-20 text-white pb-6 md:pb-10 pt-20">
             <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-3">
@@ -142,7 +142,7 @@ function SectorGrid({
             </h3>
 
             {/* Blue underline */}
-            <div className="mt-3 h-[3px] w-10 bg-blue-500 group-hover:w-16 transition-all duration-300"></div>
+            <div className="mt-3 h-[3px] w-10 bg-[#E0161D] group-hover:w-16 transition-all duration-300"></div>
           </div>
         </Link>
       ))}

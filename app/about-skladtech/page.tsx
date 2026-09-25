@@ -142,7 +142,7 @@ const slideInFromRight: Variants = {
                 <motion.button
                   whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 lg:px-10 py-3 lg:py-4 rounded-full font-medium transition-all duration-300"
+                  className="bg-[#004A96] hover:bg-[#003875] text-white px-8 lg:px-10 py-3 lg:py-4 rounded-full font-medium transition-all duration-300"
                 >
                   Enquire to Exhibit
                 </motion.button>
@@ -172,7 +172,7 @@ const slideInFromRight: Variants = {
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="mb-2 text-5xl lg:text-6xl font-bold text-blue-600"
+                    className="mb-2 text-5xl lg:text-6xl font-bold text-[#004A96]"
                   >
                     {stat.number}
                   </motion.div>
@@ -230,7 +230,7 @@ const slideInFromRight: Variants = {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                   </div>
                   <div className="absolute inset-x-0 bottom-0 bg-white p-4">
-                    <h3 className="font-semibold text-lg group-hover:text-blue-600 transition-colors duration-300">
+                    <h3 className="font-semibold text-lg group-hover:text-[#004A96] transition-colors duration-300">
                       {sector.title}
                     </h3>
                   </div>
@@ -249,7 +249,7 @@ const slideInFromRight: Variants = {
                 <motion.button
                   whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 lg:px-10 py-3 lg:py-4 rounded-full font-medium transition-all duration-300"
+                  className="bg-[#004A96] hover:bg-[#003875] text-white px-8 lg:px-10 py-3 lg:py-4 rounded-full font-medium transition-all duration-300"
                 >
                   Explore Our Event Sectors
                 </motion.button>
@@ -276,7 +276,7 @@ const slideInFromRight: Variants = {
               }}
             >
               {/* Dark overlay for readability */}
-              <div className="absolute inset-0 bg-blue-900/80"></div>
+              <div className="absolute inset-0 bg-[#004A96]/80"></div>
 
               {/* Content */}
               <div className="relative flex flex-col gap-6">
@@ -307,7 +307,7 @@ const slideInFromRight: Variants = {
                       boxShadow: "0 10px 25px rgba(255, 255, 255, 0.2)"
                     }}
                     whileTap={{ scale: 0.95 }}
-                    className="bg-white text-blue-900 border border-white px-8 py-3 rounded-full font-medium hover:bg-gray-100 whitespace-nowrap w-fit transition-all duration-300"
+                    className="bg-white text-[#004A96] border border-white px-8 py-3 rounded-full font-medium hover:bg-[#E0161D] hover:text-white whitespace-nowrap w-fit transition-all duration-300"
                   >
                     Download Now
                   </motion.button>
@@ -337,7 +337,7 @@ const slideInFromRight: Variants = {
                 <motion.button
                   whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 lg:px-10 py-3 lg:py-4 rounded-full font-medium transition-all duration-300"
+                  className="bg-[#004A96] hover:bg-[#003875] text-white px-8 lg:px-10 py-3 lg:py-4 rounded-full font-medium transition-all duration-300"
                 >
                   Discover Key Visitor Insights – Download the Post-Show Report
                 </motion.button>
@@ -367,7 +367,7 @@ const slideInFromRight: Variants = {
                     initial={{ opacity: 0, scale: 0.8 }}
                     whileInView={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.5, delay: index * 0.1 }}
-                    className="mb-2 text-5xl lg:text-6xl font-bold text-blue-600"
+                    className="mb-2 text-5xl lg:text-6xl font-bold text-[#004A96]"
                   >
                     {stat.number}
                   </motion.div>
@@ -418,7 +418,7 @@ const slideInFromRight: Variants = {
                 className="bg-gray-50 border border-gray-200 rounded-xl p-4 md:p-5 flex items-center justify-center min-h-[100px] transition-all duration-300 cursor-pointer"
               >
                 <div className="text-center">
-                  <span className="text-gray-800 font-medium text-sm md:text-base hover:text-blue-600 transition-colors duration-300">
+                  <span className="text-gray-800 font-medium text-sm md:text-base hover:text-[#004A96] transition-colors duration-300">
                     {exhibitor}
                   </span>
                 </div>
@@ -440,7 +440,7 @@ const slideInFromRight: Variants = {
                   boxShadow: "0 15px 30px rgba(37, 99, 235, 0.3)"
                 }}
                 whileTap={{ scale: 0.95 }}
-                className="flex-start group w-fit gap-3 overflow-hidden rounded-full px-10 py-4 text-[18px] font-semibold global-transition bg-blue-700 text-white hover:bg-mainColor4 hover:shadow-xl transition-all duration-300"
+                className="flex-start group w-fit gap-3 overflow-hidden rounded-full px-10 py-4 text-[18px] font-semibold global-transition bg-[#004A96] text-white hover:bg-[#003875] hover:shadow-xl transition-all duration-300"
               >
                 View Our 2026 Exhibitor List
                 <motion.span
@@ -474,9 +474,9 @@ const slideInFromRight: Variants = {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -5, boxShadow: "0 15px 30px rgba(37, 99, 235, 0.1)" }}
-                className="bg-blue-50 p-8 rounded-lg transition-all duration-300"
+                className="bg-[#E8F1F8] p-8 rounded-lg transition-all duration-300"
               >
-                <h3 className="text-lg lg:text-xl font-semibold text-blue-600 mb-4">Venue</h3>
+                <h3 className="text-lg lg:text-xl font-semibold text-[#004A96] mb-4">Venue</h3>
                 <p className="text-gray-800 font-medium text-lg">Rosaski, Moscov, Crocus Expo IEC, Pavilion 3</p>
               </motion.div>
 
@@ -487,9 +487,9 @@ const slideInFromRight: Variants = {
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 }}
                 whileHover={{ y: -5, boxShadow: "0 15px 30px rgba(37, 99, 235, 0.1)" }}
-                className="bg-blue-50 p-8 rounded-lg transition-all duration-300"
+                className="bg-[#E8F1F8] p-8 rounded-lg transition-all duration-300"
               >
-                <h3 className="text-lg lg:text-xl font-semibold text-blue-600 mb-4">Opening Hours</h3>
+                <h3 className="text-lg lg:text-xl font-semibold text-[#004A96] mb-4">Opening Hours</h3>
                 <p className="text-gray-800 font-medium text-lg">12-16 March 2026, 10:00 -18:00</p>
                 <p className="text-gray-800 font-medium text-lg">19 March 2026, 10:00 -18:00</p>
               </motion.div>
@@ -565,7 +565,7 @@ const slideInFromRight: Variants = {
                   boxShadow: "0 10px 25px rgba(255, 255, 255, 0.2)"
                 }}
                 whileTap={{ scale: 0.95 }}
-                className="bg-white text-blue-900 hover:bg-gray-100 px-8 lg:px-10 py-3 lg:py-4 rounded-full font-medium transition-all duration-300"
+                className="bg-white text-[#004A96] hover:bg-[#E0161D] hover:text-white px-8 lg:px-10 py-3 lg:py-4 rounded-full font-medium transition-all duration-300"
               >
                 Plan Your Travel
               </motion.button>
@@ -589,7 +589,7 @@ const slideInFromRight: Variants = {
                   viewport={{ once: true }}
                   className="mb-2 flex items-center gap-2"
                 >
-                  <div className="h-5 w-5 rounded-full bg-blue-500"></div>
+                  <div className="h-5 w-5 rounded-full bg-[#004A96]"></div>
                   <span className="font-semibold">TransRussia / Skladtech</span>
                 </motion.div>
                 <h2 className="mb-4 text-3xl lg:text-4xl xl:text-5xl font-bold">
@@ -620,12 +620,12 @@ const slideInFromRight: Variants = {
                   className="rounded-2xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 cursor-pointer"
                 >
                   <div className="mb-4 flex items-start justify-between">
-                    <div className="h-16 w-16 rounded-full bg-gradient-to-br from-blue-500 to-blue-600"></div>
+                    <div className="h-16 w-16 rounded-full bg-gradient-to-br from-[#004A96] to-[#004A96]"></div>
                     <motion.span 
                       initial={{ scale: 0.8 }}
                       whileInView={{ scale: 1 }}
                       transition={{ delay: index * 0.1 }}
-                      className="text-2xl font-bold text-blue-600"
+                      className="text-2xl font-bold text-[#004A96]"
                     >
                       0{index + 1}
                     </motion.span>
@@ -636,7 +636,7 @@ const slideInFromRight: Variants = {
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-full font-medium transition-all duration-300"
+                      className="w-full bg-[#004A96] hover:bg-[#003875] text-white py-3 rounded-full font-medium transition-all duration-300"
                     >
                       {card.buttonText}
                     </motion.button>

@@ -29,8 +29,8 @@ export default function Button({
     font-semibold
     text-white
     transition-all duration-300
-    bg-[#004D9F]
-    hover:bg-[#0074D9]
+    bg-[#004A96]
+    hover:bg-[#003875]
     disabled:opacity-50 disabled:cursor-not-allowed
     ${fullWidth ? 'w-full' : ''}
     ${className}

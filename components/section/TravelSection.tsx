@@ -48,7 +48,7 @@ const TravelSection = () => {
                 console.log('Navigating to travel planning page');
               }}
             >
-              <button className="inline-flex items-center justify-center bg-[#004D9F] text-white font-bold text-lg px-10 py-4 rounded-full transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-1 active:translate-y-0 shadow-lg">
+              <button className="inline-flex items-center justify-center bg-[#004A96] text-white font-bold text-lg px-10 py-4 rounded-full transition-all duration-300 hover:shadow-2xl transform hover:-translate-y-1 active:translate-y-0 shadow-lg">
                 Plan Your Travel
                 <svg 
                   xmlns="http://www.w3.org/2000/svg" 

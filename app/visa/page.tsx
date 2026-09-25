@@ -169,11 +169,11 @@ export default function VisaPage() {
   return (
     <div className="page-spacing-wrapper font-parabolica">
       {/* Hero Section - Full width with background */}
-      <div className="relative z-1 flex flex-col justify-end bg-[#F3F9FF] pt-48!">
+      <div className="relative z-1 flex flex-col justify-end bg-[#004A96] pt-48!">
         <SectionContainer>
           <div className="flex flex-col justify-end pt-0! pb-10!">
-            <h2 className="title-72 text-black">{visaPageData.hero.title}</h2>
-            <p className="max-w-6xl whitespace-pre-line py-5">
+            <h2 className="title-72 text-white">{visaPageData.hero.title}</h2>
+            <p className="max-w-6xl whitespace-pre-line py-5 text-white/80">
               {visaPageData.hero.description}
             </p>
           </div>
@@ -189,7 +189,7 @@ export default function VisaPage() {
                 (block, index) => (
                   <div
                     key={block.id || index}
-                    className="z-1 relative flex size-full min-h-[500px] flex-col p-5 lg:p-10 bg-[#F3F9FF]"
+                    className="z-1 relative flex size-full min-h-[500px] flex-col p-5 lg:p-10 bg-[#E8F1F8]"
                   >
                     {block.Image?.data && index === 1 ? (
                       <>

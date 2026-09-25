@@ -3,7 +3,7 @@ import SectionContainer from "./UI/SectionContainer";
 // components/ConnectSection.tsx
 export default function ConnectSection() {
   return (
-    <section className="relative z-1 overflow-hidden bg-[#0E1C35] text-white py-32">
+    <section className="relative z-1 overflow-hidden bg-[#004A96] text-white py-32">
       <SectionContainer>
       <div className="container">
         <div className="grid gap-16 lg:grid-cols-3 lg:gap-24">
@@ -18,7 +18,7 @@ Experience continuous networking and collaboration with Toolingtrends.com, our e
             </div>
             
             {/* <a href="https://app.transrussia-connect.com/public/post?id=3f91096c0eb34ab0bf2a55762da78caa&vendorId=edce6a84-ed2f-455a-afd7-d7fbb0d16c00" className="block mt-8">
-              <button className="flex items-center justify-center group gap-2 overflow-hidden rounded-full px-10 py-4 font-jakarta text-[16px] font-semibold transition-all duration-300 bg-white text-[#0092D7] hover:bg-[#0092D7] hover:text-white w-fit">
+              <button className="flex items-center justify-center group gap-2 overflow-hidden rounded-full px-10 py-4 font-jakarta text-[16px] font-semibold transition-all duration-300 bg-white text-[#004A96] hover:bg-[#E0161D] hover:text-white w-fit">
                 Join TransRussia Connect
               </button>
             </a> */}
@@ -33,8 +33,8 @@ Experience continuous networking and collaboration with Toolingtrends.com, our e
   />
 
   <div className="absolute inset-0 flex items-center justify-center z-[-1]">
-    <div className="absolute w-[500px] h-[500px] rounded-full bg-[#0092D7] opacity-20" />
-    <div className="absolute w-[350px] h-[350px] rounded-full bg-[#0092D7] opacity-20" />
+    <div className="absolute w-[500px] h-[500px] rounded-full bg-[#004A96] opacity-20" />
+    <div className="absolute w-[350px] h-[350px] rounded-full bg-[#004A96] opacity-20" />
   </div>
 
 </div>

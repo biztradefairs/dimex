@@ -297,7 +297,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
       <div>
         <div className="page-spacing-wrapper">
           {/* Page Header */}
-          <div className="relative z-[1] flex flex-col justify-end bg-gradient-to-b from-blue-50 to-white !pt-48">
+          <div className="relative z-[1] flex flex-col justify-end bg-gradient-to-b from-[#E8F1F8] to-white !pt-48">
             <SectionContainer>
               <div className="flex flex-col justify-end !pt-0 !pb-16">
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 mt-15">
@@ -310,11 +310,11 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
             </SectionContainer>
           </div>
 
-          <section className="py-16 lg:py-24 bg-blue-50/30">
+          <section className="py-16 lg:py-24 bg-[#E8F1F8]/30">
             <SectionContainer>
               <div className="max-w-4xl mx-auto">
                 <div className="mb-12 text-center">
-                  <span className="inline-block bg-blue-100 text-blue-800 text-sm font-semibold px-4 py-2 rounded-full mb-4">
+                  <span className="inline-block bg-[#D6E6F4] text-[#004A96] text-sm font-semibold px-4 py-2 rounded-full mb-4">
                     Get Your Visitor Pass
                   </span>
                   <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
@@ -341,7 +341,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                         onChange={handleInputChange}
                         required
                         placeholder="Enter your full name"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition hover:border-[#004A96]"
                       />
                     </div>
 
@@ -356,7 +356,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                         onChange={handleInputChange}
                         required
                         placeholder="Your job title/position"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition hover:border-[#004A96]"
                       />
                     </div>
 
@@ -371,7 +371,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                         onChange={handleInputChange}
                         required
                         placeholder="Your company/organization name"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition hover:border-[#004A96]"
                       />
                     </div>
 
@@ -386,7 +386,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                         required
                         placeholder="ex: #20, 4th cross, RK Road"
                         rows={3}
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 resize-none"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition hover:border-[#004A96] resize-none"
                       />
                     </div>
 
@@ -399,7 +399,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                         value={formData.country}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition hover:border-[#004A96] bg-white cursor-pointer"
                       >
                         <option value="">
                           {countriesLoading ? "Loading countries..." : "Select Country"}
@@ -423,7 +423,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                           onChange={handleInputChange}
                           required
                           disabled={!formData.country || statesLoading}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition hover:border-[#004A96] bg-white cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
                         >
                           <option value="">
                             {statesLoading 
@@ -449,7 +449,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                           onChange={handleInputChange}
                           required
                           disabled={!formData.state || citiesLoading}
-                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition hover:border-[#004A96] bg-white cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
                         >
                           <option value="">
                             {citiesLoading 
@@ -478,7 +478,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                         onChange={handleInputChange}
                         required
                         placeholder="Enter your postal code"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition hover:border-[#004A96]"
                       />
                     </div>
 
@@ -493,7 +493,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                         onChange={handleInputChange}
                         required
                         placeholder="Enter your email address"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition hover:border-[#004A96]"
                       />
                       <p className="mt-2 text-xs text-gray-500">
                         We'll send your registration confirmation and updates to this email.
@@ -515,7 +515,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                           onChange={handleInputChange}
                           required
                           placeholder="Enter your mobile number"
-                          className="w-full px-4 py-3 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300"
+                          className="w-full px-4 py-3 border border-gray-300 rounded-r-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition hover:border-[#004A96]"
                         />
                       </div>
                     </div>
@@ -529,7 +529,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                         value={formData.profile}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer"
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition hover:border-[#004A96] bg-white cursor-pointer"
                       >
                         <option value="">Select your industry profile</option>
                         <option value="Automotive">Automotive (Auto OE Ms, Auto Ancillary)</option>
@@ -556,7 +556,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                         checked={termsAccepted}
                         onChange={(e) => setTermsAccepted(e.target.checked)}
                         required
-                        className="h-5 w-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-0.5 cursor-pointer"
+                        className="h-5 w-5 text-[#004A96] border-gray-300 rounded focus:ring-[#004A96] mt-0.5 cursor-pointer"
                       />
                       <label htmlFor="terms" className="ml-3 text-sm text-gray-600 cursor-pointer select-none">
                         I agree to receive marketing communications, updates, and promotional materials from Diemex Exhibition. 
@@ -566,7 +566,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                           href="https://dimex-ruby.vercel.app/privacy-policy" 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline"
+                          className="text-[#004A96] hover:underline"
                         >
                           Privacy Policy
                         </a>.
@@ -592,7 +592,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                           !termsAccepted ||
                           (Boolean(process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) && !captchaToken)
                         }
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+                        className="w-full bg-[#004A96] hover:bg-[#003875] text-white font-semibold py-3 px-6 rounded-lg transition duration-300 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                       >
                         {loading ? (
                           <span className="flex items-center justify-center">
@@ -613,7 +613,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                 <div className="mt-8 text-center text-gray-600">
                   <p className="text-sm">
                     Need assistance with registration? Contact us at{' '}
-                    <a href="mailto:pad@diemex.in" className="text-blue-600 hover:underline">
+                    <a href="mailto:pad@diemex.in" className="text-[#004A96] hover:underline">
                       pad@diemex.in
                     </a>
                   </p>

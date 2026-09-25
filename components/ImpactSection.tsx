@@ -91,14 +91,14 @@ export default function ImpactSection() {
             <button
               onClick={prev}
               disabled={currentIndex === 0}
-              className="flex h-12 w-12 items-center justify-center rounded-full bg-[#9BB6D9] text-white disabled:opacity-40 hover:bg-[#003366] transition-colors"
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-[#9BB6D9] text-white disabled:opacity-40 hover:bg-[#003875] transition-colors"
             >
               ←
             </button>
             <button
               onClick={next}
               disabled={currentIndex + ITEMS_PER_VIEW >= impacts.length}
-              className="flex h-12 w-12 items-center justify-center rounded-full bg-[#003366] text-white disabled:opacity-40 hover:bg-[#00264d] transition-colors"
+              className="flex h-12 w-12 items-center justify-center rounded-full bg-[#003875] text-white disabled:opacity-40 hover:bg-[#00264d] transition-colors"
             >
               →
             </button>

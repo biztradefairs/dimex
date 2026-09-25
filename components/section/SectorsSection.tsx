@@ -40,7 +40,7 @@ link: "/sectors/precision-machining-automation",
 
         <div className="flex lg:col-span-3 lg:justify-end">
           <Link href="/sectors">
-            <button className="flex items-center gap-2 rounded-full px-10 py-3 text-[16px] font-semibold bg-[#004D9F] text-white transition hover:bg-mainColor4">
+            <button className="flex items-center gap-2 rounded-full px-10 py-3 text-[16px] font-semibold bg-[#004A96] text-white transition hover:bg-[#003875]">
               Explore All Our Event Sector
             </button>
           </Link>

@@ -229,10 +229,10 @@ export default function TermsOfVisitingPage() {
   return (
     <div className="page-spacing-wrapper font-parabolica">
       {/* Hero Section */}
-      <div className="relative z-1 flex flex-col justify-end bg-[#F3F9FF] pt-48!">
+      <div className="relative z-1 flex flex-col justify-end bg-[#004A96] pt-48!">
         <SectionContainer className="flex flex-col justify-end pt-0! pb-10!">
-          <h2 className="title-72 text-black">{termsOfVisitingPageData.hero.title}</h2>
-          <p className="max-w-6xl whitespace-pre-line py-5">
+          <h2 className="title-72 text-white">{termsOfVisitingPageData.hero.title}</h2>
+          <p className="max-w-6xl whitespace-pre-line py-5 text-white/80">
             {termsOfVisitingPageData.hero.description}
           </p>
         </SectionContainer>

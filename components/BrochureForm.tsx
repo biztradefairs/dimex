@@ -181,13 +181,13 @@ export default function BrochureForm() {
             type="checkbox"
             id="br-terms"
             required
-            className="mt-0.5 h-4 w-4 accent-[#1e3a6e] cursor-pointer shrink-0"
+            className="mt-0.5 h-4 w-4 accent-[#004A96] cursor-pointer shrink-0"
           />
           <label htmlFor="br-terms" className="text-xs text-gray-600 leading-relaxed cursor-pointer">
             I agree to the{' '}
-            <a href="/terms" className="text-blue-600 hover:underline">Terms & Conditions</a>
+            <a href="/terms" className="text-[#004A96] hover:underline">Terms & Conditions</a>
             {' '}and{' '}
-            <a href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</a>.{' '}
+            <a href="/privacy-policy" className="text-[#004A96] hover:underline">Privacy Policy</a>.{' '}
             <span className="text-red-500">*</span>
           </label>
         </div>

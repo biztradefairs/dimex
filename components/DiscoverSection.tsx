@@ -3,12 +3,12 @@ import SectionContainer from './UI/SectionContainer'
 
 export default function DiscoverSection() {
   return (
-    <section className="bg-[#0E1C35] py-32 text-white">
+    <section className="bg-[#004A96] py-32 text-white">
       <SectionContainer>
         <div className="grid lg:grid-cols-12 gap-16">
           <div className="lg:col-span-7 lg:border-l lg:border-white/20 lg:pl-14">
             <h2 className="text-5xl lg:text-6xl xl:text-7xl font-bold leading-[0.85] tracking-tight">
-              Discover <span className="text-[#82c6eb]">DIEMEX</span>
+              Discover <span className="text-[#E0161D]">DIEMEX</span>
             </h2>
 
             <div className="space-y-6 mt-8 max-w-3xl">
@@ -21,7 +21,7 @@ export default function DiscoverSection() {
             </div>
 
             <a href="/post-show-report" className="inline-block mt-10">
-              <button className="rounded-full bg-white text-[#004D9F] px-8 lg:px-10 py-3 lg:py-4 font-semibold hover:bg-[#004D9F] hover:text-white transition-colors">
+              <button className="rounded-full bg-white text-[#004A96] px-8 lg:px-10 py-3 lg:py-4 font-semibold hover:bg-[#E0161D] hover:text-white transition-colors">
                 Download the 2025 Post Show Report
               </button>
             </a>

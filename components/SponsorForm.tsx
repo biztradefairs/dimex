@@ -189,7 +189,7 @@ export default function SponsorForm() {
                     >
                         I hereby give consent to <strong>Maxx Business Media Pvt. Ltd.</strong> for
                         automated and mixed processing of my personal data in accordance with the{' '}
-                        <a href="/privacy-policy" className="text-blue-600 hover:underline font-medium">
+                        <a href="/privacy-policy" className="text-[#004A96] hover:underline font-medium">
                             Personal Data Policy
                         </a>.{' '}
                         <span className="text-red-500">*</span>

@@ -166,7 +166,7 @@ const staggerContainer = {
           />
 
           {/* Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/90 via-black/70 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#004A96]/90 via-[#004A96]/70 to-transparent" />
 
           <SectionContainer>
             <div className="relative z-10 min-h-[60vh] lg:min-h-[70vh] flex items-center">
@@ -194,14 +194,14 @@ const staggerContainer = {
 
                 <div className="flex flex-wrap gap-4 mt-6 text-white/90 text-sm sm:text-base">
                   <span className="flex items-center gap-2">
-                    <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" className="size-5 shrink-0 fill-[#004D9F]" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                    <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" className="size-5 shrink-0 fill-[#004A96]" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                       <path d="M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm106.5 150.5L228.8 332.8h-.1c-1.7 1.7-6.3 5.5-11.6 5.5-3.8 0-8.1-2.1-11.7-5.7l-56-56c-1.6-1.6-1.6-4.1 0-5.7l17.8-17.8c.8-.8 1.8-1.2 2.8-1.2 1 0 2 .4 2.8 1.2l44.4 44.4 122-122.9c.8-.8 1.8-1.2 2.8-1.2 1.1 0 2.1.4 2.8 1.2l17.5 18.1c1.8 1.7 1.8 4.2.2 5.8z"></path>
                     </svg>
                     24 – 26 March 2027
                   </span>
 
                   <span className="flex items-center gap-2">
-                    <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" className="size-5 shrink-0 fill-[#004D9F]" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                    <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 512 512" className="size-5 shrink-0 fill-[#004A96]" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                       <path d="M256 48C141.1 48 48 141.1 48 256s93.1 208 208 208 208-93.1 208-208S370.9 48 256 48zm106.5 150.5L228.8 332.8h-.1c-1.7 1.7-6.3 5.5-11.6 5.5-3.8 0-8.1-2.1-11.7-5.7l-56-56c-1.6-1.6-1.6-4.1 0-5.7l17.8-17.8c.8-.8 1.8-1.2 2.8-1.2 1 0 2 .4 2.8 1.2l44.4 44.4 122-122.9c.8-.8 1.8-1.2 2.8-1.2 1.1 0 2.1.4 2.8 1.2l17.5 18.1c1.8 1.7 1.8 4.2.2 5.8z"></path>
                     </svg>
                     Pune, India
@@ -212,7 +212,7 @@ const staggerContainer = {
                   <motion.button
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    className="mt-8 bg-[#004D9F] hover:bg-blue-700 px-8 py-3 rounded-full font-medium"
+                    className="mt-8 bg-[#E0161D] hover:bg-[#c01218] text-white px-8 py-3 rounded-full font-medium"
                   >
                     Enquire to Exhibit
                   </motion.button>
@@ -278,7 +278,7 @@ const staggerContainer = {
                   <motion.button
                     whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                     whileTap={{ scale: 0.95 }}
-                    className="font-parabolica bg-[#004D9F] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-medium transition-all duration-300"
+                    className="font-parabolica bg-[#004A96] hover:bg-[#003875] text-white px-8 py-3 rounded-full font-medium transition-all duration-300"
                   >
                     Enquire to Exhibit
                   </motion.button>
@@ -385,7 +385,7 @@ const staggerContainer = {
               <motion.button
                 whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                 whileTap={{ scale: 0.95 }}
-                className="mt-8 bg-[#004D9F] hover:bg-blue-700 text-white px-8 py-3 rounded-full font-medium transition-all duration-300"
+                className="mt-8 bg-[#004A96] hover:bg-[#003875] text-white px-8 py-3 rounded-full font-medium transition-all duration-300"
               >
                 Enquire to Exhibit
               </motion.button>
@@ -483,7 +483,7 @@ const staggerContainer = {
                 <motion.button
                   whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                   whileTap={{ scale: 0.95 }}
-                  className="mt-16 lg:mt-24 bg-[#004D9F] hover:bg-blue-700 text-white px-6 py-3 rounded-full font-medium transition-all duration-300"
+                  className="mt-16 lg:mt-24 bg-[#004A96] hover:bg-[#003875] text-white px-6 py-3 rounded-full font-medium transition-all duration-300"
                 >
                   Explore Event Sectors
                 </motion.button>
@@ -554,7 +554,7 @@ const staggerContainer = {
                     />
                     <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-black/90 via-black/60 to-transparent" />
                     <div className="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    <h3 className="absolute bottom-0 left-0 p-6 text-white text-xl lg:text-2xl font-bold leading-snug max-w-xs group-hover:text-blue-300 transition-colors duration-300">
+                    <h3 className="absolute bottom-0 left-0 p-6 text-white text-xl lg:text-2xl font-bold leading-snug max-w-xs group-hover:text-[#E0161D] transition-colors duration-300">
                       {sector.title}
                     </h3>
                   </motion.div>
@@ -595,7 +595,7 @@ const staggerContainer = {
                   whileHover={{ scale: 1.1, backgroundColor: "#dbeafe" }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setTestimonialIndex((i) => (i - 1 + testimonials.length) % testimonials.length)}
-                  className="w-12 h-12 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center transition-all duration-300"
+                  className="w-12 h-12 rounded-full bg-[#D6E6F4] text-[#004A96] flex items-center justify-center transition-all duration-300"
                 >
                   <ChevronLeft className="w-5 h-5" />
                 </motion.button>
@@ -604,7 +604,7 @@ const staggerContainer = {
                   whileHover={{ scale: 1.1, backgroundColor: "#1d4ed8" }}
                   whileTap={{ scale: 0.95 }}
                   onClick={() => setTestimonialIndex((i) => (i + 1) % testimonials.length)}
-                  className="w-12 h-12 rounded-full bg-blue-600 text-white flex items-center justify-center transition-all duration-300"
+                  className="w-12 h-12 rounded-full bg-[#004A96] text-white flex items-center justify-center transition-all duration-300"
                 >
                   <ChevronRight className="w-5 h-5" />
                 </motion.button>
@@ -643,7 +643,7 @@ const staggerContainer = {
                 </p>
                 <div className="w-full h-[1px] bg-gray-300 mb-5"></div>
                 <div>
-                  <p className="font-bold text-gray-900 text-lg uppercase hover:text-blue-600 transition-colors duration-300">
+                  <p className="font-bold text-gray-900 text-lg uppercase hover:text-[#004A96] transition-colors duration-300">
                     {testimonials[testimonialIndex].author}
                   </p>
                   <p className="text-gray-600">
@@ -692,7 +692,7 @@ const staggerContainer = {
                 <motion.button
                   whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-[#004D9F] hover:bg-blue-800 text-white px-10 py-4 rounded-full text-lg font-medium transition-all duration-300"
+                  className="bg-[#004A96] hover:bg-[#003875] text-white px-10 py-4 rounded-full text-lg font-medium transition-all duration-300"
                 >
                   Know More Insights – Download Your Post-Show Report
                 </motion.button>
@@ -700,7 +700,7 @@ const staggerContainer = {
             </SectionContainer>
           </div>
 
-          <div className="bg-blue-50 py-20">
+          <div className="bg-[#E8F1F8] py-20">
             <SectionContainer>
               <motion.div
                 initial="hidden"
@@ -725,7 +725,7 @@ const staggerContainer = {
                     }}
                     className="p-6 rounded-xl transition-all duration-300 cursor-pointer"
                   >
-                    <div className="text-6xl font-bold text-[#004D9F] mb-4 hover:text-blue-800 transition-colors duration-300">
+                    <div className="text-6xl font-bold text-[#004A96] mb-4 hover:text-[#003875] transition-colors duration-300">
                       {stat.value}
                     </div>
                     <p className="text-lg text-gray-800 mb-6">{stat.label}</p>
@@ -734,7 +734,7 @@ const staggerContainer = {
                       whileInView={{ width: "100%" }}
                       viewport={{ once: true }}
                       transition={{ duration: 0.8, delay: index * 0.1 }}
-                      className="h-px bg-gradient-to-r from-blue-400 to-blue-600"
+                      className="h-px bg-gradient-to-r from-[#004A96] to-[#004A96]"
                     />
                   </motion.div>
                 ))}
@@ -782,7 +782,7 @@ const staggerContainer = {
             >
               <Link
                 href="/exhibition-directory"
-                className="inline-block bg-[#004D9F] hover:bg-blue-700 text-white px-6 py-3 rounded-full text-base font-medium"
+                className="inline-block bg-[#004A96] hover:bg-[#003875] text-white px-6 py-3 rounded-full text-base font-medium"
               >
                 View 2026 Exhibitor List
               </Link>
@@ -826,7 +826,7 @@ const staggerContainer = {
                     boxShadow: "0 10px 25px rgba(255, 255, 255, 0.2)",
                   }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-white text-blue-900 px-6 py-3 rounded-full font-medium transition-all duration-300"
+                  className="bg-white text-[#004A96] px-6 py-3 rounded-full font-medium transition-all duration-300"
                 >
                   Plan Your Travel
                 </motion.button>
@@ -903,7 +903,7 @@ const staggerContainer = {
                   className="border border-gray-200 rounded-lg p-8 transition-all duration-300 cursor-pointer"
                 >
                   <div className="flex items-center justify-between mb-6">
-                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
+                    <div className="w-12 h-12 bg-gradient-to-br from-[#004A96] to-[#004A96] rounded-full flex items-center justify-center">
                       <span className="text-2xl">{card.icon}</span>
                     </div>
                     <motion.span
@@ -914,7 +914,7 @@ const staggerContainer = {
                       {card.number}
                     </motion.span>
                   </div>
-                  <h3 className="text-xl lg:text-2xl font-bold mb-3 hover:text-blue-600 transition-colors duration-300">
+                  <h3 className="text-xl lg:text-2xl font-bold mb-3 hover:text-[#004A96] transition-colors duration-300">
                     {card.title}
                   </h3>
                   <p className="text-gray-600 text-base mb-6">{card.description}</p>
@@ -922,7 +922,7 @@ const staggerContainer = {
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
-                      className="w-full bg-[#004D9F] hover:bg-blue-700 text-white py-3 rounded-full font-medium transition-all duration-300"
+                      className="w-full bg-[#004A96] hover:bg-[#003875] text-white py-3 rounded-full font-medium transition-all duration-300"
                     >
                       {card.buttonText}
                     </motion.button>
@@ -951,7 +951,7 @@ const staggerContainer = {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 whileHover={{ y: -5, boxShadow: "0 15px 30px rgba(37, 99, 235, 0.1)" }}
-                className="bg-blue-50 p-8 rounded-lg transition-all duration-300"
+                className="bg-[#E8F1F8] p-8 rounded-lg transition-all duration-300"
               >
                 <h3 className="text-lg lg:text-xl font-semibold text-[#4D4D4D] mb-4">Venue</h3>
                 <p className="text-gray-800 font-medium text-lg"> Auto Cluster Exhibition Centre, Pune, India</p>
@@ -963,7 +963,7 @@ const staggerContainer = {
                 viewport={{ once: true }}
                 transition={{ delay: 0.1 }}
                 whileHover={{ y: -5, boxShadow: "0 15px 30px rgba(37, 99, 235, 0.1)" }}
-                className="bg-blue-50 p-8 rounded-lg transition-all duration-300"
+                className="bg-[#E8F1F8] p-8 rounded-lg transition-all duration-300"
               >
                 <h3 className="text-lg lg:text-xl font-semibold text-[#4D4D4D] mb-4">Opening Hours</h3>
                 <p className="text-gray-800 font-medium text-lg">24-26 March 2027, 10:00 -18:00</p>

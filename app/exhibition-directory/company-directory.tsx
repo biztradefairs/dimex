@@ -121,7 +121,7 @@ export default function CompanyDirectory() {
                 onClick={() => setViewMode('grid')}
                 className={`p-2 rounded-lg transition-colors ${
                   viewMode === 'grid'
-                    ? 'bg-slate-900 text-white'
+                    ? 'bg-[#004A96] text-white'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`}
                 aria-label="Grid view"
@@ -132,7 +132,7 @@ export default function CompanyDirectory() {
                 onClick={() => setViewMode('gallery')}
                 className={`p-2 rounded-lg transition-colors ${
                   viewMode === 'gallery'
-                    ? 'bg-slate-900 text-white'
+                    ? 'bg-[#004A96] text-white'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`}
                 aria-label="Gallery view"
@@ -143,7 +143,7 @@ export default function CompanyDirectory() {
                 onClick={() => setViewMode('list')}
                 className={`p-2 rounded-lg transition-colors ${
                   viewMode === 'list'
-                    ? 'bg-slate-900 text-white'
+                    ? 'bg-[#004A96] text-white'
                     : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'
                 }`}
                 aria-label="List view"
@@ -207,7 +207,7 @@ export default function CompanyDirectory() {
               }}
               className={`px-3 sm:px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
                 !selectedLetter
-                  ? 'bg-slate-900 text-white'
+                  ? 'bg-[#004A96] text-white'
                   : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-300'
               }`}
             >
@@ -224,7 +224,7 @@ export default function CompanyDirectory() {
                   }}
                   className={`w-8 h-8 sm:w-9 sm:h-9 rounded text-sm font-medium transition-colors border flex items-center justify-center ${
                     selectedLetter === letter
-                      ? 'bg-slate-900 text-white border-slate-900'
+                      ? 'bg-[#004A96] text-white border-[#004A96]'
                       : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-300'
                   }`}
                 >
@@ -281,7 +281,7 @@ export default function CompanyDirectory() {
                       onClick={() => setCurrentPage(page)}
                       className={`w-8 h-8 sm:w-10 sm:h-10 rounded-lg text-sm font-medium flex items-center justify-center transition-colors ${
                         currentPage === page
-                          ? 'bg-slate-900 text-white'
+                          ? 'bg-[#004A96] text-white'
                           : 'bg-white text-slate-700 hover:bg-slate-100 border border-slate-300'
                       }`}
                     >
@@ -323,7 +323,7 @@ export default function CompanyDirectory() {
                 setSelectedLetter(null)
                 setCurrentPage(1)
               }}
-              className="mt-4 px-6 py-2 bg-slate-900 text-white rounded-lg hover:bg-slate-800 transition-colors"
+              className="mt-4 px-6 py-2 bg-[#004A96] text-white rounded-lg hover:bg-slate-800 transition-colors"
             >
               Clear all filters
             </button>

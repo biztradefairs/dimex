@@ -157,7 +157,7 @@ export default function ExhibitorForm() {
                                     checked={form.interestLevel === v}
                                     onChange={handleChange}
                                     required
-                                    className="h-4 w-4 accent-[#1e3a6e] cursor-pointer"
+                                    className="h-4 w-4 accent-[#004A96] cursor-pointer"
                                 />
                                 <span className="text-sm text-gray-700">{v}</span>
                             </label>
@@ -243,7 +243,7 @@ export default function ExhibitorForm() {
                                         name={s}
                                         checked={form.productSector.includes(s)}
                                         onChange={handleChange}
-                                        className="h-4 w-4 accent-[#1e3a6e] shrink-0 cursor-pointer"
+                                        className="h-4 w-4 accent-[#004A96] shrink-0 cursor-pointer"
                                     />
                                     <span className="text-sm text-gray-700">{s}</span>
                                 </label>
@@ -260,27 +260,27 @@ export default function ExhibitorForm() {
                         onChange={handleChange}
                         rows={3}
                         placeholder="Tell us more about your requirements..."
-                        className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition bg-white text-gray-800 placeholder:text-gray-400 resize-none"
+                        className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition bg-white text-gray-800 placeholder:text-gray-400 resize-none"
                     />
                 </div>
 
                 <div className="space-y-2">
                     <div className="flex items-start gap-3">
                         <input type="checkbox" id="ex-terms" required
-                            className="mt-0.5 h-4 w-4 accent-[#1e3a6e] cursor-pointer shrink-0" />
+                            className="mt-0.5 h-4 w-4 accent-[#004A96] cursor-pointer shrink-0" />
                         <label htmlFor="ex-terms" className="text-xs text-gray-600 leading-relaxed cursor-pointer">
                             I confirm that I have read, understood and agree to the{' '}
-                            <a href="/terms" className="text-blue-600 hover:underline">Terms & Conditions</a>.{' '}
+                            <a href="/terms" className="text-[#004A96] hover:underline">Terms & Conditions</a>.{' '}
                             <span className="text-red-500">*</span>
                         </label>
                     </div>
                     <div className="flex items-start gap-3">
                         <input type="checkbox" id="ex-privacy"
-                            className="mt-0.5 h-4 w-4 accent-[#1e3a6e] cursor-pointer shrink-0" />
+                            className="mt-0.5 h-4 w-4 accent-[#004A96] cursor-pointer shrink-0" />
                         <label htmlFor="ex-privacy" className="text-xs text-gray-600 leading-relaxed cursor-pointer">
                             By submitting this form, I agree that the event organizers may contact me with updates and relevant
                             information about this event.{' '}
-                            <a href="/privacy-policy" className="text-blue-600 hover:underline">Privacy Policy</a>.
+                            <a href="/privacy-policy" className="text-[#004A96] hover:underline">Privacy Policy</a>.
                         </label>
                     </div>
                 </div>

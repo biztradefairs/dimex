@@ -105,7 +105,7 @@ const ExhibitionsGlance: React.FC<ExhibitionsGlanceProps> = ({
             {/* Link */}
             <a 
               href={exhibition.websiteUrl}
-              className="text-gray-800 hover:text-blue-800 hover:underline inline-block mt-4"
+              className="text-gray-800 hover:text-[#003875] hover:underline inline-block mt-4"
             >
               Visit Website &gt;
             </a>

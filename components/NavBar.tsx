@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { ArrowRight, ChevronDown, Megaphone, Menu, X } from "lucide-react"
-import Button from "./UI/Button"
 import Image from "next/image"
 import ExhibitorNavProfile, { useExhibitorLoggedIn } from "./ExhibitorNavProfile"
 
@@ -16,6 +15,7 @@ type NavItem = {
 }
 
 const navItems: NavItem[] = [
+  { title: "Home", dropdown: false, href: "/" },
   {
     title: "Exhibit",
     dropdown: true,
@@ -27,7 +27,7 @@ const navItems: NavItem[] = [
       { text: "Exhibitor List", href: "/exhibition-directory" },
       { text: "Exhibitor Resource Center", href: "/exhibitor-resource-center" },
       { text: "Exhibitor Promotions", href: "/free-promo" },
-      { text: "Floor Plan", href: "/layout"}
+      { text: "Floor Plan", href: "/layout" },
     ],
   },
   {
@@ -48,7 +48,7 @@ const navItems: NavItem[] = [
       { text: "Industry News", href: "/articles" },
       { text: "Post Show Report", href: "/post-show-report" },
       { text: "Event Brochure", href: "/event-brochure" },
-      { text: "Media Gallery", href: "/media-gallery" }
+      { text: "Media Gallery", href: "/media-gallery" },
     ],
   },
   {
@@ -61,7 +61,7 @@ const navItems: NavItem[] = [
     ],
   },
   { title: "Contact us", dropdown: false, href: "/contact-us" },
-  { title: "Conference", dropdown: false, href: "/conference" }
+  { title: "Conference", dropdown: false, href: "/conference" },
 ]
 
 const EVENT_DATE = new Date("2027-03-24T10:00:00+05:30").getTime()
@@ -76,416 +76,331 @@ function remainingUntilEvent() {
   }
 }
 
+function DatesMarquee({ onKnowMore }: { onKnowMore: () => void }) {
+  return (
+    <div
+      className="relative flex h-[38px] items-center overflow-hidden text-white"
+      style={{
+        background:
+          "linear-gradient(105deg, #ff0713 0%, #f50d1c 24%, #c51d3d 48%, #63315f 72%, #004b92 100%)",
+      }}
+    >
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/[0.04] to-transparent" />
+
+      <div className="relative z-10 flex h-full shrink-0 items-center pr-3 pl-4 sm:pl-6 xl:pl-[72px]">
+        <Megaphone strokeWidth={2} className="h-[20px] w-[20px]" />
+      </div>
+
+      <button
+        type="button"
+        onClick={onKnowMore}
+        className="relative z-10 min-w-0 flex-1 overflow-hidden text-left"
+      >
+        <div className="animate-diemex-marquee flex w-max items-center hover:[animation-play-state:paused]">
+          {[0, 1].map((copy) => (
+            <div
+              key={copy}
+              className="flex shrink-0 items-center text-[14px] font-semibold tracking-[-0.01em] whitespace-nowrap"
+            >
+              <span>Visitor Registrations Are Now Open — Get your Pass</span>
+              <span className="mx-[18px] text-white/65">|</span>
+              <span>Exhibitor Bookings Are Now Open — Grow Your Business at DIEMEX 2027</span>
+              <span className="mx-[24px] text-white/65">|</span>
+            </div>
+          ))}
+        </div>
+      </button>
+
+      <button
+        type="button"
+        onClick={onKnowMore}
+        className="relative z-10 mr-4 ml-2 inline-flex h-full shrink-0 items-center gap-2 text-[14px] font-bold text-white transition-opacity hover:opacity-80 sm:mr-6 sm:ml-6 xl:mr-[58px]"
+      >
+        <span className="hidden sm:inline">Know More</span>
+        <ArrowRight className="h-[18px] w-[18px]" />
+      </button>
+    </div>
+  )
+}
+
+function Countdown({ timeLeft }: { timeLeft: { days: number; hours: number; minutes: number } }) {
+  const cells = [
+    { value: timeLeft.days, label: "Days" },
+    { value: timeLeft.hours, label: "Hrs" },
+    { value: timeLeft.minutes, label: "Min" },
+  ]
+
+  return (
+    <div className="hidden items-center gap-4 xl:flex">
+      {cells.map((cell) => (
+        <div key={cell.label} className="min-w-[42px] text-center">
+          <p className="text-[18px] leading-none font-bold tabular-nums text-slate-900">
+            {String(cell.value).padStart(2, "0")}
+          </p>
+          <p className="mt-0.5 text-[10px] font-medium text-slate-400">{cell.label}</p>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null)
   const [scrolled, setScrolled] = useState(false)
-  const [screenSize, setScreenSize] = useState<"mobile" | "tablet" | "laptop" | "desktop">("desktop")
-  const [isMounted, setIsMounted] = useState(false)
   const { loggedIn: exhibitorLoggedIn, ready: exhibitorReady } = useExhibitorLoggedIn()
   const pathname = usePathname()
-
   const [timeLeft, setTimeLeft] = useState(remainingUntilEvent)
 
-  /* ================= MOUNT CHECK ================= */
   useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
-  /* ================= TIMER ================= */
-  useEffect(() => {
-    const calculateTimeLeft = () => {
-      setTimeLeft(remainingUntilEvent())
-    }
-
-    calculateTimeLeft()
-    const timer = setInterval(calculateTimeLeft, 1000)
+    const timer = setInterval(() => setTimeLeft(remainingUntilEvent()), 1000)
     return () => clearInterval(timer)
   }, [])
 
-  /* ================= SCROLL ================= */
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 80)
-    window.addEventListener("scroll", onScroll)
+    const onScroll = () => setScrolled(window.scrollY > 8)
+    onScroll()
+    window.addEventListener("scroll", onScroll, { passive: true })
     return () => window.removeEventListener("scroll", onScroll)
   }, [])
 
-  /* ================= SCREEN SIZE DETECTION ================= */
   useEffect(() => {
-    const checkScreenSize = () => {
-      const width = window.innerWidth
-      if (width < 768) {
-        setScreenSize("mobile")
-      } else if (width >= 768 && width < 1024) {
-        setScreenSize("tablet")
-      } else if (width >= 1024 && width < 1280) {
-        setScreenSize("laptop")
-      } else {
-        setScreenSize("desktop")
-      }
-    }
-
-    checkScreenSize()
-    window.addEventListener("resize", checkScreenSize)
-    return () => window.removeEventListener("resize", checkScreenSize)
-  }, [])
-
-  /* ================= PREVENT BODY SCROLL WHEN MOBILE MENU OPEN ================= */
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden'
-    } else {
-      document.body.style.overflow = 'unset'
-    }
+    document.body.style.overflow = mobileMenuOpen ? "hidden" : "unset"
     return () => {
-      document.body.style.overflow = 'unset'
+      document.body.style.overflow = "unset"
     }
   }, [mobileMenuOpen])
 
-  // Calculate font sizes based on screen size
-  const getNavItemFontSize = () => {
-    switch (screenSize) {
-      case "laptop": return "text-[10px] lg:text-[11px] xl:text-[13px]"
-      case "desktop": return "text-[11px] lg:text-[13px] xl:text-[15px]"
-      default: return "text-[11px] lg:text-[13px] xl:text-[15px]"
+  const openDatesInfo = () => {
+    if (pathname === "/") {
+      window.dispatchEvent(new Event("open-postponed-popup"))
+      return
     }
+    window.location.href = "/"
   }
 
-  const getButtonFontSize = () => {
-    switch (screenSize) {
-      case "laptop": return "text-[8px] lg:text-[10px] xl:text-[12px]"
-      case "desktop": return "text-[9px] lg:text-[11px] xl:text-[13px]"
-      default: return "text-[9px] lg:text-[11px] xl:text-[13px]"
-    }
-  }
+  const isItemActive = (item: NavItem) =>
+    item.href === pathname || item.links?.some((l) => l.href === pathname)
 
   return (
     <>
-      {/* ================= NAVBAR ================= */}
-      <header className="fixed top-0 left-0 right-0 z-[999] overflow-visible font-parabolica">
-        <div className="lg:hidden">
-          <div className="flex h-9 items-center bg-gradient-to-r from-[#06162F] to-[#0A2B57] text-white">
-            <div className="flex h-full items-center justify-center px-2.5">
-              <Megaphone className="h-4 w-4 shrink-0 text-[#82C6EB]" />
-            </div>
-            <div className="min-w-0 flex-1 overflow-hidden">
-              <div className="animate-diemex-marquee flex w-max">
-                {[0, 1].map((copy) => (
-                  <span
-                    key={copy}
-                    className="px-4 text-[12px] font-medium whitespace-nowrap"
+      <header className="fixed top-0 right-0 left-0 z-[999] font-parabolica">
+        <DatesMarquee onKnowMore={openDatesInfo} />
+
+        <div
+          className={`border-b bg-white/95 backdrop-blur-sm transition-shadow duration-300 ${
+            scrolled
+              ? "border-slate-200 shadow-[0_10px_30px_rgba(15,23,42,0.08)]"
+              : "border-slate-100 shadow-none"
+          }`}
+        >
+          <div className="mx-auto flex h-[80px] max-w-[1440px] items-center justify-between gap-4 px-4 lg:h-[88px] lg:px-8">
+            <Link href="/" className="group flex min-w-0 shrink-0 items-center gap-2.5">
+              <div className="relative h-14 w-[156px] transition-opacity group-hover:opacity-80 lg:h-16 lg:w-[178px]">
+                <Image
+                  src="/images/diemex3.png"
+                  alt="DIEMEX"
+                  fill
+                  className="object-contain object-left"
+                  priority
+                />
+              </div>
+            </Link>
+
+            <nav className="hidden flex-1 items-center justify-center lg:flex">
+              {navItems.map((item, i) => {
+                const active = isItemActive(item)
+                return item.dropdown ? (
+                  <div
+                    key={item.title}
+                    className="relative"
+                    onMouseEnter={() => setActiveDropdown(i)}
+                    onMouseLeave={() => setActiveDropdown(null)}
                   >
-                    Free Visitor Registrations Are Now Open —{" "}
-                    <span className="font-extrabold text-[#82C6EB]">Get your Pass</span>
-                    <span className="mx-3 text-white/30">•</span>
-                  </span>
-                ))}
-              </div>
-            </div>
-            <button
-              type="button"
-              onClick={() => {
-                if (pathname === "/") {
-                  window.dispatchEvent(new Event("open-postponed-popup"))
-                  return
-                }
-                window.location.href = "/"
-              }}
-              className="inline-flex h-full shrink-0 items-center gap-1 border-l border-white/20 px-3 text-[12px] font-semibold text-[#82C6EB]"
-            >
-              Know More
-              <ArrowRight className="h-3.5 w-3.5" />
-            </button>
-          </div>
-
-          <div className="bg-gradient-to-r from-[#06162f] to-[#0a2b57] text-white">
-            <div className="flex items-center justify-between gap-2 px-3 py-3">
-              <div className="flex items-center gap-2 min-w-0">
-                <div className="relative h-[44px] w-[72px] flex-shrink-0">
-                  <Image
-                    src="/images/logo-diemex2.png"
-                    alt="DIEMEX 2026 Logo"
-                    fill
-                    className="object-contain"
-                    priority
-                  />
-                </div>
-                <span className="h-6 w-px bg-white/70"></span>
-                <div className="relative h-[34px] w-[64px] flex-shrink-0">
-                  <Image
-                    src="/images/3rd-edition.png"
-                    alt="3rd Edition"
-                    fill
-                    className="object-contain"
-                    priority
-                  />
-                </div>
-              </div>
-
-              <div className="flex items-center justify-end gap-1.5 flex-shrink-0">
-                {exhibitorReady && exhibitorLoggedIn && <ExhibitorNavProfile variant="mobile" />}
-                <button
-                  onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                  className="rounded-full bg-white/10 p-2 hover:bg-white/20 active:scale-95"
-                  aria-label="Toggle menu"
-                >
-                  <Menu className="h-5 w-5" />
-                </button>
-              </div>
-            </div>
-            <div className="flex items-center justify-center gap-2 border-t border-white/10 px-3 py-1.5 text-[11px] text-white/90">
-              <span className="font-semibold text-[#82C6EB]">24–26 Mar 2027</span>
-              <span>{timeLeft.days}d</span>
-              <span>{timeLeft.hours}h</span>
-              <span>{timeLeft.minutes}m</span>
-            </div>
-          </div>
-        </div>
-        <div className={`hidden lg:block px-2 sm:px-4 md:px-6 lg:px-8 transition-all duration-300 ${scrolled ? "pt-1.5 sm:pt-2" : "pt-2 sm:pt-3 md:pt-4"}`}>
-          <div className="mx-auto max-w-[1600px]">
-                          
-
-
-
-
-            {/* ================= DESKTOP NAV BAR (UNCHANGED) ================= */}
-            <div className="hidden lg:block overflow-visible rounded-xl sm:rounded-2xl lg:rounded-3xl bg-gradient-to-r from-[#06162f]/95 to-[#0a2b57]/95 text-white shadow-[0_18px_40px_rgba(6,22,47,0.35)] backdrop-blur-md border border-white/10">
-              <div className="flex items-center justify-between gap-1 sm:gap-2 md:gap-3 lg:gap-4 px-2 sm:px-3 md:px-4 lg:px-5 py-1.5 sm:py-2 md:py-2.5 lg:py-3">
-
-                {/* ================= LOGO SECTION ================= */}
-                <Link
-                  href="/"
-                  className="flex items-center gap-1 sm:gap-1.5 md:gap-2 flex-shrink-0 min-w-0"
-                >
-                  <div className="flex items-center gap-1 sm:gap-1.5 md:gap-2">
-                    {/* Main Logo */}
-                    <div className="relative w-[45px] h-[30px] xs:w-[55px] xs:h-[37px] sm:w-[70px] sm:h-[47px] md:w-[85px] md:h-[57px] lg:w-[95px] lg:h-[63px] xl:w-[110px] xl:h-[73px] flex-shrink-0">
-                      <Image
-                        src="/images/logo-diemex2.png"
-                        alt="DIEMEX 2026 Logo"
-                        fill
-                        className="object-contain"
-                        sizes="(max-width: 374px) 45px, (max-width: 474px) 55px, (max-width: 639px) 70px, (max-width: 767px) 85px, (max-width: 1023px) 95px, 110px"
-                        priority
-                      />
-                    </div>
-
-                    {/* Divider - Show only on desktop and up */}
-                    <span className="hidden md:block h-5 lg:h-6 xl:h-8 w-px bg-white/70 mx-1"></span>
-
-                    {/* Edition Badge */}
-                    <div className="relative w-[38px] h-[19px] xs:w-[45px] xs:h-[23px] sm:w-[60px] sm:h-[30px] md:w-[70px] md:h-[35px] lg:w-[85px] lg:h-[43px] xl:w-[100px] xl:h-[50px] flex-shrink-0">
-                      <Image
-                        src="/images/3rd-edition.png"
-                        alt="3rd Edition"
-                        fill
-                        className="object-contain"
-                        sizes="(max-width: 374px) 38px, (max-width: 474px) 45px, (max-width: 639px) 60px, (max-width: 767px) 70px, (max-width: 1023px) 85px, 100px"
-                        priority
-                      />
-                    </div>
-                  </div>
-
-                  {/* Event Info - Hidden on small screens */}
-                  <div className="md:flex flex-col font-parabolica min-w-0 ml-1 lg:ml-2">
-                    <span className="text-[8px] md:text-[9px] lg:text-[10px] xl:text-[12px] leading-tight whitespace-nowrap">
-                      24–26 March 2027
-                    </span>
-                    <span className="text-[8px] md:text-[9px] lg:text-[10px] xl:text-[12px] leading-tight whitespace-nowrap truncate max-w-[150px] lg:max-w-[180px] xl:max-w-none">
-                      Auto Cluster Exhibition Centre, Pune
-                    </span>
-                  </div>
-                </Link>
-
-                {/* ================= DESKTOP NAVIGATION ================= */}
-                <nav className={`hidden lg:flex items-center gap-1 lg:gap-1.5 xl:gap-2 2xl:gap-4 font-parabolica flex-shrink min-w-0 ${screenSize === "laptop" ? "mx-1" : ""}`}>
-                  {navItems.map((item, i) =>
-                    item.dropdown ? (
-                      <div
-                        key={i}
-                        className="relative group"
-                        onMouseEnter={() => setActiveDropdown(i)}
-                        onMouseLeave={() => setActiveDropdown(null)}
-                      >
-                        <button className="flex items-center gap-0.5 lg:gap-0.5 xl:gap-1 hover:text-gray-200 relative whitespace-nowrap transition-colors px-0.5 lg:px-1">
-                          <span className={`relative font-medium ${getNavItemFontSize()}`}>
-                            {item.title}
-                            <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] lg:h-[2px] bg-[#FF131C] group-hover:w-full transition-all duration-300"></span>
-                          </span>
-                          <ChevronDown className={`h-2 w-2 lg:h-2.5 lg:w-2.5 xl:h-3 xl:w-3 transition-transform duration-300 ${activeDropdown === i ? "rotate-180" : ""}`} />
-                        </button>
-
-                        {activeDropdown === i && item.links && (
-                          <div className="absolute left-0 top-full pt-1.5 lg:pt-2 z-50">
-                            <div className="min-w-[160px] lg:min-w-[170px] xl:min-w-[200px] rounded-lg bg-white py-1 lg:py-1.5 shadow-xl text-gray-800 border border-gray-100">
-                              {item.links.map((link, j) => (
-                                <Link
-                                  key={j}
-                                  href={link.href}
-                                  className="block px-2 lg:px-3 xl:px-4 py-1 lg:py-1.5 xl:py-2 text-[10px] lg:text-[11px] xl:text-[13px] hover:bg-gray-100 relative group/item whitespace-nowrap transition-colors"
-                                >
-                                  <span className="relative">
-                                    {link.text}
-                                    <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] bg-blue-600 group-hover/item:w-full transition-all duration-300"></span>
-                                  </span>
-                                </Link>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    ) : (
-                      <Link
-                        key={i}
-                        href={item.href!}
-                        className="hover:text-gray-200 relative group whitespace-nowrap transition-colors px-0.5 lg:px-1"
-                      >
-                        <span className={`relative font-medium ${getNavItemFontSize()}`}>
-                          {item.title}
-                          <span className="absolute -bottom-1 left-0 w-0 h-[1.5px] lg:h-[2px] bg-[#FF131C] group-hover:w-full transition-all duration-300"></span>
-                        </span>
-                      </Link>
-                    )
-                  )}
-                </nav>
-
-                {/* ================= DESKTOP CTA BUTTONS ================= */}
-                <div className="hidden lg:flex items-center gap-1 lg:gap-1.5 xl:gap-2 2xl:gap-3 flex-shrink-0">
-                  {exhibitorReady && !exhibitorLoggedIn && (
-                    <Button
-                      href="/exhibiting-enquiry"
-                      className={`bg-[#004D9F] hover:bg-[#003d7f] px-1.5 lg:px-2 xl:px-3 py-1 lg:py-1.5 xl:py-2 whitespace-nowrap transition-all ${getButtonFontSize()}`}
+                    <button
+                      className={`flex items-center gap-1 px-2.5 py-2 text-[14px] font-medium transition-colors xl:px-3.5 ${
+                        active ? "text-[#004A96]" : "text-slate-700 hover:text-[#004A96]"
+                      }`}
                     >
-                      {screenSize === "laptop" ? "Exhibit" : "Become an Exhibitor"}
-                    </Button>
-                  )}
-                  <Button
-                    href="/visitor-registration"
-                    className={`bg-[#004D9F] hover:bg-[#003d7f] px-1.5 lg:px-2 xl:px-3 py-1 lg:py-1.5 xl:py-2 whitespace-nowrap transition-all ${getButtonFontSize()}`}
-                  >
-                    {screenSize === "laptop" ? "Register" : "Register Now"}
-                  </Button>
-                  {exhibitorReady && exhibitorLoggedIn && <ExhibitorNavProfile variant="desktop" />}
-                </div>
-              </div>
-            </div>
-
-{!scrolled && (
-  <div className="hidden lg:flex justify-end w-full pr-4">
-    <div className="flex items-center gap-2">
-      <div className="flex items-center gap-2 rounded-b-xl bg-[#0d1e3c] px-3 py-1 text-[12px] text-white shadow-md">
-        <span className="font-semibold text-[#82C6EB]">24–26 Mar 2027</span>
-        <span className="font-medium">{timeLeft.days} Days</span>
-        <span className="font-medium">{timeLeft.hours} Hours</span>
-        <span className="font-medium">{timeLeft.minutes} Mins</span>
-      </div>
-    </div>
-  </div>
-)}
-
-          </div>
-        </div>
-      </header>
-      {/* ================= MOBILE MENU ================= */}
-      {mobileMenuOpen && (
-        <>
-          {/* Backdrop - lower z-index */}
-          <div
-            className="lg:hidden fixed inset-0 bg-black/30 z-[998]"
-            onClick={() => setMobileMenuOpen(false)}
-          />
-
-          {/* Dropdown Menu - higher z-index */}
-          <div
-            className={`lg:hidden fixed top-[110px] left-0 right-0 z-[9999] mt-2 bg-white text-gray-900 shadow-xl rounded-xl mx-2`}
-            style={{ animation: "slideDown 0.25s ease-out" }}
-          >
-            {/* Dropdown Header (Close Button) */}
-            <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
-              <span className="text-sm font-semibold">Menu</span>
-              <button
-                onClick={() => setMobileMenuOpen(false)}
-                className="rounded-full p-1.5 hover:bg-gray-100 active:scale-95"
-                aria-label="Close menu"
-              >
-                <X className="w-4 h-4 text-gray-700" />
-              </button>
-            </div>
-
-            {/* Navigation Items */}
-            <div className="px-4 py-4">
-              <div className="space-y-1">
-                {navItems.map((item, i) =>
-                  item.dropdown && item.links ? (
-                    <div key={i} className="border-b border-gray-200 last:border-0">
-                      <button
-                        onClick={() =>
-                          setActiveDropdown(activeDropdown === i ? null : i)
-                        }
-                        className="w-full flex items-center justify-between text-sm font-semibold py-3"
+                      {item.title}
+                      <ChevronDown
+                        className={`h-3.5 w-3.5 text-slate-400 transition-transform duration-200 ${
+                          activeDropdown === i ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                    <span
+                      className={`absolute bottom-0 left-2.5 h-[2px] rounded-full bg-[#004A96] transition-all duration-200 ${
+                        active ? "right-2.5 opacity-100" : "right-[calc(100%-2.5px)] opacity-0"
+                      }`}
+                    />
+                    {item.links && (
+                      <div
+                        className={`absolute top-full left-0 z-50 pt-2 transition-all duration-150 ${
+                          activeDropdown === i
+                            ? "translate-y-0 opacity-100"
+                            : "pointer-events-none -translate-y-1 opacity-0"
+                        }`}
                       >
-                        <span>{item.title}</span>
-                        <ChevronDown
-                          className={`w-4 h-4 transition-transform ${activeDropdown === i ? "rotate-180" : ""
-                            }`}
-                        />
-                      </button>
-
-                      {activeDropdown === i && (
-                        <div className="pb-3 pl-3">
-                          {item.links.map((link, j) => (
+                        <div className="min-w-[230px] overflow-hidden rounded-xl border border-slate-100 bg-white py-2 shadow-[0_16px_40px_rgba(15,23,42,0.12)]">
+                          {item.links.map((link) => (
                             <Link
-                              key={j}
+                              key={link.href}
                               href={link.href}
-                              onClick={() => setMobileMenuOpen(false)}
-                              className="block py-2 text-sm text-gray-600 hover:text-blue-600"
+                              className={`block px-4 py-2.5 text-[13px] transition-colors ${
+                                link.href === pathname
+                                  ? "bg-[#004A96]/5 text-[#004A96]"
+                                  : "text-slate-600 hover:bg-[#004A96]/5 hover:text-[#004A96]"
+                              }`}
                             >
                               {link.text}
                             </Link>
                           ))}
                         </div>
-                      )}
-                    </div>
-                  ) : (
-                    <Link
-                      key={i}
-                      href={item.href!}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="block text-sm font-semibold py-3 border-b border-gray-200 last:border-0"
-                    >
-                      {item.title}
-                    </Link>
-                  )
-                )}
-              </div>
-
-              {/* CTA Buttons */}
-              <div className="mt-6 space-y-3">
-                {exhibitorReady && !exhibitorLoggedIn && (
-                  <Button
-                    href="/exhibiting-enquiry"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="bg-[#004D9F] text-white text-sm py-3 font-semibold rounded-md w-full"
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <Link
+                    key={item.title}
+                    href={item.href!}
+                    className={`relative px-2.5 py-2 text-[14px] font-medium transition-colors xl:px-3.5 ${
+                      active ? "text-[#004A96]" : "text-slate-700 hover:text-[#004A96]"
+                    }`}
                   >
-                    Become an Exhibitor
-                  </Button>
-                )}
-                <Button
+                    {item.title}
+                    <span
+                      className={`absolute bottom-0 left-2.5 h-[2px] rounded-full bg-[#004A96] transition-all duration-200 ${
+                        active ? "right-2.5 opacity-100" : "right-[calc(100%-2.5px)] opacity-0"
+                      }`}
+                    />
+                  </Link>
+                )
+              })}
+            </nav>
+
+            <div className="flex items-center gap-3 lg:gap-5">
+              <Countdown timeLeft={timeLeft} />
+              {exhibitorReady && exhibitorLoggedIn && <ExhibitorNavProfile variant="mobile" />}
+              {(!exhibitorReady || !exhibitorLoggedIn) && (
+                <Link
                   href="/visitor-registration"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="bg-[#004D9F] text-white text-sm py-3 font-semibold rounded-md w-full"
+                  className="hidden items-center gap-2 rounded-full bg-[#E0161D] px-5 py-2.5 text-[13px] font-bold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-[#c01218] hover:shadow-md lg:inline-flex"
                 >
                   Register Now
-                </Button>
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
+              )}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="relative flex h-9 w-9 items-center justify-center rounded-md text-[#004A96] hover:bg-slate-100 lg:hidden"
+                aria-label="Toggle menu"
+                aria-expanded={mobileMenuOpen}
+              >
+                <Menu
+                  className={`absolute h-6 w-6 transition-all duration-200 ${
+                    mobileMenuOpen ? "scale-75 opacity-0" : "scale-100 opacity-100"
+                  }`}
+                />
+                <X
+                  className={`absolute h-6 w-6 transition-all duration-200 ${
+                    mobileMenuOpen ? "scale-100 opacity-100" : "scale-75 opacity-0"
+                  }`}
+                />
+              </button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      {mobileMenuOpen && (
+        <>
+          <div
+            className="fixed inset-0 z-[998] bg-black/40 backdrop-blur-[2px] lg:hidden"
+            style={{ animation: "fadeIn 0.2s ease-out" }}
+            onClick={() => setMobileMenuOpen(false)}
+          />
+          <div
+            className="fixed top-[118px] right-0 left-0 z-[9999] max-h-[calc(100dvh-118px)] overflow-y-auto bg-white shadow-2xl lg:hidden"
+            style={{ animation: "slideDown 0.22s ease-out" }}
+          >
+            <div className="px-5 py-4">
+              {navItems.map((item, i) =>
+                item.dropdown && item.links ? (
+                  <div key={item.title} className="border-b border-slate-100">
+                    <button
+                      onClick={() => setActiveDropdown(activeDropdown === i ? null : i)}
+                      className="flex w-full items-center justify-between py-3.5 text-sm font-semibold text-slate-800"
+                    >
+                      <span>{item.title}</span>
+                      <ChevronDown
+                        className={`h-4 w-4 text-slate-400 transition-transform duration-200 ${
+                          activeDropdown === i ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                    <div
+                      className={`grid overflow-hidden transition-all duration-200 ${
+                        activeDropdown === i ? "grid-rows-[1fr] pb-3 opacity-100" : "grid-rows-[0fr] opacity-0"
+                      }`}
+                    >
+                      <div className="min-h-0 overflow-hidden pl-2">
+                        {item.links.map((link) => (
+                          <Link
+                            key={link.href}
+                            href={link.href}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className={`block py-2 text-sm ${
+                              link.href === pathname ? "font-medium text-[#004A96]" : "text-slate-600"
+                            }`}
+                          >
+                            {link.text}
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <Link
+                    key={item.title}
+                    href={item.href!}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`block border-b border-slate-100 py-3.5 text-sm font-semibold ${
+                      item.href === pathname ? "text-[#004A96]" : "text-slate-800"
+                    }`}
+                  >
+                    {item.title}
+                  </Link>
+                )
+              )}
+
+              <div className="mt-5 space-y-2.5">
+                {exhibitorReady && !exhibitorLoggedIn && (
+                  <Link
+                    href="/exhibiting-enquiry"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-center rounded-full bg-[#004A96] px-4 py-3 text-sm font-bold text-white"
+                  >
+                    Become an Exhibitor
+                  </Link>
+                )}
+                <Link
+                  href="/visitor-registration"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-center gap-2 rounded-full bg-[#E0161D] px-4 py-3 text-sm font-bold text-white"
+                >
+                  Register Now
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
                 {exhibitorReady && exhibitorLoggedIn && (
-                  <div className="pt-2 space-y-2 border-t border-gray-200">
-                    <Button
+                  <div className="space-y-2 border-t border-slate-100 pt-3">
+                    <Link
                       href="/dashboard"
                       onClick={() => setMobileMenuOpen(false)}
-                      className="bg-[#06162f] text-white text-sm py-3 font-semibold rounded-md w-full"
+                      className="block rounded-full bg-[#004A96] py-3 text-center text-sm font-bold text-white"
                     >
                       My Dashboard
-                    </Button>
+                    </Link>
                     <button
                       type="button"
                       onClick={() => {
@@ -493,7 +408,7 @@ export default function NavBar() {
                         localStorage.removeItem("exhibitor_data")
                         window.location.href = "/"
                       }}
-                      className="w-full rounded-md bg-red-50 text-red-600 text-sm py-3 font-semibold"
+                      className="w-full rounded-full bg-red-50 py-3 text-sm font-semibold text-[#E0161D]"
                     >
                       Logout
                     </button>
@@ -505,32 +420,31 @@ export default function NavBar() {
         </>
       )}
 
-
-
-      {/* CSS Animations */}
       <style jsx global>{`
-  @keyframes exhibitorMenuIn {
-    from {
-      transform: translateY(-8px) scale(0.98);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0) scale(1);
-      opacity: 1;
-    }
-  }
-  @keyframes slideDown {
-    from {
-      transform: translateY(-12px);
-      opacity: 0;
-    }
-    to {
-      transform: translateY(0);
-      opacity: 1;
-    }
-  }
-`}</style>
-
+        @keyframes slideDown {
+          from {
+            transform: translateY(-8px);
+            opacity: 0;
+          }
+          to {
+            transform: translateY(0);
+            opacity: 1;
+          }
+        }
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .animate-diemex-marquee {
+            animation: none !important;
+          }
+        }
+      `}</style>
     </>
   )
 }

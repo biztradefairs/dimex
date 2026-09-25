@@ -81,7 +81,7 @@ export default function LoginPage() {
   ====================================================== */
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#E8F1F8] to-gray-100">
       <div className="max-w-md w-full">
         {/* Header */}
         <div className="text-center mb-10">
@@ -139,7 +139,7 @@ export default function LoginPage() {
                       email: e.target.value,
                     })
                   }
-                  className="w-full px-4 py-3 pl-11 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-4 py-3 pl-11 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] outline-none"
                   placeholder="you@company.com"
                   disabled={loading}
                 />
@@ -167,7 +167,7 @@ export default function LoginPage() {
                       password: e.target.value,
                     })
                   }
-                  className="w-full px-4 py-3 pl-11 pr-11 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
+                  className="w-full px-4 py-3 pl-11 pr-11 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] outline-none"
                   placeholder="Enter your password"
                   disabled={loading}
                 />
@@ -195,14 +195,14 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-medium rounded-lg hover:from-blue-700 hover:to-blue-800 disabled:opacity-50"
+              className="w-full py-3 bg-gradient-to-r from-[#004A96] to-[#003875] text-white font-medium rounded-lg hover:from-[#003875] hover:to-[#002d5c] disabled:opacity-50"
             >
               {loading ? "Signing in..." : "Sign In"}
             </button>
           </form>
           <div className="flex items-center justify-between mt-4">
             <div className="text-sm">
-              <Link href="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500">
+              <Link href="/forgot-password" className="font-medium text-[#004A96] hover:text-[#004A96]">
                 Forgot your password?
               </Link>
             </div>

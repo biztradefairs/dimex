@@ -47,13 +47,13 @@ export default function ExhibitorPromotionPage() {
   return (
     <div className="page-spacing-wrapper font-parabolica">
       {/* Header Section - Updated with proper padding */}
-      <div className="bg-[#F3F9FC] pt-48 pb-16">
+      <div className="bg-[#004A96] pt-48 pb-16">
         <div className="px-4 sm:px-6 lg:px-8 mx-auto max-w-[1600px] mt-10">
-          <h1 className="title-72 text-black mb-6">
+          <h1 className="title-72 text-white mb-6">
             Exhibitor Promotion
           </h1>
 
-          <p className="max-w-10xl text-lg leading-relaxed text-black/80">
+          <p className="max-w-10xl text-lg leading-relaxed text-white/80">
             As an exhibitor at Diemex 2026, maximise your impact by inviting your
             clients, partners, and prospects to visit your stand for free! We're
             providing you with an exclusive branded materials, ensuring your audience can easily register and connect with you
@@ -123,7 +123,7 @@ export default function ExhibitorPromotionPage() {
           <div className="grid grid-cols-2 gap-6 text-[#4D4D4D]">
             
             {/* CARD */}
-            <div className="relative flex min-h-[520px] flex-col bg-sky-50 p-6 lg:p-10">
+            <div className="relative flex min-h-[520px] flex-col bg-[#E8F1F8] p-6 lg:p-10">
               <h2 className="text-3xl lg:text-4xl font-semibold mb-4">
                 Invitation
               </h2>
@@ -140,14 +140,14 @@ export default function ExhibitorPromotionPage() {
                 href="/images/Exhibitor_Promotion/Invitation_Diemex2026.docx"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-auto inline-flex w-fit rounded-full bg-[#004D9F] px-10 py-4 text-lg font-semibold text-white hover:bg-mainColor4 transition"
+                className="mt-auto inline-flex w-fit rounded-full bg-[#004A96] px-10 py-4 text-lg font-semibold text-white hover:bg-[#003875] transition"
               >
                 Download Your Invitation
               </a>
             </div>
 
             {/* CARD */}
-            <div className="relative flex min-h-[520px] flex-col rounded-2xl bg-sky-50 p-6 lg:p-10">
+            <div className="relative flex min-h-[520px] flex-col rounded-2xl bg-[#E8F1F8] p-6 lg:p-10">
               <h2 className="text-3xl lg:text-4xl font-semibold mb-4">
                 Personalised Banners
               </h2>
@@ -163,14 +163,14 @@ export default function ExhibitorPromotionPage() {
                 href="#"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-auto inline-flex w-fit rounded-full bg-[#004D9F] px-10 py-4 text-lg font-semibold text-white hover:bg-mainColor4 transition"
+                className="mt-auto inline-flex w-fit rounded-full bg-[#004A96] px-10 py-4 text-lg font-semibold text-white hover:bg-[#003875] transition"
               >
                 Download Your Personalised Banners
               </a>
             </div>
 
             {/* CARD */}
-            <div className="relative flex min-h-[520px] flex-col rounded-2xl bg-sky-50 p-6 lg:p-10">
+            <div className="relative flex min-h-[520px] flex-col rounded-2xl bg-[#E8F1F8] p-6 lg:p-10">
               <h2 className="text-3xl lg:text-4xl font-semibold mb-4">
                 Announcement Template
               </h2>
@@ -185,14 +185,14 @@ export default function ExhibitorPromotionPage() {
                 href="/images/Exhibitor_Promotion/Announcement_Temp_Diemex_2026.docx"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-auto inline-flex w-fit rounded-full bg-[#004D9F] px-10 py-4 text-lg font-semibold text-white hover:bg-mainColor4 transition"
+                className="mt-auto inline-flex w-fit rounded-full bg-[#004A96] px-10 py-4 text-lg font-semibold text-white hover:bg-[#003875] transition"
               >
                 Download Announcement Template
               </a>
             </div>
 
             {/* CARD */}
-            <div className="relative flex min-h-[520px] flex-col rounded-2xl bg-sky-50 p-6 lg:p-10">
+            <div className="relative flex min-h-[520px] flex-col rounded-2xl bg-[#E8F1F8] p-6 lg:p-10">
               <h2 className="text-3xl lg:text-4xl font-semibold mb-4">
                 News Promotion
               </h2>
@@ -208,7 +208,7 @@ export default function ExhibitorPromotionPage() {
                 href="/images/Exhibitor_Promotion/Diemex_2026_news.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-auto inline-flex w-fit rounded-full bg-[#004D9F] px-10 py-4 text-lg font-semibold text-white hover:bg-mainColor4 transition"
+                className="mt-auto inline-flex w-fit rounded-full bg-[#004A96] px-10 py-4 text-lg font-semibold text-white hover:bg-[#003875] transition"
               >
                 Requirements to News Promotion
               </a>
@@ -271,7 +271,7 @@ export default function ExhibitorPromotionPage() {
                   href="/images/exhibitor-promo/Diemex_2026_logos.zip"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-6 inline-flex w-fit rounded-full bg-[#004D9F] px-12 py-4 text-lg font-semibold text-white hover:bg-mainColor4 transition"
+                  className="mt-6 inline-flex w-fit rounded-full bg-[#004A96] px-12 py-4 text-lg font-semibold text-white hover:bg-[#003875] transition"
                 >
                   Download Logo
                 </a>

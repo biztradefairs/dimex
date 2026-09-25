@@ -303,8 +303,8 @@ export default function VisitorRegistrationForm({
 
         {/* Company Info Banner - Shows which company they're registering for */}
         {companyName && step === 'form' && (
-          <div className="mx-4 md:mx-6 mt-4 p-3 bg-blue-50 border border-blue-200 rounded">
-            <p className="text-sm text-blue-700">
+          <div className="mx-4 md:mx-6 mt-4 p-3 bg-[#E8F1F8] border border-[#004A96]/30 rounded">
+            <p className="text-sm text-[#004A96]">
               <span className="font-medium">Registering for:</span> {companyName}
             </p>
           </div>
@@ -510,7 +510,7 @@ export default function VisitorRegistrationForm({
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full px-4 py-3 bg-slate-900 text-white font-medium rounded hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm md:text-base flex items-center justify-center gap-2"
+                className="w-full px-4 py-3 bg-[#004A96] text-white font-medium rounded hover:bg-[#003875] disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm md:text-base flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>
@@ -569,7 +569,7 @@ export default function VisitorRegistrationForm({
               <button
                 type="submit"
                 disabled={loading || otp.length !== 6}
-                className="w-full px-4 py-3 bg-slate-900 text-white font-medium rounded hover:bg-slate-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm md:text-base flex items-center justify-center gap-2"
+                className="w-full px-4 py-3 bg-[#004A96] text-white font-medium rounded hover:bg-[#003875] disabled:opacity-50 disabled:cursor-not-allowed transition-colors text-sm md:text-base flex items-center justify-center gap-2"
               >
                 {loading ? (
                   <>

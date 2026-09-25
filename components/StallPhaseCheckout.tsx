@@ -69,12 +69,12 @@ export default function StallPhaseCheckout({
 
   return (
     <div className="space-y-3">
-      {busy && <p className="text-sm text-blue-700">Confirming stall payment...</p>}
+      {busy && <p className="text-sm text-[#004A96]">Confirming stall payment...</p>}
       {message && <p className="text-sm text-green-700">{message}</p>}
       <button
         type="button"
         onClick={() => setOpen(true)}
-        className="rounded-lg bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700"
+        className="rounded-lg bg-[#004A96] px-5 py-2.5 text-sm font-semibold text-white hover:bg-[#003875]"
       >
         Pay {payable.label} · {formatINR(payable.amount)}
       </button>

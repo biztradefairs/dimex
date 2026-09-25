@@ -14,12 +14,12 @@ export default function PostShowReportPage() {
     <>
     <main className="bg-white font-parabolica">
       {/* HERO */}
-      <section className="bg-[#F4FAFF] pt-40 pb-20">
+      <section className="bg-[#004A96] pt-40 pb-20">
         <SectionContainer>
-          <h1 className="text-5xl lg:text-6xl font-bold text-black">
+          <h1 className="text-5xl lg:text-6xl font-bold text-white">
             Proven Success
           </h1>
-          <p className="mt-4 max-w-3xl text-lg text-gray-600">
+          <p className="mt-4 max-w-3xl text-lg text-white/80">
             Get to know how we helped our participants achieve their business goals.
           </p>
         </SectionContainer>

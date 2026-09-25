@@ -94,7 +94,7 @@ export default function ExhibitorNavProfile({
         <div
           ref={menuRef}
           role="menu"
-          className="overflow-hidden rounded-2xl border border-white/10 bg-[#071833] text-white shadow-2xl"
+          className="overflow-hidden rounded-2xl border border-white/10 bg-[#004A96] text-white shadow-2xl"
           style={{
             position: "fixed",
             top: coords.top,
@@ -105,16 +105,16 @@ export default function ExhibitorNavProfile({
           }}
         >
           <div className="relative overflow-hidden px-3 py-3 sm:px-4 sm:py-4">
-            <div className="absolute inset-0 bg-gradient-to-r from-[#004D9F]/40 via-transparent to-[#FF131C]/20" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#004A96]/40 via-transparent to-[#E0161D]/20" />
             <div className="relative flex items-center gap-2.5 sm:gap-3">
-              <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#7EB6FF] to-[#004D9F] text-xs font-bold sm:h-11 sm:w-11 sm:text-sm">
+              <span className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#E0161D] to-[#004A96] text-xs font-bold sm:h-11 sm:w-11 sm:text-sm">
                 {initials}
               </span>
               <div className="min-w-0">
                 <p className="truncate text-sm font-semibold">{exhibitor.name || "Exhibitor"}</p>
                 <p className="truncate text-xs text-white/70">{exhibitor.company}</p>
                 {exhibitor.booth ? (
-                  <p className="mt-0.5 text-[10px] uppercase tracking-wider text-[#7EB6FF]">
+                  <p className="mt-0.5 text-[10px] uppercase tracking-wider text-[#E0161D]">
                     Booth {exhibitor.booth}
                   </p>
                 ) : null}
@@ -129,7 +129,7 @@ export default function ExhibitorNavProfile({
               onClick={() => setOpen(false)}
               className="flex min-h-11 items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-white/90 transition hover:bg-white/10"
             >
-              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[#004D9F]/80">
+              <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[#004A96]/80">
                 <LayoutDashboard className="h-4 w-4" />
               </span>
               My Dashboard
@@ -174,11 +174,11 @@ export default function ExhibitorNavProfile({
             isMobile ? "h-8 w-8 sm:h-9 sm:w-9" : "h-8 w-8 lg:h-9 lg:w-9"
           }`}
         >
-          <span className="absolute inset-0 rounded-full bg-gradient-to-br from-[#7EB6FF] via-[#004D9F] to-[#06162F] p-[1.5px]" />
-          <span className="relative flex h-[calc(100%-3px)] w-[calc(100%-3px)] items-center justify-center rounded-full bg-[#06162F] text-[10px] font-bold tracking-wide text-white sm:text-[11px]">
+          <span className="absolute inset-0 rounded-full bg-gradient-to-br from-[#E0161D] via-[#004A96] to-[#004A96] p-[1.5px]" />
+          <span className="relative flex h-[calc(100%-3px)] w-[calc(100%-3px)] items-center justify-center rounded-full bg-[#004A96] text-[10px] font-bold tracking-wide text-white sm:text-[11px]">
             {initials}
           </span>
-          <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full border-2 border-[#0a2b57] bg-emerald-400 sm:h-2.5 sm:w-2.5" />
+          <span className="absolute -bottom-0.5 -right-0.5 h-2 w-2 rounded-full border-2 border-[#003875] bg-emerald-400 sm:h-2.5 sm:w-2.5" />
         </span>
         {!isMobile && (
           <>

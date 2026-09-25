@@ -2,8 +2,6 @@ import Link from "next/link"
 import {
   FaLinkedinIn,
   FaInstagram,
-  FaFacebookF,
-  FaYoutube,
   FaTwitter,
   FaFacebook
 } from "react-icons/fa"
@@ -11,9 +9,9 @@ import Image from "next/image"
 
 export default function Footer() {
   return (
-    <footer id="footer" className="bg-[#004D9F] text-white font-parabolica">
+    <footer id="footer" className="bg-[#004A96] text-white font-parabolica">
       {/* TOP BRAND BAR */}
-      <div className="bg-gradient-to-r from-[#06162f] to-[#0a2b57] py-10">
+      <div className="bg-gradient-to-r from-[#004A96] to-[#003875] py-10">
         <div className="mx-auto max-w-7xl px-5">
           <div className="flex items-center gap-5">
             <Link href="/" className="flex items-center gap-3">
@@ -135,44 +133,41 @@ export default function Footer() {
                   href="https://www.linkedin.com/company/diemex-india/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-white hover:bg-blue-600 transition-all duration-300 hover:scale-110"
+                  className="group flex h-10 w-10 items-center justify-center rounded-full bg-white transition-all duration-300 hover:scale-110 hover:bg-[#E0161D]"
                   aria-label="LinkedIn"
                 >
-                  <FaLinkedinIn className="h-5 w-5 text-blue-600 hover:text-white" />
+                  <FaLinkedinIn className="h-5 w-5 text-[#004A96] group-hover:text-white" />
                 </a>
 
                 <a
                   href="https://www.instagram.com/diemex_india"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 via-pink-500 to-yellow-400 hover:opacity-90 transition-all duration-300 hover:scale-110"
+                  className="group flex h-10 w-10 items-center justify-center rounded-full bg-white transition-all duration-300 hover:scale-110 hover:bg-[#E0161D]"
                   aria-label="Instagram"
                 >
-                  <FaInstagram className="h-5 w-5 text-white" />
+                  <FaInstagram className="h-5 w-5 text-[#004A96] group-hover:text-white" />
                 </a>
 
-  <a
+                <a
                   href="https://www.facebook.com/DiemexIndia/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 transition-all duration-300 hover:scale-110"
+                  className="group flex h-10 w-10 items-center justify-center rounded-full bg-white transition-all duration-300 hover:scale-110 hover:bg-[#E0161D]"
                   aria-label="Facebook"
                 >
-                  <FaFacebook className="h-5 w-5 text-white" />
+                  <FaFacebook className="h-5 w-5 text-[#004A96] group-hover:text-white" />
                 </a>
 
-<a
+                <a
                   href="https://x.com/Diemex_India"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-black hover:bg-white-600 transition-all duration-300 hover:scale-110"
-                  aria-label="Facebook"
+                  className="group flex h-10 w-10 items-center justify-center rounded-full bg-white transition-all duration-300 hover:scale-110 hover:bg-[#E0161D]"
+                  aria-label="X"
                 >
-                  <FaTwitter className="h-5 w-5 text-white" />
+                  <FaTwitter className="h-5 w-5 text-[#004A96] group-hover:text-white" />
                 </a>
-
-
-
               </div>
 
               <p className="mt-3 text-sm text-white/60">

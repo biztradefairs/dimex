@@ -84,9 +84,9 @@ const Button: React.FC<ButtonProps> = ({
   const baseClasses = "flex-center group gap-2 overflow-hidden rounded-full font-jakarta text-[16px] font-semibold global-transition px-5 py-2 w-fit";
 
   const variantClasses = {
-    primary: "bg-mainColor2 text-white hover:bg-mainColor4",
-    secondary: "bg-white text-mainColor2 hover:bg-mainColor2 hover:text-white",
-    icon: "bg-mainColor2 text-white hover:bg-mainColor4 aspect-square rounded-full !p-4"
+    primary: "bg-mainColor2 text-white hover:bg-[#003875]",
+    secondary: "bg-white text-mainColor2 hover:bg-[#E0161D] hover:text-white",
+    icon: "bg-mainColor2 text-white hover:bg-[#003875] aspect-square rounded-full !p-4"
   };
 
   const buttonClass = `${baseClasses} ${variantClasses[variant]} ${className}`;
@@ -174,7 +174,7 @@ const HeroSection: React.FC = () => {
           transition={{ duration: 1.2, ease: "easeOut" }}
           className="absolute inset-0 z-[-1] size-full !py-0"
         >
-          <div className="absolute inset-0 bg-gradient-to-t from-black"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-[#004A96]"></div>
           <img
             src="/images/plan-your-travel/home.jpg"
             alt="Diemex"
@@ -275,7 +275,7 @@ const GuideItemComponent: React.FC<GuideItem & { index: number }> = ({
           style={{ color: 'transparent' }}
         />
       </div>
-      <h5 className="title-24 text-black xl:col-span-2 hover:text-blue-600 transition-colors duration-300">
+      <h5 className="title-24 text-black xl:col-span-2 hover:text-[#004A96] transition-colors duration-300">
         {title}
       </h5>
       <p className="whitespace-pre-line xl:col-span-2">{content}</p>
@@ -387,7 +387,7 @@ const GuideSection: React.FC = () => {
               whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab("exhibitors")}
               className={`rounded-full px-6 py-3 text-sm font-bold transition ${activeTab === "exhibitors"
-                  ? "bg-black text-white shadow"
+                  ? "bg-[#004A96] text-white shadow"
                   : "text-gray-700 hover:bg-gray-100"
                 }`}
             >
@@ -399,7 +399,7 @@ const GuideSection: React.FC = () => {
               whileTap={{ scale: 0.95 }}
               onClick={() => setActiveTab("visitors")}
               className={`rounded-full px-6 py-3 text-sm font-bold transition ${activeTab === "visitors"
-                  ? "bg-black text-white shadow"
+                  ? "bg-[#004A96] text-white shadow"
                   : "text-gray-700 hover:bg-gray-100"
                 }`}
             >
@@ -458,7 +458,7 @@ const HotelComponent: React.FC<HotelItem & { index: number }> = ({
         />
       </div>
       <div>
-        <h3 className="font-semibold text-xl hover:text-blue-600 transition-colors duration-300">
+        <h3 className="font-semibold text-xl hover:text-[#004A96] transition-colors duration-300">
           {name}
         </h3>
         <p className="mt-5 whitespace-pre-line text-gray-700">{description}</p>
@@ -554,7 +554,7 @@ Being situated in the center of the business district means you can spend less t
             whileInView={{ width: "100%" }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="shrink-0 mt-5 h-px w-full bg-gradient-to-r from-blue-500 via-blue-600 to-blue-500"
+            className="shrink-0 mt-5 h-px w-full bg-gradient-to-r from-[#004A96] via-[#E0161D] to-[#004A96]"
           />
 
           <motion.div

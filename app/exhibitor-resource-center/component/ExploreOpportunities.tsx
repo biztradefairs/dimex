@@ -16,7 +16,7 @@ export default function ExploreOpportunities() {
             rel="noopener noreferrer"
             className="inline-block"
           >
-            <button className="flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[#004D9F] px-10 py-3 font-jakarta text-[16px] font-semibold text-white transition-all duration-300 hover:bg-mainColor4">
+            <button className="flex items-center justify-center gap-2 overflow-hidden rounded-full bg-[#004A96] px-10 py-3 font-jakarta text-[16px] font-semibold text-white transition-all duration-300 hover:bg-[#003875]">
               Download Guide
             </button>
           </Link>

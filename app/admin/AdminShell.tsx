@@ -313,7 +313,7 @@ function SidebarFrame({
   className?: string;
 }) {
   return (
-    <aside className={`flex w-[260px] flex-col bg-[#06162F] text-white ${className ?? ""}`}>
+    <aside className={`flex w-[260px] flex-col bg-[#004A96] text-white ${className ?? ""}`}>
       {children}
     </aside>
   );
@@ -399,7 +399,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#F4F6FA]">
         <div className="text-center">
-          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-[#06162F] border-t-transparent" />
+          <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-[#004A96] border-t-transparent" />
           <p className="mt-3 text-sm font-medium text-slate-600">Loading admin panel…</p>
         </div>
       </div>
@@ -425,7 +425,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
 
       {sidebarOpen ? (
         <div
-          className="fixed inset-0 z-50 bg-[#06162F]/50 lg:hidden"
+          className="fixed inset-0 z-50 bg-[#004A96]/50 lg:hidden"
           onClick={() => setSidebarOpen(false)}
         />
       ) : null}
@@ -482,7 +482,7 @@ export default function AdminShell({ children }: { children: React.ReactNode }) 
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
                 className="flex items-center gap-2 rounded-md px-2 py-1.5 hover:bg-slate-100"
               >
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#06162F] text-xs font-semibold text-white">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#004A96] text-xs font-semibold text-white">
                   {(user?.name || "A").trim().charAt(0).toUpperCase()}
                 </div>
                 <div className="hidden text-left lg:block">

@@ -34,12 +34,12 @@ export default function RegisterPageContent() {
 
     return (
         <main className="bg-white font-parabolica">
-            <div className="bg-[#F4FAFF] pt-48 pb-10">
+            <div className="bg-[#004A96] pt-48 pb-10">
                 <SectionContainer>
-                    <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-black">
+                    <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white">
                         {hero.title}
                     </h1>
-                    <p className="mt-4 max-w-4xl text-lg text-gray-600">{hero.subtitle}</p>
+                    <p className="mt-4 max-w-4xl text-lg text-white/80">{hero.subtitle}</p>
                 </SectionContainer>
             </div>
 

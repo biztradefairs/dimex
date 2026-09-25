@@ -252,7 +252,7 @@ export default function DelegateForm() {
       <Toaster position="top-right" />
       
       <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-        <h3 className="text-xl font-semibold text-[#004D9F]">
+        <h3 className="text-xl font-semibold text-[#004A96]">
           Register as Delegate
         </h3>
 
@@ -267,7 +267,7 @@ export default function DelegateForm() {
               value={formData.firstName}
               onChange={handleChange}
               required
-              className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-[#004A96] focus:outline-none focus:ring-1 focus:ring-[#004A96]"
               placeholder="First name"
             />
           </div>
@@ -282,7 +282,7 @@ export default function DelegateForm() {
               value={formData.lastName}
               onChange={handleChange}
               required
-              className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+              className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-[#004A96] focus:outline-none focus:ring-1 focus:ring-[#004A96]"
               placeholder="Last name"
             />
           </div>
@@ -298,7 +298,7 @@ export default function DelegateForm() {
             value={formData.company}
             onChange={handleChange}
             required
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-[#004A96] focus:outline-none focus:ring-1 focus:ring-[#004A96]"
             placeholder="Company name"
           />
         </div>
@@ -313,7 +313,7 @@ export default function DelegateForm() {
             value={formData.jobTitle}
             onChange={handleChange}
             required
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-[#004A96] focus:outline-none focus:ring-1 focus:ring-[#004A96]"
             placeholder="Job title"
           />
         </div>
@@ -328,7 +328,7 @@ export default function DelegateForm() {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-[#004A96] focus:outline-none focus:ring-1 focus:ring-[#004A96]"
             placeholder="you@company.com"
           />
         </div>
@@ -343,7 +343,7 @@ export default function DelegateForm() {
             value={formData.phone}
             onChange={handleChange}
             required
-            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+            className="w-full rounded border border-gray-300 px-3 py-2 text-sm focus:border-[#004A96] focus:outline-none focus:ring-1 focus:ring-[#004A96]"
             placeholder="Phone number"
           />
         </div>
@@ -358,8 +358,8 @@ export default function DelegateForm() {
             onChange={handleChange}
             required
             className="w-full px-4 py-3 border border-gray-300 rounded-lg 
-                       focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
-                       outline-none transition hover:border-blue-300 bg-white cursor-pointer"
+                       focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] 
+                       outline-none transition hover:border-[#004A96] bg-white cursor-pointer"
           >
             <option value="">
               {countriesLoading ? "Loading countries..." : "Select Country"}
@@ -385,8 +385,8 @@ export default function DelegateForm() {
               required
               disabled={!formData.country || statesLoading}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
-                         outline-none transition hover:border-blue-300 bg-white cursor-pointer
+                         focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] 
+                         outline-none transition hover:border-[#004A96] bg-white cursor-pointer
                          disabled:bg-gray-100 disabled:cursor-not-allowed"
             >
               <option value="">
@@ -415,8 +415,8 @@ export default function DelegateForm() {
               required
               disabled={!formData.state || citiesLoading}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg 
-                         focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
-                         outline-none transition hover:border-blue-300 bg-white cursor-pointer
+                         focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] 
+                         outline-none transition hover:border-[#004A96] bg-white cursor-pointer
                          disabled:bg-gray-100 disabled:cursor-not-allowed"
             >
               <option value="">
@@ -446,8 +446,8 @@ export default function DelegateForm() {
             onChange={handleChange}
             required
             className="w-full px-4 py-3 border border-gray-300 rounded-lg 
-                       focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
-                       outline-none transition hover:border-blue-300 bg-white cursor-pointer"
+                       focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] 
+                       outline-none transition hover:border-[#004A96] bg-white cursor-pointer"
           >
             <option value="">Choose Delegate Category</option>
             <option value="student">STUDENT - ₹3,500</option>
@@ -486,7 +486,7 @@ export default function DelegateForm() {
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`mt-4 w-fit rounded bg-[#004D9F] px-6 py-2 text-sm font-medium text-white hover:opacity-90 ${
+          className={`mt-4 w-fit rounded bg-[#004A96] px-6 py-2 text-sm font-medium text-white hover:opacity-90 ${
             isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
           }`}
         >
@@ -498,7 +498,7 @@ export default function DelegateForm() {
           communications. You can unsubscribe anytime. Read our{' '}
           <a
             href="/privacy-policy"
-            className="text-blue-600 underline"
+            className="text-[#004A96] underline"
             target="_blank"
             rel="noopener noreferrer"
           >

@@ -242,7 +242,7 @@ const partners: Partner[] = [
                     <div className="w-full rounded-lg bg-white shadow-md transition-all group-hover:shadow-lg overflow-hidden border border-gray-100">
                       
                       {/* Logo Container – Show placeholder when no image */}
-                      <div className="h-32 w-full bg-gradient-to-br from-blue-50 to-gray-100 flex items-center justify-center p-4">
+                      <div className="h-32 w-full bg-gradient-to-br from-[#E8F1F8] to-gray-100 flex items-center justify-center p-4">
                         <div className="relative h-20 w-full flex items-center justify-center">
                           {partner.logo ? (
                             <Image

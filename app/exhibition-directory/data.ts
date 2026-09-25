@@ -127,12 +127,12 @@ export const companies: Company[] = [
 ];
 
 export const keySectors: KeySector[] = [
-  { name: 'Warehouse Equipment', color: 'bg-blue-500' },
+  { name: 'Warehouse Equipment', color: 'bg-[#004A96]' },
   { name: 'Complex Logistics', color: 'bg-purple-500' },
   { name: 'Air Freight', color: 'bg-cyan-500' },
   { name: 'Road Freight', color: 'bg-green-500' },
   { name: 'Rail Freight', color: 'bg-orange-500' },
-  { name: 'Maritime and Inland Waterway Transport', color: 'bg-indigo-500' },
+  { name: 'Maritime and Inland Waterway Transport', color: 'bg-[#004A96]' },
   { name: 'Technology', color: 'bg-pink-500' }
 ];
 

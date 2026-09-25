@@ -46,23 +46,23 @@ function ThankYouContent() {
   const copy = useMemo(() => COPY[tab], [tab]);
 
   return (
-    <main className="flex min-h-[70vh] items-center justify-center bg-[#F4FAFF] px-4 py-28">
+    <main className="flex min-h-[70vh] items-center justify-center bg-[#004A96] px-4 py-28">
       <div className="w-full max-w-xl rounded-3xl bg-white p-8 text-center shadow-xl sm:p-12">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg shadow-emerald-500/30">
           <CheckCircle2 className="h-9 w-9" />
         </div>
-        <h1 className="mt-6 text-3xl font-bold text-[#0F2F5C]">{copy.title}</h1>
+        <h1 className="mt-6 text-3xl font-bold text-[#004A96]">{copy.title}</h1>
         <p className="mt-3 text-base text-slate-600">
           Dear {name}, {copy.body}
         </p>
-        <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-sky-50 px-4 py-2 text-sm font-medium text-sky-800">
+        <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#E8F1F8] px-4 py-2 text-sm font-medium text-[#004A96]">
           <Mail className="h-4 w-4" />
           Please check your email for the thank-you message
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Link
             href="/"
-            className="rounded-full bg-[#004D9F] px-6 py-3 text-sm font-semibold text-white hover:bg-[#003d7f]"
+            className="rounded-full bg-[#004A96] px-6 py-3 text-sm font-semibold text-white hover:bg-[#003875]"
           >
             Back to Home
           </Link>

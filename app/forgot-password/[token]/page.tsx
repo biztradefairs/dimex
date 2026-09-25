@@ -98,9 +98,9 @@ export default function ResetPasswordPage() {
 
   if (validating) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-[#E8F1F8] to-gray-100 flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#004A96] mx-auto"></div>
           <p className="mt-4 text-gray-600">Validating your reset link...</p>
         </div>
       </div>
@@ -109,7 +109,7 @@ export default function ResetPasswordPage() {
 
   if (!tokenValid) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-[#E8F1F8] to-gray-100 flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
           <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
             <KeyIcon className="h-6 w-6 text-red-600" />
@@ -118,7 +118,7 @@ export default function ResetPasswordPage() {
           <p className="text-gray-600 mb-6">{error}</p>
           <button
             onClick={() => router.push('/forgot-password')}
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700"
+            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-[#004A96] hover:bg-[#003875]"
           >
             Request New Link
           </button>
@@ -129,7 +129,7 @@ export default function ResetPasswordPage() {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex items-center justify-center p-4">
+      <div className="min-h-screen bg-gradient-to-br from-[#E8F1F8] to-gray-100 flex items-center justify-center p-4">
         <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
           <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-green-100 mb-4">
             <KeyIcon className="h-6 w-6 text-green-600" />
@@ -138,7 +138,7 @@ export default function ResetPasswordPage() {
           <p className="text-gray-600 mb-6">
             Your password has been updated successfully. You will be redirected to login shortly.
           </p>
-          <div className="animate-pulse text-sm text-blue-600">
+          <div className="animate-pulse text-sm text-[#004A96]">
             Redirecting to login...
           </div>
         </div>
@@ -147,11 +147,11 @@ export default function ResetPasswordPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#E8F1F8] to-gray-100 flex items-center justify-center p-4">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-blue-100">
-            <KeyIcon className="h-6 w-6 text-blue-600" />
+          <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-[#D6E6F4]">
+            <KeyIcon className="h-6 w-6 text-[#004A96]" />
           </div>
           <h2 className="mt-6 text-3xl font-bold text-gray-900">Set New Password</h2>
           <p className="mt-2 text-sm text-gray-600">
@@ -179,7 +179,7 @@ export default function ResetPasswordPage() {
                   required
                   value={formData.password}
                   onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm pr-10"
+                  className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#004A96] focus:border-[#004A96] sm:text-sm pr-10"
                   placeholder="••••••••"
                   minLength={6}
                 />
@@ -212,7 +212,7 @@ export default function ResetPasswordPage() {
                   required
                   value={formData.confirmPassword}
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                  className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm pr-10"
+                  className="appearance-none block w-full px-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-[#004A96] focus:border-[#004A96] sm:text-sm pr-10"
                   placeholder="••••••••"
                   minLength={6}
                 />
@@ -234,7 +234,7 @@ export default function ResetPasswordPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-[#004A96] to-[#003875] hover:from-[#003875] hover:to-[#002d5c] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#004A96] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {loading ? 'Updating...' : 'Reset Password'}
               </button>

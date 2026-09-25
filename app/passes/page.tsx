@@ -15,9 +15,9 @@ import {
 export default function PassesLandingPage() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-[#F7F8FC]">
-      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(15,47,92,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(15,47,92,0.04)_1px,transparent_1px)] bg-[size:48px_48px]" />
-      <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-violet-200/50 blur-3xl" />
-      <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 rounded-full bg-sky-200/60 blur-3xl" />
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(0,74,150,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,74,150,0.04)_1px,transparent_1px)] bg-[size:48px_48px]" />
+      <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-[#004A96]/15 blur-3xl" />
+      <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 rounded-full bg-[#E0161D]/15 blur-3xl" />
 
       <div className="relative mx-auto grid min-h-screen max-w-6xl items-center gap-12 px-5 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
         <div>
@@ -40,7 +40,7 @@ export default function PassesLandingPage() {
               ['3', 'Walk In'],
             ].map(([step, label], index) => (
               <div key={step} className="flex items-center gap-3">
-                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#0F2F5C] text-xs font-bold text-white">
+                <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#004A96] text-xs font-bold text-white">
                   {step}
                 </span>
                 <span>{label}</span>
@@ -52,7 +52,7 @@ export default function PassesLandingPage() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/passes/register"
-              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#4F46E5] via-[#2563EB] to-[#0EA5E9] px-6 py-3.5 text-sm font-bold text-white shadow-xl shadow-indigo-500/25 transition hover:brightness-110"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#004A96] via-[#004A96] to-[#E0161D] px-6 py-3.5 text-sm font-bold text-white shadow-xl shadow-[#004A96]/25 transition hover:brightness-110"
             >
               <QrCode className="h-4 w-4" />
               Register Now
@@ -68,7 +68,7 @@ export default function PassesLandingPage() {
 
           <div className="mt-10 flex flex-wrap gap-5 text-xs font-semibold text-slate-500">
             <span className="inline-flex items-center gap-1.5">
-              <Lock className="h-4 w-4 text-indigo-500" />
+              <Lock className="h-4 w-4 text-[#004A96]" />
               Secure & Private
             </span>
             <span className="inline-flex items-center gap-1.5">
@@ -83,14 +83,14 @@ export default function PassesLandingPage() {
         </div>
 
         <div className="relative mx-auto w-full max-w-[380px]">
-          <div className="absolute -inset-6 rounded-[40px] bg-gradient-to-br from-indigo-200/70 via-sky-100 to-pink-100 blur-2xl" />
-          <article className="relative overflow-hidden rounded-[32px] border border-white/80 bg-white/90 p-6 shadow-2xl shadow-indigo-300/40 backdrop-blur">
+          <div className="absolute -inset-6 rounded-[40px] bg-gradient-to-br from-[#004A96]/25 via-[#E8F1F8] to-[#E0161D]/20 blur-2xl" />
+          <article className="relative overflow-hidden rounded-[32px] border border-white/80 bg-white/90 p-6 shadow-2xl shadow-[#004A96]/20 backdrop-blur">
             <div className="flex items-center justify-between">
               <p className="text-[11px] font-black tracking-[0.24em] text-slate-400"># VISITOR PASS</p>
               <Smartphone className="h-4 w-4 text-slate-400" />
             </div>
             <div className="mt-5 flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 text-lg font-black text-white">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-[#004A96] to-[#004A96] text-lg font-black text-white">
                 V
               </div>
               <div>
@@ -99,7 +99,7 @@ export default function PassesLandingPage() {
               </div>
             </div>
             <div className="relative mx-auto mt-6 w-[220px]">
-              <div className="aspect-square rounded-2xl bg-[repeating-conic-gradient(#0F2F5C_0_25%,#fff_0_50%)] bg-[length:18px_18px] p-4">
+              <div className="aspect-square rounded-2xl bg-[repeating-conic-gradient(#004A96_0_25%,#fff_0_50%)] bg-[length:18px_18px] p-4">
                 <div className="flex h-full items-center justify-center rounded-xl bg-white">
                   <QrCode className="h-24 w-24 text-slate-900" />
                 </div>
@@ -140,7 +140,7 @@ export default function PassesLandingPage() {
             },
           ].map((item) => (
             <div key={item.title} className="rounded-3xl border border-slate-100 bg-slate-50 p-6">
-              <item.icon className="h-6 w-6 text-[#1E5AA6]" />
+              <item.icon className="h-6 w-6 text-[#004A96]" />
               <h3 className="mt-4 text-lg font-bold text-slate-900">{item.title}</h3>
               <p className="mt-2 text-sm leading-6 text-slate-600">{item.text}</p>
             </div>

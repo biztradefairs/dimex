@@ -48,7 +48,7 @@ export default function SectorCard({ id, title, slug, image, description, index 
         
         {/* Hover Overlay */}
         <motion.div 
-          className="absolute inset-0 bg-blue-600/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+          className="absolute inset-0 bg-[#004A96]/20 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
           initial={false}
           animate={{ opacity: isHovered ? 1 : 0 }}
         />
@@ -56,7 +56,7 @@ export default function SectorCard({ id, title, slug, image, description, index 
         {/* Content */}
         <div className="absolute inset-0 z-20 flex items-end justify-center">
           <motion.div 
-            className="w-full bg-white py-5 px-4 transition-all duration-300 ease-in-out group-hover:bg-blue-600 group-hover:text-white"
+            className="w-full bg-white py-5 px-4 transition-all duration-300 ease-in-out group-hover:bg-[#004A96] group-hover:text-white"
             animate={{
               paddingBottom: isHovered ? '2.5rem' : '1.25rem',
             }}

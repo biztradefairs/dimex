@@ -76,11 +76,11 @@ export default function MediaGalleryPage() {
       {/* Page Content */}
       <div className="">
         {/* Hero Section */}
-        <div className="bg-[#F0F9FF] py-20">
+        <div className="bg-[#004A96] py-20">
           <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8 mt-15">
             <div className="flex flex-col justify-end">
-              <h2 className="title-72 text-black">Explore Diemex Over the Years</h2>
-              <p className="max-w-6xl whitespace-pre-line py-5">
+              <h2 className="title-72 text-white">Explore Diemex Over the Years</h2>
+              <p className="max-w-6xl whitespace-pre-line py-5 text-white/80">
                 Discover Diemex through our curated gallery, featuring moments from the opening ceremony, awards, exhibition showcases, and dynamic conference sessions.
               </p>
             </div>
@@ -96,7 +96,7 @@ export default function MediaGalleryPage() {
                 <Link
                   key={item.id}
                   href={item.href}
-                  className="group relative flex flex-col rounded-xl overflow-hidden bg-[#0E1C35] shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
+                  className="group relative flex flex-col rounded-xl overflow-hidden bg-[#004A96] shadow-lg transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
                 >
                   {/* Image Container */}
                   <div className="relative h-56 w-full overflow-hidden">

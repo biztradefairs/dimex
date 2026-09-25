@@ -59,7 +59,7 @@ export default function ExploreMoscowPage() {
 
           <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
             {/* Card 1: Discover Iconic Landmarks */}
-            <div className="group flex flex-col gap-5 rounded-2xl border border-black/10 bg-white p-5 xl:p-7 transition-all duration-300 hover:shadow-xl hover:border-blue-200">
+            <div className="group flex flex-col gap-5 rounded-2xl border border-black/10 bg-white p-5 xl:p-7 transition-all duration-300 hover:shadow-xl hover:border-[#004A96]">
               <div className="flex justify-between items-start">
                 <div className="mb-5 w-16 h-16 rounded-full overflow-hidden">
                   <img
@@ -70,10 +70,10 @@ export default function ExploreMoscowPage() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <span className="text-3xl font-bold text-gray-300 group-hover:text-blue-500 transition-colors">01</span>
+                <span className="text-3xl font-bold text-gray-300 group-hover:text-[#004A96] transition-colors">01</span>
               </div>
               
-              <h3 className="text-2xl md:text-3xl font-semibold text-black group-hover:text-blue-600 transition-colors">
+              <h3 className="text-2xl md:text-3xl font-semibold text-black group-hover:text-[#004A96] transition-colors">
                 Discover Iconic Landmarks
               </h3>
               
@@ -97,7 +97,7 @@ export default function ExploreMoscowPage() {
             </div>
 
             {/* Card 2: Immerse Yourself in Culture */}
-            <div className="group flex flex-col gap-5 rounded-2xl border border-black/10 bg-white p-5 xl:p-7 transition-all duration-300 hover:shadow-xl hover:border-blue-200">
+            <div className="group flex flex-col gap-5 rounded-2xl border border-black/10 bg-white p-5 xl:p-7 transition-all duration-300 hover:shadow-xl hover:border-[#004A96]">
               <div className="flex justify-between items-start">
                 <div className="mb-5 w-16 h-16 rounded-full overflow-hidden">
                   <img
@@ -108,10 +108,10 @@ export default function ExploreMoscowPage() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <span className="text-3xl font-bold text-gray-300 group-hover:text-blue-500 transition-colors">02</span>
+                <span className="text-3xl font-bold text-gray-300 group-hover:text-[#004A96] transition-colors">02</span>
               </div>
               
-              <h3 className="text-2xl md:text-3xl font-semibold text-black group-hover:text-blue-600 transition-colors">
+              <h3 className="text-2xl md:text-3xl font-semibold text-black group-hover:text-[#004A96] transition-colors">
                 Immerse Yourself in Culture
               </h3>
               
@@ -133,7 +133,7 @@ export default function ExploreMoscowPage() {
             </div>
 
             {/* Card 3: Savor Pune's Culinary Delights */}
-            <div className="group flex flex-col gap-5 rounded-2xl border border-black/10 bg-white p-5 xl:p-7 transition-all duration-300 hover:shadow-xl hover:border-blue-200">
+            <div className="group flex flex-col gap-5 rounded-2xl border border-black/10 bg-white p-5 xl:p-7 transition-all duration-300 hover:shadow-xl hover:border-[#004A96]">
               <div className="flex justify-between items-start">
                 <div className="mb-5 w-16 h-16 rounded-full overflow-hidden">
                   <img
@@ -144,10 +144,10 @@ export default function ExploreMoscowPage() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <span className="text-3xl font-bold text-gray-300 group-hover:text-blue-500 transition-colors">03</span>
+                <span className="text-3xl font-bold text-gray-300 group-hover:text-[#004A96] transition-colors">03</span>
               </div>
               
-              <h3 className="text-2xl md:text-3xl font-semibold text-black group-hover:text-blue-600 transition-colors">
+              <h3 className="text-2xl md:text-3xl font-semibold text-black group-hover:text-[#004A96] transition-colors">
                 Savor Pune’s Culinary Delights
               </h3>
               
@@ -168,7 +168,7 @@ export default function ExploreMoscowPage() {
             </div>
 
             {/* Card 4: Shop and Stroll */}
-            <div className="group flex flex-col gap-5 rounded-2xl border border-black/10 bg-white p-5 xl:p-7 transition-all duration-300 hover:shadow-xl hover:border-blue-200 md:col-span-2 xl:col-span-1">
+            <div className="group flex flex-col gap-5 rounded-2xl border border-black/10 bg-white p-5 xl:p-7 transition-all duration-300 hover:shadow-xl hover:border-[#004A96] md:col-span-2 xl:col-span-1">
               <div className="flex justify-between items-start">
                 <div className="mb-5 w-16 h-16 rounded-full overflow-hidden">
                   <img
@@ -179,10 +179,10 @@ export default function ExploreMoscowPage() {
                     className="w-full h-full object-cover"
                   />
                 </div>
-                <span className="text-3xl font-bold text-gray-300 group-hover:text-blue-500 transition-colors">04</span>
+                <span className="text-3xl font-bold text-gray-300 group-hover:text-[#004A96] transition-colors">04</span>
               </div>
               
-              <h3 className="text-2xl md:text-3xl font-semibold text-black group-hover:text-blue-600 transition-colors">
+              <h3 className="text-2xl md:text-3xl font-semibold text-black group-hover:text-[#004A96] transition-colors">
                 Shop and Stroll
               </h3>
               
@@ -207,7 +207,7 @@ export default function ExploreMoscowPage() {
       </section>
 
       {/* Getting Around Section */}
-      <section className="relative z-10 mx-auto overflow-hidden bg-[#0A2B57] text-white">
+      <section className="relative z-10 mx-auto overflow-hidden bg-[#003875] text-white">
         <SectionContainer>
           <div className="grid items-center gap-10 lg:grid-cols-12 lg:gap-12">
             <div className="flex h-fit flex-col gap-5 lg:col-span-7 lg:border-l lg:border-white/20 lg:pl-10 xl:pl-12 2xl:pl-14">
@@ -259,7 +259,7 @@ export default function ExploreMoscowPage() {
         <p>
           <a 
             href="https://api.whatsapp.com/send?phone=79035460935" 
-            className="text-blue-600 hover:text-blue-800 hover:underline"
+            className="text-[#004A96] hover:text-[#003875] hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -271,7 +271,7 @@ export default function ExploreMoscowPage() {
         <p>
           <a 
             href="mailto:pad@maxxmedia.in" 
-            className="text-blue-600 hover:text-blue-800 hover:underline"
+            className="text-[#004A96] hover:text-[#003875] hover:underline"
           >
             pad@maxxmedia.in
           </a>
@@ -280,7 +280,7 @@ export default function ExploreMoscowPage() {
         <p>
           <a 
             href="https://visa-russian.ru/call.php"
-            className="text-blue-600 hover:text-blue-800 hover:underline"
+            className="text-[#004A96] hover:text-[#003875] hover:underline"
             target="_blank"
             rel="noopener noreferrer"
           >

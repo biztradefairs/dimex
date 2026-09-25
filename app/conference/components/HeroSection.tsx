@@ -7,7 +7,7 @@ export default function HeroSection() {
   return (
     <section className="relative min-h-[60vh] lg:min-h-[70vh] w-full overflow-hidden text-white">
       {/* ================= BACKGROUND IMAGE ================= */}
-      <div className="absolute inset-0 bg-black">
+      <div className="absolute inset-0 bg-[#004A96]">
         {/* Background Image */}
         <div 
           className="absolute inset-0 bg-cover bg-center"
@@ -17,8 +17,8 @@ export default function HeroSection() {
         />
         
         {/* Overlays */}
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-[#004A96]/40" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#004A96]/90 via-[#004A96]/50 to-transparent" />
       </div>
 
       {/* ================= CONTENT ================= */}
@@ -52,7 +52,7 @@ export default function HeroSection() {
               </Button>
 
               <Link href="/become-partner">
-                <button className="relative z-50 rounded-full bg-[#004D9F] px-6 py-3 md:px-8 md:py-3 lg:px-10 lg:py-4 text-sm md:text-base lg:text-lg font-semibold transition hover:scale-105 hover:shadow-2xl hover:shadow-[#33A8DF]/40">
+                <button className="relative z-50 rounded-full bg-[#E0161D] px-6 py-3 md:px-8 md:py-3 lg:px-10 lg:py-4 text-sm md:text-base lg:text-lg font-semibold transition hover:scale-105 hover:bg-[#c01218] hover:shadow-2xl hover:shadow-[#E0161D]/40">
                   Become a partner
                 </button>
               </Link>

@@ -17,7 +17,7 @@ export default function PreviousYearSection() {
             <h2 className="title-72 text-white">How It Was</h2>
             <p className="whitespace-pre-line">Diemex Confernce 2023</p>
             <Link href="/postrelease/" className="block">
-              <button className="flex-center group w-fit gap-2 overflow-hidden rounded-full bg-white px-10 py-3 font-jakarta text-sm font-semibold text-mainColor2 hover:bg-mainColor2 hover:text-white md:text-base">
+              <button className="flex-center group w-fit gap-2 overflow-hidden rounded-full bg-white px-10 py-3 font-jakarta text-sm font-semibold text-[#004A96] hover:bg-[#E0161D] hover:text-white md:text-base">
                 Learn More
               </button>
             </Link>

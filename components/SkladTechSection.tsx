@@ -16,11 +16,11 @@ export default function SkladTechSection() {
               viewBox="0 0 309 309"
             >
               <path
-                fill="#33A8DF"
+                fill="#E0161D"
                 d="M154.5 0 0 154v93.211L154.5 93.236l84.188 83.916v83.915H70.312v1.31L24.516 308H309V154L154.5 0Z"
               />
               <path
-                fill="#0092D7"
+                fill="#004A96"
                 d="M195.5 308.062 70 177v84l52.5 47.062"
               />
             </svg>
@@ -52,7 +52,7 @@ export default function SkladTechSection() {
             </div>
 
             <a href="/about-skladtech" className="w-fit">
-              <button className="group flex items-center justify-center gap-2 rounded-full bg-[#0092D7] px-8 lg:px-10 py-3 lg:py-4 text-[16px] font-semibold text-white transition-all duration-300 hover:bg-[#33A8DF]">
+              <button className="group flex items-center justify-center gap-2 rounded-full bg-[#004A96] px-8 lg:px-10 py-3 lg:py-4 text-[16px] font-semibold text-white transition-all duration-300 hover:bg-[#E0161D]">
                 Discover SkladTech
               </button>
             </a>

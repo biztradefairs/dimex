@@ -11,12 +11,12 @@ export default function CookiesPolicyPage() {
   return (
     <main className="bg-white font-parabolica">
       {/* HERO SECTION */}
-      <section className="bg-[#F4FAFF] pt-40 pb-20">
+      <section className="bg-[#004A96] pt-40 pb-20">
         <SectionContainer>
-          <h1 className="text-5xl sm:text-6xl font-bold text-black">
+          <h1 className="text-5xl sm:text-6xl font-bold text-white">
             Cookies Policy
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-gray-600">
+          <p className="mt-4 max-w-2xl text-lg text-white/80">
             Understanding how we use cookies to enhance your browsing experience.
           </p>
         </SectionContainer>
@@ -37,21 +37,21 @@ export default function CookiesPolicyPage() {
               {/* Content Sections */}
               <div className="space-y-8">
                 <div className="border-b pb-6">
-                  <h2 className="text-2xl font-bold text-[#004D9F] mb-3">1. Notice</h2>
+                  <h2 className="text-2xl font-bold text-[#004A96] mb-3">1. Notice</h2>
                   <p className="text-gray-700">
                     When you visit the DIEMEX Platform for the first time, you will be notified about the use of cookies. By continuing to browse or use the Platform without changing your cookie settings, you consent to the use of cookies as described in this Policy.
                   </p>
                 </div>
 
                 <div className="border-b pb-6">
-                  <h2 className="text-2xl font-bold text-[#004D9F] mb-3">2. What Are Cookies?</h2>
+                  <h2 className="text-2xl font-bold text-[#004A96] mb-3">2. What Are Cookies?</h2>
                   <p className="text-gray-700">
                     Cookies are small text files stored on your computer, mobile phone, or other devices when you visit a website. Cookies help the Platform recognise your device and store certain information such as browser type, operating system, language preferences, and other settings to enhance your browsing experience.
                   </p>
                 </div>
 
                 <div className="border-b pb-6">
-                  <h2 className="text-2xl font-bold text-[#004D9F] mb-3">3. Purpose of Using Cookies</h2>
+                  <h2 className="text-2xl font-bold text-[#004A96] mb-3">3. Purpose of Using Cookies</h2>
                   <div className="space-y-3 text-gray-700">
                     <p>DIEMEX uses cookies for the following purposes:</p>
                     <ul className="list-disc pl-5 space-y-2">
@@ -66,7 +66,7 @@ export default function CookiesPolicyPage() {
                 </div>
 
                 <div className="border-b pb-6">
-                  <h2 className="text-2xl font-bold text-[#004D9F] mb-3">4. Types of Cookies Used</h2>
+                  <h2 className="text-2xl font-bold text-[#004A96] mb-3">4. Types of Cookies Used</h2>
                   <div className="space-y-3 text-gray-700">
                     <p>The Platform may collect the following information through cookies:</p>
                     <ul className="list-disc pl-5 space-y-2">
@@ -83,7 +83,7 @@ export default function CookiesPolicyPage() {
                 </div>
 
                 <div className="border-b pb-6">
-                  <h2 className="text-2xl font-bold text-[#004D9F] mb-3">5. Cookie Management and Control</h2>
+                  <h2 className="text-2xl font-bold text-[#004A96] mb-3">5. Cookie Management and Control</h2>
                   <div className="space-y-4 text-gray-700">
                     <p>
                       You can manage or disable cookies at any time through your browser settings. Most browsers automatically accept cookies, but you can choose to block or delete cookies or receive alerts when cookies are being sent.
@@ -112,21 +112,21 @@ export default function CookiesPolicyPage() {
                 </div>
 
                 <div className="border-b pb-6">
-                  <h2 className="text-2xl font-bold text-[#004D9F] mb-3">6. Updates to This Policy</h2>
+                  <h2 className="text-2xl font-bold text-[#004A96] mb-3">6. Updates to This Policy</h2>
                   <p className="text-gray-700">
                     DIEMEX reserves the right to update this Cookies Policy at any time. Any changes will be posted on this page. Continued use of the Platform constitutes acceptance of the updated Policy.
                   </p>
                 </div>
 
                 <div>
-                  <h2 className="text-2xl font-bold text-[#004D9F] mb-3">7. Contact Information</h2>
+                  <h2 className="text-2xl font-bold text-[#004A96] mb-3">7. Contact Information</h2>
                   <p className="text-gray-700 mb-4">
                     If you have any questions about this Cookies Policy, please contact:
                   </p>
                   <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
                     <div className="flex items-center gap-3">
                       <div className="flex-shrink-0">
-                        <svg className="w-5 h-5 text-[#004D9F]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <svg className="w-5 h-5 text-[#004A96]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                           <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                           <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                         </svg>
@@ -138,8 +138,8 @@ export default function CookiesPolicyPage() {
               </div>
 
               {/* Browser Cookie Settings Guide */}
-              <div className="mt-10 p-6 bg-blue-50 rounded-lg border border-blue-200">
-                <h3 className="text-xl font-semibold text-[#004D9F] mb-4">How to Manage Cookies in Different Browsers</h3>
+              <div className="mt-10 p-6 bg-[#E8F1F8] rounded-lg border border-[#004A96]/30">
+                <h3 className="text-xl font-semibold text-[#004A96] mb-4">How to Manage Cookies in Different Browsers</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                   <div className="bg-white p-4 rounded border">
                     <h4 className="font-semibold text-gray-800 mb-2">Google Chrome</h4>
@@ -183,7 +183,7 @@ export default function CookiesPolicyPage() {
             <div className="mt-12 text-center">
               <div className="inline-flex items-center gap-4 text-gray-600">
                 <div className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-[#004D9F]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <svg className="w-5 h-5 text-[#004A96]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                   </svg>
                   <span>You can control cookie settings through your browser preferences</span>

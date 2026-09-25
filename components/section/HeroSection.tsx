@@ -12,7 +12,7 @@ const HeroSection = () => {
       />
 
       {/* GRADIENT (BOTTOM ONLY) */}
-      <div className="absolute bottom-0 h-[45%] w-full bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+      <div className="absolute bottom-0 h-[45%] w-full bg-gradient-to-t from-[#004A96]/90 via-[#004A96]/40 to-transparent" />
 
       {/* CONTENT with SectionContainer */}
       <SectionContainer className="relative z-10">

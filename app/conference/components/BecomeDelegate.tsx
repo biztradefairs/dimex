@@ -83,7 +83,7 @@ const BecomeDelegate = () => {
               {delegatePackages.map((pkg) => (
                 <div
                   key={pkg.id}
-                  className="relative flex size-full min-h-[400px] md:min-h-[450px] lg:min-h-[500px] flex-col bg-sky-50 p-4 md:p-6 lg:p-10"
+                  className="relative flex size-full min-h-[400px] md:min-h-[450px] lg:min-h-[500px] flex-col bg-[#E8F1F8] p-4 md:p-6 lg:p-10"
                 >
                   <div className="relative z-10 flex flex-col gap-3 md:gap-5">
                     <h2 className="text-2xl md:text-3xl lg:title-40 font-semibold">
@@ -103,7 +103,7 @@ const BecomeDelegate = () => {
                           >
                             <path
                               d="M16.6667 5L7.50004 14.1667L3.33337 10"
-                              stroke="#003771"
+                              stroke="#004A96"
                               strokeWidth="2"
                               strokeLinecap="round"
                               strokeLinejoin="round"
@@ -123,13 +123,13 @@ const BecomeDelegate = () => {
 
                       <div className="flex flex-col sm:flex-row flex-wrap gap-2 md:gap-3">
                         <Link href={pkg.cardLink} className="flex-1 min-w-[120px]">
-                          <button className="w-full rounded-full bg-[#004D9F] px-4 py-2 md:px-6 md:py-3 text-xs md:text-sm font-semibold text-white transition-all hover:bg-mainColor4">
+                          <button className="w-full rounded-full bg-[#004A96] px-4 py-2 md:px-6 md:py-3 text-xs md:text-sm font-semibold text-white transition-all hover:bg-[#003875]">
                             Register
                           </button>
                         </Link>
 
                         {/* <Link href={pkg.invoiceLink} className="flex-1 min-w-[120px]">
-                          <button className="w-full rounded-full bg-[#004D9F] px-4 py-2 md:px-6 md:py-3 text-xs md:text-sm font-semibold text-white transition-all hover:bg-mainColor4">
+                          <button className="w-full rounded-full bg-[#004A96] px-4 py-2 md:px-6 md:py-3 text-xs md:text-sm font-semibold text-white transition-all hover:bg-[#003875]">
                             PAY BY INVOICE
                           </button>
                         </Link> */}

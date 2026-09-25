@@ -17,7 +17,7 @@ export default function TechnicalServices() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <button className="flex-center group w-fit gap-2 overflow-hidden rounded-full px-10 py-3 font-jakarta text-[16px] font-semibold global-transition bg-[#004D9F] text-white hover:bg-mainColor4">
+                    <button className="flex-center group w-fit gap-2 overflow-hidden rounded-full px-10 py-3 font-jakarta text-[16px] font-semibold global-transition bg-[#004A96] text-white hover:bg-[#003875]">
                       Download Technical Service Form
                     </button>
                   </Link>
@@ -35,7 +35,7 @@ export default function TechnicalServices() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <button className="flex-center group w-fit gap-2 overflow-hidden rounded-full px-10 py-3 font-jakarta text-[16px] font-semibold global-transition bg-mainColor2 text-white hover:bg-mainColor4">
+                    <button className="flex-center group w-fit gap-2 overflow-hidden rounded-full px-10 py-3 font-jakarta text-[16px] font-semibold global-transition bg-mainColor2 text-white hover:bg-[#003875]">
                       Download Technical Information Forms
                     </button>
                   </Link>

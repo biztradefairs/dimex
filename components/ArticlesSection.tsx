@@ -41,7 +41,7 @@ export default function ArticlesSection() {
             </p>
 
             <a href="/articles">
-              <button className="rounded-full bg-[#004D9F] px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-white hover:bg-[#0A66C2] transition">
+              <button className="rounded-full bg-[#004A96] px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-base font-semibold text-white hover:bg-[#003875] transition">
                 View all articles
               </button>
             </a>

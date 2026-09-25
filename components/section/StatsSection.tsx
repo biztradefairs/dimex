@@ -30,7 +30,7 @@ const StatsSection = () => {
             engineering solutions, automation, materials, and Industry 4.0 innovations to a highly qualified audience of industry decision-makers.
           </p>
           <Link href="/why-exhibit">
-            <button className="rounded-full bg-[#004D9F] px-10 py-4 text-white font-semibold text-base transition hover:bg-[#083E82]">
+            <button className="rounded-full bg-[#004A96] px-10 py-4 text-white font-semibold text-base transition hover:bg-[#003875]">
               Why Exhibit
             </button>
           </Link>
@@ -43,7 +43,7 @@ const StatsSection = () => {
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-14">
       {stats.map((stat, index) => (
         <div key={index}>
-          <h3 className="text-[52px] font-bold text-[#004D9F] mb-2">
+          <h3 className="text-[52px] font-bold text-[#004A96] mb-2">
             {stat.value}
           </h3>
 

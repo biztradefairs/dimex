@@ -11,8 +11,8 @@ export default function HeroSection() {
       />
 
       {/* STRONG GRADIENT FOR TEXT VISIBILITY */}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/55 to-transparent" />
-      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-[#004A96]/90 via-[#004A96]/55 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-[#004A96]/70 via-[#004A96]/20 to-transparent" />
 
       {/* CONTENT */}
       <SectionContainer>

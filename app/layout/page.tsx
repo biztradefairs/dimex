@@ -176,7 +176,7 @@ export default function PublicFloorPlanPage() {
     return (
       <div className="min-h-screen bg-gradient-to-b from-gray-50 to-white flex items-center justify-center">
         <div className="text-center">
-          <Loader2 className="w-16 h-16 text-[#004D9F] animate-spin mx-auto mb-4" />
+          <Loader2 className="w-16 h-16 text-[#004A96] animate-spin mx-auto mb-4" />
           <h2 className="text-2xl font-semibold text-gray-700">Loading Floor Plan...</h2>
           <p className="text-gray-500 mt-2">Please wait while we load the exhibition layout</p>
         </div>
@@ -200,7 +200,7 @@ export default function PublicFloorPlanPage() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={fetchFloorPlan}
-              className="bg-[#004D9F] text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors shadow-md"
+              className="bg-[#004A96] text-white px-6 py-3 rounded-lg hover:bg-[#003875] transition-colors shadow-md"
             >
               Try Again
             </motion.button>
@@ -217,14 +217,14 @@ export default function PublicFloorPlanPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="bg-gradient-to-b from-gray-50 to-white py-16 lg:py-24 mb-12"
+        className="bg-[#004A96] py-16 lg:py-24 mb-12"
       >
         <SectionContainer>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mb-4 mt-20 text-4xl lg:text-4xl xl:text-5xl font-[600] text-black"
+            className="mb-4 mt-20 text-4xl lg:text-4xl xl:text-5xl font-[600] text-white"
           >
             Exhibition Layout & Floor Plan
           </motion.h1>
@@ -232,7 +232,7 @@ export default function PublicFloorPlanPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="max-w-4xl text-lg lg:text-xl text-gray-600"
+            className="max-w-4xl text-lg lg:text-xl text-white/80"
           >
             Explore the complete exhibition hall layout. Find your booth location, 
             navigate the venue, and discover the optimal setup for your exhibition space.
@@ -250,16 +250,16 @@ export default function PublicFloorPlanPage() {
           className="bg-white rounded-2xl shadow-xl overflow-hidden mb-12"
         >
           {/* Header with last updated */}
-          <div className="bg-[#0E1C35] text-white p-6">
+          <div className="bg-[#004A96] text-white p-6">
             <div className="flex items-center justify-between flex-wrap gap-4">
               <div className="flex items-center gap-3">
-                <MapPin className="w-6 h-6 text-blue-300" />
+                <MapPin className="w-6 h-6 text-[#E0161D]" />
                 <h2 className="text-2xl font-semibold">Exhibition Hall Layout</h2>
               </div>
               {floorPlan?.lastUpdated && (
-                <div className="flex items-center gap-2 bg-blue-900/30 px-4 py-2 rounded-lg">
-                  <Calendar className="w-4 h-4 text-blue-300" />
-                  <p className="text-sm text-blue-200">
+                <div className="flex items-center gap-2 bg-[#004A96]/30 px-4 py-2 rounded-lg">
+                  <Calendar className="w-4 h-4 text-[#E0161D]" />
+                  <p className="text-sm text-white/80">
                     Last Updated: {new Date(floorPlan.lastUpdated).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'long',
@@ -306,16 +306,16 @@ export default function PublicFloorPlanPage() {
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeInUp}
-          className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8 mb-12"
+          className="bg-gradient-to-br from-[#E8F1F8] to-[#E8F1F8] rounded-2xl p-8 mb-12"
         >
-          <h3 className="text-2xl font-semibold text-[#0E1C35] mb-4">About This Layout</h3>
+          <h3 className="text-2xl font-semibold text-[#004A96] mb-4">About This Layout</h3>
           <div className="space-y-4 text-gray-700 leading-relaxed">
             <p>
               The exhibition hall is thoughtfully designed to maximize visitor flow and exhibitor visibility. 
               Our floor plan ensures easy navigation and optimal exposure for all participants.
             </p>
             <p>
-              <strong className="text-[#004D9F]">Pleae Note:</strong>
+              <strong className="text-[#004A96]">Pleae Note:</strong>
             </p>
             <ul className="list-disc pl-6 space-y-2">
               
@@ -340,11 +340,11 @@ on the tariff rate and not on the discounted rate.</li>
           whileInView="visible"
           viewport={{ once: true }}
           variants={fadeInUp}
-          className="bg-white border border-blue-100 rounded-xl p-6"
+          className="bg-white border border-[#004A96]/20 rounded-xl p-6"
         >
           <div className="flex items-start gap-4">
-            <div className="bg-blue-100 p-3 rounded-full">
-              <svg className="w-6 h-6 text-[#004D9F]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="bg-[#D6E6F4] p-3 rounded-full">
+              <svg className="w-6 h-6 text-[#004A96]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
@@ -352,7 +352,7 @@ on the tariff rate and not on the discounted rate.</li>
               <h4 className="text-lg font-semibold text-gray-800 mb-2">Need Assistance?</h4>
               <p className="text-gray-600">
                 If you need help locating your booth or have questions about the layout, 
-                please contact our exhibition support team at <a href="mailto:info@diemex.in" className="text-[#004D9F] hover:underline">info@diemex.in</a>
+                please contact our exhibition support team at <a href="mailto:info@diemex.in" className="text-[#004A96] hover:underline">info@diemex.in</a>
               </p>
             </div>
           </div>

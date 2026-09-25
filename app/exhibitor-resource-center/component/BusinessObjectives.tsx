@@ -70,7 +70,7 @@ export default function BusinessObjectives() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            <button className="inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-mainColor2 px-10 py-3 font-jakarta text-[16px] font-semibold text-white transition-all duration-300 hover:bg-mainColor4">
+            <button className="inline-flex items-center justify-center gap-2 overflow-hidden rounded-full bg-mainColor2 px-10 py-3 font-jakarta text-[16px] font-semibold text-white transition-all duration-300 hover:bg-[#003875]">
               Stand Options & Requirements
             </button>
           </Link>

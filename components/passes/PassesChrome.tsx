@@ -22,7 +22,7 @@ export default function PassesChrome({
           {backLabel}
         </Link>
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-xs font-black text-[#0F2F5C]">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-xs font-black text-[#004A96]">
             D
           </div>
           <span className="hidden text-sm font-bold text-white sm:inline">DIEMEX 2026</span>

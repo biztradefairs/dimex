@@ -157,7 +157,7 @@ const NewsletterPage: React.FC = () => {
                       <p className="text-gray-600">{submitMessage}</p>
                       <button
                         onClick={() => setSubmitMessage('')}
-                        className="mt-6 bg-mainColor2 hover:bg-mainColor4 text-white font-semibold py-3 px-8 rounded-full transition-colors duration-300"
+                        className="mt-6 bg-mainColor2 hover:bg-[#003875] text-white font-semibold py-3 px-8 rounded-full transition-colors duration-300"
                       >
                         Subscribe Another Email
                       </button>
@@ -259,7 +259,7 @@ const NewsletterPage: React.FC = () => {
                         className={`w-full flex justify-center items-center gap-2 overflow-hidden rounded-full font-jakarta text-[16px] font-semibold global-transition px-5 py-4 w-fit grow-0 ${
                           isSubmitting || !formData.consent
                             ? 'bg-gray-400 cursor-not-allowed'
-                            : 'bg-mainColor2 text-white hover:bg-mainColor4'
+                            : 'bg-mainColor2 text-white hover:bg-[#003875]'
                         }`}
                       >
                         {isSubmitting ? (

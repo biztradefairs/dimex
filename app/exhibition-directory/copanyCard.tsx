@@ -55,12 +55,12 @@ export default function CompanyCard({ company, onProductBrochureClick }: Company
 
   const getLogoColor = () => {
     const colors = [
-      'bg-gradient-to-br from-blue-50 to-blue-100',
+      'bg-gradient-to-br from-[#E8F1F8] to-[#D6E6F4]',
       'bg-gradient-to-br from-green-50 to-green-100',
       'bg-gradient-to-br from-purple-50 to-purple-100',
       'bg-gradient-to-br from-orange-50 to-orange-100',
       'bg-gradient-to-br from-pink-50 to-pink-100',
-      'bg-gradient-to-br from-indigo-50 to-indigo-100',
+      'bg-gradient-to-br from-[#E8F1F8] to-[#D6E6F4]',
       'bg-gradient-to-br from-teal-50 to-teal-100',
       'bg-gradient-to-br from-yellow-50 to-yellow-100'
     ];
@@ -132,7 +132,7 @@ export default function CompanyCard({ company, onProductBrochureClick }: Company
           >
             <button
               onClick={handleBrochureClick}
-              className="px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-slate-900 border border-slate-300 rounded-lg hover:bg-slate-50 transition-all duration-300 hover:border-slate-400 hover:shadow-sm flex items-center justify-center gap-2"
+              className="px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-[#004A96] border border-[#004A96]/30 rounded-lg hover:bg-[#E8F1F8] transition-all duration-300 hover:border-[#004A96] hover:shadow-sm flex items-center justify-center gap-2"
             >
               <ExternalLink size={14} className="sm:w-4 sm:h-4" />
               <span>Product</span>
@@ -140,7 +140,7 @@ export default function CompanyCard({ company, onProductBrochureClick }: Company
 
             <button
               onClick={handleConnectClick}
-              className="px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-slate-900 to-slate-700 rounded-lg hover:from-slate-800 hover:to-slate-600 transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2"
+              className="px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white bg-[#004A96] rounded-lg hover:bg-[#003875] transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2"
             >
               <MessageCircle size={14} className="sm:w-4 sm:h-4" />
               <span>Connect</span>

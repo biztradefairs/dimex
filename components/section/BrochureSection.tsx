@@ -7,7 +7,7 @@ import Link from 'next/link'
 const BrochureSection = () => {
   return (
     <SectionContainer className="py-16 lg:py-24">
-      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#071A33] to-[#0A2446] px-6 py-10 lg:px-12 lg:py-14 text-white">
+      <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#004A96] to-[#003875] px-6 py-10 lg:px-12 lg:py-14 text-white">
         
         {/* TOP-RIGHT BROCHURE IMAGE */}
         <img
@@ -28,7 +28,7 @@ const BrochureSection = () => {
             Make sure you grab your copy of the event brochure to learn more about the show and explore your participation opportunities.
           </p>
           <Link href="/event-brochure">
-            <button className="bg-white text-blue-900 font-medium px-6 py-2.5 rounded-full hover:bg-gray-100 transition">
+            <button className="bg-white text-[#004A96] font-medium px-6 py-2.5 rounded-full hover:bg-[#E0161D] hover:text-white transition">
             Download Now
           </button>
           </Link>

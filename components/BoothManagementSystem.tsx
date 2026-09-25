@@ -194,7 +194,7 @@ const saveFloorPlan = async () => {
       <header className="bg-gray-800 border-b border-gray-700 px-6 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="bg-blue-600 text-white p-2 rounded-lg">
+            <div className="bg-[#004A96] text-white p-2 rounded-lg">
               <ImageIcon size={24} />
             </div>
             <div>
@@ -215,7 +215,7 @@ const saveFloorPlan = async () => {
             <button
               onClick={() => fileInputRef.current?.click()}
               disabled={isLoading}
-              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg flex items-center gap-2 disabled:opacity-50 transition-colors"
+              className="px-4 py-2 bg-[#004A96] hover:bg-[#003875] text-white rounded-lg flex items-center gap-2 disabled:opacity-50 transition-colors"
             >
               {isLoading ? (
                 <Loader2 size={18} className="animate-spin" />
@@ -270,7 +270,7 @@ const saveFloorPlan = async () => {
                 <p className="text-gray-400 mb-6">Upload an image to get started</p>
                 <button
                   onClick={() => fileInputRef.current?.click()}
-                  className="px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+                  className="px-6 py-3 bg-[#004A96] hover:bg-[#003875] text-white rounded-lg font-medium transition-colors"
                 >
                   Choose Image
                 </button>

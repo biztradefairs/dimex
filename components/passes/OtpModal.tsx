@@ -67,14 +67,14 @@ export default function OtpModal({
     <div className="fixed inset-0 z-[80] flex items-center justify-center p-4">
       <button
         type="button"
-        className="absolute inset-0 bg-[#0B1F4B]/55 backdrop-blur-md"
+        className="absolute inset-0 bg-[#004A96]/55 backdrop-blur-md"
         aria-label="Close OTP popup"
         onClick={onClose}
       />
       <div className="relative w-full max-w-[440px] overflow-hidden rounded-3xl bg-white shadow-2xl">
         <div className="flex items-center justify-between border-b border-slate-100 px-5 py-4">
           <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#1E5AA6] to-[#4F46E5] text-sm font-black text-white">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#004A96] to-[#004A96] text-sm font-black text-white">
               D
             </div>
             <p className="text-sm font-bold text-slate-900">DIEMEX 2026</p>
@@ -146,8 +146,8 @@ export default function OtpModal({
                 }}
                 className={`h-14 w-12 rounded-xl border-2 text-center text-2xl font-bold text-slate-900 outline-none transition sm:h-16 sm:w-14 ${
                   digit
-                    ? 'border-[#1E5AA6] bg-blue-50'
-                    : 'border-slate-200 focus:border-[#1E5AA6] focus:ring-4 focus:ring-blue-100'
+                    ? 'border-[#004A96] bg-[#E8F1F8]'
+                    : 'border-slate-200 focus:border-[#004A96] focus:ring-4 focus:ring-[#004A96]/15'
                 }`}
               />
             ))}
@@ -158,7 +158,7 @@ export default function OtpModal({
           <div className="mt-5 text-sm text-slate-500">
             {seconds > 0 ? (
               <>
-                Resend code in <span className="font-semibold text-[#1E5AA6]">{seconds}s</span>
+                Resend code in <span className="font-semibold text-[#004A96]">{seconds}s</span>
               </>
             ) : (
               <button
@@ -167,7 +167,7 @@ export default function OtpModal({
                   setSeconds(resendIn);
                   onResend();
                 }}
-                className="font-semibold text-[#1E5AA6] hover:underline"
+                className="font-semibold text-[#004A96] hover:underline"
               >
                 Resend code
               </button>
@@ -183,7 +183,7 @@ export default function OtpModal({
             type="button"
             disabled={loading || value.length !== 4}
             onClick={() => onVerify(value)}
-            className="mt-6 w-full rounded-2xl bg-gradient-to-r from-[#0F2F5C] to-[#1E5AA6] py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-900/20 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
+            className="mt-6 w-full rounded-2xl bg-gradient-to-r from-[#004A96] to-[#004A96] py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-900/20 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
           >
             {loading ? 'Verifying…' : 'Verify OTP'}
           </button>

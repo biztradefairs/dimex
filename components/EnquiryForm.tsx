@@ -165,11 +165,11 @@ export default function EnquiryForm() {
                         checked={termsAccepted}
                         onChange={e => setTerms(e.target.checked)}
                         required
-                        className="mt-0.5 h-4 w-4 accent-[#1e3a6e] cursor-pointer shrink-0"
+                        className="mt-0.5 h-4 w-4 accent-[#004A96] cursor-pointer shrink-0"
                     />
                     <label htmlFor="enq-terms" className="text-xs text-gray-600 leading-relaxed cursor-pointer">
                         I confirm that I have read, understood and agree to the{' '}
-                        <a href="/terms" className="text-blue-600 hover:underline">Terms & Conditions</a>.{' '}
+                        <a href="/terms" className="text-[#004A96] hover:underline">Terms & Conditions</a>.{' '}
                         <span className="text-red-500">*</span>
                     </label>
                 </div>

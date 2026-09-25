@@ -11,7 +11,7 @@ const MapSection = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 mb-12">
         {/* Venue */}
-        <div className="bg-blue-50 p-8 rounded-lg">
+        <div className="bg-[#E8F1F8] p-8 rounded-lg">
           <h3 className="text-lg lg:text-xl font-semibold text-gray-800 mb-4">
             Venue
           </h3>
@@ -21,7 +21,7 @@ const MapSection = () => {
         </div>
 
         {/* Opening Hours */}
-        <div className="bg-blue-50 p-8 rounded-lg">
+        <div className="bg-[#E8F1F8] p-8 rounded-lg">
           <h3 className="text-lg lg:text-xl font-semibold text-gray-800 mb-4">
             Opening Hours
           </h3>

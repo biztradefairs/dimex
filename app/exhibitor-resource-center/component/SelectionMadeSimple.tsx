@@ -38,7 +38,7 @@ export default function SelectionMadeSimple() {
                 type="button"
                 className={`inline-flex rounded-full px-6 py-3 text-sm font-semibold transition-all duration-300 ${
                   activeTab === 'Stand Options'
-                    ? 'bg-[#004D9F] text-white'
+                    ? 'bg-[#004A96] text-white'
                     : 'text-gray-600 hover:text-gray-900'
                 }`}
                 onClick={() => setActiveTab('Stand Options')}
@@ -70,7 +70,7 @@ export default function SelectionMadeSimple() {
               
               <div className="lg:col-span-3 flex justify-center lg:justify-end">
                 <Link href={option.link}>
-                  <button className="inline-flex items-center justify-center gap-2 rounded-full bg-[#004D9F] p-4 text-white transition-all duration-300 hover:bg-mainColor4">
+                  <button className="inline-flex items-center justify-center gap-2 rounded-full bg-[#004A96] p-4 text-white transition-all duration-300 hover:bg-[#003875]">
                     <svg
                       stroke="white"
                       fill="white"

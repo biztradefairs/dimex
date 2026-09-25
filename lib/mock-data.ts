@@ -6,7 +6,7 @@ export const mockCompanies = [
     stand: 'B8103',
     country: 'Kazakhstan',
     logo: '🦅',
-    logoColor: 'bg-blue-50',
+    logoColor: 'bg-[#E8F1F8]',
   },
   {
     id: 2,
@@ -42,7 +42,7 @@ export const mockCompanies = [
     stand: 'C7107',
     country: 'India',
     logo: '🔵',
-    logoColor: 'bg-blue-50',
+    logoColor: 'bg-[#E8F1F8]',
   },
   {
     id: 6,
@@ -78,7 +78,7 @@ export const mockCompanies = [
     stand: 'B1234',
     country: 'Turkey',
     logo: '📊',
-    logoColor: 'bg-blue-50',
+    logoColor: 'bg-[#E8F1F8]',
   },
   {
     id: 10,
@@ -150,7 +150,7 @@ export const mockCompanies = [
     stand: 'B5678',
     country: 'Turkey',
     logo: '🔗',
-    logoColor: 'bg-blue-50',
+    logoColor: 'bg-[#E8F1F8]',
   },
   {
     id: 18,
@@ -204,7 +204,7 @@ export const mockCompanies = [
     stand: 'B4567',
     country: 'Kazakhstan',
     logo: '💨',
-    logoColor: 'bg-blue-50',
+    logoColor: 'bg-[#E8F1F8]',
   },
   {
     id: 24,

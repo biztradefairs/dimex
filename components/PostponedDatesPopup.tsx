@@ -43,13 +43,13 @@ export default function PostponedDatesPopup() {
     >
       <button
         type="button"
-        className="absolute inset-0 bg-[#06162F]/70 backdrop-blur-sm"
+        className="absolute inset-0 bg-[#004A96]/70 backdrop-blur-sm"
         aria-label="Close announcement"
         onClick={close}
       />
 
-      <div className="relative w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-[0_24px_60px_rgba(6,22,47,0.35)]">
-        <div className="bg-gradient-to-r from-[#06162F] to-[#004D9F] px-6 pb-8 pt-7 text-center text-white">
+      <div className="relative w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-[0_24px_60px_rgba(0,74,150,0.28)]">
+        <div className="bg-gradient-to-r from-[#004A96] to-[#004A96] px-6 pb-8 pt-7 text-center text-white">
           <button
             type="button"
             onClick={close}
@@ -60,10 +60,10 @@ export default function PostponedDatesPopup() {
           </button>
 
           <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-white/10 ring-1 ring-white/20">
-            <CalendarClock className="h-7 w-7 text-[#82C6EB]" />
+            <CalendarClock className="h-7 w-7 text-[#E0161D]" />
           </div>
 
-          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#82C6EB]">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#E0161D]">
             Important Update
           </p>
           <h2
@@ -78,14 +78,14 @@ export default function PostponedDatesPopup() {
           <div className="space-y-4 text-sm leading-relaxed text-slate-600 sm:text-[15px]">
             <p>
               Due to unavoidable circumstances, the earlier announced dates have been{" "}
-              <span className="font-semibold text-[#06162F]">rescheduled</span>.
+              <span className="font-semibold text-[#004A96]">rescheduled</span>.
             </p>
-            <p className="font-semibold text-[#06162F]">
+            <p className="font-semibold text-[#004A96]">
               New dates: 24, 25 & 26 March 2027
             </p>
             <p>
               Thank you for your{" "}
-              <span className="font-semibold text-[#06162F]">
+              <span className="font-semibold text-[#004A96]">
                 continued support and understanding
               </span>
               .
@@ -98,7 +98,7 @@ export default function PostponedDatesPopup() {
           <button
             type="button"
             onClick={close}
-            className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-[#004D9F] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#003d7f]"
+            className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-[#004A96] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#003875]"
           >
             Got it
           </button>

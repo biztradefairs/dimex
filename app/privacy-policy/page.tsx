@@ -11,12 +11,12 @@ export default function PrivacyPolicyPage() {
   return (
     <main className="bg-white font-parabolica">
       {/* HERO SECTION */}
-      <section className="bg-[#F4FAFF] pt-40 pb-20">
+      <section className="bg-[#004A96] pt-40 pb-20">
         <SectionContainer>
-          <h1 className="text-5xl sm:text-6xl font-bold text-black">
+          <h1 className="text-5xl sm:text-6xl font-bold text-white">
             Privacy Policy
           </h1>
-          <p className="mt-4 max-w-2xl text-lg text-gray-600">
+          <p className="mt-4 max-w-2xl text-lg text-white/80">
             Our commitment to protecting your personal data and privacy.
           </p>
         </SectionContainer>
@@ -29,7 +29,7 @@ export default function PrivacyPolicyPage() {
             
               {/* Introduction Section */}
               <div className="mb-8 pb-6 border-b">
-                <h2 className="text-2xl font-bold text-[#004D9F] mb-4">
+                <h2 className="text-2xl font-bold text-[#004A96] mb-4">
                   Policy for Processing and Security of Personal Data
                 </h2>
                 <div className="space-y-4 text-gray-700">
@@ -162,7 +162,7 @@ export default function PrivacyPolicyPage() {
                   <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
                     <div className="flex items-center gap-3">
                       <div className="flex-shrink-0">
-                        <svg className="w-5 h-5 text-[#004D9F]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <svg className="w-5 h-5 text-[#004A96]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                           <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
                           <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
                         </svg>
@@ -196,7 +196,7 @@ export default function PrivacyPolicyPage() {
             <div className="mt-12 text-center">
               <div className="inline-flex items-center gap-4 text-gray-600">
                 <div className="flex items-center gap-2">
-                  <svg className="w-5 h-5 text-[#004D9F]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                  <svg className="w-5 h-5 text-[#004A96]" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
                   </svg>
                   <span>Your privacy and data security are our top priorities</span>

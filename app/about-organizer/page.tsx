@@ -55,7 +55,7 @@ const slideInFromRight: Variants = {
     <>
       <div className="min-h-screen bg-white overflow-hidden font-parabolica">
         {/* Hero Section */}
-        <section className="relative flex flex-col justify-end bg-gray-100">
+        <section className="relative flex flex-col justify-end bg-[#004A96]">
           <SectionContainer>
             <div className="flex flex-col justify-end pt-0 pb-10 mt-40">
               <motion.div
@@ -63,7 +63,7 @@ const slideInFromRight: Variants = {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.1 }}
               >
-                <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold text-black mb-4">
+                <h1 className="text-5xl lg:text-6xl xl:text-7xl font-bold text-white mb-4">
                   Maxx Business Media Pvt. Ltd.
                 </h1>
               </motion.div>
@@ -73,7 +73,7 @@ const slideInFromRight: Variants = {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               >
-                <p className="max-w-6xl text-lg lg:text-xl text-gray-700 py-5">
+                <p className="max-w-6xl text-lg lg:text-xl text-white/80 py-5">
                   Organising India's largest industry exhibitions since 2019
                 </p>
               </motion.div>
@@ -172,7 +172,7 @@ Our events drive industrial development, support export growth, and provide unma
                       whileHover={{ scale: 1.05, x: 5 }}
                       className="group cursor-pointer"
                     >
-                      <h3 className="text-4xl font-bold text-black group-hover:text-blue-600 transition-colors duration-300">
+                      <h3 className="text-4xl font-bold text-black group-hover:text-[#004A96] transition-colors duration-300">
                         {stat.number}
                       </h3>
                       <p className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
@@ -197,7 +197,7 @@ Our events drive industrial development, support export growth, and provide unma
                       whileHover={{ scale: 1.05, x: -5 }}
                       className="group cursor-pointer"
                     >
-                      <h3 className="text-4xl font-bold text-black group-hover:text-blue-600 transition-colors duration-300">
+                      <h3 className="text-4xl font-bold text-black group-hover:text-[#004A96] transition-colors duration-300">
                         {stat.number}
                       </h3>
                       <p className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
@@ -268,7 +268,7 @@ At Maxx Business Media, our mission is to create powerful B2B platforms that acc
                 >
                   <div className="flex flex-col gap-5 p-6">
                     <motion.h2 
-                      className="text-2xl lg:text-3xl font-semibold line-clamp-1 group-hover:text-blue-300 transition-colors duration-300"
+                      className="text-2xl lg:text-3xl font-semibold line-clamp-1 group-hover:text-[#E0161D] transition-colors duration-300"
                       whileHover={{ scale: 1.02 }}
                     >
                       {card.title}

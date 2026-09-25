@@ -82,7 +82,7 @@ export default function ArticleClient({ article }: ArticleClientProps) {
                 <div className="max-w-7xl mx-auto">
                   <div className="max-w-4xl">
                     <div className="flex items-center gap-4 mb-4">
-                      <span className="text-sm px-3 py-1 bg-blue-600 text-white rounded-full">
+                      <span className="text-sm px-3 py-1 bg-[#004A96] text-white rounded-full">
                         Logistics
                       </span>
                       <time className="text-white/90 text-sm">
@@ -114,7 +114,7 @@ export default function ArticleClient({ article }: ArticleClientProps) {
               
               <Link
                 href="/articles"
-                className="inline-flex items-center text-blue-600 hover:text-blue-800 mb-10 group"
+                className="inline-flex items-center text-[#004A96] hover:text-[#003875] mb-10 group"
               >
                 <span className="transform group-hover:-translate-x-1 transition-transform text-lg">
                   ←
@@ -144,7 +144,7 @@ export default function ArticleClient({ article }: ArticleClientProps) {
                   {["Facebook", "Twitter", "LinkedIn", "Email"].map((platform) => (
                     <button
                       key={platform}
-                      className="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-blue-600 hover:text-white transition-all duration-300 capitalize font-medium text-sm"
+                      className="px-6 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-[#004A96] hover:text-white transition-all duration-300 capitalize font-medium text-sm"
                     >
                       {platform}
                     </button>
@@ -192,7 +192,7 @@ export default function ArticleClient({ article }: ArticleClientProps) {
                             day: "numeric",
                           })}
                         </time>
-                        <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                        <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 group-hover:text-[#004A96] transition-colors">
                           {relatedArticle.attributes.Title}
                         </h3>
 
@@ -200,7 +200,7 @@ export default function ArticleClient({ article }: ArticleClientProps) {
                           {relatedArticle.attributes.Excerpt}
                         </p>
 
-                        <div className="mt-4 text-blue-600 font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <div className="mt-4 text-[#004A96] font-semibold opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                           Read More →
                         </div>
                       </div>

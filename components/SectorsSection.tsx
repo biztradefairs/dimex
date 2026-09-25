@@ -55,17 +55,17 @@ export default function SectorsSection() {
       <SectionContainer>
         <div className="mb-10 flex flex-col gap-6 lg:mb-14 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
-            <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#004D9F]">
+            <p className="mb-4 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#004A96]">
               Sectors
             </p>
-            <h2 className="font-parabolica text-[32px] font-black leading-[1.05] tracking-tight text-[#06162F] sm:text-4xl lg:text-[44px] xl:text-5xl">
+            <h2 className="font-parabolica text-[32px] font-black leading-[1.05] tracking-tight text-[#004A96] sm:text-4xl lg:text-[44px] xl:text-5xl">
               Discover in-demand product sectors at DIEMEX
             </h2>
           </div>
 
           <Link
             href="/sectors"
-            className="inline-flex w-fit items-center gap-2 bg-[#004D9F] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#003d7f]"
+            className="inline-flex w-fit items-center gap-2 bg-[#004A96] px-7 py-3.5 text-sm font-semibold text-white transition hover:bg-[#003875]"
           >
             Explore Sectors
             <ArrowRight className="h-4 w-4" />
@@ -84,11 +84,11 @@ export default function SectorsSection() {
                 style={{ backgroundImage: `url(${sector.image})` }}
               />
 
-              <div className="absolute inset-0 bg-gradient-to-t from-[#06162F] via-[#06162F]/55 to-black/10 transition-opacity duration-500 group-hover:opacity-0" />
-              <div className="absolute inset-0 bg-gradient-to-br from-[#06162F]/95 via-[#004D9F]/80 to-[#82C6EB]/70 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#004A96] via-[#004A96]/55 to-black/10 transition-opacity duration-500 group-hover:opacity-0" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[#004A96]/95 via-[#004A96]/80 to-[#E0161D]/70 opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
               <div className="relative z-10 flex h-full flex-col justify-end p-5 sm:p-6">
-                <span className="mb-3 font-parabolica text-sm font-black text-[#82C6EB]">
+                <span className="mb-3 font-parabolica text-sm font-black text-[#E0161D]">
                   {String(i + 1).padStart(2, "0")}
                 </span>
                 <h3 className="font-parabolica text-xl font-bold leading-snug text-white lg:text-2xl">
@@ -97,7 +97,7 @@ export default function SectorsSection() {
                 <p className="mt-3 max-h-0 overflow-hidden text-sm leading-relaxed text-white/85 opacity-0 transition-all duration-500 group-hover:max-h-32 group-hover:opacity-100">
                   {sector.description}
                 </p>
-                <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-[#82C6EB] opacity-0 transition-opacity duration-500 group-hover:opacity-100">
+                <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-[#E0161D] opacity-0 transition-opacity duration-500 group-hover:opacity-100">
                   Explore Sector
                   <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
                 </span>

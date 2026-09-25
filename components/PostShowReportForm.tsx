@@ -257,7 +257,7 @@ export default function PostShowReportForm() {
       
       <form onSubmit={handleSubmit} className="space-y-5">
         <div className="mb-4">
-          <h3 className="text-2xl font-bold text-[#004D9F]">Download Post-Show Report</h3>
+          <h3 className="text-2xl font-bold text-[#004A96]">Download Post-Show Report</h3>
           <p className="mt-1 text-gray-600">Fill in your details to get the complete report</p>
         </div>
 
@@ -271,7 +271,7 @@ export default function PostShowReportForm() {
             value={formData.firstName}
             onChange={handleChange}
             required
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#004A96] focus:ring-2 focus:ring-blue-200 focus:outline-none"
             placeholder="Type your first name"
           />
         </div>
@@ -286,7 +286,7 @@ export default function PostShowReportForm() {
             value={formData.lastName}
             onChange={handleChange}
             required
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#004A96] focus:ring-2 focus:ring-blue-200 focus:outline-none"
             placeholder="Type your last name"
           />
         </div>
@@ -301,7 +301,7 @@ export default function PostShowReportForm() {
             value={formData.company}
             onChange={handleChange}
             required
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#004A96] focus:ring-2 focus:ring-blue-200 focus:outline-none"
             placeholder="Company name"
           />
         </div>
@@ -313,7 +313,7 @@ export default function PostShowReportForm() {
             name="website"
             value={formData.website}
             onChange={handleChange}
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#004A96] focus:ring-2 focus:ring-blue-200 focus:outline-none"
             placeholder="https://example.com"
           />
         </div>
@@ -328,7 +328,7 @@ export default function PostShowReportForm() {
             value={formData.jobTitle}
             onChange={handleChange}
             required
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#004A96] focus:ring-2 focus:ring-blue-200 focus:outline-none"
             placeholder="Job title"
           />
         </div>
@@ -342,7 +342,7 @@ export default function PostShowReportForm() {
             value={formData.country}
             onChange={handleChange}
             required
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer"
+            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition hover:border-[#004A96] bg-white cursor-pointer"
           >
             <option value="">
               {countriesLoading ? "Loading countries..." : "Select Country"}
@@ -366,7 +366,7 @@ export default function PostShowReportForm() {
               onChange={handleChange}
               required
               disabled={!formData.country || statesLoading}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition hover:border-[#004A96] bg-white cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
             >
               <option value="">
                 {statesLoading 
@@ -392,7 +392,7 @@ export default function PostShowReportForm() {
               onChange={handleChange}
               required
               disabled={!formData.state || citiesLoading}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition hover:border-blue-300 bg-white cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
+              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition hover:border-[#004A96] bg-white cursor-pointer disabled:bg-gray-100 disabled:cursor-not-allowed"
             >
               <option value="">
                 {citiesLoading 
@@ -420,7 +420,7 @@ export default function PostShowReportForm() {
             value={formData.phone}
             onChange={handleChange}
             required
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#004A96] focus:ring-2 focus:ring-blue-200 focus:outline-none"
             placeholder="Phone number"
           />
         </div>
@@ -435,7 +435,7 @@ export default function PostShowReportForm() {
             value={formData.email}
             onChange={handleChange}
             required
-            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+            className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-[#004A96] focus:ring-2 focus:ring-blue-200 focus:outline-none"
             placeholder="you@company.com"
           />
         </div>
@@ -446,7 +446,7 @@ export default function PostShowReportForm() {
             name="standSize"
             value={formData.standSize}
             onChange={handleChange}
-            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 focus:border-[#004A96] focus:ring-2 focus:ring-blue-200 focus:outline-none"
           >
             <option value="">Select size</option>
             <option value="Up to 50 sqm">Up to 50 sqm</option>
@@ -461,7 +461,7 @@ export default function PostShowReportForm() {
             name="hearAbout"
             value={formData.hearAbout}
             onChange={handleChange}
-            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 focus:border-blue-500 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-3 focus:border-[#004A96] focus:ring-2 focus:ring-blue-200 focus:outline-none"
           >
             <option value="">Select option</option>
             <option value="Website">Website</option>
@@ -487,7 +487,7 @@ export default function PostShowReportForm() {
                   checked={formData.sector === sector}
                   onChange={handleChange}
                   required
-                  className="h-4 w-4 border-gray-300 text-blue-600 focus:ring-blue-500"
+                  className="h-4 w-4 border-gray-300 text-[#004A96] focus:ring-[#004A96]"
                 />
                 <span className="ml-3 text-sm text-gray-700">{sector}</span>
               </label>
@@ -509,7 +509,7 @@ export default function PostShowReportForm() {
           className={`mt-4 w-full rounded-lg px-6 py-3 font-semibold text-white transition ${
             isSubmitting || !captchaToken
               ? 'cursor-not-allowed bg-gray-400'
-              : 'bg-[#004D9F] hover:bg-blue-700'
+              : 'bg-[#004A96] hover:bg-[#003875]'
           }`}
         >
           {isSubmitting ? 'Submitting...' : 'Download Report'}
@@ -521,7 +521,7 @@ export default function PostShowReportForm() {
           <a
             href="/privacy-policy"
             target="_blank"
-            className="font-semibold text-blue-600 hover:underline"
+            className="font-semibold text-[#004A96] hover:underline"
             rel="noopener noreferrer"
           >
             Privacy Policy

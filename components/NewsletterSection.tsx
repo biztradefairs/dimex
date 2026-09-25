@@ -6,7 +6,7 @@ export default function NewsletterSection() {
     <section className="py-16 sm:py-20 lg:py-24 xl:py-32">
       <SectionContainer>
         {/* CARD */}
-        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl lg:rounded-[36px] bg-gradient-to-r from-[#0b1f3f] to-[#0a2348] px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-14 py-8 sm:py-10 lg:py-12 xl:py-14 text-white">
+        <div className="relative overflow-hidden rounded-2xl sm:rounded-3xl lg:rounded-[36px] bg-gradient-to-r from-[#004A96] to-[#003875] px-4 sm:px-6 lg:px-8 xl:px-10 2xl:px-14 py-8 sm:py-10 lg:py-12 xl:py-14 text-white">
           
           {/* LEFT CONTENT */}
           <div className="relative z-10 max-w-[1050px] space-y-4 sm:space-y-5 lg:space-y-6">
@@ -22,7 +22,7 @@ export default function NewsletterSection() {
             </p>
 
             <a href="/newsletter" className="inline-block pt-3 sm:pt-4">
-              <button className="rounded-full bg-white px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-[15px] font-semibold text-[#0b1f3f] transition hover:bg-[#004D9F] hover:text-white">
+              <button className="rounded-full bg-white px-6 sm:px-8 py-2.5 sm:py-3 text-sm sm:text-[15px] font-semibold text-[#004A96] transition hover:bg-[#E0161D] hover:text-white">
                 Sign up Today
               </button>
             </a>
@@ -36,8 +36,8 @@ export default function NewsletterSection() {
           />
 
           {/* BACKGROUND CIRCLES */}
-          <div className="pointer-events-none absolute -bottom-[35%] -right-[8%] z-0 h-[300px] w-[300px] sm:h-[400px] sm:w-[400px] lg:h-[520px] lg:w-[520px] rounded-full bg-[#0092D7]/25" />
-          <div className="pointer-events-none absolute -bottom-[20%] -right-[3%] z-0 h-[200px] w-[200px] sm:h-[260px] sm:w-[260px] lg:h-[360px] lg:w-[360px] rounded-full bg-[#0092D7]/25" />
+          <div className="pointer-events-none absolute -bottom-[35%] -right-[8%] z-0 h-[300px] w-[300px] sm:h-[400px] sm:w-[400px] lg:h-[520px] lg:w-[520px] rounded-full bg-[#004A96]/25" />
+          <div className="pointer-events-none absolute -bottom-[20%] -right-[3%] z-0 h-[200px] w-[200px] sm:h-[260px] sm:w-[260px] lg:h-[360px] lg:w-[360px] rounded-full bg-[#004A96]/25" />
         </div>
       </SectionContainer>
     </section>

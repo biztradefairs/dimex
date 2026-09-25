@@ -54,7 +54,7 @@ export default function PassScanPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#0B1F4B] px-4 py-10 text-white">
+    <div className="min-h-screen bg-[#004A96] px-4 py-10 text-white">
       <div className="mx-auto max-w-md">
         <h1 className="text-2xl font-black">Scan Visitor Pass</h1>
         <p className="mt-1 text-sm text-white/70">Point the camera at a DIEMEX visitor QR code.</p>

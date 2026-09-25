@@ -120,16 +120,16 @@ export default function ExhibitorDetailPage() {
     const getLogoColor = (countryCode: string = 'INT') => {
         const colors: Record<string, string> = {
             'TR': 'bg-red-50',
-            'RU': 'bg-blue-50',
+            'RU': 'bg-[#E8F1F8]',
             'CN': 'bg-red-50',
             'IN': 'bg-orange-50',
-            'KZ': 'bg-sky-50',
-            'US': 'bg-blue-50',
+            'KZ': 'bg-[#004A96]',
+            'US': 'bg-[#E8F1F8]',
             'GB': 'bg-red-50',
             'DE': 'bg-yellow-50',
-            'FR': 'bg-blue-50',
+            'FR': 'bg-[#E8F1F8]',
             'JP': 'bg-red-50',
-            'KR': 'bg-blue-50',
+            'KR': 'bg-[#E8F1F8]',
             'AE': 'bg-green-50',
             'SA': 'bg-green-50',
             'QA': 'bg-purple-50',
@@ -156,7 +156,7 @@ export default function ExhibitorDetailPage() {
                     <p className="text-gray-600 mb-4">{error || 'Company not found'}</p>
                     <button
                         onClick={() => router.push('/exhibition-directory')}
-                        className="px-6 py-2 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-colors"
+                        className="px-6 py-2 bg-[#004A96] text-white rounded-lg hover:bg-[#003875] transition-colors"
                     >
                         Back to Directory
                     </button>
@@ -402,7 +402,7 @@ export default function ExhibitorDetailPage() {
                                                 href={company.website.startsWith('http') ? company.website : `https://${company.website}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
-                                                className="inline-flex items-center gap-2 text-blue-600 font-medium hover:text-blue-800 transition-colors"
+                                                className="inline-flex items-center gap-2 text-[#004A96] font-medium hover:text-[#003875] transition-colors"
                                             >
                                                 <Globe size={18} />
                                                 <span className="truncate">Visit Website</span>
@@ -431,7 +431,7 @@ export default function ExhibitorDetailPage() {
                                     key={tab.id}
                                     onClick={() => setActiveTab(tab.id as any)}
                                     className={`px-4 py-3 sm:px-6 sm:py-3 rounded-xl font-semibold border flex items-center gap-2 transition-all ${isActive
-                                            ? 'bg-gray-900 text-white border-gray-900 shadow-sm'
+                                            ? 'bg-[#004A96] text-white border-[#004A96] shadow-sm'
                                             : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400'
                                         } text-sm sm:text-base`}
                                 >
@@ -445,7 +445,7 @@ export default function ExhibitorDetailPage() {
                         })}
                         <button
                             onClick={handleConnectClick}
-                            className="ml-2 px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white bg-gradient-to-r from-slate-900 to-slate-700 rounded-xl hover:from-slate-800 hover:to-slate-600 transition-all duration-300 hover:shadow-md flex items-center gap-2"
+                            className="ml-2 px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white bg-[#004A96] rounded-xl hover:bg-[#003875] transition-all duration-300 hover:shadow-md flex items-center gap-2"
                         >
                             <MessageCircle size={14} className="sm:w-4 sm:h-4" />
                             <span>Book Appointment</span>
@@ -474,8 +474,8 @@ export default function ExhibitorDetailPage() {
                                     <h3 className="text-lg font-semibold text-gray-900 mb-4">Location Details</h3>
                                     <ul className="space-y-3">
                                         <li className="flex items-center gap-3">
-                                            <div className="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center flex-shrink-0">
-                                                <MapPin size={20} className="text-blue-600" />
+                                            <div className="w-10 h-10 bg-[#E8F1F8] rounded-lg flex items-center justify-center flex-shrink-0">
+                                                <MapPin size={20} className="text-[#004A96]" />
                                             </div>
                                             <div>
                                                 <p className="text-sm text-gray-500">Pavilion</p>
@@ -659,14 +659,14 @@ export default function ExhibitorDetailPage() {
                                                                         href={brochureUrl}
                                                                         target="_blank"
                                                                         rel="noopener noreferrer"
-                                                                        className="px-3 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors flex items-center justify-center gap-2"
+                                                                        className="px-3 py-2 bg-[#004A96] text-white rounded-lg text-sm font-medium hover:bg-[#003875] transition-colors flex items-center justify-center gap-2"
                                                                     >
                                                                         <Eye size={16} /> View
                                                                     </a>
                                                                     <a
                                                                         href={brochureUrl}
                                                                         download={brochureName}
-                                                                        className="px-3 py-2 bg-gray-800 text-white rounded-lg text-sm font-medium hover:bg-gray-700 transition-colors flex items-center justify-center gap-2"
+                                                                        className="px-3 py-2 bg-[#004A96] text-white rounded-lg text-sm font-medium hover:bg-[#003875] transition-colors flex items-center justify-center gap-2"
                                                                     >
                                                                         <Download size={16} /> Download
                                                                     </a>

@@ -231,7 +231,7 @@ export default function PassRegisterPage() {
 
   return (
     <div className="min-h-screen bg-[#F3F5F9]">
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#3B1C8C] via-[#312E81] to-[#0F2F5C] pb-24 pt-6 text-white">
+      <div className="relative overflow-hidden bg-gradient-to-br from-[#004A96] via-[#003875] to-[#004A96] pb-24 pt-6 text-white">
         <PassesChrome backHref="/passes" backLabel="Back to Exhibitions" />
         <div className="mx-auto max-w-5xl px-5 pt-16">
           <span className="inline-flex items-center rounded-full bg-emerald-400/20 px-3 py-1 text-xs font-semibold text-emerald-200 ring-1 ring-emerald-300/30">
@@ -252,14 +252,14 @@ export default function PassRegisterPage() {
           <p className="text-xs font-bold uppercase tracking-wide text-slate-400">Event Details</p>
           <div className="mt-4 space-y-4 text-sm">
             <div className="flex gap-3">
-              <CalendarDays className="mt-0.5 h-4 w-4 text-[#1E5AA6]" />
+              <CalendarDays className="mt-0.5 h-4 w-4 text-[#004A96]" />
               <div>
                 <p className="font-semibold text-slate-500">Event Dates</p>
                 <p className="font-bold text-slate-800">24–26 Mar 2027</p>
               </div>
             </div>
             <div className="flex gap-3">
-              <MapPin className="mt-0.5 h-4 w-4 text-[#1E5AA6]" />
+              <MapPin className="mt-0.5 h-4 w-4 text-[#004A96]" />
               <div>
                 <p className="font-semibold text-slate-500">Venue</p>
                 <p className="font-bold text-slate-800">Auto Cluster Exhibition Centre, Pune</p>
@@ -270,7 +270,7 @@ export default function PassRegisterPage() {
 
         {step === 'phone' ? (
           <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/60 sm:p-8">
-            <div className="overflow-hidden rounded-2xl bg-gradient-to-r from-[#0F2F5C] to-[#1E5AA6] px-5 py-4 text-white">
+            <div className="overflow-hidden rounded-2xl bg-gradient-to-r from-[#004A96] to-[#004A96] px-5 py-4 text-white">
               <p className="text-xs font-bold tracking-[0.18em] text-white/70">DIEMEX 2026</p>
               <p className="text-lg font-black">International Die & Mould Exhibition</p>
               <p className="text-xs text-white/70">24–26 Mar 2027 · Pune, India</p>
@@ -302,7 +302,7 @@ export default function PassRegisterPage() {
               </button>
             </div>
 
-            <div className="mt-4 rounded-xl border border-sky-100 bg-sky-50 px-4 py-3 text-sm text-sky-800">
+            <div className="mt-4 rounded-xl border border-[#004A96]/20 bg-[#E8F1F8] px-4 py-3 text-sm text-[#004A96]">
               OTP will be sent via <strong>{channelLabel}</strong> to your phone number.
             </div>
 
@@ -342,7 +342,7 @@ export default function PassRegisterPage() {
                 value={mobile}
                 onChange={(event) => setMobile(event.target.value.replace(/\D/g, '').slice(0, selectedCountry.max))}
                 placeholder={countryCode === '+91' ? '10-digit mobile number' : 'Mobile number'}
-                className="h-12 flex-1 rounded-xl border border-slate-200 px-4 text-sm outline-none transition focus:border-[#1E5AA6] focus:ring-4 focus:ring-blue-100"
+                className="h-12 flex-1 rounded-xl border border-slate-200 px-4 text-sm outline-none transition focus:border-[#004A96] focus:ring-4 focus:ring-[#004A96]/15"
               />
             </div>
             <p className="mt-2 text-xs text-slate-400">Select your country code and enter your mobile number.</p>
@@ -352,7 +352,7 @@ export default function PassRegisterPage() {
               type="button"
               disabled={!isValidMobile || loading}
               onClick={sendOtp}
-              className="mt-6 w-full rounded-2xl bg-gradient-to-r from-[#0F2F5C] to-[#2563EB] py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-900/15 transition hover:brightness-110 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:from-slate-300 disabled:to-slate-300 disabled:shadow-none"
+              className="mt-6 w-full rounded-2xl bg-gradient-to-r from-[#004A96] to-[#004A96] py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-900/15 transition hover:brightness-110 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:from-slate-300 disabled:to-slate-300 disabled:shadow-none"
             >
               {loading ? 'Sending OTP…' : `Send OTP via ${channelLabel}`}
             </button>
@@ -377,7 +377,7 @@ export default function PassRegisterPage() {
                   setStep('phone');
                   setVerificationToken('');
                 }}
-                className="text-sm font-semibold text-[#1E5AA6] hover:underline"
+                className="text-sm font-semibold text-[#004A96] hover:underline"
               >
                 Change Number
               </button>
@@ -427,7 +427,7 @@ export default function PassRegisterPage() {
                 <select
                   value={form.source}
                   onChange={(event) => setForm((prev) => ({ ...prev, source: event.target.value }))}
-                  className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm outline-none focus:border-[#1E5AA6]"
+                  className="h-12 w-full rounded-xl border border-slate-200 bg-white px-4 text-sm outline-none focus:border-[#004A96]"
                 >
                   <option value="">Select a source</option>
                   {SOURCES.map((source) => (
@@ -450,7 +450,7 @@ export default function PassRegisterPage() {
                         onClick={() => toggleInterest(interest)}
                         className={`rounded-full px-3 py-1.5 text-xs font-semibold ring-1 transition ${
                           selected
-                            ? 'bg-[#1E5AA6] text-white ring-[#1E5AA6]'
+                            ? 'bg-[#004A96] text-white ring-[#004A96]'
                             : 'bg-white text-slate-600 ring-slate-200 hover:ring-slate-300'
                         }`}
                       >
@@ -460,7 +460,7 @@ export default function PassRegisterPage() {
                   })}
                 </div>
                 {form.interests.length === 0 ? (
-                  <p className="mt-3 rounded-xl bg-sky-50 px-3 py-2 text-xs text-sky-800">
+                  <p className="mt-3 rounded-xl bg-[#E8F1F8] px-3 py-2 text-xs text-[#004A96]">
                     Please select at least one interest to continue.
                   </p>
                 ) : null}
@@ -471,7 +471,7 @@ export default function PassRegisterPage() {
               <button
                 type="submit"
                 disabled={!canSubmitDetails || loading}
-                className="w-full rounded-2xl bg-[#0F2F5C] py-3.5 text-sm font-bold text-white transition hover:bg-[#163d73] disabled:cursor-not-allowed disabled:opacity-50"
+                className="w-full rounded-2xl bg-[#004A96] py-3.5 text-sm font-bold text-white transition hover:bg-[#003875] disabled:cursor-not-allowed disabled:opacity-50"
               >
                 {loading ? 'Issuing your pass…' : 'Complete Registration'}
               </button>
@@ -523,7 +523,7 @@ function Field({
         required={required}
         placeholder={placeholder}
         onChange={(event) => onChange(event.target.value)}
-        className="h-12 w-full rounded-xl border border-slate-200 px-4 text-sm outline-none transition focus:border-[#1E5AA6] focus:ring-4 focus:ring-blue-100"
+        className="h-12 w-full rounded-xl border border-slate-200 px-4 text-sm outline-none transition focus:border-[#004A96] focus:ring-4 focus:ring-[#004A96]/15"
       />
     </label>
   );

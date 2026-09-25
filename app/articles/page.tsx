@@ -89,14 +89,14 @@ export default function ArticlesPage() {
   initial={{ opacity: 0, y: 20 }}
   animate={{ opacity: 1, y: 0 }}
   transition={{ duration: 0.8 }}
-  className="bg-gradient-to-r from-blue-50 to-gray-50 py-6 sm:py-8 md:py-22"
+  className="bg-[#004A96] pt-40 pb-20"
 >
   <div className="mx-auto max-w-[1240px] lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1600px] px-4 sm:px-6 lg:px-8">
     <motion.h1
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.2 }}
-      className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mt-4 sm:mt-6 md:mt-8 mb-3 sm:mb-4"
+      className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mt-4 sm:mt-6 md:mt-8 mb-3 sm:mb-4"
     >
       {pageData.Header?.Title || "Industry Insights"}
     </motion.h1>
@@ -104,7 +104,7 @@ export default function ArticlesPage() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3 }}
-      className="text-base sm:text-lg md:text-xl text-gray-700 max-w-3xl"
+      className="text-base sm:text-lg md:text-xl text-white/80 max-w-3xl"
     >
       {pageData.Header?.Content || "Latest news and insights from the logistics industry"}
     </motion.p>
@@ -157,7 +157,7 @@ export default function ArticlesPage() {
                           
                           {/* Read Article link - only visible on hover */}
                           <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <div className="flex items-center text-[#1E3B75] font-semibold text-xs sm:text-sm">
+                            <div className="flex items-center text-[#004A96] font-semibold text-xs sm:text-sm">
                               <span>Read Article</span>
                               <svg 
                                 className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-2 transform group-hover:translate-x-1 transition-transform" 
@@ -172,7 +172,7 @@ export default function ArticlesPage() {
                           
                           {/* Placeholder to maintain layout when Read Article is hidden */}
                           <div className="opacity-0 group-hover:opacity-0 h-0">
-                            <div className="flex items-center text-[#1E3B75] font-semibold text-xs sm:text-sm">
+                            <div className="flex items-center text-[#004A96] font-semibold text-xs sm:text-sm">
                               <span>Read Article</span>
                               <svg className="w-3 h-3 sm:w-4 sm:h-4 ml-1 sm:ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />

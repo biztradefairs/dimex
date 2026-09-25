@@ -34,9 +34,9 @@ function MoneyRow({
   highlight?: boolean
 }) {
   return (
-    <div className={`flex items-center justify-between border-b border-gray-200 px-3 py-2 text-sm ${highlight ? 'bg-blue-50 font-semibold' : ''}`}>
-      <span className={highlight ? 'text-blue-900' : 'text-gray-600'}>{label}</span>
-      <span className={highlight ? 'text-blue-900' : 'text-gray-900'}>{formatINR(amount)}</span>
+    <div className={`flex items-center justify-between border-b border-gray-200 px-3 py-2 text-sm ${highlight ? 'bg-[#E8F1F8] font-semibold' : ''}`}>
+      <span className={highlight ? 'text-[#004A96]' : 'text-gray-600'}>{label}</span>
+      <span className={highlight ? 'text-[#004A96]' : 'text-gray-900'}>{formatINR(amount)}</span>
     </div>
   )
 }
@@ -47,8 +47,8 @@ export default function ApplicationFormPreview({ form }: { form: ApplicationForm
   return (
     <div className="space-y-8 bg-white">
       <div className="overflow-hidden rounded-xl border border-gray-200">
-        <div className="bg-[#06162F] px-5 py-4 text-white">
-          <p className="text-xs tracking-widest text-[#82C6EB]">DIEMEX</p>
+        <div className="bg-[#004A96] px-5 py-4 text-white">
+          <p className="text-xs tracking-widest text-[#E0161D]">DIEMEX</p>
           <h2 className="text-lg font-semibold">Exhibition Application Form</h2>
         </div>
 
@@ -116,7 +116,7 @@ export default function ApplicationFormPreview({ form }: { form: ApplicationForm
       </div>
 
       <div className="overflow-hidden rounded-xl border border-gray-200">
-        <div className="bg-[#06162F] px-5 py-4 text-white">
+        <div className="bg-[#004A96] px-5 py-4 text-white">
           <h2 className="text-lg font-semibold">Rules and Regulations</h2>
         </div>
         <ol className="space-y-3 p-5 text-sm leading-relaxed text-gray-700">

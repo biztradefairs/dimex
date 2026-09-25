@@ -57,14 +57,14 @@ const PartnerCard: React.FC<PartnerCardProps> = ({ partner, index }) => {
       variants={scaleIn}
       whileHover={{ 
         y: -10,
-        boxShadow: "0 20px 40px rgba(37, 99, 235, 0.15)",
+        boxShadow: "0 20px 40px rgba(0, 74, 150, 0.18)",
         transition: { duration: 0.3 }
       }}
-      className="flex flex-col overflow-hidden rounded-xl border border-blue-600 transition-all duration-300 lg:flex-row"
+      className="flex flex-col overflow-hidden rounded-xl border border-[#004A96] transition-all duration-300 lg:flex-row"
     >
       <motion.div 
         whileHover={{ scale: 1.05 }}
-        className="flex h-48 w-full items-center justify-center border-b border-blue-600 py-8 lg:h-auto lg:w-1/3 lg:border-b-0 lg:border-r bg-white"
+        className="flex h-48 w-full items-center justify-center border-b border-[#004A96] py-8 lg:h-auto lg:w-1/3 lg:border-b-0 lg:border-r bg-white"
       >
         <div className="h-32 w-32 lg:h-40 lg:w-40">
           <img
@@ -76,11 +76,11 @@ const PartnerCard: React.FC<PartnerCardProps> = ({ partner, index }) => {
         </div>
       </motion.div>
 
-      <div className="flex grow flex-col justify-between bg-[#0E1C35] p-6 text-white lg:p-8">
+      <div className="flex grow flex-col justify-between bg-[#004A96] p-6 text-white lg:p-8">
         <div>
           <motion.h3 
             whileHover={{ scale: 1.02 }}
-            className="text-xl lg:text-2xl font-semibold line-clamp-2 hover:text-blue-100 transition-colors duration-300"
+            className="text-xl lg:text-2xl font-semibold line-clamp-2 hover:text-white transition-colors duration-300"
           >
             {partner.name}
           </motion.h3>
@@ -97,7 +97,7 @@ const PartnerCard: React.FC<PartnerCardProps> = ({ partner, index }) => {
             whileTap={{ scale: 0.95 }}
             // href={`/partner/${partner.slug}`}
           >
-            <button className="rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-blue-600 hover:bg-[#004D9F] hover:text-white transition-all duration-300 hover:shadow-lg">
+            <button className="rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-[#004A96] hover:bg-[#E0161D] hover:text-white transition-all duration-300 hover:shadow-lg">
               Explore
             </button>
           </motion.a>
@@ -110,7 +110,7 @@ const PartnerCard: React.FC<PartnerCardProps> = ({ partner, index }) => {
               target="_blank" 
               rel="noopener noreferrer"
             >
-              <button className="rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-blue-600 transition-all duration-300 hover:bg-[#004D9F] hover:text-white hover:shadow-lg">
+              <button className="rounded-full bg-white px-6 py-2.5 text-sm font-semibold text-[#004A96] transition-all duration-300 hover:bg-[#E0161D] hover:text-white hover:shadow-lg">
                 Visit Website
               </button>
             </motion.a>

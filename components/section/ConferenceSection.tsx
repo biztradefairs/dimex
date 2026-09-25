@@ -15,7 +15,7 @@ const ConferenceSection = () => {
       <div className="grid min-h-[600px] overflow-hidden rounded-2xl lg:grid-cols-2 shadow-xl">
         
         {/* Left Content */}
-        <div className="relative bg-[#0E1C35] p-8 lg:p-12 flex flex-col justify-center">
+        <div className="relative bg-[#004A96] p-8 lg:p-12 flex flex-col justify-center">
           <div className="space-y-6 lg:space-y-8">
 
             <div>
@@ -38,7 +38,7 @@ const ConferenceSection = () => {
                 <div key={index} className="flex items-start gap-3">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
-                    className="h-5 w-5 text-blue-400 mt-1 shrink-0"
+                    className="h-5 w-5 text-[#E0161D] mt-1 shrink-0"
                     viewBox="0 0 20 20"
                     fill="currentColor"
                   >
