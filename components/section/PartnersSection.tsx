@@ -108,6 +108,8 @@ export const partners: Partner[] = [
 ]
 
 const PartnersSection = () => {
+  const row = [...partners, ...partners]
+
   return (
     <SectionContainer>
       <div className="space-y-10 py-10">
@@ -115,29 +117,34 @@ const PartnersSection = () => {
           <h2 className="mt-5 text-4xl font-bold text-black lg:text-6xl">Exhibitors</h2>
         </div>
 
-        <ul className="grid grid-cols-4 gap-3 sm:gap-5">
-          {partners.map((partner) => (
-            <li key={partner.name}>
-              <Link
-                href={partner.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group block text-center"
-              >
-                <div className="flex h-[88px] items-center justify-center overflow-hidden rounded-lg border border-gray-100 bg-white p-2 shadow-md transition group-hover:shadow-lg sm:h-32 sm:p-4">
-                  <img
-                    src={partner.logo}
-                    alt={partner.name}
-                    className="max-h-full max-w-full object-contain"
-                  />
-                </div>
-                <p className="font-parabolica mt-3 text-xs font-medium leading-snug text-gray-800 sm:text-sm">
-                  {partner.name}
-                </p>
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <div className="overflow-hidden">
+          <ul
+            className="animate-diemex-marquee flex w-max items-center hover:[animation-play-state:paused]"
+            style={{ animationDuration: "48s" }}
+          >
+            {row.map((partner, index) => (
+              <li key={`${partner.name}-${index}`} className="w-[220px] shrink-0 px-3 sm:w-[260px]">
+                <Link
+                  href={partner.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group block text-center"
+                >
+                  <div className="flex h-[88px] items-center justify-center overflow-hidden rounded-lg border border-gray-100 bg-white p-3 shadow-md transition group-hover:shadow-lg sm:h-32 sm:p-4">
+                    <img
+                      src={partner.logo}
+                      alt={partner.name}
+                      className="max-h-full max-w-full object-contain"
+                    />
+                  </div>
+                  <p className="font-parabolica mt-3 text-xs font-medium leading-snug text-gray-800 sm:text-sm">
+                    {partner.name}
+                  </p>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </SectionContainer>
   )
