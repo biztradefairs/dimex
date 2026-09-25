@@ -62,7 +62,7 @@ const navItems: NavItem[] = [
     ],
   },
   { title: "Contact us", dropdown: false, href: "/contact-us" },
-  { title: "Conference", dropdown: false, href: "/conference" },
+  // { title: "Conference", dropdown: false, href: "/conference" },
 ]
 
 // function DatesMarquee({ onKnowMore }: { onKnowMore: () => void }) {
@@ -123,16 +123,8 @@ function NavArrow() {
 export default function NavBar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null)
-  const [scrolled, setScrolled] = useState(false)
   const { loggedIn: exhibitorLoggedIn, ready: exhibitorReady } = useExhibitorLoggedIn()
   const pathname = usePathname()
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
-    onScroll()
-    window.addEventListener("scroll", onScroll, { passive: true })
-    return () => window.removeEventListener("scroll", onScroll)
-  }, [])
 
   useEffect(() => {
     document.body.style.overflow = mobileMenuOpen ? "hidden" : "unset"
@@ -158,16 +150,12 @@ export default function NavBar() {
         {/* <DatesMarquee onKnowMore={openDatesInfo} /> */}
 
         <div
-          className={`border-b bg-white/95 backdrop-blur-sm transition-shadow duration-300 ${
-            scrolled
-              ? "border-slate-200 shadow-[0_10px_30px_rgba(15,23,42,0.08)]"
-              : "border-slate-100 shadow-none"
-          }`}
+          className="border-b border-black/5 bg-white shadow-[0_1px_0_rgba(0,0,0,0.08),0_2px_12px_rgba(0,0,0,0.06)]"
         >
-          <div className="mx-auto flex h-[132px] max-w-[1600px] items-center justify-between gap-3 px-4 lg:h-[142px] lg:px-8">
+          <div className="mx-auto flex h-[156px] max-w-[1600px] items-center justify-between gap-3 px-4 lg:h-[168px] lg:px-8">
             <div className="flex min-w-0 shrink-0 items-center gap-2.5 sm:gap-4">
               <Link href="/" className="group flex shrink-0 items-center">
-                <div className="relative h-16 w-[164px] transition-opacity group-hover:opacity-80 sm:h-[76px] sm:w-[190px] lg:h-20 lg:w-[210px]">
+                <div className="relative h-[88px] w-[220px] transition-opacity group-hover:opacity-80 sm:h-[100px] sm:w-[250px] lg:h-[112px] lg:w-[280px]">
                   <Image
                     src="/images/diemex3.png"
                     alt="DIEMEX"
@@ -211,8 +199,8 @@ export default function NavBar() {
                     onMouseLeave={() => setActiveDropdown(null)}
                   >
                     <button
-                      className={`flex items-center gap-1 px-2.5 py-2 text-[14px] font-medium transition-colors xl:px-3.5 ${
-                        active ? "text-[#004A96]" : "text-slate-700 hover:text-[#004A96]"
+                      className={`flex items-center gap-1 px-2 py-2 text-[16px] font-bold tracking-wider uppercase whitespace-nowrap transition-colors xl:px-2.5 ${
+                        active ? "text-[#004A96]" : "text-[#011b2e] hover:text-[#004A96]"
                       }`}
                     >
                       {item.title}
@@ -240,10 +228,10 @@ export default function NavBar() {
                             <Link
                               key={link.href}
                               href={link.href}
-                              className={`block px-4 py-2.5 text-[13px] transition-colors ${
+                              className={`block px-[18px] py-[10px] text-[16px] font-bold tracking-wider uppercase transition-colors ${
                                 link.href === pathname
                                   ? "bg-[#004A96]/5 text-[#004A96]"
-                                  : "text-slate-600 hover:bg-[#004A96]/5 hover:text-[#004A96]"
+                                  : "text-black hover:text-[#004A96]"
                               }`}
                             >
                               {link.text}
@@ -257,8 +245,8 @@ export default function NavBar() {
                   <Link
                     key={item.title}
                     href={item.href!}
-                    className={`relative px-2.5 py-2 text-[14px] font-medium transition-colors xl:px-3.5 ${
-                      active ? "text-[#004A96]" : "text-slate-700 hover:text-[#004A96]"
+                    className={`relative px-2 py-2 text-[16px] font-bold tracking-wider uppercase whitespace-nowrap transition-colors xl:px-2.5 ${
+                      active ? "text-[#004A96]" : "text-[#011b2e] hover:text-[#004A96]"
                     }`}
                   >
                     {item.title}
@@ -324,7 +312,7 @@ export default function NavBar() {
             onClick={() => setMobileMenuOpen(false)}
           />
           <div
-            className="fixed top-[170px] right-0 left-0 z-[9999] max-h-[calc(100dvh-170px)] overflow-y-auto bg-white shadow-2xl xl:hidden"
+            className="fixed top-[194px] right-0 left-0 z-[9999] max-h-[calc(100dvh-194px)] overflow-y-auto bg-white shadow-2xl xl:hidden"
             style={{ animation: "slideDown 0.22s ease-out" }}
           >
             <div className="px-5 py-4">
@@ -333,7 +321,7 @@ export default function NavBar() {
                   <div key={item.title} className="border-b border-slate-100">
                     <button
                       onClick={() => setActiveDropdown(activeDropdown === i ? null : i)}
-                      className="flex w-full items-center justify-between py-3.5 text-sm font-semibold text-slate-800"
+                      className="flex w-full items-center justify-between py-3.5 text-base font-bold tracking-wider text-[#011b2e] uppercase"
                     >
                       <span>{item.title}</span>
                       <ChevronDown
@@ -353,8 +341,8 @@ export default function NavBar() {
                             key={link.href}
                             href={link.href}
                             onClick={() => setMobileMenuOpen(false)}
-                            className={`block py-2 text-sm ${
-                              link.href === pathname ? "font-medium text-[#004A96]" : "text-slate-600"
+                            className={`block py-2 text-base font-bold tracking-wide uppercase ${
+                              link.href === pathname ? "text-[#004A96]" : "text-slate-800"
                             }`}
                           >
                             {link.text}
@@ -368,8 +356,8 @@ export default function NavBar() {
                     key={item.title}
                     href={item.href!}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`block border-b border-slate-100 py-3.5 text-sm font-semibold ${
-                      item.href === pathname ? "text-[#004A96]" : "text-slate-800"
+                    className={`block border-b border-slate-100 py-3.5 text-base font-bold tracking-wider uppercase ${
+                      item.href === pathname ? "text-[#004A96]" : "text-[#011b2e]"
                     }`}
                   >
                     {item.title}

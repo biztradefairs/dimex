@@ -133,7 +133,7 @@ export default function HeroSection() {
       {/* =========================================================
           HERO
       ========================================================= */}
-      <div className="relative overflow-hidden lg:h-[760px] xl:h-[780px]">
+      <div className="relative overflow-hidden lg:h-[800px] xl:h-[820px]">
         {/* =======================================================
             BASE BLUE BACKGROUND
         ======================================================= */}
@@ -394,11 +394,11 @@ export default function HeroSection() {
               max-w-[720px]
               flex-col
               items-start
-              pt-[188px]
+              pt-[214px]
               text-left
               lg:max-w-[760px]
-              lg:pt-[200px]
-              xl:pt-[208px]
+              lg:pt-[226px]
+              xl:pt-[234px]
             "
           >
             <p
@@ -449,20 +449,19 @@ export default function HeroSection() {
             <h2
               className="
                 mt-4
-                max-w-[720px]
+                max-w-[760px]
                 text-[28px]
                 font-extrabold
-                leading-[1.15]
-                tracking-[-0.03em]
+                leading-none
+                tracking-[-0.02em]
                 sm:mt-6
                 sm:text-[36px]
                 lg:text-[46px]
                 xl:text-[54px]
               "
             >
-              Where global die &amp; mould leaders
-              <br className="hidden sm:block" /> meet India&apos;s
-              manufacturers.
+              <span className="block">Where global die &amp; mould leaders</span>
+              <span className="mt-3 block sm:mt-4">meet India&apos;s manufacturers.</span>
             </h2>
 
             {/* DESCRIPTION */}
@@ -716,9 +715,9 @@ export default function HeroSection() {
           className="
             absolute
             right-5
-            top-[188px]
+            top-[214px]
             z-40
-            lg:top-[200px]
+            lg:top-[226px]
             hidden
             gap-2
             lg:flex
