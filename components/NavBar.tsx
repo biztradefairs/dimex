@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { ChevronDown, Menu, X } from "lucide-react"
+import { ChevronDown, Home, Menu, X } from "lucide-react"
 import Image from "next/image"
 import ExhibitorNavProfile, { useExhibitorLoggedIn } from "./ExhibitorNavProfile"
 
@@ -15,7 +15,7 @@ type NavItem = {
 }
 
 const navItems: NavItem[] = [
-  // { title: "Home", dropdown: false, href: "/" },
+  { title: "Home", dropdown: false, href: "/" },
   {
     title: "Exhibit",
     dropdown: true,
@@ -244,11 +244,16 @@ export default function NavBar() {
                   <Link
                     key={item.title}
                     href={item.href!}
-                    className={`relative px-2 py-2 text-[16px] font-bold tracking-wider uppercase whitespace-nowrap transition-colors xl:px-2.5 ${
+                    aria-label={item.title === "Home" ? "Home" : undefined}
+                    className={`relative flex items-center px-2 py-2 text-[16px] font-bold tracking-wider uppercase whitespace-nowrap transition-colors xl:px-2.5 ${
                       active ? "text-[#004A96]" : "text-[#011b2e] hover:text-[#004A96]"
                     }`}
                   >
-                    {item.title}
+                    {item.title === "Home" ? (
+                      <Home className="h-5 w-5" strokeWidth={2.2} />
+                    ) : (
+                      item.title
+                    )}
                     <span
                       className={`absolute bottom-0 left-2.5 h-[2px] rounded-full bg-[#004A96] transition-all duration-200 ${
                         active ? "right-2.5 opacity-100" : "right-[calc(100%-2.5px)] opacity-0"
@@ -359,7 +364,14 @@ export default function NavBar() {
                       item.href === pathname ? "text-[#004A96]" : "text-[#011b2e]"
                     }`}
                   >
-                    {item.title}
+                    {item.title === "Home" ? (
+                      <span className="inline-flex items-center gap-2">
+                        <Home className="h-5 w-5" strokeWidth={2.2} />
+                        Home
+                      </span>
+                    ) : (
+                      item.title
+                    )}
                   </Link>
                 )
               )}
