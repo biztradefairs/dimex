@@ -14,7 +14,7 @@ export default function PostShowReportPage() {
     <>
     <main className="bg-white font-parabolica">
       {/* HERO */}
-      <section className="bg-[#004A96] pt-40 pb-20">
+      <section className="bg-[#004A96] pt-16 pb-20">
         <SectionContainer>
           <h1 className="text-5xl lg:text-6xl font-bold text-white">
             Proven Success

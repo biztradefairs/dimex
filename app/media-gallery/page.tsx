@@ -76,8 +76,8 @@ export default function MediaGalleryPage() {
       {/* Page Content */}
       <div className="">
         {/* Hero Section */}
-        <div className="bg-[#004A96] py-20">
-          <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8 mt-15">
+        <div className="bg-[#004A96] py-16 sm:py-20">
+          <div className="mx-auto max-w-[1600px] px-4 sm:px-6 lg:px-8">
             <div className="flex flex-col justify-end">
               <h2 className="title-72 text-white">Explore Diemex Over the Years</h2>
               <p className="max-w-6xl whitespace-pre-line py-5 text-white/80">

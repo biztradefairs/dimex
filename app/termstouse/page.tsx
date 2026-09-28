@@ -11,7 +11,7 @@ export default function TermsOfUsePage() {
   return (
     <main className="bg-white font-parabolica">
       {/* HERO SECTION */}
-      <section className="bg-[#004A96] pt-40 pb-20">
+      <section className="bg-[#004A96] pt-16 pb-20">
         <SectionContainer>
           <h1 className="text-5xl sm:text-6xl font-bold text-white">
             Terms of Use

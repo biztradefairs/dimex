@@ -6,7 +6,7 @@ import { partners } from "@/components/section/PartnersSection"
 export default function ParticipantsPage() {
   return (
     <div className="min-h-screen bg-[#f4f7fb] font-parabolica">
-      <section className="bg-[#004A96] pt-36 pb-14 sm:pt-40 sm:pb-16">
+      <section className="bg-[#004A96] pt-12 pb-14 sm:pt-16 sm:pb-16">
         <div className="mx-auto max-w-[1240px] px-4 sm:px-6 lg:px-8">
           <p className="text-[12px] font-bold tracking-[0.22em] text-white/70 uppercase">
             DIEMEX 2027

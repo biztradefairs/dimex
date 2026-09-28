@@ -53,7 +53,7 @@ export default function HeroSection() {
         <div className="absolute top-0 right-0 z-10 h-full w-[70%] bg-[#004A96] max-[1100px]:w-[56%] max-[900px]:h-full max-[900px]:w-full">
           <div className="absolute inset-0 overflow-hidden [clip-path:ellipse(78%_140%_at_100%_120%)] max-[900px]:[clip-path:ellipse(72%_60%_at_100%_100%)]">
             <iframe
-              className="pointer-events-none absolute top-1/2 left-1/2 block h-[210%] w-[210%] -translate-x-1/2 -translate-y-1/2 border-none bg-transparent max-[900px]:h-[260%] max-[900px]:w-[260%]"
+              className="pointer-events-none absolute top-1/2 left-1/2 block h-[170%] w-[170%] -translate-x-1/2 -translate-y-1/2 border-none bg-transparent max-[900px]:h-[210%] max-[900px]:w-[210%]"
               src={IFRAME_SRC}
               title="DIEMEX 2027 Exhibition"
               allow="autoplay; fullscreen"

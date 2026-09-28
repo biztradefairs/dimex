@@ -89,7 +89,7 @@ export default function ArticlesPage() {
   initial={{ opacity: 0, y: 20 }}
   animate={{ opacity: 1, y: 0 }}
   transition={{ duration: 0.8 }}
-  className="bg-[#004A96] pt-40 pb-20"
+  className="bg-[#004A96] pt-16 pb-20"
 >
   <div className="mx-auto max-w-[1240px] lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1600px] px-4 sm:px-6 lg:px-8">
     <motion.h1

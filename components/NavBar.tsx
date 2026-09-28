@@ -17,6 +17,15 @@ type NavItem = {
 const navItems: NavItem[] = [
   { title: "Home", dropdown: false, href: "/" },
   {
+    title: "About",
+    dropdown: true,
+    links: [
+      { text: "About Diemex", href: "/about-diemex" },
+      { text: "About The Organizer", href: "/about-organizer" },
+      { text: "Partners & Sponsors", href: "/partners-and-sponsors" },
+    ],
+  },
+  {
     title: "Exhibit",
     dropdown: true,
     links: [
@@ -35,7 +44,7 @@ const navItems: NavItem[] = [
     dropdown: true,
     links: [
       { text: "Why Visit", href: "/why-visit" },
-      { text: "Digital Visitor Pass", href: "/passes" },
+      // { text: "Digital Visitor Pass", href: "/passes" },
       { text: "Event Sector", href: "/sectors" },
       { text: "Exhibitor List", href: "/exhibition-directory" },
       { text: "Participants", href: "/participants" },
@@ -52,15 +61,7 @@ const navItems: NavItem[] = [
       { text: "Media Gallery", href: "/media-gallery" },
     ],
   },
-  {
-    title: "About",
-    dropdown: true,
-    links: [
-      { text: "About Diemex", href: "/about-diemex" },
-      { text: "About The Organizer", href: "/about-organizer" },
-      { text: "Partners & Sponsors", href: "/partners-and-sponsors" },
-    ],
-  },
+ 
   { title: "Contact us", dropdown: false, href: "/contact-us" },
   // { title: "Conference", dropdown: false, href: "/conference" },
 ]

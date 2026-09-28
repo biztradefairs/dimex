@@ -34,7 +34,7 @@ export default function RegisterPageContent() {
 
     return (
         <main className="bg-white font-parabolica">
-            <div className="bg-[#004A96] pt-48 pb-10">
+            <div className="bg-[#004A96] pt-12 pb-8 sm:pt-14">
                 <SectionContainer>
                     <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white">
                         {hero.title}

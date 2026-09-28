@@ -46,7 +46,7 @@ function ThankYouContent() {
   const copy = useMemo(() => COPY[tab], [tab]);
 
   return (
-    <main className="flex min-h-[70vh] items-center justify-center bg-[#004A96] px-4 py-28">
+    <main className="flex min-h-[70vh] items-center justify-center bg-[#004A96] px-4 py-16">
       <div className="w-full max-w-xl rounded-3xl bg-white p-8 text-center shadow-xl sm:p-12">
         <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-emerald-500 text-white shadow-lg shadow-emerald-500/30">
           <CheckCircle2 className="h-9 w-9" />

@@ -119,7 +119,15 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <UTMProvider>
             {!hideLayout && <NavBar />}
-            <main className="flex-grow w-full">{children}</main>
+            <main
+              className={`w-full flex-grow ${
+                !hideLayout && pathname !== "/"
+                  ? "pt-[84px] sm:pt-[112px] lg:pt-[168px]"
+                  : ""
+              }`}
+            >
+              {children}
+            </main>
             {!hideLayout && <Footer />}
           </UTMProvider>
         </Suspense>
