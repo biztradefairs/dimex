@@ -15,7 +15,7 @@ type NavItem = {
 }
 
 const navItems: NavItem[] = [
-  { title: "Home", dropdown: false, href: "/" },
+  // { title: "Home", dropdown: false, href: "/" },
   {
     title: "Exhibit",
     dropdown: true,
@@ -169,19 +169,19 @@ export default function NavBar() {
 
               <div className="flex min-w-0 flex-col justify-center">
                 <div className="flex items-center gap-1 sm:mb-1 sm:gap-2">
-                  <span className="text-[9px] leading-none font-bold tracking-wider text-[#020202] uppercase sm:text-[11px] lg:text-[13px]">
+                  <span className="text-[8px] leading-none font-bold tracking-wider text-[#020202] uppercase sm:text-[10px] lg:text-[11px]">
                     Supported By
                   </span>
                   <img
                     src="/images/idemi.png"
                     alt="IDEMI"
-                    className="h-7 w-auto max-w-[64px] object-contain sm:h-12 sm:max-w-[104px] lg:h-[72px] lg:max-w-none"
+                    className="h-6 w-auto max-w-[52px] object-contain sm:h-9 sm:max-w-[80px] lg:h-12 lg:max-w-[96px]"
                   />
                 </div>
-                <span className="hidden text-[0.8rem] leading-[1.1] font-normal text-black uppercase sm:block lg:text-[1.05rem]">
+                <span className="hidden text-[11px] leading-[1.1] font-normal text-black uppercase sm:block lg:text-[13px]">
                   Pune, India
                 </span>
-                <span className="hidden text-[0.85rem] leading-[1.1] font-semibold text-black uppercase sm:block lg:text-[1.12rem]">
+                <span className="hidden text-[11px] leading-[1.1] font-semibold text-black uppercase sm:block lg:text-[13px]">
                   24 – 26 March 2027
                 </span>
               </div>
