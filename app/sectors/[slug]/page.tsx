@@ -335,16 +335,16 @@ export async function generateMetadata({
 
   if (!sectorData) {
     return {
-      title: `${displayName} | Diemex 2026`,
-      description: `Explore ${displayName.toLowerCase()} solutions at Diemex 2026. Connect with industry leaders and discover innovative solutions.`,
+      title: `${displayName} | Diemex 2027`,
+      description: `Explore ${displayName.toLowerCase()} solutions at Diemex 2027. Connect with industry leaders and discover innovative solutions.`,
     };
   }
 
   return {
-    title: `${sectorData.title} | Diemex 2026`,
+    title: `${sectorData.title} | Diemex 2027`,
     description: sectorData.description,
     openGraph: {
-      title: `${sectorData.title} | Diemex 2026`,
+      title: `${sectorData.title} | Diemex 2027`,
       description: sectorData.description,
       images: [sectorData.heroImage],
     },

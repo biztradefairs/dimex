@@ -54,7 +54,7 @@ export default function ExhibitorPromotionPage() {
           </h1>
 
           <p className="max-w-10xl text-lg leading-relaxed text-white/80">
-            As an exhibitor at Diemex 2026, maximise your impact by inviting your
+            As an exhibitor at Diemex 2027, maximise your impact by inviting your
             clients, partners, and prospects to visit your stand for free! We're
             providing you with an exclusive branded materials, ensuring your audience can easily register and connect with you
             at the event.
@@ -68,7 +68,7 @@ export default function ExhibitorPromotionPage() {
           {/* TEXT */}
           <div className='text-[#4D4D4D]'>
             <h2 className="text-2xl lg:text-3xl font-bold text-[#4D4D4D] mb-6 leading-tight">
-              Invite Your Clients to Diemex 2026
+              Invite Your Clients to Diemex 2027
             </h2>
 
             <h3 className="text-2xl lg:text-3xl font-semibold mb-4">
@@ -131,7 +131,7 @@ export default function ExhibitorPromotionPage() {
               <p className="text-lg lg:text-xl leading-relaxed text-black/80 mb-6">
                 Use your <strong>Logo</strong> to personally invite
                 your clients, distributors, and business partners to visit your stand
-                at <strong>Diemex 2026</strong> for free. Add Logo to
+                at <strong>Diemex 2027</strong> for free. Add Logo to
                 your email invitations and formal letters to ensure they secure their
                 <strong> free electronic ticket</strong>.
               </p>
@@ -178,7 +178,7 @@ export default function ExhibitorPromotionPage() {
               <p className="text-lg lg:text-xl leading-relaxed text-black/80 mb-6">
                 Announce your participation in the exhibition on your company website.
                 Share your stand number, product information, and invite visitors to
-                meet you at <strong>Diemex 2026</strong>.
+                meet you at <strong>Diemex 2027</strong>.
               </p>
 
               <a
@@ -201,7 +201,7 @@ export default function ExhibitorPromotionPage() {
                 Promote your <strong>product launches</strong> through company
                 newsletters, industry publications, and press releases to maximise
                 visibility and encourage visitors to attend
-                <strong> Diemex 2026</strong>.
+                <strong> Diemex 2027</strong>.
               </p>
 
               <a
@@ -251,7 +251,7 @@ export default function ExhibitorPromotionPage() {
                   />
 
                   <p className="font-semibold text-black">
-                    Diemex 2026 | 3rd Edition
+                    Diemex 2027 | 3rd Edition
                   </p>
 
                   <p>

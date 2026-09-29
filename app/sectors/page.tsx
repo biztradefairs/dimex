@@ -74,7 +74,7 @@ export default function SectorsPage() {
               Event Sectors
             </h1>
             <p className="text-lg lg:text-xl max-w-full text-white/90">
-  DIEMEX 2026 showcases the complete spectrum of die & mould manufacturing, tooling technologies, advanced machine tools, automation, additive manufacturing, and smart factory innovations.
+  DIEMEX 2027 showcases the complete spectrum of die & mould manufacturing, tooling technologies, advanced machine tools, automation, additive manufacturing, and smart factory innovations.
 </p>
           </div>
         </SectionContainer>
@@ -85,7 +85,7 @@ export default function SectorsPage() {
         <SectionContainer>
           <div className="mb-6 lg:mb-8">
             <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-3 w-full">
-  DIEMEX 2026 Event Sectors
+  DIEMEX 2027 Event Sectors
 </h2>
 
 <p className="text-gray-600 text-lg lg:text-xl w-full">

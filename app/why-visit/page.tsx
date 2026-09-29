@@ -70,7 +70,7 @@ export default function WhyVisit() {
                 transition={{ duration: 0.8, delay: 0.1 }}
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-5xl xl:text-6xl font-bold text-white mb-4 sm:mb-6 max-w-4xl"
               >
-                Why Visit DIEMEX 2026
+                Why Visit DIEMEX 2027
               </motion.h1>
 <motion.p
   initial={{ opacity: 0, y: 20 }}
@@ -270,7 +270,7 @@ export default function WhyVisit() {
                 viewport={{ once: true }}
                 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-8 sm:mb-12 text-center sm:text-left"
               >
-                Why Attend DIEMEX 2026
+                Why Attend DIEMEX 2027
               </motion.h2>
 
               <motion.div
@@ -345,7 +345,7 @@ export default function WhyVisit() {
                 </h2>
 
                 <p className="text-gray-700 text-sm sm:text-base md:text-[10] max-w-8xl mb-6 sm:mb-10 leading-relaxed">
-                  Here are DIEMEX 2026–aligned rewrites, keeping the same tone and intent but suited to a growing, credibility-focused exhibition. The first option is recommended.
+                  Here are DIEMEX 2027–aligned rewrites, keeping the same tone and intent but suited to a growing, credibility-focused exhibition. The first option is recommended.
                 </p>
                 <Link href='/post-show-report'>
                   <motion.button
@@ -519,7 +519,7 @@ export default function WhyVisit() {
           whileTap={{ scale: 0.95 }}
           className="bg-[#004A96] hover:bg-[#003875] text-white px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm sm:text-base font-medium transition-all duration-300 w-full sm:w-auto"
         >
-          View 2026 Exhibitor List
+          View 2027 Exhibitor List
         </motion.button>
       </Link>
     </div>

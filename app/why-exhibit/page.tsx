@@ -188,7 +188,7 @@ const staggerContainer = {
                   transition={{ duration: 0.8, delay: 0.2 }}
                   className="mt-4 text-sm sm:text-base lg:text-lg text-white/90"
                 >
-                  Discover new possibilities at DIEMEX 2026—where industry leaders connect,
+                  Discover new possibilities at DIEMEX 2027—where industry leaders connect,
                   collaborate, and innovate.
                 </motion.p>
 
@@ -425,7 +425,7 @@ const staggerContainer = {
                 },
                 {
                   title: "Long-Term Growth & Investment Potential",
-                  text: "India’s die & mould and tooling sector is poised for sustained expansion through 2026 and beyond, driven by capacity expansion, technology upgrades, automation, and global sourcing shifts—creating strong opportunities for technology providers, material suppliers, and solution partners.",
+                  text: "India’s die & mould and tooling sector is poised for sustained expansion through 2027 and beyond, driven by capacity expansion, technology upgrades, automation, and global sourcing shifts—creating strong opportunities for technology providers, material suppliers, and solution partners.",
                   image: "/images/investment.jpg"
                 }
               ].map((item, index) => (
@@ -784,7 +784,7 @@ const staggerContainer = {
                 href="/exhibition-directory"
                 className="inline-block bg-[#004A96] hover:bg-[#003875] text-white px-6 py-3 rounded-full text-base font-medium"
               >
-                View 2026 Exhibitor List
+                View 2027 Exhibitor List
               </Link>
             </motion.button>
           </SectionContainer>
@@ -808,13 +808,13 @@ const staggerContainer = {
               className="relative z-10 text-center"
             >
               <h2 className="text-4xl lg:text-5xl font-bold mb-4">
-                Your Journey Starts Here: Essential Travel Info for DIEMEX 2026
+                Your Journey Starts Here: Essential Travel Info for DIEMEX 2027
               </h2>
 
               <p className="text-lg mb-8 max-w-3xl mx-auto">
                 Whether you are travelling from across India or from overseas, find all
                 the essential information you need to ensure a smooth, comfortable, and
-                hassle-free visit to DIEMEX 2026 at the Auto Cluster Exhibition Centre,
+                hassle-free visit to DIEMEX 2027 at the Auto Cluster Exhibition Centre,
                 Pune, India.
               </p>
 

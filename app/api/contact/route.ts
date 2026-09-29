@@ -152,7 +152,7 @@ async function sendThankYouEmail(data: any, formType: string) {
           </div>
           <div class="footer">
             <p><strong>${SITE_NAME}</strong></p>
-            <p>17-19 March 2026 | Crocus Expo, Moscow</p>
+            <p>17-19 March 2027 | Crocus Expo, Moscow</p>
             <p>Phone: +7-(495)-799-55-85 | Email: transport@ite.group</p>
           </div>
         </div>

@@ -317,7 +317,7 @@ const GuideSection: React.FC = () => {
     },
     {
       title: "Freight, Handling & Customs",
-      content: "The officially appointed Clearing & Forwarding (C&F) Agent for DIEMEX 2026 will handle the shipment of exhibits, equipment, materials, and stand components. Exhibitors are strongly advised to coordinate with the official C&F agent to ensure timely, secure, and smooth delivery to the venue.",
+      content: "The officially appointed Clearing & Forwarding (C&F) Agent for DIEMEX 2027 will handle the shipment of exhibits, equipment, materials, and stand components. Exhibitors are strongly advised to coordinate with the official C&F agent to ensure timely, secure, and smooth delivery to the venue.",
       imageSrc: "/images/freight.jpg",
       link: "/exhibitor-resource-center"
     },

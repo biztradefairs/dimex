@@ -4,7 +4,7 @@ import SectionContainer from "@/components/UI/SectionContainer"
 import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 
 export const metadata: Metadata = {
-  title: "Contact Us | Diemex 2026",
+  title: "Contact Us | Diemex 2027",
   description: "Get in touch with Diemex Expo. Contact our team for sales, marketing, technical, or general exhibition enquiries.",
 }
 

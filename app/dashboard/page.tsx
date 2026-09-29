@@ -177,7 +177,7 @@ export default function EnhancedDashboardPage() {
     { id: 3, title: "Exhibition Day", value: dashboardData.event.exhibitionDay, icon: CalendarIcon },
     { id: 4, title: "Dismantle Day", value: dashboardData.event.dismantleDay, icon: TrashIcon },
   ] : [
-    { id: 1, title: "Event Name", value: "DIEMEX 2026", icon: BuildingOfficeIcon },
+    { id: 1, title: "Event Name", value: "DIEMEX 2027", icon: BuildingOfficeIcon },
     { id: 2, title: "Venue", value: "Auto Cluster Exhibition Center", icon: MapIcon },
     { id: 3, title: "Exhibition Day", value: "24th March, 2027", icon: CalendarIcon },
     { id: 4, title: "Dismantle Day", value: "26th March, 2027", icon: TrashIcon },

@@ -284,7 +284,7 @@ export default function HomePage() {
             <section className="w-full">
               <div className="mx-auto w-full max-w-[1240px] lg:max-w-[1320px] xl:max-w-[1440px] 2xl:max-w-[1600px] px-4 sm:px-6 lg:px-8">
                 <SpeakersSection
-                  title="Top speakers Diemex Conference 2026"
+                  title="Top speakers Diemex Conference 2027"
                   subtitle="The largest Die, Mould and Tooling leaders"
                   speakers={speakersData}
                 />

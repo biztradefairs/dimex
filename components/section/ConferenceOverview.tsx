@@ -11,7 +11,7 @@ const ConferenceOverview = () => {
         </h2>
 
        <p className="max-w-9xl text-base leading-relaxed text-black/80 mb-10">
-  The <strong>DIEMEX 2026 Conference</strong> features a series of high-impact industry sessions delivering practical insights and forward-looking strategies for the die & mould, tooling, and precision manufacturing sectors. 
+  The <strong>DIEMEX 2027 Conference</strong> features a series of high-impact industry sessions delivering practical insights and forward-looking strategies for the die & mould, tooling, and precision manufacturing sectors. 
 
   Industry leaders, technology innovators, and international experts will share trends, best practices, case studies, and real-world applications shaping the future of advanced manufacturing in India and globally.
   <br /><br />

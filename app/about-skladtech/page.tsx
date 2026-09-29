@@ -442,7 +442,7 @@ const slideInFromRight: Variants = {
                 whileTap={{ scale: 0.95 }}
                 className="flex-start group w-fit gap-3 overflow-hidden rounded-full px-10 py-4 text-[18px] font-semibold global-transition bg-[#004A96] text-white hover:bg-[#003875] hover:shadow-xl transition-all duration-300"
               >
-                View Our 2026 Exhibitor List
+                View Our 2027 Exhibitor List
                 <motion.span
                   animate={{ x: [0, 5, 0] }}
                   transition={{ repeat: Infinity, duration: 1.5 }}
@@ -490,8 +490,8 @@ const slideInFromRight: Variants = {
                 className="bg-[#E8F1F8] p-8 rounded-lg transition-all duration-300"
               >
                 <h3 className="text-lg lg:text-xl font-semibold text-[#004A96] mb-4">Opening Hours</h3>
-                <p className="text-gray-800 font-medium text-lg">12-16 March 2026, 10:00 -18:00</p>
-                <p className="text-gray-800 font-medium text-lg">19 March 2026, 10:00 -18:00</p>
+                <p className="text-gray-800 font-medium text-lg">12-16 March 2027, 10:00 -18:00</p>
+                <p className="text-gray-800 font-medium text-lg">19 March 2027, 10:00 -18:00</p>
               </motion.div>
             </div>
 
@@ -556,7 +556,7 @@ const slideInFromRight: Variants = {
                 className="mx-auto mb-8 max-w-2xl text-lg lg:text-xl text-white/90"
               >
                 Whether you're traveling from across the globe or nearby, we've got you covered. 
-                Find all the essential information to ensure a smooth and hassle-free trip to SkladTech 2026.
+                Find all the essential information to ensure a smooth and hassle-free trip to SkladTech 2027.
               </motion.p>
               <motion.button
                 whileHover={{ 

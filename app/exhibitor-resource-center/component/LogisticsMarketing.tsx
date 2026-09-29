@@ -19,7 +19,7 @@ export default function LogisticsMarketing() {
             <div className="mb-8 flex-grow">
   <div className="prose prose-xl max-w-none text-[#4D4D4D]">
     <p className="text-[18px]">
-      Diemex 2026 partners with Buhariwala Logistics for all freight handling requests from exhibitors.
+      Diemex 2027 partners with Buhariwala Logistics for all freight handling requests from exhibitors.
     </p>
 
     <p className="text-[18px]">
@@ -86,7 +86,7 @@ export default function LogisticsMarketing() {
 
       <p className="text-lg text-white/95 leading-relaxed mb-8">
         To increase the effectiveness of participation in the exhibition, take advantage
-        of the partnership and additional advertising opportunities of Diemex 2026 Expo.
+        of the partnership and additional advertising opportunities of Diemex 2027 Expo.
       </p>
 
       <Link

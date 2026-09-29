@@ -6,7 +6,7 @@ export default function HeroSection() {
       {/* BACKGROUND IMAGE */}
       <img
         src="/images/exbibitor-resource-center/image1.png"
-        alt="Diemex 2026"
+        alt="Diemex 2027"
         className="absolute inset-0 h-full w-full object-cover"
       />
 

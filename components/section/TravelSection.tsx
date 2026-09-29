@@ -35,7 +35,7 @@ const TravelSection = () => {
             <div className="relative">
               <div className="absolute inset-0 bg-black/30 blur-sm rounded-lg"></div>
               <p className="relative text-white text-lg md:text-xl lg:text-2xl max-w-3xl mx-auto leading-relaxed px-4 py-2">
-                Whether you’re traveling from across India or overseas, we’ve got you covered. Find all the essential information to ensure a smooth, convenient, and hassle-free visit to DIEMEX 2026 at the Auto Cluster Exhibition Centre, Pune.
+                Whether you’re traveling from across India or overseas, we’ve got you covered. Find all the essential information to ensure a smooth, convenient, and hassle-free visit to DIEMEX 2027 at the Auto Cluster Exhibition Centre, Pune.
               </p>
             </div>
 

@@ -8,10 +8,10 @@ import Link from 'next/link';
 
 // export const metadata: Metadata = {
 //   title: "Die & Mould Exhibition Trade Show | DIEMEX",
-//   description: "Join Diemex 2026, the premier internatinal die and mould exhibition at Auto Cluster Exhibition Centre, Pune.. Network with global industry leaders and explore cutting-edge solutions.",
+//   description: "Join Diemex 2027, the premier internatinal die and mould exhibition at Auto Cluster Exhibition Centre, Pune.. Network with global industry leaders and explore cutting-edge solutions.",
 //   openGraph: {
 //     title: "Die & Mould Exhibition Trade Show | DIEMEX",
-//   description: "Join Diemex 2026, the premier internatinal die and mould exhibition at Auto Cluster Exhibition Centre, Pune.. Network with global industry leaders and explore cutting-edge solutions.",
+//   description: "Join Diemex 2027, the premier internatinal die and mould exhibition at Auto Cluster Exhibition Centre, Pune.. Network with global industry leaders and explore cutting-edge solutions.",
 //     images: ["/images/image.png"]
 //   }
 // };
@@ -52,7 +52,7 @@ export default function ExploreMoscowPage() {
 
     <p className="text-gray-700 text-lg">
       Welcome to Pune, a city where rich heritage meets modern industry. As Maharashtra’s cultural capital and a leading 
-      manufacturing and automotive hub, Pune offers a vibrant experience for business visitors and travellers. From historic landmarks and lively markets to fine dining, museums, and cultural venues, the city has much to explore during your visit to DIEMEX 2026 and beyond.
+      manufacturing and automotive hub, Pune offers a vibrant experience for business visitors and travellers. From historic landmarks and lively markets to fine dining, museums, and cultural venues, the city has much to explore during your visit to DIEMEX 2027 and beyond.
     </p>
   </div>
 </div>

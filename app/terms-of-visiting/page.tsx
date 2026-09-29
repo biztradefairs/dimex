@@ -45,7 +45,7 @@ const termsOfVisitingPageData = {
   hero: {
     title: "Before you visit...",
     description:
-      "Find all the important information, guidelines, and terms you need before attending DIEMEX 2026 – International Die & Mould Expo.",
+      "Find all the important information, guidelines, and terms you need before attending DIEMEX 2027 – International Die & Mould Expo.",
   },
   blocks: [
     {
@@ -60,12 +60,12 @@ const termsOfVisitingPageData = {
             <p>VISITING RULES APPLICABLE TO THE EVENTS ORGANIZED BY MAXX BUSINESS MEDIA PVT. LTD.</p>
             <p>&nbsp;</p>
             <p>&nbsp;</p>
-            <p>These visiting rules outline the guidelines for admission and conduct of visitors attending DIEMEX 2026 – International Die & Mould Expo. All visitors are required to read and comply with these terms while attending the exhibition.</p>
+            <p>These visiting rules outline the guidelines for admission and conduct of visitors attending DIEMEX 2027 – International Die & Mould Expo. All visitors are required to read and comply with these terms while attending the exhibition.</p>
             <p>&nbsp;</p>
             <p>&nbsp;</p>
             <p>1. INTRODUCTION</p>
             <p>&nbsp;</p>
-            <p>1.1. These rules define the procedures for admission and conduct of visitors at DIEMEX 2026, organized by Maxx Business Media Pvt. Ltd. (hereinafter referred to as the “Organizer”).</p>
+            <p>1.1. These rules define the procedures for admission and conduct of visitors at DIEMEX 2027, organized by Maxx Business Media Pvt. Ltd. (hereinafter referred to as the “Organizer”).</p>
             <p>&nbsp;</p>
             <p>1.2. Entry to the exhibition is permitted only after visitors have read and accepted these visiting rules.</p>
             <p>&nbsp;</p>
@@ -103,7 +103,7 @@ const termsOfVisitingPageData = {
             <p>&nbsp;</p>
             <p>4. RULES OF CONDUCT</p>
             <p>&nbsp;</p>
-            <p>4.1. Visitors attending DIEMEX 2026 are expected to maintain professional behavior at all times.</p>
+            <p>4.1. Visitors attending DIEMEX 2027 are expected to maintain professional behavior at all times.</p>
             <p>&nbsp;</p>
             <p>4.2. Visitors are not permitted to:</p>
             <p>&nbsp;</p>

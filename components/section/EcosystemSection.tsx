@@ -20,7 +20,7 @@ const EcosystemSection = () => {
     {
       number: "02",
       title: "Conference",
-      description: `Alongside the exhibition, DIEMEX 2026 features a comprehensive conference programme comprising technical conferences, expert forums, and industry-led sessions. These are carefully curated to encourage meaningful dialogue around die & mould technologies, tooling innovation, manufacturing trends, and future-ready production strategies.
+      description: `Alongside the exhibition, DIEMEX 2027 features a comprehensive conference programme comprising technical conferences, expert forums, and industry-led sessions. These are carefully curated to encourage meaningful dialogue around die & mould technologies, tooling innovation, manufacturing trends, and future-ready production strategies.
 
 - Gain insights from industry experts on the latest developments, challenges, and opportunities in die & mould and precision manufacturing.
 - Explore emerging technologies, including advanced tooling, materials, automation, digital design, and Industry 4.0 applications.

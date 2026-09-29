@@ -301,7 +301,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
             <SectionContainer>
               <div className="flex flex-col justify-end !pt-0 !pb-16">
                 <h1 className="text-4xl lg:text-6xl font-bold text-gray-900 mb-6 mt-15">
-                  {pageData?.Header?.Title || 'TransRussia 2026'}
+                  {pageData?.Header?.Title || 'TransRussia 2027'}
                 </h1>
                 <p className="text-lg text-gray-600 max-w-8xl">
                   Register now to access Eurasia's premier transport and logistics exhibition. Connect with industry leaders, discover innovations, and expand your network.
@@ -318,7 +318,7 @@ const TransRussiaPage: React.FC<TransRussiaPageProps> = ({
                     Get Your Visitor Pass
                   </span>
                   <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                    Register for Diemex 2026
+                    Register for Diemex 2027
                   </h2>
                   <p className="text-gray-600 text-lg">
                     Join 10,000+ industry professionals and 200+ exhibitors at the heart of Pune's Auto Cluster Exhibition Centre.
