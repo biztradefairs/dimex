@@ -503,8 +503,8 @@ function getSampleArticles(): Article[] {
   return [
     {
       id: '1',
-      title: 'Rail Freight Innovation Trends 2026',
-      slug: 'rail-freight-innovation-trends-2026',
+      title: 'Rail Freight Innovation Trends 2027',
+      slug: 'rail-freight-innovation-trends-2027',
       excerpt: 'Latest trends in rail freight technology and infrastructure',
       category: 'Rail',
       status: 'published',

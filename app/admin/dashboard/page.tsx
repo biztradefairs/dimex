@@ -110,7 +110,7 @@ export default function DashboardPage() {
     toast.success('Dashboard refreshed');
   };
 
-  // Format date from GA format (20260425 → Apr 25)
+  // Format date from GA format (20270425 → Apr 25)
   const formatDate = (dateStr: string) => {
     if (!dateStr || dateStr.length < 8) return 'Invalid Date';
     const date = new Date(
