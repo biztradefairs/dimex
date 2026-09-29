@@ -77,7 +77,7 @@ export default function OtpModal({
             <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-[#004A96] to-[#004A96] text-sm font-black text-white">
               D
             </div>
-            <p className="text-sm font-bold text-slate-900">DIEMEX 2026</p>
+            <p className="text-sm font-bold text-slate-900">DIEMEX 2027</p>
           </div>
           <button
             type="button"

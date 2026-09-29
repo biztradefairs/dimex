@@ -22,7 +22,7 @@ const COPY: Record<RegistrationTab, { title: string; body: string }> = {
   },
   brochure: {
     title: 'Your brochure request is on its way',
-    body: 'Thanks for requesting the DIEMEX 2026 brochure. The download link will arrive in your email shortly.',
+    body: 'Thanks for requesting the DIEMEX 2027 brochure. The download link will arrive in your email shortly.',
   },
 };
 

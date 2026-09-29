@@ -237,7 +237,7 @@ export default function PassRegisterPage() {
           <span className="inline-flex items-center rounded-full bg-emerald-400/20 px-3 py-1 text-xs font-semibold text-emerald-200 ring-1 ring-emerald-300/30">
             Registration Open
           </span>
-          <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">DIEMEX 2026</h1>
+          <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">DIEMEX 2027</h1>
           <div className="mt-5 max-w-2xl rounded-2xl border border-white/15 bg-white/10 p-4 text-sm leading-6 text-white/85 backdrop-blur">
             <p className="text-xs font-bold uppercase tracking-wide text-white/60">About This Event</p>
             <p className="mt-1">
@@ -271,7 +271,7 @@ export default function PassRegisterPage() {
         {step === 'phone' ? (
           <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/60 sm:p-8">
             <div className="overflow-hidden rounded-2xl bg-gradient-to-r from-[#004A96] to-[#004A96] px-5 py-4 text-white">
-              <p className="text-xs font-bold tracking-[0.18em] text-white/70">DIEMEX 2026</p>
+              <p className="text-xs font-bold tracking-[0.18em] text-white/70">DIEMEX 2027</p>
               <p className="text-lg font-black">International Die & Mould Exhibition</p>
               <p className="text-xs text-white/70">24–26 Mar 2027 · Pune, India</p>
             </div>

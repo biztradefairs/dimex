@@ -52,7 +52,7 @@ export default function PassViewPage() {
   return (
     <div className="min-h-screen bg-[#F7F8FC] px-4 py-12">
       <div className="mx-auto max-w-md text-center">
-        <p className="text-sm font-bold uppercase tracking-wide text-slate-400">DIEMEX 2026</p>
+        <p className="text-sm font-bold uppercase tracking-wide text-slate-400">DIEMEX 2027</p>
         <h1 className="mt-2 text-2xl font-black text-slate-900">Your Visitor Pass</h1>
         <div className="mt-8">
           <VisitorPassCard pass={pass} />

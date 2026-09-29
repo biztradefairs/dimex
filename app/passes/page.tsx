@@ -23,7 +23,7 @@ export default function PassesLandingPage() {
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-100">
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-            Registration Open for DIEMEX 2026
+            Registration Open for DIEMEX 2027
           </div>
 
           <h1 className="mt-6 max-w-xl text-4xl font-black leading-[1.05] tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
@@ -110,7 +110,7 @@ export default function PassesLandingPage() {
               Scan at entry for instant check-in.
             </p>
             <div className="mt-5 flex items-center justify-between text-xs">
-              <span className="font-semibold text-slate-600">DIEMEX 2026</span>
+              <span className="font-semibold text-slate-600">DIEMEX 2027</span>
               <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 font-bold text-emerald-700">
                 <BadgeCheck className="h-3.5 w-3.5" />
                 Verified Visitor

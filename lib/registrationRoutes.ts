@@ -35,12 +35,12 @@ export const REGISTRATION_HERO: Record<
     exhibitor: {
         title: 'Enquiry to Exhibit',
         subtitle:
-            'Please complete the form below and our team will contact you regarding DIEMEX 2026 exhibiting opportunities.',
+            'Please complete the form below and our team will contact you regarding DIEMEX 2027 exhibiting opportunities.',
     },
     sponsor: {
         title: 'Become a Partner',
         subtitle:
-            'Partner with DIEMEX 2026 and put your brand in front of 10,000+ professionals.',
+            'Partner with DIEMEX 2027 and put your brand in front of 10,000+ professionals.',
     },
     brochure: {
         title: 'Browse Through Your Event Brochure',

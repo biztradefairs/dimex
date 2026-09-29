@@ -25,7 +25,7 @@ export default function PassesChrome({
           <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white text-xs font-black text-[#004A96]">
             D
           </div>
-          <span className="hidden text-sm font-bold text-white sm:inline">DIEMEX 2026</span>
+          <span className="hidden text-sm font-bold text-white sm:inline">DIEMEX 2027</span>
         </div>
       </div>
     </header>

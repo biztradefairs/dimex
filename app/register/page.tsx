@@ -3,9 +3,9 @@ import { Suspense } from 'react';
 import RegisterPageContent from '@/components/RegisterPageContent';
 
 export const metadata: Metadata = {
-    title: 'Register | DIEMEX 2026',
+    title: 'Register | DIEMEX 2027',
     description:
-        'Register for DIEMEX 2026 — visitor registration, exhibitor enquiry, partnership, or brochure download.',
+        'Register for DIEMEX 2027 — visitor registration, exhibitor enquiry, partnership, or brochure download.',
 };
 
 export default function RegisterPage() {
