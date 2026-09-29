@@ -3,7 +3,7 @@ import SectionContainer from "@/components/UI/SectionContainer"
 
 const HeroSection = () => {
   return (
-    <section className="relative min-h-[60vh] lg:min-h-[70vh] flex items-end">
+    <section className="relative overflow-hidden">
       {/* BACKGROUND IMAGE - Full Width */}
       <img
         src="/images/about-header.jpg"
@@ -16,8 +16,8 @@ const HeroSection = () => {
 
       {/* CONTENT with SectionContainer */}
       <SectionContainer className="relative z-10">
-        <div className="flex h-full items-end">
-          <div className="pb-25 text-white">
+        <div className="pt-12 pb-8 sm:pt-14">
+          <div className="text-white">
             <h2 className="title-72">About DIEMEX 2026</h2>
             <p className="mt-4 max-w-6xl text-lg">
               

@@ -53,7 +53,7 @@ export default function WhyVisit() {
     <>
       <main className="bg-white overflow-hidden font-parabolica">
         {/* Hero Section */}
-        <section className="relative min-h-[60vh] lg:min-h-[70vh] flex items-end">
+        <section className="relative overflow-hidden">
           <motion.div
             initial={{ scale: 1.1 }}
             animate={{ scale: 1 }}
@@ -63,7 +63,7 @@ export default function WhyVisit() {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-[#004A96]/90 via-[#004A96]/50 to-[#004A96]/10" />
           <SectionContainer>
-            <div className="relative z-10 pb-8 sm:pb-12 md:pb-16 lg:pb-24 px-4 sm:px-0">
+            <div className="relative z-10 px-4 pt-12 pb-8 sm:px-0 sm:pt-14">
               <motion.h1
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}

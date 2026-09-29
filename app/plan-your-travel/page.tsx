@@ -165,7 +165,7 @@ const HeroSection: React.FC = () => {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      className="relative min-h-[60vh] lg:min-h-[70vh] flex justify-end bg-mainColor5 !pt-96 w-full"
+      className="relative w-full bg-[#004A96]"
     >
       <div className="w-full">
         <motion.div
@@ -183,7 +183,7 @@ const HeroSection: React.FC = () => {
         </motion.div>
 
         <SectionContainer>
-          <div className="flex flex-col justify-end !pt-0 !pb-10 text-white">
+          <div className="pt-12 pb-8 text-white sm:pt-14">
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

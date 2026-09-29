@@ -22,7 +22,7 @@ const navItems: NavItem[] = [
     links: [
       { text: "About Diemex", href: "/about-diemex" },
       { text: "About The Organizer", href: "/about-organizer" },
-      { text: "Partners & Sponsors", href: "/partners-and-sponsors" },
+      // { text: "Partners & Sponsors", href: "/partners-and-sponsors" },
     ],
   },
   {

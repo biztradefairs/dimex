@@ -217,14 +217,14 @@ export default function PublicFloorPlanPage() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="bg-[#004A96] py-16 lg:py-24 mb-12"
+        className="bg-[#004A96] pt-12 pb-8 sm:pt-14 mb-12"
       >
         <SectionContainer>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="mb-4 mt-20 text-4xl lg:text-4xl xl:text-5xl font-[600] text-white"
+            className="mb-4 text-4xl lg:text-4xl xl:text-5xl font-[600] text-white"
           >
             Exhibition Layout & Floor Plan
           </motion.h1>

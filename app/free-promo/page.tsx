@@ -47,8 +47,8 @@ export default function ExhibitorPromotionPage() {
   return (
     <div className="page-spacing-wrapper font-parabolica">
       {/* Header Section - Updated with proper padding */}
-      <div className="bg-[#004A96] pt-48 pb-16">
-        <div className="px-4 sm:px-6 lg:px-8 mx-auto max-w-[1600px] mt-10">
+      <div className="bg-[#004A96] pt-12 pb-8 sm:pt-14">
+        <div className="px-4 sm:px-6 lg:px-8 mx-auto max-w-[1600px]">
           <h1 className="title-72 text-white mb-6">
             Exhibitor Promotion
           </h1>

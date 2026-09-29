@@ -62,14 +62,14 @@ export default function SectorsPage() {
     
     <div className="min-h-screen font-parabolica">
       {/* Hero Section - COMPACT */}
-      <section className="relative min-h-[60vh] lg:min-h-[70vh] flex items-end">
+      <section className="relative overflow-hidden">
         <div
           className="absolute inset-0 z-0 bg-cover bg-center"
           style={{ backgroundImage: "url(/images/sectorheader.jpg)" }}
         />
         <div className="absolute inset-0 z-10 bg-gradient-to-t from-[#004A96]/90 via-[#004A96]/50 to-transparent" />
         <SectionContainer>
-          <div className="relative z-20 text-white pb-6 md:pb-10 pt-20">
+          <div className="relative z-20 text-white pt-12 pb-8 sm:pt-14">
             <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold mb-3">
               Event Sectors
             </h1>

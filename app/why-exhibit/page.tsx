@@ -152,7 +152,7 @@ const staggerContainer = {
     <>
       <main className="bg-white overflow-hidden">
         {/* HERO SECTION */}
-        <section className="relative min-h-[60vh] lg:min-h-[70vh] overflow-hidden">
+        <section className="relative overflow-hidden">
           {/* Background */}
           <motion.div
             initial={{ scale: 1.1 }}
@@ -169,7 +169,7 @@ const staggerContainer = {
           <div className="absolute inset-0 bg-gradient-to-r from-[#004A96]/90 via-[#004A96]/70 to-transparent" />
 
           <SectionContainer>
-            <div className="relative z-10 min-h-[60vh] lg:min-h-[70vh] flex items-center">
+            <div className="relative z-10 pt-12 pb-8 sm:pt-14">
 
               {/* LEFT CONTENT */}
               <div className="max-w-7xl text-white">
@@ -177,7 +177,7 @@ const staggerContainer = {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8 }}
-                  className="font-parabolica text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold mt-30"
+                  className="font-parabolica text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-bold"
                 >
                   Unlock New Opportunities at DIEMEX
                 </motion.h1>
