@@ -2,7 +2,7 @@ const API_BASE =
   process.env.NEXT_PUBLIC_API_BASE_URL ||
   `${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api`;
 
-export type PassChannel = 'sms' | 'whatsapp';
+export type PassChannel = 'sms' | 'whatsapp' | 'email';
 
 export type VisitorPass = {
   id: string;
@@ -92,6 +92,7 @@ export async function sendPassOtp(payload: {
   countryCode: string;
   mobile: string;
   channel: PassChannel;
+  email?: string;
 }) {
   const response = await fetch(`${API_BASE}/passes/send-otp`, {
     method: 'POST',
@@ -108,7 +109,6 @@ export async function sendPassOtp(payload: {
     resendIn: number;
     provider: string;
     simulated?: boolean;
-    devOtp?: string;
   }>(response);
 }
 
@@ -116,6 +116,7 @@ export async function resendPassOtp(payload: {
   countryCode: string;
   mobile: string;
   channel: PassChannel;
+  email?: string;
 }) {
   const response = await fetch(`${API_BASE}/passes/resend-otp`, {
     method: 'POST',
@@ -126,7 +127,6 @@ export async function resendPassOtp(payload: {
     success: true;
     message: string;
     resendIn: number;
-    devOtp?: string;
   }>(response);
 }
 
@@ -198,6 +198,51 @@ export async function resendVisitorPass(payload: {
 export async function fetchVisitorPass(code: string) {
   const response = await fetch(`${API_BASE}/passes/${encodeURIComponent(code)}`);
   return parseResponse<{ success: true; pass: VisitorPass }>(response);
+}
+
+export type ScanResult = {
+  success: true;
+  duplicate: boolean;
+  message: string;
+  visitor: {
+    name: string;
+    company: string;
+    registrationNumber: string;
+    publicCode: string;
+  };
+  scannedAt: string;
+  todayVisit?: number;
+  eventVisits?: number;
+};
+
+export type ScannerSummary = {
+  success: true;
+  today: {
+    scans: number;
+    visitors: number;
+    repeat: number;
+  };
+  recent: Array<{
+    id: string;
+    name: string;
+    company: string;
+    registrationNumber: string;
+    scannedAt: string;
+  }>;
+};
+
+export async function scanVisitorPass(code: string, scannerId: string) {
+  const response = await fetch(`${API_BASE}/passes/scan`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ code, scannerId }),
+  });
+  return parseResponse<ScanResult>(response);
+}
+
+export async function fetchScannerSummary() {
+  const response = await fetch(`${API_BASE}/passes/scanner/summary`);
+  return parseResponse<ScannerSummary>(response);
 }
 
 export async function checkInVisitorPass(code: string) {

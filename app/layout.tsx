@@ -25,7 +25,8 @@ export default function RootLayout({
     pathname?.startsWith("/dashboard") ||
     pathname?.startsWith("/login") ||
     pathname?.startsWith("/exhibition-directory/") ||
-    pathname?.startsWith("/passes");
+    pathname?.startsWith("/passes") ||
+    pathname?.startsWith("/scanner");
 
   // Track page views on route change with UTM data
   useEffect(() => {

@@ -6,10 +6,9 @@ import { Lightbulb, Lock, X } from 'lucide-react';
 type OtpModalProps = {
   open: boolean;
   phone: string;
-  channel: 'sms' | 'whatsapp';
+  channel: 'sms' | 'whatsapp' | 'email';
   expiresIn?: number;
   resendIn?: number;
-  devOtp?: string;
   loading?: boolean;
   error?: string;
   onClose: () => void;
@@ -23,7 +22,6 @@ export default function OtpModal({
   channel,
   expiresIn = 600,
   resendIn = 45,
-  devOtp,
   loading,
   error,
   onClose,
@@ -91,7 +89,7 @@ export default function OtpModal({
 
         <div className="px-6 pb-6 pt-7 text-center">
           <h2 className="text-2xl font-black tracking-tight text-slate-900">
-            Verify Your Phone Number
+            {channel === 'email' ? 'Verify Your Email' : 'Verify Your Phone Number'}
           </h2>
           <p className="mt-2 text-sm text-slate-500">
             We&apos;ve sent a 4-digit verification code to{' '}
@@ -99,14 +97,10 @@ export default function OtpModal({
           </p>
           <p className="mt-3 inline-flex items-center gap-1.5 text-xs text-slate-400">
             <Lightbulb className="h-3.5 w-3.5 text-amber-400" />
-            Tip: Copy the OTP and paste it here to auto-fill
+            {channel === 'email'
+              ? 'Check your inbox for the DIEMEX verification email.'
+              : 'Tip: Copy the OTP and paste it here to auto-fill'}
           </p>
-
-          {devOtp ? (
-            <div className="mt-4 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs text-amber-800">
-              Local test OTP: <span className="font-mono text-base font-bold tracking-[0.3em]">{devOtp}</span>
-            </div>
-          ) : null}
 
           <div className="mt-6 flex justify-center gap-3">
             {digits.map((digit, index) => (
@@ -176,7 +170,9 @@ export default function OtpModal({
           <p className="mt-2 text-xs text-slate-400">
             {channel === 'whatsapp'
               ? 'WhatsApp usually arrives within a few seconds.'
-              : 'SMS from DIEMEX · Expires in 10 minutes.'}
+              : channel === 'email'
+                ? 'Check your inbox for the DIEMEX verification email.'
+                : 'SMS from DIEMEX · Expires in 10 minutes.'}
           </p>
 
           <button

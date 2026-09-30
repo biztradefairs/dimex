@@ -8,6 +8,7 @@ import {
   ChevronDown,
   Lock,
   MapPin,
+  Mail,
   MessageCircle,
   MessageSquare,
 } from 'lucide-react';
@@ -58,6 +59,7 @@ export default function PassRegisterPage() {
   const router = useRouter();
   const [step, setStep] = useState<Step>('phone');
   const [channel, setChannel] = useState<PassChannel>('sms');
+  const [email, setEmail] = useState('');
   const [countryCode, setCountryCode] = useState('+91');
   const [mobile, setMobile] = useState('');
   const [countryOpen, setCountryOpen] = useState(false);
@@ -66,7 +68,6 @@ export default function PassRegisterPage() {
   const [otpLoading, setOtpLoading] = useState(false);
   const [error, setError] = useState('');
   const [otpError, setOtpError] = useState('');
-  const [devOtp, setDevOtp] = useState('');
   const [resendIn, setResendIn] = useState(45);
   const [verificationToken, setVerificationToken] = useState('');
   const [verifiedPhone, setVerifiedPhone] = useState('');
@@ -89,7 +90,8 @@ export default function PassRegisterPage() {
       ? /^[6-9]\d{9}$/.test(mobile)
       : mobile.length >= 6 && mobile.length <= selectedCountry.max;
 
-  const channelLabel = channel === 'whatsapp' ? 'WhatsApp' : 'SMS';
+  const channelLabel = channel === 'whatsapp' ? 'WhatsApp' : channel === 'email' ? 'Email' : 'SMS';
+  const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
 
   const canSubmitDetails = useMemo(
     () => form.name.trim().length >= 2 && form.company.trim().length >= 2 && form.interests.length > 0,
@@ -101,8 +103,12 @@ export default function PassRegisterPage() {
     setOtpError('');
     setLoading(true);
     try {
-      const result = await sendPassOtp({ countryCode, mobile, channel });
-      setDevOtp(result.devOtp || '');
+      if (channel === 'email' && !isValidEmail) {
+        setError('Enter a valid email address');
+        setLoading(false);
+        return;
+      }
+      const result = await sendPassOtp({ countryCode, mobile, channel, email: email.trim() });
       setResendIn(result.resendIn || 45);
       savePassSession({ countryCode, mobile, channel, phone: result.phone, e164: result.e164 });
       setOtpOpen(true);
@@ -279,7 +285,7 @@ export default function PassRegisterPage() {
             <h2 className="mt-6 text-2xl font-black text-slate-900">Choose Verification Method</h2>
             <p className="mt-1 text-sm text-slate-500">Select how you&apos;d like to receive your one-time password</p>
 
-            <div className="mt-5 grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-1.5">
+            <div className="mt-5 grid grid-cols-3 gap-2 rounded-2xl bg-slate-100 p-1.5">
               <button
                 type="button"
                 onClick={() => setChannel('sms')}
@@ -300,10 +306,21 @@ export default function PassRegisterPage() {
                 <MessageCircle className="h-4 w-4 text-[#25D366]" />
                 WhatsApp
               </button>
+              <button
+                type="button"
+                onClick={() => setChannel('email')}
+                className={`inline-flex items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-bold transition ${
+                  channel === 'email' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'
+                }`}
+              >
+                <Mail className="h-4 w-4" />
+                Email
+              </button>
             </div>
 
             <div className="mt-4 rounded-xl border border-[#004A96]/20 bg-[#E8F1F8] px-4 py-3 text-sm text-[#004A96]">
-              OTP will be sent via <strong>{channelLabel}</strong> to your phone number.
+              OTP will be sent via <strong>{channelLabel}</strong>
+              {channel === 'email' ? ' to your email address.' : ' to your phone number.'}
             </div>
 
             <label className="mt-5 block text-sm font-bold text-rose-600">Mobile Number *</label>
@@ -346,11 +363,24 @@ export default function PassRegisterPage() {
               />
             </div>
             <p className="mt-2 text-xs text-slate-400">Select your country code and enter your mobile number.</p>
+            {channel === 'email' ? (
+              <div className="mt-4">
+                <label className="block text-sm font-bold text-rose-600">Email *</label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
+                  placeholder="you@company.com"
+                  className="mt-2 h-12 w-full rounded-xl border border-slate-200 px-4 text-sm outline-none transition focus:border-[#004A96] focus:ring-4 focus:ring-[#004A96]/15"
+                />
+                <p className="mt-2 text-xs text-slate-400">Use email to receive the OTP and visitor pass while testing.</p>
+              </div>
+            ) : null}
             {error ? <p className="mt-3 text-sm font-medium text-red-600">{error}</p> : null}
 
             <button
               type="button"
-              disabled={!isValidMobile || loading}
+              disabled={!isValidMobile || loading || (channel === 'email' && !isValidEmail)}
               onClick={sendOtp}
               className="mt-6 w-full rounded-2xl bg-gradient-to-r from-[#004A96] to-[#004A96] py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-900/15 transition hover:brightness-110 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:from-slate-300 disabled:to-slate-300 disabled:shadow-none"
             >
@@ -485,10 +515,9 @@ export default function PassRegisterPage() {
 
       <OtpModal
         open={otpOpen}
-        phone={`${countryCode}${mobile}`}
+        phone={channel === 'email' ? email.trim() : `${countryCode}${mobile}`}
         channel={channel}
         resendIn={resendIn}
-        devOtp={devOtp}
         loading={otpLoading}
         error={otpError}
         onClose={() => setOtpOpen(false)}
