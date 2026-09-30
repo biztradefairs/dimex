@@ -39,8 +39,8 @@ function ThankYouContent() {
 
     if (resolved) setTab(resolved);
 
-    const resolved = queryName || session?.name;
-    if (resolved) setName(resolved);
+    const resolvedName = queryName || session?.name;
+    if (resolvedName) setName(resolvedName);
   }, [searchParams]);
 
   const copy = useMemo(() => COPY[tab], [tab]);
