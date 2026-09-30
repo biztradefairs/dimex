@@ -1,7 +1,7 @@
 // lib/tabConfig.ts
 import React from 'react';
 
-export type TabKey = 'enquiry' | 'exhibitor' | 'sponsor' | 'brochure';
+export type TabKey = 'visitor' | 'exhibitor' | 'sponsor' | 'brochure';
 
 export const TABS_CONFIG: {
     key: TabKey;
@@ -11,8 +11,8 @@ export const TABS_CONFIG: {
     sub: string;
 }[] = [
         {
-            key: 'enquiry',
-            label: 'ENQUIRY',
+            key: 'visitor',
+            label: 'VISITOR',
             icon: React.createElement(
                 'svg',
                 { className: 'w-5 h-5', fill: 'none', stroke: 'currentColor', strokeWidth: 2, viewBox: '0 0 24 24' },
@@ -53,7 +53,7 @@ export const TABS_CONFIG: {
                 })
             ),
             title: 'Become a Sponsor / Partner',
-            sub: 'Partner with DIEMEX 2026 and put your brand in front of 10,000+ professionals.',
+            sub: 'Partner with DIEMEX 2027 and put your brand in front of 10,000+ professionals.',
         },
         {
             key: 'brochure',
@@ -68,12 +68,12 @@ export const TABS_CONFIG: {
                 })
             ),
             title: 'Download Event Brochure',
-            sub: 'Fill in your details to receive the DIEMEX 2026 event brochure instantly.',
+            sub: 'Fill in your details to receive the DIEMEX 2027 event brochure instantly.',
         },
     ];
 
 export const RIGHT_PANEL: Record<TabKey, { headline: string; sub: string }> = {
-    enquiry: {
+    visitor: {
         headline: 'Be Part of a Global Business Platform',
         sub: 'Connect with industry leaders and discover the latest innovations in die & mould manufacturing.',
     },
@@ -87,6 +87,6 @@ export const RIGHT_PANEL: Record<TabKey, { headline: string; sub: string }> = {
     },
     brochure: {
         headline: 'Get the Full Event Guide',
-        sub: 'Download the complete DIEMEX 2026 brochure with floor plans, speaker lineup and exhibitor list.',
+        sub: 'Download the complete DIEMEX 2027 brochure with floor plans, speaker lineup and exhibitor list.',
     },
 };

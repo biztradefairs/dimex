@@ -94,8 +94,8 @@ export default function EnquiryForm() {
             };
 
             submitRegistrationInBackground(payload);
-            saveThanksSession({ name: form.name.split(' ')[0] || 'Visitor', tab: 'enquiry', email: form.email });
-            router.push(`/register/thank-you?t=enquiry&name=${encodeURIComponent(form.name.split(' ')[0] || 'Visitor')}`);
+            saveThanksSession({ name: form.name.split(' ')[0] || 'Visitor', tab: 'visitor', email: form.email });
+            router.push(`/register/thank-you?t=visitor&name=${encodeURIComponent(form.name.split(' ')[0] || 'Visitor')}`);
         } catch (error) {
             console.error(error);
             toast.error("Network error. Please check your connection.");

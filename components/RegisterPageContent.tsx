@@ -10,24 +10,25 @@ import {
     REGISTRATION_HERO,
     RegistrationTab,
     buildRegisterUrl,
-    isValidRegistrationTab,
+    resolveRegistrationTab,
 } from '@/lib/registrationRoutes';
 
 export default function RegisterPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const [activeTab, setActiveTab] = useState<RegistrationTab>('enquiry');
+    const [activeTab, setActiveTab] = useState<RegistrationTab>('visitor');
 
     useEffect(() => {
         const tab = searchParams.get('t');
+        const resolved = resolveRegistrationTab(tab);
 
-        if (!isValidRegistrationTab(tab)) {
-            router.replace(buildRegisterUrl('enquiry', searchParams.toString()));
-            setActiveTab('enquiry');
+        if (!resolved || tab !== resolved) {
+            router.replace(buildRegisterUrl(resolved || 'visitor', searchParams.toString()));
+            setActiveTab(resolved || 'visitor');
             return;
         }
 
-        setActiveTab(tab);
+        setActiveTab(resolved);
     }, [searchParams, router]);
 
     const hero = useMemo(() => REGISTRATION_HERO[activeTab], [activeTab]);

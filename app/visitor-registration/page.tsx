@@ -6,5 +6,5 @@ type PageProps = {
 };
 
 export default async function VisitorRegistrationPage({ searchParams }: PageProps) {
-    redirect(redirectToRegister('enquiry', await searchParams));
+    redirect(redirectToRegister('visitor', await searchParams));
 }

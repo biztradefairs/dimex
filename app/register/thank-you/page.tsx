@@ -4,13 +4,13 @@ import { Suspense, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { CheckCircle2, Mail } from 'lucide-react';
-import { isValidRegistrationTab, type RegistrationTab } from '@/lib/registrationRoutes';
+import { resolveRegistrationTab, type RegistrationTab } from '@/lib/registrationRoutes';
 import { readThanksSession } from '@/lib/submitRegistration';
 
 const COPY: Record<RegistrationTab, { title: string; body: string }> = {
-  enquiry: {
+  visitor: {
     title: 'Thank you for registering to visit',
-    body: 'Your visitor enquiry is confirmed. A thank-you email is on its way, and our team will follow up shortly.',
+    body: 'Your visitor registration is confirmed. A thank-you email is on its way, and our team will follow up shortly.',
   },
   exhibitor: {
     title: 'Thank you for your exhibiting enquiry',
@@ -29,15 +29,15 @@ const COPY: Record<RegistrationTab, { title: string; body: string }> = {
 function ThankYouContent() {
   const searchParams = useSearchParams();
   const [name, setName] = useState('there');
-  const [tab, setTab] = useState<RegistrationTab>('enquiry');
+  const [tab, setTab] = useState<RegistrationTab>('visitor');
 
   useEffect(() => {
     const session = readThanksSession();
     const queryTab = searchParams.get('t');
     const queryName = searchParams.get('name');
+    const resolved = resolveRegistrationTab(queryTab) || resolveRegistrationTab(session?.tab ?? null);
 
-    if (isValidRegistrationTab(queryTab)) setTab(queryTab);
-    else if (session?.tab) setTab(session.tab);
+    if (resolved) setTab(resolved);
 
     const resolved = queryName || session?.name;
     if (resolved) setName(resolved);
