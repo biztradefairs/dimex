@@ -26,7 +26,7 @@ export default function WhyChooseSection() {
     },
     {
       number: '02',
-      title: 'Expand Your Market Presence at DIEMEX 2026',
+      title: 'Expand Your Market Presence at DIEMEX 2027',
 
       description:
         'Strengthen your footprint in India’s rapidly growing manufacturing ecosystem by showcasing your brand to a highly targeted and decision-driven audience of die & mould manufacturers, OEMs, automotive and engineering companies, and industrial buyers from across India and overseas.',
@@ -93,7 +93,7 @@ export default function WhyChooseSection() {
                        leading-[0.85] tracking-tight opacity-0"
           >
             Why choose{" "}
-            <span className="text-[#E0161D] font-parabolica">DIEMEX 2026</span>
+            <span className="text-[#E0161D] font-parabolica">DIEMEX 2027</span>
           </h2>
         </SectionContainer>
       </div>

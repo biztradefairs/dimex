@@ -70,7 +70,7 @@ export default function PostponedDatesPopup() {
             id="postponed-title"
             className="mt-2 font-parabolica text-2xl font-black tracking-tight sm:text-[28px]"
           >
-            DIEMEX 2026 Dates Rescheduled
+            DIEMEX 2027 Dates Rescheduled
           </h2>
         </div>
 
@@ -91,7 +91,7 @@ export default function PostponedDatesPopup() {
               .
             </p>
             <p className="pt-1 text-[13px] font-medium italic text-slate-500">
-              — Team DIEMEX 2026
+              — Team DIEMEX 2027
             </p>
           </div>
 

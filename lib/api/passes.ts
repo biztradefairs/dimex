@@ -109,6 +109,7 @@ export async function sendPassOtp(payload: {
     resendIn: number;
     provider: string;
     simulated?: boolean;
+    digits?: number;
   }>(response);
 }
 

@@ -49,7 +49,7 @@ export default function CountriesSection() {
             className="mx-auto"
           >
             <button className="rounded-full px-8 lg:px-10 py-3 lg:py-4 text-base font-semibold bg-[#004A96] text-white hover:bg-[#E0161D] transition-all duration-300">
-              Explore the 2026 Exhibitor List
+              Explore the 2027 Exhibitor List
             </button>
           </a>
         </div>

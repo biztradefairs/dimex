@@ -9,6 +9,7 @@ type OtpModalProps = {
   channel: 'sms' | 'whatsapp' | 'email';
   expiresIn?: number;
   resendIn?: number;
+  length?: number;
   loading?: boolean;
   error?: string;
   onClose: () => void;
@@ -22,23 +23,24 @@ export default function OtpModal({
   channel,
   expiresIn = 600,
   resendIn = 45,
+  length = 4,
   loading,
   error,
   onClose,
   onVerify,
   onResend,
 }: OtpModalProps) {
-  const [digits, setDigits] = useState(['', '', '', '']);
+  const [digits, setDigits] = useState<string[]>(() => Array.from({ length }, () => ''));
   const [seconds, setSeconds] = useState(resendIn);
   const inputs = useRef<Array<HTMLInputElement | null>>([]);
 
   useEffect(() => {
     if (!open) return;
-    setDigits(['', '', '', '']);
+    setDigits(Array.from({ length }, () => ''));
     setSeconds(resendIn);
     const timer = window.setTimeout(() => inputs.current[0]?.focus(), 80);
     return () => window.clearTimeout(timer);
-  }, [open, resendIn, phone, channel]);
+  }, [open, resendIn, phone, channel, length]);
 
   useEffect(() => {
     if (!open || seconds <= 0) return;
@@ -53,12 +55,12 @@ export default function OtpModal({
   const value = digits.join('');
 
   const applyValue = (next: string) => {
-    const clean = next.replace(/\D/g, '').slice(0, 4).split('');
-    const filled = [clean[0] || '', clean[1] || '', clean[2] || '', clean[3] || ''];
+    const clean = next.replace(/\D/g, '').slice(0, length).split('');
+    const filled = Array.from({ length }, (_, index) => clean[index] || '');
     setDigits(filled);
-    const nextIndex = Math.min(clean.length, 3);
+    const nextIndex = Math.min(clean.length, length - 1);
     inputs.current[nextIndex]?.focus();
-    if (clean.length === 4) onVerify(clean.join(''));
+    if (clean.length === length) onVerify(clean.join(''));
   };
 
   return (
@@ -92,7 +94,7 @@ export default function OtpModal({
             {channel === 'email' ? 'Verify Your Email' : 'Verify Your Phone Number'}
           </h2>
           <p className="mt-2 text-sm text-slate-500">
-            We&apos;ve sent a 4-digit verification code to{' '}
+            We&apos;ve sent a {length}-digit verification code to{' '}
             <span className="font-semibold text-slate-800">{phone}</span>
           </p>
           <p className="mt-3 inline-flex items-center gap-1.5 text-xs text-slate-400">
@@ -124,15 +126,15 @@ export default function OtpModal({
                   const copy = [...digits];
                   copy[index] = next.slice(-1);
                   setDigits(copy);
-                  if (index < 3) inputs.current[index + 1]?.focus();
+                  if (index < length - 1) inputs.current[index + 1]?.focus();
                   const joined = copy.join('');
-                  if (joined.length === 4) onVerify(joined);
+                  if (joined.length === length) onVerify(joined);
                 }}
                 onKeyDown={(event) => {
                   if (event.key === 'Backspace' && !digits[index] && index > 0) {
                     inputs.current[index - 1]?.focus();
                   }
-                  if (event.key === 'Enter' && value.length === 4) onVerify(value);
+                  if (event.key === 'Enter' && value.length === length) onVerify(value);
                 }}
                 onPaste={(event) => {
                   event.preventDefault();
@@ -177,7 +179,7 @@ export default function OtpModal({
 
           <button
             type="button"
-            disabled={loading || value.length !== 4}
+            disabled={loading || value.length !== length}
             onClick={() => onVerify(value)}
             className="mt-6 w-full rounded-2xl bg-gradient-to-r from-[#004A96] to-[#004A96] py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-900/20 transition hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50"
           >

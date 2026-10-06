@@ -69,6 +69,7 @@ export default function PassRegisterPage() {
   const [error, setError] = useState('');
   const [otpError, setOtpError] = useState('');
   const [resendIn, setResendIn] = useState(45);
+  const [otpDigits, setOtpDigits] = useState(4);
   const [verificationToken, setVerificationToken] = useState('');
   const [verifiedPhone, setVerifiedPhone] = useState('');
   const [form, setForm] = useState({
@@ -110,6 +111,7 @@ export default function PassRegisterPage() {
       }
       const result = await sendPassOtp({ countryCode, mobile, channel, email: email.trim() });
       setResendIn(result.resendIn || 45);
+      setOtpDigits(result.digits || 4);
       savePassSession({ countryCode, mobile, channel, phone: result.phone, e164: result.e164 });
       setOtpOpen(true);
     } catch (err) {
@@ -120,7 +122,7 @@ export default function PassRegisterPage() {
   };
 
   const handleVerify = async (otp: string) => {
-    if (otp.length !== 4) return;
+    if (otp.length !== otpDigits) return;
     setOtpLoading(true);
     setOtpError('');
     try {
@@ -141,9 +143,6 @@ export default function PassRegisterPage() {
       setOtpOpen(false);
 
       if (result.alreadyRegistered && result.pass) {
-        if (result.delivery?.whatsappUrl && result.channel === 'whatsapp') {
-          window.open(result.delivery.whatsappUrl, '_blank');
-        }
         router.push('/passes/success');
         return;
       }
@@ -224,9 +223,6 @@ export default function PassRegisterPage() {
         pass: result.pass,
         delivery: result.delivery,
       });
-      if (result.delivery?.whatsappUrl && channel === 'whatsapp') {
-        window.open(result.delivery.whatsappUrl, '_blank');
-      }
       router.push('/passes/success');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to complete registration');
@@ -518,6 +514,7 @@ export default function PassRegisterPage() {
         phone={channel === 'email' ? email.trim() : `${countryCode}${mobile}`}
         channel={channel}
         resendIn={resendIn}
+        length={otpDigits}
         loading={otpLoading}
         error={otpError}
         onClose={() => setOtpOpen(false)}

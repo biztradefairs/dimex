@@ -32,7 +32,7 @@ export default function PostShowReportPage() {
             {/* LEFT CONTENT */}
             <div>
               <h2 className="mb-6 text-4xl font-semibold text-gray-800 lg:text-5xl">
-                Your Roadmap to DIEMEX 2026
+                Your Roadmap to DIEMEX 2027
               </h2>
 
               <p className="mb-8 text-lg leading-relaxed text-gray-700">

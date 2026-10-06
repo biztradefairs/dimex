@@ -8,6 +8,7 @@ import {
   CalendarDays,
   CheckCircle2,
   Download,
+  Mail,
   MessageCircle,
   MessageSquare,
 } from 'lucide-react';
@@ -17,6 +18,7 @@ import {
   clearPassSession,
   getPassSession,
   resendVisitorPass,
+  type PassChannel,
   type PassDelivery,
   type VisitorPass,
 } from '@/lib/api/passes';
@@ -25,7 +27,7 @@ export default function PassSuccessPage() {
   const router = useRouter();
   const [pass, setPass] = useState<VisitorPass | null>(null);
   const [delivery, setDelivery] = useState<PassDelivery | null>(null);
-  const [sending, setSending] = useState(false);
+  const [sending, setSending] = useState<PassChannel | null>(null);
   const [downloading, setDownloading] = useState(false);
   const [message, setMessage] = useState('');
 
@@ -62,24 +64,22 @@ export default function PassSuccessPage() {
     }
   };
 
-  const sendAgain = async () => {
-    setSending(true);
+  const sendVia = async (nextChannel: PassChannel) => {
+    setSending(nextChannel);
     setMessage('');
     try {
       const result = await resendVisitorPass({
         publicCode: pass.publicCode,
-        channel,
+        channel: nextChannel,
       });
       setDelivery(result.delivery);
       setPass(result.pass);
-      if (result.delivery.whatsappUrl && channel === 'whatsapp') {
-        window.open(result.delivery.whatsappUrl, '_blank');
-      }
-      setMessage(result.delivery.success ? 'Pass sent to your phone.' : result.delivery.error || 'Could not send pass.');
+      const sentTo = nextChannel === 'email' ? 'email' : nextChannel === 'whatsapp' ? 'WhatsApp' : 'SMS';
+      setMessage(result.delivery.success ? `Pass sent via ${sentTo}.` : result.delivery.error || 'Could not send pass.');
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'Could not send pass');
     } finally {
-      setSending(false);
+      setSending(null);
     }
   };
 
@@ -121,35 +121,45 @@ export default function PassSuccessPage() {
 
         <div className="mt-6 grid gap-3 sm:grid-cols-3">
           <StatusTile
-            icon={channel === 'whatsapp' ? MessageCircle : MessageSquare}
-            title={channel === 'whatsapp' ? 'Check Your WhatsApp' : 'Check Your SMS'}
-            subtitle={sent ? 'Confirmation sent' : delivery?.simulated ? 'Open to send' : 'Ready to send'}
+            icon={channel === 'whatsapp' ? MessageCircle : channel === 'email' ? Mail : MessageSquare}
+            title={channel === 'whatsapp' ? 'Check Your WhatsApp' : channel === 'email' ? 'Check Your Email' : 'Check Your SMS'}
+            subtitle={sent ? 'Confirmation sent' : delivery?.error ? 'Send failed' : 'Ready to send'}
           />
           <StatusTile icon={Download} title="Badge Ready" subtitle="Download above" />
           <StatusTile icon={CalendarDays} title="Event Reminder" subtitle="We'll remind you" />
         </div>
 
-        {delivery?.whatsappUrl && channel === 'whatsapp' ? (
-          <a
-            href={delivery.whatsappUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#25D366] py-3.5 text-sm font-bold text-white"
-          >
-            <MessageCircle className="h-4 w-4" />
-            Send pass on WhatsApp
-          </a>
-        ) : (
+        <div className="mt-5 grid gap-3">
           <button
             type="button"
-            onClick={sendAgain}
-            disabled={sending}
-            className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#004A96] py-3.5 text-sm font-bold text-white disabled:opacity-60"
+            onClick={() => sendVia('sms')}
+            disabled={sending !== null}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#004A96] py-3.5 text-sm font-bold text-white disabled:opacity-60"
           >
             <MessageSquare className="h-4 w-4" />
-            {sending ? 'Sending…' : `Send pass via ${channel === 'whatsapp' ? 'WhatsApp' : 'SMS'}`}
+            {sending === 'sms' ? 'Sending…' : 'Send pass via SMS'}
           </button>
-        )}
+          <button
+            type="button"
+            onClick={() => sendVia('whatsapp')}
+            disabled={sending !== null}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-2xl bg-[#25D366] py-3.5 text-sm font-bold text-white disabled:opacity-60"
+          >
+            <MessageCircle className="h-4 w-4" />
+            {sending === 'whatsapp' ? 'Sending…' : 'Send pass via WhatsApp'}
+          </button>
+          {pass.email ? (
+            <button
+              type="button"
+              onClick={() => sendVia('email')}
+              disabled={sending !== null}
+              className="inline-flex w-full items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white py-3.5 text-sm font-bold text-slate-800 disabled:opacity-60"
+            >
+              <Mail className="h-4 w-4" />
+              {sending === 'email' ? 'Sending…' : 'Send pass via Email'}
+            </button>
+          ) : null}
+        </div>
         {message ? <p className="mt-3 text-sm text-slate-600">{message}</p> : null}
 
         <div className="mt-6 grid gap-3 sm:grid-cols-2">

@@ -18,7 +18,7 @@ export default function Footer() {
               <div className="flex items-center gap-2">
                 <Image
                   src="/images/logo-diemex2.png"
-                  alt="DIEMEX 2026 Logo"
+                  alt="DIEMEX 2027 Logo"
                   width={120}
                   height={80}
                   className="object-contain"
@@ -27,7 +27,7 @@ export default function Footer() {
                 <span className="h-8 w-px bg-white/70 mx-2"></span>
                 <Image
                   src="/images/3rd-edition.png"
-                  alt="DIEMEX 2026 Logo"
+                  alt="DIEMEX 2027 Logo"
                   width={120}
                   height={80}
                   className="object-contain mb-1"
@@ -45,7 +45,7 @@ export default function Footer() {
           {/* ABOUT */}
           <div className="lg:max-w-md space-y-5">
             <p className="text-white/70">
-              DIEMEX 2026 is a premier international exhibition showcasing die & mould technologies, tool room solutions, precision components, and next-generation manufacturing systems.
+              DIEMEX 2027 is a premier international exhibition showcasing die & mould technologies, tool room solutions, precision components, and next-generation manufacturing systems.
             </p>
 
             <div>
@@ -194,7 +194,7 @@ export default function Footer() {
 
           {/* Copyright and Links - Updated for mobile */}
           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 text-white/90 text-center sm:text-left">
-            <span className="text-sm sm:text-base">© DIEMEX 2026. All Rights Reserved</span>
+            <span className="text-sm sm:text-base">© DIEMEX 2027. All Rights Reserved</span>
             
             <div className="flex flex-wrap justify-center gap-2 sm:gap-3 text-sm">
               <Link

@@ -6,7 +6,7 @@ const quickNavItems = [
   {
     id: 1,
     title: 'Become an Exhibitor',
-    description: 'Connect with 10,000+ manufacturing professionals, OEMs, and decision-makers over 3 power-packed days of business, networking, and technology showcase at DIEMEX 2026.',
+    description: 'Connect with 10,000+ manufacturing professionals, OEMs, and decision-makers over 3 power-packed days of business, networking, and technology showcase at DIEMEX 2027.',
     image: '/images/exhibitor.jpg',
     cta: {
       text: 'Book A Stand',
@@ -16,7 +16,7 @@ const quickNavItems = [
   },
   {
     id: 2,
-    title: 'Download Diemex 2026 Event Brochure',
+    title: 'Download Diemex 2027 Event Brochure',
     description: 'Discover who we are, the industries we serve, visitor profiles, sector highlights, and how DIEMEX can help you expand your footprint in India’s rapidly growing die, mould, and precision engineering market — all in one comprehensive brochure.',
     image: '/images/brochure.jpg',
     cta: {
