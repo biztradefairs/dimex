@@ -1,12 +1,18 @@
+import { PAGE_META } from '@/lib/pageMetadata';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
 import RegisterPageContent from '@/components/RegisterPageContent';
 
-export const metadata: Metadata = {
-    title: 'Register | DIEMEX 2027',
-    description:
-        'Register for DIEMEX 2027 — visitor registration, exhibitor enquiry, partnership, or brochure download.',
-};
+export async function generateMetadata({
+    searchParams,
+}: {
+    searchParams: Promise<Record<string, string | string[] | undefined>>;
+}): Promise<Metadata> {
+    const { t } = await searchParams;
+    if (t === 'exhibitor') return PAGE_META.exhibitorRegister;
+    if (t === 'brochure') return PAGE_META.brochure;
+    return PAGE_META.register;
+}
 
 export default function RegisterPage() {
     return (
