@@ -1,3 +1,5 @@
+import PageFaq from '@/components/PageFaq';
+import { resolveRegistrationTab } from '@/lib/registrationRoutes';
 import { PAGE_META } from '@/lib/pageMetadata';
 import { Metadata } from 'next';
 import { Suspense } from 'react';
@@ -14,7 +16,13 @@ export async function generateMetadata({
     return PAGE_META.register;
 }
 
-export default function RegisterPage() {
+export default async function RegisterPage({
+    searchParams,
+}: {
+    searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+    const { t } = await searchParams;
+    const tab = resolveRegistrationTab(typeof t === 'string' ? t : null) || 'visitor';
     return (
         <Suspense
             fallback={

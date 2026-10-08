@@ -15,8 +15,8 @@ export function pageMeta(title: string, description: string, route = '/'): Metad
 
 export const PAGE_META = {
   home: pageMeta(
-    "DIEMEX 2027 Pune | Die & Mould Exhibition, 24-27 March",
-    "DIEMEX 2027, India's die and mould exhibition, 24-27 March in Pune. Explore CNC, EDM, 3D printing and tooling. Register free or book a stall.",
+    "DIEMEX 2027 Pune | Die & Mould Exhibition, 24-26 March",
+    "DIEMEX 2027, India's die and mould exhibition, 24-26 March in Pune. Explore CNC, EDM, 3D printing and tooling. Register free or book a stall.",
     "/",
   ),
   aboutDiemex: pageMeta(
@@ -31,7 +31,7 @@ export const PAGE_META = {
   ),
   whyExhibit: pageMeta(
     "Why Exhibit at DIEMEX | Die & Mould Exhibition India | Book a Stall",
-    "Exhibit at DIEMEX, India's die and mould exhibition. Meet toolmakers, OEMs and buyers, demo live, and book your stall. Next show: Pune, 24-26 Mar 2026.",
+    "Exhibit at DIEMEX, India's die and mould exhibition. Meet toolmakers, OEMs and buyers, demo live, and book your stall. Next show: Pune, 24-26 March 2027.",
     "/why-exhibit",
   ),
   exhibitorRegister: pageMeta(

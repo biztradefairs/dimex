@@ -1,0 +1,593 @@
+'use client';
+
+// import PartnersSection from '@/components/section/PartnersSection';
+import React, { ReactNode, useState } from 'react';
+import SectionContainer from '@/components/UI/SectionContainer';
+import { motion } from 'framer-motion';
+import BackToTop from '../exhibitor-resource-center/component/BackToTop';
+
+interface ButtonProps {
+  children: ReactNode;
+  href?: string;
+  target?: '_self' | '_blank';
+  rel?: string;
+  className?: string;
+  onClick?: () => void;
+  variant?: 'primary' | 'secondary' | 'icon';
+}
+
+interface ImageProps {
+  src: string;
+  alt: string;
+  className?: string;
+  width?: number;
+  height?: number;
+  rounded?: boolean;
+}
+
+interface GuideItem {
+  title: string;
+  content: string;
+  imageSrc: string;
+  link: string;
+  linkText?: string;
+}
+
+interface HotelItem {
+  name: string;
+  description: string;
+  imageSrc: string;
+  bookingLink: string;
+  locationLink: string;
+}
+
+// Animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6 }
+  }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1
+    }
+  }
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.95 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.5 }
+  }
+};
+
+// Button Component
+const Button: React.FC<ButtonProps> = ({
+  children,
+  href,
+  target = '_self',
+  rel,
+  className = '',
+  onClick,
+  variant = 'primary'
+}) => {
+  const baseClasses = "flex-center group gap-2 overflow-hidden rounded-full font-jakarta text-[16px] font-semibold global-transition px-5 py-2 w-fit";
+
+  const variantClasses = {
+    primary: "bg-mainColor2 text-white hover:bg-[#003875]",
+    secondary: "bg-white text-mainColor2 hover:bg-[#E0161D] hover:text-white",
+    icon: "bg-mainColor2 text-white hover:bg-[#003875] aspect-square rounded-full !p-4"
+  };
+
+  const buttonClass = `${baseClasses} ${variantClasses[variant]} ${className}`;
+
+  const buttonContent = (
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      className="relative"
+    >
+      {children}
+      {variant === 'primary' && (
+        <motion.div
+          className="absolute inset-0 rounded-full bg-white/10 opacity-0 group-hover:opacity-100"
+          initial={{ scale: 0 }}
+          whileHover={{ scale: 1 }}
+          transition={{ duration: 0.3 }}
+        />
+      )}
+    </motion.div>
+  );
+
+  if (href) {
+    return (
+      <a
+        href={href}
+        target={target}
+        rel={rel}
+        className={buttonClass}
+        onClick={onClick}
+      >
+        {buttonContent}
+      </a>
+    );
+  }
+
+  return (
+    <button onClick={onClick} className={buttonClass}>
+      {buttonContent}
+    </button>
+  );
+};
+
+const Image: React.FC<ImageProps> = ({
+  src,
+  alt,
+  className = '',
+  width = 500,
+  height = 500,
+  rounded = true, // default rounded
+}) => {
+  return (
+    <motion.div
+      whileHover={{ scale: 1.05 }}
+      transition={{ duration: 0.3 }}
+      className={`overflow-hidden ${rounded ? 'rounded-lg' : 'rounded-none'}`}
+    >
+      <img
+        src={src}
+        alt={alt}
+        width={width}
+        height={height}
+        loading="lazy"
+        decoding="async"
+        className={`object-contain ${className}`}
+        style={{ color: 'transparent' }}
+      />
+    </motion.div>
+  );
+};
+
+
+// Hero Section
+const HeroSection: React.FC = () => {
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      className="relative w-full bg-[#004A96]"
+    >
+      <div className="w-full">
+        <motion.div
+          initial={{ scale: 1.1 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="absolute inset-0 z-[-1] size-full !py-0"
+        >
+          <div className="absolute inset-0 bg-gradient-to-t from-[#004A96]"></div>
+          <img
+            src="/images/plan-your-travel/home.jpg"
+            alt="Diemex"
+            className="size-full object-cover"
+          />
+        </motion.div>
+
+        <SectionContainer>
+          <div className="pt-12 pb-8 text-white sm:pt-14">
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="title-72 text-white"
+            >
+              Plan Your Travel
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="max-w-6xl whitespace-pre-line py-5"
+            >
+              Plan your journey with ease with our comprehensive guide to visas, hotels, and bookings,
+              designed to ensure a seamless exhibition experience, all in one place.
+            </motion.p>
+          </div>
+        </SectionContainer>
+      </div>
+    </motion.div>
+  );
+};
+
+// Introduction Section
+const IntroductionSection: React.FC = () => {
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={fadeInUp}
+      className="py-16"
+    >
+      <SectionContainer>
+        <div className="mb-14 flex flex-wrap justify-between gap-10 lg:items-end">
+          <div className="lg:basis-2/3">
+            <motion.div
+              whileHover={{ x: 5 }}
+              className="flex w-fit gap-2 py-2 pe-5 pl-1 capitalize"
+            >
+              <Image
+                src="/images/logo-icon-3.png"
+                alt="Diemex"
+                className="w-5 h-5"
+                rounded={false}
+              />
+
+              <span>DIEMEX</span>
+            </motion.div>
+            <h2 className="title-72 text-black w-7xl">
+              Combine Business with Pune’s Manufacturing Heritage at DIEMEX
+            </h2>
+            <p className="whitespace-pre-line">
+              Connect with die & mould and precision manufacturing leaders from across India and beyond, explore the latest technologies and industry trends, and experience Pune—a city known for its strong automotive base, engineering excellence, and vibrant cultural legacy.
+            </p>
+          </div>
+        </div>
+      </SectionContainer>
+    </motion.div>
+  );
+};
+
+// Guide Item Component
+const GuideItemComponent: React.FC<GuideItem & { index: number }> = ({
+  title,
+  content,
+  imageSrc,
+  link,
+  linkText = "Read more",
+  index
+}) => {
+  return (
+    <motion.div
+      variants={scaleIn}
+      whileHover={{
+        y: -5,
+        backgroundColor: "#f8fafc",
+        boxShadow: "0 15px 30px rgba(0,0,0,0.1)"
+      }}
+      transition={{ duration: 0.3 }}
+      className="grid grid-cols-1 items-center gap-5 rounded-xl p-6 xl:grid-cols-7 hover:scale-[1.01]"
+    >
+      <div className="flex-center size-[250px] xl:col-span-2 bg-gray-50 rounded-lg overflow-hidden">
+        <img
+          src={imageSrc}
+          alt={title}
+          className="w-full h-full object-cover"
+          style={{ color: 'transparent' }}
+        />
+      </div>
+      <h5 className="title-24 text-black xl:col-span-2 hover:text-[#004A96] transition-colors duration-300">
+        {title}
+      </h5>
+      <p className="whitespace-pre-line xl:col-span-2">{content}</p>
+      <div className="grid xl:place-content-center">
+        <a href={link} target="_blank" rel="noopener noreferrer">
+          <Button variant="icon">
+            <motion.svg
+              animate={{ x: [0, 5, 0] }}
+              transition={{ repeat: Infinity, duration: 1.5 }}
+              stroke="currentColor"
+              fill="currentColor"
+              strokeWidth="0"
+              viewBox="0 0 448 512"
+              className="size-4 lg:size-5 text-black"
+              height="1em"
+              width="1em"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M438.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L338.8 224 32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l306.7 0L233.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160z"></path>
+            </motion.svg>
+          </Button>
+        </a>
+      </div>
+    </motion.div>
+  );
+};
+
+// Guide Section with Tabs
+// Guide Section with Tabs
+const GuideSection: React.FC = () => {
+  const [activeTab, setActiveTab] = useState<'exhibitors' | 'visitors'>('exhibitors');
+
+  const exhibitorItems: GuideItem[] = [
+    {
+      title: "Visa",
+      content: "A standard business visa is appropriate for international visitors travelling to India to attend exhibitions, conferences, business meetings, and related professional events.",
+      imageSrc: "/images/visa.jpg",
+      link: "/visa"
+    },
+    {
+      title: "Freight, Handling & Customs",
+      content: "The officially appointed Clearing & Forwarding (C&F) Agent for DIEMEX 2027 will handle the shipment of exhibits, equipment, materials, and stand components. Exhibitors are strongly advised to coordinate with the official C&F agent to ensure timely, secure, and smooth delivery to the venue.",
+      imageSrc: "/images/freight.jpg",
+      link: "/exhibitor-resource-center"
+    },
+    {
+      title: "Preparation Checklist",
+      content: "To make your experience as seamless as possible, we have put together a checklist for you, to keep track of all the necessary requirements you will need to keep note of leading up to the event.",
+      imageSrc: "/images/checklist.jpg",
+      link: "/exhibitor-resource-center",
+      linkText: "Checklist"
+    }
+  ];
+
+  const visitorItems: GuideItem[] = [
+    {
+      title: "Visa",
+      content: "A standard business visa is appropriate for international visitors travelling to India to attend exhibitions, conferences, business meetings, and related professional events.",
+      imageSrc: "/images/visa.jpg",
+      link: "/visa"
+    },
+    {
+      title: "Travel & Accommodation",
+      content: "Find the best travel options and accommodation deals for your stay in Pune. From flight bookings to local transportation, we've got you covered.",
+      imageSrc: "/images/freight.jpg",
+      link: "/terms-of-visiting"
+    },
+    {
+      title: "Visitor Registration",
+      content: "Pre-register as a visitor to get quick access to the exhibition, receive updates about the event, and avail special offers from exhibitors.",
+      imageSrc: "/images/checklist.jpg",
+      link: "/visitor-registration"
+    }
+  ];
+
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={fadeInUp}
+      className="py-16"
+    >
+      <SectionContainer>
+        <div className="mb-10 flex flex-col gap-6 border-b border-mainColor1 pb-10 lg:flex-row lg:items-end lg:justify-between">
+          <div className="max-w-6xl">
+            <motion.div
+              whileHover={{ x: 5 }}
+              className="flex w-fit gap-2 py-2 pe-5 pl-1 capitalize"
+            >
+              <Image
+                src="/images/logo-icon-3.png"
+                alt="Diemex"
+                className="w-5 h-5"
+                rounded={false}
+              />
+
+              <span>Plan Your Travel</span>
+            </motion.div>
+
+            <h2 className="title-72 text-black mt-4">
+              The Information You Need Before Traveling
+            </h2>
+          </div>
+
+          <div className="relative z-10 inline-flex shrink-0 rounded-full bg-white p-1 shadow-md ring-1 ring-black/10">
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setActiveTab("exhibitors")}
+              className={`rounded-full px-6 py-3 text-sm font-bold transition ${activeTab === "exhibitors"
+                  ? "bg-[#004A96] text-white shadow"
+                  : "text-gray-700 hover:bg-gray-100"
+                }`}
+            >
+              Exhibitors
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setActiveTab("visitors")}
+              className={`rounded-full px-6 py-3 text-sm font-bold transition ${activeTab === "visitors"
+                  ? "bg-[#004A96] text-white shadow"
+                  : "text-gray-700 hover:bg-gray-100"
+                }`}
+            >
+              Visitors
+            </motion.button>
+          </div>
+        </div>
+
+        <motion.div
+          variants={staggerContainer}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid gap-10 md:grid-cols-2 xl:grid-cols-1"
+        >
+          {activeTab === 'exhibitors' ? (
+            exhibitorItems.map((item, index) => (
+              <GuideItemComponent key={index} {...item} index={index} />
+            ))
+          ) : (
+            visitorItems.map((item, index) => (
+              <GuideItemComponent key={index} {...item} index={index} />
+            ))
+          )}
+        </motion.div>
+      </SectionContainer>
+    </motion.div>
+  );
+};
+
+// Hotel Component
+const HotelComponent: React.FC<HotelItem & { index: number }> = ({
+  name,
+  description,
+  imageSrc,
+  bookingLink,
+  locationLink,
+  index
+}) => {
+  return (
+    <motion.div
+      variants={scaleIn}
+      whileHover={{
+        y: -8,
+        boxShadow: "0 20px 40px rgba(0,0,0,0.1)",
+        backgroundColor: "#f8fafc"
+      }}
+      transition={{ duration: 0.3 }}
+      className="flex flex-col gap-10 rounded-xl border border-gray-200 px-5 py-8 lg:flex-row lg:gap-20 lg:px-10 hover:scale-[1.01]"
+    >
+      <div className="size-[240px] shrink-0">
+        <Image
+          src={imageSrc}
+          alt={name}
+          className="size-full object-contain"
+        />
+      </div>
+      <div>
+        <h3 className="font-semibold text-xl hover:text-[#004A96] transition-colors duration-300">
+          {name}
+        </h3>
+        <p className="mt-5 whitespace-pre-line text-gray-700">{description}</p>
+        <div className="mt-5 flex w-full flex-wrap gap-5">
+          <Button
+            href={bookingLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="max-lg:w-full !text-black"
+          >
+            Book your stay
+          </Button>
+          <Button
+            href={locationLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="secondary"
+            className="max-lg:w-full hover:!text-black"
+          >
+            View Location
+          </Button>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
+// Hotels Section
+const HotelsSection: React.FC = () => {
+  const hotels: HotelItem[] = [
+    {
+      name: "DoubleTree by Hilton Hotel Pune 5*",
+      description: `Find us in Pune’s automobile and industrial belt, less than 15 minutes from leading names like Tata Motors and Bajaj Auto. Pimpri Chinchwad Science Park and Planetarium is just one kilometer away. We offer a fitness center, a penthouse Executive Lounge, and an outdoor pool. Dine at our Japanese specialty restaurant, and unwind at the rooftop bar.`,
+      imageSrc: "/images/hilton.png",
+      bookingLink: "https://www.hilton.com/en/book/reservation/rates/",
+      locationLink: "https://maps.app.goo.gl/omkXtsE1Q6ctu4sXA"
+    },
+    {
+      name: "Keys Prima by Lemon Tree Hotels 4*",
+      description: `Keys Select By Lemon Tree Hotels Pimpri, Pune, sits in the heart of the city's bustling business district. The prime location of the hotel in PCMC puts you close to the major business establishments and industry headquarters - within walking distance or a short ride away.
+
+Being situated in the center of the business district means you can spend less time commuting and more time on what matters most – your work or exploring the city. Car lovers will also appreciate the closeness of the hotel in Pimpri, Chinchwad, to Pune's talked-about auto industry hub. Whether you are in town for a business meeting or to explore Pune's automotive and natural scene, Keys Select By Lemon Tree Hotels Pimpri, Pune, serves as the perfect base camp.`,
+      imageSrc: "/images/prisma.jpg",
+      bookingLink: "https://www.lemontreehotels.com/keys-prima-hotel/pune/hotel-pimpri-pune",
+      locationLink: "https://maps.app.goo.gl/DaFunwNyphXSfQXd9"
+    },
+    {
+      name: "Spree Shivai Hotel Pune - 3*",
+      description: `We are a leading brand that reinforced its benchmark in the hospitality sector by offering exquisite top-notch services. With a significant presence across various attractions, we aim to redefine the hospitality concepts by providing optimal satisfaction to our valuable guests. Overall, we simply employ advanced technologies to premium amenities to make your stay extraordinary while ensuring the optimal balance between comfort and affordability.`,
+      imageSrc: "/images/Spree-Shivai.webp",
+      bookingLink: "https://www.spreehotels.com/spree-shivai/",
+      locationLink: "https://maps.app.goo.gl/birgg3ZKHxi57YW38"
+    },
+
+        {
+      name: "Ginger Pune Pimpri 3*",
+      description: `Embrace the spirit of Pune while staying at Ginger Hotel Pimpri, one of the top budget hotels in Pune. Conveniently situated near both the railway station and airport, our hotel features 97 stylishly designed rooms equipped with all the modern amenities you need for a comfortable stay. Pune boasts a rich cultural heritage and a bustling atmosphere, with the best time to visit being from November to February, when the weather is pleasantly cool. Experience the perfect blend of convenience and comfort, making Ginger Hotel Pimpri your ideal base to explore this dynamic city.`,
+      imageSrc: "/images/Ginger.webp",
+      bookingLink: "https://www.gingerhotels.com/hotels/ginger-pune-pimpri",
+      locationLink: "https://maps.app.goo.gl/tQ6NWyjVopMwN4R4A"
+    },
+    {
+      name: "Regenta Central, Grand Exotica, Pune 3*",
+      description: `Regenta Central, Grand Exotica, Pune, is a peaceful retreat surrounded by lush greenery. The hotel is conveniently located 45 minutes away from the airport and 30 minutes from Pune Railway Station. With 72 rooms and suites offering city and green landscape views adorned with artworks by artists across the country`,
+      imageSrc: "/images/Regenta-Central-Grand.webp",
+      bookingLink: "https://www.royalorchidhotels.com/regenta-central-grand-exotica-pune/overview",
+      locationLink: "https://maps.app.goo.gl/a48euAwMkyx2RMfNA"
+    },
+    {
+      name: "Holiday Inn Express Pune Pimpri - 3*",
+      description: `Holiday Inn Express Pune Pimpri is a thoughtfully designed hotel located in Pune’s vibrant industrial hub. Surrounded by key zones such as Bhosari, PCMC, Talwade, and Chakan MIDC, it offers unmatched convenience for business and leisure travelers alike.`,
+      imageSrc: "/images/Holiday-Inn.webp",
+      bookingLink: "https://www.ihg.com/holidayinnexpress/hotels/us/en/pune-pimpri/pnqpp/hoteldetail",
+      locationLink: "https://maps.app.goo.gl/fRyHLBoWicaXBq6m9"
+    },
+  ];
+
+  return (
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={fadeInUp}
+      className="py-16"
+    >
+      <SectionContainer>
+        <div>
+          <h2 className="title-72 text-black">
+            Nearby Hotels and Accommodation Options
+          </h2>
+          <motion.div
+            initial={{ width: 0 }}
+            whileInView={{ width: "100%" }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="shrink-0 mt-5 h-px w-full bg-gradient-to-r from-[#004A96] via-[#E0161D] to-[#004A96]"
+          />
+
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            className="mt-10 flex flex-col gap-10"
+          >
+            {hotels.map((hotel, index) => (
+              <HotelComponent key={index} {...hotel} index={index} />
+            ))}
+          </motion.div>
+        </div>
+      </SectionContainer>
+    </motion.div>
+  );
+};
+
+// Main Page Component
+const PlanYourTravelPage: React.FC = () => {
+  return (
+    <>
+      <div className="font-parabolica">
+        <HeroSection />
+        <IntroductionSection />
+        <GuideSection />
+        <HotelsSection />
+        {/* <PartnersSection /> */}
+      </div>
+      <BackToTop />
+    </>
+  );
+};
+
+export default PlanYourTravelPage;

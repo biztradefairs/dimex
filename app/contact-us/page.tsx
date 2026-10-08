@@ -1,3 +1,4 @@
+import PageFaq from '@/components/PageFaq';
 import { PAGE_META } from '@/lib/pageMetadata';
 import { Metadata } from "next"
 import PartnersSlider from "@/components/section/PartnersSection"
@@ -8,6 +9,8 @@ export const metadata: Metadata = PAGE_META.contact;
 
 export default function ContactPage() {
   return (
+    <>
+      {(
     <main className="bg-white font-parabolica">
       {/* HERO SECTION */}
       <section className="bg-[#004A96] pt-16 pb-20">
@@ -162,5 +165,8 @@ Auto Cluster Exhibition Centre                    </h3>
       </section>
       <BackToTop/>
     </main>
+  )}
+      <PageFaq route="/contact-us" />
+    </>
   )
 }

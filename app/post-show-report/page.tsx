@@ -1,3 +1,4 @@
+import PageFaq from '@/components/PageFaq';
 import { PAGE_META } from '@/lib/pageMetadata';
 import { Metadata } from "next"
 import PostShowReportForm from "@/components/PostShowReportForm"
@@ -9,6 +10,8 @@ export const metadata: Metadata = PAGE_META.postShowReport;
 
 export default function PostShowReportPage() {
   return (
+    <>
+      {(
     <>
     <main className="bg-white font-parabolica">
       {/* HERO */}
@@ -110,6 +113,9 @@ export default function PostShowReportPage() {
       </section> */}
     </main>
     <BackToTop/>
+    </>
+  )}
+      <PageFaq route="/post-show-report" />
     </>
   )
 }
