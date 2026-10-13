@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import BlogCard from '@/components/blogs/BlogCard';
 import { fetchPublishedBlogs } from '@/lib/publicBlogs';
-import { pageMeta } from '@/lib/pageMetadata';
+import { PAGE_META } from '@/lib/pageMetadata';
 
-export const metadata = pageMeta('DIEMEX Blogs | Die & Mould Industry News and Insights', 'Read the latest DIEMEX blogs on die and mould manufacturing, precision tooling and exhibition news.', '/blogs');
+export const metadata = PAGE_META.blogs;
 
 export default async function BlogsPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const params = await searchParams;

@@ -84,6 +84,11 @@ export const PAGE_META = {
     "Download the DIEMEX 2027 brochure for stall options, floor plan, sectors and show highlights. India's die and mould exhibition. Free PDF.",
     "/register?t=brochure",
   ),
+  blogs: pageMeta(
+    "Die & Mould Industry Blogs & Insights | DIEMEX",
+    "Explore DIEMEX blogs on die and mould manufacturing, tooling technologies, precision engineering, and advanced manufacturing trends in India.",
+    "/blogs",
+  ),
   articles: pageMeta(
     "Die & Mould Industry Articles and Insights | DIEMEX India",
     "Read DIEMEX articles on die and mould making, CNC, EDM, 3D printing, hot runners and tooling trends in India. Insights for toolmakers and manufacturers.",
