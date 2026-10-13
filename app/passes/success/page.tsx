@@ -12,8 +12,12 @@ import {
   MessageCircle,
   MessageSquare,
 } from 'lucide-react';
+import { toPng } from 'html-to-image';
 import VisitorPassCard from '@/components/passes/VisitorPassCard';
-import { downloadVisitorBadge } from '@/lib/downloadVisitorBadge';
+import {
+  downloadVisitorBadge,
+  generateVisitorBadgeDataUrl,
+} from '@/lib/downloadVisitorBadge';
 import {
   clearPassSession,
   getPassSession,
@@ -64,7 +68,124 @@ export default function PassSuccessPage() {
     }
   };
 
+  const shareImageToWhatsApp = async () => {
+    setSending('whatsapp');
+    setMessage('');
+
+    try {
+      // -----------------------------------------
+      // 1. Resolve registered phone number digits
+      // -----------------------------------------
+      const ccDigits = String(pass.countryCode || '').replace(/\D/g, '');
+      const nnDigits = String(pass.nationalNumber || '').replace(/\D/g, '');
+      const rawPhoneDigits = String(pass.phone || '').replace(/\D/g, '');
+
+      let phoneDigits = '';
+      if (ccDigits && nnDigits) {
+        phoneDigits = `${ccDigits}${nnDigits}`;
+      } else if (rawPhoneDigits) {
+        phoneDigits = rawPhoneDigits.length === 10 ? `91${rawPhoneDigits}` : rawPhoneDigits;
+      }
+
+      // -----------------------------------------
+      // 2. Create Public pass URL & Message
+      // -----------------------------------------
+      const publicAppUrl =
+        typeof window !== 'undefined'
+          ? window.location.origin
+          : process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+
+      const passUrl = `${publicAppUrl}/passes/view/${pass.publicCode}`;
+
+      const whatsappText =
+        `*DIEMEX 2027 — Your Visitor Pass*\n\n` +
+        `Hi *${pass.name}*,\n\n` +
+        `Your digital visitor badge is ready.\n` +
+        `📌 *Registration:* ${pass.registrationNumber}\n\n` +
+        `👉 *Show this QR at entry:*\n${passUrl}\n\n` +
+        `📅 24–26 Mar 2027\n` +
+        `📍 Auto Cluster Exhibition Centre, Pune`;
+
+      const whatsappUrl = phoneDigits
+        ? `https://wa.me/${phoneDigits}?text=${encodeURIComponent(whatsappText)}`
+        : `https://api.whatsapp.com/send?text=${encodeURIComponent(whatsappText)}`;
+
+      // -----------------------------------------
+      // 3. Directly open WhatsApp for registered number
+      // -----------------------------------------
+      window.open(whatsappUrl, '_blank');
+
+      // -----------------------------------------
+      // 4. Download badge PNG for visitor
+      // -----------------------------------------
+      try {
+        let dataUrl = '';
+
+        const badgeElement =
+          document.getElementById('visitor-pass') ||
+          document.getElementById('visitor-pass-card') ||
+          document.querySelector('[data-visitor-pass]');
+
+        if (badgeElement) {
+          try {
+            dataUrl = await toPng(badgeElement as HTMLElement, {
+              cacheBust: true,
+              pixelRatio: 2,
+              backgroundColor: '#ffffff',
+            });
+          } catch (domErr) {
+            console.warn('DOM to PNG fallback to canvas generator:', domErr);
+          }
+        }
+
+        if (!dataUrl) {
+          dataUrl = await generateVisitorBadgeDataUrl(pass);
+        }
+
+        if (dataUrl) {
+          const link = document.createElement('a');
+          link.href = dataUrl;
+          link.download = `${pass.registrationNumber}.png`;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      } catch (badgeErr) {
+        console.warn('Badge download warning:', badgeErr);
+      }
+
+      // -----------------------------------------
+      // 5. Trigger backend registration sync
+      // -----------------------------------------
+      try {
+        const result = await resendVisitorPass({
+          publicCode: pass.publicCode,
+          channel: 'whatsapp',
+        });
+        if (result?.delivery) {
+          setDelivery(result.delivery);
+        }
+        if (result?.pass) {
+          setPass(result.pass);
+        }
+      } catch (err) {
+        console.warn('Backend sync warning:', err);
+      }
+
+      setMessage(`Opening WhatsApp chat directly for ${pass.phone || phoneDigits}…`);
+    } catch (error) {
+      console.error('Failed to share visitor pass:', error);
+      setMessage(error instanceof Error ? error.message : 'Unable to open WhatsApp.');
+    } finally {
+      setSending(null);
+    }
+  };
+
   const sendVia = async (nextChannel: PassChannel) => {
+    if (nextChannel === 'whatsapp') {
+      return shareImageToWhatsApp();
+    }
+
     setSending(nextChannel);
     setMessage('');
     try {
@@ -74,8 +195,13 @@ export default function PassSuccessPage() {
       });
       setDelivery(result.delivery);
       setPass(result.pass);
-      const sentTo = nextChannel === 'email' ? 'email' : nextChannel === 'whatsapp' ? 'WhatsApp' : 'SMS';
-      setMessage(result.delivery.success ? `Pass sent via ${sentTo}.` : result.delivery.error || 'Could not send pass.');
+      const sentTo = nextChannel === 'email' ? 'Email' : 'SMS';
+
+      if (result.delivery.success) {
+        setMessage(`Pass sent successfully via ${sentTo}!`);
+      } else {
+        setMessage(result.delivery.error || `Could not send pass via ${sentTo}.`);
+      }
     } catch (error) {
       setMessage(error instanceof Error ? error.message : 'Could not send pass');
     } finally {

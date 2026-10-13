@@ -45,6 +45,7 @@ export type PassDelivery = {
   channel: PassChannel;
   whatsappUrl?: string;
   passUrl?: string;
+  mediaUrl?: string;
   error?: string | null;
 };
 

@@ -53,7 +53,7 @@ function wrapText(
   return cursorY;
 }
 
-export async function downloadVisitorBadge(pass: VisitorPass) {
+export async function renderVisitorBadgeCanvas(pass: VisitorPass): Promise<HTMLCanvasElement> {
   const width = 680;
   const height = 1080;
   const canvas = document.createElement('canvas');
@@ -120,16 +120,22 @@ export async function downloadVisitorBadge(pass: VisitorPass) {
     ctx.fillText(pass.location, width / 2, 376);
   }
 
-  const qr = await loadImage(pass.qrDataUrl);
-  const qrSize = 320;
-  const qrX = (width - qrSize) / 2;
-  const qrY = 410;
-  roundRect(ctx, qrX - 12, qrY - 12, qrSize + 24, qrSize + 24, 24);
-  ctx.fillStyle = '#FFFFFF';
-  ctx.fill();
-  ctx.strokeStyle = '#E2E8F0';
-  ctx.stroke();
-  ctx.drawImage(qr, qrX, qrY, qrSize, qrSize);
+  if (pass.qrDataUrl) {
+    try {
+      const qr = await loadImage(pass.qrDataUrl);
+      const qrSize = 320;
+      const qrX = (width - qrSize) / 2;
+      const qrY = 410;
+      roundRect(ctx, qrX - 12, qrY - 12, qrSize + 24, qrSize + 24, 24);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fill();
+      ctx.strokeStyle = '#E2E8F0';
+      ctx.stroke();
+      ctx.drawImage(qr, qrX, qrY, qrSize, qrSize);
+    } catch (e) {
+      console.warn('QR image load warning:', e);
+    }
+  }
 
   ctx.fillStyle = '#94A3B8';
   ctx.font = '700 16px Arial, sans-serif';
@@ -156,11 +162,31 @@ export async function downloadVisitorBadge(pass: VisitorPass) {
   ctx.fillText('VISITOR', width / 2, 972);
 
   ctx.textAlign = 'left';
+  return canvas;
+}
 
+export async function generateVisitorBadgeDataUrl(pass: VisitorPass): Promise<string> {
+  const canvas = await renderVisitorBadgeCanvas(pass);
+  return canvas.toDataURL('image/png');
+}
+
+export async function generateVisitorBadgeBlob(pass: VisitorPass): Promise<Blob> {
+  const canvas = await renderVisitorBadgeCanvas(pass);
+  return new Promise<Blob>((resolve, reject) => {
+    canvas.toBlob((blob) => {
+      if (blob) resolve(blob);
+      else reject(new Error('Could not create badge blob'));
+    }, 'image/png');
+  });
+}
+
+export async function downloadVisitorBadge(pass: VisitorPass) {
+  const dataUrl = await generateVisitorBadgeDataUrl(pass);
   const link = document.createElement('a');
-  link.href = canvas.toDataURL('image/png');
+  link.href = dataUrl;
   link.download = `${pass.registrationNumber}.png`;
   document.body.appendChild(link);
   link.click();
   link.remove();
 }
+
