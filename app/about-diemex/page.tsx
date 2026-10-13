@@ -1,3 +1,4 @@
+import PageFaq from '@/components/PageFaq';
 import React from 'react';
 import HeroSection from '@/components/section/HeroSection';
 import StatsSection from '@/components/section/StatsSection';
@@ -16,6 +17,8 @@ import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 
 export default function AboutTransRussia() {
   return (
+    <>
+      {(
     <>
       {/* Back to Top Button */}
       <div className="fixed bottom-3 right-3 lg:bottom-10 lg:right-2 z-50 transition-all duration-300 opacity-0 translate-y-10 pointer-events-none">
@@ -127,6 +130,9 @@ export default function AboutTransRussia() {
         </div>
       </main>
       <BackToTop/>
+    </>
+  )}
+      <PageFaq route="/about-diemex" />
     </>
   );
 }

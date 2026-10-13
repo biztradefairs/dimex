@@ -63,6 +63,7 @@ const navigation: NavSection[] = [
   {
     label: "Management",
     items: [
+      { name: "Blogs", href: "/admin/blogs", icon: BookOpen },
       {
         name: "Exhibition",
         icon: Building,

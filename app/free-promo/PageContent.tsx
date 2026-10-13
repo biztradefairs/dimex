@@ -1,0 +1,320 @@
+// app/page.tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+// import PartnersSection from '@/components/section/PartnersSection';
+import DownloadSection from './DownloadSection';
+import BackToTop from '../exhibitor-resource-center/component/BackToTop';
+
+export default function ExhibitorPromotionPage() {
+  const [isHeaderVisible, setIsHeaderVisible] = useState(false);
+  const [backToTopVisible, setBackToTopVisible] = useState(false);
+  const [animatedBlocksVisible, setAnimatedBlocksVisible] = useState(false);
+
+  useEffect(() => {
+    // Hide loading overlay
+    const intro = document.getElementById('intro');
+    if (intro) {
+      setTimeout(() => {
+        intro.style.opacity = '0';
+        intro.style.pointerEvents = 'none';
+        setTimeout(() => intro.remove(), 500);
+      }, 1000);
+    }
+
+    // Show header animation
+    setIsHeaderVisible(true);
+
+    // Show animated blocks
+    setTimeout(() => {
+      setAnimatedBlocksVisible(true);
+    }, 500);
+
+    // Back to top functionality
+    const handleScroll = () => {
+      setBackToTopVisible(window.scrollY > 300);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleBackToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  return (
+    <div className="page-spacing-wrapper font-parabolica">
+      {/* Header Section - Updated with proper padding */}
+      <div className="bg-[#004A96] pt-12 pb-8 sm:pt-14">
+        <div className="px-4 sm:px-6 lg:px-8 mx-auto max-w-[1600px]">
+          <h1 className="title-72 text-white mb-6">
+            Exhibitor Promotion
+          </h1>
+
+          <p className="max-w-10xl text-lg leading-relaxed text-white/80">
+            As an exhibitor at Diemex 2027, maximise your impact by inviting your
+            clients, partners, and prospects to visit your stand for free! We're
+            providing you with an exclusive branded materials, ensuring your audience can easily register and connect with you
+            at the event.
+          </p>
+        </div>
+      </div>
+
+      {/* Section with text and image - Updated with proper padding */}
+      <section className="py-20">
+        <div className="px-4 sm:px-6 lg:px-8 mx-auto max-w-[1600px] grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+          {/* TEXT */}
+          <div className='text-[#4D4D4D]'>
+            <h2 className="text-2xl lg:text-3xl font-bold text-[#4D4D4D] mb-6 leading-tight">
+              Invite Your Clients to Diemex 2027
+            </h2>
+
+            <h3 className="text-2xl lg:text-3xl font-semibold mb-4">
+              How It Works
+            </h3>
+
+            <ul className="list-disc pl-6 space-y-4 mb-6 text-lg lg:text-xl text-black/80">
+              <li>
+                Unlimited number of visitors to register for a free electronic ticket.
+              </li>
+              <li>
+                Share the website link and direct them to register on the official
+                exhibition website.
+              </li>
+            </ul>
+
+            <h3 className="text-2xl lg:text-3xl font-semibold mb-4">
+              Maximise Your Reach
+            </h3>
+
+            <ul className="space-y-4 text-lg lg:text-xl text-black/80">
+              <li>✔ Invitations – Send direct invitations</li>
+              <li>✔ Email signatures – Daily visibility</li>
+              <li>✔ News & Digest additions – Boost attendance</li>
+            </ul>
+
+            
+          </div>
+
+          {/* IMAGE */}
+          <div>
+            <img
+              src="/images/exhibitor-promo/exhibitor.JPG"
+              alt=""
+              className="w-full h-[400px] lg:h-[520px] object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Download Materials Sections - Updated with proper padding */}
+      <div
+        className="animated-block"
+        style={{
+          opacity: animatedBlocksVisible ? 1 : 0,
+          transform: `translateY(${animatedBlocksVisible ? '0' : '30px'})`,
+          transition: 'opacity 0.7s ease, transform 0.7s ease',
+        }}
+      >
+        <div className="px-4 sm:px-6 lg:px-8 mx-auto max-w-[1600px]">
+          {/* FORCE 2 ITEMS PER ROW */}
+          <div className="grid grid-cols-2 gap-6 text-[#4D4D4D]">
+            
+            {/* CARD */}
+            <div className="relative flex min-h-[520px] flex-col bg-[#E8F1F8] p-6 lg:p-10">
+              <h2 className="text-3xl lg:text-4xl font-semibold mb-4">
+                Invitation
+              </h2>
+
+              <p className="text-lg lg:text-xl leading-relaxed text-black/80 mb-6">
+                Use your <strong>Logo</strong> to personally invite
+                your clients, distributors, and business partners to visit your stand
+                at <strong>Diemex 2027</strong> for free. Add Logo to
+                your email invitations and formal letters to ensure they secure their
+                <strong> free electronic ticket</strong>.
+              </p>
+
+              <a
+                href="/images/Exhibitor_Promotion/Invitation_Diemex2026.docx"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-auto inline-flex w-fit rounded-full bg-[#004A96] px-10 py-4 text-lg font-semibold text-white hover:bg-[#003875] transition"
+              >
+                Download Your Invitation
+              </a>
+            </div>
+
+            {/* CARD */}
+            <div className="relative flex min-h-[520px] flex-col rounded-2xl bg-[#E8F1F8] p-6 lg:p-10">
+              <h2 className="text-3xl lg:text-4xl font-semibold mb-4">
+                Personalised Banners
+              </h2>
+
+              <p className="text-lg lg:text-xl leading-relaxed text-black/80 mb-6">
+                Enhance your marketing materials by integrating your
+                <strong> Logo</strong> into <strong>custom banners</strong> for
+                digital campaigns, social media ads, and website promotions. These
+                banners help visitors register easily.
+              </p>
+
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-auto inline-flex w-fit rounded-full bg-[#004A96] px-10 py-4 text-lg font-semibold text-white hover:bg-[#003875] transition"
+              >
+                Download Your Personalised Banners
+              </a>
+            </div>
+
+            {/* CARD */}
+            <div className="relative flex min-h-[520px] flex-col rounded-2xl bg-[#E8F1F8] p-6 lg:p-10">
+              <h2 className="text-3xl lg:text-4xl font-semibold mb-4">
+                Announcement Template
+              </h2>
+
+              <p className="text-lg lg:text-xl leading-relaxed text-black/80 mb-6">
+                Announce your participation in the exhibition on your company website.
+                Share your stand number, product information, and invite visitors to
+                meet you at <strong>Diemex 2027</strong>.
+              </p>
+
+              <a
+                href="/images/Exhibitor_Promotion/Announcement_Temp_Diemex_2026.docx"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-auto inline-flex w-fit rounded-full bg-[#004A96] px-10 py-4 text-lg font-semibold text-white hover:bg-[#003875] transition"
+              >
+                Download Announcement Template
+              </a>
+            </div>
+
+            {/* CARD */}
+            <div className="relative flex min-h-[520px] flex-col rounded-2xl bg-[#E8F1F8] p-6 lg:p-10">
+              <h2 className="text-3xl lg:text-4xl font-semibold mb-4">
+                News Promotion
+              </h2>
+
+              <p className="text-lg lg:text-xl leading-relaxed text-black/80 mb-6">
+                Promote your <strong>product launches</strong> through company
+                newsletters, industry publications, and press releases to maximise
+                visibility and encourage visitors to attend
+                <strong> Diemex 2027</strong>.
+              </p>
+
+              <a
+                href="/images/Exhibitor_Promotion/Diemex_2026_news.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-auto inline-flex w-fit rounded-full bg-[#004A96] px-10 py-4 text-lg font-semibold text-white hover:bg-[#003875] transition"
+              >
+                Requirements to News Promotion
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Email Signature Section - Updated with proper padding */}
+      <div
+        className="animated-block"
+        style={{
+          opacity: animatedBlocksVisible ? 1 : 0,
+          transform: `translateY(${animatedBlocksVisible ? '0' : '30px'})`,
+          transition: 'opacity 0.7s ease, transform 0.7s ease',
+        }}
+      >
+        <div className="px-4 sm:px-6 lg:px-8 mx-auto max-w-[1600px]">
+          <div className="grid grid-cols-1 gap-6">
+            <div className="relative flex min-h-[520px] flex-col rounded-2xl text-[#4D4D4D] p-6 lg:p-10">
+              <div className="flex flex-col gap-6">
+
+                {/* BIG HEADING */}
+                <h2 className="text-3xl lg:text-4xl font-semibold">
+                  INVITATION IN EMAIL SIGNATURE
+                </h2>
+
+                {/* BIG BODY TEXT */}
+                <div className="space-y-6 text-lg lg:text-xl leading-relaxed text-black/80">
+                  <p>
+                    Download the exhibition logo and place it in your email signature
+                    with a link to the ticket pickup page, attaching your personal link
+                    to the ticket pickup page.
+                  </p>
+
+                  <img
+                    src="/images/exhibitor-promo/logo_diemex.png"
+                    alt="Diemex logo"
+                    className="max-w-[260px]"
+                  />
+
+                  <p className="font-semibold text-black">
+                    Diemex 2027 | 3rd Edition
+                  </p>
+
+                  <p>
+                    March 24–26, 2027, Auto Cluster Exhibition Centre, Pune, India
+                    <br />
+                    <br />
+                    We invite you to visit our stand No. ___
+                    <br />
+                    Get an electronic ticket &gt;&gt; (your personal link)
+                    <br />
+                   
+                  </p>
+                </div>
+
+                {/* BUTTON */}
+                <a
+                  href="/images/exhibitor-promo/Diemex_2026_logos.zip"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-6 inline-flex w-fit rounded-full bg-[#004A96] px-12 py-4 text-lg font-semibold text-white hover:bg-[#003875] transition"
+                >
+                  Download Logo
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Partners & Sponsors Section - Updated with proper padding */}
+      <div className="animated-block" style={{ opacity: animatedBlocksVisible ? 1 : 0, transform: `translateY(${animatedBlocksVisible ? '0' : '30px'})`, transition: 'opacity 0.7s ease, transform 0.7s ease' }}>
+        <div className="px-4 sm:px-6 lg:px-8 mx-auto max-w-[1600px]" role="region" aria-roledescription="carousel">
+          <div className="mb-10 flex flex-col items-center">
+            {/* <h2 className="title-72 text-black mt-5">Partners &amp; Sponsors</h2> */}
+          </div>
+          {/* <PartnersSection /> */}
+        </div>
+      </div>
+
+      {/* Back to Top Button */}
+      <div
+        className="fixed bottom-3 right-3 lg:bottom-10 lg:right-2 z-50 transition-all duration-300 pointer-events-none"
+        style={{
+          opacity: backToTopVisible ? 1 : 0,
+          transform: backToTopVisible ? 'translateY(0)' : 'translateY(10px)',
+          pointerEvents: backToTopVisible ? 'auto' : 'none',
+        }}
+      >
+        <button
+          aria-label="Back to top"
+          onClick={handleBackToTop}
+          className="m-0 rounded-full border-none bg-white p-0 outline-none drop-shadow-lg hover:scale-105 transition-transform"
+        >
+          <svg
+            className="size-10 fill-mainColor1"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+          >
+            <path d="M22 12c0-5.522-4.476-10-10-10C6.479 2 2 6.479 2 12c0 5.524 4.478 10 10 10c5.524 0 10-4.476 10-10zm-14.53.28a.75.75 0 0 1-.073-.976l.073-.084l4-4a.75.75 0 0 1 .977-.073l.085.072l4 4.002a.75.75 0 0 1-.977 1.133l-.084-.073l-2.72-2.721v6.691a.75.75 0 0 1-.649.743l-.102.007a.75.75 0 0 1-.743-.648l-.007-.102v-6.69l-2.72 2.72a.75.75 0 0 1-.976.072l-.084-.072z"></path>
+          </svg>
+        </button>
+      </div>
+      <BackToTop/>
+    </div>
+  );
+}

@@ -1,3 +1,4 @@
+import PageFaq from '@/components/PageFaq';
 import BackToTop from './component/BackToTop';
 import HeroSection from './component/HeroSection';
 import ExploreOpportunities from './component/ExploreOpportunities';
@@ -9,6 +10,8 @@ import AttentionSection from './component/AttentionSection';
 
 export default function ExhibitorResourceCenterPage() {
   return (
+    <>
+      {(
     <>
       <main>
         <HeroSection />
@@ -27,6 +30,9 @@ export default function ExhibitorResourceCenterPage() {
       </main>
 
       <BackToTop />
+    </>
+  )}
+      <PageFaq route="/exhibitor-resource-center" />
     </>
   );
 }

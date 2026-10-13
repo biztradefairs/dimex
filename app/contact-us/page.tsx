@@ -1,15 +1,16 @@
+import PageFaq from '@/components/PageFaq';
+import { PAGE_META } from '@/lib/pageMetadata';
 import { Metadata } from "next"
 import PartnersSlider from "@/components/section/PartnersSection"
 import SectionContainer from "@/components/UI/SectionContainer"
 import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 
-export const metadata: Metadata = {
-  title: "Contact Us | Diemex 2027",
-  description: "Get in touch with Diemex Expo. Contact our team for sales, marketing, technical, or general exhibition enquiries.",
-}
+export const metadata: Metadata = PAGE_META.contact;
 
 export default function ContactPage() {
   return (
+    <>
+      {(
     <main className="bg-white font-parabolica">
       {/* HERO SECTION */}
       <section className="bg-[#004A96] pt-16 pb-20">
@@ -164,5 +165,8 @@ Auto Cluster Exhibition Centre                    </h3>
       </section>
       <BackToTop/>
     </main>
+  )}
+      <PageFaq route="/contact-us" />
+    </>
   )
 }

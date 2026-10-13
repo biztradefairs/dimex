@@ -1,3 +1,4 @@
+import PageFaq from '@/components/PageFaq';
 import CompanyDirectory from "./company-directory"
 
 export const metadata = {
@@ -6,5 +7,10 @@ export const metadata = {
 }
 
 export default function Home() {
-  return <CompanyDirectory />
+  return (
+    <>
+      {<CompanyDirectory />}
+      <PageFaq route="/exhibition-directory" />
+    </>
+  )
 }

@@ -56,6 +56,7 @@ const navItems: NavItem[] = [
     dropdown: true,
     links: [
       { text: "Industry News", href: "/articles" },
+      { text: "Blogs", href: "/blogs" },
       { text: "Post Show Report", href: "/post-show-report" },
       { text: "Event Brochure", href: "/event-brochure" },
       { text: "Media Gallery", href: "/media-gallery" },

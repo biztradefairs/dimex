@@ -1,3 +1,4 @@
+import PageFaq from '@/components/PageFaq';
 import SectionContainer from "@/components/UI/SectionContainer"
 import QuickNavigation from "@/components/QuickNavigation"
 import PartnersSection from "@/components/section/PartnersSection"
@@ -59,6 +60,8 @@ const DiemexSectors = [
 export default function SectorsPage() {
   return (
     <>
+      {(
+    <>
     
     <div className="min-h-screen font-parabolica">
       {/* Hero Section - COMPACT */}
@@ -102,6 +105,9 @@ export default function SectorsPage() {
       <PartnersSection/>
     </div>
     <BackToTop/>
+    </>
+  )}
+      <PageFaq route="/sectors" />
     </>
   )
 }
