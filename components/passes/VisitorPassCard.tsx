@@ -8,12 +8,13 @@ type VisitorPassCardProps = {
   cardId?: string;
 };
 
-export default function VisitorPassCard({ pass, cardId = 'visitor-pass-card' }: VisitorPassCardProps) {
+export default function VisitorPassCard({ pass, cardId = 'visitor-pass' }: VisitorPassCardProps) {
   const initial = (pass.name || 'V').trim().charAt(0).toUpperCase();
 
   return (
     <article
       id={cardId}
+      data-visitor-pass="true"
       className="mx-auto w-full max-w-[340px] overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_24px_60px_rgba(15,47,92,0.18)]"
     >
       <div className="flex items-center justify-between bg-gradient-to-r from-[#0F766E] to-[#16A34A] px-5 py-3 text-white">
