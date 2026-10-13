@@ -14,10 +14,12 @@ export async function generateStaticParams() {
 // If you want fully static generation, you can set:
 // export const dynamicParams = false;
 
-export default async function ArticlePage({ params }: { params: { slug: string } }) {
-  // In some Next.js versions, params may be a promise
-  const resolvedParams = await params; // <- Await it
-  const slug = resolvedParams.slug;
+type PageProps = {
+  params: Promise<{ slug: string }>;
+};
+
+export default async function ArticlePage({ params }: PageProps) {
+  const { slug } = await params;
 
   const article = getArticleBySlug(slug);
 
