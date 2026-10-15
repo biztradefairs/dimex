@@ -11,7 +11,9 @@ import {
     InputField, SelectField, PhoneField,
     LocationFields, SubmitButton, Icons,
 } from '@/components/FormFields';
-import { saveThanksSession, submitRegistrationInBackground } from '@/lib/submitRegistration';
+import { submitRegistrationInBackground } from '@/lib/submitRegistration';
+import OtpModal from '@/components/passes/OtpModal';
+import { sendPassOtp, verifyPassOtp, savePassSession, submitVerifiedContactPass } from '@/lib/api/passes';
 
 const VISITOR_PROFILES = [
     { value: 'Automotive', label: 'Automotive (Auto OEMs, Auto Ancillary)' },
@@ -34,6 +36,66 @@ export default function EnquiryForm() {
     const recaptchaRef = useRef<any>(null);
     const [captchaToken, setCaptchaToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const [countryCode, setCountryCode] = useState('+91');
+    const [channel, setChannel] = useState<'sms' | 'whatsapp'>('whatsapp');
+    const [otpOpen, setOtpOpen] = useState(false);
+    const [otpPhone, setOtpPhone] = useState('');
+    const [otpRequestId, setOtpRequestId] = useState(0);
+    const [otpError, setOtpError] = useState('');
+    const [otpDigits, setOtpDigits] = useState(6);
+    const [resendIn, setResendIn] = useState(45);
+    const pending = useRef<Record<string, unknown> | null>(null);
+
+    const requestOtp = async (payload: Record<string, unknown>) => {
+        setLoading(true);
+        setOtpError('');
+        try {
+            const result = await sendPassOtp({
+                countryCode: String(payload.countryCode), mobile: String(payload.phone),
+                channel, email: String(payload.email),
+            });
+            setOtpPhone(result.phone);
+            setOtpRequestId(value => value + 1);
+            setOtpDigits(result.digits || 6);
+            setResendIn(result.resendIn || 45);
+            setOtpOpen(true);
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Could not send verification code';
+            setOtpError(message);
+            toast.error(message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleVerify = async (otp: string) => {
+        const payload = pending.current;
+        if (!payload) return;
+        setLoading(true);
+        setOtpError('');
+        try {
+            const verified = await verifyPassOtp({
+                countryCode: String(payload.countryCode), mobile: String(payload.phone), otp,
+            });
+            const result = verified.alreadyRegistered && verified.pass
+                ? { pass: verified.pass, delivery: verified.delivery }
+                : await submitVerifiedContactPass({ ...payload, verificationToken: verified.verificationToken });
+            if (!verified.alreadyRegistered) {
+                submitRegistrationInBackground(payload, { contact: false });
+            }
+            savePassSession({
+                countryCode: String(payload.countryCode), mobile: String(payload.phone),
+                channel: verified.channel, phone: verified.phone, e164: verified.e164,
+                verificationToken: verified.verificationToken,
+                pass: result.pass, delivery: result.delivery,
+            });
+            router.push('/passes/success');
+        } catch (error) {
+            setOtpError(error instanceof Error ? error.message : 'Could not complete registration. Please request a new code and try again.');
+        } finally {
+            setLoading(false);
+        }
+    };
     const [termsAccepted, setTerms] = useState(false);
     const { utmData, campaign } = useUTMData();
 
@@ -68,9 +130,10 @@ export default function EnquiryForm() {
                 companyName: form.company,
                 jobTitle: form.designation,
                 phone: form.mobile,
-                country: form.country,
-                state: form.state,
-                city: form.city,
+                countryCode,
+                country: countries.find(item => item.id === form.country)?.name || form.country,
+                state: states.find(item => item.id === form.state)?.name || form.state,
+                city: cities.find(item => item.id === form.city)?.name || form.city,
                 address: form.address,
                 pincode: form.pincode,
                 profile: form.profile,
@@ -93,9 +156,8 @@ export default function EnquiryForm() {
                 cmsCampaignMedium: campaign?.utm_medium || '',
             };
 
-            submitRegistrationInBackground(payload);
-            saveThanksSession({ name: form.name.split(' ')[0] || 'Visitor', tab: 'visitor', email: form.email });
-            router.push(`/register/thank-you?t=visitor&name=${encodeURIComponent(form.name.split(' ')[0] || 'Visitor')}`);
+            pending.current = payload;
+            await requestOtp(payload);
         } catch (error) {
             console.error(error);
             toast.error("Network error. Please check your connection.");
@@ -131,11 +193,12 @@ export default function EnquiryForm() {
                         type="email" name="email" value={form.email}
                         onChange={handleChange} placeholder="name@company.com"
                     />
-                    <PhoneField
-                        label="Phone Number" required
-                        name="mobile" value={form.mobile}
-                        onChange={handleChange} placeholder="98765 43210"
-                    />
+                    <div className="grid grid-cols-[90px_1fr] gap-2">
+                        <InputField label="Dial code" required name="countryCode" type="tel" value={countryCode}
+                            onChange={event => setCountryCode(event.target.value)} placeholder="+91" />
+                        <PhoneField label="Phone Number" required name="mobile" value={form.mobile}
+                            onChange={handleChange} placeholder="98765 43210" />
+                    </div>
                 </div>
 
                 <LocationFields
@@ -187,8 +250,20 @@ export default function EnquiryForm() {
                     </div>
                 )}
 
-                <SubmitButton loading={loading} label="Submit" />
+                <SelectField label="Receive verification code and pass by" required name="channel" value={channel}
+                    onChange={event => setChannel(event.target.value as 'sms' | 'whatsapp')}>
+                    <option value="whatsapp">WhatsApp</option>
+                    <option value="sms">SMS</option>
+                </SelectField>
+                <p className="text-xs text-gray-500">By continuing, you agree to receive your verification code and visitor pass through the selected channel.</p>
+                <SubmitButton loading={loading} label="Verify & register" />
             </form>
+            <OtpModal key={otpRequestId} open={otpOpen} phone={otpPhone}
+                channel={channel} length={otpDigits} resendIn={resendIn}
+                loading={loading} error={otpError}
+                onClose={() => { if (!loading) setOtpOpen(false); }}
+                onVerify={handleVerify}
+                onResend={() => { if (pending.current) requestOtp(pending.current); }} />
         </>
     );
 }

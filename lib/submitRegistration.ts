@@ -30,11 +30,12 @@ export function readThanksSession(): ThanksPayload | null {
 }
 
 /** CMS + contact API run in the background so the thank-you page can appear immediately. */
-export function submitRegistrationInBackground(payload: Record<string, any>) {
+export function submitRegistrationInBackground(payload: Record<string, any>, options: { contact?: boolean } = {}) {
   submitContactForm(PROJECT_ID_VAR.projectId, payload).catch((error) => {
     console.error('CMS lead save failed:', error);
   });
 
+  if (options.contact === false) return;
   fetch(contactApiUrl(), {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

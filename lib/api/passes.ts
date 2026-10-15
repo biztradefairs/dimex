@@ -42,6 +42,8 @@ export type PassDelivery = {
   success: boolean;
   simulated?: boolean;
   provider?: string;
+  messageSid?: string | null;
+  status?: string | null;
   channel: PassChannel;
   whatsappUrl?: string;
   passUrl?: string;
@@ -66,7 +68,7 @@ const SESSION_KEY = 'diemex_pass_session';
 async function parseResponse<T>(response: Response): Promise<T> {
   const data = await response.json().catch(() => ({}));
   if (!response.ok || data.success === false) {
-    throw new Error(data.error || data.message || 'Request failed');
+    throw Object.assign(new Error(data.error || data.message || 'Request failed'), { status: response.status });
   }
   return data as T;
 }
@@ -233,24 +235,38 @@ export type ScannerSummary = {
   }>;
 };
 
+function scannerHeaders() {
+  const token = typeof window === 'undefined' ? null : localStorage.getItem('admin_token');
+  if (!token) throw Object.assign(new Error('Staff sign-in required'), { status: 401 });
+  return { 'Content-Type': 'application/json', Authorization: 'Bearer ' + token };
+}
+
+export async function submitVerifiedContactPass(payload: Record<string, unknown>) {
+  const response = await fetch(API_BASE + '/contact', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  });
+  return parseResponse<{ success: true; pass: VisitorPass; delivery: PassDelivery }>(response);
+}
+
 export async function scanVisitorPass(code: string, scannerId: string) {
   const response = await fetch(`${API_BASE}/passes/scan`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: scannerHeaders(),
     body: JSON.stringify({ code, scannerId }),
   });
   return parseResponse<ScanResult>(response);
 }
 
 export async function fetchScannerSummary() {
-  const response = await fetch(`${API_BASE}/passes/scanner/summary`);
+  const response = await fetch(`${API_BASE}/passes/scanner/summary`, { headers: scannerHeaders(), cache: 'no-store' });
   return parseResponse<ScannerSummary>(response);
 }
 
 export async function checkInVisitorPass(code: string) {
   const response = await fetch(`${API_BASE}/passes/check-in`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: scannerHeaders(),
     body: JSON.stringify({ code }),
   });
   return parseResponse<{

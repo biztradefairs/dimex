@@ -4,6 +4,8 @@ import { fetchPublishedBlogs } from '@/lib/publicBlogs';
 import { PAGE_META } from '@/lib/pageMetadata';
 
 export const metadata = PAGE_META.blogs;
+// Allow bounded retries when the backend needs time to become ready.
+export const maxDuration = 90;
 
 export default async function BlogsPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const params = await searchParams;

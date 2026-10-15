@@ -39,7 +39,7 @@ const AdminQRScanner = () => {
 
   const fetchStats = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/contact/visitors/all`);
+      const response = await fetch(`${API_URL}/api/contact/visitors/all`, { headers: { Authorization: 'Bearer ' + (localStorage.getItem('admin_token') || '') }, cache: 'no-store' });
       const data = await response.json();
       if (data.success) {
         setStats({
@@ -55,7 +55,7 @@ const AdminQRScanner = () => {
 
   const fetchRecentCheckIns = async () => {
     try {
-      const response = await fetch(`${API_URL}/api/contact/visitors/checked-in`);
+      const response = await fetch(`${API_URL}/api/contact/visitors/checked-in`, { headers: { Authorization: 'Bearer ' + (localStorage.getItem('admin_token') || '') }, cache: 'no-store' });
       const data = await response.json();
       if (data.success) {
         setRecentCheckIns(data.visitors.slice(0, 10)); // Show last 10 check-ins
@@ -68,12 +68,8 @@ const AdminQRScanner = () => {
   const handleScanSuccess = (visitor) => {
     // Add to recent check-ins
     setRecentCheckIns(prev => [visitor, ...prev].slice(0, 10));
-    // Update stats
-    setStats(prev => ({
-      ...prev,
-      checkedIn: prev.checkedIn + 1,
-      pending: prev.pending - 1
-    }));
+    fetchStats();
+    fetchRecentCheckIns();
   };
 
   const handleScanError = (error) => {
