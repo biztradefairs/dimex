@@ -132,12 +132,12 @@ export default function AboutSection() {
       {/* Wrap entire content in SectionContainer for proper alignment */}
       <SectionContainer>
         <div className="flex flex-col gap-6">
-          <h2
+          <h1
             ref={titleRef}
             className="max-w-[1400px] font-parabolica text-5xl lg:text-6xl font-[500] leading-[0.9] tracking-tight text-black opacity-0"
           >
             India&apos;s Leading Die & Mould Manufacturing Exhibition
-          </h2>
+          </h1>
 
           <div className="max-w-[1500px] space-y-4">
             <p
