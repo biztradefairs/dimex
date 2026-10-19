@@ -8,7 +8,7 @@ export const HOME_STRUCTURED_DATA = {
   '@graph': [
     {
       '@type': 'Organization',
-      '@id': `${HOME_URL}#org`,
+      '@id': `${HOME_URL}`,
       name: 'Maxx Business Media Pvt. Ltd.',
       alternateName: 'DIEMEX',
       url: HOME_URL,
