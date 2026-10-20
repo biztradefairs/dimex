@@ -7,6 +7,7 @@ import { ArrowRight, ArrowUpRight, CalendarDays, MapPin } from 'lucide-react';
 import SectionContainer from './UI/SectionContainer';
 
 const PHOTOS = [
+  { src: '/images/media-gallery/20205IN_13.webp', alt: 'Exhibition guests at the DIEMEX 2025 inauguration' },
   { src: '/images/media-gallery/20205IN_15.webp', alt: 'Lamp lighting at the DIEMEX 2025 inauguration' },
   { src: '/images/media-gallery/EX25_1.webp', alt: 'Visitors exploring tooling displays at DIEMEX 2025' },
   { src: '/images/why-exhibit-header.JPG', alt: 'Die and mould technologies at the Raj Tools exhibition stand' },
