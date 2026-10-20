@@ -1,4 +1,5 @@
 import PageContent from './PageContent';
+import LatestBlogsSection from '@/components/blogs/LatestBlogsSection';
 import PageFaq from '@/components/PageFaq';
 import { HOME_STRUCTURED_DATA } from '@/lib/structuredData';
 
@@ -12,7 +13,7 @@ export default function Page() {
           __html: JSON.stringify(HOME_STRUCTURED_DATA).replace(/</g, '\\u003c'),
         }}
       />
-      <PageContent />
+      <PageContent blogsPreview={<LatestBlogsSection />} />
       <PageFaq route="/" />
     </>
   );

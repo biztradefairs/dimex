@@ -1,6 +1,8 @@
 // app/page.tsx
 'use client';
 
+import type { ReactNode } from 'react';
+
 import HeroSection from '@/components/HeroSection'
 import AboutSection from '@/components/AboutSection'
 import WhyChooseSection from '@/components/WhyChooseSection'
@@ -18,7 +20,7 @@ import VideoSection from '@/components/videoSection';
 import BackToTop from './exhibitor-resource-center/component/BackToTop';
 import PostponedDatesPopup from '@/components/PostponedDatesPopup';
 
-export default function Home() {
+export default function Home({ blogsPreview }: { blogsPreview: ReactNode }) {
   return (
     <>
     {/* <PostponedDatesPopup /> */}
@@ -37,6 +39,7 @@ export default function Home() {
       <NewsletterSection />
       {/* <ExploreMoscowSection /> */}
       <PartnersSection />
+      {blogsPreview}
       {/* <div>
          <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2 w-fit mx-auto shadow-sm">
             <img
