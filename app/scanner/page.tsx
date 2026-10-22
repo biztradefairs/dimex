@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
+import { useRouter } from 'next/navigation';
 import {
   fetchScannerSummary,
   scanVisitorPass,
@@ -37,6 +38,12 @@ function formatClock(value: string) {
 }
 
 export default function ScannerPage() {
+  const router = useRouter();
+  const mountedRef = useRef(false);
+  const startingRef = useRef(false);
+  const resumeTimerRef = useRef<number | null>(null);
+  const startTaskRef = useRef<Promise<unknown> | null>(null);
+  const teardownRef = useRef<Promise<void>>(Promise.resolve());
   const regionId = 'diemex-scanner-camera';
   const cameraRef = useRef<Html5Qrcode | null>(null);
   const runningRef = useRef(false);
@@ -55,10 +62,13 @@ export default function ScannerPage() {
       const data = await fetchScannerSummary();
       setSummary(data);
       setOnline(true);
-    } catch {
+    } catch (error) {
       setOnline(false);
+      if (error instanceof Error && 'status' in error && (error.status === 401 || error.status === 403)) {
+        router.replace('/admin/login?next=/scanner');
+      }
     }
-  }, []);
+  }, [router]);
 
   const stopCamera = useCallback(async () => {
     const camera = cameraRef.current;
@@ -72,12 +82,14 @@ export default function ScannerPage() {
   }, []);
 
   const startCamera = useCallback(async () => {
-    if (runningRef.current || busyRef.current) return;
+    if (!mountedRef.current || startingRef.current || runningRef.current || busyRef.current) return;
     const camera = cameraRef.current;
     if (!camera) return;
 
+    startingRef.current = true;
     try {
-      await camera.start(
+      if (!window.isSecureContext) throw new Error('Open this scanner over HTTPS to use the camera.');
+      const startTask = camera.start(
         { facingMode: 'environment' },
         { fps: 8, qrbox: { width: 220, height: 220 } },
         (text) => {
@@ -85,12 +97,22 @@ export default function ScannerPage() {
         },
         () => undefined
       );
+      startTaskRef.current = startTask;
+      await startTask;
+      if (!mountedRef.current || cameraRef.current !== camera) return;
       runningRef.current = true;
       setReady(true);
       setCameraError('');
     } catch {
-      setCameraError('Allow camera access to scan visitor passes.');
-      setReady(false);
+      if (mountedRef.current && cameraRef.current === camera) {
+        setCameraError(!window.isSecureContext
+          ? 'Open this scanner over HTTPS to use the camera.'
+          : 'Camera unavailable. Allow camera access, then tap Retry camera.');
+        setReady(false);
+      }
+    } finally {
+      startingRef.current = false;
+      startTaskRef.current = null;
     }
   }, []);
 
@@ -102,13 +124,14 @@ export default function ScannerPage() {
 
   useEffect(() => {
     handleScanRef.current = async (decodedText: string) => {
-      if (busyRef.current) return;
+      if (!mountedRef.current || busyRef.current) return;
       busyRef.current = true;
       setNotice('');
       await stopCamera();
 
       const resume = (delay: number) => {
-        window.setTimeout(() => {
+        resumeTimerRef.current = window.setTimeout(() => {
+          if (!mountedRef.current) return;
           setOutcome(null);
           setNotice('');
           busyRef.current = false;
@@ -118,6 +141,7 @@ export default function ScannerPage() {
 
       try {
         const result = await scanVisitorPass(decodedText, scannerId());
+        if (!mountedRef.current) return;
         setOutcome(result);
         await loadSummary();
         resume(result.duplicate ? 1200 : 1700);
@@ -129,18 +153,37 @@ export default function ScannerPage() {
   }, [loadSummary, stopCamera]);
 
   useEffect(() => {
-    const camera = new Html5Qrcode(regionId);
-    cameraRef.current = camera;
+    let disposed = false;
+    mountedRef.current = true;
+    const priorTeardown = teardownRef.current;
+    // Defer initialization so React's development effect cleanup cannot start two cameras.
+    const kickoff = window.setTimeout(async () => {
+      await priorTeardown;
+      if (disposed) return;
+      busyRef.current = false;
+      const camera = new Html5Qrcode(regionId);
+      cameraRef.current = camera;
+      startCamera();
+    }, 0);
     loadSummary();
     const timer = window.setInterval(loadSummary, 15000);
-    startCamera();
 
     return () => {
+      disposed = true;
+      mountedRef.current = false;
+      window.clearTimeout(kickoff);
       window.clearInterval(timer);
+      if (resumeTimerRef.current) window.clearTimeout(resumeTimerRef.current);
+      const camera = cameraRef.current;
+      const starting = startTaskRef.current;
+      cameraRef.current = null;
       runningRef.current = false;
-      camera.stop().catch(() => undefined).finally(() => {
+      teardownRef.current = (async () => {
+        if (!camera) return;
+        if (starting) await starting.catch(() => undefined);
+        try { await camera.stop(); } catch { /* Already stopped or permission denied. */ }
         camera.clear();
-      });
+      })().catch(() => undefined);
     };
   }, [loadSummary, startCamera]);
 
@@ -167,7 +210,12 @@ export default function ScannerPage() {
           {!ready && !cameraError ? (
             <p className="absolute inset-0 flex items-center justify-center text-sm text-white/80">Starting camera…</p>
           ) : null}
-          {cameraError ? <p className="mt-3 text-center text-sm text-amber-200">{cameraError}</p> : null}
+          {cameraError ? (
+            <div className="mt-3 text-center">
+              <p className="text-sm text-amber-200">{cameraError}</p>
+              <button type="button" onClick={() => startCamera()} className="mt-2 rounded-lg bg-white px-4 py-2 text-sm font-bold text-blue-900">Retry camera</button>
+            </div>
+          ) : null}
           <p className="mt-4 text-center text-sm font-semibold text-white">
             {notice || (ready ? 'Ready to scan' : 'Camera unavailable')}
           </p>

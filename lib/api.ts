@@ -75,7 +75,8 @@ api.interceptors.response.use(
           localStorage.removeItem('admin_token');
           localStorage.removeItem('token');
           localStorage.removeItem('admin_user');
-          window.location.href = '/admin/login';
+          window.location.href = window.location.pathname.startsWith('/scanner')
+            ? '/admin/login?next=/scanner' : '/admin/login';
         }
       }
     }

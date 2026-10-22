@@ -1,11 +1,13 @@
 'use client';
 
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import { Suspense, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { CheckCircle2, Mail } from 'lucide-react';
 import { resolveRegistrationTab, type RegistrationTab } from '@/lib/registrationRoutes';
-import { readThanksSession } from '@/lib/submitRegistration';
+import {
+  readThanksSession, readRegistrationStatus, subscribeRegistrationUpdates,
+} from '@/lib/submitRegistration';
 
 const COPY: Record<RegistrationTab, { title: string; body: string }> = {
   visitor: {
@@ -28,22 +30,18 @@ const COPY: Record<RegistrationTab, { title: string; body: string }> = {
 
 function ThankYouContent() {
   const searchParams = useSearchParams();
-  const [name, setName] = useState('there');
-  const [tab, setTab] = useState<RegistrationTab>('visitor');
-
-  useEffect(() => {
-    const session = readThanksSession();
-    const queryTab = searchParams.get('t');
-    const queryName = searchParams.get('name');
-    const resolved = resolveRegistrationTab(queryTab) || resolveRegistrationTab(session?.tab ?? null);
-
-    if (resolved) setTab(resolved);
-
-    const resolvedName = queryName || session?.name;
-    if (resolvedName) setName(resolvedName);
-  }, [searchParams]);
-
-  const copy = useMemo(() => COPY[tab], [tab]);
+  const session = useSyncExternalStore(subscribeRegistrationUpdates, readThanksSession, () => null);
+  const submission = useSyncExternalStore(subscribeRegistrationUpdates, readRegistrationStatus, () => null);
+  const tab = resolveRegistrationTab(searchParams.get('t')) ||
+    resolveRegistrationTab(session?.tab ?? null) || 'visitor';
+  const name = searchParams.get('name') || session?.name || 'there';
+  const copy = COPY[tab];
+  const currentSubmission = submission?.tab === tab ? submission : null;
+  const body = currentSubmission?.status === 'error'
+    ? currentSubmission.message
+    : currentSubmission?.status === 'pending'
+      ? 'Your details are being processed. Your confirmation email will follow shortly.'
+      : copy.body;
 
   return (
     <main className="flex min-h-[70vh] items-center justify-center bg-[#004A96] px-4 py-16">
@@ -53,11 +51,15 @@ function ThankYouContent() {
         </div>
         <h1 className="mt-6 text-3xl font-bold text-[#004A96]">{copy.title}</h1>
         <p className="mt-3 text-base text-slate-600">
-          Dear {name}, {copy.body}
+          Dear {name}, {body}
         </p>
-        <p className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#E8F1F8] px-4 py-2 text-sm font-medium text-[#004A96]">
+        <p role="status" aria-live="polite" className="mt-4 inline-flex items-center gap-2 rounded-full bg-[#E8F1F8] px-4 py-2 text-sm font-medium text-[#004A96]">
           <Mail className="h-4 w-4" />
-          Please check your email for the thank-you message
+          {currentSubmission?.status === 'pending'
+            ? 'Completing your registration...'
+            : currentSubmission?.status === 'error'
+              ? 'Please contact our team for help'
+              : 'Please check your email for the thank-you message'}
         </p>
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
           <Link

@@ -21,7 +21,8 @@ export default function LoginPage() {
     
     if (result.success) {
       toast.success('Login successful!');
-      router.push('/admin/dashboard');
+      const next = new URLSearchParams(window.location.search).get('next');
+      router.push(next === '/scanner' ? '/scanner' : '/admin/dashboard');
     } else {
       toast.error(result.error || 'Invalid email or password');
     }
@@ -41,13 +42,7 @@ export default function LoginPage() {
         <p className="mt-2 text-center text-sm text-gray-600">
           Use your credentials to access the exhibition management system
         </p>
-        <div className="mt-4 bg-blue-50 border border-blue-200 rounded-md p-4 text-center">
-          <p className="text-sm text-blue-800">
-            <strong>Demo Credentials:</strong><br />
-            Email: <code className="bg-white px-1 rounded">admin@dimex.com</code><br />
-            Password: <code className="bg-white px-1 rounded">admin</code>
-          </p>
-        </div>
+
       </div>
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">

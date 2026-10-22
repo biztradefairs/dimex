@@ -31,18 +31,15 @@ const QRCodeScanner = ({ onScanSuccess, onScanError }) => {
       try {
         // Parse QR code data - it contains visitor code
         // Format: "DIEMEX 2027\nVisitor\nName: XXX\nEmail: XXX\nCode: diemex-1234567890\nDate: 24-26 Mar 2027"
-        const lines = decodedText.split('\n');
-        const codeLine = lines.find(line => line.includes('Code: '));
-        
-        if (codeLine) {
-          const visitorCode = codeLine.replace('Code: ', '').trim();
-          console.log('Visitor Code:', visitorCode);
+        const visitorCode = decodedText;
+        if (visitorCode) {
           
           // Call API to check-in visitor
           const response = await fetch(`${API_URL}/api/contact/visitor/checkin`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              Authorization: 'Bearer ' + (localStorage.getItem('admin_token') || ''),
             },
             body: JSON.stringify({ visitorCode }),
           });

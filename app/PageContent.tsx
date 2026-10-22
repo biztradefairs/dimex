@@ -1,10 +1,13 @@
 // app/page.tsx
 'use client';
 
+import type { ReactNode } from 'react';
+
 import HeroSection from '@/components/HeroSection'
 import AboutSection from '@/components/AboutSection'
 import WhyChooseSection from '@/components/WhyChooseSection'
 import DiscoverSection from '@/components/DiscoverSection'
+import AboutDiemexSection from '@/components/AboutDiemexSection'
 import ImpactSection from '@/components/ImpactSection'
 import SectorsSection from '@/components/SectorsSection'
 import CountriesSection from '@/components/CountriesSection'
@@ -17,7 +20,7 @@ import VideoSection from '@/components/videoSection';
 import BackToTop from './exhibitor-resource-center/component/BackToTop';
 import PostponedDatesPopup from '@/components/PostponedDatesPopup';
 
-export default function Home() {
+export default function Home({ blogsPreview }: { blogsPreview: ReactNode }) {
   return (
     <>
     {/* <PostponedDatesPopup /> */}
@@ -27,14 +30,16 @@ export default function Home() {
       <VideoSection/>
       <WhyChooseSection />
       <DiscoverSection />
+      <AboutDiemexSection />
       <ImpactSection />
       <SectorsSection  />
       <CountriesSection />
       <ConnectSection />
-      <ArticlesSection />
+      {/* <ArticlesSection /> */}
       <NewsletterSection />
-      <ExploreMoscowSection />
+      {/* <ExploreMoscowSection /> */}
       <PartnersSection />
+      {blogsPreview}
       {/* <div>
          <div className="flex items-center gap-3 bg-white rounded-full px-4 py-2 w-fit mx-auto shadow-sm">
             <img

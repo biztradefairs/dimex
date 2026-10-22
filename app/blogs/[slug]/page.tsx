@@ -9,6 +9,8 @@ import BlogContent from '@/components/blogs/BlogContent';
 
 type Props = { params: Promise<{ slug: string }> };
 
+export const maxDuration = 90;
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const blog = await fetchPublishedBlog(slug);

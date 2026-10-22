@@ -31,9 +31,10 @@ const VISITOR_PROFILES = [
 
 export default function EnquiryForm() {
     const router = useRouter();
-    const recaptchaRef = useRef<any>(null);
+    const recaptchaRef = useRef<ReCAPTCHA>(null);
     const [captchaToken, setCaptchaToken] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
+    const [countryCode, setCountryCode] = useState('+91');
     const [termsAccepted, setTerms] = useState(false);
     const { utmData, campaign } = useUTMData();
 
@@ -68,9 +69,10 @@ export default function EnquiryForm() {
                 companyName: form.company,
                 jobTitle: form.designation,
                 phone: form.mobile,
-                country: form.country,
-                state: form.state,
-                city: form.city,
+                countryCode,
+                country: countries.find(item => item.id === form.country)?.name || form.country,
+                state: states.find(item => item.id === form.state)?.name || form.state,
+                city: cities.find(item => item.id === form.city)?.name || form.city,
                 address: form.address,
                 pincode: form.pincode,
                 profile: form.profile,
@@ -94,8 +96,9 @@ export default function EnquiryForm() {
             };
 
             submitRegistrationInBackground(payload);
-            saveThanksSession({ name: form.name.split(' ')[0] || 'Visitor', tab: 'visitor', email: form.email });
-            router.push(`/register/thank-you?t=visitor&name=${encodeURIComponent(form.name.split(' ')[0] || 'Visitor')}`);
+            const firstName = form.name.trim().split(/\s+/)[0] || 'Visitor';
+            saveThanksSession({ name: firstName, tab: 'visitor', email: form.email });
+            router.push(`/register/thank-you?t=visitor&name=${encodeURIComponent(firstName)}`);
         } catch (error) {
             console.error(error);
             toast.error("Network error. Please check your connection.");
@@ -131,19 +134,20 @@ export default function EnquiryForm() {
                         type="email" name="email" value={form.email}
                         onChange={handleChange} placeholder="name@company.com"
                     />
-                    <PhoneField
-                        label="Phone Number" required
-                        name="mobile" value={form.mobile}
-                        onChange={handleChange} placeholder="98765 43210"
-                    />
+                    <div className="grid grid-cols-[90px_1fr] gap-2">
+                        <InputField label="Dial code" required name="countryCode" type="tel" value={countryCode}
+                            onChange={event => setCountryCode(event.target.value)} placeholder="+91" />
+                        <PhoneField label="Phone Number" required name="mobile" value={form.mobile}
+                            onChange={handleChange} placeholder="98765 43210" />
+                    </div>
                 </div>
 
                 <LocationFields
                     prefix="en"
                     country={form.country} state={form.state} city={form.city}
-                    onCountryChange={(v: any) => setForm(p => ({ ...p, country: v, state: '', city: '' }))}
-                    onStateChange={(v: any) => setForm(p => ({ ...p, state: v, city: '' }))}
-                    onCityChange={(v: any) => setForm(p => ({ ...p, city: v }))}
+                    onCountryChange={(v) => setForm(p => ({ ...p, country: v, state: '', city: '' }))}
+                    onStateChange={(v) => setForm(p => ({ ...p, state: v, city: '' }))}
+                    onCityChange={(v) => setForm(p => ({ ...p, city: v }))}
                     countries={countries} states={states} cities={cities}
                     countriesLoading={countriesLoading} statesLoading={statesLoading} citiesLoading={citiesLoading}
                     layout="1+2"
