@@ -21,7 +21,9 @@
   <url><loc>https://www.diemex.in/scanner</loc></url>
 
   <url><loc>https://www.diemex.in/sectors</loc></url>
+  <url><loc>https://www.diemex.in/sectors/[slug]</loc></url>
   <url><loc>https://www.diemex.in/exhibition-directory</loc></url>
+  <url><loc>https://www.diemex.in/exhibition-directory/[slug]</loc></url>
   <url><loc>https://www.diemex.in/participants</loc></url>
   <url><loc>https://www.diemex.in/layout</loc></url>
   <url><loc>https://www.diemex.in/exhibitor-resource-center</loc></url>
@@ -31,14 +33,18 @@
   <url><loc>https://www.diemex.in/conference-programme</loc></url>
   <url><loc>https://www.diemex.in/became-delegate</loc></url>
 
+<url><loc>https://www.diemex.in/partner/[slug]</loc></url>
   <url><loc>https://www.diemex.in/partners-and-sponsors</loc></url>
   <url><loc>https://www.diemex.in/post-show-report</loc></url>
 
   <url><loc>https://www.diemex.in/contact-us</loc></url>
   <url><loc>https://www.diemex.in/newsletter</loc></url>
   <url><loc>https://www.diemex.in/articles</loc></url>
+  <url><loc>https://www.diemex.in/articles/[slug]</loc></url>
   <url><loc>https://www.diemex.in/blogs</loc></url>
+  <url><loc>https://www.diemex.in/blogs/[slug]</loc></url>
   <url><loc>https://www.diemex.in/media-gallery</loc></url>
+  <url><loc>https://www.diemex.in/media-gallery/[slug]</loc></url>
 
   <url><loc>https://www.diemex.in/plan-your-travel</loc></url>
   <url><loc>https://www.diemex.in/explore-pune</loc></url>
