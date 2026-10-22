@@ -84,6 +84,18 @@ export const PAGE_FAQS: Record<string, PageFaqContent> = {
           "href": "/post-show-report",
           "label": "View the post-show report"
         }
+      },
+      {
+        "question": "Who organises DIEMEX?",
+        "answer": "DIEMEX is organised by Maxx Business Media Pvt. Ltd."
+      },
+      {
+        "question": "Is entry to DIEMEX free?",
+        "answer": "Trade visitor registration for DIEMEX is free."
+      },
+      {
+        "question": "How can I book a stall at DIEMEX?",
+        "answer": "Use the stall booking page on diemex.in or email info@diemex.in."
       }
     ]
   },
