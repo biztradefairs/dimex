@@ -1,2 +1,56 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>https://www.diemex.in/</loc></url><url><loc>https://www.diemex.in/about-diemex</loc></url><url><loc>https://www.diemex.in/about-organizer</loc></url><url><loc>https://www.diemex.in/why-exhibit</loc></url><url><loc>https://www.diemex.in/register?t=exhibitor</loc></url><url><loc>https://www.diemex.in/sectors</loc></url><url><loc>https://www.diemex.in/plan-your-travel</loc></url><url><loc>https://www.diemex.in/exhibition-directory</loc></url><url><loc>https://www.diemex.in/exhibitor-resource-center</loc></url><url><loc>https://www.diemex.in/free-promo</loc></url><url><loc>https://www.diemex.in/layout</loc></url><url><loc>https://www.diemex.in/why-visit</loc></url><url><loc>https://www.diemex.in/participants</loc></url><url><loc>https://www.diemex.in/register?t=brochure</loc></url><url><loc>https://www.diemex.in/articles</loc></url><url><loc>https://www.diemex.in/post-show-report</loc></url><url><loc>https://www.diemex.in/media-gallery</loc></url><url><loc>https://www.diemex.in/contact-us</loc></url><url><loc>https://www.diemex.in/blogs</loc></url></urlset>
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url><loc>https://www.diemex.in/</loc></url>
+  <url><loc>https://www.diemex.in/about-diemex</loc></url>
+  <url><loc>https://www.diemex.in/about-organizer</loc></url>
+  <url><loc>https://www.diemex.in/about-skladtech</loc></url>
+  <url><loc>https://www.diemex.in/why-exhibit</loc></url>
+  <url><loc>https://www.diemex.in/why-visit</loc></url>
+
+  <url><loc>https://www.diemex.in/register</loc></url>
+  <url><loc>https://www.diemex.in/register?t=exhibitor</loc></url>
+  <url><loc>https://www.diemex.in/register?t=visitor</loc></url>
+  <url><loc>https://www.diemex.in/register?t=sponsor</loc></url>
+  <url><loc>https://www.diemex.in/register?t=brochure</loc></url>
+  <url><loc>https://www.diemex.in/visitor-registration</loc></url>
+  <url><loc>https://www.diemex.in/exhibiting-enquiry</loc></url>
+  <url><loc>https://www.diemex.in/become-partner</loc></url>
+  <url><loc>https://www.diemex.in/event-brochure</loc></url>
+  <url><loc>https://www.diemex.in/passes</loc></url>
+  <url><loc>https://www.diemex.in/scanner</loc></url>
+
+  <url><loc>https://www.diemex.in/sectors</loc></url>
+  <url><loc>https://www.diemex.in/exhibition-directory</loc></url>
+  <url><loc>https://www.diemex.in/participants</loc></url>
+  <url><loc>https://www.diemex.in/layout</loc></url>
+  <url><loc>https://www.diemex.in/exhibitor-resource-center</loc></url>
+  <url><loc>https://www.diemex.in/free-promo</loc></url>
+
+  <url><loc>https://www.diemex.in/conference</loc></url>
+  <url><loc>https://www.diemex.in/conference-programme</loc></url>
+  <url><loc>https://www.diemex.in/became-delegate</loc></url>
+
+  <url><loc>https://www.diemex.in/partners-and-sponsors</loc></url>
+  <url><loc>https://www.diemex.in/post-show-report</loc></url>
+
+  <url><loc>https://www.diemex.in/contact-us</loc></url>
+  <url><loc>https://www.diemex.in/newsletter</loc></url>
+  <url><loc>https://www.diemex.in/articles</loc></url>
+  <url><loc>https://www.diemex.in/blogs</loc></url>
+  <url><loc>https://www.diemex.in/media-gallery</loc></url>
+
+  <url><loc>https://www.diemex.in/plan-your-travel</loc></url>
+  <url><loc>https://www.diemex.in/explore-pune</loc></url>
+  <url><loc>https://www.diemex.in/places-to-eat</loc></url>
+  <url><loc>https://www.diemex.in/iconic-landmarks</loc></url>
+  <url><loc>https://www.diemex.in/culture</loc></url>
+  <url><loc>https://www.diemex.in/shop-and-stroll</loc></url>
+  <url><loc>https://www.diemex.in/visa</loc></url>
+
+  <url><loc>https://www.diemex.in/terms-of-visiting</loc></url>
+  <url><loc>https://www.diemex.in/termstouse</loc></url>
+  <url><loc>https://www.diemex.in/cookies-policy</loc></url>
+  <url><loc>https://www.diemex.in/privacy-policy</loc></url>
+
+</urlset>
