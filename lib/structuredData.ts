@@ -61,41 +61,91 @@ export const HOME_STRUCTURED_DATA = {
   ],
 } as const;
 
-const ABOUT_URL = new URL('/about-diemex', SITE_URL).toString();
-
 export const ABOUT_STRUCTURED_DATA = {
   '@context': 'https://schema.org',
   '@graph': [
     {
-      '@type': 'FAQPage',
-      '@id': `${ABOUT_URL}#faq`,
-      mainEntity: [
+      '@type': 'AboutPage',
+      '@id': 'https://www.diemex.in/about-diemex#webpage',
+      url: 'https://www.diemex.in/about-diemex',
+      name: 'About DIEMEX 2027 | International Die & Mould Exhibition',
+      description:
+        'Learn about DIEMEX 2027, the 3rd edition of the International Die & Mould Exhibition in India. Discover its objectives, manufacturing sectors, networking opportunities, venue and organizer.',
+      inLanguage: 'en-IN',
+      isPartOf: {
+        '@id': 'https://www.diemex.in/#website',
+      },
+      about: {
+        '@id': 'https://www.diemex.in/#event-2027',
+      },
+      breadcrumb: {
+        '@id': 'https://www.diemex.in/about-diemex#breadcrumb',
+      },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': 'https://www.diemex.in/#website',
+      url: 'https://www.diemex.in/',
+      name: 'DIEMEX 2027',
+      description: 'Official website of DIEMEX, the International Die & Mould Exhibition in India.',
+      inLanguage: 'en-IN',
+      publisher: {
+        '@id': 'https://www.diemex.in/#organization',
+      },
+    },
+    {
+      '@type': 'Event',
+      '@id': 'https://www.diemex.in/#event-2027',
+      name: 'DIEMEX 2027 - International Die & Mould Exhibition',
+      alternateName: 'DIEMEX 2027 - 3rd Edition',
+      description:
+        'DIEMEX 2027 is an international B2B exhibition focused on die and mould manufacturing, precision tooling, CNC machining, EDM, CAD/CAM, automation, additive manufacturing and advanced manufacturing technologies. The exhibition connects manufacturers, OEMs, suppliers, buyers and industry professionals.',
+      url: 'https://www.diemex.in/',
+      startDate: '2027-03-24T10:00:00+05:30',
+      endDate: '2027-03-26T18:00:00+05:30',
+      eventStatus: 'https://schema.org/EventScheduled',
+      eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+      location: {
+        '@type': 'Place',
+        name: 'Auto Cluster Exhibition Centre',
+        address: {
+          '@type': 'PostalAddress',
+          addressLocality: 'Chinchwad, Pune',
+          addressRegion: 'Maharashtra',
+          addressCountry: 'IN',
+        },
+      },
+      organizer: {
+        '@id': 'https://www.diemex.in/#organization',
+      },
+    },
+    {
+      '@type': 'Organization',
+      '@id': 'https://www.diemex.in/#organization',
+      name: 'Maxx Business Media Pvt. Ltd.',
+      description:
+        'An Indian B2B exhibitions and business media company organizing industry-focused trade exhibitions and business events.',
+      url: 'https://www.diemex.in/about-organizer',
+    },
+    {
+      '@type': 'BreadcrumbList',
+      '@id': 'https://www.diemex.in/about-diemex#breadcrumb',
+      itemListElement: [
         {
-          '@type': 'Question',
-          name: 'Who organises DIEMEX?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'DIEMEX is organised by Maxx Business Media Pvt. Ltd.',
-          },
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: 'https://www.diemex.in/',
         },
         {
-          '@type': 'Question',
-          name: 'Is entry to DIEMEX free?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Trade visitor registration for DIEMEX is free.',
-          },
-        },
-        {
-          '@type': 'Question',
-          name: 'How can I book a stall at DIEMEX?',
-          acceptedAnswer: {
-            '@type': 'Answer',
-            text: 'Use the stall booking page on diemex.in or email info@diemex.in.',
-          },
+          '@type': 'ListItem',
+          position: 2,
+          name: 'About DIEMEX',
+          item: 'https://www.diemex.in/about-diemex',
         },
       ],
     },
   ],
 } as const;
+
 
