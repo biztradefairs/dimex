@@ -60,3 +60,42 @@ export const HOME_STRUCTURED_DATA = {
     },
   ],
 } as const;
+
+const ABOUT_URL = new URL('/about-diemex', SITE_URL).toString();
+
+export const ABOUT_STRUCTURED_DATA = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'FAQPage',
+      '@id': `${ABOUT_URL}#faq`,
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'Who organises DIEMEX?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'DIEMEX is organised by Maxx Business Media Pvt. Ltd.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Is entry to DIEMEX free?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Trade visitor registration for DIEMEX is free.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'How can I book a stall at DIEMEX?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Use the stall booking page on diemex.in or email info@diemex.in.',
+          },
+        },
+      ],
+    },
+  ],
+} as const;
+

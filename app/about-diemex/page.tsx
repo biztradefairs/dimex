@@ -1,5 +1,8 @@
 import PageFaq from '@/components/PageFaq';
 import React from 'react';
+import type { Metadata } from 'next';
+import { PAGE_META } from '@/lib/pageMetadata';
+import { ABOUT_STRUCTURED_DATA } from '@/lib/structuredData';
 import HeroSection from '@/components/section/HeroSection';
 import StatsSection from '@/components/section/StatsSection';
 import EcosystemSection from '@/components/section/EcosystemSection';
@@ -15,11 +18,18 @@ import MapSection from '@/components/section/MapSection';
 import SectionContainer from '@/components/UI/SectionContainer';
 import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 
-export default function AboutTransRussia() {
+export const metadata: Metadata = PAGE_META.aboutDiemex;
+
+export default function AboutDiemexPage() {
   return (
     <>
-      {(
-    <>
+      <script
+        id="diemex-about-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(ABOUT_STRUCTURED_DATA).replace(/</g, '\\u003c'),
+        }}
+      />
       {/* Back to Top Button */}
       <div className="fixed bottom-3 right-3 lg:bottom-10 lg:right-2 z-50 transition-all duration-300 opacity-0 translate-y-10 pointer-events-none">
         <button aria-label="Back to top" className="m-0 rounded-full border-none bg-white p-0 outline-none drop-shadow-lg">
@@ -129,9 +139,7 @@ export default function AboutTransRussia() {
           </div>
         </div>
       </main>
-      <BackToTop/>
-    </>
-  )}
+      <BackToTop />
       <PageFaq route="/about-diemex" />
     </>
   );
