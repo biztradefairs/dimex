@@ -927,3 +927,63 @@ export const POST_SHOW_REPORT_STRUCTURED_DATA = {
     }
   ]
 } as const;
+
+export const MEDIA_GALLERY_STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://www.diemex.in/media-gallery#webpage",
+      "url": "https://www.diemex.in/media-gallery",
+      "name": "Media Gallery | DIEMEX",
+      "description": "Explore the DIEMEX media gallery featuring exhibition photos, event highlights and visuals from the die and mould manufacturing industry.",
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.diemex.in/#website",
+        "url": "https://www.diemex.in/",
+        "name": "DIEMEX"
+      },
+      "publisher": {
+        "@id": "https://www.diemex.in/#organizer"
+      },
+      "breadcrumb": {
+        "@id": "https://www.diemex.in/media-gallery#breadcrumb"
+      },
+      "mainEntity": {
+        "@id": "https://www.diemex.in/media-gallery#gallery"
+      }
+    },
+    {
+      "@type": "ImageGallery",
+      "@id": "https://www.diemex.in/media-gallery#gallery",
+      "name": "DIEMEX Media Gallery",
+      "url": "https://www.diemex.in/media-gallery",
+      "description": "Photos and visual highlights from DIEMEX exhibitions and related industry events."
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/media-gallery#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Media Gallery",
+          "item": "https://www.diemex.in/media-gallery"
+        }
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://www.diemex.in/#organizer",
+      "name": "Maxx Business Media Pvt. Ltd.",
+      "url": "https://www.maxxbusinessmedia.com/"
+    }
+  ]
+} as const;
