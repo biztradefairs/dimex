@@ -407,3 +407,71 @@ export const BECOME_EXHIBITOR_STRUCTURED_DATA = {
     }
   ],
 } as const;
+
+export const SECTORS_STRUCTRED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://www.diemex.in/sectors#webpage",
+      "url": "https://www.diemex.in/sectors",
+      "name": "Industry Sectors | DIEMEX 2027",
+      "description": "Explore the industry sectors covered by DIEMEX 2027, the International Die & Mould Exhibition in India, including die and mould manufacturing, tooling, precision engineering and advanced manufacturing technologies.",
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.diemex.in/#website",
+        "url": "https://www.diemex.in/",
+        "name": "DIEMEX"
+      },
+      "about": [
+        {
+          "@type": "Thing",
+          "name": "Die and Mould Manufacturing"
+        },
+        {
+          "@type": "Thing",
+          "name": "Tooling Technology"
+        },
+        {
+          "@type": "Thing",
+          "name": "Precision Engineering"
+        },
+        {
+          "@type": "Thing",
+          "name": "Advanced Manufacturing"
+        }
+      ],
+      "publisher": {
+        "@id": "https://www.diemex.in/#organizer"
+      },
+      "breadcrumb": {
+        "@id": "https://www.diemex.in/sectors#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/sectors#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Sectors",
+          "item": "https://www.diemex.in/sectors"
+        }
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://www.diemex.in/#organizer",
+      "name": "Maxx Business Media Pvt. Ltd.",
+      "url": "https://www.maxxbusinessmedia.com/"
+    }
+  ]
+} as const;
