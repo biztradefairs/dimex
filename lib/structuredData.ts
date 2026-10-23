@@ -518,3 +518,79 @@ export const PLAN_YOUR_TRAVEL_STRUCTURED_DATA = {
   ]
 }
 
+
+export const EXHIBITION_DIRECTORY_STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://www.diemex.in/exhibition-directory#webpage",
+      "url": "https://www.diemex.in/exhibition-directory",
+      "name": "Exhibition Directory | DIEMEX 2027",
+      "description": "Explore the DIEMEX 2027 exhibition directory to discover exhibitors, manufacturers, suppliers and technology providers in die and mould manufacturing, tooling, precision engineering and advanced manufacturing.",
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.diemex.in/#website",
+        "url": "https://www.diemex.in/",
+        "name": "DIEMEX"
+      },
+      "about": {
+        "@id": "https://www.diemex.in/#event"
+      },
+      "breadcrumb": {
+        "@id": "https://www.diemex.in/exhibition-directory#breadcrumb"
+      },
+      "publisher": {
+        "@id": "https://www.diemex.in/#organizer"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/exhibition-directory#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Exhibition Directory",
+          "item": "https://www.diemex.in/exhibition-directory"
+        }
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://www.diemex.in/#organizer",
+      "name": "Maxx Business Media Pvt. Ltd.",
+      "url": "https://www.maxxbusinessmedia.com/"
+    },
+    {
+      "@type": "Event",
+      "@id": "https://www.diemex.in/#event",
+      "name": "DIEMEX 2027 - International Die & Mould Exhibition in India",
+      "startDate": "2027-03-24T10:00:00+05:30",
+      "endDate": "2027-03-26T18:00:00+05:30",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "url": "https://www.diemex.in/",
+      "location": {
+        "@type": "Place",
+        "name": "Auto Cluster Exhibition Centre",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Chinchwad, Pune",
+          "addressRegion": "Maharashtra",
+          "addressCountry": "IN"
+        }
+      },
+      "organizer": {
+        "@id": "https://www.diemex.in/#organizer"
+      }
+    }
+  ]
+}
