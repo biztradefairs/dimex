@@ -880,3 +880,50 @@ export const BLOGS_STRUCTURED_DATA = {
     }
   ]
 } as const;
+
+export const POST_SHOW_REPORT_STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.diemex.in/post-show-report#webpage",
+      "url": "https://www.diemex.in/post-show-report",
+      "name": "Post Show Report | DIEMEX",
+      "description": "Explore the DIEMEX post show report for exhibition highlights, industry participation and key insights from the event. Learn more about DIEMEX and its role in the die and mould manufacturing industry.",
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.diemex.in/#website",
+        "url": "https://www.diemex.in/",
+        "name": "DIEMEX"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://www.diemex.in/#organizer",
+        "name": "Maxx Business Media Pvt. Ltd.",
+        "url": "https://www.maxxbusinessmedia.com/"
+      },
+      "breadcrumb": {
+        "@id": "https://www.diemex.in/post-show-report#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/post-show-report#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Post Show Report",
+          "item": "https://www.diemex.in/post-show-report"
+        }
+      ]
+    }
+  ]
+} as const;
