@@ -13,7 +13,7 @@ export default function DiscoverSection() {
 
             <div className="space-y-6 mt-8 max-w-3xl">
               <p className="text-lg lg:text-xl leading-relaxed">
-               Download our comprehensive post-show report to gain key insights into India’s premier die & mould and tooling exhibition, including visitor profiles, exhibitor highlights, and market trends.
+                Download our comprehensive post-show report to gain key insights into India’s premier die & mould and tooling exhibition, including visitor profiles, exhibitor highlights, and market trends.
               </p>
               <p className="text-lg lg:text-xl leading-relaxed">
                 Download now and start planning your success!
@@ -28,12 +28,12 @@ export default function DiscoverSection() {
           </div>
 
           <div className="lg:col-span-5 grid place-content-center">
-  <img
-    src="/images/Why-Exhibit/brochure.png"
-    alt="Brochure"
-    className="w-full max-h-[400px] object-contain rounded-2xl bg-transparent"
-  />
-</div>
+            <img
+              src="/images/Why-Exhibit/brochure.png"
+              alt="Brochure"
+              className="w-full max-h-[400px] object-contain rounded-2xl bg-transparent"
+            />
+          </div>
 
         </div>
       </SectionContainer>
