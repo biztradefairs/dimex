@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { PAGE_META } from '@/lib/pageMetadata';
 import { FLOOR_PLAN_STRUCTURED_DATA } from '@/lib/structuredData';
 
-export const metadata: Metadata = PAGE_META.planYourTravel;
+export const metadata: Metadata = PAGE_META.floorPlan;
 
 export default function Page() {
   return (
