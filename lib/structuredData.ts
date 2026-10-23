@@ -594,3 +594,50 @@ export const EXHIBITION_DIRECTORY_STRUCTURED_DATA = {
     }
   ]
 }
+
+export const EXHIBITOR_RESOURCE_CENTER = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.diemex.in/exhibitor-resource-center#webpage",
+      "url": "https://www.diemex.in/exhibitor-resource-center",
+      "name": "Exhibitor Resource Center | DIEMEX 2027",
+      "description": "Access exhibitor resources for DIEMEX 2027, the International Die & Mould Exhibition in India. Find relevant information and resources to help prepare for exhibition participation.",
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.diemex.in/#website",
+        "url": "https://www.diemex.in/",
+        "name": "DIEMEX"
+      },
+      "about": {
+        "@id": "https://www.diemex.in/#event"
+      },
+      "publisher": {
+        "@id": "https://www.diemex.in/#organizer"
+      },
+      "breadcrumb": {
+        "@id": "https://www.diemex.in/exhibitor-resource-center#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/exhibitor-resource-center#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Exhibitor Resource Center",
+          "item": "https://www.diemex.in/exhibitor-resource-center"
+        }
+      ]
+    }
+  ]
+}
