@@ -6,6 +6,7 @@ import { blogDate } from '@/lib/blogs';
 import { pageMeta, SITE_URL } from '@/lib/pageMetadata';
 import BlogCover from '@/components/blogs/BlogCover';
 import BlogContent from '@/components/blogs/BlogContent';
+import { BATTERY_HOUSING_BLOG_STRUCTURED_DATA } from '@/lib/structuredData';
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -27,18 +28,58 @@ export default async function BlogPage({ params }: Props) {
   const { slug } = await params;
   const blog = await fetchPublishedBlog(slug);
   if (!blog) notFound();
-  const structuredData = {
-    '@context': 'https://schema.org', '@type': 'BlogPosting',
-    headline: blog.title, description: blog.excerpt || undefined,
-    datePublished: blog.publishedAt, dateModified: blog.updatedAt,
-    author: { '@type': 'Person', name: blog.author },
-    publisher: { '@type': 'Organization', name: 'DIEMEX' },
-    mainEntityOfPage: SITE_URL + '/blogs/' + blog.slug,
-    ...(blog.image ? { image: blog.image } : {}),
-  };
+  const structuredData = blog.slug === 'battery-housing-and-enclosure-manufacturing-tooling-challenges'
+    ? BATTERY_HOUSING_BLOG_STRUCTURED_DATA
+    : {
+        '@context': 'https://schema.org',
+        '@graph': [
+          {
+            '@type': 'BlogPosting',
+            '@id': `${SITE_URL}/blogs/${blog.slug}#article`,
+            mainEntityOfPage: {
+              '@type': 'WebPage',
+              '@id': `${SITE_URL}/blogs/${blog.slug}`,
+            },
+            headline: blog.title,
+            description: blog.excerpt || undefined,
+            url: `${SITE_URL}/blogs/${blog.slug}`,
+            datePublished: blog.publishedAt,
+            dateModified: blog.updatedAt,
+            author: { '@type': 'Organization', name: blog.author || 'DIEMEX Editorial Team' },
+            publisher: {
+              '@type': 'Organization',
+              '@id': `${SITE_URL}/#organization`,
+              name: 'DIEMEX',
+              url: `${SITE_URL}/`,
+            },
+            inLanguage: 'en-IN',
+            articleSection: blog.category || 'Manufacturing',
+            ...(blog.image ? { image: blog.image } : {}),
+          },
+          {
+            '@type': 'BreadcrumbList',
+            '@id': `${SITE_URL}/blogs/${blog.slug}#breadcrumb`,
+            itemListElement: [
+              { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+              { '@type': 'ListItem', position: 2, name: 'Blogs', item: `${SITE_URL}/blogs` },
+              { '@type': 'ListItem', position: 3, name: blog.title, item: `${SITE_URL}/blogs/${blog.slug}` },
+            ],
+          },
+          {
+            '@type': 'Organization',
+            '@id': `${SITE_URL}/#organization`,
+            name: 'DIEMEX',
+            url: `${SITE_URL}/`,
+          },
+        ],
+      };
   return (
     <article className="mx-auto max-w-4xl px-4 py-10 font-parabolica sm:px-6 sm:py-14 lg:px-8">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }} />
+      <script
+        id="diemex-blog-post-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, '\\u003c') }}
+      />
       <Link href="/blogs" className="mb-6 inline-block text-sm font-semibold text-[#004A96] hover:underline">← All blogs</Link>
       <p className="mb-3 text-sm font-semibold uppercase tracking-wider text-[#004A96]">{blog.category}</p>
       <h1 className="text-3xl font-bold leading-tight tracking-tight text-[#082856] sm:text-4xl lg:text-5xl">{blog.title}</h1>
