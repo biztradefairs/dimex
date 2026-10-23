@@ -595,7 +595,7 @@ export const EXHIBITION_DIRECTORY_STRUCTURED_DATA = {
   ]
 } as const;
 
-export const EXHIBITOR_RESOURCE_CENTER = {
+export const EXHIBITOR_RESOURCE_CENTER_STRUCTURED_DATA = {
   "@context": "https://schema.org",
   "@graph": [
     {
@@ -784,4 +784,51 @@ export const BROCHURE_STRUCTURED_DATA = {
       ]
     }
   ]
-}
+} as const;
+
+export const ARTICLES_STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": "https://www.diemex.in/articles#webpage",
+      "url": "https://www.diemex.in/articles",
+      "name": "Articles | DIEMEX 2027",
+      "description": "Explore articles from DIEMEX covering die and mould manufacturing, tooling, precision engineering, industrial technologies and advanced manufacturing trends.",
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.diemex.in/#website",
+        "url": "https://www.diemex.in/",
+        "name": "DIEMEX"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://www.diemex.in/#organizer",
+        "name": "Maxx Business Media Pvt. Ltd.",
+        "url": "https://www.maxxbusinessmedia.com/"
+      },
+      "breadcrumb": {
+        "@id": "https://www.diemex.in/articles#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/articles#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Articles",
+          "item": "https://www.diemex.in/articles"
+        }
+      ]
+    }
+  ]
+} as const;

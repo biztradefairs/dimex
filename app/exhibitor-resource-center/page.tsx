@@ -9,7 +9,7 @@ import ContactInformation from './component/ContactInformation';
 import AttentionSection from './component/AttentionSection';
 import type { Metadata } from 'next';
 import { PAGE_META } from '@/lib/pageMetadata';
-import { EXHIBITOR_RESOURCE_CENTER } from '@/lib/structuredData';
+import { EXHIBITOR_RESOURCE_CENTER_STRUCTURED_DATA } from '@/lib/structuredData';
 
 export const metadata: Metadata = PAGE_META.exhibitorResourceCenter;
 
@@ -20,7 +20,7 @@ export default function ExhibitorResourceCenterPage() {
         id="diemex-exhibitor-resource-center-schema"
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(EXHIBITOR_RESOURCE_CENTER).replace(/</g, '\\u003c'),
+          __html: JSON.stringify(EXHIBITOR_RESOURCE_CENTER_STRUCTURED_DATA).replace(/</g, '\\u003c'),
         }}
       />
       <main>
