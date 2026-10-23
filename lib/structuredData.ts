@@ -987,3 +987,53 @@ export const MEDIA_GALLERY_STRUCTURED_DATA = {
     }
   ]
 } as const;
+
+export const CONTACT_US_STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "ContactPage",
+      "@id": "https://www.diemex.in/contact-us#webpage",
+      "url": "https://www.diemex.in/contact-us",
+      "name": "Contact Us | DIEMEX",
+      "description": "Contact the DIEMEX team for exhibitor registration, visitor enquiries, exhibition participation and information about DIEMEX 2027, the International Die & Mould Exhibition in India.",
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.diemex.in/#website",
+        "url": "https://www.diemex.in/",
+        "name": "DIEMEX"
+      },
+      "mainEntity": {
+        "@id": "https://www.diemex.in/#organizer"
+      },
+      "breadcrumb": {
+        "@id": "https://www.diemex.in/contact-us#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/contact-us#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Contact Us",
+          "item": "https://www.diemex.in/contact-us"
+        }
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://www.diemex.in/#organizer",
+      "name": "Maxx Business Media Pvt. Ltd.",
+      "url": "https://www.maxxbusinessmedia.com/"
+    }
+  ]
+} as const;
