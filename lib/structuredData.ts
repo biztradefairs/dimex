@@ -1115,3 +1115,72 @@ export const VISITOR_STRUCTURED_DATA = {
     }
   ]
 } as const;
+
+export const BATTERY_HOUSING_BLOG_STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": "https://www.diemex.in/blogs/battery-housing-and-enclosure-manufacturing-tooling-challenges#article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.diemex.in/blogs/battery-housing-and-enclosure-manufacturing-tooling-challenges"
+      },
+      "headline": "Battery Housing and Enclosure Manufacturing: Tooling Challenges",
+      "description": "Explore key tooling challenges in battery housing and enclosure manufacturing, including precision, material selection, die design and production requirements.",
+      "url": "https://www.diemex.in/blogs/battery-housing-and-enclosure-manufacturing-tooling-challenges",
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://www.diemex.in/#organization",
+        "name": "DIEMEX",
+        "url": "https://www.diemex.in/"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "DIEMEX Editorial Team"
+      },
+      "inLanguage": "en-IN",
+      "articleSection": "Manufacturing",
+      "keywords": [
+        "battery housing manufacturing",
+        "battery enclosure tooling",
+        "die and mould manufacturing",
+        "tooling challenges",
+        "advanced manufacturing"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/blogs/battery-housing-and-enclosure-manufacturing-tooling-challenges#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blogs",
+          "item": "https://www.diemex.in/blogs"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Battery Housing and Enclosure Manufacturing: Tooling Challenges",
+          "item": "https://www.diemex.in/blogs/battery-housing-and-enclosure-manufacturing-tooling-challenges"
+        }
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://www.diemex.in/#organization",
+      "name": "DIEMEX",
+      "url": "https://www.diemex.in/"
+    }
+  ]
+} as const;
+
+export const FIRST_BLOG_STRUCTURED_DATA = BATTERY_HOUSING_BLOG_STRUCTURED_DATA;
+
