@@ -1037,3 +1037,81 @@ export const CONTACT_US_STRUCTURED_DATA = {
     }
   ]
 } as const;
+
+export const VISITOR_STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.diemex.in/register?t=visitor#webpage",
+      "url": "https://www.diemex.in/register?t=visitor",
+      "name": "Visitor Registration | DIEMEX 2027",
+      "description": "Register as a visitor for DIEMEX 2027, the International Die & Mould Exhibition in India, taking place from 24–26 March 2027 in Pune, India.",
+      "breadcrumb": {
+        "@id": "https://www.diemex.in/register?t=visitor#breadcrumb"
+      },
+      "mainEntity": {
+        "@id": "https://www.diemex.in/register?t=visitor#register-action"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/register?t=visitor#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Visitor Registration",
+          "item": "https://www.diemex.in/register?t=visitor"
+        }
+      ]
+    },
+    {
+      "@type": "RegisterAction",
+      "@id": "https://www.diemex.in/register?t=visitor#register-action",
+      "name": "Register as a Visitor for DIEMEX 2027",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://www.diemex.in/register?t=visitor",
+        "actionPlatform": [
+          "https://schema.org/DesktopWebPlatform",
+          "https://schema.org/MobileWebPlatform"
+        ]
+      },
+      "object": {
+        "@id": "https://www.diemex.in/#event"
+      }
+    },
+    {
+      "@type": "Event",
+      "@id": "https://www.diemex.in/#event",
+      "name": "DIEMEX 2027 – International Die & Mould Exhibition in India",
+      "description": "An international exhibition focused on die, mould, tooling and advanced manufacturing technologies.",
+      "startDate": "2027-03-24T10:00:00+05:30",
+      "endDate": "2027-03-26T18:00:00+05:30",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "location": {
+        "@type": "Place",
+        "name": "Auto Cluster Exhibition Centre",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Auto Cluster Exhibition Centre, Chinchwad",
+          "addressLocality": "Pune",
+          "addressRegion": "Maharashtra",
+          "addressCountry": "IN"
+        }
+      },
+      "organizer": {
+        "@type": "Organization",
+        "name": "Maxx Business Media Pvt. Ltd."
+      }
+    }
+  ]
+} as const;
