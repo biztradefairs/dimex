@@ -8,7 +8,7 @@ const BrochureSection = () => {
   return (
     <SectionContainer className="py-16 lg:py-24">
       <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-[#004A96] to-[#003875] px-6 py-10 lg:px-12 lg:py-14 text-white">
-        
+
         {/* TOP-RIGHT BROCHURE IMAGE */}
         <img
           src="/images/Why-Exhibit/brochure.png"
@@ -29,14 +29,14 @@ const BrochureSection = () => {
           </p>
           <Link href="/event-brochure">
             <button className="bg-white text-[#004A96] font-medium px-6 py-2.5 rounded-full hover:bg-[#E0161D] hover:text-white transition">
-            Download Now
-          </button>
+              Download Now
+            </button>
           </Link>
-        
+
         </div>
 
         {/* DECORATIVE CIRCLES */}
-     
+
 
       </div>
     </SectionContainer>
