@@ -686,4 +686,47 @@ export const FLOOR_PLAN_STRUCTURED_DATA = {
   ]
 } as const;
 
+export const WHY_VISIT_STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.diemex.in/why-visit#webpage",
+      "url": "https://www.diemex.in/why-visit",
+      "name": "Why Visit DIEMEX 2027? | International Die & Mould Exhibition",
+      "description": "Discover why to visit DIEMEX 2027 in Pune, India. Explore die and mould manufacturing, tooling, precision engineering and advanced manufacturing technologies, and connect with industry professionals.",
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.diemex.in/#website",
+        "url": "https://www.diemex.in/",
+        "name": "DIEMEX"
+      },
+      "about": {
+        "@id": "https://www.diemex.in/#event"
+      },
+      "breadcrumb": {
+        "@id": "https://www.diemex.in/why-visit#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/why-visit#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Why Visit",
+          "item": "https://www.diemex.in/why-visit"
+        }
+      ]
+    }
+  ]
+} as const;
 
