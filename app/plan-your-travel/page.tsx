@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import { PAGE_META } from '@/lib/pageMetadata';
 import { PLAN_YOUR_TRAVEL_STRUCTURED_DATA } from '@/lib/structuredData';
 
-export const metadata: Metadata = PAGE_META.sectors;
+export const metadata: Metadata = PAGE_META.planYourTravel;
 
 export default function Page() {
   return (
