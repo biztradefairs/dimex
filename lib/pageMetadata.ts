@@ -59,6 +59,9 @@ export const PAGE_META = {
     "Exhibitor resources for DIEMEX 2027: exhibitor manual, floor plan, stall forms, deadlines, branding kit and contacts. Everything to prepare for India's die and mould show.",
     "/exhibitor-resource-center",
   ),
+  get exhibitorResourceCenter() {
+    return this.exhibitorResource;
+  },
   freePromo: pageMeta(
     "Free Promotion for DIEMEX 2027 Exhibitors | Get Listed and Promoted",
     "Claim free promotion at DIEMEX 2027, India's die and mould exhibition. Get your company featured to toolmakers, OEMs and buyers before the show. Apply today.",

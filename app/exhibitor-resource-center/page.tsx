@@ -7,12 +7,22 @@ import SelectionMadeSimple from './component/SelectionMadeSimple';
 import LogisticsMarketing from './component/LogisticsMarketing';
 import ContactInformation from './component/ContactInformation';
 import AttentionSection from './component/AttentionSection';
+import type { Metadata } from 'next';
+import { PAGE_META } from '@/lib/pageMetadata';
+import { EXHIBITOR_RESOURCE_CENTER } from '@/lib/structuredData';
+
+export const metadata: Metadata = PAGE_META.exhibitorResourceCenter;
 
 export default function ExhibitorResourceCenterPage() {
   return (
     <>
-      {(
-    <>
+      <script
+        id="diemex-exhibitor-resource-center-schema"
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(EXHIBITOR_RESOURCE_CENTER).replace(/</g, '\\u003c'),
+        }}
+      />
       <main>
         <HeroSection />
         <ExploreOpportunities />
@@ -26,12 +36,9 @@ export default function ExhibitorResourceCenterPage() {
             <AttentionSection />
           </div>
         </section>
-
       </main>
 
       <BackToTop />
-    </>
-  )}
       <PageFaq route="/exhibitor-resource-center" />
     </>
   );
