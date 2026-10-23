@@ -475,3 +475,46 @@ export const SECTORS_STRUCTRED_DATA = {
     }
   ]
 } as const;
+
+export const PLAN_YOUR_TRAVEL_STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.diemex.in/plan-your-travel#webpage",
+      "url": "https://www.diemex.in/plan-your-travel",
+      "name": "Plan Your Travel | DIEMEX 2027",
+      "description": "Plan your visit to DIEMEX 2027 in Pune, India. Find travel information for reaching the Auto Cluster Exhibition Centre in Chinchwad and preparing for the International Die & Mould Exhibition.",
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.diemex.in/#website"
+      },
+      "about": {
+        "@id": "https://www.diemex.in/#event"
+      },
+      "breadcrumb": {
+        "@id": "https://www.diemex.in/plan-your-travel#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/plan-your-travel#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Plan Your Travel",
+          "item": "https://www.diemex.in/plan-your-travel"
+        }
+      ]
+    }
+  ]
+}
+
