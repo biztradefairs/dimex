@@ -516,7 +516,7 @@ export const PLAN_YOUR_TRAVEL_STRUCTURED_DATA = {
       ]
     }
   ]
-}
+} as const;
 
 
 export const EXHIBITION_DIRECTORY_STRUCTURED_DATA = {
@@ -593,7 +593,7 @@ export const EXHIBITION_DIRECTORY_STRUCTURED_DATA = {
       }
     }
   ]
-}
+} as const;
 
 export const EXHIBITOR_RESOURCE_CENTER = {
   "@context": "https://schema.org",
@@ -640,4 +640,50 @@ export const EXHIBITOR_RESOURCE_CENTER = {
       ]
     }
   ]
-}
+} as const;
+
+export const FLOOR_PLAN_STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.diemex.in/layout#webpage",
+      "url": "https://www.diemex.in/layout",
+      "name": "Exhibition Layout | DIEMEX 2027",
+      "description": "Explore the exhibition layout for DIEMEX 2027, the International Die & Mould Exhibition in India, and review the venue layout to plan your exhibition participation.",
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.diemex.in/#website",
+        "url": "https://www.diemex.in/",
+        "name": "DIEMEX"
+      },
+      "about": {
+        "@id": "https://www.diemex.in/#event"
+      },
+      "breadcrumb": {
+        "@id": "https://www.diemex.in/layout#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/layout#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Exhibition Layout",
+          "item": "https://www.diemex.in/layout"
+        }
+      ]
+    }
+  ]
+} as const;
+
+
