@@ -323,3 +323,87 @@ export const WHY_EXHIBIT_STRUCTURED_DATA = {
 } as const;
 
 
+export const BECOME_EXHIBITOR_STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.diemex.in/register?t=exhibitor#webpage",
+      "url": "https://www.diemex.in/register?t=exhibitor",
+      "name": "Exhibitor Registration | DIEMEX 2027",
+      "description": "Register as an exhibitor at DIEMEX 2027, the International Die & Mould Exhibition in India. Showcase your products and technologies, connect with manufacturers and OEMs, and explore business opportunities.",
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.diemex.in/#website",
+        "url": "https://www.diemex.in/",
+        "name": "DIEMEX"
+      },
+      "about": {
+        "@id": "https://www.diemex.in/#event"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "name": "Register as an Exhibitor",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.diemex.in/register?t=exhibitor",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        },
+        "object": {
+          "@id": "https://www.diemex.in/#event"
+        }
+      },
+      "breadcrumb": {
+        "@id": "https://www.diemex.in/register?t=exhibitor#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/register?t=exhibitor#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Exhibitor Registration",
+          "item": "https://www.diemex.in/register?t=exhibitor"
+        }
+      ]
+    },
+    {
+      "@type": "Event",
+      "@id": "https://www.diemex.in/#event",
+      "name": "DIEMEX 2027 - International Die & Mould Exhibition in India",
+      "startDate": "2027-03-24T10:00:00+05:30",
+      "endDate": "2027-03-26T18:00:00+05:30",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "url": "https://www.diemex.in/",
+      "location": {
+        "@type": "Place",
+        "name": "Auto Cluster Exhibition Centre",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Chinchwad, Pune",
+          "addressRegion": "Maharashtra",
+          "addressCountry": "IN"
+        }
+      },
+      "organizer": {
+        "@type": "Organization",
+        "@id": "https://www.diemex.in/#organizer",
+        "name": "Maxx Business Media Pvt. Ltd.",
+        "url": "https://www.maxxbusinessmedia.com/"
+      }
+    }
+  ],
+} as const;
