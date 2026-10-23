@@ -730,3 +730,58 @@ export const WHY_VISIT_STRUCTURED_DATA = {
   ]
 } as const;
 
+export const BROCHURE_STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.diemex.in/register?t=brochure#webpage",
+      "url": "https://www.diemex.in/register?t=brochure",
+      "name": "Request the DIEMEX 2027 Brochure",
+      "description": "Request the DIEMEX 2027 exhibition brochure to learn more about the International Die & Mould Exhibition in India, its industry focus and participation opportunities.",
+      "inLanguage": "en-IN",
+      "isPartOf": {
+        "@type": "WebSite",
+        "@id": "https://www.diemex.in/#website",
+        "url": "https://www.diemex.in/",
+        "name": "DIEMEX"
+      },
+      "about": {
+        "@id": "https://www.diemex.in/#event"
+      },
+      "potentialAction": {
+        "@type": "RegisterAction",
+        "name": "Request the DIEMEX Brochure",
+        "target": {
+          "@type": "EntryPoint",
+          "urlTemplate": "https://www.diemex.in/register?t=brochure",
+          "actionPlatform": [
+            "https://schema.org/DesktopWebPlatform",
+            "https://schema.org/MobileWebPlatform"
+          ]
+        }
+      },
+      "breadcrumb": {
+        "@id": "https://www.diemex.in/register?t=brochure#breadcrumb"
+      }
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/register?t=brochure#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Brochure Registration",
+          "item": "https://www.diemex.in/register?t=brochure"
+        }
+      ]
+    }
+  ]
+}
