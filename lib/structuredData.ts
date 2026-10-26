@@ -1251,3 +1251,71 @@ export const CONFORMAL_COOLING_AND_3D_PRINTING = {
 } as const;
 
 export const SECOND_BLOG_STRUCTURED_DATA = CONFORMAL_COOLING_AND_3D_PRINTING;
+
+export const HOW_TO_CHOOSE_RIGHT_DIE = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": "https://www.diemex.in/blogs/how-to-choose-the-right-die-mould-manufacturers#article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.diemex.in/blogs/how-to-choose-the-right-die-mould-manufacturers"
+      },
+      "url": "https://www.diemex.in/blogs/how-to-choose-the-right-die-mould-manufacturers",
+      "headline": "How to Choose the Right Die & Mould Manufacturers",
+      "description": "Learn how to choose the right die and mould manufacturer by evaluating industry experience, technology, quality standards, precision, material selection and delivery capabilities.",
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://www.diemex.in/#organization",
+        "name": "DIEMEX",
+        "url": "https://www.diemex.in/"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "DIEMEX Editorial Team"
+      },
+      "inLanguage": "en-IN",
+      "articleSection": "Die and Mould Manufacturing",
+      "keywords": [
+        "how to choose die and mould manufacturers",
+        "die and mould manufacturers in India",
+        "die and mould manufacturing",
+        "precision tooling",
+        "mould quality standards"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/blogs/how-to-choose-the-right-die-mould-manufacturers#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blogs",
+          "item": "https://www.diemex.in/blogs"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "How to Choose the Right Die & Mould Manufacturers",
+          "item": "https://www.diemex.in/blogs/how-to-choose-the-right-die-mould-manufacturers"
+        }
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://www.diemex.in/#organization",
+      "name": "DIEMEX",
+      "url": "https://www.diemex.in/"
+    }
+  ]
+} as const;
+
+export const THIRD_BLOG_STRUCTURED_DATA = HOW_TO_CHOOSE_RIGHT_DIE;

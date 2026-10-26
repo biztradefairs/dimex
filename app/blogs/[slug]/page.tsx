@@ -9,6 +9,7 @@ import BlogContent from '@/components/blogs/BlogContent';
 import {
   BATTERY_HOUSING_BLOG_STRUCTURED_DATA,
   CONFORMAL_COOLING_AND_3D_PRINTING,
+  HOW_TO_CHOOSE_RIGHT_DIE,
 } from '@/lib/structuredData';
 
 const SPECIFIC_BLOG_SCHEMAS: Record<string, unknown> = {
@@ -16,6 +17,9 @@ const SPECIFIC_BLOG_SCHEMAS: Record<string, unknown> = {
     BATTERY_HOUSING_BLOG_STRUCTURED_DATA,
   'conformal-cooling-and-3d-printed-inserts-in-mould-making':
     CONFORMAL_COOLING_AND_3D_PRINTING,
+  'how-to-choose-the-right-die-mould-manufacturers ':
+    HOW_TO_CHOOSE_RIGHT_DIE
+
 };
 
 type Props = { params: Promise<{ slug: string }> };
