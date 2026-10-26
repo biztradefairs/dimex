@@ -64,6 +64,7 @@ const navigation: NavSection[] = [
     label: "Management",
     items: [
       { name: "Blogs", href: "/admin/blogs", icon: BookOpen },
+      { name: "Badge Designs", href: "/admin/badge-designs", icon: LayoutGrid },
       {
         name: "Exhibition",
         icon: Building,
