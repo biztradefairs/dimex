@@ -1184,3 +1184,70 @@ export const BATTERY_HOUSING_BLOG_STRUCTURED_DATA = {
 
 export const FIRST_BLOG_STRUCTURED_DATA = BATTERY_HOUSING_BLOG_STRUCTURED_DATA;
 
+export const CONFORMAL_COOLING_AND_3D_PRINTING = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": "https://www.diemex.in/blogs/conformal-cooling-and-3d-printed-inserts-in-mould-making#article",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://www.diemex.in/blogs/conformal-cooling-and-3d-printed-inserts-in-mould-making"
+      },
+      "url": "https://www.diemex.in/blogs/conformal-cooling-and-3d-printed-inserts-in-mould-making",
+      "headline": "Conformal Cooling and 3D-Printed Inserts in Mould Making",
+      "description": "Discover how conformal cooling channels and 3D-printed inserts can improve heat management, cycle times and efficiency in mould making.",
+      "publisher": {
+        "@type": "Organization",
+        "@id": "https://www.diemex.in/#organization",
+        "name": "DIEMEX",
+        "url": "https://www.diemex.in/"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "DIEMEX Editorial Team"
+      },
+      "inLanguage": "en-IN",
+      "articleSection": "Manufacturing Technology",
+      "keywords": [
+        "conformal cooling",
+        "3D-printed mould inserts",
+        "mould making",
+        "additive manufacturing",
+        "die and mould technology"
+      ]
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/blogs/conformal-cooling-and-3d-printed-inserts-in-mould-making#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Blogs",
+          "item": "https://www.diemex.in/blogs"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Conformal Cooling and 3D-Printed Inserts in Mould Making",
+          "item": "https://www.diemex.in/blogs/conformal-cooling-and-3d-printed-inserts-in-mould-making"
+        }
+      ]
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://www.diemex.in/#organization",
+      "name": "DIEMEX",
+      "url": "https://www.diemex.in/"
+    }
+  ]
+} as const;
+
+export const SECOND_BLOG_STRUCTURED_DATA = CONFORMAL_COOLING_AND_3D_PRINTING;

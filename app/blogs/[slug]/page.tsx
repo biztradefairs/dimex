@@ -6,7 +6,17 @@ import { blogDate } from '@/lib/blogs';
 import { pageMeta, SITE_URL } from '@/lib/pageMetadata';
 import BlogCover from '@/components/blogs/BlogCover';
 import BlogContent from '@/components/blogs/BlogContent';
-import { BATTERY_HOUSING_BLOG_STRUCTURED_DATA } from '@/lib/structuredData';
+import {
+  BATTERY_HOUSING_BLOG_STRUCTURED_DATA,
+  CONFORMAL_COOLING_AND_3D_PRINTING,
+} from '@/lib/structuredData';
+
+const SPECIFIC_BLOG_SCHEMAS: Record<string, unknown> = {
+  'battery-housing-and-enclosure-manufacturing-tooling-challenges':
+    BATTERY_HOUSING_BLOG_STRUCTURED_DATA,
+  'conformal-cooling-and-3d-printed-inserts-in-mould-making':
+    CONFORMAL_COOLING_AND_3D_PRINTING,
+};
 
 type Props = { params: Promise<{ slug: string }> };
 
@@ -28,51 +38,50 @@ export default async function BlogPage({ params }: Props) {
   const { slug } = await params;
   const blog = await fetchPublishedBlog(slug);
   if (!blog) notFound();
-  const structuredData = blog.slug === 'battery-housing-and-enclosure-manufacturing-tooling-challenges'
-    ? BATTERY_HOUSING_BLOG_STRUCTURED_DATA
-    : {
-        '@context': 'https://schema.org',
-        '@graph': [
-          {
-            '@type': 'BlogPosting',
-            '@id': `${SITE_URL}/blogs/${blog.slug}#article`,
-            mainEntityOfPage: {
-              '@type': 'WebPage',
-              '@id': `${SITE_URL}/blogs/${blog.slug}`,
-            },
-            headline: blog.title,
-            description: blog.excerpt || undefined,
-            url: `${SITE_URL}/blogs/${blog.slug}`,
-            datePublished: blog.publishedAt,
-            dateModified: blog.updatedAt,
-            author: { '@type': 'Organization', name: blog.author || 'DIEMEX Editorial Team' },
-            publisher: {
-              '@type': 'Organization',
-              '@id': `${SITE_URL}/#organization`,
-              name: 'DIEMEX',
-              url: `${SITE_URL}/`,
-            },
-            inLanguage: 'en-IN',
-            articleSection: blog.category || 'Manufacturing',
-            ...(blog.image ? { image: blog.image } : {}),
-          },
-          {
-            '@type': 'BreadcrumbList',
-            '@id': `${SITE_URL}/blogs/${blog.slug}#breadcrumb`,
-            itemListElement: [
-              { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
-              { '@type': 'ListItem', position: 2, name: 'Blogs', item: `${SITE_URL}/blogs` },
-              { '@type': 'ListItem', position: 3, name: blog.title, item: `${SITE_URL}/blogs/${blog.slug}` },
-            ],
-          },
-          {
-            '@type': 'Organization',
-            '@id': `${SITE_URL}/#organization`,
-            name: 'DIEMEX',
-            url: `${SITE_URL}/`,
-          },
+  const structuredData = SPECIFIC_BLOG_SCHEMAS[blog.slug] || {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BlogPosting',
+        '@id': `${SITE_URL}/blogs/${blog.slug}#article`,
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': `${SITE_URL}/blogs/${blog.slug}`,
+        },
+        headline: blog.title,
+        description: blog.excerpt || undefined,
+        url: `${SITE_URL}/blogs/${blog.slug}`,
+        datePublished: blog.publishedAt,
+        dateModified: blog.updatedAt,
+        author: { '@type': 'Organization', name: blog.author || 'DIEMEX Editorial Team' },
+        publisher: {
+          '@type': 'Organization',
+          '@id': `${SITE_URL}/#organization`,
+          name: 'DIEMEX',
+          url: `${SITE_URL}/`,
+        },
+        inLanguage: 'en-IN',
+        articleSection: blog.category || 'Manufacturing',
+        ...(blog.image ? { image: blog.image } : {}),
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${SITE_URL}/blogs/${blog.slug}#breadcrumb`,
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+          { '@type': 'ListItem', position: 2, name: 'Blogs', item: `${SITE_URL}/blogs` },
+          { '@type': 'ListItem', position: 3, name: blog.title, item: `${SITE_URL}/blogs/${blog.slug}` },
         ],
-      };
+      },
+      {
+        '@type': 'Organization',
+        '@id': `${SITE_URL}/#organization`,
+        name: 'DIEMEX',
+        url: `${SITE_URL}/`,
+      },
+    ],
+  };
+
   return (
     <article className="mx-auto max-w-4xl px-4 py-10 font-parabolica sm:px-6 sm:py-14 lg:px-8">
       <script
