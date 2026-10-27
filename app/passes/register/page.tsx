@@ -102,6 +102,12 @@ export default function PassRegisterPage() {
     [form]
   );
 
+  const handleChannelChange = (nextChannel: PassChannel) => {
+    setChannel(nextChannel);
+    setError('');
+    setOtpError('');
+  };
+
   const sendOtp = async () => {
     setError('');
     setOtpError('');
@@ -283,27 +289,33 @@ export default function PassRegisterPage() {
             <div className="mt-5 grid grid-cols-3 gap-2 rounded-2xl bg-slate-100 p-1.5">
               <button
                 type="button"
-                onClick={() => setChannel('sms')}
-                className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition ${channel === 'sms' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'
-                  }`}
+                disabled={loading}
+                onClick={() => handleChannelChange('sms')}
+                className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition ${
+                  channel === 'sms' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'
+                }`}
               >
                 <MessageSquare className="h-4 w-4" />
                 SMS
               </button>
               <button
                 type="button"
-                onClick={() => setChannel('whatsapp')}
-                className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition ${channel === 'whatsapp' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'
-                  }`}
+                disabled={loading}
+                onClick={() => handleChannelChange('whatsapp')}
+                className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition ${
+                  channel === 'whatsapp' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'
+                }`}
               >
                 <MessageCircle className="h-4 w-4 text-[#25D366]" />
                 WhatsApp
               </button>
               <button
                 type="button"
-                onClick={() => setChannel('email')}
-                className={`inline-flex items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-bold transition ${channel === 'email' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'
-                  }`}
+                disabled={loading}
+                onClick={() => handleChannelChange('email')}
+                className={`inline-flex items-center justify-center gap-2 rounded-xl px-3 py-3 text-sm font-bold transition ${
+                  channel === 'email' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'
+                }`}
               >
                 <Mail className="h-4 w-4" />
                 Email
