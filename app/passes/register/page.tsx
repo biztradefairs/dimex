@@ -286,14 +286,13 @@ export default function PassRegisterPage() {
             <h2 className="text-2xl font-black text-slate-900">Choose Verification Method</h2>
             <p className="mt-1 text-sm text-slate-500">Select how you&apos;d like to receive your one-time password</p>
 
-            <div className="mt-5 grid grid-cols-3 gap-2 rounded-2xl bg-slate-100 p-1.5">
+            <div className="mt-5 grid grid-cols-2 gap-2 rounded-2xl bg-slate-100 p-1.5">
               <button
                 type="button"
                 disabled={loading}
                 onClick={() => handleChannelChange('sms')}
-                className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition ${
-                  channel === 'sms' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'
-                }`}
+                className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition ${channel === 'sms' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'
+                  }`}
               >
                 <MessageSquare className="h-4 w-4" />
                 SMS
@@ -302,14 +301,13 @@ export default function PassRegisterPage() {
                 type="button"
                 disabled={loading}
                 onClick={() => handleChannelChange('whatsapp')}
-                className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition ${
-                  channel === 'whatsapp' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'
-                }`}
+                className={`inline-flex items-center justify-center gap-2 rounded-xl px-4 py-3 text-sm font-bold transition ${channel === 'whatsapp' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500'
+                  }`}
               >
                 <MessageCircle className="h-4 w-4 text-[#25D366]" />
                 WhatsApp
               </button>
-              <button
+              {/* <button
                 type="button"
                 disabled={loading}
                 onClick={() => handleChannelChange('email')}
@@ -319,7 +317,7 @@ export default function PassRegisterPage() {
               >
                 <Mail className="h-4 w-4" />
                 Email
-              </button>
+              </button> */}
             </div>
 
             <div className="mt-4 rounded-xl border border-[#004A96]/20 bg-[#E8F1F8] px-4 py-3 text-sm text-[#004A96]">
