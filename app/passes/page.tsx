@@ -14,19 +14,19 @@ import {
 
 export default function PassesLandingPage() {
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[#F7F8FC]">
+    <div className="relative min-h-screen overflow-hidden bg-[#F7F8FC] font-parabolica">
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(0,74,150,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(0,74,150,0.04)_1px,transparent_1px)] bg-[size:48px_48px]" />
       <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-[#004A96]/15 blur-3xl" />
       <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 rounded-full bg-[#E0161D]/15 blur-3xl" />
 
       <div className="relative mx-auto grid min-h-screen max-w-6xl items-center gap-12 px-5 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
         <div>
-          <div className="inline-flex items-center gap-2 rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 ring-1 ring-emerald-100">
-            <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+          <div className="inline-flex items-center gap-2 rounded-full bg-blue-40 px-3 py-1 text-xs font-semibold text-blue-700 ring-1 ring-blue-200">
+            <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
             Registration Open for DIEMEX 2027
           </div>
 
-          <h1 className="mt-6 max-w-xl text-4xl font-black leading-[1.05] tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
+          <h1 className="mt-6 max-w-xl text-[2.125rem] font-semibold leading-[1.12] tracking-[-0.035em] text-[#132D49] sm:text-[2.625rem] xl:text-[3rem] 2xl:text-[3.25rem]">
             Your Digital Visitor Badge In Seconds.
           </h1>
           <p className="mt-5 max-w-xl text-base leading-7 text-slate-600 sm:text-lg">
@@ -44,7 +44,7 @@ export default function PassesLandingPage() {
                   {step}
                 </span>
                 <span>{label}</span>
-                {index < 2 ? <ArrowRight className="h-4 w-4 text-slate-300" /> : null}
+                {index < 2 ? <ArrowRight className="h-4 w-4 text-blue-500 " /> : null}
               </div>
             ))}
           </div>
@@ -52,7 +52,7 @@ export default function PassesLandingPage() {
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/passes/register"
-              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-[#004A96] via-[#004A96] to-[#E0161D] px-6 py-3.5 text-sm font-bold text-white shadow-xl shadow-[#004A96]/25 transition hover:brightness-110"
+              className="inline-flex items-center justify-center gap-2 rounded-2xl bg-[#004A96] px-6 py-3.5 text-sm font-bold text-white shadow-xl shadow-[#004A96]/25 transition hover:brightness-110"
             >
               <QrCode className="h-4 w-4" />
               Register Now
@@ -126,12 +126,12 @@ export default function PassesLandingPage() {
             {
               icon: Smartphone,
               title: 'Verify by SMS or WhatsApp',
-              text: 'Enter your mobile number, choose a channel, and confirm with a 4-digit OTP.',
+              text: 'Enter your mobile number, choose a channel, and confirm with a 6-digit OTP.',
             },
             {
               icon: ShieldCheck,
               title: 'Complete a short form',
-              text: 'Add your name, company and interests so we can issue a personalised visitor pass.',
+              text: 'Add your name, designation, company and interests so we can issue a personalised visitor pass.',
             },
             {
               icon: QrCode,
