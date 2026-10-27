@@ -11,9 +11,11 @@ import {
   Mail,
   MessageCircle,
   MessageSquare,
+
 } from 'lucide-react';
 import OtpModal from '@/components/passes/OtpModal';
 import PassesChrome from '@/components/passes/PassesChrome';
+import CountryFlag from '@/components/passes/CountryFlag';
 import {
   registerVisitorPass,
   savePassSession,
@@ -74,6 +76,7 @@ export default function PassRegisterPage() {
   const [verifiedPhone, setVerifiedPhone] = useState('');
   const [form, setForm] = useState({
     name: '',
+    designation: '',
     company: '',
     pinCode: '',
     area: '',
@@ -238,24 +241,26 @@ export default function PassRegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F3F5F9]">
-      <div className="relative overflow-hidden bg-gradient-to-br from-[#004A96] via-[#003875] to-[#004A96] pb-24 pt-6 text-white">
+    <div className="min-h-screen bg-[#F3F5F9] font-parabolica">
+      <div className="relative overflow-hidden bg-gradient-to-r from-[#004A96] via-[#003875] to-[#004A96] text-white">
         <PassesChrome backHref="/passes" backLabel="Back to Exhibitions" />
-        <div className="mx-auto max-w-5xl px-5 pt-16">
-          <span className="inline-flex items-center rounded-full bg-emerald-400/20 px-3 py-1 text-xs font-semibold text-emerald-200 ring-1 ring-emerald-300/30">
-            Registration Open
-          </span>
-          <h1 className="mt-4 text-4xl font-black tracking-tight sm:text-5xl">DIEMEX 2027</h1>
-          <div className="mt-5 max-w-2xl rounded-2xl border border-white/15 bg-white/10 p-4 text-sm leading-6 text-white/85 backdrop-blur">
-            <p className="text-xs font-bold uppercase tracking-wide text-white/60">About This Event</p>
-            <p className="mt-1">
-              India&apos;s international die & mould exhibition. Register once, get your QR visitor pass on WhatsApp or SMS, and walk in.
-            </p>
+        <div className="mx-auto max-w-5xl px-5 pb-7 pt-20 sm:pb-8 sm:pt-24">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <span className="inline-flex items-center rounded-full bg-blue-400/20 px-2.5 py-0.5 text-xs font-semibold text-text-200 ring-1 ring-blue-300/30">
+              Registration Open
+            </span>
+            <span className="text-xs text-white/70">· 24–26 Mar 2027 · Pune, India</span>
           </div>
+          <h1 className="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+            Visitor Pass Registration — DIEMEX 2027
+          </h1>
+          <p className="mt-1.5 max-w-2xl text-xs text-white/80 sm:text-sm">
+            Registration complete once you receive your digital QR visitor badge via WhatsApp, SMS, or Email.
+          </p>
         </div>
       </div>
 
-      <div className="-mt-12 mx-auto grid max-w-5xl gap-6 px-5 pb-16 lg:grid-cols-[240px_1fr]">
+      <div className="mx-auto mt-6 grid max-w-5xl gap-6 px-5 pb-16 lg:grid-cols-[240px_1fr]">
         <aside className="h-fit rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
           <p className="text-xs font-bold uppercase tracking-wide text-slate-400">Event Details</p>
           <div className="mt-4 space-y-4 text-sm">
@@ -278,13 +283,7 @@ export default function PassRegisterPage() {
 
         {step === 'phone' ? (
           <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-xl shadow-slate-200/60 sm:p-8">
-            <div className="overflow-hidden rounded-2xl bg-gradient-to-r from-[#004A96] to-[#004A96] px-5 py-4 text-white">
-              <p className="text-xs font-bold tracking-[0.18em] text-white/70">DIEMEX 2027</p>
-              <p className="text-lg font-black">International Die & Mould Exhibition</p>
-              <p className="text-xs text-white/70">24–26 Mar 2027 · Pune, India</p>
-            </div>
-
-            <h2 className="mt-6 text-2xl font-black text-slate-900">Choose Verification Method</h2>
+            <h2 className="text-2xl font-black text-slate-900">Choose Verification Method</h2>
             <p className="mt-1 text-sm text-slate-500">Select how you&apos;d like to receive your one-time password</p>
 
             <div className="mt-5 grid grid-cols-3 gap-2 rounded-2xl bg-slate-100 p-1.5">
@@ -334,15 +333,16 @@ export default function PassRegisterPage() {
                 <button
                   type="button"
                   onClick={() => setCountryOpen((open) => !open)}
-                  className="flex h-12 min-w-[118px] items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-3 text-sm font-semibold"
+                  className="flex h-12 min-w-[114px] items-center justify-between gap-2 rounded-xl border border-slate-200 bg-white px-2.5 text-sm font-semibold transition hover:border-slate-300 sm:min-w-[124px] sm:px-3"
                 >
-                  <span>
-                    {selectedCountry.flag} {selectedCountry.code}
+                  <span className="flex items-center gap-2">
+                    <CountryFlag code={selectedCountry.code} />
+                    <span>{selectedCountry.code}</span>
                   </span>
-                  <ChevronDown className="h-4 w-4 text-slate-400" />
+                  <ChevronDown className="h-4 w-4 shrink-0 text-slate-400" />
                 </button>
                 {countryOpen ? (
-                  <div className="absolute z-20 mt-1 w-52 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl">
+                  <div className="absolute z-30 mt-1 w-60 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-xl">
                     {COUNTRIES.map((item) => (
                       <button
                         key={item.code}
@@ -352,9 +352,11 @@ export default function PassRegisterPage() {
                           setCountryOpen(false);
                           setMobile('');
                         }}
-                        className="flex w-full items-center gap-2 px-3 py-2 text-left text-sm hover:bg-slate-50"
+                        className="flex w-full items-center gap-2.5 px-3 py-2.5 text-left text-sm transition hover:bg-slate-50"
                       >
-                        {item.flag} {item.name} {item.code}
+                        <CountryFlag code={item.code} />
+                        <span className="flex-1 font-medium text-slate-700">{item.name}</span>
+                        <span className="text-xs font-semibold text-slate-400">{item.code}</span>
                       </button>
                     ))}
                   </div>
@@ -426,6 +428,12 @@ export default function PassRegisterPage() {
                 required
               />
               <Field
+                label="Designation"
+                value={form.designation}
+                onChange={(value) => setForm((prev) => ({ ...prev, designation: value }))}
+                required
+              />
+              <Field
                 label="Company Or Firm Name"
                 value={form.company}
                 onChange={(value) => setForm((prev) => ({ ...prev, company: value }))}
@@ -483,11 +491,10 @@ export default function PassRegisterPage() {
                         key={interest}
                         type="button"
                         onClick={() => toggleInterest(interest)}
-                        className={`rounded-full px-3 py-1.5 text-xs font-semibold ring-1 transition ${
-                          selected
-                            ? 'bg-[#004A96] text-white ring-[#004A96]'
-                            : 'bg-white text-slate-600 ring-slate-200 hover:ring-slate-300'
-                        }`}
+                        className={`rounded-full px-3 py-1.5 text-xs font-semibold ring-1 transition ${selected
+                          ? 'bg-[#004A96] text-white ring-[#004A96]'
+                          : 'bg-white text-slate-600 ring-slate-200 hover:ring-slate-300'
+                          }`}
                       >
                         {interest}
                       </button>
