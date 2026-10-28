@@ -2,7 +2,23 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import {
+  ChevronLeft,
+  ChevronRight,
+  Factory,
+  Car,
+  Boxes,
+  Plane,
+  Users,
+  Cpu,
+  Settings,
+  Layers,
+  Wrench,
+  Flame,
+  Monitor,
+  CheckCircle2,
+  Layers3,
+} from "lucide-react"
 import PartnersSection from "@/components/section/PartnersSection"
 import SectionContainer from "@/components/UI/SectionContainer"
 import Image from "next/image";
@@ -14,36 +30,37 @@ import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 
 const data = [
   {
-    title: 'Want to grow internationally?',
-    text: 'Connect with buyers, OEMs, and sourcing partners from India and overseas who attend DIEMEX to discover advanced die & mould, tooling, and manufacturing solutions.',
+    title: 'Meet qualified buyers',
+    text: 'Visitors come from tool rooms, auto-component makers, plastics and sheet metal firms, and OEMs. They arrive to compare suppliers and place orders.',
     image: '/images/Why-Exhibit/globe.png',
   },
   {
-    title: 'Struggling to Measure Exhibition ROI?',
-    text: 'DIEMEX delivers measurable results—from qualified leads and RFQs to confirmed orders and long-term partnerships.',
+    title: 'Demonstrate your technology live',
+    text: 'Show CNC, EDM, 3D printing, tooling and software at work. Live demonstrations build trust faster than catalogues.',
     image: '/images/Why-Exhibit/market.png',
   },
   {
-    title: 'Facing Challenges Entering New Manufacturing Markets?',
-    text: 'Gain direct access to decision-makers, including toolroom heads, plant managers, procurement leaders, and engineering teams across India’s precision manufacturing sectors.',
+    title: 'Generate leads',
+    text: 'Build a strong pipeline from automotive, EV, plastics, die casting, aerospace, and industrial manufacturing sectors.',
     image: '/images/Why-Exhibit/filtering.png',
   },
   {
-    title: 'Concerned About Cost, Quality & Lead Times?',
-    text: 'Meet trusted suppliers and technology partners who help optimize tooling costs, improve quality, and reduce production cycles.',
+    title: 'Reach India’s manufacturing hubs',
+    text: 'DIEMEX has run in Bangalore (2023), Chennai (2025) and Pune (2026, 2027), covering key die and mould regions.',
     image: '/images/Why-Exhibit/conversion.png',
   },
   {
-    title: 'Need better lead generation?',
-    text: 'Build a strong pipeline from automotive, EV, plastics, die casting, aerospace, and industrial manufacturing sectors.',
+    title: 'Build brand visibility',
+    text: 'Get listed in the exhibitor directory, the show catalogue and our digital and email promotions.',
     image: '/images/Why-Exhibit/opportunity.png',
   },
   {
-    title: 'Is your brand struggling to get noticed?',
-    text: 'Showcase your unique technologies and capabilities to a highly targeted, decision-driven audience.',
+    title: 'Launch products and meet your market',
+    text: 'Introduce new machines or solutions to an audience that is looking for them.',
     image: '/images/Why-Exhibit/worldwide.png',
   },
 ];
+
 
 export default function WhyExhibit() {
   const testimonials = [
@@ -110,25 +127,101 @@ export default function WhyExhibit() {
   ]
 
   const [testimonialIndex, setTestimonialIndex] = useState(0)
-  // Add these animation variants after your scaleIn definition
-const fadeInUp = {
-  hidden: { opacity: 0, y: 20 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6 }
-  }
-};
 
-const staggerContainer = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1
+  const whoVisitsData = [
+    {
+      title: "Die, Mould & Tool Rooms",
+      description: "Precision tooling, die and mould manufacturers seeking advanced technologies and manufacturing solutions.",
+      icon: Factory,
+    },
+    {
+      title: "Automotive & Auto-Components",
+      description: "Automotive OEMs and component manufacturers exploring innovative tooling and precision engineering solutions.",
+      icon: Car,
+    },
+    {
+      title: "Plastics & Sheet Metal",
+      description: "Plastics, injection moulding and sheet metal manufacturers seeking advanced production technologies.",
+      icon: Boxes,
+    },
+    {
+      title: "Aerospace, Defence & Medical",
+      description: "Aerospace, defence and medical manufacturers requiring high-precision tooling and specialized manufacturing solutions.",
+      icon: Plane,
+    },
+    {
+      title: "Technical & Buying Heads",
+      description: "Procurement, design, production and R&D decision-makers sourcing innovative technologies and manufacturing solutions.",
+      icon: Users,
+    },
+  ]
+
+  const whatYouCanExhibitData = [
+    {
+      title: "CNC & Milling",
+      description: "High-precision CNC machining centres and milling solutions for complex dies, moulds and tooling.",
+      icon: Cpu,
+    },
+    {
+      title: "EDM & Wire Cut",
+      description: "Advanced EDM, wire-cut and spark erosion technologies for precision die and mould manufacturing.",
+      icon: Settings,
+    },
+    {
+      title: "3D Printing & Additive",
+      description: "Industrial 3D printing and additive manufacturing solutions for prototyping, complex tooling and production.",
+      icon: Layers,
+    },
+    {
+      title: "Cutting Tools & Mould Bases",
+      description: "Precision cutting tools, standard mould bases and tooling accessories for efficient manufacturing.",
+      icon: Wrench,
+    },
+    {
+      title: "Hot Runners & Moulding",
+      description: "Advanced hot runner systems and injection moulding technologies for efficient, high-quality production.",
+      icon: Boxes,
+    },
+    {
+      title: "Heat & Surface Treatment",
+      description: "Heat treatment, surface coatings and polishing solutions to enhance tool durability and performance.",
+      icon: Flame,
+    },
+    {
+      title: "CAD/CAM/CAE Software",
+      description: "Integrated design, simulation and manufacturing software for precision tooling and process optimization",
+      icon: Monitor,
+    },
+    {
+      title: "Inspection & Quality Systems",
+      description: "Advanced metrology, 3D scanning and inspection technologies for accuracy and quality assurance.",
+      icon: CheckCircle2,
+    },
+    {
+      title: "Steel & Raw Materials",
+      description: "High-performance tool steels, mould alloys and specialized materials for die and mould manufacturing.",
+      icon: Layers3,
+    },
+  ]
+  // Add these animation variants after your scaleIn definition
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 }
     }
-  }
-};
+  };
+
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -225,6 +318,34 @@ const staggerContainer = {
 
         {/* WHERE TRANSPORT COMES TOGETHER */}
         <section className="py-16 lg:py-24">
+
+          <SectionContainer className="pt-24 pb-16">
+            <div className="max-w-10xl">
+              <h1 className="text-[56px] leading-[1.1] font-bold text-black mb-6">
+                Why Exhibit at DIEMEX 2027, India’s Die & Mould Exhibition?
+              </h1>
+
+              <p className="text-lg leading-relaxed text-black/80 max-w-8xl mb-10"> DIEMEX is India’s international die and mould exhibition, where toolmakers, OEMs and buyers meet technology suppliers. DIEMEX 2027 takes place on 24-26 March 2027 at the Auto Cluster Exhibition Centre, Pune. Exhibiting puts your machines, tools and services in front of decision-makers who are ready to buy.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-4">
+              <Link
+                href="/register?t=visitor"
+                className="inline-block rounded-full bg-[#004A96] px-10 py-4 text-white font-semibold text-base transition hover:bg-[#003875]"
+              >
+                Register Free
+              </Link>
+
+              <Link
+                href="/register?t=exhibitor"
+                className="inline-block rounded-full bg-[#004A96] px-10 py-4 text-white font-semibold text-base transition hover:bg-[#003875]"
+              >
+                Book a Stall
+              </Link>
+            </div>
+          </SectionContainer>
+
           <SectionContainer>
             <motion.div
               initial="hidden"
@@ -274,15 +395,21 @@ const staggerContainer = {
                   </li>
                 </ul>
 
-                <Link href="/exhibiting-enquiry">
-                  <motion.button
-                    whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
-                    whileTap={{ scale: 0.95 }}
-                    className="font-parabolica bg-[#004A96] hover:bg-[#003875] text-white px-8 py-3 rounded-full font-medium transition-all duration-300"
+                <div className="flex flex-wrap items-center gap-4">
+                  <Link
+                    href="/register?t=exhibitor"
+                    className="inline-block rounded-full bg-[#004A96] px-10 py-4 text-white font-semibold text-base transition hover:bg-[#003875]"
                   >
-                    Enquire to Exhibit
-                  </motion.button>
-                </Link>
+                    Book a Stall
+                  </Link>
+
+                  <Link
+                    href="/register?t=brochure"
+                    className="inline-block rounded-full bg-[#004A96] px-10 py-4 text-white font-semibold text-base transition hover:bg-[#003875]"
+                  >
+                    Download Brochure
+                  </Link>
+                </div>
               </div>
 
               <motion.div
@@ -320,11 +447,6 @@ const staggerContainer = {
               className="flex flex-col lg:flex-row items-start lg:items-center justify-between mb-12"
             >
               <div className="mb-8 lg:mb-0">
-                <div className="flex gap-2 mb-4">
-                  <img src="/images/logo-icon-3.png" alt="" className="h-5" />
-                  <h3 className="text-sm text-[#4D4D4D] font-semibold mb-2">Key Benefits</h3>
-                </div>
-
                 <h2 className="text-4xl lg:text-5xl font-bold">Reasons Why You Should Exhibit</h2>
               </div>
             </motion.div>
@@ -381,13 +503,13 @@ const staggerContainer = {
               ))}
             </motion.div>
 
-            <Link href='/exhibiting-enquiry'>
+            <Link href='/register?t=exhibitor'>
               <motion.button
                 whileHover={{ scale: 1.05, boxShadow: "0 10px 25px rgba(37, 99, 235, 0.3)" }}
                 whileTap={{ scale: 0.95 }}
                 className="mt-8 bg-[#004A96] hover:bg-[#003875] text-white px-8 py-3 rounded-full font-medium transition-all duration-300"
               >
-                Enquire to Exhibit
+                Book a Stall
               </motion.button>
             </Link>
           </SectionContainer>
@@ -561,6 +683,97 @@ const staggerContainer = {
                 </Link>
               ))}
             </motion.div>
+          </SectionContainer>
+        </section>
+
+
+
+        {/* WHO VISITS & WHAT YOU CAN EXHIBIT */}
+        <section className="py-16 lg:py-24 bg-[#F4F7FB]/50 font-parabolica">
+          <SectionContainer>
+            {/* WHO VISITS DIEMEX */}
+            <div>
+              <div className="mb-6">
+                <h2 className="text-3xl font-bold tracking-tight text-[#132D49] sm:text-4xl lg:text-5xl">
+                  Who visits <span className="text-[#004A96]">DIEMEX?</span>
+                </h2>
+              </div>
+
+              <div className="grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+                {whoVisitsData.map((item, index) => {
+                  const Icon = item.icon
+                  return (
+                    <article
+                      key={index}
+                      className="group flex h-full flex-col rounded-3xl border border-[#004A96]/10 bg-white p-6 shadow-[0_4px_24px_rgba(19,45,73,0.03)] transition-[border-color,box-shadow,translate] duration-300 hover:border-[#004A96]/25 hover:shadow-[0_16px_40px_rgba(19,45,73,0.08)] motion-safe:hover:-translate-y-1"
+                    >
+                      <div className="flex items-center justify-between gap-4">
+                        <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#004A96]/10 bg-[#EDF4FB] text-[#004A96] transition-colors group-hover:border-[#004A96] group-hover:bg-[#004A96] group-hover:text-white">
+                          <Icon aria-hidden="true" className="h-6 w-6" strokeWidth={1.7} />
+                        </span>
+                      </div>
+                      <h3 className="mb-2 mt-5 text-lg font-semibold leading-snug tracking-tight text-[#132D49]">
+                        {item.title}
+                      </h3>
+                      <p className="text-sm leading-relaxed text-[#526174]">
+                        {item.description}
+                      </p>
+                    </article>
+                  )
+                })}
+              </div>
+
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <Link
+                  href="/why-visit"
+                  className="inline-block w-fit rounded-full bg-[#004A96] px-10 py-4 font-semibold text-white transition hover:bg-[#003875]"
+                >
+                  Why visit
+                </Link>
+              </div>
+            </div>
+
+            {/* WHAT YOU CAN EXHIBIT */}
+            <div className="pt-16">
+              <div className="mb-6">
+                <h2 className="text-3xl font-bold tracking-tight text-[#132D49] sm:text-4xl lg:text-5xl">
+                  What you can <span className="text-[#004A96]">exhibit?</span>
+                </h2>
+              </div>
+
+              <div className="grid auto-rows-fr gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {whatYouCanExhibitData.map((item, index) => {
+                  const Icon = item.icon
+                  return (
+                    <article
+                      key={index}
+                      className="group flex h-full flex-col rounded-3xl border border-[#004A96]/10 bg-white p-6 shadow-[0_4px_24px_rgba(19,45,73,0.03)] transition-[border-color,box-shadow,translate] duration-300 hover:border-[#004A96]/25 hover:shadow-[0_16px_40px_rgba(19,45,73,0.08)] motion-safe:hover:-translate-y-1"
+                    >
+                      <div className="flex items-center justify-between gap-4">
+                        <span className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#004A96]/10 bg-[#EDF4FB] text-[#004A96] transition-colors group-hover:border-[#004A96] group-hover:bg-[#004A96] group-hover:text-white">
+                          <Icon aria-hidden="true" className="h-6 w-6" strokeWidth={1.7} />
+                        </span>
+                      </div>
+                      <h3 className="mb-2 mt-5 text-lg font-semibold leading-snug tracking-tight text-[#132D49]">
+                        {item.title}
+                      </h3>
+                      <p className="text-sm leading-relaxed text-[#526174]">
+                        {item.description}
+                      </p>
+                    </article>
+                  )
+                })}
+              </div>
+
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <Link
+                  href="/register?t=exhibitor"
+                  className="inline-block w-fit rounded-full bg-[#004A96] px-10 py-4 font-semibold text-white transition hover:bg-[#003875]"
+                >
+                  Book a Stall
+                </Link>
+              </div>
+            </div>
           </SectionContainer>
         </section>
 
