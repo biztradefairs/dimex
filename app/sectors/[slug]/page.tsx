@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { sectorDatabase, allSectorSlugs } from "../data";
 import SectionContainer from "@/components/UI/SectionContainer";
@@ -8,9 +9,81 @@ import WhyExhibitCard from "../components/WhyExhibitCard";
 import ServiceCard from "../components/ServiceCard";
 import FAQCard from "../components/FAQCard";
 import BackToTop from "@/app/exhibitor-resource-center/component/BackToTop";
+import { pageMeta } from "@/lib/pageMetadata";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+
+  if (slug === 'precision-moulds') {
+    return pageMeta(
+      'Precision Die & Mould Solutions | DIEMEX 2027 Exhibition',
+      'Explore precision die and mould solutions, injection moulds, die-casting tools and advanced tooling technologies at DIEMEX 2027 in Pune.',
+      `/sectors/${slug}`,
+    );
+  }
+
+  if (slug === 'tooling-mould-base') {
+    return pageMeta(
+      'Tooling & Mould Base Solutions | DIEMEX 2027 Exhibition',
+      'Explore tooling and mould base solutions, precision components and advanced manufacturing technologies at DIEMEX 2027 in Pune, India.',
+      `/sectors/${slug}`,
+    );
+  }
+
+  if (slug === 'precision-machining-automation') {
+    return pageMeta(
+      'Precision Machining & Automation | DIEMEX 2027 India Expo',
+      'Discover precision machining, CNC technology and automation solutions for advanced manufacturing at DIEMEX 2027 in Pune, India.',
+      `/sectors/${slug}`,
+    );
+  }
+
+  if (slug === 'machining-finishing-solutions') {
+    return pageMeta(
+      'Machining & Finishing Solutions | DIEMEX 2027 India Expo',
+      'Discover machining and finishing technologies, surface treatment solutions and precision manufacturing innovations at DIEMEX 2027 in Pune, India.',
+      `/sectors/${slug}`,
+    );
+  }
+
+  if (slug === 'automation-industry-solutions') {
+    return pageMeta(
+      'Automation Industry Solutions | DIEMEX 2027 India Expo',
+      'Explore industrial automation, smart manufacturing technologies and advanced production solutions at DIEMEX 2027 in Pune, India.',
+      `/sectors/${slug}`,
+    );
+  }
+
+  if (slug === 'CAD/CAM-solutions-for-die-mould') {
+    return pageMeta(
+      'CAD/CAM Solutions for Die & Mould | DIEMEX 2027 India',
+      'Discover CAD/CAM software, 3D modelling and design technologies for precision die and mould manufacturing at DIEMEX 2027 in Pune, India.',
+      `/sectors/${slug}`,
+    );
+  }
+
+  if (slug === 'tool-steel-solutions-materials') {
+    return pageMeta(
+      'Tool Steel Solutions & Materials | DIEMEX 2027 India Expo',
+      'Explore tool steel, mould materials and advanced solutions for die and mould manufacturing at DIEMEX 2027 in Pune, India.',
+      `/sectors/${slug}`,
+    );
+  }
+
+
+
+  const databaseKey = getDatabaseKeyFromSlug(slug);
+  const displayName = getDisplayNameFromSlug(slug);
+  const sectorData = sectorDatabase[databaseKey as keyof typeof sectorDatabase] || getDefaultSectorContent(slug, displayName);
+
+  const title = `${sectorData.title || displayName} | DIEMEX 2027`;
+  const description = sectorData.description || `Explore ${displayName} solutions at DIEMEX 2027 Exhibition in Pune, India.`;
+
+  return pageMeta(title, description, `/sectors/${slug}`);
 }
 
 // Complete mapping function to convert URL slug to database key
@@ -27,14 +100,14 @@ function getDatabaseKeyFromSlug(slug: string): string {
     'it-solutions': 'it-solutions',
     'ecommerce-logistics': 'ecommerce-logistics',
     'heavy-lift-carriage': 'heavy-lift-carriage',
-    
+
     // SkladTech Sectors
     'warehousing-systems': 'warehousing-systems',
     'material-handling': 'material-handling',
     'automation-robotics': 'automation-robotics',
     'packaging-systems': 'packaging-systems',
     'inventory-management': 'inventory-management',
-    
+
     // DIEMEX Sectors - Map to existing DIEMEX sectors in database
     'die-mould-manufacturing': 'die & mould manufacturing',
     'tooling-tool-rom-technologies': 'tooling & cutting tools',
@@ -49,7 +122,7 @@ function getDatabaseKeyFromSlug(slug: string): string {
     'materials-steels-alloys': 'materials-steels-alloys',
     'die-casting': 'die-casting',
   };
-  
+
   return slugToKeyMap[slug] || slug;
 }
 
@@ -67,14 +140,14 @@ function getDisplayNameFromSlug(slug: string): string {
     'it-solutions': 'IT Solutions',
     'ecommerce-logistics': 'E-commerce',
     'heavy-lift-carriage': 'Heavy Lift',
-    
+
     // SkladTech
     'warehousing-systems': 'Warehousing',
     'material-handling': 'Material Handling',
     'automation-robotics': 'Automation',
     'packaging-systems': 'Packaging',
     'inventory-management': 'Inventory',
-    
+
     // DIEMEX
     'die-mould-manufacturing': 'Die & Mould',
     'tooling-tool-rom-technologies': 'Tooling',
@@ -89,8 +162,8 @@ function getDisplayNameFromSlug(slug: string): string {
     'materials-steels-alloys': 'Materials',
     'die-casting': 'Die Casting',
   };
-  
-  return displayNameMap[slug] || slug.split('-').map(word => 
+
+  return displayNameMap[slug] || slug.split('-').map(word =>
     word.charAt(0).toUpperCase() + word.slice(1)
   ).join(' ');
 }
@@ -160,13 +233,13 @@ Whether you're looking for new partnerships, seeking to optimize your operations
 export default async function SectorPage({ params }: PageProps) {
   // Await the params Promise
   const { slug } = await params;
-  
+
   // Get the correct database key for this slug
   const databaseKey = getDatabaseKeyFromSlug(slug);
-  
+
   // Get display name for the sector
   const displayName = getDisplayNameFromSlug(slug);
-  
+
   // Try to get the sector data using the mapped key
   let sectorData = sectorDatabase[databaseKey as keyof typeof sectorDatabase];
 
@@ -320,33 +393,4 @@ export function generateStaticParams() {
   return allSectorSlugs.map((slug) => ({
     slug,
   }));
-}
-
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  // Await the params Promise
-  const { slug } = await params;
-  const databaseKey = getDatabaseKeyFromSlug(slug);
-  const displayName = getDisplayNameFromSlug(slug);
-  const sectorData = sectorDatabase[databaseKey as keyof typeof sectorDatabase];
-
-  if (!sectorData) {
-    return {
-      title: `${displayName} | Diemex 2027`,
-      description: `Explore ${displayName.toLowerCase()} solutions at Diemex 2027. Connect with industry leaders and discover innovative solutions.`,
-    };
-  }
-
-  return {
-    title: `${sectorData.title} | Diemex 2027`,
-    description: sectorData.description,
-    openGraph: {
-      title: `${sectorData.title} | Diemex 2027`,
-      description: sectorData.description,
-      images: [sectorData.heroImage],
-    },
-  };
 }
