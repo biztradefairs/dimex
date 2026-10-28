@@ -1,5 +1,69 @@
 // Database of all sectors with their specific content
 export const sectorDatabase = {
+  'ev-die-casting-and-tooling-in-india-key-trends': {
+    title: 'EV Die Casting and Tooling in India: Key Trends for 2027',
+    description: 'Electric vehicles are changing what India’s die casters and toolmakers build. Lighter, larger and more precise parts mean new demands on the dies behind them. Here is what is driving the shift, and what it means for tooling suppliers.',
+    mainDescription: `Why EVs are driving die casting demand:
+Aluminium high-pressure die casting is moving into EV platforms. Applications now include motor housings, battery enclosures, and structural and drivetrain components, where lightweighting and precision matter for performance and range. India’s growing auto and EV base, particularly around Pune’s automotive cluster, has made the region a focus for industry events and investment.
+
+Giga-casting raises the bar for tooling:
+Large integrated castings can replace multiple stamped, welded or assembled components, which cuts part count and assembly steps. For toolmakers, that brings new challenges. Analysts note that tooling and die thermal management become more complex as component size increases, and that tooling lead times and large machine capacity are constraints. Bigger dies need larger machining capacity, better cooling design and tighter process control.
+
+Capacity is expanding in Pune and Chennai:
+Investment is following demand and monitoring systems for tight tolerances. Jaya Hind Industries announced a Rs 600 crore phased investment through FY2027-28 across Pune and Chennai, covering new HPDC machines and machining capacity. Uno Minda is also building a new casting plant at Chhatrapati Sambhajinagar for EV casting parts, with a capex of about Rs 2.1 billion.
+
+Local tooling is a growing opportunity:
+Domestic toolmakers are positioning for EV work. Godrej Enterprises Group says its tooling division is supplying high-precision, locally manufactured dies and tooling for EV components, helping Tier 1 and Tier 2 suppliers meet technical needs under Make in India.`,
+    heroImage: '/images/casting.jpg',
+    stats: {
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '5+'
+    },
+    whyExhibit: [
+      {
+        title: "Large-Die Machining",
+        icon: "⚙️",
+        description: "5-axis and high-speed capacity for big, complex dies engineered for modern EV structural castings."
+      },
+      {
+        title: "Thermal Management & Simulation",
+        icon: "🌡️",
+        description: "Cooling design, mold-flow simulation, and 3D-printed conformal cooling inserts for rapid cycle times."
+      },
+      {
+        title: "Lead Time & Digital Planning",
+        icon: "⏱️",
+        description: "Automation and digital toolroom planning to shorten delivery times and accelerate time-to-market."
+      }
+    ],
+    services: [
+      "Large-Die 5-Axis CNC Machining",
+      "Thermal Management & Flow Simulation",
+      "3D-Printed Conformal Cooling Inserts",
+      "Quality Control, CMM & In-Line Inspection",
+      "HPDC Die Casting Dies",
+      "Battery Enclosure Tooling",
+      "Motor Housing Dies",
+      "Structural Component Tooling",
+      "Digital Planning & Automation Software",
+      "Make in India Tooling Partnerships"
+    ],
+    faqs: [
+      {
+        question: "Why are EVs driving demand for advanced die casting dies?",
+        answer: "Aluminium high-pressure die casting is moving into EV platforms including motor housings, battery enclosures, and structural components where lightweighting and precision are essential for vehicle range."
+      },
+      {
+        question: "How does giga-casting impact toolmakers?",
+        answer: "Large integrated castings replace multiple components. Bigger dies require larger 5-axis machining capacity, advanced thermal cooling design, and tight process monitoring."
+      },
+      {
+        question: "Where can I explore these technologies live?",
+        answer: "Compare CNC, EDM, 3D printing, simulation and tooling suppliers in one place at DIEMEX 2027, 24-26 March, Auto Cluster Exhibition Centre, Pune."
+      }
+    ]
+  },
   // TransRussia Sectors
   'die & mould manufacturing': {
     title: 'Comprehensive die, mould, and precision tooling solutions powering modern manufacturing industries.',
@@ -44,7 +108,7 @@ Whether you are an OEM seeking reliable tooling partners or a manufacturer aimin
       "Prototype & Development Tooling",
       "Tool Room Services",
       "Reverse Engineering",
-        ],
+    ],
     faqs: [
       {
         question: "What types of companies exhibit in this sector?",
@@ -60,7 +124,7 @@ Whether you are an OEM seeking reliable tooling partners or a manufacturer aimin
       }
     ]
   },
-     'die-mould-manufacturing': {
+  'die-mould-manufacturing': {
     title: 'Die & Mould Manufacturing',
     description: 'Comprehensive die, mould, and precision tooling solutions powering modern manufacturing industries.',
     mainDescription: `As industries demand higher precision, faster production cycles, and lightweight components, advanced die & mould solutions have become essential. This sector at DIEMEX brings together leading tool rooms, mould makers, and die manufacturers serving automotive, aerospace, electronics, medical, and consumer industries.
@@ -74,8 +138,8 @@ From injection moulds and progressive press tools to die casting dies and multi-
       { title: "Capitalize on Manufacturing Growth", icon: "📈", description: "Leverage India's rapidly expanding industrial ecosystem." }
     ],
     services: [
-      "Injection Moulds","Blow Moulds","Progressive & Compound Dies",
-      "Die Casting Dies","Jigs & Fixtures","Prototype Tooling"
+      "Injection Moulds", "Blow Moulds", "Progressive & Compound Dies",
+      "Die Casting Dies", "Jigs & Fixtures", "Prototype Tooling"
     ],
     faqs: [
       { question: "Who should exhibit?", answer: "Tool rooms, die makers, mould manufacturers, and precision engineering firms." },
@@ -83,8 +147,8 @@ From injection moulds and progressive press tools to die casting dies and multi-
       { question: "Key trends?", answer: "5-axis machining, conformal cooling, additive inserts, and smart tooling." }
     ]
   },
-   'maritime-and-inland-waterway-transport': {
-     title: 'Tooling & Cutting Tools',
+  'maritime-and-inland-waterway-transport': {
+    title: 'Tooling & Cutting Tools',
     description: 'High-performance cutting tools and precision tooling systems for advanced machining.',
     mainDescription: `Tooling performance directly impacts productivity and profitability. This sector features carbide inserts, end mills, drills, reamers, and tool holders designed for high-speed and high-precision machining applications across industries.`,
     heroImage: '/images/sectors/tooling.jpg',
@@ -95,8 +159,8 @@ From injection moulds and progressive press tools to die casting dies and multi-
       { title: "Drive Productivity Partnerships", icon: "📊", description: "Demonstrate cost-per-component improvements." }
     ],
     services: [
-      "Carbide Inserts","End Mills","Drills & Reamers",
-      "Tool Holders","Special Purpose Tools","Coating Technologies"
+      "Carbide Inserts", "End Mills", "Drills & Reamers",
+      "Tool Holders", "Special Purpose Tools", "Coating Technologies"
     ],
     faqs: [
       { question: "Who should exhibit?", answer: "Cutting tool manufacturers and carbide producers." },
@@ -104,8 +168,8 @@ From injection moulds and progressive press tools to die casting dies and multi-
       { question: "Key trends?", answer: "Advanced coatings, automation-compatible tooling, and micro-machining." }
     ]
   },
-     'die-mould': {
-     title: 'Machine Tools & Advanced Machining',
+  'die-mould': {
+    title: 'Machine Tools & Advanced Machining',
     description: 'CNC systems, EDM, multi-axis machining, and high-precision manufacturing technologies.',
     mainDescription: `Modern manufacturing depends on advanced machining capabilities. This sector features CNC machining centers, EDM systems, 5-axis machines, grinding solutions, and IoT-enabled production equipment designed for precision and efficiency.`,
     heroImage: '/images/sectors/machine-tools.jpg',
@@ -116,8 +180,8 @@ From injection moulds and progressive press tools to die casting dies and multi-
       { title: "Build Long-Term Partnerships", icon: "🤝", description: "Position your machines as productivity assets." }
     ],
     services: [
-      "CNC Machines","5-Axis Systems","EDM & Wire Cut",
-      "Grinding Machines","High-Speed Milling","Smart Controls"
+      "CNC Machines", "5-Axis Systems", "EDM & Wire Cut",
+      "Grinding Machines", "High-Speed Milling", "Smart Controls"
     ],
     faqs: [
       { question: "Who should exhibit?", answer: "CNC and EDM manufacturers." },
@@ -125,7 +189,7 @@ From injection moulds and progressive press tools to die casting dies and multi-
       { question: "Key trends?", answer: "Automation integration and predictive maintenance." }
     ]
   },
-      'rail-freight': {
+  'rail-freight': {
     title: 'Automation & Robotics',
     description: 'Industrial automation and robotics driving smart factory transformation.',
     mainDescription: `Automation is redefining productivity. This sector features industrial robots, cobots, material handling systems, and AI-powered manufacturing technologies that enhance efficiency, precision, and safety.`,
@@ -137,15 +201,15 @@ From injection moulds and progressive press tools to die casting dies and multi-
       { title: "Support Industry 4.0", icon: "📊", description: "Enable connected manufacturing ecosystems." }
     ],
     services: [
-      "Industrial Robots","Cobots","Vision Systems",
-      "Automated Loading","Smart Assembly Systems"
+      "Industrial Robots", "Cobots", "Vision Systems",
+      "Automated Loading", "Smart Assembly Systems"
     ],
     faqs: [
       { question: "Who should exhibit?", answer: "Robot manufacturers and automation integrators." },
       { question: "Key trends?", answer: "AI integration and collaborative robotics." }
     ]
   },
-  
+
   'tooling & cutting tools': {
     title: 'Tooling & Cutting Tools',
     description: 'Enhancing Productivity Through Advanced Tooling Solutions',
@@ -156,7 +220,7 @@ This sector highlights advancements in coating technologies, optimized geometrie
 Visitors can explore innovative tooling strategies that support hard machining, high-speed milling, and complex component production across automotive, aerospace, and die & mould industries.`,
     heroImage: '/images/image.png',
     stats: {
-     visitors: '10,000+',
+      visitors: '10,000+',
       exhibitors: '200+',
       countries: '5+'
     },
@@ -186,7 +250,7 @@ Visitors can explore innovative tooling strategies that support hard machining, 
       "Coating Technologies",
       "Micro Machining Tools",
       "Tool Presetting Systems",
-          ],
+    ],
     faqs: [
       {
         question: "Who should exhibit?",
@@ -202,7 +266,7 @@ Visitors can explore innovative tooling strategies that support hard machining, 
       }
     ]
   },
-  
+
   'machine tools & advanced machining': {
     title: 'Machine Tools & Advanced Machining',
     description: 'CNC systems, EDM, multi-axis machining, and high-precision production technologies.',
@@ -213,7 +277,7 @@ Exhibitors present automation-ready machines integrated with IoT monitoring, AI-
 Visitors can experience live demonstrations, production simulations, and smart machining solutions that increase throughput while maintaining precision.`,
     heroImage: '/images/image.png',
     stats: {
-    visitors: '10,000+',
+      visitors: '10,000+',
       exhibitors: '200+',
       countries: '5+'
     },
@@ -243,7 +307,7 @@ Visitors can experience live demonstrations, production simulations, and smart m
       "Automation-Integrated Machines",
       "IoT Monitoring Systems",
       "Smart Controls",
-          ],
+    ],
     faqs: [
       {
         question: "Who should exhibit?",
@@ -259,7 +323,7 @@ Visitors can experience live demonstrations, production simulations, and smart m
       }
     ]
   },
-  
+
   'automation & robotics': {
     title: 'Automation & Robotics',
     description: 'Industrial automation, robotics, and smart production systems driving next-generation manufacturing efficiency.',
@@ -270,7 +334,7 @@ From robotic tool loading and automated mould change systems to fully integrated
 Visitors can explore scalable automation models suitable for tool rooms, die & mould shops, and high-volume manufacturing plants.`,
     heroImage: '/images/sectors/pic5.jpg',
     stats: {
-   visitors: '10,000+',
+      visitors: '10,000+',
       exhibitors: '200+',
       countries: '5+'
     },
@@ -299,7 +363,7 @@ Visitors can explore scalable automation models suitable for tool rooms, die & m
       "Smart Assembly Systems",
       "Robotic Welding & Machining Cells",
       "AI-Based Process Monitoring",
-          ],
+    ],
     faqs: [
       {
         question: "Who should exhibit?",
@@ -327,7 +391,7 @@ Visitors can explore scalable automation models suitable for tool rooms, die & m
       { title: "Showcase Complex Geometries", icon: "🧩", description: "Demonstrate design flexibility." }
     ],
     services: [
-      "Metal 3D Printers","Polymer 3D Printing","Hybrid Systems","Rapid Prototyping"
+      "Metal 3D Printers", "Polymer 3D Printing", "Hybrid Systems", "Rapid Prototyping"
     ],
     faqs: [
       { question: "Key trends?", answer: "Conformal cooling and hybrid machining integration." }
@@ -336,7 +400,7 @@ Visitors can explore scalable automation models suitable for tool rooms, die & m
 
 
   'ports-and-terminals-freight-handling-services-in-ports': {
-   title: 'Metrology & Quality Control',
+    title: 'Metrology & Quality Control',
     description: 'Precision measurement systems ensuring zero-defect production.',
     mainDescription: `Quality defines competitiveness. This sector features CMM machines, optical inspection systems, and advanced metrology technologies ensuring dimensional accuracy and compliance with global standards.`,
     heroImage: '/images/sectors/metrology.jpg',
@@ -345,7 +409,7 @@ Visitors can explore scalable automation models suitable for tool rooms, die & m
       { title: "Support Zero-Defect Manufacturing", icon: "📏", description: "Showcase precision measurement technologies." }
     ],
     services: [
-      "CMM Machines","Laser Scanners","Surface Testers","Inspection Software"
+      "CMM Machines", "Laser Scanners", "Surface Testers", "Inspection Software"
     ],
     faqs: [
       { question: "Who visits?", answer: "Quality managers and inspection engineers." }
@@ -363,7 +427,7 @@ Visitors can explore scalable automation models suitable for tool rooms, die & m
       { title: "Target Tool Manufacturers", icon: "🔩", description: "Connect with die & mould producers seeking advanced materials." }
     ],
     services: [
-      "Tool Steels","Carbide Materials","Special Alloys","Heat Treatment"
+      "Tool Steels", "Carbide Materials", "Special Alloys", "Heat Treatment"
     ],
     faqs: [
       { question: "Key trends?", answer: "Lightweight alloys and advanced surface coatings." }
@@ -371,7 +435,7 @@ Visitors can explore scalable automation models suitable for tool rooms, die & m
   },
 
   'it-solutions': {
-     title: 'Surface Treatment & Finishing',
+    title: 'Surface Treatment & Finishing',
     description: 'Surface engineering solutions enhancing durability and performance.',
     mainDescription: `Surface treatment technologies such as PVD/CVD coatings, nitriding, polishing, and texturing significantly extend tool life and performance.`,
     heroImage: '/images/sectors/surface.jpg',
@@ -380,7 +444,7 @@ Visitors can explore scalable automation models suitable for tool rooms, die & m
       { title: "Enhance Tool Performance", icon: "✨", description: "Showcase coatings and hardening technologies." }
     ],
     services: [
-      "PVD/CVD Coatings","Laser Texturing","Heat Treatment","Polishing Systems"
+      "PVD/CVD Coatings", "Laser Texturing", "Heat Treatment", "Polishing Systems"
     ],
     faqs: [
       { question: "Who visits?", answer: "Tool rooms and production engineers." }
@@ -389,7 +453,7 @@ Visitors can explore scalable automation models suitable for tool rooms, die & m
 
 
   'ecommerce-logistics': {
-   title: 'Smart Manufacturing & Industry 4.0',
+    title: 'Smart Manufacturing & Industry 4.0',
     description: 'Connected, data-driven factory technologies.',
     mainDescription: `Industry 4.0 is transforming production with IoT-enabled machines, AI analytics, ERP/MES integration, and predictive maintenance platforms that improve efficiency and visibility.`,
     heroImage: '/images/sectors/smart.jpg',
@@ -398,7 +462,7 @@ Visitors can explore scalable automation models suitable for tool rooms, die & m
       { title: "Enable Digital Transformation", icon: "🌐", description: "Showcase IoT and AI-driven solutions." }
     ],
     services: [
-      "IoT Platforms","MES Systems","ERP Integration","Predictive Maintenance"
+      "IoT Platforms", "MES Systems", "ERP Integration", "Predictive Maintenance"
     ],
     faqs: [
       { question: "Key trends?", answer: "Connected machines and AI-based analytics." }
@@ -406,68 +470,68 @@ Visitors can explore scalable automation models suitable for tool rooms, die & m
   },
 
   'heavy-lift-carriage': {
-   title: 'Industrial Services & Engineering Solutions',
-  description: 'Specialized engineering expertise and industrial services supporting scalable manufacturing growth.',
-  mainDescription: `As manufacturing ecosystems become more specialized and globally integrated, companies increasingly rely on external expertise to enhance efficiency, reduce costs, and accelerate innovation. The Industrial Services & Engineering Solutions sector at DIEMEX brings together contract manufacturers, engineering consultants, reverse engineering specialists, maintenance providers, and technical service companies.
+    title: 'Industrial Services & Engineering Solutions',
+    description: 'Specialized engineering expertise and industrial services supporting scalable manufacturing growth.',
+    mainDescription: `As manufacturing ecosystems become more specialized and globally integrated, companies increasingly rely on external expertise to enhance efficiency, reduce costs, and accelerate innovation. The Industrial Services & Engineering Solutions sector at DIEMEX brings together contract manufacturers, engineering consultants, reverse engineering specialists, maintenance providers, and technical service companies.
 
 This sector focuses on delivering end-to-end industrial support — from product design optimization and process consulting to plant maintenance, retrofitting, and turnkey project execution. Exhibitors present scalable solutions that help manufacturers improve operational performance without heavy capital investments.
 
 Visitors can explore partnerships that strengthen production capabilities, enhance technical expertise, and ensure long-term operational sustainability.
 
 Whether you are an OEM seeking outsourced engineering support or a growing manufacturer requiring technical collaboration, this sector connects you with trusted industrial solution providers ready to support your expansion journey.`,
-  
-  heroImage: '/images/sectors/industrial-services.jpg',
 
-  stats: {
-    visitors: '10,000+',
-    exhibitors: '200+',
-    countries: '5+'
+    heroImage: '/images/sectors/industrial-services.jpg',
+
+    stats: {
+      visitors: '10,000+',
+      exhibitors: '200+',
+      countries: '5+'
+    },
+
+    whyExhibit: [
+      {
+        title: "Position as a Strategic Manufacturing Partner",
+        icon: "🤝",
+        description: "Engage OEMs and manufacturers seeking outsourced engineering and industrial expertise."
+      },
+      {
+        title: "Showcase Specialized Technical Capabilities",
+        icon: "🛠️",
+        description: "Demonstrate consulting, maintenance, reverse engineering, and turnkey project solutions."
+      },
+      {
+        title: "Expand Long-Term Business Relationships",
+        icon: "📈",
+        description: "Build recurring revenue opportunities through industrial service partnerships."
+      }
+    ],
+
+    services: [
+      "Contract Manufacturing Services",
+      "Engineering Design & Consulting",
+      "Reverse Engineering",
+      "Plant Maintenance & Retrofitting",
+      "Turnkey Project Solutions",
+      "Process Optimization",
+      "Technical Outsourcing",
+      "Installation & Commissioning Services"
+    ],
+
+    faqs: [
+      {
+        question: "What types of companies exhibit in this sector?",
+        answer: "Contract manufacturers, engineering consultants, maintenance service providers, reverse engineering firms, and turnkey project specialists."
+      },
+      {
+        question: "Who visits this sector?",
+        answer: "OEMs, plant heads, operations managers, technical directors, and businesses seeking scalable industrial support solutions."
+      },
+      {
+        question: "What are the key trends in industrial services?",
+        answer: "Outsourced engineering, predictive maintenance, plant modernization, turnkey automation integration, and cost-optimized manufacturing support."
+      }
+    ]
   },
-
-  whyExhibit: [
-    {
-      title: "Position as a Strategic Manufacturing Partner",
-      icon: "🤝",
-      description: "Engage OEMs and manufacturers seeking outsourced engineering and industrial expertise."
-    },
-    {
-      title: "Showcase Specialized Technical Capabilities",
-      icon: "🛠️",
-      description: "Demonstrate consulting, maintenance, reverse engineering, and turnkey project solutions."
-    },
-    {
-      title: "Expand Long-Term Business Relationships",
-      icon: "📈",
-      description: "Build recurring revenue opportunities through industrial service partnerships."
-    }
-  ],
-
-  services: [
-    "Contract Manufacturing Services",
-    "Engineering Design & Consulting",
-    "Reverse Engineering",
-    "Plant Maintenance & Retrofitting",
-    "Turnkey Project Solutions",
-    "Process Optimization",
-    "Technical Outsourcing",
-    "Installation & Commissioning Services"
-  ],
-
-  faqs: [
-    {
-      question: "What types of companies exhibit in this sector?",
-      answer: "Contract manufacturers, engineering consultants, maintenance service providers, reverse engineering firms, and turnkey project specialists."
-    },
-    {
-      question: "Who visits this sector?",
-      answer: "OEMs, plant heads, operations managers, technical directors, and businesses seeking scalable industrial support solutions."
-    },
-    {
-      question: "What are the key trends in industrial services?",
-      answer: "Outsourced engineering, predictive maintenance, plant modernization, turnkey automation integration, and cost-optimized manufacturing support."
-    }
-  ]
-},
 
   // SkladTech Sectors
   'warehousing-systems': {
@@ -662,14 +726,20 @@ For businesses seeking to reduce stockouts, minimize excess inventory, or improv
 
   // DIEMEX Sectors
   'precision-moulds': {
-    title: 'Precision Die & Mould Solutions',
-    description: 'Comprehensive die & mould manufacturing, tooling systems, design engineering, and end-to-end production solutions supporting high-precision industrial applications.',
-    mainDescription: `The Precision Die & Mould Solutions sector at DIEMEX represents the pinnacle of tooling technology, where accuracy meets durability to enable mass production across automotive, aerospace, electronics, and consumer goods industries. This sector brings together specialized mould makers, tool designers, and manufacturing experts who create the critical components that shape our manufactured world.
+    title: 'Precision Die & Mould Solutions: Technologies and How to Choose',
+    description: 'Every moulded or cast part starts with a tool, and the tool’s accuracy sets the part’s quality. As products get more complex, precision die and mould solutions matter more than ever. This guide covers the technologies behind them and how to choose the right partner.',
+    mainDescription: `What “precision” means in die and mould making:
+Precision is the ability to hold tight dimensions, smooth surface finish and repeatable performance across thousands of cycles. In practice, it covers accurate machining, stable thermal design, durable materials and verified inspection. A small error in a die becomes a defect in every part it produces.
 
-From injection moulds that produce millions of plastic parts to complex die-casting tools that form metal components under extreme pressure, exhibitors demonstrate how precision engineering drives modern manufacturing. Visitors can explore innovations in mould design, material selection, cooling systems, and ejection mechanisms that improve part quality while reducing cycle times.
+Why demand is rising:
+Buyers want more from their toolmakers. An industry executive notes that demand is rising for larger, more complex moulds, tighter tolerances and shorter delivery cycles, and that nearly one-third of India’s tooling demand is still met through imports. That gap is an opening for toolrooms that invest in capability.
 
-For manufacturers seeking to launch new products or optimize existing production, this sector offers access to tooling expertise that can make the difference between success and failure. Whether you need prototype tooling for market testing or high-volume production tools designed for maximum efficiency, the Precision Die & Mould sector connects you with partners who understand the critical role that quality tooling plays in competitive manufacturing.`,
-    heroImage: '/images/sectors/pic1.jpg',
+Core technologies behind precision tooling:
+High-speed and 5-axis CNC machining cuts complex cavities and contours in fewer setups, with better surface finish. EDM (spark and wire cut) machines hardened steel and fine details that cutting tools can’t reach. 3D printing produces inserts with conformal cooling channels and speeds up prototyping. Inspection and metrology (CMMs and scanners) confirm that the tool matches the design before it ships. CAD/CAM and simulation catch problems before steel is cut, and surface treatment extends die life and improves part appearance.
+
+How to choose a precision die and mould supplier:
+Check capability: machines, tolerance range and maximum tool size. Ask for proof through inspection reports, sample tools and customer references. Review the process including design support, simulation, trial runs and change control. Confirm lead time and support for delivery schedule, repair and maintenance, and compare total cost where tool life and part quality matter more than the lowest quote.`,
+    heroImage: '/images/precision.jpg',
     stats: {
       visitors: '10,000+',
       exhibitors: '200+',
@@ -677,58 +747,70 @@ For manufacturers seeking to launch new products or optimize existing production
     },
     whyExhibit: [
       {
-        title: "Connect with Manufacturing Leaders",
-        icon: "🏭",
-        description: "Meet automotive, aerospace, electronics, and consumer goods manufacturers seeking precision tooling solutions."
+        title: "High-Speed & 5-Axis CNC Machining",
+        icon: "⚙️",
+        description: "Cuts complex cavities and contours in fewer setups, delivering superior surface finish and tight tolerances."
       },
       {
-        title: "Showcase High-Precision Manufacturing Capabilities",
-        icon: "🎯",
-        description: "Present your expertise in injection moulds, die-casting tools, stamping dies, and precision machining."
+        title: "EDM (Spark & Wire Cut)",
+        icon: "⚡",
+        description: "Machines hardened tool steels and intricate, fine details that conventional cutting tools cannot reach."
       },
       {
-        title: "Tap into Advanced Manufacturing Growth",
-        icon: "📈",
-        description: "With Industry 4.0 adoption accelerating, demand for precision tooling and smart manufacturing solutions is rapidly increasing."
+        title: "Inspection & CMM Metrology",
+        icon: "🔬",
+        description: "CMMs, optical scanners and verification systems confirm tools match exact CAD design before shipping."
       }
     ],
     services: [
+      "High-Speed & 5-Axis CNC Machining",
+      "Wire EDM & Spark Erosion",
+      "3D Printing & Conformal Cooling Inserts",
+      "Inspection, CMM & 3D Scanning",
+      "CAD/CAM, Flow & Thermal Simulation",
+      "Surface Treatment, PVD Coating & Polishing",
       "Injection Mould Design & Manufacturing",
       "Die-Casting Tool Solutions",
-      "Stamping & Forming Dies",
-      "Prototype Tooling Development",
-      "Mould Repair & Maintenance",
-      "Precision Component Machining",
-      "Tooling System Integration",
-      "Production Process Optimization",
-      "Quality Control & Testing",
-      "Turnkey Tooling Solutions"
+      "Stamping & Forming Tooling",
+      "Turnkey Toolroom & Maintenance Services"
     ],
     faqs: [
       {
-        question: "What types of companies exhibit in this sector?",
-        answer: "Mould makers, tool & die shops, precision engineering firms, contract manufacturers, and tooling solution providers."
+        question: "What are precision die and mould solutions?",
+        answer: "They are the machines, processes and services used to make dies and moulds that hold tight tolerances and a consistent finish."
       },
       {
-        question: "Who visits the precision moulds sector?",
-        answer: "Manufacturing engineers, production managers, R&D teams, and procurement specialists from industries requiring precision tooling."
+        question: "Which technologies improve mould accuracy?",
+        answer: "High-speed and 5-axis CNC, EDM, metrology systems, simulation software and quality surface finishing."
       },
       {
-        question: "What are the key trends in die & mould manufacturing?",
-        answer: "Digital twin technology, additive manufacturing for tooling, smart moulds with sensors, and sustainable manufacturing processes."
+        question: "Where can I see precision die and mould technology in India?",
+        answer: "At DIEMEX 2027, 24-26 March 2027, at the Auto Cluster Exhibition Centre, Pune."
       }
     ]
   },
 
   'tooling-mould-base': {
-    title: 'Tooling, Mould Bases & Standard Components',
-    description: 'High-quality mould bases, precision components, hot runner systems, and standard tooling elements supporting efficient and reliable die & mould production.',
-    mainDescription: `The Tooling, Mould Bases & Standard Components sector at DIEMEX focuses on the building blocks of effective tooling—the standardized elements that enable rapid mould construction, reliable performance, and cost-effective maintenance. This sector brings together manufacturers of mould bases, hot runner systems, ejector components, and the thousands of standard parts that toolmakers rely on daily.
+    title: 'Tooling, Mould Bases and Standard Components',
+    description: 'Every die and mould is built on a foundation of mould bases, hot runner systems and standard components. Their quality decides how accurate, durable and efficient the finished tool is. DIEMEX 2027 brings suppliers of these essential elements together with the toolmakers and manufacturers who depend on them.',
+    mainDescription: `What You Will Find in This Sector:
+Mould bases: standard and custom bases in various steel grades and sizes for injection moulds and dies.
+Hot runner systems: nozzles, manifolds and controllers for faster cycles and less material waste.
+Standard components: guide pillars, bushes, ejector pins, sleeves, springs, locating rings and sprue bushes.
+Cooling and temperature control: cooling elements, connectors and thermal management solutions.
+Steels and surface treatment: tool steels, coatings and finishes that extend tool life.
+Tooling accessories: clamping, lifting and handling products for the toolroom.
 
-From precision-ground guide pillars and bushings to complex hot runner manifolds with sequential valve gating, exhibitors demonstrate how standardized components can reduce lead times, improve reliability, and simplify maintenance. Visitors can explore catalogues of off-the-shelf solutions that can be customized for specific applications, as well as specialized components designed for demanding molding conditions.
+Why Mould Bases and Components Matter:
+Standard components cut lead times and keep quality consistent, so toolmakers can spend their time on cavity and core work. Precisely machined bases improve alignment and tool life. Good hot runner systems improve part quality and reduce scrap.
 
-For toolrooms and mould makers facing tight deadlines and budget constraints, this sector offers access to components that can accelerate production without compromising quality. Whether you're building new tools or maintaining existing ones, the standardized solutions showcased here provide the foundation for efficient, reliable tooling operations.`,
-    heroImage: '/images/sectors/pic3.jpg',
+Who Should Visit:
+• Toolmakers and mould makers
+• Injection moulding and die casting companies
+• Automotive and EV component manufacturers
+• OEM design, tooling and purchase teams
+• Plastics, packaging, medical and consumer goods manufacturers`,
+    heroImage: '/images/mouldbase.jpg',
     stats: {
       visitors: '10,000+',
       exhibitors: '200+',
@@ -736,45 +818,49 @@ For toolrooms and mould makers facing tight deadlines and budget constraints, th
     },
     whyExhibit: [
       {
-        title: "Connect with Toolroom Managers & Engineers",
-        icon: "🔧",
-        description: "Meet professionals seeking reliable standard components and modular tooling systems for efficient production."
+        title: "Standard & Custom Mould Bases",
+        icon: "🧱",
+        description: "Standard and custom bases in various steel grades and sizes for injection moulds and stamping dies."
       },
       {
-        title: "Showcase Standardized Tooling Solutions",
-        icon: "📐",
-        description: "Present your catalogue of mould bases, ejector systems, guide components, and standardized tooling elements."
+        title: "Hot Runner Systems & Controllers",
+        icon: "🔥",
+        description: "Nozzles, manifolds and temperature controllers designed for faster cycle times and reduced material scrap."
       },
       {
-        title: "Address Need for Quick Tooling Solutions",
-        icon: "⚡",
-        description: "With manufacturers facing shorter product lifecycles, demand for ready-to-use tooling components is growing rapidly."
+        title: "Precision Standard Elements",
+        icon: "🔩",
+        description: "High-precision guide pillars, bushes, ejector pins, sleeves, springs, locating rings and sprue bushes."
       }
     ],
     services: [
       "Standard & Custom Mould Bases",
-      "Hot Runner Systems & Components",
-      "Ejector Pins & Sleeves",
+      "Hot Runner Systems & Manifolds",
+      "Ejector Pins, Sleeves & Blades",
       "Guide Pillars & Bushings",
-      "Lifting Devices & Clamping Systems",
-      "Cooling Channel Components",
-      "Standard Plate Materials",
-      "Quick-Change Systems",
-      "Component Catalogues & Kits",
-      "Technical Support & Consultation"
+      "Cooling Elements & Connectors",
+      "Thermal Management Solutions",
+      "Tool Steels & Surface Coatings",
+      "Clamping, Lifting & Handling Products",
+      "Quick-Change Tooling Systems",
+      "Technical Support & CAD Libraries"
     ],
     faqs: [
       {
-        question: "What products are featured in this sector?",
-        answer: "Mould bases, standard components, hot runner systems, ejector systems, and modular tooling components."
+        question: "What is a mould base?",
+        answer: "A mould base is the steel frame that holds the cavity, core and moving parts of a mould, and aligns them accurately during every cycle."
       },
       {
-        question: "Who are the key buyers?",
-        answer: "Tool & die shops, mould makers, maintenance departments, and manufacturing plants requiring spare parts and standard components."
+        question: "What are standard mould components?",
+        answer: "They are ready-made parts such as guide pillars, bushes, ejector pins and sprue bushes that toolmakers buy instead of machining from scratch, saving time and cost."
       },
       {
-        question: "What are the advantages of standardized tooling?",
-        answer: "Reduced lead times, cost savings, interchangeability, easier maintenance, and improved reliability."
+        question: "What does a hot runner system do?",
+        answer: "It keeps plastic melted as it flows to the cavity, which shortens cycle time, reduces waste and improves part quality."
+      },
+      {
+        question: "Where can I find mould base and tooling component suppliers in India?",
+        answer: "At DIEMEX 2027, 24-26 March 2027, at the Auto Cluster Exhibition Centre, Pune."
       }
     ]
   },
@@ -848,7 +934,7 @@ Exhibitors demonstrate how collaborative robots can work alongside skilled toolm
 For manufacturers seeking to remain competitive in an increasingly digital world, this sector provides insights into the technologies and strategies driving Industry 4.0 adoption. Whether you're just beginning your digital transformation journey or looking to integrate existing systems, the solutions showcased here point the way toward smarter, more responsive manufacturing.`,
     heroImage: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_3_9089d75ec1.png',
     stats: {
-     visitors: '10,000+',
+      visitors: '10,000+',
       exhibitors: '200+',
       countries: '5+'
     },
@@ -907,7 +993,7 @@ Exhibitors demonstrate the latest in 3D modeling, mold flow analysis, multi-axis
 For tool designers, engineers, and programmers, this sector offers insights into software solutions that can expand capabilities and improve efficiency. Whether you're designing simple molds or complex multi-cavity tools with intricate cooling and ejection systems, the software showcased here provides the digital foundation for successful toolmaking.`,
     heroImage: '/images/sectors/pic6.jpg',
     stats: {
-    visitors: '10,000+',
+      visitors: '10,000+',
       exhibitors: '200+',
       countries: '5+'
     },
@@ -1025,7 +1111,7 @@ Exhibitors demonstrate their capabilities in designing and building tools for ap
 For companies seeking tooling partners—whether for new product launches, capacity expansion, or replacement tools—this sector provides direct access to manufacturers with diverse capabilities and specializations. From prototype tools for market testing to high-cavitation production tools for high-volume manufacturing, the expertise assembled here covers the full range of tooling requirements.`,
     heroImage: '/images/image.png',
     stats: {
-     visitors: '10,000+',
+      visitors: '10,000+',
       exhibitors: '200+',
       countries: '5+'
     },
@@ -1084,7 +1170,7 @@ Exhibitors showcase the latest in cutting tool materials and geometries, workhol
 For manufacturing engineers, machinists, and tool room managers, this sector provides access to the products that directly impact productivity and quality. Whether you're optimizing existing processes or equipping a new facility, the tooling technologies showcased here represent the cutting edge of machining efficiency and precision.`,
     heroImage: '/images/image.png',
     stats: {
-     visitors: '10,000+',
+      visitors: '10,000+',
       exhibitors: '200+',
       countries: '5+'
     },
@@ -1205,8 +1291,8 @@ From injection moulds and progressive press tools to die casting dies and multi-
       { title: "Capitalize on Manufacturing Growth", icon: "📈", description: "Leverage India's rapidly expanding industrial ecosystem." }
     ],
     services: [
-      "Injection Moulds","Blow Moulds","Progressive & Compound Dies",
-      "Die Casting Dies","Jigs & Fixtures","Prototype Tooling"
+      "Injection Moulds", "Blow Moulds", "Progressive & Compound Dies",
+      "Die Casting Dies", "Jigs & Fixtures", "Prototype Tooling"
     ],
     faqs: [
       { question: "Who should exhibit?", answer: "Tool rooms, die makers, mould manufacturers, and precision engineering firms." },
@@ -1224,7 +1310,7 @@ Exhibitors showcase heat treatment services that optimize material properties, c
 For manufacturers seeking to improve product performance or reduce warranty costs, this sector provides access to treatment technologies that can make substantial differences in component longevity. Whether you're treating cutting tools, forming dies, or production components, the processes showcased here represent the difference between good and exceptional performance.`,
     heroImage: '/images/image.png',
     stats: {
-    visitors: '10,000+',
+      visitors: '10,000+',
       exhibitors: '200+',
       countries: '5+'
     },
@@ -1342,7 +1428,7 @@ Exhibitors showcase injection molding machines of all sizes, die casting equipme
 For production managers, process engineers, and manufacturing executives, this sector provides insights into the equipment and technologies that determine production efficiency and part quality. Whether you're launching a new product line or optimizing existing operations, the solutions showcased here represent the latest in molding and casting technology.`,
     heroImage: '/images/image.png',
     stats: {
-     visitors: '10,000+',
+      visitors: '10,000+',
       exhibitors: '200+',
       countries: '5+'
     },
@@ -1393,198 +1479,198 @@ For production managers, process engineers, and manufacturing executives, this s
 }
 
 export const transRussiaSectors = [
-  { 
-    id: 1, 
-    title: 'Complex Logistics Services & Freight Forwarding', 
-    slug: 'complex-logistics', 
+  {
+    id: 1,
+    title: 'Complex Logistics Services & Freight Forwarding',
+    slug: 'complex-logistics',
     image: '/images/image.png',
     description: 'Comprehensive logistics solutions including freight forwarding, customs clearance, and supply chain management services.'
   },
-  { 
-    id: 2, 
-    title: 'Maritime & Inland Waterway Transport', 
-    slug: 'maritime-and-inland-waterway-transport', 
+  {
+    id: 2,
+    title: 'Maritime & Inland Waterway Transport',
+    slug: 'maritime-and-inland-waterway-transport',
     image: '/images/image.png',
     description: 'Ocean and river transport services, shipping lines, and inland waterway logistics solutions.'
   },
-  { 
-    id: 3, 
-    title: 'Air Freight', 
-    slug: 'air-freight', 
+  {
+    id: 3,
+    title: 'Air Freight',
+    slug: 'air-freight',
     image: '/images/image.png',
     description: 'Air cargo services, express logistics, and aviation freight solutions.'
   },
-  { 
-    id: 4, 
-    title: 'Rail Freight', 
-    slug: 'rail-freight', 
+  {
+    id: 4,
+    title: 'Rail Freight',
+    slug: 'rail-freight',
     image: '/images/image.png',
     description: 'Rail transportation, intermodal solutions, and rail logistics across Eurasia.'
   },
-  { 
-    id: 5, 
-    title: 'Road Freight Transportation', 
-    slug: 'road-freight-transportation', 
+  {
+    id: 5,
+    title: 'Road Freight Transportation',
+    slug: 'road-freight-transportation',
     image: '/images/image.png',
     description: 'Trucking, LTL, FTL services, and road transport logistics.'
   },
-  { 
-    id: 6, 
-    title: 'Ports & Terminals, Freight Handling Services In Ports', 
-    slug: 'ports-and-terminals-freight-handling-services-in-ports', 
+  {
+    id: 6,
+    title: 'Ports & Terminals, Freight Handling Services In Ports',
+    slug: 'ports-and-terminals-freight-handling-services-in-ports',
     image: '/images/image.png',
     description: 'Port operations, terminal services, stevedoring, and maritime infrastructure solutions.'
   },
-  { 
-    id: 7, 
-    title: 'Warehouse Technology', 
-    slug: 'warehouse-technology', 
+  {
+    id: 7,
+    title: 'Warehouse Technology',
+    slug: 'warehouse-technology',
     image: '/images/image.png',
     description: 'Warehouse management systems, automation, and storage technology solutions.'
   },
-  { 
-    id: 8, 
-    title: 'IT Solutions', 
-    slug: 'it-solutions', 
+  {
+    id: 8,
+    title: 'IT Solutions',
+    slug: 'it-solutions',
     image: '/images/image.png',
     description: 'Logistics software, tracking systems, and digital supply chain solutions.'
   },
-  { 
-    id: 9, 
-    title: 'E-commerce Logistics', 
-    slug: 'ecommerce-logistics', 
+  {
+    id: 9,
+    title: 'E-commerce Logistics',
+    slug: 'ecommerce-logistics',
     image: '/images/image.png',
     description: 'Fulfillment, last-mile delivery, and e-commerce supply chain services.'
   },
-  { 
-    id: 10, 
-    title: 'Heavy Lift Carriage', 
-    slug: 'heavy-lift-carriage', 
+  {
+    id: 10,
+    title: 'Heavy Lift Carriage',
+    slug: 'heavy-lift-carriage',
     image: '/images/image.png',
     description: 'Oversized cargo transport, project logistics, and specialized heavy haulage.'
   },
 ]
 
 export const skladTechSectors = [
-  { 
-    id: 1, 
-    title: 'Warehousing Systems', 
-    slug: 'warehousing-systems', 
+  {
+    id: 1,
+    title: 'Warehousing Systems',
+    slug: 'warehousing-systems',
     image: '/images/image.png',
     description: 'Storage systems, racking, and warehouse infrastructure solutions.'
   },
-  { 
-    id: 2, 
-    title: 'Material Handling', 
-    slug: 'material-handling', 
+  {
+    id: 2,
+    title: 'Material Handling',
+    slug: 'material-handling',
     image: '/images/image.png',
     description: 'Forklifts, conveyors, and material handling equipment.'
   },
-  { 
-    id: 3, 
-    title: 'Automation & Robotics', 
-    slug: 'automation-robotics', 
+  {
+    id: 3,
+    title: 'Automation & Robotics',
+    slug: 'automation-robotics',
     image: '/images/image.png',
     description: 'Automated storage, robotics, and smart warehouse solutions.'
   },
-  { 
-    id: 4, 
-    title: 'Packaging Systems', 
-    slug: 'packaging-systems', 
+  {
+    id: 4,
+    title: 'Packaging Systems',
+    slug: 'packaging-systems',
     image: '/images/image.png',
     description: 'Packaging equipment, labeling, and packing solutions.'
   },
-  { 
-    id: 5, 
-    title: 'Inventory Management', 
-    slug: 'inventory-management', 
+  {
+    id: 5,
+    title: 'Inventory Management',
+    slug: 'inventory-management',
     image: '/images/image.png',
     description: 'Inventory control, stock management, and tracking solutions.'
   },
 ]
 
 export const diemexSectors = [
-  { 
-    id: 1, 
+  {
+    id: 1,
     title: 'Precision Die & Mould Solutions',
-    slug: 'precision-moulds', 
+    slug: 'precision-moulds',
     image: '/images/sectors/pic1.jpg',
     description: 'Comprehensive die & mould manufacturing, tooling systems, design engineering, and end-to-end production solutions supporting high-precision industrial applications.'
   },
-  { 
-    id: 2, 
+  {
+    id: 2,
     title: 'Tooling, Mould Bases & Standard Components',
-    slug: 'tooling-mould-base', 
+    slug: 'tooling-mould-base',
     image: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_5_46a97403ad.png',
     description: 'High-quality mould bases, precision components, hot runner systems, and standard tooling elements supporting efficient and reliable die & mould production.'
   },
-  { 
-    id: 3, 
+  {
+    id: 3,
     title: 'Machining & Finishing Technologies',
-    slug: 'machining-finishing', 
+    slug: 'machining-finishing',
     image: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_4_b89e6f82a3.png',
     description: 'High-precision CNC machining, EDM, wire-cut, surface finishing, and polishing solutions for toolroom operations.'
   },
-  { 
-    id: 4, 
+  {
+    id: 4,
     title: 'Automation & Industry 4.0 Solutions',
-    slug: 'automation-industry', 
+    slug: 'automation-industry',
     image: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_3_9089d75ec1.png',
     description: 'Smart automation, robotics, digital manufacturing, and smart factory technologies for modern die & mould production.'
   },
-  { 
-    id: 5, 
-    title: 'Design, CAD/CAM & Engineering Software', 
-    slug: 'cad-cam', 
+  {
+    id: 5,
+    title: 'Design, CAD/CAM & Engineering Software',
+    slug: 'cad-cam',
     image: 'https://cdn.itegroupnews.com/TRU_Sectors_Images_7_c75137da32.png',
     description: 'Advanced design, simulation, and manufacturing software enabling accurate tooling development and reduced time-to-market.'
   },
-  { 
-    id: 6, 
-    title: 'Tool Steel & Advanced Materials', 
-    slug: 'tool-steel', 
+  {
+    id: 6,
+    title: 'Tool Steel & Advanced Materials',
+    slug: 'tool-steel',
     image: 'https://cdn.itegroupnews.com/httpstransrussia_preview_prismetic_comterms_of_visiting_1200_x_490_px_a78a81f1aa.png',
     description: 'High-performance tool steels, alloy steels, special metals, and advanced materials engineered for durability, precision, and long tool life in die & mould applications.'
   },
-  { 
-    id: 7, 
+  {
+    id: 7,
     title: "Die & Mould Manufacturing",
     slug: "die-mould-manufacturing",
     image: "/images/image.png",
     description: "Injection moulds, die casting dies, press tools, blow moulds, extrusion dies and comprehensive manufacturing solutions."
   },
-  { 
-    id: 8, 
+  {
+    id: 8,
     title: "Tooling & Tool Room Technologies",
-    slug: "tooling-tool-rom-technologies", 
+    slug: "tooling-tool-rom-technologies",
     image: "/images/image.png",
     description: "Cutting tools, jigs & fixtures, gauges, tool holders, and comprehensive tool room solutions for precision manufacturing."
   },
-  { 
-    id: 9, 
-    title: "CNC Machines & Precision Engineering", 
-    slug: "cnc-machines", 
+  {
+    id: 9,
+    title: "CNC Machines & Precision Engineering",
+    slug: "cnc-machines",
     image: "/images/image.png",
     description: "Machining centres, turning, grinding, EDM, VMCs & HMCs, and comprehensive precision engineering solutions."
   },
-  { 
-    id: 10, 
+  {
+    id: 10,
     title: "Surface Treatment & Heat Treatment",
-    slug: "surface-treatment", 
+    slug: "surface-treatment",
     image: "/images/image.png",
     description: "Coatings, finishing, hardening, thermal processes, and surface enhancement technologies for extended component life."
   },
-  { 
-    id: 11, 
+  {
+    id: 11,
     title: "Materials, Steels & Alloys",
     slug: "materials-steels-alloys",
     image: "/images/image.png",
     description: "Tool steels, special alloys, polymers, consumables, and advanced materials for demanding manufacturing applications."
   },
-  { 
-    id: 12, 
+  {
+    id: 12,
     title: "Injection Moulding & Casting Technologies",
-    slug: "die-casting", 
+    slug: "die-casting",
     image: "/images/image.png",
     description: "Plastics, rubber, die casting, metal forming solutions, and comprehensive moulding technologies for production."
   }
@@ -1593,7 +1679,7 @@ export const diemexSectors = [
 export const allSectorSlugs = [
   // TransRussia sectors
   'complex-logistics',
-  'maritime-and-inland-waterway-transport', 
+  'maritime-and-inland-waterway-transport',
   'air-freight',
   'rail-freight',
   'road-freight-transportation',
@@ -1602,16 +1688,17 @@ export const allSectorSlugs = [
   'it-solutions',
   'ecommerce-logistics',
   'heavy-lift-carriage',
-  
+
   // SkladTech sectors
   'warehousing-systems',
   'material-handling',
   'automation-robotics',
   'packaging-systems',
   'inventory-management',
-  
+
   // DIEMEX sectors
   'precision-moulds',
+  'ev-die-casting-and-tooling-in-india-key-trends',
   'tooling-mould-base',
   'machining-finishing',
   'automation-industry',

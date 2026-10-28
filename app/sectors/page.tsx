@@ -18,7 +18,7 @@ const DiemexSectors = [
 
     slug: 'precision-moulds',
     image: '/images/precision.jpg',
-    description: 'Comprehensive die & mould manufacturing, tooling systems, design engineering, and end-to-end production solutions supporting high-precision industrial applications.'
+    description: 'Every moulded or cast part starts with a tool, and the tool’s accuracy sets the part’s quality. Discover precision die and mould technologies and solutions.'
   },
   {
     id: 2,
@@ -26,7 +26,7 @@ const DiemexSectors = [
 
     slug: 'tooling-mould-base',
     image: '/images/mouldbase.jpg',
-    description: 'High-quality mould bases, precision components, hot runner systems, and standard tooling elements supporting efficient and reliable die & mould production.'
+    description: 'Every die and mould is built on a foundation of mould bases, hot runner systems and standard components. Their quality decides accuracy, durability and efficiency.'
   },
   {
     id: 3,
@@ -57,6 +57,13 @@ const DiemexSectors = [
     slug: 'tool-steel',
     image: '/images/toolsteel.jpg',
     description: 'High-performance tool steels, alloy steels, special metals, and advanced materials engineered for durability, precision, and long tool life in die & mould applications.'
+  },
+  {
+    id: 7,
+    title: 'EV Die Casting and Tooling in India: Key Trends',
+    slug: 'ev-die-casting-and-tooling-in-india-key-trends',
+    image: '/images/casting.jpg',
+    description: 'How EV growth is reshaping die casting and tooling in India: giga-casting, new capacity in Pune, and what toolmakers need.'
   },
 ]
 
@@ -130,6 +137,7 @@ function SectorGrid({
     id: number
     title: string
     slug: string
+    href?: string
     image: string
     description: string
   }>
@@ -139,7 +147,7 @@ function SectorGrid({
       {sectors.map((sector) => (
         <Link
           key={sector.id}
-          href={`/sectors/${sector.slug}`}
+          href={sector.href || `/sectors/${sector.slug}`}
           className="group relative h-[320px] overflow-hidden rounded-lg"
         >
           {/* Image */}

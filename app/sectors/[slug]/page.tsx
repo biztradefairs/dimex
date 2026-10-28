@@ -18,6 +18,14 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
+  if (slug === 'ev-die-casting-and-tooling-in-india-key-trends') {
+    return pageMeta(
+      'EV Die Casting and Tooling in India: Key Trends',
+      'How EV growth is reshaping die casting and tooling in India: giga-casting, new capacity in Pune, and what toolmakers need. See it at DIEMEX 2027.',
+      `/sectors/${slug}`,
+    );
+  }
+
   if (slug === 'precision-moulds') {
     return pageMeta(
       'Precision Die & Mould Solutions | DIEMEX 2027 Exhibition',
@@ -114,6 +122,7 @@ function getDatabaseKeyFromSlug(slug: string): string {
     'cnc-machines': 'machine tools & advanced machining',
     'automation-industry': 'automation & robotics',
     'precision-moulds': 'precision-moulds',
+    'ev-die-casting-and-tooling-in-india-key-trends': 'ev-die-casting-and-tooling-in-india-key-trends',
     'tooling-mould-base': 'tooling-mould-base',
     'machining-finishing': 'machining-finishing',
     'cad-cam': 'cad-cam',
@@ -154,6 +163,7 @@ function getDisplayNameFromSlug(slug: string): string {
     'cnc-machines': 'Machine Tools',
     'automation-industry': 'Automation',
     'precision-moulds': 'Precision Moulds',
+    'ev-die-casting-and-tooling-in-india-key-trends': 'EV Die Casting & Tooling',
     'tooling-mould-base': 'Tooling Components',
     'machining-finishing': 'Machining',
     'cad-cam': 'CAD/CAM',
@@ -361,27 +371,50 @@ export default async function SectorPage({ params }: PageProps) {
         </section>
 
         {/* FAQ */}
-        <section className="py-16 bg-white">
-          <SectionContainer>
-            <h2 className="text-4xl font-bold text-center mb-16">
-              FAQs for {displayName}
-            </h2>
+        <section aria-labelledby="page-faq-heading" className="border-t border-slate-200 bg-slate-50 py-12 font-parabolica sm:py-16 lg:py-20">
+          <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+            <div className="mb-8 sm:mb-10">
+              <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-[#004A96]">Help Center</p>
+              <h2 id="page-faq-heading" className="text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl lg:text-5xl">
+                Frequently Asked Questions
+              </h2>
+              <p className="mt-4 text-base leading-relaxed text-slate-600 sm:text-lg">
+                Explore exhibiting and sourcing opportunities for your business in the {displayName} sector.
+              </p>
+            </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
-              {sectorData.faqs.map((faq, index) => (
-                <FAQCard
-                  key={index}
-                  question={faq.question}
-                  answer={faq.answer}
-                  index={index}
-                />
+            <div className="space-y-3">
+              {sectorData.faqs?.map((faq: any, index: number) => (
+                <details
+                  key={faq.question}
+                  name="diemex-page-faq"
+                  open={index === 0}
+                  className="group overflow-hidden rounded-xl border border-slate-200 bg-white open:border-[#004A96]/30"
+                >
+                  <summary className="flex min-h-16 cursor-pointer list-none items-center justify-between gap-4 px-5 py-5 text-left text-base font-semibold text-slate-900 transition-colors hover:text-[#004A96] focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-[#004A96] sm:px-6 sm:text-lg [&::-webkit-details-marker]:hidden">
+                    <span>{faq.question}</span>
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className="h-5 w-5 shrink-0 text-[#004A96] transition-transform group-open:rotate-180 motion-reduce:transition-none"
+                    >
+                      <path d="m6 9 6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </summary>
+                  <div className="border-t border-slate-100 px-5 pb-6 pt-4 sm:px-6">
+                    <p className="max-w-4xl text-base leading-7 text-slate-600">
+                      {faq.answer}
+                    </p>
+                  </div>
+                </details>
               ))}
             </div>
-          </SectionContainer>
+          </div>
         </section>
 
-        <QuickNavigation />
-        <PartnersSection />
       </main>
 
       <BackToTop />
