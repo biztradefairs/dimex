@@ -15,48 +15,56 @@ const StatsSection = () => {
       {/* CONTENT */}
       <SectionContainer className="pt-24 pb-16">
         <div className="max-w-10xl">
-          <h2 className="text-[56px] leading-[1.1] font-bold text-black mb-6">
-            Shaping the Future of Die & Mould Manufacturing
-          </h2>
+          <h1 className="text-[56px] leading-[1.1] font-bold text-black mb-6">
+            India’s International Die & Mould Exhibition
+          </h1>
 
           <p className="text-lg leading-relaxed text-black/80 max-w-8xl mb-10">
-            DIEMEX is India’s leading die & mould and tooling exhibition, bringing together top manufacturers, toolrooms, 
-            material suppliers, and advanced manufacturing technology providers across the entire precision manufacturing value chain.
+            DIEMEX is India’s international exhibition for die and mould manufacturing, organised by Maxx Business Media Pvt. Ltd. It brings toolmakers, OEMs, suppliers and buyers together under one roof to discover technology, compare solutions and do business. The next edition, DIEMEX 2027, takes place on 24-26 March 2027 in Pune.
           </p>
 
-  <p className="text-lg leading-relaxed text-black/80 max-w-8xl mb-10">
-            The 2027 edition, to be held from 24–26 March 2027 at the Auto Cluster Exhibition Centre, Pune, 
-            India, will serve as a focused platform for showcasing cutting-edge tooling technologies, design and 
-            engineering solutions, automation, materials, and Industry 4.0 innovations to a highly qualified audience of industry decision-makers.
-          </p>
-          <Link href="/why-exhibit">
-            <button className="rounded-full bg-[#004A96] px-10 py-4 text-white font-semibold text-base transition hover:bg-[#003875]">
-              Why Exhibit
-            </button>
-          </Link>
+
+          <div className="flex flex-wrap items-center gap-4">
+            <Link
+              href="/register?t=visitor"
+              className="inline-block rounded-full bg-[#004A96] px-10 py-4 text-white font-semibold text-base transition hover:bg-[#003875]"
+            >
+              Register Free
+            </Link>
+
+            <Link
+              href="/register?t=exhibitor"
+              className="inline-block rounded-full bg-[#004A96] px-10 py-4 text-white font-semibold text-base transition hover:bg-[#003875]"
+            >
+              Book a Stall
+            </Link>
+          </div>
+
+
+
         </div>
       </SectionContainer>
 
-{/* STATS BAR – TRUE FULL WIDTH */}
-<div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F3F8FC] py-10">
-  <SectionContainer>
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-14">
-      {stats.map((stat, index) => (
-        <div key={index}>
-          <h3 className="text-[52px] font-bold text-[#004A96] mb-2">
-            {stat.value}
-          </h3>
+      {/* STATS BAR – TRUE FULL WIDTH */}
+      <div className="relative left-1/2 right-1/2 -mx-[50vw] w-screen bg-[#F3F8FC] py-10">
+        <SectionContainer>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-14">
+            {stats.map((stat, index) => (
+              <div key={index}>
+                <h3 className="text-[52px] font-bold text-[#004A96] mb-2">
+                  {stat.value}
+                </h3>
 
-          <p className="text-base text-black/80 mb-4">
-            {stat.label}
-          </p>
+                <p className="text-base text-black/80 mb-4">
+                  {stat.label}
+                </p>
 
-          <div className="h-px w-36 bg-black/10" />
-        </div>
-      ))}
-    </div>
-  </SectionContainer>
-</div>
+                <div className="h-px w-36 bg-black/10" />
+              </div>
+            ))}
+          </div>
+        </SectionContainer>
+      </div>
 
 
     </section>

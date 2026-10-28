@@ -4,7 +4,33 @@ import SectionContainer from '@/components/UI/SectionContainer';
 const MapSection = () => {
   return (
     <SectionContainer className="py-16 lg:py-24">
-      
+
+      {/* About the organiser */}
+      <div className="mb-16 lg:mb-20">
+        <h2 className="text-4xl lg:text-6xl font-bold text-[#132D49] mb-6">
+          About the organiser
+        </h2>
+        <p className="text-lg lg:text-xl text-black/75 leading-relaxed max-w-4xl mb-4">
+          Maxx Business Media Pvt. Ltd. is a Bengaluru-based exhibition and media company that organises DIEMEX.
+        </p>
+        <p className="text-base lg:text-lg text-black/80 font-medium">
+          Contact:{' '}
+          <a
+            href="mailto:info@diemex.in"
+            className="text-[#004A96] underline hover:text-[#003875] transition-colors"
+          >
+            info@diemex.in
+          </a>{' '}
+          |{' '}
+          <a
+            href="tel:+919742711211"
+            className="text-[#004A96] hover:text-[#003875] transition-colors"
+          >
+            +91-9742711211
+          </a>
+        </p>
+      </div>
+
       <h2 className="text-5xl lg:text-7xl font-bold mb-12">
         Here's Where You Can Find Us!
       </h2>
