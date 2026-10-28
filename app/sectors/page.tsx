@@ -100,18 +100,16 @@ export default function SectorsPage() {
               <SectionContainer>
                 <div className="mb-6 lg:mb-8">
                   <h2 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-3 w-full">
-                    DIEMEX 2027 Event Sectors
+                    Sectors Served by DIEMEX 2027
                   </h2>
 
                   <p className="text-gray-600 text-lg lg:text-xl w-full">
-                    Covers die & mould manufacturing, tooling & cutting tools, machine tools, automation & robotics, additive manufacturing, metrology, smart manufacturing, surface engineering, raw materials, and industrial engineering solutions.
+                    Dies and moulds sit behind almost every manufactured product. <strong>DIEMEX 2027</strong>, India’s international die and mould exhibition, brings together suppliers and buyers from the sectors that depend on them. The show runs <strong>24-26 March 2027 at the Auto Cluster Exhibition Centre, Pune.</strong>
                   </p>
                 </div>
                 <SectorGrid sectors={DiemexSectors} />
               </SectionContainer>
             </section>
-
-
 
             <QuickNavigation />
             <PartnersSection />
