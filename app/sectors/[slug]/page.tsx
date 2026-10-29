@@ -2,14 +2,17 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { sectorDatabase, allSectorSlugs } from "../data";
 import SectionContainer from "@/components/UI/SectionContainer";
-import QuickNavigation from "@/components/QuickNavigation";
-import PartnersSection from "@/components/section/PartnersSection";
 import Link from "next/link";
 import WhyExhibitCard from "../components/WhyExhibitCard";
 import ServiceCard from "../components/ServiceCard";
-import FAQCard from "../components/FAQCard";
 import BackToTop from "@/app/exhibitor-resource-center/component/BackToTop";
-import { pageMeta } from "@/lib/pageMetadata";
+import { pageMeta, SITE_URL } from "@/lib/pageMetadata";
+import { EV_DIE_CASTING_TOOLING } from "@/lib/structuredData";
+
+const SPECIFIC_SECTOR_ARTICLE_SCHEMAS: Record<string, unknown> = {
+  'ev-die-casting-and-tooling-in-india-key-trends': EV_DIE_CASTING_TOOLING,
+  'ev-die-casting-tooling-india': EV_DIE_CASTING_TOOLING,
+};
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -81,8 +84,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       `/sectors/${slug}`,
     );
   }
-
-
 
   const databaseKey = getDatabaseKeyFromSlug(slug);
   const displayName = getDisplayNameFromSlug(slug);
@@ -187,8 +188,8 @@ function getDefaultSectorContent(slug: string, displayName: string) {
 
 Visitors can explore cutting-edge solutions, connect with experts, and discover new opportunities for growth and efficiency. From established players to innovative startups, this sector represents the complete ecosystem of ${displayName.toLowerCase()} solutions.
 
-Whether you're looking for new partnerships, seeking to optimize your operations, or exploring the latest trends, the ${displayName} sector provides unparalleled access to the people and technologies driving the industry forward.`,
-    heroImage: '/images/precision.jpg',
+Whether you're looking for new partnerships, seeking to optimize your operations, or exploring the latest technological advancements, this sector offers valuable insights and business opportunities.`,
+    heroImage: '/images/image.png',
     stats: {
       visitors: '10,000+',
       exhibitors: '200+',
@@ -196,14 +197,14 @@ Whether you're looking for new partnerships, seeking to optimize your operations
     },
     whyExhibit: [
       {
-        title: "Connect with Industry Leaders",
-        icon: "🤝",
-        description: `Engage with key decision-makers and professionals in the ${displayName.toLowerCase()} sector.`
+        title: "Meet Target Audience",
+        icon: "👥",
+        description: `Connect directly with key decision-makers and professionals in the ${displayName.toLowerCase()} industry.`
       },
       {
-        title: "Showcase Your Solutions",
-        icon: "🚀",
-        description: `Present your ${displayName.toLowerCase()} solutions to a targeted audience of industry professionals.`
+        title: "Showcase Innovations",
+        icon: "💡",
+        description: `Present your latest products, technologies, and services to an engaged professional audience.`
       },
       {
         title: "Expand Your Network",
@@ -251,16 +252,70 @@ export default async function SectorPage({ params }: PageProps) {
   const displayName = getDisplayNameFromSlug(slug);
 
   // Try to get the sector data using the mapped key
-  let sectorData = sectorDatabase[databaseKey as keyof typeof sectorDatabase];
+  let sectorData: any = sectorDatabase[databaseKey as keyof typeof sectorDatabase];
 
   // If no data found, use default content
   if (!sectorData) {
-    console.log(`No data found for slug: ${slug}, databaseKey: ${databaseKey}, using default content`);
     sectorData = getDefaultSectorContent(slug, displayName);
   }
 
+  // Schema structured data for the page
+  const structuredData = SPECIFIC_SECTOR_ARTICLE_SCHEMAS[slug] || {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'BlogPosting',
+        '@id': `${SITE_URL}/sectors/${slug}#article`,
+        mainEntityOfPage: {
+          '@type': 'WebPage',
+          '@id': `${SITE_URL}/sectors/${slug}`,
+        },
+        headline: sectorData.title,
+        description: sectorData.description || undefined,
+        url: `${SITE_URL}/sectors/${slug}`,
+        datePublished: '2026-10-20',
+        dateModified: '2026-10-20',
+        author: { '@type': 'Organization', name: 'DIEMEX Editorial Team' },
+        publisher: {
+          '@type': 'Organization',
+          '@id': `${SITE_URL}/#organization`,
+          name: 'DIEMEX',
+          url: `${SITE_URL}/`,
+        },
+        inLanguage: 'en-IN',
+        articleSection: displayName || 'Manufacturing',
+        ...(sectorData.heroImage ? { image: [`${SITE_URL}${sectorData.heroImage}`] } : {}),
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${SITE_URL}/sectors/${slug}#breadcrumb`,
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` },
+          { '@type': 'ListItem', position: 2, name: 'Sectors', item: `${SITE_URL}/sectors` },
+          { '@type': 'ListItem', position: 3, name: sectorData.title, item: `${SITE_URL}/sectors/${slug}` },
+        ],
+      },
+      {
+        '@type': 'Organization',
+        '@id': `${SITE_URL}/#organization`,
+        name: 'DIEMEX',
+        url: `${SITE_URL}/`,
+      },
+    ],
+  };
+
   return (
     <>
+      {structuredData && (
+        <script
+          id={`diemex-sector-schema-${slug}`}
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData).replace(/</g, '\\u003c'),
+          }}
+        />
+      )}
+
       <main className="bg-white">
         {/* HERO SECTION */}
         <section className="pt-20 pb-12 px-4 md:px-8">
@@ -294,7 +349,7 @@ export default async function SectorPage({ params }: PageProps) {
               <div className="space-y-6 text-gray-700 text-[17px]">
                 {sectorData.mainDescription
                   ?.split("\n\n")
-                  .map((paragraph, index) => (
+                  .map((paragraph: string, index: number) => (
                     <p key={index}>{paragraph}</p>
                   ))}
               </div>
@@ -340,7 +395,7 @@ export default async function SectorPage({ params }: PageProps) {
             </h2>
 
             <div className="grid md:grid-cols-3 gap-8">
-              {sectorData.whyExhibit.map((item, index) => (
+              {sectorData.whyExhibit?.map((item: any, index: number) => (
                 <WhyExhibitCard key={index} item={item} index={index} />
               ))}
             </div>
@@ -363,7 +418,7 @@ export default async function SectorPage({ params }: PageProps) {
             </h2>
 
             <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-              {sectorData.services.map((service, index) => (
+              {sectorData.services?.map((service: string, index: number) => (
                 <ServiceCard key={index} service={service} index={index} />
               ))}
             </div>
@@ -414,7 +469,6 @@ export default async function SectorPage({ params }: PageProps) {
             </div>
           </div>
         </section>
-
       </main>
 
       <BackToTop />
