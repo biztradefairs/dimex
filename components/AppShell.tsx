@@ -18,6 +18,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     pathname?.startsWith('/passes') ||
     pathname?.startsWith('/scanner');
 
+  const showSharedLayout = !hideLayout && pathname !== '/exhibit-2027';
+
   useEffect(() => {
     if (typeof window !== 'undefined' && (window as any).gtag && !hideLayout) {
       const utmData = getUTMParams();
@@ -42,17 +44,17 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   return (
     <Suspense fallback={null}>
       <UTMProvider>
-        {!hideLayout && <NavBar />}
+        {showSharedLayout && <NavBar />}
         <main
           className={`w-full flex-grow ${
-            !hideLayout && pathname !== '/'
+            showSharedLayout && pathname !== '/'
               ? 'pt-[84px] sm:pt-[112px] lg:pt-[168px]'
               : ''
           }`}
         >
           {children}
         </main>
-        {!hideLayout && <Footer />}
+        {showSharedLayout && <Footer />}
       </UTMProvider>
     </Suspense>
   );
