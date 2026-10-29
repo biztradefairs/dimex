@@ -1319,3 +1319,83 @@ export const HOW_TO_CHOOSE_RIGHT_DIE = {
 } as const;
 
 export const THIRD_BLOG_STRUCTURED_DATA = HOW_TO_CHOOSE_RIGHT_DIE;
+
+
+export const EV_DIE_CASTING_TOOLING = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": "https://www.diemex.in/sectors/ev-die-casting-and-tooling-in-india-key-trends#article",
+      "headline": "EV Die Casting and Tooling in India: Key Trends for 2027",
+      "description": "How EV growth is reshaping die casting and tooling in India: giga-casting, new capacity in Pune, and what toolmakers need.",
+      "image": ["https://www.diemex.in/images/casting.jpg"],
+      "datePublished": "2026-10-20",
+      "dateModified": "2026-10-20",
+      "author": {
+        "@type": "Person",
+        "name": "Diemex Team"
+      },
+      "publisher": { "@id": "https://www.diemex.in/" },
+      "mainEntityOfPage": "https://www.diemex.in/sectors/ev-die-casting-and-tooling-in-india-key-trends",
+      "inLanguage": "en-IN",
+      "keywords": "EV die casting India, giga-casting, tooling, die and mould, DIEMEX 2027"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/sectors/ev-die-casting-and-tooling-in-india-key-trends#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Sectors",
+          "item": "https://www.diemex.in/sectors"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "EV Die Casting and Tooling in India",
+          "item": "https://www.diemex.in/sectors/ev-die-casting-and-tooling-in-india-key-trends"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.diemex.in/sectors/ev-die-casting-and-tooling-in-india-key-trends#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Why is die casting important for EVs?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It produces lightweight, precise parts such as motor housings, battery enclosures and structural components."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What is giga-casting?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Giga-casting means casting very large single parts that replace many assembled components."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where can I see die casting and tooling technology in India?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "At DIEMEX 2027, held on 24-26 March 2027 at the Auto Cluster Exhibition Centre in Pune."
+          }
+        }
+      ]
+    }
+  ]
+} as const;
+
+export const FIRST_SECTOR_ARTICLE_STRUCTURED_DATA = EV_DIE_CASTING_TOOLING;
