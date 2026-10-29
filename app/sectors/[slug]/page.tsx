@@ -7,12 +7,13 @@ import WhyExhibitCard from "../components/WhyExhibitCard";
 import ServiceCard from "../components/ServiceCard";
 import BackToTop from "@/app/exhibitor-resource-center/component/BackToTop";
 import { pageMeta, SITE_URL } from "@/lib/pageMetadata";
-import { EV_DIE_CASTING_TOOLING, PRECISION_DIE_MOULD } from "@/lib/structuredData";
+import { EV_DIE_CASTING_TOOLING, PRECISION_DIE_MOULD, TOOLING_MOULD_BASES } from "@/lib/structuredData";
 
 const SPECIFIC_SECTOR_ARTICLE_SCHEMAS: Record<string, unknown> = {
   'ev-die-casting-and-tooling-in-india-key-trends': EV_DIE_CASTING_TOOLING,
   'ev-die-casting-tooling-india': EV_DIE_CASTING_TOOLING,
   'precision-die-mould-solutions': PRECISION_DIE_MOULD,
+  'tooling-mould-bases-and-standard': TOOLING_MOULD_BASES
 };
 
 interface PageProps {
@@ -22,7 +23,7 @@ interface PageProps {
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
 
-  if (slug === 'ev-die-casting-and-tooling-in-india-key-trends') {
+  if (slug === 'ev-die-casting') {
     return pageMeta(
       'EV Die Casting and Tooling in India: Key Trends',
       'How EV growth is reshaping die casting and tooling in India: giga-casting, new capacity in Pune, and what toolmakers need. See it at DIEMEX 2027.',

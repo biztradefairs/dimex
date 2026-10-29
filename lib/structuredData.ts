@@ -1476,6 +1476,94 @@ export const PRECISION_DIE_MOULD = {
       ]
     }
   ]
-}
+} as const;
 
 export const SECOND_SECTOR_ARTICLE_STRUCTURED_DATA = PRECISION_DIE_MOULD
+
+
+export const TOOLING_MOULD_BASES = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.diemex.in/sectors/tooling-mould-base#webpage",
+      "url": "https://www.diemex.in/sectors/tooling-mould-base",
+      "name": "Tooling, Mould Bases and Standard Components",
+      "headline": "Tooling, Mould Bases and Standard Components",
+      "description": "Explore mould bases, hot runner systems, standard components and tooling elements at DIEMEX 2027, 24-26 March, Pune. Register free or book a stall.",
+      "image": "https://www.diemex.in/images/sectors/pic3.jpg",
+      "dateModified": "2026-10-20",
+      "inLanguage": "en-IN",
+      "isPartOf": { "@id": "https://www.diemex.in/" },
+      "publisher": { "@id": "https://www.diemex.in/" },
+      "breadcrumb": { "@id": "https://www.diemex.in/sectors/tooling-mould-base#breadcrumb" },
+      "about": "Mould bases, hot runner systems and standard components for die and mould making",
+      "keywords": "mould base manufacturers in India, hot runner systems, standard mould components, die and mould components, tooling suppliers India, DIEMEX 2027"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/sectors/tooling-mould-base#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Sectors",
+          "item": "https://www.diemex.in/sectors"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Tooling, Mould Bases and Standard Components",
+          "item": "https://www.diemex.in/sectors/tooling-mould-base"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.diemex.in/sectors/tooling-mould-base#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What is a mould base?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A mould base is the steel frame that holds the cavity, core and moving parts of a mould, and aligns them accurately during every cycle."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What are standard mould components?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They are ready-made parts such as guide pillars, bushes, ejector pins and sprue bushes that toolmakers buy instead of machining from scratch, saving time and cost."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does a hot runner system do?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It keeps plastic melted as it flows to the cavity, which shortens cycle time, reduces waste and improves part quality."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where can I find mould base and tooling component suppliers in India?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "At DIEMEX 2027, held on 24-26 March 2027 at the Auto Cluster Exhibition Centre in Pune."
+          }
+        }
+      ]
+    }
+  ]
+
+} as const;
+
+export const THIRD_SECTOR_ARICLE_STRUCTURED_DATA = TOOLING_MOULD_BASES
