@@ -7,11 +7,12 @@ import WhyExhibitCard from "../components/WhyExhibitCard";
 import ServiceCard from "../components/ServiceCard";
 import BackToTop from "@/app/exhibitor-resource-center/component/BackToTop";
 import { pageMeta, SITE_URL } from "@/lib/pageMetadata";
-import { EV_DIE_CASTING_TOOLING } from "@/lib/structuredData";
+import { EV_DIE_CASTING_TOOLING, PRECISION_DIE_MOULD } from "@/lib/structuredData";
 
 const SPECIFIC_SECTOR_ARTICLE_SCHEMAS: Record<string, unknown> = {
   'ev-die-casting-and-tooling-in-india-key-trends': EV_DIE_CASTING_TOOLING,
   'ev-die-casting-tooling-india': EV_DIE_CASTING_TOOLING,
+  'precision-die-mould-solutions': PRECISION_DIE_MOULD,
 };
 
 interface PageProps {

@@ -1399,3 +1399,83 @@ export const EV_DIE_CASTING_TOOLING = {
 } as const;
 
 export const FIRST_SECTOR_ARTICLE_STRUCTURED_DATA = EV_DIE_CASTING_TOOLING;
+
+
+export const PRECISION_DIE_MOULD = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BlogPosting",
+      "@id": "https://www.diemex.in/insights/precision-die-mould-solutions#article",
+      "headline": "Precision Die & Mould Solutions: Technologies and How to Choose",
+      "description": "What makes die and mould solutions precise: CNC, EDM, 3D printing, inspection and simulation, and how to choose a supplier.",
+      "image": ["https://www.diemex.in/Image.jpg"],
+      "datePublished": "2026-10-20",
+      "dateModified": "2026-10-20",
+      "author": {
+        "@type": "Person",
+        "name": "Diemex Team"
+      },
+      "publisher": { "@id": "https://www.diemex.in/" },
+      "mainEntityOfPage": "https://www.diemex.in/insights/precision-die-mould-solutions",
+      "inLanguage": "en-IN",
+      "keywords": "precision die and mould solutions, CNC machining, EDM, 3D printing, metrology, mould supplier India, DIEMEX 2027"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.diemex.in/insights/precision-die-mould-solutions#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.diemex.in/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Industry Insights and News",
+          "item": "https://www.diemex.in/insights"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Precision Die & Mould Solutions",
+          "item": "https://www.diemex.in/insights/precision-die-mould-solutions"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://www.diemex.in/insights/precision-die-mould-solutions#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What are precision die and mould solutions?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "They are the machines, processes and services used to make dies and moulds that hold tight tolerances and a consistent finish."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which technologies improve mould accuracy?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "High-speed and 5-axis CNC, EDM, metrology systems, simulation software and quality surface finishing."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where can I see precision die and mould technology in India?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "At DIEMEX 2027, held on 24-26 March 2027 at the Auto Cluster Exhibition Centre in Pune."
+          }
+        }
+      ]
+    }
+  ]
+}
+
+export const SECOND_SECTOR_ARTICLE_STRUCTURED_DATA = PRECISION_DIE_MOULD
