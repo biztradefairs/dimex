@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import ExhibitorEnquiryModal from "./ExhibitorEnquiryModal";
+import ExhibitNavbar from "./ExhibitNavbar";
 
 function EnquiryPrompt({ onOpen }: { onOpen: () => void }) {
   return (
@@ -74,6 +75,7 @@ export default function ExhibitLanding() {
 
   return (
     <>
+      <ExhibitNavbar onBookStall={() => openEnquiry()} />
       <div className="w-full bg-white min-h-screen">
         <section className="relative w-full overflow-hidden bg-white py-10 lg:py-16 border-b border-[#E3EAF2]">
           <div className="absolute -top-32 -left-32 w-96 h-96 rounded-full bg-[#004A96]/5 blur-3xl pointer-events-none"></div>

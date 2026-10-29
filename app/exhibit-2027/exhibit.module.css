@@ -92,3 +92,24 @@
     transition: none !important;
   }
 }
+
+@keyframes exhibitMarqueeAnim {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.landing :global(.animate-exhibit-marquee) {
+  display: flex !important;
+  width: max-content !important;
+  animation: exhibitMarqueeAnim 32s linear infinite !important;
+  will-change: transform;
+}
+
+.landing :global(.animate-exhibit-marquee:hover) {
+  animation-play-state: paused !important;
+}
+
