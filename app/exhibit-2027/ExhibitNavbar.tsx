@@ -161,10 +161,7 @@ export default function ExhibitNavbar({ onBookStall }: ExhibitNavbarProps) {
               onClick={handleBookStall}
               className="group inline-flex h-[36px] items-center gap-1.5 rounded-full bg-[#004A96] pr-1 pl-3 text-[11px] leading-none font-bold tracking-wide text-white uppercase transition hover:-translate-y-px hover:bg-[#003875] sm:h-[40px] sm:pr-1.5 sm:pl-4 sm:text-xs lg:h-[44px] xl:h-[46px] lg:pr-1.5 lg:pl-5 lg:text-[13px] xl:text-[14px] cursor-pointer shadow-sm"
             >
-              <span>
-                <span className="inline sm:hidden">Book Stall</span>
-                <span className="hidden sm:inline">Book Your Stall</span>
-              </span>
+              <span>Book Your Stall</span>
               <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#ebebeb] transition group-hover:bg-white sm:h-7 sm:w-7 lg:h-8 lg:w-8">
                 <NavArrow />
               </span>
@@ -172,12 +169,9 @@ export default function ExhibitNavbar({ onBookStall }: ExhibitNavbarProps) {
 
             <Link
               href="/register?t=brochure"
-              className="group inline-flex h-[36px] items-center gap-1.5 rounded-full bg-[#004A96] pr-1 pl-3 text-[11px] leading-none font-bold tracking-wide text-white uppercase transition hover:-translate-y-px hover:bg-[#003875] sm:h-[40px] sm:pr-1.5 sm:pl-4 sm:text-xs lg:h-[44px] xl:h-[46px] lg:pr-1.5 lg:pl-5 lg:text-[13px] xl:text-[14px] cursor-pointer shadow-sm"
+              className="group hidden sm:inline-flex h-[36px] items-center gap-1.5 rounded-full bg-[#004A96] pr-1 pl-3 text-[11px] leading-none font-bold tracking-wide text-white uppercase transition hover:-translate-y-px hover:bg-[#003875] sm:h-[40px] sm:pr-1.5 sm:pl-4 sm:text-xs lg:h-[44px] xl:h-[46px] lg:pr-1.5 lg:pl-5 lg:text-[13px] xl:text-[14px] cursor-pointer shadow-sm"
             >
-              <span>
-                <span className="inline sm:hidden">Brochure</span>
-                <span className="hidden sm:inline">Download Brochure</span>
-              </span>
+              <span>Download Brochure</span>
               <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#ebebeb] transition group-hover:bg-white sm:h-7 sm:w-7 lg:h-8 lg:w-8">
                 <DownloadIcon />
               </span>

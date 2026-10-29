@@ -228,7 +228,7 @@ export default function ExhibitLanding() {
                 </div>
               </div>
 
-              <div className="lg:col-span-5 flex items-center justify-center">
+              <div className="lg:col-span-5 flex items-center justify-center pt-3 lg:pt-7">
                 <div
                   id="hero-lead-form"
                   onClick={() => openEnquiry()}
