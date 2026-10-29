@@ -39,13 +39,6 @@
   flex-shrink: 0;
 }
 
-.landing :global(.bg-gradient-to-t) {
-  background-image: linear-gradient(to top, var(--tw-gradient-stops));
-}
-
-.landing :global(.bg-gradient-to-r) {
-  background-image: linear-gradient(to right, var(--tw-gradient-stops));
-}
 
 .landing :global(#stall-enquiry),
 .landing :global(#hero-lead-form) {

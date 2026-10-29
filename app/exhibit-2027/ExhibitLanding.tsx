@@ -228,31 +228,23 @@ export default function ExhibitLanding() {
                 </div>
               </div>
 
-              <div className="lg:col-span-5">
+              <div className="lg:col-span-5 flex items-center justify-center">
                 <div
-                  className="rounded-xl bg-white border border-[#E3EAF2] shadow-xl p-6 sm:p-8 flex flex-col gap-4 relative overflow-hidden"
                   id="hero-lead-form"
+                  onClick={() => openEnquiry()}
+                  className="group relative w-full overflow-hidden rounded-2xl border border-[#E3EAF2] bg-slate-100 shadow-xl transition-all duration-300 hover:shadow-2xl hover:border-[#004A96]/40 cursor-pointer"
+                  title="Click to Book Your Stall at DIEMEX 2027"
                 >
-                  <div className="absolute top-0 left-0 right-0 h-1.5 bg-[#004A96]"></div>
-                  <div className="flex flex-col gap-1">
-                    <div className="flex items-center justify-between">
-                      <span className="font-label-sm text-xs text-[#004A96] uppercase font-bold tracking-wider">
-                        Fast-Track Response
-                      </span>
-                      <span className="px-2 py-0.5 rounded bg-[#F5F8FC] border border-[#E3EAF2] text-[#64748B] font-label-sm text-[11px] font-semibold">
-                        2027 Bookings Active
-                      </span>
-                    </div>
-                    <h2 className="font-headline-md text-xl font-bold text-[#1B2635]">
-                      Reserve Your Exhibition Space
-                    </h2>
-                    <p className="font-body-sm text-xs text-[#64748B]">
-                      Share your requirements and our exhibition team will share
-                      stall layouts and tariffs.
-                    </p>
+                  <div className="relative aspect-[4/3] w-full overflow-hidden">
+                    <Image
+                      src="/images/diemex2025.JPG"
+                      alt="DIEMEX Exhibition Dignitaries and Opening Ceremony"
+                      fill
+                      priority
+                      sizes="(min-width: 1024px) 40vw, 100vw"
+                      className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                    />
                   </div>
-
-                  <EnquiryPrompt onOpen={() => openEnquiry()} />
                 </div>
               </div>
             </div>
@@ -1591,23 +1583,33 @@ export default function ExhibitLanding() {
           </div>
         </section>
 
-        <section className="w-full bg-gradient-to-r from-[#003875] to-[#004A96] text-white py-12 lg:py-16 relative overflow-hidden">
+        <section
+          className="w-full text-white py-14 lg:py-16 relative overflow-hidden"
+          style={{
+            background:
+              "linear-gradient(135deg, #001a35 0%, #003366 50%, #004A96 100%)",
+          }}
+        >
+          {/* Ambient lighting glows */}
+          <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/5 blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-24 -left-24 w-80 h-80 rounded-full bg-blue-400/10 blur-3xl pointer-events-none" />
+
           <div className="max-w-7xl mx-auto px-4 lg:px-8 relative z-10">
             <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-              <div className="flex flex-col gap-2 text-center lg:text-left">
-                <span className="inline-flex items-center gap-1.5 self-center lg:self-start px-3 py-1 rounded-full bg-[#E0161D] text-white font-label-sm text-xs uppercase font-bold tracking-wider">
+              <div className="flex flex-col gap-3 text-center lg:text-left">
+                <span className="inline-flex items-center gap-1.5 self-center lg:self-start px-3.5 py-1.5 rounded-full bg-[#E0161D] text-white font-label-sm text-xs uppercase font-bold tracking-wider shadow-md">
                   Prime Exhibition Slots Filling Up
                 </span>
-                <h2 className="font-headline-lg text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight">
+                <h2 className="font-headline-lg text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight drop-shadow-sm">
                   Your Next Major Customer Is Walking the DIEMEX Aisle.
                 </h2>
-                <p className="font-body-lg text-blue-100 max-w-2xl">
+                <p className="font-body-lg text-[#E0EBF7] max-w-2xl text-sm sm:text-base leading-relaxed">
                   Put your manufacturing solutions directly in front of an
                   industry-focused tooling audience in Pune. Reserve your space
                   today.
                 </p>
-                <div className="flex items-center justify-center lg:justify-start gap-4 text-blue-200 text-xs font-semibold pt-1">
-                  <span className="flex items-center gap-1">
+                <div className="flex items-center justify-center lg:justify-start gap-4 text-[#D0E0F2] text-xs font-semibold pt-1">
+                  <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-full backdrop-blur-sm border border-white/15">
                     <span
                       className="material-symbols-outlined text-[16px] text-white"
                       style={{ fontSize: 16 }}
@@ -1617,8 +1619,8 @@ export default function ExhibitLanding() {
                     </span>{" "}
                     24–26 March 2027
                   </span>
-                  <span className="">•</span>
-                  <span className="flex items-center gap-1">
+                  <span className="text-white/60">•</span>
+                  <span className="flex items-center gap-1.5 bg-white/10 px-3 py-1 rounded-full backdrop-blur-sm border border-white/15">
                     <span
                       className="material-symbols-outlined text-[16px] text-white"
                       style={{ fontSize: 16 }}
@@ -1630,16 +1632,16 @@ export default function ExhibitLanding() {
                   </span>
                 </div>
               </div>
-              <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
+              <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0 w-full sm:w-auto">
                 <button
-                  className="w-full sm:w-auto px-6 py-3 rounded-lg bg-white text-[#004A96] hover:bg-blue-50 font-label-md text-sm uppercase tracking-wider font-bold transition-all shadow-lg text-center"
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-lg bg-white text-[#004A96] hover:bg-blue-50 font-label-md text-sm uppercase tracking-wider font-bold transition-all shadow-xl text-center cursor-pointer"
                   type="button"
                   onClick={() => openEnquiry()}
                 >
                   Book Your Stall Now
                 </button>
                 <button
-                  className="w-full sm:w-auto px-6 py-3 rounded-lg border border-white text-white hover:bg-white/10 font-label-md text-sm font-bold transition-all text-center"
+                  className="w-full sm:w-auto px-7 py-3.5 rounded-lg border-2 border-white/90 bg-white/10 text-white hover:bg-white/20 font-label-md text-sm font-bold transition-all text-center cursor-pointer backdrop-blur-sm"
                   type="button"
                   onClick={() => openEnquiry()}
                 >
