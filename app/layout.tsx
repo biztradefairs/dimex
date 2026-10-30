@@ -56,6 +56,7 @@ export default function RootLayout({
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
+              gtag('config', 'AW-408541071');
               gtag('config', 'G-CGKLPLYCF9', {
                 send_page_view: true,
                 page_title: document.title,
