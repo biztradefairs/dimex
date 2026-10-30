@@ -105,6 +105,32 @@ export const partners: Partner[] = [
     logo: "/images/dhatukam.png",
     link: "https://dhatukam.udyamprakashan.in/",
   },
+  {
+    name: "Engee Tech",
+    logo: "/images/engeetech.png",
+    link: "https://engeetech.com/",
+  },
+  {
+    name: "voestalpine",
+    logo: "/images/Voestalpine.png",
+    link: "https://www.voestalpine.com/group/en/",
+  },
+  {
+    name: "KADKRAFT",
+    logo: "/images/kadkraft.png",
+    link: "https://www.kadkraft.com/about-us/",
+  },
+  {
+    name: "SEC ENGRAVING",
+    logo: "/images/sec-logo.png",
+    link: "https://secengraving.com/",
+  },
+  {
+    name: "USBC STEELS",
+    logo: "/images/usbcosteels.jpeg",
+    link: "https://www.usbcosteels.com/",
+  },
+
 ]
 
 const PartnersSection = () => {
