@@ -133,33 +133,33 @@ export const partners: Partner[] = [
   {
     name: "FEBTECH",
     logo: "/images/febtech.png",
-    link: "",
+    link: "https://diecasting-automation.com/",
   },
   {
     name: "INSTITUTE FOR INJECTION MOLDING",
     logo: "/images/institute-for-injectionmolding.png",
-    link: "",
+    link: "https://www.iimolding.com/",
   },
   {
     name: "JIG ENGINEERING",
     logo: "/images/jig-engineering.png",
-    link: "",
+    link: "https://www.jigengineering.in/",
   },
   {
     name: "JYOTI GROUP",
     logo: "/images/jyoti-group.png",
-    link: "",
+    link: "https://jyotihtgroup.com/",
   },
 
   {
     name: "LOGIC LOOM",
     logo: "/images/logic-loom.png",
-    link: "",
+    link: "https://logicloom.in/",
   },
   {
     name: "MECHMATRIX",
     logo: "/images/mechmatrix.png",
-    link: "",
+    link: "https://mechmatrix.in/",
   },
   {
     name: "ONEHUNDRED TECHNOLOGIES",
@@ -169,7 +169,7 @@ export const partners: Partner[] = [
   {
     name: "PRIME GRAPHITE",
     logo: "/images/prime-graphite.png",
-    link: "",
+    link: "https://primegraphite.com/",
   },
   {
     name: "QUAD TOOLING",
@@ -179,27 +179,27 @@ export const partners: Partner[] = [
   {
     name: "RATTAN TRADING COMPANY",
     logo: "/images/rattan-trading-company.png",
-    link: "",
+    link: "https://rattantradingcompany.in/",
   },
   {
     name: "SAC",
     logo: "/images/sac.png",
-    link: "",
+    link: "https://www.cautoniswastikinstrument.com/downloads",
   },
   {
     name: "SANI MOULDS",
     logo: "/images/sani-moulds.png",
-    link: "",
+    link: "https://www.sanimoulds.com/",
   },
   {
     name: "STIACK",
     logo: "/images/stiack.png",
-    link: "",
+    link: "https://stiack.com/",
   },
   {
     name: "TOOLING TECHNOLOGY",
     logo: "/images/tooling-technology.png",
-    link: "",
+    link: "https://www.toolingtechnology.in/",
   },
 
 ]
