@@ -52,7 +52,7 @@ export const PAGE_META = {
   exhibitionDirectory: pageMeta(
     "DIEMEX 2027 Exhibitor List | Die & Mould Companies Exhibiting in India",
     "Browse the DIEMEX 2027 exhibitor directory. Find CNC, EDM, 3D printing, hot runner and tooling suppliers exhibiting at India's die and mould exhibition.",
-    "/exhibition-directory",
+    "/participants",
   ),
   exhibitorResource: pageMeta(
     "DIEMEX 2027 Exhibitor Resource Center | Manual, Floor Plan, Forms",
