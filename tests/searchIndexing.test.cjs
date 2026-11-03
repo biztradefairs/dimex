@@ -23,6 +23,8 @@ function load(file, imports = {}) {
 const metadata = load('lib/pageMetadata.ts');
 const articles = load('app/articles/data.ts');
 const sectors = load('app/sectors/data.ts');
+const gallery = load('app/media-gallery/data.ts');
+const partners = load('data/partnersData.ts');
 const config = load('next.config.ts').default;
 const source = 'https://www.diemex.in';
 const canon = (entry) => String(entry.alternates.canonical);
@@ -32,6 +34,9 @@ function sitemap(fetchPublishedBlogs) {
     '@/app/articles/data': articles,
     '@/app/sectors/data': sectors,
     '@/lib/publicBlogs': { fetchPublishedBlogs },
+    '@/lib/publicExhibitors': { fetchIndexableExhibitors: async () => [] },
+    '@/app/media-gallery/data': gallery,
+    '@/data/partnersData': partners,
   }).default();
 }
 
@@ -79,7 +84,7 @@ test('the sitemap includes current articles, sector pages and all published blog
   assert.equal(Object.hasOwn(entries.find((entry) => entry.url.endsWith('/second-post')), 'lastModified'), false);
   const redirects = await config.redirects();
   for (const redirect of redirects) assert.equal(urls.includes(source + redirect.source), false);
-  for (const url of urls.filter((url) => !url.includes('/blogs/') && !url.includes('/articles/') && !url.includes('/sectors/'))) {
+  for (const url of urls.filter((url) => !url.includes('/blogs/') && !url.includes('/articles/') && !url.includes('/sectors/') && !url.includes('/media-gallery/') && !url.includes('/partner/') && !url.includes('/exhibition-directory/'))) {
     const route = new URL(url).pathname;
     assert.ok(fs.existsSync(path.join(root, 'app', route, 'page.tsx')), 'Missing page for ' + route);
   }
@@ -103,7 +108,7 @@ test('public articles self-canonicalize and missing articles produce notFound be
     assert.equal(canon(result), source + '/articles/' + slug);
     assert.notEqual(result.robots?.index, false);
   }
-  for (const slug of ['how-is-die-mould-industry-preparing-in-2026', 'why-is-india-die-mould-industry-accelerating-in-2026', 'what-s-next-for-large-complex-tooling-mould-manufacturing'])
+  for (const slug of ['article-that-does-not-exist', 'missing-industry-news'])
     await assert.rejects(page.generateMetadata({ params: Promise.resolve({ slug }) }), /NOT_FOUND/);
 });
 

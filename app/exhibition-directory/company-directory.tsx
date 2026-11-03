@@ -1,19 +1,24 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import CompanyGrid from './company-grid'
 import { useRouter } from 'next/navigation'
 import { Search, ChevronDown, Filter, X, Loader2 } from 'lucide-react'
 import BackToTop from '../exhibitor-resource-center/component/BackToTop'
 import { fetchExhibitionCompanies, ExhibitionCompany } from './api'
 
-export default function CompanyDirectory() {
+export default function CompanyDirectory({
+  initialCompanies, initialTotalPages,
+}: {
+  initialCompanies: ExhibitionCompany[];
+  initialTotalPages: number;
+}) {
   const router = useRouter()
-  const [companies, setCompanies] = useState<ExhibitionCompany[]>([])
-  const [loading, setLoading] = useState(true)
+  const [companies, setCompanies] = useState<ExhibitionCompany[]>(initialCompanies)
+  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
-  const [totalPages, setTotalPages] = useState(1)
+  const [totalPages, setTotalPages] = useState(initialTotalPages)
   const [viewMode, setViewMode] = useState<'grid' | 'gallery' | 'list'>('grid')
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
@@ -32,8 +37,14 @@ export default function CompanyDirectory() {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // Fetch companies
+  const firstRequest = useRef(true)
+
+  // Initial results come from the server; interactions fetch subsequent results.
   useEffect(() => {
+    if (firstRequest.current) {
+      firstRequest.current = false
+      return
+    }
     const loadCompanies = async () => {
       setLoading(true)
       setError(null)

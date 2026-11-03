@@ -4,6 +4,7 @@
 import { useState } from 'react'
 import VisitorRegistrationForm from './visitor-registration-form'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 import { ExternalLink, MessageCircle, Building, MapPin, Globe } from 'lucide-react'
 
 interface CompanyCardProps {
@@ -38,9 +39,7 @@ export default function CompanyCard({ company, onProductBrochureClick }: Company
       return
     }
 
-    // Create slug from company name
-    const slug = company.company.toLowerCase().replace(/\s+/g, '-')
-    router.push(`/exhibition-directory/${slug}`)
+    router.push(`/exhibition-directory/${company.id}`)
   }
 
   const handleConnectClick = (e: React.MouseEvent) => {
@@ -98,9 +97,11 @@ export default function CompanyCard({ company, onProductBrochureClick }: Company
         {/* Content */}
         <div className="p-4 sm:p-5 md:p-6 border-t border-slate-100 bg-white">
           {/* Company Name - This is the actual company name */}
+          <Link href={`/exhibition-directory/${company.id}`}>
           <h3 className="font-bold text-slate-900 mb-3 text-base sm:text-lg md:text-xl leading-tight line-clamp-2">
             {company.company}
           </h3>
+          </Link>
 
           {/* Exhibitor/Contact Name - Optional secondary info */}
           {company.name && company.name !== company.company && (

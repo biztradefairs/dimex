@@ -107,3 +107,12 @@ export const partnersData: PartnersData = {
     },
   ],
 };
+export function getPartnerBySlug(slug: string): Partner | undefined {
+  return Object.values(partnersData).flat().find((partner) => partner.slug === slug);
+}
+export function isIndexablePartner(partner: Partner): boolean {
+  return Boolean(partner.name.trim() && partner.description?.trim() && partner.logo.trim());
+}
+export function getIndexablePartners(): Partner[] {
+  return Object.values(partnersData).flat().filter(isIndexablePartner);
+}

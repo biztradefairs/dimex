@@ -116,6 +116,162 @@ function getMetadataValue(metadata: any, path: string[]): any {
   return current;
 }
 
+export interface ExhibitionCompanyRecord {
+  id: string;
+  name?: string;
+  company?: string;
+  metadata?: Metadata | string | null;
+  sector?: string | string[] | null;
+  logoUrl?: string;
+  country?: string;
+  countryCode?: string;
+  hall?: string;
+  shortName?: string;
+  pavilion?: string;
+  description?: string;
+  website?: string;
+  email?: string;
+  phone?: string;
+  boothNumber?: string;
+  booth?: string;
+}
+
+export function mapExhibitionCompany(exhibitor: ExhibitionCompanyRecord): ExhibitionCompany {
+  // Parse metadata safely
+  let metadata: Metadata = {};
+  if (exhibitor.metadata) {
+    try {
+      metadata = typeof exhibitor.metadata === 'string'
+        ? JSON.parse(exhibitor.metadata)
+        : exhibitor.metadata;
+    } catch (e) {
+      metadata = {};
+    }
+  }
+
+  // Parse sector
+  let sectorArray: string[] = [];
+  if (exhibitor.sector) {
+    if (typeof exhibitor.sector === 'string') {
+      sectorArray = exhibitor.sector.split(',').map((s: string) => s.trim()).filter(Boolean);
+    } else if (Array.isArray(exhibitor.sector)) {
+      sectorArray = exhibitor.sector;
+    }
+  }
+
+  // Get logo URL
+  const logoUrl = metadata?.logoUrl || exhibitor.logoUrl || '';
+
+  // Get country
+  let country = 'Not specified';
+  if (metadata.address_country) {
+    country = metadata.address_country;
+  } else if (metadata.address?.country) {
+    country = metadata.address.country;
+  } else if (exhibitor.country) {
+    country = exhibitor.country;
+  }
+
+  // Get full address
+  let fullAddress = '';
+  const street = metadata.address_street || metadata.address?.street || '';
+  const city = metadata.address_city || metadata.address?.city || '';
+  const state = metadata.address_state || metadata.address?.state || '';
+  const postalCode = metadata.address_postal_code || metadata.address?.postalCode || '';
+  const addressCountry = country;
+
+  const addressParts = [street, city, state, postalCode, addressCountry].filter(part => part && part !== 'Not specified');
+  fullAddress = addressParts.join(', ');
+
+  // Get country code
+  let countryCode = '';
+  if (metadata.address_country_code) {
+    countryCode = metadata.address_country_code;
+  } else if (metadata.address?.countryCode) {
+    countryCode = metadata.address.countryCode;
+  } else if (exhibitor.countryCode) {
+    countryCode = exhibitor.countryCode;
+  }
+
+  // Get hall
+  let hall = '';
+  if (metadata.hall) {
+    hall = metadata.hall;
+  } else if (metadata.exhibition?.hall) {
+    hall = metadata.exhibition.hall;
+  } else if (exhibitor.hall) {
+    hall = exhibitor.hall;
+  }
+
+  // Get short name
+  let shortName = '';
+  if (metadata.shortName) {
+    shortName = metadata.shortName;
+  } else if (metadata.short_name) {
+    shortName = metadata.short_name;
+  } else if (exhibitor.shortName) {
+    shortName = exhibitor.shortName;
+  }
+
+  // Get pavilion
+  let pavilion = 'Not assigned';
+  if (metadata.pavilion) {
+    pavilion = metadata.pavilion;
+  } else if (metadata.exhibition?.pavilion) {
+    pavilion = metadata.exhibition.pavilion;
+  } else if (exhibitor.pavilion) {
+    pavilion = exhibitor.pavilion;
+  }
+
+  // Get description
+  let description = '';
+  if (metadata.about) {
+    description = metadata.about;
+  } else if (metadata.description) {
+    description = metadata.description;
+  } else if (exhibitor.description) {
+    description = exhibitor.description;
+  }
+
+  // Get website
+  let website = '';
+  if (metadata.website) {
+    website = metadata.website;
+  } else if (exhibitor.website) {
+    website = exhibitor.website;
+  }
+
+  // Get contact person
+  let contactPerson = {
+    name: metadata.contact_name || metadata.contactPerson?.name || exhibitor.name || '',
+    jobTitle: metadata.contact_job_title || metadata.contactPerson?.jobTitle || '',
+    email: metadata.email || metadata.contactPerson?.email || exhibitor.email || '',
+    phone: metadata.phone || metadata.contactPerson?.phone || exhibitor.phone || '',
+    alternatePhone: metadata.contactPerson?.alternatePhone || ''
+  };
+
+  return {
+    id: exhibitor.id,
+    name: exhibitor.name || 'Unknown',  // Person's name
+    company: exhibitor.company || exhibitor.name || 'Unknown Company',  // Actual company name
+    shortName: shortName,
+    pavilion: pavilion,
+    hall: hall,
+    standNumber: exhibitor.boothNumber || exhibitor.booth || 'Not assigned',
+    country: country,
+    countryCode: countryCode,
+    fullAddress: fullAddress,
+    sector: sectorArray.length > 0 ? sectorArray : ['General'],
+    boothNumber: exhibitor.boothNumber,
+    logo: logoUrl,
+    description: description,
+    website: website,
+    email: exhibitor.email,
+    phone: exhibitor.phone,
+    contactPerson: contactPerson
+  };
+}
+
 // Function to fetch complete exhibitor data by ID
 export async function fetchCompleteExhibitorData(exhibitorId: string): Promise<ExhibitionCompany | null> {
   try {
@@ -139,139 +295,7 @@ export async function fetchCompleteExhibitorData(exhibitorId: string): Promise<E
 
     const exhibitor = result.data;
 
-    // Parse metadata safely
-    let metadata: Metadata = {};
-    if (exhibitor.metadata) {
-      try {
-        metadata = typeof exhibitor.metadata === 'string'
-          ? JSON.parse(exhibitor.metadata)
-          : exhibitor.metadata;
-      } catch (e) {
-        metadata = {};
-      }
-    }
-
-    // Parse sector
-    let sectorArray: string[] = [];
-    if (exhibitor.sector) {
-      if (typeof exhibitor.sector === 'string') {
-        sectorArray = exhibitor.sector.split(',').map((s: string) => s.trim()).filter(Boolean);
-      } else if (Array.isArray(exhibitor.sector)) {
-        sectorArray = exhibitor.sector;
-      }
-    }
-
-    // Get logo URL
-    const logoUrl = metadata?.logoUrl || exhibitor.logoUrl || '';
-
-    // Get country
-    let country = 'Not specified';
-    if (metadata.address_country) {
-      country = metadata.address_country;
-    } else if (metadata.address?.country) {
-      country = metadata.address.country;
-    } else if (exhibitor.country) {
-      country = exhibitor.country;
-    }
-
-    // Get full address
-    let fullAddress = '';
-    const street = metadata.address_street || metadata.address?.street || '';
-    const city = metadata.address_city || metadata.address?.city || '';
-    const state = metadata.address_state || metadata.address?.state || '';
-    const postalCode = metadata.address_postal_code || metadata.address?.postalCode || '';
-    const addressCountry = country;
-
-    const addressParts = [street, city, state, postalCode, addressCountry].filter(part => part && part !== 'Not specified');
-    fullAddress = addressParts.join(', ');
-
-    // Get country code
-    let countryCode = '';
-    if (metadata.address_country_code) {
-      countryCode = metadata.address_country_code;
-    } else if (metadata.address?.countryCode) {
-      countryCode = metadata.address.countryCode;
-    } else if (exhibitor.countryCode) {
-      countryCode = exhibitor.countryCode;
-    }
-
-    // Get hall
-    let hall = '';
-    if (metadata.hall) {
-      hall = metadata.hall;
-    } else if (metadata.exhibition?.hall) {
-      hall = metadata.exhibition.hall;
-    } else if (exhibitor.hall) {
-      hall = exhibitor.hall;
-    }
-
-    // Get short name
-    let shortName = '';
-    if (metadata.shortName) {
-      shortName = metadata.shortName;
-    } else if (metadata.short_name) {
-      shortName = metadata.short_name;
-    } else if (exhibitor.shortName) {
-      shortName = exhibitor.shortName;
-    }
-
-    // Get pavilion
-    let pavilion = 'Not assigned';
-    if (metadata.pavilion) {
-      pavilion = metadata.pavilion;
-    } else if (metadata.exhibition?.pavilion) {
-      pavilion = metadata.exhibition.pavilion;
-    } else if (exhibitor.pavilion) {
-      pavilion = exhibitor.pavilion;
-    }
-
-    // Get description
-    let description = '';
-    if (metadata.about) {
-      description = metadata.about;
-    } else if (metadata.description) {
-      description = metadata.description;
-    } else if (exhibitor.description) {
-      description = exhibitor.description;
-    }
-
-    // Get website
-    let website = '';
-    if (metadata.website) {
-      website = metadata.website;
-    } else if (exhibitor.website) {
-      website = exhibitor.website;
-    }
-
-    // Get contact person
-    let contactPerson = {
-      name: metadata.contact_name || metadata.contactPerson?.name || exhibitor.name || '',
-      jobTitle: metadata.contact_job_title || metadata.contactPerson?.jobTitle || '',
-      email: metadata.email || metadata.contactPerson?.email || exhibitor.email || '',
-      phone: metadata.phone || metadata.contactPerson?.phone || exhibitor.phone || '',
-      alternatePhone: metadata.contactPerson?.alternatePhone || ''
-    };
-
-    return {
-      id: exhibitor.id,
-      name: exhibitor.name || 'Unknown',  // Person's name
-      company: exhibitor.company || exhibitor.name || 'Unknown Company',  // Actual company name
-      shortName: shortName,
-      pavilion: pavilion,
-      hall: hall,
-      standNumber: exhibitor.boothNumber || exhibitor.booth || 'Not assigned',
-      country: country,
-      countryCode: countryCode,
-      fullAddress: fullAddress,
-      sector: sectorArray.length > 0 ? sectorArray : ['General'],
-      boothNumber: exhibitor.boothNumber,
-      logo: logoUrl,
-      description: description,
-      website: website,
-      email: exhibitor.email,
-      phone: exhibitor.phone,
-      contactPerson: contactPerson
-    };
+    return mapExhibitionCompany(exhibitor);
   } catch (error) {
     console.error('Error fetching complete exhibitor data:', error);
     return null;

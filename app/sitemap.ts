@@ -3,6 +3,9 @@ import { getAllArticleSlugs } from '@/app/articles/data';
 import { diemexSectors } from '@/app/sectors/data';
 import { PAGE_META, SITE_URL } from '@/lib/pageMetadata';
 import { fetchPublishedBlogs } from '@/lib/publicBlogs';
+import { fetchIndexableExhibitors } from '@/lib/publicExhibitors';
+import { mediaDetails } from '@/app/media-gallery/data';
+import { getIndexablePartners } from '@/data/partnersData';
 
 export const revalidate = 3600;
 export const maxDuration = 90;
@@ -24,6 +27,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   ]);
   for (const slug of sectorSlugs) {
     entries.push({ url: SITE_URL + '/sectors/' + slug });
+  }
+
+  for (const item of mediaDetails) {
+    entries.push({ url: SITE_URL + '/media-gallery/' + item.slug });
+  }
+  for (const partner of getIndexablePartners()) {
+    entries.push({ url: SITE_URL + '/partner/' + partner.slug });
+  }
+  for (const company of await fetchIndexableExhibitors()) {
+    entries.push({ url: SITE_URL + '/exhibition-directory/' + company.id });
   }
 
   // Read every published-blog page. Let an outage fail regeneration so Next.js

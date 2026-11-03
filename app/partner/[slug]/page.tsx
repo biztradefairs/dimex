@@ -1,6 +1,28 @@
 import { notFound } from 'next/navigation';
 import SectionContainer from '@/components/UI/SectionContainer';
-import { partnersData } from '@/data/partnersData';
+import type { Metadata } from 'next';
+import { pageMeta } from '@/lib/pageMetadata';
+import { getPartnerBySlug, isIndexablePartner, partnersData } from '@/data/partnersData';
+
+export const dynamicParams = false;
+
+export function generateStaticParams() {
+  return Object.values(partnersData).flat().map((partner) => ({ slug: partner.slug }));
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const partner = getPartnerBySlug(slug);
+  if (!partner) notFound();
+  return {
+    ...pageMeta(
+      (partner.name || 'Partner') + ' | DIEMEX',
+      partner.description?.replace(/\s+/g, ' ').trim().slice(0, 160) || 'DIEMEX partner information.',
+      '/partner/' + partner.slug,
+    ),
+    robots: { index: isIndexablePartner(partner), follow: true },
+  };
+}
 
 // Type for params
 type PageProps = {
@@ -11,11 +33,7 @@ export default async function PartnerDetailPage({ params }: PageProps) {
   // Await the params Promise to get the actual values
   const { slug } = await params;
 
-  // Flatten all partners
-  const allPartners = Object.values(partnersData).flat();
-  
-  // Find the partner by slug
-  const partner = allPartners.find(p => p.slug === slug);
+  const partner = getPartnerBySlug(slug);
 
   if (!partner) return notFound();
 
@@ -32,7 +50,7 @@ export default async function PartnerDetailPage({ params }: PageProps) {
       <SectionContainer>
         <div className="mt-12 flex items-center">
           <img
-            src={partner.logo}
+            src={partner.logo ? (/^https?:\/\//.test(partner.logo) ? partner.logo : '/' + partner.logo.replace(/^\/+/, '')) : undefined}
             alt={partner.name}
             className="h-28 object-contain"
           />

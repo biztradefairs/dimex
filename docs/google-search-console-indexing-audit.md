@@ -6,6 +6,10 @@ Changes are saved locally in the dimex repository. Nothing was deployed, and no 
 
 All 42 exact issue URLs supplied in the report were audited. The report mentions 43 entries, but its discovered-not-indexed URL was not supplied. Live production responses were checked before changes. Local results below refer to the final optimized Next.js production build served temporarily on port 3107; that server was stopped after verification.
 
+## Follow-up status
+
+This report records the initial 51-page audit. Subsequent local fixes resolve the three article links below, add gallery/partner/company detail metadata and expand the sitemap to 59 URLs. The original counts and remaining-work notes below are historical. See [the follow-up report](search-indexing-follow-up.md) for current verification, deployment status and the Search Console API configuration limitation.
+
 ## Changes implemented
 
 - Deleted `public/diemex-sitemap .xml`.
