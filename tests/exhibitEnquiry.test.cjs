@@ -22,7 +22,7 @@ function fixture(props = {}, values = {}, registration = null) {
       useState: (initial) => [
         initial &&
         typeof initial === "object" &&
-        Object.hasOwn(initial, "productSector")
+        Object.hasOwn(initial, "companyName")
           ? { ...initial, ...values }
           : initial,
         () => {},
@@ -148,14 +148,16 @@ test("all remaining shared form fields and consent controls stay in the popup", 
   assert.ok(html.includes('id="ex-privacy"'));
 });
 
-test("the regular register page keeps all three original fields by default", () => {
+test("the regular register page omits Interest Level, Products / Services and Message", () => {
   const { html } = fixture();
   for (const label of [
     "Interest Level",
     "Products / Services",
     "Message (If any)",
   ])
-    assert.ok(html.includes(label));
+    assert.equal(html.includes(label), false);
+  for (const name of ["interestLevel", "productSector", "message"])
+    assert.equal(html.includes(`name="${name}"`), false);
 });
 
 test("popup submission bypasses hidden product validation and uses the existing exhibitor flow", async () => {
@@ -174,11 +176,18 @@ test("popup submission bypasses hidden product validation and uses the existing 
   assert.ok(app.navigations[0].startsWith("/register/thank-you?t=exhibitor"));
 });
 
-test("the regular form still requires product selection", async () => {
+test("the regular form submits without the removed fields", async () => {
   const app = fixture({}, complete);
   await app.submit();
-  assert.equal(app.sent.length, 0);
-  assert.deepEqual(app.errors, ["Please select at least one product sector"]);
+  assert.deepEqual(app.errors, []);
+  assert.equal(app.sent.length, 1);
+  const payload = app.sent[0];
+  assert.equal(payload.formType, "exhibitor-enquiry");
+  for (const [field, value] of Object.entries(complete))
+    assert.equal(payload[field], value);
+  for (const field of ["interestLevel", "productSector", "message"])
+    assert.equal(Object.hasOwn(payload, field), false);
+  assert.ok(app.navigations[0].startsWith("/register/thank-you?t=exhibitor"));
 });
 
 test("a selected landing-page package preselects the matching shared booth-size option", () => {
@@ -189,13 +198,12 @@ test("a selected landing-page package preselects the matching shared booth-size 
   assert.match(html, /<option value="9 sqm \(3x3\)" selected="">/);
 });
 
-test('regular exhibitor submissions retain the original product, message and interest fields', async () => {
+test('regular exhibitor submissions omit removed fields even if stale values are supplied', async () => {
   const app = fixture({}, { ...complete, productSector: ['Cutting Tools'], message: 'Please send details', interestLevel: 'Looking for more information' });
   await app.submit();
   assert.equal(app.sent.length, 1);
-  assert.equal(app.sent[0].productSector[0], 'Cutting Tools');
-  assert.equal(app.sent[0].message, 'Please send details');
-  assert.equal(app.sent[0].interestLevel, 'Looking for more information');
+  for (const field of ['interestLevel', 'productSector', 'message'])
+    assert.equal(Object.hasOwn(app.sent[0], field), false);
 });
 
 

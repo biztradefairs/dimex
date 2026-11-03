@@ -18,31 +18,7 @@ const STAND_SIZES = [
     '20 sqm (4x5)', '24 sqm (4x6)', '30 sqm (5x6)', '36 sqm (6x6)', 'Custom Size',
 ];
 
-const PRODUCT_SECTORS = [
-    'Additive Manufacturing - 3D Printing',
-    'CNC Milling / Machining Centre, EDM',
-    'Cutting Tools',
-    'Heat Treatment',
-    'Hot Runner System',
-    'Injection Moulding Machine',
-    'Inspection and Quality Systems, CMM',
-    'Machine Tools & Accessories for Dies and Moulds',
-    'Mechanical Presses for Sheet Metal Components',
-    'Raw Material Suppliers (Tool Steel)',
-    'Texturizing, Polishing & Plating',
-    'CAD/CAM/CAE, Simulation',
-    'Mould Base',
-    'Tool Room - Die Casting Dies & Rubber Moulds',
-    'Tool Room - Jig, Fixture and Gauges',
-    'Tool Room - Sheet Metal Dies / Sheet metal Components',
-];
-
 const INDUSTRIES = ['Automotive', 'Plastics', 'Aerospace', 'Electronics', 'Manufacturing', 'Logistics', 'Other'];
-const INTEREST_LEVELS = [
-    'Ready to book my stand',
-    'Looking for more information',
-    'Looking for sponsorship opportunities',
-];
 
 type ExhibitorFormProps = {
     variant?: 'full' | 'popup';
@@ -63,7 +39,6 @@ export default function ExhibitorForm({ variant = 'full', initialStandSize = '' 
     }, [isPopup, router]);
 
     const [form, setForm] = useState({
-        interestLevel: '',
         contactPerson: '',
         companyName: '',
         jobTitle: '',
@@ -74,26 +49,14 @@ export default function ExhibitorForm({ variant = 'full', initialStandSize = '' 
         city: '',
         standSize: STAND_SIZES.includes(initialStandSize) ? initialStandSize : '',
         industry: '',
-        productSector: [] as string[],
-        message: '',
     });
 
     const { countries, states, cities, countriesLoading, statesLoading, citiesLoading } =
         useLocationData(form.country, form.state);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-        const { name, value, type } = e.target as HTMLInputElement;
-        if (type === 'checkbox') {
-            const checked = (e.target as HTMLInputElement).checked;
-            setForm(prev => ({
-                ...prev,
-                productSector: checked
-                    ? [...prev.productSector, name]
-                    : prev.productSector.filter(s => s !== name),
-            }));
-        } else {
-            setForm(prev => ({ ...prev, [name]: value }));
-        }
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+        const { name, value } = e.target;
+        setForm(prev => ({ ...prev, [name]: value }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -102,12 +65,10 @@ export default function ExhibitorForm({ variant = 'full', initialStandSize = '' 
         if (process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY && !captchaToken) {
             return toast.error('Please complete the CAPTCHA');
         }
-        if (!isPopup && !form.productSector.length) return toast.error('Please select at least one product sector');
         submissionStarted.current = true;
         setLoading(true);
         try {
             const payload = {
-                // all your existing form fields...
                 firstName: form.contactPerson?.split(' ')[0] || '',
                 lastName: form.contactPerson?.split(' ').slice(1).join(' ') || '',
                 contactPerson: form.contactPerson,
@@ -120,11 +81,6 @@ export default function ExhibitorForm({ variant = 'full', initialStandSize = '' 
                 city: form.city,
                 standSize: form.standSize,
                 industry: form.industry,
-                ...(!isPopup ? {
-                    productSector: form.productSector,
-                    message: form.message,
-                    interestLevel: form.interestLevel,
-                } : {}),
                 formType: 'exhibitor-enquiry',
                 captchaToken,
                 submittedAt: new Date().toISOString(),
@@ -160,30 +116,6 @@ export default function ExhibitorForm({ variant = 'full', initialStandSize = '' 
     return (
         <>
             <form onSubmit={handleSubmit} className="space-y-4">
-                {!isPopup && (
-                    <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold text-gray-700 tracking-wide">
-                            Interest Level <span className="text-red-500">*</span>
-                        </label>
-                        <div className="space-y-2">
-                            {INTEREST_LEVELS.map(v => (
-                                <label key={v} className="flex items-center gap-3 cursor-pointer">
-                                    <input
-                                        type="radio"
-                                        name="interestLevel"
-                                        value={v}
-                                        checked={form.interestLevel === v}
-                                        onChange={handleChange}
-                                        required
-                                        className="h-4 w-4 accent-[#004A96] cursor-pointer"
-                                    />
-                                    <span className="text-sm text-gray-700">{v}</span>
-                                </label>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <InputField
                         label="Company Name" required icon={Icons.building}
@@ -245,47 +177,6 @@ export default function ExhibitorForm({ variant = 'full', initialStandSize = '' 
                     <option value="">Select booth size</option>
                     {STAND_SIZES.map(s => <option key={s} value={s}>{s}</option>)}
                 </SelectField>
-
-                {!isPopup && (
-                    <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold text-gray-700 tracking-wide">
-                            Products / Services <span className="text-red-500">*</span>
-                        </label>
-                        <div className="relative">
-                            <span className="absolute left-3 top-3 text-gray-400 pointer-events-none z-10">
-                                {Icons.box}
-                            </span>
-                            <div className="border border-gray-300 rounded-lg pl-9 pr-3 py-3 max-h-36 overflow-y-auto bg-white">
-                                {PRODUCT_SECTORS.map(s => (
-                                    <label key={s} className="flex items-center gap-2.5 py-1.5 cursor-pointer hover:bg-gray-50 px-1 rounded">
-                                        <input
-                                            type="checkbox"
-                                            name={s}
-                                            checked={form.productSector.includes(s)}
-                                            onChange={handleChange}
-                                            className="h-4 w-4 accent-[#004A96] shrink-0 cursor-pointer"
-                                        />
-                                        <span className="text-sm text-gray-700">{s}</span>
-                                    </label>
-                                ))}
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {!isPopup && (
-                    <div className="flex flex-col gap-1.5">
-                        <label className="text-xs font-semibold text-gray-700 tracking-wide">Message (If any)</label>
-                        <textarea
-                            name="message"
-                            value={form.message}
-                            onChange={handleChange}
-                            rows={3}
-                            placeholder="Tell us more about your requirements..."
-                            className="w-full px-3 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#004A96] focus:border-[#004A96] outline-none transition bg-white text-gray-800 placeholder:text-gray-400 resize-none"
-                        />
-                    </div>
-                )}
 
                 <div className="space-y-2">
                     <div className="flex items-start gap-3">
