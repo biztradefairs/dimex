@@ -19,7 +19,7 @@ export default function ParticipantsPage() {
       </section>
 
       <section className="mx-auto max-w-[1240px] px-4 py-10 sm:px-6 sm:py-14 lg:px-8">
-        <ul className="grid grid-cols-4 gap-3 sm:gap-5">
+        <ul className="grid grid-cols-4 gap-3 sm:gap-5 lg:grid-cols-5">
           {partners.map((partner) => (
             <li key={partner.name}>
               <Link
