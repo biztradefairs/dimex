@@ -37,7 +37,7 @@ export const PAGE_META = {
   exhibitorRegister: pageMeta(
     "Exhibitor Registration | DIEMEX 2027 Die & Mould Exhibition, India",
     "Register as an exhibitor at DIEMEX 2027, India's die and mould exhibition. Enquire about stalls, get the brochure and meet toolmakers, OEMs and buyers.",
-    "/register?t=exhibitor",
+    "/register",
   ),
   sectors: pageMeta(
     "Sectors at DIEMEX 2027 | Auto, Plastics, Aerospace Die & Mould Industries",
@@ -52,7 +52,7 @@ export const PAGE_META = {
   exhibitionDirectory: pageMeta(
     "DIEMEX 2027 Exhibitor List | Die & Mould Companies Exhibiting in India",
     "Browse the DIEMEX 2027 exhibitor directory. Find CNC, EDM, 3D printing, hot runner and tooling suppliers exhibiting at India's die and mould exhibition.",
-    "/participants",
+    "/exhibition-directory",
   ),
   exhibitorResource: pageMeta(
     "DIEMEX 2027 Exhibitor Resource Center | Manual, Floor Plan, Forms",
@@ -85,7 +85,7 @@ export const PAGE_META = {
   brochure: pageMeta(
     "Download DIEMEX 2027 Brochure | Die & Mould Exhibition India",
     "Download the DIEMEX 2027 brochure for stall options, floor plan, sectors and show highlights. India's die and mould exhibition. Free PDF.",
-    "/register?t=brochure",
+    "/register",
   ),
   blogs: pageMeta(
     "Die & Mould Industry Blogs & Insights | DIEMEX",
@@ -116,5 +116,20 @@ export const PAGE_META = {
     'Register | DIEMEX 2027',
     'Register for DIEMEX 2027 ? visitor registration, exhibitor enquiry, partnership, or brochure download.',
     '/register',
+  ),
+  privacyPolicy: pageMeta(
+    'Privacy Policy | DIEMEX',
+    'DIEMEX Privacy Policy - Learn how we collect, use, store, and protect your personal data in accordance with applicable laws.',
+    '/privacy-policy',
+  ),
+  conferenceProgramme: pageMeta(
+    'DIEMEX 2027 Conference Programme | Die & Mould Industry Sessions',
+    'Explore the DIEMEX 2027 conference programme, industry sessions and key topics for die and mould, tooling and precision manufacturing professionals.',
+    '/conference-programme',
+  ),
+  conference: pageMeta(
+    'Diemex Conference | March 24-26, 2027, Pune',
+    'Annual conference for professionals in the tooling industry.',
+    '/conference',
   ),
 } as const;

@@ -42,20 +42,22 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   }, [pathname, hideLayout]);
 
   return (
-    <Suspense fallback={null}>
-      <UTMProvider>
-        {showSharedLayout && <NavBar />}
-        <main
-          className={`w-full flex-grow ${
-            showSharedLayout && pathname !== '/'
-              ? 'pt-[84px] sm:pt-[112px] lg:pt-[168px]'
-              : ''
-          }`}
-        >
-          {children}
-        </main>
-        {showSharedLayout && <Footer />}
-      </UTMProvider>
-    </Suspense>
+    <>
+      {/* Query-dependent campaign tracking must not suspend public page content. */}
+      <Suspense fallback={null}>
+        <UTMProvider>{null}</UTMProvider>
+      </Suspense>
+      {showSharedLayout && <NavBar />}
+      <main
+        className={`w-full flex-grow ${
+          showSharedLayout && pathname !== '/'
+            ? 'pt-[84px] sm:pt-[112px] lg:pt-[168px]'
+            : ''
+        }`}
+      >
+        <Suspense fallback={null}>{children}</Suspense>
+      </main>
+      {showSharedLayout && <Footer />}
+    </>
   );
 }
