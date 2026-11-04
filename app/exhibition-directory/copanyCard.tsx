@@ -1,161 +1,38 @@
-// app/exhibition-directory/companyCard.tsx
-'use client'
+'use client';
 
-import { useState } from 'react'
-import VisitorRegistrationForm from './visitor-registration-form'
-import { useRouter } from 'next/navigation'
-import Link from 'next/link'
-import { ExternalLink, MessageCircle, Building, MapPin, Globe } from 'lucide-react'
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { ArrowUpRight, MapPin, MessageCircle } from 'lucide-react';
+import ExhibitorLogo from '@/components/ExhibitorLogo';
+import VisitorRegistrationForm from './visitor-registration-form';
 
 interface CompanyCardProps {
-  company: {
-    id: string
-    name: string
-    company: string
-    pavilion: string
-    stand: string
-    country: string
-    logo?: string
-    logoInitials: string
-    countryCode?: string
-  }
-  onProductBrochureClick: (companyId: string, companyName: string) => void
+  company: { id: string; name: string; company: string; pavilion: string; stand: string; country: string; logo?: string; logoInitials: string; countryCode?: string; location?: string; sector?: string[] };
+  onProductBrochureClick: (companyId: string, companyName: string) => void;
 }
-
 export default function CompanyCard({ company, onProductBrochureClick }: CompanyCardProps) {
-  const [isFormOpen, setIsFormOpen] = useState(false)
-  const [imageError, setImageError] = useState(false)
-  const router = useRouter()
-
-  // In companyCard.tsx, update the navigation:
-  const handleCardClick = (e: React.MouseEvent) => {
-    const target = e.target as HTMLElement
-    if (
-      target.closest('button') ||
-      target.closest('a') ||
-      target.tagName === 'BUTTON' ||
-      target.tagName === 'A'
-    ) {
-      return
-    }
-
-    router.push(`/exhibition-directory/${company.id}`)
-  }
-
-  const handleConnectClick = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    setIsFormOpen(true)
-  }
-
-  const handleBrochureClick = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    onProductBrochureClick(company.id, company.company)
-  }
-
-  const getLogoColor = () => {
-    const colors = [
-      'bg-gradient-to-br from-[#E8F1F8] to-[#D6E6F4]',
-      'bg-gradient-to-br from-green-50 to-green-100',
-      'bg-gradient-to-br from-purple-50 to-purple-100',
-      'bg-gradient-to-br from-orange-50 to-orange-100',
-      'bg-gradient-to-br from-pink-50 to-pink-100',
-      'bg-gradient-to-br from-[#E8F1F8] to-[#D6E6F4]',
-      'bg-gradient-to-br from-teal-50 to-teal-100',
-      'bg-gradient-to-br from-yellow-50 to-yellow-100'
-    ];
-
-    const index = company.company.length % colors.length;
-    return colors[index];
-  };
-
+  const [isFormOpen, setIsFormOpen] = useState(false);
+  const router = useRouter();
+  const location = company.location || (company.country !== 'Not specified' ? company.country : '');
+  const sectors = (company.sector || []).filter(sector => sector !== 'General');
   return (
     <>
-      <div
-        onClick={handleCardClick}
-        className="group bg-white rounded-xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col h-full hover:-translate-y-1 cursor-pointer"
-      >
-        {/* Logo Area */}
-        <div
-          className={`h-32 sm:h-40 md:h-48 flex items-center justify-center p-4 sm:p-6 transition-colors duration-300 ${getLogoColor()} group-hover:from-slate-100 group-hover:to-slate-200`}
-        >
-          {company.logo && !imageError ? (
-            <div className="relative w-full h-full">
-              <img
-                src={company.logo}
-                alt={company.company}
-                className="w-full h-full object-contain"
-                onError={() => setImageError(true)}
-              />
-            </div>
-          ) : (
-            <div className="text-4xl sm:text-5xl md:text-6xl font-bold text-slate-700 text-center">
-              {company.logoInitials}
-            </div>
-          )}
+      <article onClick={event => { if (!(event.target as HTMLElement).closest('button, a')) router.push('/exhibition-directory/' + company.id); }} className="group flex h-full cursor-pointer flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5">
+        <div className="mb-5 flex items-start justify-between gap-3">
+          <ExhibitorLogo logoUrl={company.logo} company={company.company} className="h-[72px] w-[72px]" />
+          <span className="rounded-md border border-blue-100 bg-blue-50 px-2.5 py-1.5 text-[11px] font-semibold text-[#004A96]">{company.stand && company.stand !== 'Not assigned' ? 'Stall ' + company.stand : 'Stall details soon'}</span>
         </div>
-
-        {/* Content */}
-        <div className="p-4 sm:p-5 md:p-6 border-t border-slate-100 bg-white">
-          {/* Company Name - This is the actual company name */}
-          <Link href={`/exhibition-directory/${company.id}`}>
-          <h3 className="font-bold text-slate-900 mb-3 text-base sm:text-lg md:text-xl leading-tight line-clamp-2">
-            {company.company}
-          </h3>
-          </Link>
-
-          {/* Exhibitor/Contact Name - Optional secondary info */}
-          {company.name && company.name !== company.company && (
-            <p className="text-sm text-slate-500 mb-2">
-              Contact: {company.name}
-            </p>
-          )}
-
-          {/* Details */}
-          <div className="space-y-1.5 sm:space-y-2 text-sm sm:text-base text-slate-600 mb-4 sm:mb-6">
-            <div className="flex items-center gap-2">
-              <Building size={16} className="text-slate-400 flex-shrink-0" />
-              <span className="text-slate-700">{company.pavilion}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <MapPin size={16} className="text-slate-400 flex-shrink-0" />
-              <span className="text-slate-700 font-semibold">Stand #{company.stand}</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Globe size={16} className="text-slate-400 flex-shrink-0" />
-              <span className="text-slate-700">{company.country}</span>
-            </div>
-          </div>
-
-          {/* Action Buttons */}
-          <div
-            onClick={(e) => e.stopPropagation()}
-            className="grid grid-cols-2 gap-2 sm:gap-3 pt-4 border-t border-slate-200"
-          >
-            <button
-              onClick={handleBrochureClick}
-              className="px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-[#004A96] border border-[#004A96]/30 rounded-lg hover:bg-[#E8F1F8] transition-all duration-300 hover:border-[#004A96] hover:shadow-sm flex items-center justify-center gap-2"
-            >
-              <ExternalLink size={14} className="sm:w-4 sm:h-4" />
-              <span>Product</span>
-            </button>
-
-            <button
-              onClick={handleConnectClick}
-              className="px-3 sm:px-4 py-2.5 sm:py-3 text-xs sm:text-sm font-semibold text-white bg-[#004A96] rounded-lg hover:bg-[#003875] transition-all duration-300 hover:shadow-md flex items-center justify-center gap-2"
-            >
-              <MessageCircle size={14} className="sm:w-4 sm:h-4" />
-              <span>Connect</span>
-            </button>
-          </div>
+        <Link href={'/exhibition-directory/' + company.id} className="outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-blue-500"><h3 className="min-h-12 text-base font-bold leading-6 text-slate-900 transition group-hover:text-[#004A96]">{company.company}</h3></Link>
+        {company.name && company.name !== company.company && <p className="mt-2 text-xs text-slate-500">{company.name}</p>}
+        {location && <p className="mt-3 flex items-start gap-1.5 text-xs leading-5 text-slate-500"><MapPin className="mt-0.5 h-3.5 w-3.5 shrink-0 text-slate-400" /><span>{location}</span></p>}
+        {sectors.length > 0 && <div className="mt-3 flex flex-wrap gap-1.5">{sectors.slice(0, 2).map(sector => <span key={sector} className="rounded-md bg-slate-100 px-2 py-1 text-[10px] leading-4 text-slate-500">{sector}</span>)}</div>}
+        <div className="mt-auto grid grid-cols-2 gap-2 pt-5">
+          <button type="button" onClick={() => onProductBrochureClick(company.id, company.company)} className="inline-flex items-center justify-center gap-1.5 rounded-lg border border-slate-200 py-2.5 text-xs font-semibold text-slate-600 transition hover:border-blue-200 hover:bg-blue-50 hover:text-[#004A96]">View profile<ArrowUpRight className="h-3.5 w-3.5" /></button>
+          <button type="button" onClick={() => setIsFormOpen(true)} className="inline-flex items-center justify-center gap-1.5 rounded-lg bg-[#004A96] py-2.5 text-xs font-semibold text-white transition hover:bg-[#003875]"><MessageCircle className="h-3.5 w-3.5" />Connect</button>
         </div>
-      </div>
-
-      {/* Registration Form */}
-      <VisitorRegistrationForm
-        isOpen={isFormOpen}
-        onClose={() => setIsFormOpen(false)}
-        companyName={company.company}
-      />
+      </article>
+      <VisitorRegistrationForm isOpen={isFormOpen} onClose={() => setIsFormOpen(false)} companyName={company.company} />
     </>
-  )
+  );
 }

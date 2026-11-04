@@ -21,6 +21,8 @@ import ExhibitorPaymentFields, {
   type PaymentFormValue,
 } from "@/components/admin/ExhibitorPaymentFields";
 import { toDateInputValue } from "@/lib/stallPayment";
+import ExhibitorLogo from "@/components/ExhibitorLogo";
+import { EXHIBITOR_LOGO_TYPES, validateExhibitorLogo, type UploadedExhibitorLogo } from "@/lib/exhibitorLogo";
 
 // Extend the interface to include booth size fields
 interface ExtendedCreateExhibitorData extends CreateExhibitorData {
@@ -55,6 +57,29 @@ export default function EditExhibitorPage() {
     status: "active",
   });
   const [payment, setPayment] = useState<PaymentFormValue>(defaultPaymentFormValue);
+  const [savedLogo, setSavedLogo] = useState("");
+  const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState("");
+  const [uploadedLogo, setUploadedLogo] = useState<{ file: File; result: UploadedExhibitorLogo } | null>(null);
+  const [uploadingLogo, setUploadingLogo] = useState(false);
+
+  useEffect(() => {
+    if (!logoFile) return;
+    const url = URL.createObjectURL(logoFile);
+    setLogoPreview(url);
+    return () => URL.revokeObjectURL(url);
+  }, [logoFile]);
+
+  const handleLogoChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.currentTarget.files?.[0];
+    event.currentTarget.value = "";
+    if (!file) return;
+    const error = validateExhibitorLogo(file);
+    if (error) { toast.error(error); return; }
+    setLogoFile(file);
+    setUploadedLogo(null);
+  };
+
 
   const sectors = [
  "Additive Manufacturing - 3D Printing",
@@ -120,6 +145,7 @@ export default function EditExhibitorPage() {
       const exhibitor = response.data;
       
       if (exhibitor) {
+        setSavedLogo(exhibitor.logoUrl || "");
         setFormData({
           name: exhibitor.name,
           email: exhibitor.email,
@@ -197,12 +223,22 @@ export default function EditExhibitorPage() {
         updateData.password = formData.password;
       }
 
+      if (logoFile) {
+        setUploadingLogo(true);
+        const result = uploadedLogo?.file === logoFile
+          ? uploadedLogo.result : await exhibitorsAPI.uploadLogo(id, logoFile);
+        setUploadedLogo({ file: logoFile, result });
+        setUploadingLogo(false);
+        updateData.metadata = { logoUrl: result.url, logoPublicId: result.publicId };
+      }
+
       await exhibitorsAPI.update(id, updateData);
       toast.success("Exhibitor updated successfully");
       router.push(`/admin/exhibition/exhibitors/${id}`);
     } catch (error: any) {
       toast.error(error.message || "Failed to update exhibitor");
     } finally {
+      setUploadingLogo(false);
       setSaving(false);
     }
   };
@@ -254,6 +290,22 @@ export default function EditExhibitorPage() {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-8">
+          <fieldset disabled={saving} className="space-y-8">
+          <section className="rounded-xl border border-slate-200 bg-white p-6">
+            <h2 className="mb-1 text-lg font-semibold text-slate-900">Company logo</h2>
+            <p className="mb-5 text-sm text-slate-500">Displayed in the exhibitor list and company profile.</p>
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+              <ExhibitorLogo logoUrl={logoFile ? logoPreview : savedLogo} company={formData.company || "Company"} className="h-24 w-24" />
+              <div className="min-w-0">
+                <label htmlFor="company-logo" className="mb-2 block text-sm font-medium text-slate-700">Upload company logo</label>
+                <input id="company-logo" type="file" accept={EXHIBITOR_LOGO_TYPES.join(",")} disabled={saving} onChange={handleLogoChange}
+                  aria-describedby="company-logo-help" className="block w-full text-sm text-slate-500 file:mr-3 file:rounded-lg file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:font-medium file:text-blue-700 hover:file:bg-blue-100" />
+                <p id="company-logo-help" className="mt-2 text-xs text-slate-500">PNG, JPG, WEBP or GIF, up to 5 MB. Uploaded when you save changes.</p>
+                {logoFile && <div className="mt-2 flex flex-wrap items-center gap-3 text-xs"><span className="text-slate-600">{logoFile.name}</span><button type="button" disabled={saving} onClick={() => { setLogoFile(null); setUploadedLogo(null); }} className="font-medium text-blue-600 hover:underline">Cancel selection</button></div>}
+              </div>
+            </div>
+          </section>
+
           {/* Basic Information Card */}
           <div className="bg-white rounded-xl shadow-sm p-6">
             <h2 className="text-lg font-semibold text-gray-900 mb-6 pb-4 border-b">
@@ -282,16 +334,16 @@ export default function EditExhibitorPage() {
               {/* Sector */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Sector *
+                  Sector
                 </label>
                 <select
                   name="sector"
-                  required
                   value={formData.sector}
                   onChange={handleChange}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                 >
-                  <option value="">Select a sector</option>
+                  <option value="">Not specified</option>
+                  {formData.sector && !sectors.includes(formData.sector) && <option value={formData.sector}>{formData.sector}</option>}
                   {sectors.map((sector) => (
                     <option key={sector} value={sector}>
                       {sector}
@@ -460,6 +512,7 @@ export default function EditExhibitorPage() {
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
                 >
                   <option value="">Select booth size</option>
+                  {formData.boothSize && !boothSizes.includes(formData.boothSize) && <option value={formData.boothSize}>{formData.boothSize}</option>}
                   {boothSizes.map((size) => (
                     <option key={size} value={size}>
                       {size}
@@ -569,10 +622,11 @@ export default function EditExhibitorPage() {
                 className="px-8 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 <Save className="h-5 w-5" />
-                {saving ? "Saving..." : "Save Changes"}
+                {saving ? (uploadingLogo ? "Uploading logo..." : "Saving...") : "Save Changes"}
               </button>
             </div>
           </div>
+          </fieldset>
         </form>
       </div>
     </div>

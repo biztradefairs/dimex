@@ -48,7 +48,7 @@ export const fetchIndexableExhibitors = unstable_cache(async (): Promise<Company
     }
   }
   return [...companies.values()];
-}, ['indexable-exhibitors-v1', API], { revalidate: 60 });
+}, ['indexable-exhibitors-v2', API], { revalidate: 60 });
 
 const cachedCompany = unstable_cache(async (id: string): Promise<ExhibitionCompany | null> => {
   let payload: Record<string, unknown>;
@@ -80,5 +80,6 @@ export async function fetchInitialCompanyDirectory() {
   return {
     companies: firstPage.filter((company): company is ExhibitionCompany => company !== null),
     totalPages: Math.max(1, Math.ceil(links.length / 24)),
+    total: links.length,
   };
 }

@@ -10,7 +10,7 @@ export const metadata: Metadata = PAGE_META.exhibitionDirectory;
 export const revalidate = 60;
 
 export default async function Home() {
-  const { companies, totalPages } = await fetchInitialCompanyDirectory();
+  const { companies, totalPages, total } = await fetchInitialCompanyDirectory();
   return (
     <>
 
@@ -21,7 +21,7 @@ export default async function Home() {
           __html: JSON.stringify(EXHIBITION_DIRECTORY_STRUCTURED_DATA).replace(/</g, '\\u003c'),
         }}
       />
-      <CompanyDirectory initialCompanies={companies} initialTotalPages={totalPages} />
+      <CompanyDirectory initialCompanies={companies} initialTotalPages={totalPages} initialTotal={total} />
       <PageFaq route="/exhibition-directory" />
     </>
   )

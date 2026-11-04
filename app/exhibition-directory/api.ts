@@ -305,7 +305,8 @@ export async function fetchCompleteExhibitorData(exhibitorId: string): Promise<E
 export async function fetchExhibitionCompanies(
   page: number = 1,
   limit: number = 24,
-  search: string = ''
+  search: string = '',
+  letter: string = ''
 ): Promise<{ companies: ExhibitionCompany[]; total: number; totalPages: number }> {
   try {
     const params = new URLSearchParams();
@@ -314,7 +315,8 @@ export async function fetchExhibitionCompanies(
     if (search) {
       params.append('search', search);
     }
-    params.append('status', 'approved');
+    params.append('status', 'active');
+    if (letter) params.append('letter', letter);
 
     const response = await fetch(`${API_BASE_URL}/api/exhibitors?${params.toString()}`, {
       method: 'GET',
@@ -393,11 +395,6 @@ export async function fetchExhibitionCompanies(
     };
   } catch (error) {
     console.error('Error fetching exhibitors:', error);
-
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Returning mock data for development');
-      return getMockCompanies(page, limit);
-    }
 
     throw error;
   }

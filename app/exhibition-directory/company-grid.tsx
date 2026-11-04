@@ -1,142 +1,33 @@
-// app/exhibition-directory/company-grid.tsx
 'use client';
 
-import { ExhibitionCompany } from './api';
+import Link from 'next/link';
+import { ArrowUpRight, MapPin } from 'lucide-react';
+import type { ExhibitionCompany } from './api';
 import CompanyCard from './copanyCard';
-import { Building, MapPin } from 'lucide-react';
+import ExhibitorLogo from '@/components/ExhibitorLogo';
 
 interface CompanyGridProps {
   companies: ExhibitionCompany[];
   viewMode: 'grid' | 'gallery' | 'list';
   onProductBrochureClick: (companyId: string, companyName: string) => void;
 }
-
 export default function CompanyGrid({ companies, viewMode, onProductBrochureClick }: CompanyGridProps) {
-  console.log('📊 CompanyGrid received companies:', companies.map(c => ({
-    exhibitorName: c.name,
-    companyName: c.company,
-    logo: c.logo
-  })));
-
-  if (viewMode === 'grid') {
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
-        {companies.map((company) => (
-          <CompanyCard
-            key={company.id}
-            company={{
-              id: company.id,
-              name: company.name,
-              company: company.company,
-              pavilion: company.pavilion,
-              stand: company.standNumber,
-              country: company.country,
-              logo: company.logo,
-              logoInitials: (company.company || company.name).substring(0, 2).toUpperCase(),
-              countryCode: company.countryCode
-            }}
-            onProductBrochureClick={(id, name) => onProductBrochureClick(id, name)}
-          />
-        ))}
-      </div>
-    );
-  }
-
-  if (viewMode === 'gallery') {
-    return (
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
-        {companies.map((company) => (
-          <CompanyCard
-            key={company.id}
-            company={{
-              id: company.id,
-              name: company.name,
-              company: company.company,
-              pavilion: company.pavilion,
-              stand: company.standNumber,
-              country: company.country,
-              logo: company.logo,
-              logoInitials: (company.company || company.name).substring(0, 2).toUpperCase(),
-              countryCode: company.countryCode
-            }}
-            onProductBrochureClick={(id, name) => onProductBrochureClick(id, name)}
-          />
-        ))}
-      </div>
-    );
-  }
-
-  // List view
+  if (viewMode !== 'list') return (
+    <div className={'grid gap-4 sm:gap-5 ' + (viewMode === 'gallery' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4')}>
+      {companies.map(company => <CompanyCard key={company.id} company={{ id: company.id, name: company.name, company: company.company, pavilion: company.pavilion, stand: company.standNumber, country: company.country, logo: company.logo, logoInitials: company.company.slice(0, 2).toUpperCase(), countryCode: company.countryCode, location: company.fullAddress, sector: company.sector }} onProductBrochureClick={onProductBrochureClick} />)}
+    </div>
+  );
   return (
-    <div className="bg-white rounded-xl border border-gray-200 overflow-hidden">
-      <table className="w-full">
-        <thead className="bg-slate-50">
-          <tr>
-            <th className="p-4 text-left text-slate-700 font-semibold">Company</th>
-            <th className="p-4 text-left text-slate-700 font-semibold hidden md:table-cell">Location</th>
-            <th className="p-4 text-left text-slate-700 font-semibold hidden lg:table-cell">Stand</th>
-            <th className="p-4 text-left text-slate-700 font-semibold">Sector</th>
-          </tr>
-        </thead>
-        <tbody>
-          {companies.map((company) => (
-            <tr
-              key={company.id}
-              onClick={() => onProductBrochureClick(company.id, company.company)}
-              className="border-t hover:bg-slate-50 cursor-pointer transition-colors"
-            >
-              <td className="p-4">
-                <div className="flex items-center gap-3">
-                  {company.logo && (
-                    <img
-                      src={company.logo}
-                      alt={company.company}
-                      className="w-10 h-10 rounded-lg object-cover"
-                      onError={(e) => {
-                        console.error('List view image error:', company.logo);
-                        e.currentTarget.style.display = 'none';
-                      }}
-                    />
-                  )}
-                  <div>
-                    <div className="font-medium text-slate-900">{company.company}</div>
-                    {company.name && company.name !== company.company && (
-                      <div className="text-sm text-slate-500">Contact: {company.name}</div>
-                    )}
-                    <div className="text-sm text-slate-600 md:hidden">
-                      {company.pavilion} • Stand {company.standNumber}
-                    </div>
-                  </div>
-                </div>
-              </td>
-              <td className="p-4 hidden md:table-cell text-slate-600">
-                <div className="flex items-center gap-2">
-                  <Building size={14} className="text-slate-400" />
-                  <span>{company.pavilion}</span>
-                  <MapPin size={14} className="text-slate-400 ml-2" />
-                  <span>{company.country}</span>
-                </div>
-              </td>
-              <td className="p-4 hidden lg:table-cell font-medium text-slate-900">
-                {company.standNumber}
-              </td>
-              <td className="p-4">
-                <div className="flex flex-wrap gap-1">
-                  {company.sector.slice(0, 2).map((s, i) => (
-                    <span key={i} className="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded-full">
-                      {s}
-                    </span>
-                  ))}
-                  {company.sector.length > 2 && (
-                    <span className="text-xs bg-slate-100 text-slate-700 px-2 py-1 rounded-full">
-                      +{company.sector.length - 2}
-                    </span>
-                  )}
-                </div>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+    <div className="overflow-x-auto rounded-2xl border border-slate-200 bg-white shadow-sm">
+      <table className="w-full text-left text-sm">
+        <thead className="border-b border-slate-200 bg-slate-50 text-xs uppercase tracking-wide text-slate-400"><tr><th scope="col" className="px-5 py-4 font-semibold">Company</th><th scope="col" className="hidden px-5 py-4 font-semibold md:table-cell">Location</th><th scope="col" className="px-5 py-4 font-semibold">Stall</th><th scope="col" className="hidden px-5 py-4 font-semibold lg:table-cell">Sector</th><th scope="col" className="px-4 py-4"><span className="sr-only">Profile</span></th></tr></thead>
+        <tbody className="divide-y divide-slate-100">{companies.map(company => <tr key={company.id} className="transition hover:bg-blue-50/30">
+          <td className="px-5 py-4"><div className="flex items-center gap-3"><ExhibitorLogo logoUrl={company.logo} company={company.company} /><div><Link href={'/exhibition-directory/' + company.id} className="font-semibold leading-5 text-slate-900 hover:text-[#004A96]">{company.company}</Link>{company.name && company.name !== company.company && <p className="mt-1 text-xs text-slate-400">{company.name}</p>}</div></div></td>
+          <td className="hidden px-5 py-4 text-xs text-slate-500 md:table-cell">{company.fullAddress || (company.country !== 'Not specified' ? company.country : '-')}</td>
+          <td className="px-5 py-4"><span className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-md bg-blue-50 px-2.5 py-1.5 text-xs font-semibold text-[#004A96]"><MapPin className="h-3 w-3" />{company.standNumber}</span></td>
+          <td className="hidden max-w-60 px-5 py-4 text-xs leading-5 text-slate-500 lg:table-cell">{company.sector.filter(sector => sector !== 'General').join(', ') || '-'}</td>
+          <td className="px-4 py-4"><Link aria-label={'View ' + company.company} href={'/exhibition-directory/' + company.id} className="inline-flex rounded-lg p-2 text-slate-400 hover:bg-blue-50 hover:text-[#004A96]"><ArrowUpRight className="h-4 w-4" /></Link></td>
+        </tr>)}</tbody>
       </table>
     </div>
   );
