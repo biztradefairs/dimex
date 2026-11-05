@@ -13,7 +13,7 @@ interface CompanyGridProps {
 }
 export default function CompanyGrid({ companies, viewMode, onProductBrochureClick }: CompanyGridProps) {
   if (viewMode !== 'list') return (
-    <div className={'grid gap-4 sm:gap-5 ' + (viewMode === 'gallery' ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3' : 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4')}>
+    <div className={'grid gap-5 sm:gap-6 ' + (viewMode === 'gallery' ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1 sm:grid-cols-2 xl:grid-cols-3')}>
       {companies.map(company => <CompanyCard key={company.id} company={{ id: company.id, name: company.name, company: company.company, pavilion: company.pavilion, stand: company.standNumber, country: company.country, logo: company.logo, logoInitials: company.company.slice(0, 2).toUpperCase(), countryCode: company.countryCode, location: company.fullAddress, sector: company.sector }} onProductBrochureClick={onProductBrochureClick} />)}
     </div>
   );

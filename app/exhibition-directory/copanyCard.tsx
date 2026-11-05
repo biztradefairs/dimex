@@ -18,9 +18,9 @@ export default function CompanyCard({ company, onProductBrochureClick }: Company
   const sectors = (company.sector || []).filter(sector => sector !== 'General');
   return (
     <>
-      <article onClick={event => { if (!(event.target as HTMLElement).closest('button, a')) router.push('/exhibition-directory/' + company.id); }} className="group flex h-full cursor-pointer flex-col rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5">
+      <article onClick={event => { if (!(event.target as HTMLElement).closest('button, a')) router.push('/exhibition-directory/' + company.id); }} className="group flex h-full cursor-pointer flex-col rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:border-blue-200 hover:shadow-lg hover:shadow-blue-950/5">
         <div className="mb-5 flex items-start justify-between gap-3">
-          <ExhibitorLogo logoUrl={company.logo} company={company.company} className="h-[72px] w-[72px]" />
+          <ExhibitorLogo logoUrl={company.logo} company={company.company} className="h-28 w-28 sm:h-32 sm:w-32" />
           <span className="rounded-md border border-blue-100 bg-blue-50 px-2.5 py-1.5 text-[11px] font-semibold text-[#004A96]">{company.stand && company.stand !== 'Not assigned' ? 'Stall ' + company.stand : 'Stall details soon'}</span>
         </div>
         <Link href={'/exhibition-directory/' + company.id} className="outline-none focus-visible:rounded focus-visible:ring-2 focus-visible:ring-blue-500"><h3 className="min-h-12 text-base font-bold leading-6 text-slate-900 transition group-hover:text-[#004A96]">{company.company}</h3></Link>
