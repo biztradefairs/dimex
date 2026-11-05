@@ -7,6 +7,7 @@ export type Partner = {
   name: string
   logo: string
   link: string
+  linkedin?: string | null
 }
 
 export const partners: Partner[] = [
@@ -98,7 +99,7 @@ export const partners: Partner[] = [
   {
     name: "99 BUSINESS MEDIA",
     logo: "/images/99media.png",
-    link: "hhttps://www.99businessmedia.com",
+    link: "https://www.99businessmedia.com",
   },
   {
     name: "UDYAM PRAKASHAN",
@@ -109,97 +110,116 @@ export const partners: Partner[] = [
     name: "Engee Tech",
     logo: "/images/engeetech.png",
     link: "https://engeetech.com/",
+    linkedin: "https://www.linkedin.com/company/engeetech/",
   },
   {
     name: "voestalpine",
     logo: "/images/Voestalpine.png",
     link: "https://www.voestalpine.com/group/en/",
+    linkedin: "https://www.linkedin.com/company/voestalpine/",
   },
   {
     name: "KADKRAFT",
     logo: "/images/kadkraft.png",
     link: "https://www.kadkraft.com/about-us/",
+    linkedin: "https://www.linkedin.com/company/kadkraftsystems/",
   },
   {
     name: "SEC ENGRAVING",
     logo: "/images/sec-logo.png",
     link: "https://secengraving.com/",
+    linkedin: "https://www.linkedin.com/company/sunita-engineering-corporation/",
   },
   {
     name: "USBC STEELS",
     logo: "/images/usbcosteels.jpeg",
     link: "https://www.usbcosteels.com/",
+    linkedin: "https://www.linkedin.com/company/unitedsteelandbearingco/",
   },
   {
     name: "FEBTECH",
     logo: "/images/febtech.png",
     link: "https://diecasting-automation.com/",
+    linkedin: "https://www.linkedin.com/company/febtech-ind/",
   },
   {
     name: "INSTITUTE FOR INJECTION MOLDING",
     logo: "/images/institute-for-injectionmolding.png",
     link: "https://www.iimolding.com/",
+    linkedin: "https://www.linkedin.com/showcase/institute-for-injection-molding/",
   },
   {
     name: "JIG ENGINEERING",
     logo: "/images/jig-engineering.png",
     link: "https://www.jigengineering.in/",
+    linkedin: null,
   },
   {
     name: "JYOTI GROUP",
     logo: "/images/jyoti-group.png",
     link: "https://jyotihtgroup.com/",
+    linkedin: "https://www.linkedin.com/company/jyoti-ht-group/",
   },
 
   {
     name: "LOGIC LOOM",
     logo: "/images/logic-loom.png",
     link: "https://logicloom.in/",
+    linkedin: "https://www.linkedin.com/company/logicloomitsolutions/",
   },
   {
     name: "MECHMATRIX",
     logo: "/images/mechmatrix.png",
     link: "https://mechmatrix.in/",
+    linkedin: "https://www.linkedin.com/company/mechmatrixnashik/",
   },
   {
     name: "ONEHUNDRED TECHNOLOGIES",
     logo: "/images/onehundred-technologies.png",
     link: "",
+    linkedin: null,
   },
   {
     name: "PRIME GRAPHITE",
     logo: "/images/prime-graphite.png",
     link: "https://primegraphite.com/",
+    linkedin: "https://www.linkedin.com/company/prime-graphite-private-limited/",
   },
   {
     name: "QUAD TOOLING",
     logo: "/images/quad.png",
     link: "https://quadtooling.com/index.html",
+    linkedin: "https://www.linkedin.com/company/quad-tooling/",
   },
   {
     name: "RATTAN TRADING COMPANY",
     logo: "/images/rattan-trading-company.png",
     link: "https://rattantradingcompany.in/",
+    linkedin: null,
   },
   {
     name: "SAC",
     logo: "/images/sac.png",
     link: "https://www.cautoniswastikinstrument.com/downloads",
+    linkedin: "https://www.linkedin.com/company/swastik-automation-%26-control/",
   },
   {
     name: "SANI MOULDS",
     logo: "/images/sani-moulds.png",
     link: "https://www.sanimoulds.com/",
+    linkedin: null,
   },
   {
     name: "STIACK",
     logo: "/images/stiack.png",
     link: "https://stiack.com/",
+    linkedin: "https://www.linkedin.com/company/stiack-engineering-pvt-ltd/",
   },
   {
     name: "TOOLING TECHNOLOGY",
     logo: "/images/tooling-technology.png",
     link: "https://www.toolingtechnology.in/",
+    linkedin: null,
   },
 
 ]
