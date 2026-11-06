@@ -14,6 +14,7 @@ import {
 
 } from 'lucide-react';
 import OtpModal from '@/components/passes/OtpModal';
+import { getStoredUTMData } from '@/lib/utmTracker';
 import PassesChrome from '@/components/passes/PassesChrome';
 import CountryFlag from '@/components/passes/CountryFlag';
 import {
@@ -215,6 +216,8 @@ export default function PassRegisterPage() {
         verificationToken,
         name: form.name,
         company: form.company,
+        designation: form.designation,
+        email: email.trim() || undefined,
         pinCode: form.pinCode,
         area: form.area,
         city: form.city,
@@ -222,6 +225,7 @@ export default function PassRegisterPage() {
         country: form.country,
         source: form.source,
         interests: form.interests,
+        tracking: { ...getStoredUTMData(), landingPage: getStoredUTMData().landingPage || window.location.href },
       });
       savePassSession({
         countryCode,

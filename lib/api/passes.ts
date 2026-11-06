@@ -169,6 +169,7 @@ export async function registerVisitorPass(payload: {
   country?: string;
   source?: string;
   interests: string[];
+  tracking?: Record<string, unknown>;
 }) {
   const response = await fetch(`${API_BASE}/passes/register`, {
     method: 'POST',
