@@ -61,7 +61,7 @@ type Step = 'phone' | 'details';
 export default function PassRegisterPage() {
   const router = useRouter();
   const [step, setStep] = useState<Step>('phone');
-  const [channel, setChannel] = useState<PassChannel>('sms');
+  const [channel, setChannel] = useState<PassChannel>('whatsapp');
   const [email, setEmail] = useState('');
   const [countryCode, setCountryCode] = useState('+91');
   const [mobile, setMobile] = useState('');
