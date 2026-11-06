@@ -140,7 +140,7 @@ export default function VideoSection() {
 
               <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-4">
                 <Link
-                  href="/register?t=visitor"
+                  href='/passes'
                   className="group inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-[#004A96] px-4 py-3.5 text-center text-sm font-semibold text-white transition-colors hover:bg-[#E0161D] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#004A96] motion-reduce:transition-none sm:px-6"
                 >
                   <span>Register free as a visitor</span>

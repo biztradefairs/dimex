@@ -791,7 +791,7 @@ export default function WhyVisit() {
                     title: "Become a Visitor",
                     description: "Why not visit the market? Why not visit the show and what to expect for the following edition.",
                     buttonText: "Visitor Registration",
-                    href: "/visitor-registration"
+                    href: '/passes'
                   }
                 ].map((card, index) => (
                   <motion.div

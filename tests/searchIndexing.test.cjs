@@ -112,12 +112,14 @@ test('public articles self-canonicalize and missing articles produce notFound be
     await assert.rejects(page.generateMetadata({ params: Promise.resolve({ slug }) }), /NOT_FOUND/);
 });
 
-test('legacy redirects are permanent, resolve to existing pages and have no redirect chains', async () => {
+test('legacy redirects resolve directly, with temporary visitor redirects to passes', async () => {
   const redirects = await config.redirects();
   const paths = new Set(redirects.map((entry) => entry.source));
   assert.equal(paths.size, redirects.length);
   for (const redirect of redirects) {
-    assert.equal(redirect.permanent, true);
+    const isVisitorRedirect = ['/visitor-registration', '/visitors/visitor-registration'].includes(redirect.source);
+    assert.equal(redirect.permanent, !isVisitorRedirect);
+    if (isVisitorRedirect) assert.equal(redirect.destination, '/passes');
     const target = new URL(redirect.destination, source);
     assert.equal(paths.has(target.pathname), false);
     if (target.pathname.startsWith('/articles/'))

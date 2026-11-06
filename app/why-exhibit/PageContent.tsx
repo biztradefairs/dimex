@@ -331,7 +331,7 @@ export default function WhyExhibit() {
 
             <div className="flex flex-wrap items-center gap-4">
               <Link
-                href="/register?t=visitor"
+                href='/passes'
                 className="inline-block rounded-full bg-[#004A96] px-10 py-4 text-white font-semibold text-base transition hover:bg-[#003875]"
               >
                 Register Free
@@ -1102,7 +1102,7 @@ export default function WhyExhibit() {
                   title: "Become a Visitor",
                   description: "Why not visit the market? Why not visit the show and what to expect for the following edition.",
                   buttonText: "Visitor Registration",
-                  href: "/visitor-registration"
+                  href: '/passes'
                 }
               ].map((card, index) => (
                 <motion.div

@@ -698,6 +698,6 @@ const navigationCards = [
     title: "Become a Visitor",
     description: "Not ready to become an exhibitor? Why not visit the exhibition for free and find out what to expect for the following edition",
     buttonText: "Visitor Registration",
-    href: "/visitor-registration",
+    href: '/passes',
   },
 ]

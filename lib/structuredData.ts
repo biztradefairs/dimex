@@ -52,7 +52,7 @@ export const HOME_STRUCTURED_DATA = {
       offers: {
         '@type': 'Offer',
         name: 'Free visitor registration',
-        url: new URL('/register?t=visitor', SITE_URL).toString(),
+        url: new URL('/passes', SITE_URL).toString(),
         price: '0',
         priceCurrency: 'INR',
         availability: 'https://schema.org/InStock',
