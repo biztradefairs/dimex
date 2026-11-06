@@ -19,7 +19,7 @@ export default function PassesLandingPage() {
       <div className="pointer-events-none absolute -left-24 top-10 h-72 w-72 rounded-full bg-[#004A96]/15 blur-3xl" />
       <div className="pointer-events-none absolute right-0 top-0 h-80 w-80 rounded-full bg-[#E0161D]/15 blur-3xl" />
 
-      <div className="relative mx-auto grid min-h-screen max-w-6xl items-center gap-12 px-5 py-16 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
+      <div className="relative mx-auto grid max-w-6xl items-start gap-12 px-5 pt-10 pb-10 sm:pt-12 sm:pb-12 lg:grid-cols-[1.05fr_0.95fr] lg:px-8">
         <div>
           <div className="inline-flex items-center gap-2 rounded-full bg-blue-40 px-3 py-1 text-xs font-semibold text-blue-700 ring-1 ring-blue-200">
             <span className="h-1.5 w-1.5 rounded-full bg-blue-500" />
