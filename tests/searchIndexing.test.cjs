@@ -125,6 +125,8 @@ test('legacy redirects resolve directly, with temporary visitor redirects to pas
     assert.equal(paths.has(target.pathname), false);
     if (target.pathname.startsWith('/articles/'))
       assert.ok(articles.getArticleBySlug(target.pathname.slice('/articles/'.length)));
+    else if (target.pathname.startsWith('/images/'))
+      assert.ok(fs.statSync(path.join(root, 'public', target.pathname.slice(1))).isFile(), redirect.destination);
     else assert.ok(fs.existsSync(path.join(root, 'app', target.pathname, 'page.tsx')), redirect.destination);
   }
   assert.equal(redirects.find((entry) => entry.source === '/event-brochure').destination, '/register?t=brochure');

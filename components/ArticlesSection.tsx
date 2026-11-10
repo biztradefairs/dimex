@@ -8,7 +8,7 @@ export default function ArticlesSection() {
       slug: 'the-role-of-freight-forwarders-in-managing-complex-supply-chains',
       excerpt: 'Precision tooling plays a critical role in enabling high-quality manufacturing across automotive, electronics, and consumer industries.',
       image: '/images/article1.jpg',
-      date: 'February 01, 2026',
+      date: 'February 01, 2027',
     },
     {
       title: 'The Rise of India as a Global Die & Mould Manufacturing Hub',

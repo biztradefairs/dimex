@@ -169,13 +169,13 @@ const PartnersSponsorsPage: React.FC = () => {
 
   const sections = [
     {
-      title: "Supporting Partner 2026",
-      partners: partnersData.supportingPartner2026 ?? [],
+      title: "Supporting Partner 2027",
+      partners: partnersData.supportingPartner ?? [],
       key: "supporting",
     },
     {
-      title: "Official Media Partner 2026",
-      partners: partnersData.officialMediaPartner2026 ?? [],
+      title: "Official Media Partner 2027",
+      partners: partnersData.officialMediaPartner ?? [],
       key: "official-media",
     },
     {

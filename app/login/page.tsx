@@ -212,7 +212,7 @@ export default function LoginPage() {
         {/* Footer */}
         <div className="text-center mt-8">
           <p className="text-xs text-gray-500">
-            © {new Date().getFullYear()} DIEMEX Exhibition. All rights reserved.
+            © 2027 DIEMEX Exhibition. All rights reserved.
           </p>
         </div>
       </div>

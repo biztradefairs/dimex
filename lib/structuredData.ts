@@ -1330,8 +1330,8 @@ export const EV_DIE_CASTING_TOOLING = {
       "headline": "EV Die Casting and Tooling in India: Key Trends for 2027",
       "description": "How EV growth is reshaping die casting and tooling in India: giga-casting, new capacity in Pune, and what toolmakers need.",
       "image": ["https://www.diemex.in/images/casting.jpg"],
-      "datePublished": "2026-10-20",
-      "dateModified": "2026-10-20",
+      "datePublished": "2027-10-20",
+      "dateModified": "2027-10-20",
       "author": {
         "@type": "Person",
         "name": "Diemex Team"
@@ -1410,8 +1410,8 @@ export const PRECISION_DIE_MOULD = {
       "headline": "Precision Die & Mould Solutions: Technologies and How to Choose",
       "description": "What makes die and mould solutions precise: CNC, EDM, 3D printing, inspection and simulation, and how to choose a supplier.",
       "image": ["https://www.diemex.in/Image.jpg"],
-      "datePublished": "2026-10-20",
-      "dateModified": "2026-10-20",
+      "datePublished": "2027-10-20",
+      "dateModified": "2027-10-20",
       "author": {
         "@type": "Person",
         "name": "Diemex Team"
@@ -1492,7 +1492,7 @@ export const TOOLING_MOULD_BASES = {
       "headline": "Tooling, Mould Bases and Standard Components",
       "description": "Explore mould bases, hot runner systems, standard components and tooling elements at DIEMEX 2027, 24-26 March, Pune. Register free or book a stall.",
       "image": "https://www.diemex.in/images/sectors/pic3.jpg",
-      "dateModified": "2026-10-20",
+      "dateModified": "2027-10-20",
       "inLanguage": "en-IN",
       "isPartOf": { "@id": "https://www.diemex.in/" },
       "publisher": { "@id": "https://www.diemex.in/" },

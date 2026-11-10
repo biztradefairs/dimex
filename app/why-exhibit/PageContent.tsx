@@ -46,7 +46,7 @@ const data = [
   },
   {
     title: 'Reach India’s manufacturing hubs',
-    text: 'DIEMEX has run in Bangalore (2023), Chennai (2025) and Pune (2026, 2027), covering key die and mould regions.',
+    text: 'DIEMEX has run in Bangalore (2023), Chennai (2025) and Pune (2027), covering key die and mould regions.',
     image: '/images/Why-Exhibit/conversion.png',
   },
   {

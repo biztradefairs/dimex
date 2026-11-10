@@ -275,8 +275,8 @@ export default async function SectorPage({ params }: PageProps) {
         headline: sectorData.title,
         description: sectorData.description || undefined,
         url: `${SITE_URL}/sectors/${slug}`,
-        datePublished: '2026-10-20',
-        dateModified: '2026-10-20',
+        datePublished: '2027-10-20',
+        dateModified: '2027-10-20',
         author: { '@type': 'Organization', name: 'DIEMEX Editorial Team' },
         publisher: {
           '@type': 'Organization',

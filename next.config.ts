@@ -4,6 +4,13 @@ const nextConfig: NextConfig = {
   async redirects() {
     // Next.js preserves incoming query parameters, including campaign tracking.
     return [
+      { source: '/images/Invitation_Diemex2026.docx', destination: '/images/Invitation_Diemex2027.docx', permanent: true },
+      { source: '/images/Announcement_Temp_Diemex_2026.docx', destination: '/images/Announcement_Temp_Diemex_2027.docx', permanent: true },
+      { source: '/images/Exhibitor_Promotion/Invitation_Diemex2026.docx', destination: '/images/Exhibitor_Promotion/Invitation_Diemex2027.docx', permanent: true },
+      { source: '/images/Exhibitor_Promotion/Announcement_Temp_Diemex_2026.docx', destination: '/images/Exhibitor_Promotion/Announcement_Temp_Diemex_2027.docx', permanent: true },
+      { source: '/images/Exhibitor_Promotion/Diemex_2026_logos.zip', destination: '/images/Exhibitor_Promotion/Diemex_2027_logos.zip', permanent: true },
+      { source: '/images/exhibitor-promo/Diemex_2026_logos.zip', destination: '/images/exhibitor-promo/Diemex_2027_logos.zip', permanent: true },
+      { source: '/images/Exhibitor_Promotion/Diemex_2026_news.pdf', destination: '/images/Exhibitor_Promotion/Diemex_2027_news.pdf', permanent: true },
       { source: '/articles/why-is-india-die-mould-industry-accelerating-in-2026', destination: '/articles/the-role-of-freight-forwarders-in-managing-complex-supply-chains', permanent: true },
       { source: '/articles/how-is-die-mould-industry-preparing-in-2026', destination: '/articles/why-is-rail-freight-becoming-a-stronger-alternative-for-long-haul-cargo-in-2027', permanent: true },
       { source: '/articles/what-s-next-for-large-complex-tooling-mould-manufacturing', destination: '/articles/how-are-ports-preparing-for-increased-freight-handling-demands-in-2027', permanent: true },
