@@ -48,7 +48,7 @@ const highlights = [
 
 export default function HeroSection() {
   return (
-    <section id="heroSection" className="relative w-full bg-[#004A96] pt-[84px] text-white sm:pt-[112px] lg:pt-[168px]">
+    <section id="heroSection" className="relative w-full bg-[#004A96] pt-[184px] text-white sm:pt-[112px] lg:pt-[168px]">
       <div className="relative flex h-[520px] items-stretch overflow-hidden max-[900px]:h-auto max-[900px]:min-h-[580px] max-[600px]:min-h-[600px]">
         <div className="absolute top-0 right-0 z-10 h-full w-[70%] bg-[#004A96] max-[1100px]:w-[56%] max-[900px]:h-full max-[900px]:w-full">
           <div className="absolute inset-0 overflow-hidden [clip-path:ellipse(78%_140%_at_100%_120%)] max-[900px]:[clip-path:ellipse(72%_60%_at_100%_100%)]">
