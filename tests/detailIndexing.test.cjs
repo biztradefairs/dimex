@@ -201,6 +201,7 @@ test('homepage article cards link to the existing articles with matching titles 
 
 test('the sitemap includes canonical gallery, complete partner and public company URLs without aliases or placeholders', async () => {
   const sitemap = load('app/sitemap.ts', {
+    'next/server': { connection: async () => {} },
     '@/lib/pageMetadata': metadata,
     '@/app/articles/data': articles,
     '@/app/sectors/data': load('app/sectors/data.ts'),
@@ -217,4 +218,79 @@ test('the sitemap includes canonical gallery, complete partner and public compan
   for (const item of gallery.mediaDetails) assert.ok(urls.includes(origin + '/media-gallery/' + item.slug));
   for (const partner of Object.values(partners.partnersData).flat())
     assert.equal(urls.includes(origin + '/partner/' + partner.slug), partners.isIndexablePartner(partner));
+});
+
+test('exhibitor details build without contacting the backend and allow on-demand ISR', async () => {
+  let requests = 0;
+  const unavailable = async () => {
+    requests++;
+    throw Object.assign(new TypeError('fetch failed'), { cause: { code: 'ECONNREFUSED' } });
+  };
+  const page = load('app/exhibition-directory/[slug]/page.tsx', {
+    'react/jsx-runtime': require('react/jsx-runtime'),
+    'next/navigation': { notFound },
+    '@/lib/pageMetadata': metadata,
+    '@/lib/publicExhibitors': {
+      fetchIndexableExhibitors: unavailable,
+      fetchPublicExhibitor: unavailable,
+    },
+    './ExhibitorDetailClient': { default() {} },
+  });
+  assert.equal((await page.generateStaticParams()).length, 0);
+  assert.equal(requests, 0);
+  assert.equal(page.dynamicParams, true);
+  assert.equal(page.revalidate, 60);
+  await assert.rejects(page.generateMetadata({ params: Promise.resolve({ slug: id1 }) }), /fetch failed/);
+  await assert.rejects(page.default({ params: Promise.resolve({ slug: id1 }) }), /fetch failed/);
+  assert.equal(requests, 2);
+});
+
+test('directory and sitemap wait for a request before accessing the backend', async () => {
+  for (const file of ['app/exhibition-directory/page.tsx', 'app/sitemap.ts']) {
+    let requests = 0;
+    const prerenderBoundary = new Error('WAIT_FOR_REQUEST');
+    const unavailable = async () => { requests++; throw new Error('Backend unavailable'); };
+    const page = load(file, {
+      'react/jsx-runtime': require('react/jsx-runtime'),
+      'next/server': { connection: async () => { throw prerenderBoundary; } },
+      '@/components/PageFaq': { default() {} },
+      './company-directory': { default() {} },
+      '@/lib/publicExhibitors': {
+        fetchInitialCompanyDirectory: unavailable,
+        fetchIndexableExhibitors: unavailable,
+      },
+      '@/lib/publicBlogs': { fetchPublishedBlogs: unavailable },
+      '@/lib/pageMetadata': metadata,
+      '@/lib/structuredData': { EXHIBITION_DIRECTORY_STRUCTURED_DATA: {} },
+      '@/app/articles/data': articles,
+      '@/app/sectors/data': load('app/sectors/data.ts'),
+      '@/app/media-gallery/data': gallery,
+      '@/data/partnersData': partners,
+    });
+    await assert.rejects(page.default(), (error) => error === prerenderBoundary);
+    assert.equal(requests, 0, file);
+  }
+});
+
+test('the directory still renders server-provided exhibitor data after a request', async () => {
+  const order = [];
+  const companies = [{ id: id1, company: 'Precision Tools' }];
+  const page = load('app/exhibition-directory/page.tsx', {
+    'react/jsx-runtime': require('react/jsx-runtime'),
+    'next/server': { connection: async () => { order.push('request'); } },
+    '@/components/PageFaq': { default() {} },
+    './company-directory': { default() {} },
+    '@/lib/publicExhibitors': { fetchInitialCompanyDirectory: async () => {
+      order.push('backend');
+      return { companies, totalPages: 2, total: 25 };
+    } },
+    '@/lib/pageMetadata': metadata,
+    '@/lib/structuredData': { EXHIBITION_DIRECTORY_STRUCTURED_DATA: {} },
+  });
+  const element = await page.default();
+  const directory = element.props.children.find((child) => child?.props?.initialCompanies);
+  assert.deepEqual(order, ['request', 'backend']);
+  assert.equal(directory.props.initialCompanies, companies);
+  assert.equal(directory.props.initialTotalPages, 2);
+  assert.equal(directory.props.initialTotal, 25);
 });

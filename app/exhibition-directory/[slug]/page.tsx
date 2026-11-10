@@ -1,15 +1,17 @@
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { pageMeta } from '@/lib/pageMetadata';
-import { fetchIndexableExhibitors, fetchPublicExhibitor } from '@/lib/publicExhibitors';
+import { fetchPublicExhibitor } from '@/lib/publicExhibitors';
 import ExhibitorDetailClient from './ExhibitorDetailClient';
 
 type Props = { params: Promise<{ slug: string }> };
 export const revalidate = 60;
 export const maxDuration = 90;
+export const dynamicParams = true;
 
-export async function generateStaticParams() {
-  return (await fetchIndexableExhibitors()).map((company) => ({ slug: company.id }));
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
+  // Generate and cache each exhibitor page on first visit, without a build-time API dependency.
+  return [];
 }
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;

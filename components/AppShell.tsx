@@ -50,8 +50,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       {showSharedLayout && <NavBar />}
       <main
         className={`w-full flex-grow ${
-          showSharedLayout && pathname !== '/'
-            ? 'pt-[84px] sm:pt-[112px] lg:pt-[168px]'
+          showSharedLayout
+            ? 'pt-[85px] sm:pt-[113px] lg:pt-[169px]'
             : ''
         }`}
       >

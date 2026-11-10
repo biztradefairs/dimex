@@ -1,5 +1,6 @@
 "use client"
 
+import Image from "next/image"
 import { Handshake, Lightbulb, LineChart, Rocket } from "lucide-react"
 
 const VIDEO_ID = "3P-hRFrsXIs"
@@ -48,69 +49,108 @@ const highlights = [
 
 export default function HeroSection() {
   return (
-    <section id="heroSection" className="relative w-full bg-[#004A96] pt-[184px] text-white sm:pt-[112px] lg:pt-[168px]">
-      <div className="relative flex h-[520px] items-stretch overflow-hidden max-[900px]:h-auto max-[900px]:min-h-[580px] max-[600px]:min-h-[600px]">
-        <div className="absolute top-0 right-0 z-10 h-full w-[70%] bg-[#004A96] max-[1100px]:w-[56%] max-[900px]:h-full max-[900px]:w-full">
-          <div className="absolute inset-0 overflow-hidden [clip-path:ellipse(78%_140%_at_100%_120%)] max-[900px]:[clip-path:ellipse(72%_60%_at_100%_100%)]">
+    // AppShell owns the fixed-header offset on every public page.
+    <section
+      id="heroSection"
+      aria-labelledby="hero-heading"
+      className="relative w-full bg-[#004A96] text-white"
+    >
+      <div className="relative isolate overflow-hidden">
+        <div className="mx-auto w-full max-w-[1600px] px-5 sm:px-10 lg:px-[72px]">
+          <div className="relative z-20 min-w-0 py-9 sm:py-12 lg:flex lg:min-h-[500px] lg:w-[58%] lg:flex-col lg:justify-center lg:py-14 xl:min-h-[520px] xl:py-16">
+            <p className="mb-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[13px] leading-relaxed font-medium tracking-[0.08em] uppercase min-[375px]:text-sm sm:gap-x-4 sm:text-base xl:text-lg">
+              <span className="whitespace-nowrap">
+                <time dateTime="2027-03-24">24</time>
+                {" \u2013 "}
+                <time dateTime="2027-03-26">26 March 2027</time>
+              </span>
+              <span aria-hidden="true" className="h-3 w-px bg-white/50" />
+              <span className="whitespace-nowrap">Pune, India</span>
+            </p>
+
+            <h1
+              id="hero-heading"
+              className="m-0 max-w-[760px] text-[clamp(1.75rem,7.5vw,3.25rem)] leading-[1.08] font-bold tracking-[-0.02em] text-white uppercase lg:text-[clamp(2.5rem,4.2vw,4.6rem)]"
+            >
+              <span className="block">
+                Where global die &amp; mould leaders
+              </span>
+              <span className="mt-2 block sm:mt-3">
+                meet India&apos;s manufacturers.
+              </span>
+            </h1>
+
+            <p className="mt-5 max-w-[600px] text-sm leading-[1.7] font-medium text-white/95 min-[375px]:text-[15px] sm:mt-6 sm:text-base xl:text-lg">
+              International Exhibition for Die &amp; Mould, Tooling, and
+              Precision Manufacturing Technologies.
+            </p>
+          </div>
+        </div>
+
+        <div
+          aria-hidden="true"
+          className="relative z-10 h-[clamp(180px,50vw,360px)] w-full overflow-hidden rounded-tl-[64px] bg-[#003875] sm:rounded-tl-[120px] lg:absolute lg:inset-y-0 lg:right-0 lg:h-full lg:w-[62%] lg:rounded-none lg:[clip-path:ellipse(78%_140%_at_100%_120%)]"
+        >
+          <Image
+            src="/images/vmc.jpg"
+            alt=""
+            fill
+            priority
+            sizes="(min-width: 1024px) 62vw, 100vw"
+            className="object-cover"
+          />
+          <div className="absolute inset-0 [container-type:size]">
             <iframe
-              className="pointer-events-none absolute top-1/2 left-1/2 block h-[170%] w-[170%] -translate-x-1/2 -translate-y-1/2 border-none bg-transparent max-[900px]:h-[210%] max-[900px]:w-[210%]"
+              // Crop 72px from the player edges to hide YouTube's title overlay.
+              className="pointer-events-none absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 border-0"
+              style={{
+                width: "calc(max(100cqw, 177.78cqh) + 256px)",
+                height: "calc(max(100cqh, 56.25cqw) + 144px)",
+              }}
               src={IFRAME_SRC}
               title="DIEMEX 2027 Exhibition"
               allow="autoplay; fullscreen"
               allowFullScreen
+              tabIndex={-1}
             />
-          </div>
-        </div>
-
-        <div className="relative z-40 flex h-full w-[52%] items-center max-[1100px]:w-[58%] max-[900px]:w-full max-[900px]:items-start max-[900px]:pt-12 max-[900px]:pb-12 max-[600px]:pt-14 max-[600px]:pb-14">
-          <div className="mx-auto flex w-full max-w-[1600px] flex-col justify-center px-6 sm:px-10 lg:px-[72px] max-[900px]:pr-4 max-[900px]:pl-8 max-[600px]:pl-6 max-[375px]:pl-5">
-            <p className="m-0 mb-4 text-[1.2rem] font-normal tracking-[0.1em] text-white uppercase max-[375px]:text-[1.05rem] min-[600px]:text-[1.25rem] min-[600px]:tracking-[0.16em] min-[900px]:text-[1.4rem]">
-              24 – 26 March 2027 &nbsp;|&nbsp; Pune, India
-            </p>
-
-            <h1 className="m-0 mb-6 max-w-[760px] text-[2.6rem] font-bold tracking-[-0.01em] text-white uppercase max-[375px]:text-[2.2rem] min-[600px]:text-[3.2rem] min-[900px]:text-[clamp(2.8rem,4.2vw,4.6rem)]">
-              <span className="block leading-[1.05]">Where global die &amp; mould leaders</span>
-              <span className="mt-2 block leading-[1.05] min-[600px]:mt-3">meet India&apos;s manufacturers.</span>
-            </h1>
-
-            <div className="mb-4 flex max-w-[640px] flex-col gap-3">
-              <p className="m-0 text-[0.95rem] leading-[1.6] font-medium text-white/95 min-[375px]:text-[1.05rem] min-[600px]:text-[1.1rem] min-[900px]:text-[1.125rem]">
-                International Exhibition for Die &amp; Mould, Tooling, and Precision Manufacturing Technologies.
-              </p>
-              {/* <p className="m-0 text-[0.95rem] leading-[1.6] font-medium text-white/95 min-[375px]:text-[1.05rem] min-[600px]:text-[1.1rem] min-[900px]:text-[1.125rem]">
-                Connect with industry leaders, discover the latest technologies, and unlock new opportunities in manufacturing.
-              </p> */}
-            </div>
           </div>
         </div>
       </div>
 
-      <div className="relative z-40 bg-[#F4F4F4] text-[#123867] shadow-[0_-5px_20px_rgba(0,0,0,.06)]">
-        <div className="mx-auto grid max-w-[1600px] grid-cols-1 items-stretch px-6 py-6 sm:grid-cols-2 sm:px-10 lg:grid-cols-4 lg:px-[72px] lg:py-8">
+      <div className="relative bg-[#F4F4F4] text-[#123867] shadow-[0_-5px_20px_rgba(0,0,0,.06)]">
+        <ul className="mx-auto grid max-w-[1600px] grid-cols-2 gap-x-4 gap-y-7 px-5 py-7 sm:gap-x-7 sm:px-10 sm:py-8 lg:grid-cols-4 lg:gap-0 lg:px-[72px]">
           {highlights.map((item, index) => {
             const Icon = item.icon
 
             return (
-              <div
+              <li
                 key={item.title}
-                className={`flex items-center gap-4 py-3 lg:px-6 ${
-                  index === 0 ? "lg:pl-0" : "lg:border-l lg:border-[#d8e1ea]"
-                }`}
+                className={`flex min-w-0 flex-col items-start gap-3 sm:flex-row sm:gap-4 lg:px-5 xl:px-6 ${
+                  index === 0
+                    ? "lg:pl-0 xl:pl-0"
+                    : "lg:border-l lg:border-[#d8e1ea]"
+                } ${index === highlights.length - 1 ? "lg:pr-0 xl:pr-0" : ""}`}
               >
-                <div className={`flex h-[64px] w-[64px] shrink-0 items-center justify-center rounded-full ${item.iconBg}`}>
-                  <Icon strokeWidth={2} className={`h-[29px] w-[29px] ${item.iconColor}`} />
+                <div className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-full sm:h-14 sm:w-14 xl:h-16 xl:w-16 ${item.iconBg}`}>
+                  <Icon
+                    aria-hidden="true"
+                    strokeWidth={2}
+                    className={`h-5 w-5 sm:h-6 sm:w-6 xl:h-7 xl:w-7 ${item.iconColor}`}
+                  />
                 </div>
 
                 <div className="min-w-0">
-                  <h3 className="text-[17px] leading-tight font-extrabold text-[#123867] xl:text-[18px]">{item.title}</h3>
-                  <p className="mt-1 text-[15px] leading-snug text-[#365575] xl:text-[16px]">
+                  <h2 className="text-sm leading-snug font-extrabold text-[#123867] sm:text-base xl:text-[17px]">
+                    {item.title}
+                  </h2>
+                  <p className="mt-1 text-xs leading-relaxed text-[#365575] sm:text-sm xl:text-[15px]">
                     {item.text}
                   </p>
                 </div>
-              </div>
+              </li>
             )
           })}
-        </div>
+        </ul>
       </div>
     </section>
   )

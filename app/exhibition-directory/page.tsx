@@ -1,3 +1,4 @@
+import { connection } from 'next/server';
 import PageFaq from '@/components/PageFaq';
 import CompanyDirectory from "./company-directory";
 import { fetchInitialCompanyDirectory } from '@/lib/publicExhibitors';
@@ -10,6 +11,8 @@ export const metadata: Metadata = PAGE_META.exhibitionDirectory;
 export const revalidate = 60;
 
 export default async function Home() {
+  // Wait for a request before reading the backend; validated data remains cached.
+  await connection();
   const { companies, totalPages, total } = await fetchInitialCompanyDirectory();
   return (
     <>

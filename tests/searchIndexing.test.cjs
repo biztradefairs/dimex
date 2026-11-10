@@ -30,6 +30,7 @@ const source = 'https://www.diemex.in';
 const canon = (entry) => String(entry.alternates.canonical);
 function sitemap(fetchPublishedBlogs) {
   return load('app/sitemap.ts', {
+    'next/server': { connection: async () => {} },
     '@/lib/pageMetadata': metadata,
     '@/app/articles/data': articles,
     '@/app/sectors/data': sectors,

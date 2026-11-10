@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { connection } from 'next/server';
 import { getAllArticleSlugs } from '@/app/articles/data';
 import { diemexSectors } from '@/app/sectors/data';
 import { PAGE_META, SITE_URL } from '@/lib/pageMetadata';
@@ -11,6 +12,8 @@ export const revalidate = 3600;
 export const maxDuration = 90;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // Backend-backed URLs are discovered at request time, never during the build.
+  await connection();
   // Use the same canonical URLs as the public pages, with one entry per URL.
   const entries: MetadataRoute.Sitemap = Object.values(PAGE_META)
     .map((metadata) => metadata.alternates?.canonical)
@@ -39,8 +42,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     entries.push({ url: SITE_URL + '/exhibition-directory/' + company.id });
   }
 
-  // Read every published-blog page. Let an outage fail regeneration so Next.js
-  // retains its previous successful sitemap rather than publishing missing URLs.
+  // Read every published-blog page. Cached reads retain their last successful data;
+  // an uncached outage must fail rather than publish a sitemap with missing URLs.
   let totalPages = 1;
   for (let page = 1; page <= totalPages; page++) {
     const result = await fetchPublishedBlogs(page);
