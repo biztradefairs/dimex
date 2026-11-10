@@ -249,8 +249,8 @@ export default function DiemexTabbedFormWrapper({
                         <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-6">
                             <div className="grid grid-cols-3">
                                 {[
-                                    { num: '250+', lbl: 'Exhibitors' },
-                                    { num: '50+', lbl: 'Countries' },
+                                    { num: '200+', lbl: 'Exhibitors' },
+                                    { num: '5+', lbl: 'Countries' },
                                     { num: '10K+', lbl: 'Visitors' },
                                 ].map(({ num, lbl }) => (
                                     <div
