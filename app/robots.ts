@@ -6,9 +6,9 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
+      // Public noindex pages must be crawlable for Google to read the directive.
       disallow: [
-        '/admin', '/dashboard', '/api/', '/passes', '/scanner',
-        '/login', '/forgot-password', '/register/thank-you',
+        '/admin', '/dashboard', '/api/',
       ],
     },
     sitemap: SITE_URL + '/sitemap.xml',

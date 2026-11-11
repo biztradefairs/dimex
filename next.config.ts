@@ -17,6 +17,14 @@ const nextConfig: NextConfig = {
       { source: '/home', destination: '/', permanent: true },
       { source: '/index', destination: '/', permanent: true },
       { source: '/index.html', destination: '/', permanent: true },
+      { source: '/index.php', destination: '/', permanent: true },
+      { source: '/media/media-partners', destination: '/partners-and-sponsors', permanent: true },
+      {
+        source: '/register',
+        has: [{ type: 'query', key: 't', value: '(?:visitor|enquiry)' }],
+        destination: '/passes',
+        permanent: false,
+      },
       { source: '/visitors/visitor-registration', destination: '/passes', permanent: false },
       { source: '/exhibitors/exhibitor-registration', destination: '/register?t=exhibitor', permanent: true },
       { source: '/about-diemex-expo/diemex-expo', destination: '/about-diemex', permanent: true },
@@ -36,7 +44,7 @@ const nextConfig: NextConfig = {
   },
   async headers() {
     return [
-      '/admin/:path*', '/dashboard/:path*', '/api/:path*', '/passes/:path*',
+      '/admin/:path*', '/dashboard/:path*', '/api/:path*', '/passes/:path+',
       '/scanner/:path*', '/login', '/forgot-password/:path*', '/register/thank-you',
     ].map((source) => ({
       source,

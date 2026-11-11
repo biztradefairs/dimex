@@ -1,11 +1,8 @@
-import { Metadata } from "next"
+import { PAGE_META } from '@/lib/pageMetadata';
 import SectionContainer from "@/components/UI/SectionContainer"
 import BackToTop from "../exhibitor-resource-center/component/BackToTop"
 
-export const metadata: Metadata = {
-  title: "Terms of Use | DIEMEX",
-  description: "Terms and conditions governing the use of DIEMEX website. Read our terms of use, policies, and legal information.",
-}
+export const metadata = PAGE_META.termsOfUse;
 
 export default function TermsOfUsePage() {
   return (

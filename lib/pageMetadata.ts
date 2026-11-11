@@ -132,4 +132,63 @@ export const PAGE_META = {
     'Annual conference for professionals in the tooling industry.',
     '/conference',
   ),
+  visitorPass: pageMeta(
+    'Visitor Registration & Digital Pass | DIEMEX 2027',
+    'Register to visit DIEMEX 2027 in Pune and receive your digital visitor badge by WhatsApp or SMS. Discover die, mould and tooling technologies.',
+    '/passes',
+  ),
+  culture: pageMeta(
+    'Explore Pune Culture | DIEMEX Visitor Guide',
+    'Discover cultural attractions, temples and museums in Pune while planning your visit to the DIEMEX exhibition.',
+    '/culture',
+  ),
+  iconicLandmarks: pageMeta(
+    'Pune Landmarks | DIEMEX Visitor Guide',
+    'Explore Pune landmarks including Shaniwar Wada, Lal Mahal and historic sites during your visit to DIEMEX.',
+    '/iconic-landmarks',
+  ),
+  placesToEat: pageMeta(
+    'Places to Eat in Pune | DIEMEX Visitor Guide',
+    'Explore dining options and local food in Pune while planning your visit to the DIEMEX exhibition.',
+    '/places-to-eat',
+  ),
+  shopAndStroll: pageMeta(
+    'Shopping in Pune | DIEMEX Visitor Guide',
+    'Discover Pune shopping destinations, markets and malls during your visit to the DIEMEX exhibition.',
+    '/shop-and-stroll',
+  ),
+  explorePune: pageMeta(
+    'Explore Pune | DIEMEX Visitor Guide',
+    'Plan time in Pune around DIEMEX with information on landmarks, culture, dining, shopping and local transport.',
+    '/explore-pune',
+  ),
+  termsOfVisiting: pageMeta(
+    'Terms of Visiting | DIEMEX',
+    'Read the visitor admission terms and conditions before attending the DIEMEX exhibition.',
+    '/terms-of-visiting',
+  ),
+  partnersAndSponsors: pageMeta(
+    'Partners & Sponsors | DIEMEX',
+    'Meet the supporting organisations, partners and sponsors of the DIEMEX die and mould exhibition.',
+    '/partners-and-sponsors',
+  ),
+  termsOfUse: pageMeta(
+    'Terms of Use | DIEMEX',
+    'Read the terms and conditions governing use of the DIEMEX website.',
+    '/termstouse',
+  ),
+  cookiesPolicy: pageMeta(
+    'Cookies Policy | DIEMEX',
+    'Learn how the DIEMEX website uses cookies and similar technologies.',
+    '/cookies-policy',
+  ),
+  aboutSkladtech: {
+    ...pageMeta(
+      'About SkladTech | DIEMEX',
+      'Information about the SkladTech warehouse equipment and technology exhibition.',
+      '/about-skladtech',
+    ),
+    // This legacy page describes a different exhibition, not DIEMEX.
+    robots: { index: false, follow: true },
+  },
 } as const;

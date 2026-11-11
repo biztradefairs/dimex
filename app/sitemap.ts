@@ -16,6 +16,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   await connection();
   // Use the same canonical URLs as the public pages, with one entry per URL.
   const entries: MetadataRoute.Sitemap = Object.values(PAGE_META)
+    .filter((metadata) => typeof metadata.robots !== 'object' || metadata.robots?.index !== false)
     .map((metadata) => metadata.alternates?.canonical)
     .filter((canonical): canonical is string => typeof canonical === 'string')
     .map((url) => ({ url }));
