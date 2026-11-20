@@ -26,7 +26,7 @@ const StatsSection = () => {
 
           <div className="flex flex-wrap items-center gap-4">
             <Link
-              href="/register?t=visitor"
+              href='/passes'
               className="inline-block rounded-full bg-[#004A96] px-10 py-4 text-white font-semibold text-base transition hover:bg-[#003875]"
             >
               Register Free

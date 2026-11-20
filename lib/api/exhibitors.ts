@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getExhibitorLogoUrl, validateExhibitorLogo, type UploadedExhibitorLogo } from "@/lib/exhibitorLogo";
 
 function getApiBaseUrl() {
   const raw = (
@@ -32,10 +33,10 @@ api.interceptors.request.use(
     console.log(`🌐 ${config.method?.toUpperCase()} ${config.url}`);
 
     if (typeof window !== "undefined") {
-      const token =
-        localStorage.getItem("exhibitor_token") ||
-        localStorage.getItem("token") ||
-        localStorage.getItem("admin_token");
+      const onAdmin = window.location.pathname.startsWith("/admin");
+      const token = onAdmin
+        ? localStorage.getItem("admin_token") || localStorage.getItem("token")
+        : localStorage.getItem("exhibitor_token") || localStorage.getItem("token") || localStorage.getItem("admin_token");
 
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
@@ -102,6 +103,7 @@ export type ExhibitorStatus =
 
 export interface Exhibitor {
   id: string;
+  logoUrl?: string;
   name: string;
   email: string;
   phone: string;
@@ -168,6 +170,7 @@ export interface ExhibitorStats {
 }
 
 export interface CreateExhibitorData {
+  metadata?: { logoUrl?: string; logoPublicId?: string };
   name: string;
   email: string;
   phone: string;
@@ -252,6 +255,7 @@ const mapExhibitorData = (data: any): Exhibitor => {
     email: data.email || '',
     phone: data.phone || '',
     company: data.company || '',
+    logoUrl: getExhibitorLogoUrl(data),
     sector: data.sector || '',
     booth: data.boothNumber || data.booth || "Not assigned",
     boothNumber: data.boothNumber || data.booth,
@@ -280,6 +284,21 @@ const mapExhibitorData = (data: any): Exhibitor => {
 ========================================================= */
 
 export const exhibitorsAPI = {
+  uploadLogo: async (id: string, file: File): Promise<UploadedExhibitorLogo> => {
+    const validation = validateExhibitorLogo(file);
+    if (validation) throw new Error(validation);
+    const form = new FormData();
+    form.append("logo", file);
+    try {
+      const response = await api.post("/exhibitors/" + id + "/logo", form, { timeout: 90000 });
+      const result = response.data.data;
+      if (!response.data.success || !result?.url || !result?.publicId) throw new Error(response.data.error || "Failed to upload company logo");
+      return { url: result.url, publicId: result.publicId };
+    } catch (error) {
+      if (axios.isAxiosError(error)) throw new Error(error.response?.data?.error || "Failed to upload company logo");
+      throw error;
+    }
+  },
   getAll: async (params?: {
     page?: number;
     limit?: number;

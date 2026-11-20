@@ -320,7 +320,7 @@ const EcosystemSection = () => {
 
               <div className="mt-6 flex flex-wrap items-center gap-4">
                 <Link
-                  href="/register?t=visitor"
+                  href='/passes'
                   className="inline-block w-fit rounded-full bg-[#004A96] px-10 py-4 font-semibold text-white transition hover:bg-[#003875]"
                 >
                   Register Free

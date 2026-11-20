@@ -347,7 +347,7 @@ const GuideSection: React.FC = () => {
       title: "Visitor Registration",
       content: "Pre-register as a visitor to get quick access to the exhibition, receive updates about the event, and avail special offers from exhibitors.",
       imageSrc: "/images/checklist.jpg",
-      link: "/visitor-registration"
+      link: '/passes'
     }
   ];
 

@@ -44,10 +44,10 @@ const navItems: NavItem[] = [
     dropdown: true,
     links: [
       { text: "Why Visit", href: "/why-visit" },
-      // { text: "Digital Visitor Pass", href: "/passes" },
+      { text: "Digital Visitor Pass", href: "/passes" },
       { text: "Event Sector", href: "/sectors" },
       // { text: "Exhibitor List", href: "/exhibition-directory" },
-      // { text: "Participants", href: "/participants" },
+      { text: "Participants", href: "/participants" },
       { text: "Download Event Brochure", href: "/event-brochure" },
     ],
   },
@@ -270,7 +270,7 @@ export default function NavBar() {
               {exhibitorReady && exhibitorLoggedIn && <ExhibitorNavProfile variant="mobile" />}
               <div className="hidden items-center gap-2 lg:flex xl:gap-3">
                 <Link
-                  href="/visitor-registration"
+                  href="/passes"
                   className="group inline-flex h-[52px] items-center gap-3 rounded-full bg-[#004A96] pr-1.5 pl-5 text-[15px] leading-none font-bold tracking-wide text-white uppercase transition hover:-translate-y-px hover:bg-[#003875] xl:h-[58px] xl:pl-6 xl:text-[17px]"
                 >
                   <span>Visitor</span>
@@ -380,7 +380,7 @@ export default function NavBar() {
 
               <div className="mt-5 space-y-3">
                 <Link
-                  href="/visitor-registration"
+                  href='/passes'
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex h-[56px] items-center justify-between rounded-full bg-[#004A96] pr-1.5 pl-6 text-[16px] font-bold tracking-wide text-white uppercase"
                 >

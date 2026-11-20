@@ -10,9 +10,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const article = getArticleBySlug(slug);
 
   if (!article) {
-    return {
-      title: "Article Not Found | DIEMEX 2027",
-    };
+    notFound();
   }
 
   if (slug === "ev-die-casting-and-tooling-in-india-key-trends") {
@@ -38,8 +36,8 @@ export async function generateStaticParams() {
   }));
 }
 
-// If you want fully static generation, you can set:
-// export const dynamicParams = false;
+// Article content is local: unknown slugs must return a real 404 before streaming.
+export const dynamicParams = false;
 
 type PageProps = {
   params: Promise<{ slug: string }>;

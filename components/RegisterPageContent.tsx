@@ -16,15 +16,23 @@ import {
 export default function RegisterPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
-    const [activeTab, setActiveTab] = useState<RegistrationTab>('visitor');
+    const [activeTab, setActiveTab] = useState<RegistrationTab>(() => {
+        const tab = resolveRegistrationTab(searchParams.get('t'));
+        return tab && tab !== 'visitor' ? tab : 'exhibitor';
+    });
 
     useEffect(() => {
         const tab = searchParams.get('t');
         const resolved = resolveRegistrationTab(tab);
 
+        if (resolved === 'visitor') {
+            router.replace(buildRegisterUrl('visitor', searchParams.toString()));
+            return;
+        }
+
         if (!resolved || tab !== resolved) {
-            router.replace(buildRegisterUrl(resolved || 'visitor', searchParams.toString()));
-            setActiveTab(resolved || 'visitor');
+            router.replace(buildRegisterUrl(resolved || 'exhibitor', searchParams.toString()));
+            setActiveTab(resolved || 'exhibitor');
             return;
         }
 

@@ -792,7 +792,7 @@ export default function StallPage() {
               </li>
               <li className="flex items-start">
                 <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>
-                Submit booth design for approval by September 15 2026
+                Submit booth design for approval by September 15 2027
               </li>
               <li className="flex items-start">
                 <span className="inline-block w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></span>

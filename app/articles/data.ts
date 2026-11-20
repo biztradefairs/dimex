@@ -82,7 +82,7 @@ export const articles: Article[] = [
       <h2>Meet Suppliers at DIEMEX 2027</h2>
       <p>Compare mould bases, hot runners and tooling components from leading suppliers. <strong>DIEMEX 2027 runs 24-26 March at the Auto Cluster Exhibition Centre, Pune.</strong></p>
       `,
-      PublishedDate: "2026-10-28T10:00:00.000Z",
+      PublishedDate: "2027-10-28T10:00:00.000Z",
       Image: {
         data: {
           attributes: {
@@ -135,7 +135,7 @@ export const articles: Article[] = [
       <p><strong>Which technologies improve mould accuracy?</strong><br/>High-speed and 5-axis CNC, EDM, metrology systems, simulation software and quality surface finishing.</p>
       <p><strong>Where can I see precision die and mould technology in India?</strong><br/>At DIEMEX 2027, 24-26 March 2027, in Pune.</p>
       `,
-      PublishedDate: "2026-10-28T09:30:00.000Z",
+      PublishedDate: "2027-10-28T09:30:00.000Z",
       Image: {
         data: {
           attributes: {
@@ -178,7 +178,7 @@ export const articles: Article[] = [
       <h2>See the technology at DIEMEX 2027</h2>
       <p>Compare CNC, EDM, 3D printing, simulation and tooling suppliers in one place at <strong>DIEMEX 2027, 24-26 March, Auto Cluster Exhibition Centre, Pune.</strong></p>
       `,
-      PublishedDate: "2026-10-28T09:00:00.000Z",
+      PublishedDate: "2027-10-28T09:00:00.000Z",
       Image: {
         data: {
           attributes: {
@@ -215,7 +215,7 @@ export const articles: Article[] = [
 
     <p>Industry platforms such as <strong>DIEMEX – International Die & Mould Expo</strong> showcase the latest automation solutions helping tool rooms move toward Industry 4.0 manufacturing.</p>
     `,
-      PublishedDate: "2026-02-25T03:30:00.000Z",
+      PublishedDate: "2027-02-25T03:30:00.000Z",
       Image: {
         data: {
           attributes: {
@@ -251,7 +251,7 @@ export const articles: Article[] = [
 
     <p>Events such as <strong>DIEMEX 2027</strong> bring together tooling manufacturers, technology providers, and industrial buyers to explore these innovations.</p>
     `,
-      PublishedDate: "2026-02-01T03:30:00.000Z",
+      PublishedDate: "2027-02-01T03:30:00.000Z",
       Image: {
         data: {
           attributes: {
@@ -284,7 +284,7 @@ export const articles: Article[] = [
     <h2>Future Opportunities</h2>
     <p>India is becoming a preferred sourcing destination for global OEMs seeking cost-effective and high-quality tooling solutions. Continued investment in automation and digital manufacturing will further strengthen the country’s global competitiveness.</p>
     `,
-      PublishedDate: "2026-01-20T03:30:00.000Z",
+      PublishedDate: "2027-01-20T03:30:00.000Z",
       Image: {
         data: {
           attributes: {

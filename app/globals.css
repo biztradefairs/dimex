@@ -499,4 +499,63 @@ body {
     margin: 2rem 0;
     font-size: 1rem;
   }
+}  
+
+
+
+
+/* Top row: right to left */
+@keyframes marquee-left {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Bottom row: left to right */
+@keyframes marquee-right {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-marquee-left {
+  animation: marquee-left 65s linear infinite;
+  will-change: transform;
+}
+
+.animate-marquee-right {
+  animation: marquee-right 65s linear infinite;
+  will-change: transform;
+}
+
+/* Pause both marquee animations on hover */
+.animate-marquee-left:hover,
+.animate-marquee-right:hover,
+.animate-marquee-left:focus-within,
+.animate-marquee-right:focus-within {
+  animation-play-state: paused;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-left,
+  .animate-marquee-right {
+    animation: none;
+    flex-wrap: wrap;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .animate-marquee-left > div:nth-child(2),
+  .animate-marquee-right > div:nth-child(2) {
+    display: none;
+  }
 }

@@ -1,5 +1,6 @@
 // app/page.tsx
 import { Metadata } from 'next';
+import { PAGE_META } from '@/lib/pageMetadata';
 
 import HeroSection from './components/HeroSection';
 import AboutSection from './components/AboutSection';
@@ -19,15 +20,7 @@ import BecomeDelegate from './components/BecomeDelegate';
 import BackToTop from '../exhibitor-resource-center/component/BackToTop';
 import TransRussiaSummitProgram from './components/ConferenceProgramme';
 
-export const metadata: Metadata = {
-  title: 'Diemex Conference | March 24-26, 2027, Pune',
-  description: 'Annual conference for professionals in the tooling industry.',
-  openGraph: {
-    title: 'Diemex Conference | March 24-26, 2027, Pune',
-    description: 'Annual conference for professionals in the tooling industry.',
-    images: [''],
-  },
-};
+export const metadata: Metadata = PAGE_META.conference;
 const speakersData = [
   {
     id: '1',

@@ -82,7 +82,7 @@ const QuickNavigationSection = () => {
             Visit the exhibition for free and discover what to expect at the upcoming edition.
           </p>
 
-          <Link href="/visitor-registration">
+          <Link href='/passes'>
             <button className="w-full bg-[#004A96] hover:bg-[#003875] text-white py-3 rounded-full font-medium">
               Visitor Registration
             </button>

@@ -22,6 +22,7 @@ import {
   FileText,
 } from "lucide-react";
 import toast from "react-hot-toast";
+import ExhibitorLogo from "@/components/ExhibitorLogo";
 import { exhibitorsAPI, Exhibitor } from "@/lib/api/exhibitors";
 import { calculateStallPayment, formatINR, formatPhaseDate } from "@/lib/stallPayment";
 
@@ -265,7 +266,7 @@ export default function ExhibitorDetailsPage() {
                       <Building className="h-4 w-4" />
                       <span className="text-sm font-medium">Company</span>
                     </div>
-                    <p className="text-lg font-medium">{exhibitor.company}</p>
+                    <div className="flex items-center gap-3"><ExhibitorLogo logoUrl={exhibitor.logoUrl} company={exhibitor.company} /><p className="text-lg font-medium">{exhibitor.company}</p></div>
                   </div>
 
                   <div>

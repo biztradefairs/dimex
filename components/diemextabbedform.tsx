@@ -31,6 +31,7 @@ interface TabConfig {
 }
 
 const TABS: TabConfig[] = [
+    /* Visitor registration is temporarily handled by /passes.
     {
         key: 'visitor',
         label: 'VISITOR',
@@ -45,6 +46,7 @@ const TABS: TabConfig[] = [
         rightSub: 'Visit DIEMEX 2027 to explore innovations in die, mould, and precision manufacturing technologies.',
         path: TAB_TO_LEGACY_PATH.visitor,
     },
+    */
     {
         key: 'exhibitor',
         label: 'EXHIBITOR',
@@ -117,23 +119,24 @@ export default function DiemexTabbedFormWrapper({
     const pathname = usePathname();
     const searchParams = useSearchParams();
     const { utmData } = useUTMData();
+    const fallbackTab = defaultTab === 'visitor' ? 'exhibitor' : defaultTab;
 
     const getTabFromLocation = (): TabKey => {
         if (pathname === '/register' || useRegisterRouting) {
             const tab = searchParams?.get('t');
-            if (isValidRegistrationTab(tab)) return tab;
-            return defaultTab;
+            if (isValidRegistrationTab(tab) && tab !== 'visitor') return tab;
+            return fallbackTab;
         }
 
         if (pathname) {
             for (const [route, tabKey] of Object.entries(PATH_TO_TAB)) {
                 if (pathname === route || pathname.startsWith(route)) {
-                    return tabKey;
+                    return tabKey === 'visitor' ? fallbackTab : tabKey;
                 }
             }
         }
 
-        return defaultTab;
+        return fallbackTab;
     };
 
     const [activeTab, setActiveTab] = useState<TabKey>(() => getTabFromLocation());
@@ -172,7 +175,7 @@ export default function DiemexTabbedFormWrapper({
             <Toaster position="top-right" />
 
             <div className="bg-slate-100 p-1.5">
-                <div className="grid grid-cols-2 gap-1 md:grid-cols-4">
+                <div className="grid grid-cols-3 gap-1">
                     {TABS.map((tab) => {
                         const isActive = activeTab === tab.key;
 
@@ -246,8 +249,8 @@ export default function DiemexTabbedFormWrapper({
                         <div className="backdrop-blur-md bg-white/10 border border-white/20 rounded-2xl p-6">
                             <div className="grid grid-cols-3">
                                 {[
-                                    { num: '250+', lbl: 'Exhibitors' },
-                                    { num: '50+', lbl: 'Countries' },
+                                    { num: '200+', lbl: 'Exhibitors' },
+                                    { num: '5+', lbl: 'Countries' },
                                     { num: '10K+', lbl: 'Visitors' },
                                 ].map(({ num, lbl }) => (
                                     <div

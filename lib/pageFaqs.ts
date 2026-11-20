@@ -44,7 +44,7 @@ export const PAGE_FAQS: Record<string, PageFaqContent> = {
         "question": "How can I register to visit DIEMEX?",
         "answer": "Complete the visitor registration form with your contact, company and professional details.",
         "link": {
-          "href": "/register?t=visitor",
+          "href": "/passes",
           "label": "Register as a visitor"
         }
       }
@@ -345,7 +345,7 @@ export const PAGE_FAQS: Record<string, PageFaqContent> = {
         "question": "Where should my customer invitations link?",
         "answer": "Link to the visitor registration form so customers can submit their details before planning their visit.",
         "link": {
-          "href": "/register?t=visitor",
+          "href": "/passes",
           "label": "Open visitor registration"
         }
       }
@@ -419,7 +419,7 @@ export const PAGE_FAQS: Record<string, PageFaqContent> = {
         "question": "What should I do before travelling to DIEMEX?",
         "answer": "Complete visitor registration and review the venue and travel information before arranging your journey.",
         "link": {
-          "href": "/register?t=visitor",
+          "href": "/passes",
           "label": "Register to visit"
         }
       }

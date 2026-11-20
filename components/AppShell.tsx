@@ -18,6 +18,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     pathname?.startsWith('/passes') ||
     pathname?.startsWith('/scanner');
 
+  const showSharedLayout = !hideLayout && pathname !== '/exhibit-2027';
+
   useEffect(() => {
     if (typeof window !== 'undefined' && (window as any).gtag && !hideLayout) {
       const utmData = getUTMParams();
@@ -40,20 +42,22 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   }, [pathname, hideLayout]);
 
   return (
-    <Suspense fallback={null}>
-      <UTMProvider>
-        {!hideLayout && <NavBar />}
-        <main
-          className={`w-full flex-grow ${
-            !hideLayout && pathname !== '/'
-              ? 'pt-[84px] sm:pt-[112px] lg:pt-[168px]'
-              : ''
-          }`}
-        >
-          {children}
-        </main>
-        {!hideLayout && <Footer />}
-      </UTMProvider>
-    </Suspense>
+    <>
+      {/* Query-dependent campaign tracking must not suspend public page content. */}
+      <Suspense fallback={null}>
+        <UTMProvider>{null}</UTMProvider>
+      </Suspense>
+      {showSharedLayout && <NavBar />}
+      <main
+        className={`w-full flex-grow ${
+          showSharedLayout
+            ? 'pt-[85px] sm:pt-[113px] lg:pt-[169px]'
+            : ''
+        }`}
+      >
+        <Suspense fallback={null}>{children}</Suspense>
+      </main>
+      {showSharedLayout && <Footer />}
+    </>
   );
 }

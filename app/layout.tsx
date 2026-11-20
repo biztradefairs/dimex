@@ -19,6 +19,32 @@ export default function RootLayout({
     <html lang="en" className={parabolica.variable}>
       <head>
         <Script
+          id="google-tag-manager-wgmnq78x"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-WGMNQ78X');
+            `,
+          }}
+        />
+        <Script
+          id="google-tag-manager"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+              new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+              j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+              'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+              })(window,document,'script','dataLayer','GTM-T3X98ZW4');
+            `,
+          }}
+        />
+        <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-CGKLPLYCF9"
           strategy="afterInteractive"
         />
@@ -30,6 +56,7 @@ export default function RootLayout({
               window.dataLayer = window.dataLayer || [];
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
+              gtag('config', 'AW-408541071');
               gtag('config', 'G-CGKLPLYCF9', {
                 send_page_view: true,
                 page_title: document.title,
@@ -67,6 +94,22 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-screen flex flex-col font-parabolica">
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-T3X98ZW4"
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+            title="Google Tag Manager"
+          />
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-WGMNQ78X"
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+            title="Google Tag Manager GTM-WGMNQ78X"
+          />
+        </noscript>
         <AppShell>{children}</AppShell>
       </body>
     </html>

@@ -17,7 +17,7 @@ export const LEGACY_PATH_TO_TAB: Record<string, RegistrationTab> = {
 };
 
 export const TAB_TO_LEGACY_PATH: Record<RegistrationTab, string> = {
-    visitor: '/visitor-registration',
+    visitor: '/passes',
     exhibitor: '/exhibiting-enquiry',
     sponsor: '/become-partner',
     brochure: '/event-brochure',
@@ -67,6 +67,12 @@ export function buildRegisterUrl(
     const params = new URLSearchParams(
         typeof existingParams === 'string' ? existingParams : existingParams?.toString(),
     );
+    if (tab === 'visitor') {
+        params.delete(TAB_QUERY_PARAM);
+        const query = params.toString();
+        return query ? `/passes?${query}` : '/passes';
+    }
+
     params.set(TAB_QUERY_PARAM, tab);
     return `/register?${params.toString()}`;
 }

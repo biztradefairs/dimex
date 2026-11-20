@@ -32,7 +32,7 @@ const quickNavItems = [
     image: '/images/visitor.jpg',
     cta: {
       text: 'Register Now',
-      href: '/visitor-registration'
+      href: '/passes'
     },
     number: '03'
   }

@@ -1,10 +1,11 @@
 import PageFaq from '@/components/PageFaq';
-import { resolveRegistrationTab } from '@/lib/registrationRoutes';
+import { redirectToRegister, resolveRegistrationTab } from '@/lib/registrationRoutes';
+import { redirect } from 'next/navigation';
 import { PAGE_META } from '@/lib/pageMetadata';
 import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import RegisterPageContent from '@/components/RegisterPageContent';
-import { BECOME_EXHIBITOR_STRUCTURED_DATA, BROCHURE_STRUCTURED_DATA, VISITOR_STRUCTURED_DATA } from '@/lib/structuredData';
+import { BECOME_EXHIBITOR_STRUCTURED_DATA, BROCHURE_STRUCTURED_DATA } from '@/lib/structuredData';
 
 export async function generateMetadata({
     searchParams,
@@ -32,19 +33,11 @@ export default async function RegisterPage({
 }: {
     searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
-    const { t } = await searchParams;
-    const tab = resolveRegistrationTab(typeof t === 'string' ? t : null) || 'visitor';
+    const params = await searchParams;
+    const tab = resolveRegistrationTab(typeof params.t === 'string' ? params.t : null) || 'exhibitor';
+    if (tab === 'visitor') redirect(redirectToRegister('visitor', params));
     return (
         <>
-            {tab === 'visitor' && (
-                <script
-                    id="diemex-visitor-schema"
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{
-                        __html: JSON.stringify(VISITOR_STRUCTURED_DATA).replace(/</g, '\\u003c'),
-                    }}
-                />
-            )}
             {tab === 'exhibitor' && (
                 <script
                     id="diemex-become-exhibitor-schema"

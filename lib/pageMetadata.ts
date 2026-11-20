@@ -37,7 +37,7 @@ export const PAGE_META = {
   exhibitorRegister: pageMeta(
     "Exhibitor Registration | DIEMEX 2027 Die & Mould Exhibition, India",
     "Register as an exhibitor at DIEMEX 2027, India's die and mould exhibition. Enquire about stalls, get the brochure and meet toolmakers, OEMs and buyers.",
-    "/register?t=exhibitor",
+    "/register",
   ),
   sectors: pageMeta(
     "Sectors at DIEMEX 2027 | Auto, Plastics, Aerospace Die & Mould Industries",
@@ -85,7 +85,7 @@ export const PAGE_META = {
   brochure: pageMeta(
     "Download DIEMEX 2027 Brochure | Die & Mould Exhibition India",
     "Download the DIEMEX 2027 brochure for stall options, floor plan, sectors and show highlights. India's die and mould exhibition. Free PDF.",
-    "/register?t=brochure",
+    "/register",
   ),
   blogs: pageMeta(
     "Die & Mould Industry Blogs & Insights | DIEMEX",
@@ -117,4 +117,78 @@ export const PAGE_META = {
     'Register for DIEMEX 2027 ? visitor registration, exhibitor enquiry, partnership, or brochure download.',
     '/register',
   ),
+  privacyPolicy: pageMeta(
+    'Privacy Policy | DIEMEX',
+    'DIEMEX Privacy Policy - Learn how we collect, use, store, and protect your personal data in accordance with applicable laws.',
+    '/privacy-policy',
+  ),
+  conferenceProgramme: pageMeta(
+    'DIEMEX 2027 Conference Programme | Die & Mould Industry Sessions',
+    'Explore the DIEMEX 2027 conference programme, industry sessions and key topics for die and mould, tooling and precision manufacturing professionals.',
+    '/conference-programme',
+  ),
+  conference: pageMeta(
+    'Diemex Conference | March 24-26, 2027, Pune',
+    'Annual conference for professionals in the tooling industry.',
+    '/conference',
+  ),
+  visitorPass: pageMeta(
+    'Visitor Registration & Digital Pass | DIEMEX 2027',
+    'Register to visit DIEMEX 2027 in Pune and receive your digital visitor badge by WhatsApp or SMS. Discover die, mould and tooling technologies.',
+    '/passes',
+  ),
+  culture: pageMeta(
+    'Explore Pune Culture | DIEMEX Visitor Guide',
+    'Discover cultural attractions, temples and museums in Pune while planning your visit to the DIEMEX exhibition.',
+    '/culture',
+  ),
+  iconicLandmarks: pageMeta(
+    'Pune Landmarks | DIEMEX Visitor Guide',
+    'Explore Pune landmarks including Shaniwar Wada, Lal Mahal and historic sites during your visit to DIEMEX.',
+    '/iconic-landmarks',
+  ),
+  placesToEat: pageMeta(
+    'Places to Eat in Pune | DIEMEX Visitor Guide',
+    'Explore dining options and local food in Pune while planning your visit to the DIEMEX exhibition.',
+    '/places-to-eat',
+  ),
+  shopAndStroll: pageMeta(
+    'Shopping in Pune | DIEMEX Visitor Guide',
+    'Discover Pune shopping destinations, markets and malls during your visit to the DIEMEX exhibition.',
+    '/shop-and-stroll',
+  ),
+  explorePune: pageMeta(
+    'Explore Pune | DIEMEX Visitor Guide',
+    'Plan time in Pune around DIEMEX with information on landmarks, culture, dining, shopping and local transport.',
+    '/explore-pune',
+  ),
+  termsOfVisiting: pageMeta(
+    'Terms of Visiting | DIEMEX',
+    'Read the visitor admission terms and conditions before attending the DIEMEX exhibition.',
+    '/terms-of-visiting',
+  ),
+  partnersAndSponsors: pageMeta(
+    'Partners & Sponsors | DIEMEX',
+    'Meet the supporting organisations, partners and sponsors of the DIEMEX die and mould exhibition.',
+    '/partners-and-sponsors',
+  ),
+  termsOfUse: pageMeta(
+    'Terms of Use | DIEMEX',
+    'Read the terms and conditions governing use of the DIEMEX website.',
+    '/termstouse',
+  ),
+  cookiesPolicy: pageMeta(
+    'Cookies Policy | DIEMEX',
+    'Learn how the DIEMEX website uses cookies and similar technologies.',
+    '/cookies-policy',
+  ),
+  aboutSkladtech: {
+    ...pageMeta(
+      'About SkladTech | DIEMEX',
+      'Information about the SkladTech warehouse equipment and technology exhibition.',
+      '/about-skladtech',
+    ),
+    // This legacy page describes a different exhibition, not DIEMEX.
+    robots: { index: false, follow: true },
+  },
 } as const;

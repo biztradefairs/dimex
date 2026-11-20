@@ -172,3 +172,27 @@ test('background HTTP errors and network errors are available to the thank-you p
     assert.ok(app.readRegistrationStatus().message);
   }
 });
+
+
+test('exhibitor processing runs the database save and thank-you email concurrently after navigation', async () => {
+  let finishDatabase;
+  let finishMail;
+  const server = serverFixture({
+    cms: () => new Promise((resolve) => { finishDatabase = () => resolve(leadSuccess()); }),
+    contact: () => new Promise((resolve) => { finishMail = () => resolve(response(200, { success: true })); }),
+  });
+  const browser = browserFixture((url, options) => server.post(JSON.parse(options.body)));
+  const result = browser.submitRegistrationInBackground({ ...payload, formType: 'exhibitor-enquiry' });
+  assert.equal(result, undefined);
+  await flush();
+  assert.equal(browser.readRegistrationStatus().status, 'pending');
+  assert.equal(server.calls.length, 2);
+  assert.equal(server.calls[0].body.variables.input.leadType, 'EXHIBITOR');
+  assert.equal(server.calls[1].body.formType, 'exhibitor-enquiry');
+  finishDatabase();
+  await flush();
+  assert.equal(browser.readRegistrationStatus().status, 'pending');
+  finishMail();
+  await flush();
+  assert.equal(browser.readRegistrationStatus().status, 'success');
+});

@@ -1,0 +1,16 @@
+import type { MetadataRoute } from 'next';
+import { SITE_URL } from '@/lib/pageMetadata';
+
+export default function robots(): MetadataRoute.Robots {
+  return {
+    rules: {
+      userAgent: '*',
+      allow: '/',
+      // Public noindex pages must be crawlable for Google to read the directive.
+      disallow: [
+        '/admin', '/dashboard', '/api/',
+      ],
+    },
+    sitemap: SITE_URL + '/sitemap.xml',
+  };
+}
