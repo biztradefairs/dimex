@@ -1,7 +1,7 @@
 import PageFaq from '@/components/PageFaq';
 import { resolveRegistrationTab } from '@/lib/registrationRoutes';
 import { PAGE_META } from '@/lib/pageMetadata';
-import { Metadata } from 'next';
+import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import RegisterPageContent from '@/components/RegisterPageContent';
 import { BECOME_EXHIBITOR_STRUCTURED_DATA, BROCHURE_STRUCTURED_DATA, VISITOR_STRUCTURED_DATA } from '@/lib/structuredData';
@@ -12,9 +12,19 @@ export async function generateMetadata({
     searchParams: Promise<Record<string, string | string[] | undefined>>;
 }): Promise<Metadata> {
     const { t } = await searchParams;
-    if (t === 'exhibitor') return PAGE_META.exhibitorRegister;
-    if (t === 'brochure') return PAGE_META.brochure;
-    return PAGE_META.register;
+    const baseMeta =
+        t === 'exhibitor'
+            ? PAGE_META.exhibitorRegister
+            : t === 'brochure'
+            ? PAGE_META.brochure
+            : PAGE_META.register;
+
+    return {
+        ...baseMeta,
+        alternates: {
+            canonical: 'https://www.diemex.in/register',
+        },
+    };
 }
 
 export default async function RegisterPage({

@@ -1,62 +1,204 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-  <url><loc>https://www.diemex.in/</loc></url>
-  <url><loc>https://www.diemex.in/about-diemex</loc></url>
-  <url><loc>https://www.diemex.in/about-organizer</loc></url>
-  <url><loc>https://www.diemex.in/about-skladtech</loc></url>
-  <url><loc>https://www.diemex.in/why-exhibit</loc></url>
-  <url><loc>https://www.diemex.in/why-visit</loc></url>
-
-  <url><loc>https://www.diemex.in/register</loc></url>
-  <url><loc>https://www.diemex.in/register?t=exhibitor</loc></url>
-  <url><loc>https://www.diemex.in/register?t=visitor</loc></url>
-  <url><loc>https://www.diemex.in/register?t=sponsor</loc></url>
-  <url><loc>https://www.diemex.in/register?t=brochure</loc></url>
-  <url><loc>https://www.diemex.in/visitor-registration</loc></url>
-  <url><loc>https://www.diemex.in/exhibiting-enquiry</loc></url>
-  <url><loc>https://www.diemex.in/become-partner</loc></url>
-  <url><loc>https://www.diemex.in/event-brochure</loc></url>
-  <url><loc>https://www.diemex.in/passes</loc></url>
-  <url><loc>https://www.diemex.in/scanner</loc></url>
-
-  <url><loc>https://www.diemex.in/sectors</loc></url>
-  <url><loc>https://www.diemex.in/sectors/[slug]</loc></url>
-  <url><loc>https://www.diemex.in/exhibition-directory</loc></url>
-  <url><loc>https://www.diemex.in/exhibition-directory/[slug]</loc></url>
-  <url><loc>https://www.diemex.in/participants</loc></url>
-  <url><loc>https://www.diemex.in/layout</loc></url>
-  <url><loc>https://www.diemex.in/exhibitor-resource-center</loc></url>
-  <url><loc>https://www.diemex.in/free-promo</loc></url>
-
-  <url><loc>https://www.diemex.in/conference</loc></url>
-  <url><loc>https://www.diemex.in/conference-programme</loc></url>
-  <url><loc>https://www.diemex.in/became-delegate</loc></url>
-
-<url><loc>https://www.diemex.in/partner/[slug]</loc></url>
-  <url><loc>https://www.diemex.in/partners-and-sponsors</loc></url>
-  <url><loc>https://www.diemex.in/post-show-report</loc></url>
-
-  <url><loc>https://www.diemex.in/contact-us</loc></url>
-  <url><loc>https://www.diemex.in/newsletter</loc></url>
-  <url><loc>https://www.diemex.in/articles</loc></url>
-  <url><loc>https://www.diemex.in/articles/[slug]</loc></url>
-  <url><loc>https://www.diemex.in/blogs</loc></url>
-  <url><loc>https://www.diemex.in/blogs/[slug]</loc></url>
-  <url><loc>https://www.diemex.in/media-gallery</loc></url>
-  <url><loc>https://www.diemex.in/media-gallery/[slug]</loc></url>
-
-  <url><loc>https://www.diemex.in/plan-your-travel</loc></url>
-  <url><loc>https://www.diemex.in/explore-pune</loc></url>
-  <url><loc>https://www.diemex.in/places-to-eat</loc></url>
-  <url><loc>https://www.diemex.in/iconic-landmarks</loc></url>
-  <url><loc>https://www.diemex.in/culture</loc></url>
-  <url><loc>https://www.diemex.in/shop-and-stroll</loc></url>
-  <url><loc>https://www.diemex.in/visa</loc></url>
-
-  <url><loc>https://www.diemex.in/terms-of-visiting</loc></url>
-  <url><loc>https://www.diemex.in/termstouse</loc></url>
-  <url><loc>https://www.diemex.in/cookies-policy</loc></url>
-  <url><loc>https://www.diemex.in/privacy-policy</loc></url>
-
+<url>
+<loc>https://www.diemex.in/</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/about-diemex</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/about-organizer</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/about-skladtech</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/why-exhibit</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/why-visit</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/register</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/passes</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/scanner</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/sectors</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/participants</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/layout</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibitor-resource-center</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/free-promo</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/conference</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/conference-programme</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/became-delegate</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/partners-and-sponsors</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/post-show-report</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/contact-us</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/newsletter</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/articles</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/blogs</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/media-gallery</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/plan-your-travel</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/explore-pune</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/places-to-eat</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/iconic-landmarks</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/culture</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/shop-and-stroll</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/visa</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/terms-of-visiting</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/termstouse</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/cookies-policy</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/privacy-policy</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/sectors/precision-moulds</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/sectors/tooling-mould-base</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/sectors/machining-finishing</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/sectors/automation-industry</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/sectors/cad-cam</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/sectors/tool-steel</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/sectors/ev-die-casting-and-tooling-in-india-key-trends</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/e4476e70-2c63-41da-acd3-206b554787e9</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/b6a5bbff-db19-425d-9b42-76fa89137d2b</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/60afe9c3-2312-44f8-801d-fa9ea7b8622d</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/6c54dab3-d470-45ea-a476-91ef9813037f</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/ac0a217c-036c-40a8-9d4a-3a2d256be251</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/e2a16be4-0685-48f3-878e-ffa3dfe72d59</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/547da4a1-6c01-4c33-92ec-cc31fa890dd0</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/b62514a6-9649-4051-8629-9bcaef81680a</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/1bf8b0b6-9196-4cd8-af60-3c4eb3671fc5</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/bc2306e3-18b0-4f14-bf02-6e73496bedf4</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/44ab714f-5be7-414d-b93c-8945266adf0d</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/033a0557-a5b4-40ed-90cc-3e8f91f73acf</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/47d9896b-bc91-4a05-8dce-b39d339717a6</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/c964c7d2-2ca4-402a-a1ec-c40303810d7d</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/5bbc1665-ff3c-446d-bdf4-660c8134811c</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/d5082994-3263-4061-87d0-6c783f625bac</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/4c97de24-3cc5-48bf-bdfd-ff374074ed6e</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/484257af-d098-4472-9932-4cd32671719e</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/aaea66be-bf8e-4b63-8e8f-81a7e9025c12</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/4088987a-f0f7-4c8f-b185-d5a160950ae1</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/f5987ef8-9ed2-4b89-a4c4-9192c7552f3c</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/ae5ca3cf-f6f4-423d-be94-b35cb08d712f</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/eccdfd3c-4069-4181-8170-3a67e460c8c0</loc>
+</url>
+<url>
+<loc>https://www.diemex.in/exhibition-directory/bf801622-bbc0-4488-b6fb-21bcdf26cd3b</loc>
+</url>
 </urlset>
