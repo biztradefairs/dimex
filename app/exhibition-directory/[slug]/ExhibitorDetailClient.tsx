@@ -368,7 +368,7 @@ export default function ExhibitorDetailClient({ company }: { company: Exhibition
                         {[
                             { id: 'about', label: 'About', icon: Building },
                             { id: 'products', label: 'Products', icon: Package },
-                            { id: 'brands', label: 'Brands', icon: Tag },
+                            // { id: 'brands', label: 'Brands', icon: Tag },
                             { id: 'brochures', label: 'Brochures', icon: File }
                         ].map((tab) => {
                             const Icon = tab.icon;
