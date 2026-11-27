@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Globe, Eye, Download, MapPin, Building, Package, Tag, File, X, Menu, ArrowLeft, Share2, Phone, Mail, Users, Loader2, ExternalLink, MessageCircle } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import BlogContent from '@/components/blogs/BlogContent';
 import { fetchExhibitorProducts, fetchExhibitorBrochures, fetchExhibitorBrands, type ExhibitionCompany } from '../api';
 import VisitorRegistrationForm from '../visitor-registration-form';
 
@@ -407,9 +408,13 @@ export default function ExhibitorDetailClient({ company }: { company: Exhibition
                         <div className="space-y-6">
                             <div className="bg-white rounded-2xl p-6 sm:p-8 border shadow-sm">
                                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Company Overview</h2>
-                                <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
-                                    {company.description || 'Company overview has not been provided yet.'}
-                                </p>
+                                {company.description?.trim() ? (
+                                    <BlogContent content={company.description || ''} />
+                                ) : (
+                                    <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
+                                        Company overview has not been provided yet.
+                                    </p>
+                                )}
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

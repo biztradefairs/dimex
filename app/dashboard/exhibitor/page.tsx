@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useLocationData } from '@/hooks/useLocationData';
+import BlogContent from '@/components/blogs/BlogContent';
 import {
   Building2,
   Users,
@@ -252,6 +253,8 @@ const boothTypeOptions = ['Standard', 'Double', 'Corner', 'Island', 'Custom'];
 export default function ExhibitorDashboard() {
   const [activeTab, setActiveTab] = useState<'profile' | 'products' | 'brands' | 'brochures' | 'booth'>('profile');
   const [isEditing, setIsEditing] = useState(false);
+  const [aboutPreview, setAboutPreview] = useState(false);
+  const aboutRef = useRef<HTMLTextAreaElement>(null);
   const [showAddProduct, setShowAddProduct] = useState(false);
   const [showAddBrand, setShowAddBrand] = useState(false);
   const [showAddBrochure, setShowAddBrochure] = useState(false);
@@ -1143,6 +1146,22 @@ export default function ExhibitorDashboard() {
     }
   };
 
+  const insertAboutFormatting = (before: string, after = '', placeholder = 'Your text') => {
+    const field = aboutRef.current;
+    if (!field) return;
+    const start = field.selectionStart;
+    const end = field.selectionEnd;
+    const selected = profile.about.slice(start, end) || placeholder;
+    setProfile(current => ({
+      ...current,
+      about: current.about.slice(0, start) + before + selected + after + current.about.slice(end),
+    }));
+    requestAnimationFrame(() => {
+      field.focus();
+      field.setSelectionRange(start + before.length, start + before.length + selected.length);
+    });
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
@@ -1170,7 +1189,10 @@ export default function ExhibitorDashboard() {
             <div className="flex items-center gap-3">
               {!isEditing ? (
                 <button
-                  onClick={() => setIsEditing(true)}
+                  onClick={() => {
+                    setAboutPreview(false);
+                    setIsEditing(true);
+                  }}
                   className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium hover:bg-blue-700 transition-colors"
                 >
                   <Edit size={16} className="mr-2" />
@@ -1179,7 +1201,10 @@ export default function ExhibitorDashboard() {
               ) : (
                 <>
                   <button
-                    onClick={() => setIsEditing(false)}
+                    onClick={() => {
+                      setAboutPreview(false);
+                      setIsEditing(false);
+                    }}
                     className="inline-flex items-center px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-gray-50 transition-colors"
                   >
                     Cancel
@@ -1865,17 +1890,66 @@ export default function ExhibitorDashboard() {
                         About Company <span className="text-red-500">*</span>
                       </label>
                       {isEditing ? (
-                        <textarea
-                          value={profile.about}
-                          onChange={(e) => setProfile({...profile, about: e.target.value})}
-                          rows={5}
-                          className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                          placeholder="Describe your company, services, history, achievements..."
-                        />
+                        <div>
+                          <div className="flex flex-wrap items-center justify-between gap-2 rounded-t-lg border border-b-0 border-gray-300 bg-gray-50 p-2">
+                            <div className="flex flex-wrap gap-2">
+                              {[
+                                { label: 'Heading', before: '\n## ', after: '\n' },
+                                { label: 'Bold', before: '**', after: '**' },
+                                { label: 'Italic', before: '*', after: '*' },
+                                { label: 'List', before: '\n- ', after: '\n' },
+                                { label: 'Quote', before: '\n> ', after: '\n' },
+                                { label: 'Link', before: '[', after: '](https://example.com)' },
+                              ].map(tool => (
+                                <button
+                                  key={tool.label}
+                                  type="button"
+                                  onClick={() => {
+                                    setAboutPreview(false);
+                                    insertAboutFormatting(tool.before, tool.after);
+                                  }}
+                                  className="rounded border border-gray-200 bg-white px-3 py-1 text-xs font-medium hover:bg-blue-50"
+                                >
+                                  {tool.label}
+                                </button>
+                              ))}
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => setAboutPreview(value => !value)}
+                              className="rounded border border-gray-300 bg-white px-3 py-1 text-xs font-medium hover:bg-gray-100"
+                            >
+                              {aboutPreview ? 'Continue editing' : 'Preview'}
+                            </button>
+                          </div>
+                          {aboutPreview ? (
+                            <div className="min-h-48 rounded-b-lg border border-gray-300 p-4">
+                              {profile.about.trim() ? (
+                                <BlogContent content={profile.about} />
+                              ) : (
+                                <p className="text-sm text-gray-500">Your formatted company overview will appear here.</p>
+                              )}
+                            </div>
+                          ) : (
+                            <textarea
+                              ref={aboutRef}
+                              value={profile.about}
+                              onChange={(e) => setProfile({...profile, about: e.target.value})}
+                              rows={10}
+                              className="w-full rounded-b-lg border border-gray-300 px-4 py-3 font-mono text-sm leading-6 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                              placeholder="Describe your company, services, history, achievements... Use a blank line between paragraphs."
+                            />
+                          )}
+                          <p className="mt-2 text-xs text-gray-500">
+                            Supports paragraphs, headings, bold, italic, lists, quotes and links. Leave a blank line between paragraphs. Use Preview to review the formatted result.
+                          </p>
+                        </div>
                       ) : (
-                        <p className="text-gray-700 leading-relaxed whitespace-pre-line">
-                          {profile.about || 'No description provided'}
-                        </p>
+                        profile.about.trim() ? (
+                          <BlogContent content={profile.about} />
+                        ) : (
+                          <p className="text-gray-500">No description provided</p>
+                        )
                       )}
                     </div>
                   </div>
