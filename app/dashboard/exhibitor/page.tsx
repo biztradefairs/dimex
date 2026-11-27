@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useLocationData } from '@/hooks/useLocationData';
 import {
   Building2,
   Users,
@@ -234,20 +235,6 @@ interface StallDetails {
 }
 
 // Options
-const countries = [
-  { code: 'TR', name: 'Turkey' },
-  { code: 'RU', name: 'Russia' },
-  { code: 'CN', name: 'China' },
-  { code: 'IN', name: 'India' },
-  { code: 'KZ', name: 'Kazakhstan' },
-  { code: 'US', name: 'United States' },
-  { code: 'GB', name: 'United Kingdom' },
-  { code: 'DE', name: 'Germany' },
-  { code: 'FR', name: 'France' },
-  { code: 'JP', name: 'Japan' },
-  { code: 'AE', name: 'UAE' },
-];
-
 const sectorOptions = [
   'Logistics', 'Supply Chain', 'Freight', 'Technology', 'Manufacturing',
   'Construction', 'Automotive', 'Healthcare', 'Pharmaceutical', 'Food & Beverage',
@@ -327,6 +314,15 @@ export default function ExhibitorDashboard() {
     createdAt: '',
     updatedAt: '',
   });
+
+  const {
+    countries: addressCountries,
+    states: addressStates,
+    cities: addressCities,
+    countriesLoading: addressCountriesLoading,
+    statesLoading: addressStatesLoading,
+    citiesLoading: addressCitiesLoading,
+  } = useLocationData(profile.address.country, profile.address.state);
 
   // New product form state
   const [newProduct, setNewProduct] = useState<Product>({
@@ -1695,16 +1691,26 @@ export default function ExhibitorDashboard() {
                           City <span className="text-red-500">*</span>
                         </label>
                         {isEditing ? (
-                          <input
-                            type="text"
+                          <select
                             value={profile.address.city}
                             onChange={(e) => setProfile({
                               ...profile,
                               address: {...profile.address, city: e.target.value}
                             })}
+                            disabled={!profile.address.state || addressCitiesLoading}
+                            required
                             className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="City"
-                          />
+                          >
+                            <option value="">
+                              {addressCitiesLoading ? 'Loading cities...' : profile.address.state ? 'Select City' : 'Select a state first'}
+                            </option>
+                            {profile.address.city && !addressCities.some(city => city.id === profile.address.city) && (
+                              <option value={profile.address.city}>{profile.address.city}</option>
+                            )}
+                            {addressCities.map(city => (
+                              <option key={city.id} value={city.id}>{city.name}</option>
+                            ))}
+                          </select>
                         ) : (
                           <p className="text-gray-900 py-2.5">{profile.address.city || 'Not provided'}</p>
                         )}
@@ -1715,16 +1721,25 @@ export default function ExhibitorDashboard() {
                           State/Province
                         </label>
                         {isEditing ? (
-                          <input
-                            type="text"
+                          <select
                             value={profile.address.state}
                             onChange={(e) => setProfile({
                               ...profile,
-                              address: {...profile.address, state: e.target.value}
+                              address: {...profile.address, state: e.target.value, city: ''}
                             })}
+                            disabled={!profile.address.country || addressStatesLoading}
                             className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="State/Province"
-                          />
+                          >
+                            <option value="">
+                              {addressStatesLoading ? 'Loading states...' : profile.address.country ? 'Select State/Province' : 'Select a country first'}
+                            </option>
+                            {profile.address.state && !addressStates.some(state => state.id === profile.address.state) && (
+                              <option value={profile.address.state}>{profile.address.state}</option>
+                            )}
+                            {addressStates.map(state => (
+                              <option key={state.id} value={state.id}>{state.name}</option>
+                            ))}
+                          </select>
                         ) : (
                           <p className="text-gray-900 py-2.5">{profile.address.state || 'Not provided'}</p>
                         )}
@@ -1736,23 +1751,31 @@ export default function ExhibitorDashboard() {
                         </label>
                         {isEditing ? (
                           <select
-                            value={profile.address.countryCode}
+                            value={profile.address.country}
                             onChange={(e) => {
-                              const country = countries.find(c => c.code === e.target.value);
+                              const selectedCountry = addressCountries.find(country => country.id === e.target.value);
                               setProfile({
                                 ...profile,
                                 address: {
                                   ...profile.address,
-                                  countryCode: e.target.value,
-                                  country: country?.name || ''
+                                  country: e.target.value,
+                                  countryCode: selectedCountry?.code || '',
+                                  state: '',
+                                  city: ''
                                 }
                               });
                             }}
+                            required
                             className="w-full border rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                           >
-                            <option value="">Select Country</option>
-                            {countries.map(country => (
-                              <option key={country.code} value={country.code}>
+                            <option value="">
+                              {addressCountriesLoading ? 'Loading countries...' : 'Select Country'}
+                            </option>
+                            {profile.address.country && !addressCountries.some(country => country.id === profile.address.country) && (
+                              <option value={profile.address.country}>{profile.address.country}</option>
+                            )}
+                            {addressCountries.map(country => (
+                              <option key={country.id} value={country.id}>
                                 {country.name}
                               </option>
                             ))}

@@ -196,6 +196,7 @@ export function PhoneField({
 export interface LocationItem {
     id: string;
     name: string;
+    code?: string;
 }
 
 interface LocationFieldsProps {

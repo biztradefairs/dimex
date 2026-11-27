@@ -18,7 +18,13 @@ export default function ExhibitorDetailClient({ company }: { company: Exhibition
     const [showMobileMenu, setShowMobileMenu] = useState(false);
     const [selectedPdf, setSelectedPdf] = useState<{ url: string; name: string } | null>(null);
     const [imageError, setImageError] = useState(false);
-    const [isFormOpen, setIsFormOpen] = useState(false)
+    const [isFormOpen, setIsFormOpen] = useState(false);
+    const [productsLoading, setProductsLoading] = useState(true);
+    const [brandsLoading, setBrandsLoading] = useState(true);
+    const [brochuresLoading, setBrochuresLoading] = useState(true);
+    const [productsError, setProductsError] = useState<string | null>(null);
+    const [brandsError, setBrandsError] = useState<string | null>(null);
+    const [brochuresError, setBrochuresError] = useState<string | null>(null);
 
     useEffect(() => {
         const checkMobile = () => {
@@ -31,16 +37,28 @@ export default function ExhibitorDetailClient({ company }: { company: Exhibition
 
     useEffect(() => {
         let current = true;
-        void Promise.allSettled([
-            fetchExhibitorProducts(company.id),
-            fetchExhibitorBrochures(company.id),
-            fetchExhibitorBrands(company.id),
-        ]).then(([productsResult, brochuresResult, brandsResult]) => {
-            if (!current) return;
-            setProducts(productsResult.status === 'fulfilled' ? productsResult.value : []);
-            setBrochures(brochuresResult.status === 'fulfilled' ? brochuresResult.value : []);
-            setBrands(brandsResult.status === 'fulfilled' ? brandsResult.value : []);
-        });
+        const load = async <T,>(
+            request: Promise<T[]>,
+            onSuccess: (items: T[]) => void,
+            onError: (message: string | null) => void,
+            onComplete: () => void,
+            section: string
+        ) => {
+            try {
+                const items = await request;
+                if (current) onSuccess(items);
+            } catch (error) {
+                if (!current) return;
+                console.error('Failed to fetch exhibitor ' + section + ':', error);
+                onError(error instanceof Error ? error.message : 'Request failed');
+            } finally {
+                if (current) onComplete();
+            }
+        };
+
+        void load(fetchExhibitorProducts(company.id), setProducts, setProductsError, () => setProductsLoading(false), 'products');
+        void load(fetchExhibitorBrands(company.id), setBrands, setBrandsError, () => setBrandsLoading(false), 'brands');
+        void load(fetchExhibitorBrochures(company.id), setBrochures, setBrochuresError, () => setBrochuresLoading(false), 'brochures');
         return () => { current = false; };
     }, [company.id]);
 
@@ -390,10 +408,7 @@ export default function ExhibitorDetailClient({ company }: { company: Exhibition
                             <div className="bg-white rounded-2xl p-6 sm:p-8 border shadow-sm">
                                 <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-4">Company Overview</h2>
                                 <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
-                                    {company.description || `${company.company || company.name} is a leading company in the ${company.sector.join(' and ')} sector, 
-                  headquartered in ${company.country}. With a strong presence at Pavilion ${company.pavilion}, 
-                  Hall ${company.hall}, Stand ${company.standNumber}, the company provides comprehensive 
-                  solutions and services to clients worldwide.`}
+                                    {company.description || 'Company overview has not been provided yet.'}
                                 </p>
                             </div>
 
@@ -483,14 +498,26 @@ export default function ExhibitorDetailClient({ company }: { company: Exhibition
                     {/* PRODUCTS TAB - Keep as is */}
                     {activeTab === 'products' && (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {products.length > 0 ? (
+                            {productsLoading ? (
+                                <div role="status" className="col-span-full flex items-center justify-center gap-2 py-12 text-gray-500">
+                                    <Loader2 size={20} className="animate-spin" /> Loading products...
+                                </div>
+                            ) : productsError ? (
+                                <div role="alert" className="col-span-full rounded-xl border border-red-200 bg-red-50 px-6 py-8 text-center text-red-700">
+                                    Could not load products. Please try again.
+                                    <button type="button" onClick={() => window.location.reload()} className="ml-2 font-semibold underline">Retry</button>
+                                </div>
+                            ) : products.length > 0 ? (
                                 products.map((product) => (
                                     <div key={product.id} className="bg-white rounded-2xl p-6 border shadow-sm hover:shadow-md transition-shadow">
                                         <div className="flex justify-center mb-4">
                                             <div className={`w-20 h-20 sm:w-24 sm:h-24 ${getLogoColor(company.countryCode)} rounded-xl flex items-center justify-center`}>
-                                                <div className="text-2xl font-bold text-gray-600">
+                                                {product.imageUrl && (
+                                                    <img src={product.imageUrl} alt={product.title || product.name} loading="lazy" className="h-full w-full object-contain" />
+                                                )}
+                                                {!product.imageUrl && <div className="text-2xl font-bold text-gray-600">
                                                     {(company.company || company.name).substring(0, 2).toUpperCase()}
-                                                </div>
+                                                </div>}
                                             </div>
                                         </div>
                                         <h3 className="text-lg font-semibold text-gray-900 mb-3 text-center">
@@ -499,6 +526,19 @@ export default function ExhibitorDetailClient({ company }: { company: Exhibition
                                         <p className="text-gray-600 text-center text-sm sm:text-base">
                                             {product.description || `${company.company || company.name} services`}
                                         </p>
+                                        {product.category && (
+                                            <p className="mt-3 text-center text-sm text-gray-500">{product.category}</p>
+                                        )}
+                                        {product.specifications && Object.keys(product.specifications).length > 0 && (
+                                            <dl className="mt-3 space-y-1 border-t pt-3 text-left text-xs">
+                                                {Object.entries(product.specifications).slice(0, 6).map(([key, value]) => (
+                                                    <div key={key} className="flex justify-between gap-3">
+                                                        <dt className="text-gray-500">{key}</dt>
+                                                        <dd className="text-right text-gray-700">{String(value)}</dd>
+                                                    </div>
+                                                ))}
+                                            </dl>
+                                        )}
                                         {product.price && (
                                             <div className="mt-3 text-center">
                                                 <span className="inline-block bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
@@ -520,14 +560,27 @@ export default function ExhibitorDetailClient({ company }: { company: Exhibition
                     {/* BRANDS TAB - Keep as is */}
                     {activeTab === 'brands' && (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {brands.length > 0 ? (
+                            {brandsLoading ? (
+                                <div role="status" className="col-span-full flex items-center justify-center gap-2 py-12 text-gray-500">
+                                    <Loader2 size={20} className="animate-spin" /> Loading brands...
+                                </div>
+                            ) : brandsError ? (
+                                <div role="alert" className="col-span-full rounded-xl border border-red-200 bg-red-50 px-6 py-8 text-center text-red-700">
+                                    Could not load brands. Please try again.
+                                    <button type="button" onClick={() => window.location.reload()} className="ml-2 font-semibold underline">Retry</button>
+                                </div>
+                            ) : brands.length > 0 ? (
                                 brands.map((brand, index) => (
                                     <div key={index} className="bg-white rounded-2xl p-6 border shadow-sm hover:shadow-md transition-shadow">
                                         <div className="flex items-center gap-4">
                                             <div className={`w-14 h-14 sm:w-16 sm:h-16 ${getLogoColor(company.countryCode)} rounded-lg flex items-center justify-center flex-shrink-0`}>
-                                                <div className="text-lg font-bold text-gray-600">
-                                                    {brand.name?.substring(0, 2).toUpperCase() || (company.company || company.name).substring(0, 2).toUpperCase()}
-                                                </div>
+                                                {brand.logoUrl ? (
+                                                    <img src={brand.logoUrl} alt={brand.name} loading="lazy" className="h-full w-full rounded-lg object-contain" />
+                                                ) : (
+                                                    <div className="text-lg font-bold text-gray-600">
+                                                        {brand.name?.substring(0, 2).toUpperCase() || (company.company || company.name).substring(0, 2).toUpperCase()}
+                                                    </div>
+                                                )}
                                             </div>
                                             <div className="min-w-0">
                                                 <h3 className="text-lg font-semibold text-gray-900 truncate">{brand.name || company.company || company.name}</h3>
@@ -550,7 +603,16 @@ export default function ExhibitorDetailClient({ company }: { company: Exhibition
                     {/* BROCHURES TAB - Keep as is */}
                     {activeTab === 'brochures' && (
                         <div className="bg-white rounded-2xl border overflow-hidden">
-                            {brochures.length > 0 ? (
+                            {brochuresLoading ? (
+                                <div role="status" className="flex items-center justify-center gap-2 py-12 text-gray-500">
+                                    <Loader2 size={20} className="animate-spin" /> Loading brochures...
+                                </div>
+                            ) : brochuresError ? (
+                                <div role="alert" className="rounded-xl border border-red-200 bg-red-50 px-6 py-8 text-center text-red-700">
+                                    Could not load brochures. Please try again.
+                                    <button type="button" onClick={() => window.location.reload()} className="ml-2 font-semibold underline">Retry</button>
+                                </div>
+                            ) : brochures.length > 0 ? (
                                 <div className="overflow-x-auto">
                                     <table className="w-full">
                                         <thead className="bg-gray-50">

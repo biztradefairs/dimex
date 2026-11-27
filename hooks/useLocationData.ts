@@ -24,7 +24,8 @@ export function useLocationData(country: string, state: string) {
                     const sorted = result.data
                         .map((item: any) => ({
                             id: item.name || '',
-                            name: item.name || ''
+                            name: item.name || '',
+                            code: item.iso2 || ''
                         }))
                         .filter((c: LocationItem) => c.name)
                         .sort((a: LocationItem, b: LocationItem) => a.name.localeCompare(b.name));
@@ -118,13 +119,13 @@ export function useLocationData(country: string, state: string) {
 }
 
 const FALLBACK_COUNTRIES: LocationItem[] = [
-    { id: 'India', name: 'India' },
-    { id: 'United States', name: 'United States' },
-    { id: 'United Kingdom', name: 'United Kingdom' },
-    { id: 'Germany', name: 'Germany' },
-    { id: 'France', name: 'France' },
-    { id: 'China', name: 'China' },
-    { id: 'Japan', name: 'Japan' },
-    { id: 'Australia', name: 'Australia' },
-    { id: 'Canada', name: 'Canada' },
+    { id: 'India', name: 'India', code: 'IN' },
+    { id: 'United States', name: 'United States', code: 'US' },
+    { id: 'United Kingdom', name: 'United Kingdom', code: 'GB' },
+    { id: 'Germany', name: 'Germany', code: 'DE' },
+    { id: 'France', name: 'France', code: 'FR' },
+    { id: 'China', name: 'China', code: 'CN' },
+    { id: 'Japan', name: 'Japan', code: 'JP' },
+    { id: 'Australia', name: 'Australia', code: 'AU' },
+    { id: 'Canada', name: 'Canada', code: 'CA' },
 ];

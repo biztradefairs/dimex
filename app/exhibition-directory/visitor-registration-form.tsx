@@ -149,7 +149,7 @@ export default function VisitorRegistrationForm({
           email: formData.email,
           name: formData.name,
           mobile: formData.mobile,
-          company: "Visitor"  // Use the companyName from props
+          company: companyName || 'Visitor'
         }),
       })
 
@@ -244,7 +244,7 @@ export default function VisitorRegistrationForm({
         },
         body: JSON.stringify({
           ...formData,
-          //company: companyName, // Include company from props
+          company: companyName || 'Visitor',
           otp: otp
         }),
       })

@@ -101,7 +101,75 @@ export interface Brochure {
 }
 
 // API Base URL
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'https://diemex-backend.onrender.com';
+const API_BASE_URL = (
+  process.env.NEXT_PUBLIC_API_URL ||
+  process.env.NEXT_PUBLIC_API_BASE_URL ||
+  'https://diemex-backend.onrender.com'
+).replace(/\/+$/, '').replace(/\/api$/i, '');
+
+type ResourceName = 'products' | 'brands' | 'brochures';
+type ResourceRecord = Record<string, unknown>;
+
+function isRecord(value: unknown): value is ResourceRecord {
+  return Boolean(value && typeof value === 'object' && !Array.isArray(value));
+}
+
+function toText(value: unknown): string {
+  return typeof value === 'string' || typeof value === 'number' ? String(value) : '';
+}
+
+function firstText(...values: unknown[]): string {
+  for (const value of values) {
+    const text = toText(value).trim();
+    if (text) return text;
+  }
+  return '';
+}
+
+async function fetchExhibitorCollection(exhibitorId: string, resource: ResourceName): Promise<ResourceRecord[]> {
+  const response = await fetch(API_BASE_URL + '/api/exhibitors/' + encodeURIComponent(exhibitorId) + '/' + resource, {
+    method: 'GET',
+    headers: { Accept: 'application/json' },
+    cache: 'no-store',
+  });
+  const result: unknown = await response.json().catch(() => null);
+  if (!response.ok) {
+    const message = isRecord(result) ? firstText(result.error, result.message) : '';
+    throw new Error(message || 'Failed to fetch ' + resource + ' (' + response.status + ').');
+  }
+  if (!isRecord(result) || result.success !== true) {
+    const message = isRecord(result) ? firstText(result.error, result.message) : '';
+    throw new Error(message || 'Invalid ' + resource + ' response.');
+  }
+  const data = isRecord(result.data) ? result.data : undefined;
+  const candidates: unknown[] = [result.data, data?.[resource], data?.items, data?.data, result[resource], result.items];
+  const collection = candidates.find((candidate): candidate is unknown[] => Array.isArray(candidate));
+  if (collection) return collection.filter(isRecord);
+  if (result.data == null) return [];
+  throw new Error('The ' + resource + ' response did not contain a list.');
+}
+
+function getAssetUrl(...values: unknown[]): string {
+  for (const value of values) {
+    const candidate = typeof value === 'string'
+      ? value.trim()
+      : isRecord(value)
+        ? firstText(value.url, value.secure_url, value.path, value.fileUrl)
+        : '';
+    if (!candidate) continue;
+    if (/^(https?:|data:|blob:)/i.test(candidate)) return candidate;
+    return API_BASE_URL + (candidate.startsWith('/') ? '' : '/') + candidate;
+  }
+  return '';
+}
+
+function normalizeSpecifications(value: unknown): Record<string, string> {
+  if (typeof value === 'string') {
+    try { value = JSON.parse(value) as unknown; } catch { return {}; }
+  }
+  if (!isRecord(value)) return {};
+  return Object.fromEntries(Object.entries(value).map(([key, item]) => [key, item == null ? '' : String(item)]));
+}
 
 // Helper function to safely access metadata properties
 function getMetadataValue(metadata: any, path: string[]): any {
@@ -129,6 +197,7 @@ export interface ExhibitionCompanyRecord {
   shortName?: string;
   pavilion?: string;
   description?: string;
+  about?: string;
   website?: string;
   email?: string;
   phone?: string;
@@ -229,6 +298,8 @@ export function mapExhibitionCompany(exhibitor: ExhibitionCompanyRecord): Exhibi
     description = metadata.about;
   } else if (metadata.description) {
     description = metadata.description;
+  } else if (exhibitor.about) {
+    description = exhibitor.about;
   } else if (exhibitor.description) {
     description = exhibitor.description;
   }
@@ -409,112 +480,50 @@ export async function fetchExhibitionCompanyById(id: string): Promise<Exhibition
   return completeData;
 }
 
-// Fetch exhibitor products
 export async function fetchExhibitorProducts(exhibitorId: string): Promise<Product[]> {
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/exhibitors/${exhibitorId}/products`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-store',
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-
-    if (!result.success) {
-      return [];
-    }
-
-    return (result.data || []).map((product: any) => ({
-      id: product.id,
-      name: product.name,
-      title: product.name,
-      description: product.description || '',
-      category: product.category,
-      price: product.price,
-      imageUrl: product.imageUrl,
-      specifications: product.specifications
-    }));
-  } catch (error) {
-    console.error('Error fetching products:', error);
-    return [];
-  }
+  const products = await fetchExhibitorCollection(exhibitorId, 'products');
+  return products.map((product, index) => {
+    const name = firstText(product.name, product.title) || 'Product';
+    return {
+      id: firstText(product.id, product._id) || 'product-' + index,
+      name,
+      title: firstText(product.title, product.name) || name,
+      description: firstText(product.description, product.details, product.summary),
+      category: firstText(product.category, product.type),
+      price: firstText(product.price),
+      imageUrl: getAssetUrl(product.imageUrl, product.image_url, product.image, product.photo),
+      specifications: normalizeSpecifications(product.specifications || product.specs),
+    };
+  });
 }
 
-// Fetch exhibitor brochures
 export async function fetchExhibitorBrochures(exhibitorId: string): Promise<Brochure[]> {
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/exhibitors/${exhibitorId}/brochures`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-store',
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-
-    if (!result.success) {
-      return [];
-    }
-
-    return (result.data || []).map((brochure: any) => ({
-      id: brochure.id,
-      name: brochure.name,
-      title: brochure.name,
-      description: brochure.description || '',
-      fileUrl: brochure.fileUrl || brochure.url,
-      url: brochure.fileUrl || brochure.url,
-      fileSize: brochure.fileSize,
-      downloads: brochure.downloads,
-      uploadedAt: brochure.uploadedAt
-    }));
-  } catch (error) {
-    console.error('Error fetching brochures:', error);
-    return [];
-  }
+  const brochures = await fetchExhibitorCollection(exhibitorId, 'brochures');
+  return brochures.map((brochure, index) => {
+    const fileUrl = getAssetUrl(brochure.fileUrl, brochure.file_url, brochure.url, brochure.file, brochure.path);
+    const uploadedAt = firstText(brochure.uploadedAt, brochure.uploaded_at, brochure.createdAt);
+    return {
+      id: firstText(brochure.id, brochure._id) || 'brochure-' + index,
+      name: firstText(brochure.name, brochure.title) || 'Brochure',
+      title: firstText(brochure.title, brochure.name) || 'Brochure',
+      description: firstText(brochure.description, brochure.details),
+      fileUrl,
+      url: fileUrl,
+      fileSize: firstText(brochure.fileSize, brochure.file_size, brochure.size),
+      downloads: Number(firstText(brochure.downloads)) || 0,
+      uploadedAt: uploadedAt ? new Date(uploadedAt) : undefined,
+    };
+  });
 }
 
-// Fetch exhibitor brands
 export async function fetchExhibitorBrands(exhibitorId: string): Promise<Brand[]> {
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/exhibitors/${exhibitorId}/brands`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-store',
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const result = await response.json();
-
-    if (!result.success) {
-      return [];
-    }
-
-    return (result.data || []).map((brand: any) => ({
-      id: brand.id,
-      name: brand.name,
-      description: brand.description || '',
-      logoUrl: brand.logoUrl
-    }));
-  } catch (error) {
-    console.error('Error fetching brands:', error);
-    return [];
-  }
+  const brands = await fetchExhibitorCollection(exhibitorId, 'brands');
+  return brands.map((brand, index) => ({
+    id: firstText(brand.id, brand._id) || 'brand-' + index,
+    name: firstText(brand.name, brand.title) || 'Brand',
+    description: firstText(brand.description, brand.details),
+    logoUrl: getAssetUrl(brand.logoUrl, brand.logo_url, brand.logo, brand.image),
+  }));
 }
 
 // Mock data for development
