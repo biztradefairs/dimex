@@ -88,7 +88,7 @@ export default function LoginPage() {
           <div className="flex justify-center mb-6">
   <div className="relative h-40 w-[700px]">
   <Image
-  src="/images/exhibitor-login.png"
+  src="/images/diemex3.png"
   alt="DIEMEX"
   width={300}
   height={100}
